@@ -54,7 +54,7 @@ namespace XenAdminTests.LicensingTests
             public string Contains { get; set; }
         }
 
-        private IEnumerable<TestCase> TestData
+        private static IEnumerable<TestCase> TestData
         {
             get
             {

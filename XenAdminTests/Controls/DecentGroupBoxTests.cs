@@ -106,7 +106,7 @@ namespace XenAdminTests.Controls
             Assert.That(gb.ManipulatedText, Is.EqualTo(String.Empty), "Manipulated text TestCase width: " + width);
         }
 
-        public IEnumerable<TestCase> TestCasesNoMnemonicNoEllipsing
+        public static IEnumerable<TestCase> TestCasesNoMnemonicNoEllipsing
         {
             get
             {
@@ -137,7 +137,7 @@ namespace XenAdminTests.Controls
             }
         }
 
-        public IEnumerable<TestCase> TestCasesWithMnemonicNoEllipsing
+        public static IEnumerable<TestCase> TestCasesWithMnemonicNoEllipsing
         {
             get
             {
@@ -163,7 +163,7 @@ namespace XenAdminTests.Controls
             }
         }
 
-        public IEnumerable<TestCase> TestCasesWithMnemonic
+        public static IEnumerable<TestCase> TestCasesWithMnemonic
         {
             get
             {
@@ -190,7 +190,7 @@ namespace XenAdminTests.Controls
             }
         }
 
-        public IEnumerable<TestCase> TestCasesNoMnemonic
+        public static IEnumerable<TestCase> TestCasesNoMnemonic
         {
             get
             {

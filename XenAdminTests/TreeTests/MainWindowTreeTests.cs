@@ -213,7 +213,7 @@ namespace XenAdminTests.TreeTests
         }
 
         [Test]
-        [Ignore]
+        [Ignore("")]
         public void TestPersistenceWhenAddingThenRemovingTextSearch()
         {
             PutInNavigationMode(NavigationPane.NavigationMode.Infrastructure);

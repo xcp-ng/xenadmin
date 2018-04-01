@@ -50,18 +50,18 @@ namespace XenAdminTests.UnitTests.WlbTests
             Assert.IsNull(tasks.GetNextExecutingTask(), "GetNextExecutingTask");
         }
 
-        [Test, ExpectedException(typeof(IndexOutOfRangeException))]
+        [Test]
         public void EmptyConstructorCausesCurrentScheduledPerformanceModeToThrow()
         {
             WlbScheduledTasks tasks = new WlbScheduledTasks();
-            tasks.GetCurrentScheduledPerformanceMode();
+            Assert.That(()=> tasks.GetCurrentScheduledPerformanceMode(), Throws.Exception.With.TypeOf(typeof(IndexOutOfRangeException)));
         }
 
-        [Test, ExpectedException(typeof(IndexOutOfRangeException))]
+        [Test]
         public void EmptyConstructorCausesLastTaskToThrow()
         {
             WlbScheduledTasks tasks = new WlbScheduledTasks();
-            tasks.GetLastExecutingTask();
+            Assert.That(() => tasks.GetLastExecutingTask(), Throws.Exception.With.TypeOf(typeof(IndexOutOfRangeException)));
         }
 
         [Test]

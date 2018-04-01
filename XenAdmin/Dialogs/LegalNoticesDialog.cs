@@ -45,8 +45,8 @@ namespace XenAdmin.Dialogs
         public LegalNoticesDialog()
         {
             InitializeComponent();
-            label2.Text = string.Format(Messages.COPYRIGHT, Branding.COMPANY_NAME_LEGAL);
-            this.label1.Visible = this.label2.Visible = !XenAdmin.Core.HiddenFeatures.CopyrightHidden;
+            //label2.Text = string.Format(Messages.COPYRIGHT, Branding.COMPANY_NAME_LEGAL);
+            //this.label1.Visible = this.label2.Visible = !XenAdmin.Core.HiddenFeatures.CopyrightHidden;
         }
 
         private void button1_Click(object sender, EventArgs e)

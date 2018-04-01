@@ -45,7 +45,7 @@ namespace XenAdminTests.CommandTests
             : base(false, CommandTestsDatabase.George)
         { }
 
-        [Test, Timeout( 100 * 1000 )]
+        [Test, MaxTime( 100 * 1000 )]
         public void Run()
         {
             AddHostCommandTest tester = new AddHostCommandTest();
@@ -102,8 +102,8 @@ namespace XenAdminTests.CommandTests
 
                     //Test name is correct
                     string subnodeOneText = MainWindowWrapper.TreeView.Nodes[0].Nodes[1].Text;
-                    Assert.IsNotNullOrEmpty(subnodeOneText,
-                                            "Subnode 1's text is null or empty: The host may not have been added");
+                    Assert.IsNotNull(subnodeOneText, "Subnode 1's text is null: The host may not have been added");
+                    Assert.IsNotEmpty(subnodeOneText, "Subnode 1's text is empty: The host may not have been added");
                     Assert.AreEqual("krakout", subnodeOneText,
                                     "Subnode1's text containing the host name was incorrect");
 

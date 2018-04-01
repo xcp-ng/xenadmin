@@ -415,7 +415,7 @@ namespace XenAdmin
 
             if (host_is_live)
             {
-                if (host.IsFreeLicenseOrExpired())
+                if (host.IsExpired())
                 {
                     return Icons.ServerUnlicensed;
                 }
@@ -454,7 +454,7 @@ namespace XenAdmin
         {
             if (!pool.Connection.IsConnected)
                 return Icons.HostDisconnected;
-            if (pool.Connection.Cache.Hosts.Any(h => h.IsFreeLicenseOrExpired()))
+            if (pool.Connection.Cache.Hosts.Any(h => h.IsExpired()))
                 return Icons.PoolUnlicensed;
             if (pool.IsPoolFullyUpgraded())
                 return Icons.PoolConnected;

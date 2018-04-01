@@ -102,7 +102,7 @@ namespace XenAdminTests.TabsAndMenus
         }
 
         [Test]
-        [Ignore]
+        [Ignore("")]
         public void TestAfterConnection()
         {
             foreach (VirtualTreeNode n in GetAllTreeNodes())

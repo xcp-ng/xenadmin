@@ -49,8 +49,8 @@ namespace XenAdminTests.Controls
         }
 
         [Test]
-        [TestCase(true, Result = true)]
-        [TestCase(false, Result = false)]
+        [TestCase(true, ExpectedResult = true)]
+        [TestCase(false, ExpectedResult = false)]
         public bool IsValidForMapping(bool lunPerVDI)
         {
             Mock<SR> sr = ObjectManager.NewXenObject<SR>(id);

@@ -40,6 +40,7 @@ using XenAPI;
 
 namespace XenAdminTests.Controls
 {
+    [SetCulture("en-EN")]
     public class SrPickerItemTests : DatabaseTester_TestFixture
     {
         private const string dbName = "TampaTwoHostPoolSelectioniSCSI.xml";

@@ -36,7 +36,7 @@ using XenAdmin.Wizards.DRWizards;
 
 namespace XenAdminTests.WizardTests
 {
-    [TestFixture, Category(TestCategories.UICategoryB)]
+    [TestFixture, Category(TestCategories.UICategoryB), SetCulture("en-EN")]
     public class DRFailoverWizardSummaryReportTests
     {
 

@@ -45,7 +45,7 @@ namespace XenAdminTests.UnitTests
         const string cpu3 = "040ce33d-bfebfbff-00000001-20100801";
         const string cpu4 = "000ce3bd-bfebfbff-00000001";
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupResults()
         {
             // A cpu does not have less features than itself

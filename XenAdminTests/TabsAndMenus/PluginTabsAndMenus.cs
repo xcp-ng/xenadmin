@@ -61,7 +61,7 @@ namespace XenAdminTests.TabsAndMenus
             CheckHelp = false;
         }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetUp()
         {
             string plugins = Path.Combine(Program.AssemblyDir, "Plugins");
@@ -96,7 +96,7 @@ namespace XenAdminTests.TabsAndMenus
             EnableAllPlugins();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TestFixtureTearDown()
         {
             foreach (string folder in _folders)
