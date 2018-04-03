@@ -134,9 +134,6 @@ namespace XenAdmin
         private readonly LicenseManagerLauncher licenseManagerLauncher;
         private readonly LicenseTimer licenseTimer;
 
-        public readonly HealthCheckOverviewLauncher HealthCheckOverviewLauncher;
-        private readonly System.Windows.Forms.Timer healthCheckResultTimer = new System.Windows.Forms.Timer();
-
         private Dictionary<ToolStripMenuItem, int> pluginMenuItemStartIndexes = new Dictionary<ToolStripMenuItem, int>();
 
         private bool expandTreeNodesOnStartup;
@@ -149,7 +146,6 @@ namespace XenAdmin
         {
             Program.MainWindow = this;
             licenseManagerLauncher = new LicenseManagerLauncher(Program.MainWindow);
-            HealthCheckOverviewLauncher = new HealthCheckOverviewLauncher(Program.MainWindow);
             InvokeHelper.Initialize(this);
 
             InitializeComponent();
@@ -255,7 +251,6 @@ namespace XenAdmin
             GeneralPage.LicenseLauncher = licenseManagerLauncher;
 
             toolStripSeparator7.Visible = xenSourceOnTheWebToolStripMenuItem.Visible = xenCenterPluginsOnlineToolStripMenuItem.Visible = !HiddenFeatures.ToolStripMenuItemHidden;
-            healthCheckToolStripMenuItem1.Visible = !HiddenFeatures.HealthCheckHidden;
         }
 
         private void Default_SettingChanging(object sender, SettingChangingEventArgs e)
@@ -613,14 +608,6 @@ namespace XenAdmin
                 Updates.CheckForUpdates(false);
             }
 
-            if (!Program.RunInAutomatedTestMode)
-            {
-                // start healthCheckResult thread
-                healthCheckResultTimer.Interval = 1000 * 60 * 60; // 1 hour
-                healthCheckResultTimer.Tick += HealthCheckResultTimer_Tick;
-                healthCheckResultTimer.Start();
-            }
-
             ProcessCommand(CommandLineArgType, CommandLineParam);
         }
 
@@ -974,8 +961,6 @@ namespace XenAdmin
             if(licenseTimer != null)
                 licenseTimer.CheckActiveServerLicense(connection, false);
 
-            if (Properties.Settings.Default.ShowHealthCheckEnrollmentReminder)
-                ThreadPool.QueueUserWorkItem(CheckHealthCheckEnrollment, connection);
             ThreadPool.QueueUserWorkItem(HealthCheck.CheckForAnalysisResults, connection);
             ThreadPool.QueueUserWorkItem(InformHealthCheckEnrollment, connection);
             
@@ -984,12 +969,6 @@ namespace XenAdmin
 
             HealthCheck.SendMetadataToHealthCheck();
             RequestRefreshTreeView();
-        }
-
-        private void CheckHealthCheckEnrollment(object connection)
-        {
-            if (HealthCheckOverviewLauncher != null && !HiddenFeatures.HealthCheckHidden)
-                HealthCheckOverviewLauncher.CheckHealthCheckEnrollment((IXenConnection) connection);
         }
 
         private void InformHealthCheckEnrollment(object connection)
