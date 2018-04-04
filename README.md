@@ -1,3 +1,7 @@
+
+First have a look here: https://github.com/borzel/xc-ng-project
+
+
 XenCenter
 =========
 
