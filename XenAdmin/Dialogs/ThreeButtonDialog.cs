@@ -261,6 +261,7 @@ namespace XenAdmin.Dialogs
             /// <param name="label">The label for the button</param>
             /// <param name="result">The result to return on click.</param>
             /// <param name="isDefaultButton">The role the button plays in the dialog</param>
+            /// <param name="select"></param>
             public TBDButton(string label, DialogResult result, ButtonType isDefaultButton, bool select)
                 : this(label, result, isDefaultButton)
             {

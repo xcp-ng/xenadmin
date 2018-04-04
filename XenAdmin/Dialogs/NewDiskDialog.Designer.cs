@@ -47,7 +47,6 @@ namespace XenAdmin.Dialogs
             this.labelError = new System.Windows.Forms.Label();
             this.pictureBoxError = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.queuedBackgroundWorker1 = new XenCenterLib.QueuedBackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.DiskSizeNumericUpDown)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -236,7 +235,6 @@ namespace XenAdmin.Dialogs
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox comboBoxUnits;
-        private XenCenterLib.QueuedBackgroundWorker queuedBackgroundWorker1;
 
     }
 }

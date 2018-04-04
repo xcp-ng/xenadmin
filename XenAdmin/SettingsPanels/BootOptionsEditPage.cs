@@ -135,7 +135,7 @@ namespace XenAdmin.SettingsPanels
 
 		#endregion
 
-		#region VerticalTabs.VerticalTab implementation
+		#region VerticalTabs.IVerticalTab implementation
 
 		public String SubText
 		{

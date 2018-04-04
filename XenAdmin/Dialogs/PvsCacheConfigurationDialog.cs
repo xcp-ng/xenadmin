@@ -59,7 +59,7 @@ namespace XenAdmin.Dialogs
             this.connection.Cache.RegisterCollectionChanged<PVS_site>(PvsSiteCollectionChanged);
         }
 
-        protected override string GetTabTitle(VerticalTabs.VerticalTab verticalTab)
+        protected override string GetTabTitle(VerticalTabs.IVerticalTab verticalTab)
         {
             PvsCacheConfigurationPage page = verticalTab as PvsCacheConfigurationPage;
             if (page != null)

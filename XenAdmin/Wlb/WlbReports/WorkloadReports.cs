@@ -111,7 +111,6 @@ namespace XenAdmin
         /// <summary>
         /// Overloaded constructor provides access to a specific report upon load
         /// </summary>
-        /// <param name="reportName"></param>
         public WorkloadReports(string reportFile, bool run)
         {
             InitializeComponent();
@@ -744,7 +743,6 @@ namespace XenAdmin
         /// <summary>
         /// Creates a treeNode for give report name and subscription object
         /// </summary>
-        /// <param name="reportName">Name of the report that has the subscription</param>
         /// <param name="subscription">Instance of a subscription</param>
         /// <returns>Return a instance of TreeNode</returns>
         private TreeNode GetReportSubscriptionTreeNode(WlbReportSubscription subscription)
@@ -807,10 +805,10 @@ namespace XenAdmin
         /// <summary>
         /// Add subscription nodes if a report has subscriptions
         /// </summary>
-        /// <param name="topNode">Report subscription top node</param>
-        /// <param name="subscriptionList">A dictionary contains WlbReportSubscription instances</param>
+        /// <param name="subscriptions"></param>
         /// <param name="reportName">Report display name that can be added to WlbReportSubscription instance</param>
         /// <param name="selectedSub">The original selected node before update</param>
+        /// <param name="subscriptionFolder"></param>
         private void AddNewSubscriptionNode(TreeNode subscriptionFolder, Dictionary<string, WlbReportSubscription> subscriptions, string reportName, WlbReportSubscription selectedSub)
         {
             foreach (WlbReportSubscription sub in subscriptions.Values)
@@ -988,22 +986,6 @@ namespace XenAdmin
             SynchTreeViewReportList(e.ReportPath.ToString());
         }
 
-
-        /// <summary>
-        /// Event handler for when the back button is clicked inside the reportviewer control
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void wlbReportView1_ReportBack(object sender, BackEventArgs e)
-        {
-            //SynchTreeViewReportList();
-        }
-
-
-        /// <summary>
-        /// Event handler for report close button
-        /// </summary>
-        /// <param name="sender"></param>
         private void wlbReportView1_Close(object sender, EventArgs e)
         {
             this.Close();

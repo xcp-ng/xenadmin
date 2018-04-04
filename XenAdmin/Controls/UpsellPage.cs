@@ -120,7 +120,7 @@ namespace XenAdmin.Controls
         }
 
 
-        #region VerticalTab Members
+        #region IVerticalTab Members
 
         public string SubText
         {

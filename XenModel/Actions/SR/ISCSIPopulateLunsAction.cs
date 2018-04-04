@@ -31,8 +31,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+using System.Globalization;
 using System.Xml;
 
 using XenAdmin.Core;
@@ -47,13 +46,13 @@ namespace XenAdmin.Actions
     /// </summary>
     public class ISCSIPopulateLunsAction : AsyncAction
     {
-        private readonly string targetHost;
-        private readonly UInt16 targetPort;
-        private readonly string targetIQN;
-        private readonly string chapUsername;
-        private readonly string chapPassword;
+        protected readonly string targetHost;
+        protected readonly UInt16 targetPort;
+        protected readonly string targetIQN;
+        protected readonly string chapUsername;
+        protected readonly string chapPassword;
 
-        private ISCSIInfo[] _luns;
+        protected ISCSIInfo[] _luns;
         /// <summary>
         /// Will be null if the scan has not yet successfully returned.
         /// </summary>
@@ -98,11 +97,12 @@ namespace XenAdmin.Actions
         {
             Pool pool = Helpers.GetPoolOfOne(Connection);
             if (pool == null)
-                throw new XenAPI.Failure(XenAPI.Failure.INTERNAL_ERROR, Messages.POOL_GONE);
+                throw new Failure(Failure.INTERNAL_ERROR, Messages.POOL_GONE);
 
             Dictionary<string, string> settings = new Dictionary<string, string>();
+
             settings["target"] = targetHost;
-            settings["port"] = targetPort.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            settings["port"] = targetPort.ToString(CultureInfo.InvariantCulture);
             settings["targetIQN"] = targetIQN;
             if (!string.IsNullOrEmpty(this.chapUsername))
             {
@@ -112,13 +112,13 @@ namespace XenAdmin.Actions
 
             try
             {
-                RelatedTask = XenAPI.SR.async_create(Session, pool.master, settings, 0, 
-                    Helpers.GuiTempObjectPrefix, Messages.ISCSI_SHOULD_NO_BE_CREATED, 
-                    XenAPI.SR.SRTypes.lvmoiscsi.ToString(), "user", true, new Dictionary<string, string>());
+                RelatedTask = SR.async_create(Session, pool.master, settings, 0, 
+                    Helpers.GuiTempObjectPrefix, Messages.ISCSI_SHOULD_NO_BE_CREATED,
+                    SR.SRTypes.lvmoiscsi.ToString(), "user", true, new Dictionary<string, string>());
                 this.PollToCompletion();
                 throw new InvalidOperationException(Messages.ISCSI_FAIL);
             }
-            catch (XenAPI.Failure exn)
+            catch (Failure exn)
             {
                 if (exn.ErrorDescription.Count < 1)
                     throw new BadServerResponse(targetHost);
@@ -138,7 +138,7 @@ namespace XenAdmin.Actions
                 {
                     List<ISCSIInfo> results = new List<ISCSIInfo>();
                     XmlDocument doc = new XmlDocument();
-                    doc.LoadXml(exn.ErrorDescription[3].ToString());
+                    doc.LoadXml(exn.ErrorDescription[3]);
                     foreach (XmlNode target_node in doc.GetElementsByTagName("iscsi-target"))
                     {
                         foreach (XmlNode lun_node in target_node.ChildNodes)
@@ -152,7 +152,7 @@ namespace XenAdmin.Actions
                             {
                                 if (n.Name.ToLowerInvariant() == "lunid")
                                 {
-                                    lunid = int.Parse(n.InnerText.Trim(), System.Globalization.CultureInfo.InvariantCulture);
+                                    lunid = int.Parse(n.InnerText.Trim(), CultureInfo.InvariantCulture);
                                 }
                                 else if (n.Name.ToLowerInvariant() == "vendor")
                                 {
@@ -185,6 +185,56 @@ namespace XenAdmin.Actions
                 if (_luns.Length < 1)
                     throw new NoLUNsFoundException(targetHost);
             }
+        }
+    }
+
+    public class Gfs2PopulateLunsAction : ISCSIPopulateLunsAction
+    {
+        public Gfs2PopulateLunsAction(IXenConnection connection, string targetHost,
+            UInt16 targetPort, string targetIQN, string chapUsername, string chapPassword)
+            : base(connection, targetHost, targetPort, targetIQN, chapUsername, chapPassword)
+        { }
+
+        protected override void Run()
+        {
+            Pool pool = Helpers.GetPoolOfOne(Connection);
+            if (pool == null)
+                throw new Failure(Failure.INTERNAL_ERROR, Messages.POOL_GONE);
+
+            var deviceConfig = new Dictionary<string, string>();
+            deviceConfig["provider"] = "iscsi";
+            deviceConfig["ips"] = targetHost;
+            deviceConfig["port"] = targetPort.ToString(CultureInfo.InvariantCulture);
+            deviceConfig["iqns"] = targetIQN;
+            if (!string.IsNullOrEmpty(chapUsername))
+            {
+                deviceConfig["chapuser"] = chapUsername;
+                deviceConfig["chappassword"] = chapPassword;
+            }
+
+            var probeResults = SR.probe_ext(Session, pool.master.opaque_ref,
+                     deviceConfig, SR.SRTypes.gfs2.ToString().ToLowerInvariant(), new Dictionary<string, string>());
+
+            var results = new List<ISCSIInfo>();
+            foreach (var probeResult in probeResults)
+            {
+                int lunid;
+                if (!probeResult.extra_info.ContainsKey("LUNid") || !int.TryParse(probeResult.extra_info["LUNid"], out lunid))
+                    lunid = -1;
+                var vendor = probeResult.extra_info.ContainsKey("vendor") ? probeResult.extra_info["vendor"] : "";
+                var serial = probeResult.extra_info.ContainsKey("serial") ? probeResult.extra_info["serial"] : "";
+                long size;
+                if (!probeResult.extra_info.ContainsKey("size") || !long.TryParse(probeResult.extra_info["size"], out size))
+                    size = -1;
+                var scsiid = probeResult.configuration.ContainsKey("ScsiId") ? probeResult.configuration["ScsiId"] : "";
+
+                results.Add(new ISCSIInfo(scsiid, lunid, vendor, serial, size));
+            }
+            results.Sort();
+            _luns = results.ToArray();
+
+            if (_luns.Length < 1)
+                throw new NoLUNsFoundException(targetHost);
         }
     }
 

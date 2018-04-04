@@ -180,9 +180,9 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Pool proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            name_label = proxy.name_label == null ? null : (string)proxy.name_label;
-            name_description = proxy.name_description == null ? null : (string)proxy.name_description;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            name_label = proxy.name_label == null ? null : proxy.name_label;
+            name_description = proxy.name_description == null ? null : proxy.name_description;
             master = proxy.master == null ? null : XenRef<Host>.Create(proxy.master);
             default_SR = proxy.default_SR == null ? null : XenRef<SR>.Create(proxy.default_SR);
             suspend_image_SR = proxy.suspend_image_SR == null ? null : XenRef<SR>.Create(proxy.suspend_image_SR);
@@ -191,24 +191,24 @@ namespace XenAPI
             ha_enabled = (bool)proxy.ha_enabled;
             ha_configuration = proxy.ha_configuration == null ? null : Maps.convert_from_proxy_string_string(proxy.ha_configuration);
             ha_statefiles = proxy.ha_statefiles == null ? new string[] {} : (string [])proxy.ha_statefiles;
-            ha_host_failures_to_tolerate = proxy.ha_host_failures_to_tolerate == null ? 0 : long.Parse((string)proxy.ha_host_failures_to_tolerate);
-            ha_plan_exists_for = proxy.ha_plan_exists_for == null ? 0 : long.Parse((string)proxy.ha_plan_exists_for);
+            ha_host_failures_to_tolerate = proxy.ha_host_failures_to_tolerate == null ? 0 : long.Parse(proxy.ha_host_failures_to_tolerate);
+            ha_plan_exists_for = proxy.ha_plan_exists_for == null ? 0 : long.Parse(proxy.ha_plan_exists_for);
             ha_allow_overcommit = (bool)proxy.ha_allow_overcommit;
             ha_overcommitted = (bool)proxy.ha_overcommitted;
             blobs = proxy.blobs == null ? null : Maps.convert_from_proxy_string_XenRefBlob(proxy.blobs);
             tags = proxy.tags == null ? new string[] {} : (string [])proxy.tags;
             gui_config = proxy.gui_config == null ? null : Maps.convert_from_proxy_string_string(proxy.gui_config);
             health_check_config = proxy.health_check_config == null ? null : Maps.convert_from_proxy_string_string(proxy.health_check_config);
-            wlb_url = proxy.wlb_url == null ? null : (string)proxy.wlb_url;
-            wlb_username = proxy.wlb_username == null ? null : (string)proxy.wlb_username;
+            wlb_url = proxy.wlb_url == null ? null : proxy.wlb_url;
+            wlb_username = proxy.wlb_username == null ? null : proxy.wlb_username;
             wlb_enabled = (bool)proxy.wlb_enabled;
             wlb_verify_cert = (bool)proxy.wlb_verify_cert;
             redo_log_enabled = (bool)proxy.redo_log_enabled;
             redo_log_vdi = proxy.redo_log_vdi == null ? null : XenRef<VDI>.Create(proxy.redo_log_vdi);
-            vswitch_controller = proxy.vswitch_controller == null ? null : (string)proxy.vswitch_controller;
+            vswitch_controller = proxy.vswitch_controller == null ? null : proxy.vswitch_controller;
             restrictions = proxy.restrictions == null ? null : Maps.convert_from_proxy_string_string(proxy.restrictions);
             metadata_VDIs = proxy.metadata_VDIs == null ? null : XenRef<VDI>.Create(proxy.metadata_VDIs);
-            ha_cluster_stack = proxy.ha_cluster_stack == null ? null : (string)proxy.ha_cluster_stack;
+            ha_cluster_stack = proxy.ha_cluster_stack == null ? null : proxy.ha_cluster_stack;
             allowed_operations = proxy.allowed_operations == null ? null : Helper.StringArrayToEnumList<pool_allowed_operations>(proxy.allowed_operations);
             current_operations = proxy.current_operations == null ? null : Maps.convert_from_proxy_string_pool_allowed_operations(proxy.current_operations);
             guest_agent_config = proxy.guest_agent_config == null ? null : Maps.convert_from_proxy_string_string(proxy.guest_agent_config);
@@ -248,9 +248,9 @@ namespace XenAPI
             result_.redo_log_vdi = redo_log_vdi ?? "";
             result_.vswitch_controller = vswitch_controller ?? "";
             result_.restrictions = Maps.convert_to_proxy_string_string(restrictions);
-            result_.metadata_VDIs = (metadata_VDIs != null) ? Helper.RefListToStringArray(metadata_VDIs) : new string[] {};
+            result_.metadata_VDIs = metadata_VDIs == null ? new string[] {} : Helper.RefListToStringArray(metadata_VDIs);
             result_.ha_cluster_stack = ha_cluster_stack ?? "";
-            result_.allowed_operations = (allowed_operations != null) ? Helper.ObjectListToStringArray(allowed_operations) : new string[] {};
+            result_.allowed_operations = allowed_operations == null ? new string[] {} : Helper.ObjectListToStringArray(allowed_operations);
             result_.current_operations = Maps.convert_to_proxy_string_pool_allowed_operations(current_operations);
             result_.guest_agent_config = Maps.convert_to_proxy_string_string(guest_agent_config);
             result_.cpu_info = Maps.convert_to_proxy_string_string(cpu_info);
@@ -517,7 +517,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_get_uuid(session.opaque_ref, _pool);
             else
-                return (string)session.proxy.pool_get_uuid(session.opaque_ref, _pool ?? "").parse();
+                return session.proxy.pool_get_uuid(session.opaque_ref, _pool ?? "").parse();
         }
 
         /// <summary>
@@ -531,7 +531,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_get_name_label(session.opaque_ref, _pool);
             else
-                return (string)session.proxy.pool_get_name_label(session.opaque_ref, _pool ?? "").parse();
+                return session.proxy.pool_get_name_label(session.opaque_ref, _pool ?? "").parse();
         }
 
         /// <summary>
@@ -545,7 +545,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_get_name_description(session.opaque_ref, _pool);
             else
-                return (string)session.proxy.pool_get_name_description(session.opaque_ref, _pool ?? "").parse();
+                return session.proxy.pool_get_name_description(session.opaque_ref, _pool ?? "").parse();
         }
 
         /// <summary>
@@ -671,7 +671,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_get_ha_host_failures_to_tolerate(session.opaque_ref, _pool);
             else
-                return long.Parse((string)session.proxy.pool_get_ha_host_failures_to_tolerate(session.opaque_ref, _pool ?? "").parse());
+                return long.Parse(session.proxy.pool_get_ha_host_failures_to_tolerate(session.opaque_ref, _pool ?? "").parse());
         }
 
         /// <summary>
@@ -685,7 +685,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_get_ha_plan_exists_for(session.opaque_ref, _pool);
             else
-                return long.Parse((string)session.proxy.pool_get_ha_plan_exists_for(session.opaque_ref, _pool ?? "").parse());
+                return long.Parse(session.proxy.pool_get_ha_plan_exists_for(session.opaque_ref, _pool ?? "").parse());
         }
 
         /// <summary>
@@ -783,7 +783,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_get_wlb_url(session.opaque_ref, _pool);
             else
-                return (string)session.proxy.pool_get_wlb_url(session.opaque_ref, _pool ?? "").parse();
+                return session.proxy.pool_get_wlb_url(session.opaque_ref, _pool ?? "").parse();
         }
 
         /// <summary>
@@ -797,7 +797,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_get_wlb_username(session.opaque_ref, _pool);
             else
-                return (string)session.proxy.pool_get_wlb_username(session.opaque_ref, _pool ?? "").parse();
+                return session.proxy.pool_get_wlb_username(session.opaque_ref, _pool ?? "").parse();
         }
 
         /// <summary>
@@ -869,7 +869,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_get_vswitch_controller(session.opaque_ref, _pool);
             else
-                return (string)session.proxy.pool_get_vswitch_controller(session.opaque_ref, _pool ?? "").parse();
+                return session.proxy.pool_get_vswitch_controller(session.opaque_ref, _pool ?? "").parse();
         }
 
         /// <summary>
@@ -911,7 +911,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_get_ha_cluster_stack(session.opaque_ref, _pool);
             else
-                return (string)session.proxy.pool_get_ha_cluster_stack(session.opaque_ref, _pool ?? "").parse();
+                return session.proxy.pool_get_ha_cluster_stack(session.opaque_ref, _pool ?? "").parse();
         }
 
         /// <summary>
@@ -1594,7 +1594,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pool_enable_ha(session.opaque_ref, _heartbeat_srs, _configuration);
             else
-                session.proxy.pool_enable_ha(session.opaque_ref, (_heartbeat_srs != null) ? Helper.RefListToStringArray(_heartbeat_srs) : new string[] {}, Maps.convert_to_proxy_string_string(_configuration)).parse();
+                session.proxy.pool_enable_ha(session.opaque_ref, _heartbeat_srs == null ? new string[] {} : Helper.RefListToStringArray(_heartbeat_srs), Maps.convert_to_proxy_string_string(_configuration)).parse();
         }
 
         /// <summary>
@@ -1609,7 +1609,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_pool_enable_ha(session.opaque_ref, _heartbeat_srs, _configuration);
           else
-              return XenRef<Task>.Create(session.proxy.async_pool_enable_ha(session.opaque_ref, (_heartbeat_srs != null) ? Helper.RefListToStringArray(_heartbeat_srs) : new string[] {}, Maps.convert_to_proxy_string_string(_configuration)).parse());
+              return XenRef<Task>.Create(session.proxy.async_pool_enable_ha(session.opaque_ref, _heartbeat_srs == null ? new string[] {} : Helper.RefListToStringArray(_heartbeat_srs), Maps.convert_to_proxy_string_string(_configuration)).parse());
         }
 
         /// <summary>
@@ -1730,7 +1730,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_ha_compute_max_host_failures_to_tolerate(session.opaque_ref);
             else
-                return long.Parse((string)session.proxy.pool_ha_compute_max_host_failures_to_tolerate(session.opaque_ref).parse());
+                return long.Parse(session.proxy.pool_ha_compute_max_host_failures_to_tolerate(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -1744,7 +1744,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_ha_compute_hypothetical_max_host_failures_to_tolerate(session.opaque_ref, _configuration);
             else
-                return long.Parse((string)session.proxy.pool_ha_compute_hypothetical_max_host_failures_to_tolerate(session.opaque_ref, Maps.convert_to_proxy_XenRefVM_string(_configuration)).parse());
+                return long.Parse(session.proxy.pool_ha_compute_hypothetical_max_host_failures_to_tolerate(session.opaque_ref, Maps.convert_to_proxy_XenRefVM_string(_configuration)).parse());
         }
 
         /// <summary>
@@ -1759,7 +1759,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_ha_compute_vm_failover_plan(session.opaque_ref, _failed_hosts, _failed_vms);
             else
-                return Maps.convert_from_proxy_XenRefVM_Dictionary_string_string(session.proxy.pool_ha_compute_vm_failover_plan(session.opaque_ref, (_failed_hosts != null) ? Helper.RefListToStringArray(_failed_hosts) : new string[] {}, (_failed_vms != null) ? Helper.RefListToStringArray(_failed_vms) : new string[] {}).parse());
+                return Maps.convert_from_proxy_XenRefVM_Dictionary_string_string(session.proxy.pool_ha_compute_vm_failover_plan(session.opaque_ref, _failed_hosts == null ? new string[] {} : Helper.RefListToStringArray(_failed_hosts), _failed_vms == null ? new string[] {} : Helper.RefListToStringArray(_failed_vms)).parse());
         }
 
         /// <summary>
@@ -2059,7 +2059,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_send_test_post(session.opaque_ref, _host, _port, _body);
             else
-                return (string)session.proxy.pool_send_test_post(session.opaque_ref, _host ?? "", _port.ToString(), _body ?? "").parse();
+                return session.proxy.pool_send_test_post(session.opaque_ref, _host ?? "", _port.ToString(), _body ?? "").parse();
         }
 
         /// <summary>
@@ -2370,7 +2370,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_test_archive_target(session.opaque_ref, _pool, _config);
             else
-                return (string)session.proxy.pool_test_archive_target(session.opaque_ref, _pool ?? "", Maps.convert_to_proxy_string_string(_config)).parse();
+                return session.proxy.pool_test_archive_target(session.opaque_ref, _pool ?? "", Maps.convert_to_proxy_string_string(_config)).parse();
         }
 
         /// <summary>

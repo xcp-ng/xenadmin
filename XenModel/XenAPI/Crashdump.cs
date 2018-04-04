@@ -84,7 +84,7 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Crashdump proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             VM = proxy.VM == null ? null : XenRef<VM>.Create(proxy.VM);
             VDI = proxy.VDI == null ? null : XenRef<VDI>.Create(proxy.VDI);
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
@@ -211,7 +211,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.crashdump_get_uuid(session.opaque_ref, _crashdump);
             else
-                return (string)session.proxy.crashdump_get_uuid(session.opaque_ref, _crashdump ?? "").parse();
+                return session.proxy.crashdump_get_uuid(session.opaque_ref, _crashdump ?? "").parse();
         }
 
         /// <summary>

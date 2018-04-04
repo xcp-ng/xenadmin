@@ -87,10 +87,10 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_VLAN proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             tagged_PIF = proxy.tagged_PIF == null ? null : XenRef<PIF>.Create(proxy.tagged_PIF);
             untagged_PIF = proxy.untagged_PIF == null ? null : XenRef<PIF>.Create(proxy.untagged_PIF);
-            tag = proxy.tag == null ? 0 : long.Parse((string)proxy.tag);
+            tag = proxy.tag == null ? 0 : long.Parse(proxy.tag);
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
         }
 
@@ -215,7 +215,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vlan_get_uuid(session.opaque_ref, _vlan);
             else
-                return (string)session.proxy.vlan_get_uuid(session.opaque_ref, _vlan ?? "").parse();
+                return session.proxy.vlan_get_uuid(session.opaque_ref, _vlan ?? "").parse();
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vlan_get_tag(session.opaque_ref, _vlan);
             else
-                return long.Parse((string)session.proxy.vlan_get_tag(session.opaque_ref, _vlan ?? "").parse());
+                return long.Parse(session.proxy.vlan_get_tag(session.opaque_ref, _vlan ?? "").parse());
         }
 
         /// <summary>

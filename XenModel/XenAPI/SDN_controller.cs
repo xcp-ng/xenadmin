@@ -84,10 +84,10 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_SDN_controller proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             protocol = proxy.protocol == null ? (sdn_controller_protocol) 0 : (sdn_controller_protocol)Helper.EnumParseDefault(typeof(sdn_controller_protocol), (string)proxy.protocol);
-            address = proxy.address == null ? null : (string)proxy.address;
-            port = proxy.port == null ? 0 : long.Parse((string)proxy.port);
+            address = proxy.address == null ? null : proxy.address;
+            port = proxy.port == null ? 0 : long.Parse(proxy.port);
         }
 
         public Proxy_SDN_controller ToProxy()
@@ -202,7 +202,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sdn_controller_get_uuid(session.opaque_ref, _sdn_controller);
             else
-                return (string)session.proxy.sdn_controller_get_uuid(session.opaque_ref, _sdn_controller ?? "").parse();
+                return session.proxy.sdn_controller_get_uuid(session.opaque_ref, _sdn_controller ?? "").parse();
         }
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sdn_controller_get_address(session.opaque_ref, _sdn_controller);
             else
-                return (string)session.proxy.sdn_controller_get_address(session.opaque_ref, _sdn_controller ?? "").parse();
+                return session.proxy.sdn_controller_get_address(session.opaque_ref, _sdn_controller ?? "").parse();
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sdn_controller_get_port(session.opaque_ref, _sdn_controller);
             else
-                return long.Parse((string)session.proxy.sdn_controller_get_port(session.opaque_ref, _sdn_controller ?? "").parse());
+                return long.Parse(session.proxy.sdn_controller_get_port(session.opaque_ref, _sdn_controller ?? "").parse());
         }
 
         /// <summary>

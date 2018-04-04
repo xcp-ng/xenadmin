@@ -75,7 +75,7 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_LVHD proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
         }
 
         public Proxy_LVHD ToProxy()
@@ -178,7 +178,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.lvhd_get_uuid(session.opaque_ref, _lvhd);
             else
-                return (string)session.proxy.lvhd_get_uuid(session.opaque_ref, _lvhd ?? "").parse();
+                return session.proxy.lvhd_get_uuid(session.opaque_ref, _lvhd ?? "").parse();
         }
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.lvhd_enable_thin_provisioning(session.opaque_ref, _host, _sr, _initial_allocation, _allocation_quantum);
             else
-                return (string)session.proxy.lvhd_enable_thin_provisioning(session.opaque_ref, _host ?? "", _sr ?? "", _initial_allocation.ToString(), _allocation_quantum.ToString()).parse();
+                return session.proxy.lvhd_enable_thin_provisioning(session.opaque_ref, _host ?? "", _sr ?? "", _initial_allocation.ToString(), _allocation_quantum.ToString()).parse();
         }
 
         /// <summary>

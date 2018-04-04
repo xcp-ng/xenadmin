@@ -159,6 +159,8 @@ namespace XenAdmin
         /// <param name="host"></param>
         /// <param name="now"></param>
         /// <param name="expiryDate">Should be expressed in local time.</param>
+        /// <param name="createAlert"></param>
+        /// <param name="popupLicenseMgr"></param>
         private void showLicenseSummaryExpired(Host host, DateTime now, DateTime expiryDate, bool createAlert, bool popupLicenseMgr)
         {
             Program.AssertOnEventThread();

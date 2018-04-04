@@ -117,20 +117,20 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_VGPU_type proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            vendor_name = proxy.vendor_name == null ? null : (string)proxy.vendor_name;
-            model_name = proxy.model_name == null ? null : (string)proxy.model_name;
-            framebuffer_size = proxy.framebuffer_size == null ? 0 : long.Parse((string)proxy.framebuffer_size);
-            max_heads = proxy.max_heads == null ? 0 : long.Parse((string)proxy.max_heads);
-            max_resolution_x = proxy.max_resolution_x == null ? 0 : long.Parse((string)proxy.max_resolution_x);
-            max_resolution_y = proxy.max_resolution_y == null ? 0 : long.Parse((string)proxy.max_resolution_y);
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            vendor_name = proxy.vendor_name == null ? null : proxy.vendor_name;
+            model_name = proxy.model_name == null ? null : proxy.model_name;
+            framebuffer_size = proxy.framebuffer_size == null ? 0 : long.Parse(proxy.framebuffer_size);
+            max_heads = proxy.max_heads == null ? 0 : long.Parse(proxy.max_heads);
+            max_resolution_x = proxy.max_resolution_x == null ? 0 : long.Parse(proxy.max_resolution_x);
+            max_resolution_y = proxy.max_resolution_y == null ? 0 : long.Parse(proxy.max_resolution_y);
             supported_on_PGPUs = proxy.supported_on_PGPUs == null ? null : XenRef<PGPU>.Create(proxy.supported_on_PGPUs);
             enabled_on_PGPUs = proxy.enabled_on_PGPUs == null ? null : XenRef<PGPU>.Create(proxy.enabled_on_PGPUs);
             VGPUs = proxy.VGPUs == null ? null : XenRef<VGPU>.Create(proxy.VGPUs);
             supported_on_GPU_groups = proxy.supported_on_GPU_groups == null ? null : XenRef<GPU_group>.Create(proxy.supported_on_GPU_groups);
             enabled_on_GPU_groups = proxy.enabled_on_GPU_groups == null ? null : XenRef<GPU_group>.Create(proxy.enabled_on_GPU_groups);
             implementation = proxy.implementation == null ? (vgpu_type_implementation) 0 : (vgpu_type_implementation)Helper.EnumParseDefault(typeof(vgpu_type_implementation), (string)proxy.implementation);
-            identifier = proxy.identifier == null ? null : (string)proxy.identifier;
+            identifier = proxy.identifier == null ? null : proxy.identifier;
             experimental = (bool)proxy.experimental;
         }
 
@@ -144,11 +144,11 @@ namespace XenAPI
             result_.max_heads = max_heads.ToString();
             result_.max_resolution_x = max_resolution_x.ToString();
             result_.max_resolution_y = max_resolution_y.ToString();
-            result_.supported_on_PGPUs = (supported_on_PGPUs != null) ? Helper.RefListToStringArray(supported_on_PGPUs) : new string[] {};
-            result_.enabled_on_PGPUs = (enabled_on_PGPUs != null) ? Helper.RefListToStringArray(enabled_on_PGPUs) : new string[] {};
-            result_.VGPUs = (VGPUs != null) ? Helper.RefListToStringArray(VGPUs) : new string[] {};
-            result_.supported_on_GPU_groups = (supported_on_GPU_groups != null) ? Helper.RefListToStringArray(supported_on_GPU_groups) : new string[] {};
-            result_.enabled_on_GPU_groups = (enabled_on_GPU_groups != null) ? Helper.RefListToStringArray(enabled_on_GPU_groups) : new string[] {};
+            result_.supported_on_PGPUs = supported_on_PGPUs == null ? new string[] {} : Helper.RefListToStringArray(supported_on_PGPUs);
+            result_.enabled_on_PGPUs = enabled_on_PGPUs == null ? new string[] {} : Helper.RefListToStringArray(enabled_on_PGPUs);
+            result_.VGPUs = VGPUs == null ? new string[] {} : Helper.RefListToStringArray(VGPUs);
+            result_.supported_on_GPU_groups = supported_on_GPU_groups == null ? new string[] {} : Helper.RefListToStringArray(supported_on_GPU_groups);
+            result_.enabled_on_GPU_groups = enabled_on_GPU_groups == null ? new string[] {} : Helper.RefListToStringArray(enabled_on_GPU_groups);
             result_.implementation = vgpu_type_implementation_helper.ToString(implementation);
             result_.identifier = identifier ?? "";
             result_.experimental = experimental;
@@ -290,7 +290,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_uuid(session.opaque_ref, _vgpu_type);
             else
-                return (string)session.proxy.vgpu_type_get_uuid(session.opaque_ref, _vgpu_type ?? "").parse();
+                return session.proxy.vgpu_type_get_uuid(session.opaque_ref, _vgpu_type ?? "").parse();
         }
 
         /// <summary>
@@ -304,7 +304,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_vendor_name(session.opaque_ref, _vgpu_type);
             else
-                return (string)session.proxy.vgpu_type_get_vendor_name(session.opaque_ref, _vgpu_type ?? "").parse();
+                return session.proxy.vgpu_type_get_vendor_name(session.opaque_ref, _vgpu_type ?? "").parse();
         }
 
         /// <summary>
@@ -318,7 +318,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_model_name(session.opaque_ref, _vgpu_type);
             else
-                return (string)session.proxy.vgpu_type_get_model_name(session.opaque_ref, _vgpu_type ?? "").parse();
+                return session.proxy.vgpu_type_get_model_name(session.opaque_ref, _vgpu_type ?? "").parse();
         }
 
         /// <summary>
@@ -332,7 +332,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_framebuffer_size(session.opaque_ref, _vgpu_type);
             else
-                return long.Parse((string)session.proxy.vgpu_type_get_framebuffer_size(session.opaque_ref, _vgpu_type ?? "").parse());
+                return long.Parse(session.proxy.vgpu_type_get_framebuffer_size(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -346,7 +346,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_max_heads(session.opaque_ref, _vgpu_type);
             else
-                return long.Parse((string)session.proxy.vgpu_type_get_max_heads(session.opaque_ref, _vgpu_type ?? "").parse());
+                return long.Parse(session.proxy.vgpu_type_get_max_heads(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -360,7 +360,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_max_resolution_x(session.opaque_ref, _vgpu_type);
             else
-                return long.Parse((string)session.proxy.vgpu_type_get_max_resolution_x(session.opaque_ref, _vgpu_type ?? "").parse());
+                return long.Parse(session.proxy.vgpu_type_get_max_resolution_x(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -374,7 +374,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_max_resolution_y(session.opaque_ref, _vgpu_type);
             else
-                return long.Parse((string)session.proxy.vgpu_type_get_max_resolution_y(session.opaque_ref, _vgpu_type ?? "").parse());
+                return long.Parse(session.proxy.vgpu_type_get_max_resolution_y(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -472,7 +472,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_identifier(session.opaque_ref, _vgpu_type);
             else
-                return (string)session.proxy.vgpu_type_get_identifier(session.opaque_ref, _vgpu_type ?? "").parse();
+                return session.proxy.vgpu_type_get_identifier(session.opaque_ref, _vgpu_type ?? "").parse();
         }
 
         /// <summary>

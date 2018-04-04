@@ -78,7 +78,7 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_DR_task proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             introduced_SRs = proxy.introduced_SRs == null ? null : XenRef<SR>.Create(proxy.introduced_SRs);
         }
 
@@ -86,7 +86,7 @@ namespace XenAPI
         {
             Proxy_DR_task result_ = new Proxy_DR_task();
             result_.uuid = uuid ?? "";
-            result_.introduced_SRs = (introduced_SRs != null) ? Helper.RefListToStringArray(introduced_SRs) : new string[] {};
+            result_.introduced_SRs = introduced_SRs == null ? new string[] {} : Helper.RefListToStringArray(introduced_SRs);
             return result_;
         }
 
@@ -186,7 +186,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.dr_task_get_uuid(session.opaque_ref, _dr_task);
             else
-                return (string)session.proxy.dr_task_get_uuid(session.opaque_ref, _dr_task ?? "").parse();
+                return session.proxy.dr_task_get_uuid(session.opaque_ref, _dr_task ?? "").parse();
         }
 
         /// <summary>

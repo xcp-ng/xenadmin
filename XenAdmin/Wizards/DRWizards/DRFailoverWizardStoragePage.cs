@@ -248,6 +248,7 @@ namespace XenAdmin.Wizards.DRWizards
 
         private const String LUNSERIAL = "LUNSerial";
         private const String SCSIID = "SCSIid";
+        private const String METADATA = "metadata";
 
         private void ScanForSRs(SR.SRTypes type)
         {
@@ -262,7 +263,8 @@ namespace XenAdmin.Wizards.DRWizards
                         foreach (FibreChannelDevice device in devices)
                         {
                             string deviceId = string.IsNullOrEmpty(device.SCSIid) ? device.Path : device.SCSIid;
-                            var metadataSrs = ScanDeviceForSRs(SR.SRTypes.lvmohba, deviceId, GetFCDeviceConfig(device));
+                            var metadataSrs = ScanDeviceForSRs(SR.SRTypes.lvmohba, deviceId,
+                                new Dictionary<string, string> {{SCSIID, device.SCSIid}});
                             if (metadataSrs != null && metadataSrs.Count > 0)
                                 srs.AddRange(metadataSrs);
                         }
@@ -303,37 +305,12 @@ namespace XenAdmin.Wizards.DRWizards
             if (master == null)
                 return null;
 
-            FibreChannelProbeAction action = new FibreChannelProbeAction(master);
+            var action = new FibreChannelProbeAction(master);
             using (var dialog = new ActionProgressDialog(action, ProgressBarStyle.Marquee))
                 dialog.ShowDialog(this); //Will block until dialog closes, action completed
 
-            if (!action.Succeeded)
-                return null;
-
-            try
-            {
-                return FibreChannelProbeParsing.ProcessXML(action.Result);
-            }
-            catch (Exception e)
-            {
-                log.Debug("Exception parsing result of fibre channel scan", e);
-                log.Debug(e, e);
-                return null;
-            }
+            return action.Succeeded ? action.FibreChannelDevices : null;
         }
-
-        private Dictionary<String, String> GetFCDeviceConfig(FibreChannelDevice device)
-        {
-            if (device == null)
-                return null;
-
-            var dconf = new Dictionary<string, string>();
-            dconf[SrProbeAction.SCSIid] = device.SCSIid;
-
-            return dconf;
-        }
-
-        private const String METADATA = "metadata";
 
         private List<SR.SRInfo> ScanDeviceForSRs(SR.SRTypes type, string deviceId, Dictionary<string, string> dconf)
         {
@@ -341,11 +318,9 @@ namespace XenAdmin.Wizards.DRWizards
             if (master == null || dconf == null)
                 return null;
 
-            Dictionary<string, string> smconf = new Dictionary<string, string>();
-            smconf[METADATA] = "true";
-
             // Start probe
-            SrProbeAction srProbeAction = new SrProbeAction(Connection, master, type, dconf, smconf);
+            SrProbeAction srProbeAction = new SrProbeAction(Connection, master, type, dconf,
+                new Dictionary<string, string> {{METADATA, "true"}});
             using (var dlg = new ActionProgressDialog(srProbeAction, ProgressBarStyle.Marquee))
                 dlg.ShowDialog(this);
 

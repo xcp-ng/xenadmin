@@ -30,13 +30,9 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using XenAdmin.Wizards.NewSRWizard_Pages;
+using XenAdmin.Actions;
 using XenAdmin.Network;
+using XenAPI;
 
 
 namespace XenAdmin.Dialogs
@@ -51,13 +47,16 @@ namespace XenAdmin.Dialogs
     /// </summary>
     public partial class IscsiChoicesDialog : XenDialogBase
     {
-        public IscsiChoicesDialog(IXenConnection connection, XenAPI.SR.SRInfo srInfo)
+        public IscsiChoicesDialog(IXenConnection connection, SR.SRInfo srInfo, SR.SRTypes existingSrType, SR.SRTypes requestedSrType)
             : base(connection)
         {
             InitializeComponent();
 
             this.labelSRinfo.Text = String.Format(Messages.ISCSI_DIALOG_SR_DETAILS,
                 Util.DiskSizeString(srInfo.Size), srInfo.UUID);
+
+            this.labelMessage.Text = String.Format(Messages.EXISTING_SR_FOUND_ON_LUN, SR.getFriendlyTypeName(existingSrType),
+                SR.getFriendlyTypeName(requestedSrType));
         }
 
         public IscsiChoicesDialog(IXenConnection connection, FibreChannelDevice dev)

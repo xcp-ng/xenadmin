@@ -105,17 +105,17 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_PCI proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            class_name = proxy.class_name == null ? null : (string)proxy.class_name;
-            vendor_name = proxy.vendor_name == null ? null : (string)proxy.vendor_name;
-            device_name = proxy.device_name == null ? null : (string)proxy.device_name;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            class_name = proxy.class_name == null ? null : proxy.class_name;
+            vendor_name = proxy.vendor_name == null ? null : proxy.vendor_name;
+            device_name = proxy.device_name == null ? null : proxy.device_name;
             host = proxy.host == null ? null : XenRef<Host>.Create(proxy.host);
-            pci_id = proxy.pci_id == null ? null : (string)proxy.pci_id;
+            pci_id = proxy.pci_id == null ? null : proxy.pci_id;
             dependencies = proxy.dependencies == null ? null : XenRef<PCI>.Create(proxy.dependencies);
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
-            subsystem_vendor_name = proxy.subsystem_vendor_name == null ? null : (string)proxy.subsystem_vendor_name;
-            subsystem_device_name = proxy.subsystem_device_name == null ? null : (string)proxy.subsystem_device_name;
-            driver_name = proxy.driver_name == null ? null : (string)proxy.driver_name;
+            subsystem_vendor_name = proxy.subsystem_vendor_name == null ? null : proxy.subsystem_vendor_name;
+            subsystem_device_name = proxy.subsystem_device_name == null ? null : proxy.subsystem_device_name;
+            driver_name = proxy.driver_name == null ? null : proxy.driver_name;
         }
 
         public Proxy_PCI ToProxy()
@@ -127,7 +127,7 @@ namespace XenAPI
             result_.device_name = device_name ?? "";
             result_.host = host ?? "";
             result_.pci_id = pci_id ?? "";
-            result_.dependencies = (dependencies != null) ? Helper.RefListToStringArray(dependencies) : new string[] {};
+            result_.dependencies = dependencies == null ? new string[] {} : Helper.RefListToStringArray(dependencies);
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             result_.subsystem_vendor_name = subsystem_vendor_name ?? "";
             result_.subsystem_device_name = subsystem_device_name ?? "";
@@ -263,7 +263,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_uuid(session.opaque_ref, _pci);
             else
-                return (string)session.proxy.pci_get_uuid(session.opaque_ref, _pci ?? "").parse();
+                return session.proxy.pci_get_uuid(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>
@@ -277,7 +277,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_class_name(session.opaque_ref, _pci);
             else
-                return (string)session.proxy.pci_get_class_name(session.opaque_ref, _pci ?? "").parse();
+                return session.proxy.pci_get_class_name(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>
@@ -291,7 +291,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_vendor_name(session.opaque_ref, _pci);
             else
-                return (string)session.proxy.pci_get_vendor_name(session.opaque_ref, _pci ?? "").parse();
+                return session.proxy.pci_get_vendor_name(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>
@@ -305,7 +305,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_device_name(session.opaque_ref, _pci);
             else
-                return (string)session.proxy.pci_get_device_name(session.opaque_ref, _pci ?? "").parse();
+                return session.proxy.pci_get_device_name(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>
@@ -333,7 +333,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_pci_id(session.opaque_ref, _pci);
             else
-                return (string)session.proxy.pci_get_pci_id(session.opaque_ref, _pci ?? "").parse();
+                return session.proxy.pci_get_pci_id(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>
@@ -375,7 +375,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_subsystem_vendor_name(session.opaque_ref, _pci);
             else
-                return (string)session.proxy.pci_get_subsystem_vendor_name(session.opaque_ref, _pci ?? "").parse();
+                return session.proxy.pci_get_subsystem_vendor_name(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>
@@ -389,7 +389,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_subsystem_device_name(session.opaque_ref, _pci);
             else
-                return (string)session.proxy.pci_get_subsystem_device_name(session.opaque_ref, _pci ?? "").parse();
+                return session.proxy.pci_get_subsystem_device_name(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>

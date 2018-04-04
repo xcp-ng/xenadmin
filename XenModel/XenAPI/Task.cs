@@ -123,9 +123,9 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Task proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            name_label = proxy.name_label == null ? null : (string)proxy.name_label;
-            name_description = proxy.name_description == null ? null : (string)proxy.name_description;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            name_label = proxy.name_label == null ? null : proxy.name_label;
+            name_description = proxy.name_description == null ? null : proxy.name_description;
             allowed_operations = proxy.allowed_operations == null ? null : Helper.StringArrayToEnumList<task_allowed_operations>(proxy.allowed_operations);
             current_operations = proxy.current_operations == null ? null : Maps.convert_from_proxy_string_task_allowed_operations(proxy.current_operations);
             created = proxy.created;
@@ -133,13 +133,13 @@ namespace XenAPI
             status = proxy.status == null ? (task_status_type) 0 : (task_status_type)Helper.EnumParseDefault(typeof(task_status_type), (string)proxy.status);
             resident_on = proxy.resident_on == null ? null : XenRef<Host>.Create(proxy.resident_on);
             progress = Convert.ToDouble(proxy.progress);
-            type = proxy.type == null ? null : (string)proxy.type;
-            result = proxy.result == null ? null : (string)proxy.result;
+            type = proxy.type == null ? null : proxy.type;
+            result = proxy.result == null ? null : proxy.result;
             error_info = proxy.error_info == null ? new string[] {} : (string [])proxy.error_info;
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
             subtask_of = proxy.subtask_of == null ? null : XenRef<Task>.Create(proxy.subtask_of);
             subtasks = proxy.subtasks == null ? null : XenRef<Task>.Create(proxy.subtasks);
-            backtrace = proxy.backtrace == null ? null : (string)proxy.backtrace;
+            backtrace = proxy.backtrace == null ? null : proxy.backtrace;
         }
 
         public Proxy_Task ToProxy()
@@ -148,7 +148,7 @@ namespace XenAPI
             result_.uuid = uuid ?? "";
             result_.name_label = name_label ?? "";
             result_.name_description = name_description ?? "";
-            result_.allowed_operations = (allowed_operations != null) ? Helper.ObjectListToStringArray(allowed_operations) : new string[] {};
+            result_.allowed_operations = allowed_operations == null ? new string[] {} : Helper.ObjectListToStringArray(allowed_operations);
             result_.current_operations = Maps.convert_to_proxy_string_task_allowed_operations(current_operations);
             result_.created = created;
             result_.finished = finished;
@@ -160,7 +160,7 @@ namespace XenAPI
             result_.error_info = error_info;
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             result_.subtask_of = subtask_of ?? "";
-            result_.subtasks = (subtasks != null) ? Helper.RefListToStringArray(subtasks) : new string[] {};
+            result_.subtasks = subtasks == null ? new string[] {} : Helper.RefListToStringArray(subtasks);
             result_.backtrace = backtrace ?? "";
             return result_;
         }
@@ -327,7 +327,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.task_get_uuid(session.opaque_ref, _task);
             else
-                return (string)session.proxy.task_get_uuid(session.opaque_ref, _task ?? "").parse();
+                return session.proxy.task_get_uuid(session.opaque_ref, _task ?? "").parse();
         }
 
         /// <summary>
@@ -341,7 +341,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.task_get_name_label(session.opaque_ref, _task);
             else
-                return (string)session.proxy.task_get_name_label(session.opaque_ref, _task ?? "").parse();
+                return session.proxy.task_get_name_label(session.opaque_ref, _task ?? "").parse();
         }
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.task_get_name_description(session.opaque_ref, _task);
             else
-                return (string)session.proxy.task_get_name_description(session.opaque_ref, _task ?? "").parse();
+                return session.proxy.task_get_name_description(session.opaque_ref, _task ?? "").parse();
         }
 
         /// <summary>
@@ -467,7 +467,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.task_get_type(session.opaque_ref, _task);
             else
-                return (string)session.proxy.task_get_type(session.opaque_ref, _task ?? "").parse();
+                return session.proxy.task_get_type(session.opaque_ref, _task ?? "").parse();
         }
 
         /// <summary>
@@ -481,7 +481,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.task_get_result(session.opaque_ref, _task);
             else
-                return (string)session.proxy.task_get_result(session.opaque_ref, _task ?? "").parse();
+                return session.proxy.task_get_result(session.opaque_ref, _task ?? "").parse();
         }
 
         /// <summary>
@@ -551,7 +551,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.task_get_backtrace(session.opaque_ref, _task);
             else
-                return (string)session.proxy.task_get_backtrace(session.opaque_ref, _task ?? "").parse();
+                return session.proxy.task_get_backtrace(session.opaque_ref, _task ?? "").parse();
         }
 
         /// <summary>

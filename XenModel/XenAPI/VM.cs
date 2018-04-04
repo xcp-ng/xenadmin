@@ -324,27 +324,27 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_VM proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             allowed_operations = proxy.allowed_operations == null ? null : Helper.StringArrayToEnumList<vm_operations>(proxy.allowed_operations);
             current_operations = proxy.current_operations == null ? null : Maps.convert_from_proxy_string_vm_operations(proxy.current_operations);
             power_state = proxy.power_state == null ? (vm_power_state) 0 : (vm_power_state)Helper.EnumParseDefault(typeof(vm_power_state), (string)proxy.power_state);
-            name_label = proxy.name_label == null ? null : (string)proxy.name_label;
-            name_description = proxy.name_description == null ? null : (string)proxy.name_description;
-            user_version = proxy.user_version == null ? 0 : long.Parse((string)proxy.user_version);
+            name_label = proxy.name_label == null ? null : proxy.name_label;
+            name_description = proxy.name_description == null ? null : proxy.name_description;
+            user_version = proxy.user_version == null ? 0 : long.Parse(proxy.user_version);
             is_a_template = (bool)proxy.is_a_template;
             is_default_template = (bool)proxy.is_default_template;
             suspend_VDI = proxy.suspend_VDI == null ? null : XenRef<VDI>.Create(proxy.suspend_VDI);
             resident_on = proxy.resident_on == null ? null : XenRef<Host>.Create(proxy.resident_on);
             affinity = proxy.affinity == null ? null : XenRef<Host>.Create(proxy.affinity);
-            memory_overhead = proxy.memory_overhead == null ? 0 : long.Parse((string)proxy.memory_overhead);
-            memory_target = proxy.memory_target == null ? 0 : long.Parse((string)proxy.memory_target);
-            memory_static_max = proxy.memory_static_max == null ? 0 : long.Parse((string)proxy.memory_static_max);
-            memory_dynamic_max = proxy.memory_dynamic_max == null ? 0 : long.Parse((string)proxy.memory_dynamic_max);
-            memory_dynamic_min = proxy.memory_dynamic_min == null ? 0 : long.Parse((string)proxy.memory_dynamic_min);
-            memory_static_min = proxy.memory_static_min == null ? 0 : long.Parse((string)proxy.memory_static_min);
+            memory_overhead = proxy.memory_overhead == null ? 0 : long.Parse(proxy.memory_overhead);
+            memory_target = proxy.memory_target == null ? 0 : long.Parse(proxy.memory_target);
+            memory_static_max = proxy.memory_static_max == null ? 0 : long.Parse(proxy.memory_static_max);
+            memory_dynamic_max = proxy.memory_dynamic_max == null ? 0 : long.Parse(proxy.memory_dynamic_max);
+            memory_dynamic_min = proxy.memory_dynamic_min == null ? 0 : long.Parse(proxy.memory_dynamic_min);
+            memory_static_min = proxy.memory_static_min == null ? 0 : long.Parse(proxy.memory_static_min);
             VCPUs_params = proxy.VCPUs_params == null ? null : Maps.convert_from_proxy_string_string(proxy.VCPUs_params);
-            VCPUs_max = proxy.VCPUs_max == null ? 0 : long.Parse((string)proxy.VCPUs_max);
-            VCPUs_at_startup = proxy.VCPUs_at_startup == null ? 0 : long.Parse((string)proxy.VCPUs_at_startup);
+            VCPUs_max = proxy.VCPUs_max == null ? 0 : long.Parse(proxy.VCPUs_max);
+            VCPUs_at_startup = proxy.VCPUs_at_startup == null ? 0 : long.Parse(proxy.VCPUs_at_startup);
             actions_after_shutdown = proxy.actions_after_shutdown == null ? (on_normal_exit) 0 : (on_normal_exit)Helper.EnumParseDefault(typeof(on_normal_exit), (string)proxy.actions_after_shutdown);
             actions_after_reboot = proxy.actions_after_reboot == null ? (on_normal_exit) 0 : (on_normal_exit)Helper.EnumParseDefault(typeof(on_normal_exit), (string)proxy.actions_after_reboot);
             actions_after_crash = proxy.actions_after_crash == null ? (on_crash_behaviour) 0 : (on_crash_behaviour)Helper.EnumParseDefault(typeof(on_crash_behaviour), (string)proxy.actions_after_crash);
@@ -354,39 +354,39 @@ namespace XenAPI
             VUSBs = proxy.VUSBs == null ? null : XenRef<VUSB>.Create(proxy.VUSBs);
             crash_dumps = proxy.crash_dumps == null ? null : XenRef<Crashdump>.Create(proxy.crash_dumps);
             VTPMs = proxy.VTPMs == null ? null : XenRef<VTPM>.Create(proxy.VTPMs);
-            PV_bootloader = proxy.PV_bootloader == null ? null : (string)proxy.PV_bootloader;
-            PV_kernel = proxy.PV_kernel == null ? null : (string)proxy.PV_kernel;
-            PV_ramdisk = proxy.PV_ramdisk == null ? null : (string)proxy.PV_ramdisk;
-            PV_args = proxy.PV_args == null ? null : (string)proxy.PV_args;
-            PV_bootloader_args = proxy.PV_bootloader_args == null ? null : (string)proxy.PV_bootloader_args;
-            PV_legacy_args = proxy.PV_legacy_args == null ? null : (string)proxy.PV_legacy_args;
-            HVM_boot_policy = proxy.HVM_boot_policy == null ? null : (string)proxy.HVM_boot_policy;
+            PV_bootloader = proxy.PV_bootloader == null ? null : proxy.PV_bootloader;
+            PV_kernel = proxy.PV_kernel == null ? null : proxy.PV_kernel;
+            PV_ramdisk = proxy.PV_ramdisk == null ? null : proxy.PV_ramdisk;
+            PV_args = proxy.PV_args == null ? null : proxy.PV_args;
+            PV_bootloader_args = proxy.PV_bootloader_args == null ? null : proxy.PV_bootloader_args;
+            PV_legacy_args = proxy.PV_legacy_args == null ? null : proxy.PV_legacy_args;
+            HVM_boot_policy = proxy.HVM_boot_policy == null ? null : proxy.HVM_boot_policy;
             HVM_boot_params = proxy.HVM_boot_params == null ? null : Maps.convert_from_proxy_string_string(proxy.HVM_boot_params);
             HVM_shadow_multiplier = Convert.ToDouble(proxy.HVM_shadow_multiplier);
             platform = proxy.platform == null ? null : Maps.convert_from_proxy_string_string(proxy.platform);
-            PCI_bus = proxy.PCI_bus == null ? null : (string)proxy.PCI_bus;
+            PCI_bus = proxy.PCI_bus == null ? null : proxy.PCI_bus;
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
-            domid = proxy.domid == null ? 0 : long.Parse((string)proxy.domid);
-            domarch = proxy.domarch == null ? null : (string)proxy.domarch;
+            domid = proxy.domid == null ? 0 : long.Parse(proxy.domid);
+            domarch = proxy.domarch == null ? null : proxy.domarch;
             last_boot_CPU_flags = proxy.last_boot_CPU_flags == null ? null : Maps.convert_from_proxy_string_string(proxy.last_boot_CPU_flags);
             is_control_domain = (bool)proxy.is_control_domain;
             metrics = proxy.metrics == null ? null : XenRef<VM_metrics>.Create(proxy.metrics);
             guest_metrics = proxy.guest_metrics == null ? null : XenRef<VM_guest_metrics>.Create(proxy.guest_metrics);
-            last_booted_record = proxy.last_booted_record == null ? null : (string)proxy.last_booted_record;
-            recommendations = proxy.recommendations == null ? null : (string)proxy.recommendations;
+            last_booted_record = proxy.last_booted_record == null ? null : proxy.last_booted_record;
+            recommendations = proxy.recommendations == null ? null : proxy.recommendations;
             xenstore_data = proxy.xenstore_data == null ? null : Maps.convert_from_proxy_string_string(proxy.xenstore_data);
             ha_always_run = (bool)proxy.ha_always_run;
-            ha_restart_priority = proxy.ha_restart_priority == null ? null : (string)proxy.ha_restart_priority;
+            ha_restart_priority = proxy.ha_restart_priority == null ? null : proxy.ha_restart_priority;
             is_a_snapshot = (bool)proxy.is_a_snapshot;
             snapshot_of = proxy.snapshot_of == null ? null : XenRef<VM>.Create(proxy.snapshot_of);
             snapshots = proxy.snapshots == null ? null : XenRef<VM>.Create(proxy.snapshots);
             snapshot_time = proxy.snapshot_time;
-            transportable_snapshot_id = proxy.transportable_snapshot_id == null ? null : (string)proxy.transportable_snapshot_id;
+            transportable_snapshot_id = proxy.transportable_snapshot_id == null ? null : proxy.transportable_snapshot_id;
             blobs = proxy.blobs == null ? null : Maps.convert_from_proxy_string_XenRefBlob(proxy.blobs);
             tags = proxy.tags == null ? new string[] {} : (string [])proxy.tags;
             blocked_operations = proxy.blocked_operations == null ? null : Maps.convert_from_proxy_vm_operations_string(proxy.blocked_operations);
             snapshot_info = proxy.snapshot_info == null ? null : Maps.convert_from_proxy_string_string(proxy.snapshot_info);
-            snapshot_metadata = proxy.snapshot_metadata == null ? null : (string)proxy.snapshot_metadata;
+            snapshot_metadata = proxy.snapshot_metadata == null ? null : proxy.snapshot_metadata;
             parent = proxy.parent == null ? null : XenRef<VM>.Create(proxy.parent);
             children = proxy.children == null ? null : XenRef<VM>.Create(proxy.children);
             bios_strings = proxy.bios_strings == null ? null : Maps.convert_from_proxy_string_string(proxy.bios_strings);
@@ -395,18 +395,18 @@ namespace XenAPI
             snapshot_schedule = proxy.snapshot_schedule == null ? null : XenRef<VMSS>.Create(proxy.snapshot_schedule);
             is_vmss_snapshot = (bool)proxy.is_vmss_snapshot;
             appliance = proxy.appliance == null ? null : XenRef<VM_appliance>.Create(proxy.appliance);
-            start_delay = proxy.start_delay == null ? 0 : long.Parse((string)proxy.start_delay);
-            shutdown_delay = proxy.shutdown_delay == null ? 0 : long.Parse((string)proxy.shutdown_delay);
-            order = proxy.order == null ? 0 : long.Parse((string)proxy.order);
+            start_delay = proxy.start_delay == null ? 0 : long.Parse(proxy.start_delay);
+            shutdown_delay = proxy.shutdown_delay == null ? 0 : long.Parse(proxy.shutdown_delay);
+            order = proxy.order == null ? 0 : long.Parse(proxy.order);
             VGPUs = proxy.VGPUs == null ? null : XenRef<VGPU>.Create(proxy.VGPUs);
             attached_PCIs = proxy.attached_PCIs == null ? null : XenRef<PCI>.Create(proxy.attached_PCIs);
             suspend_SR = proxy.suspend_SR == null ? null : XenRef<SR>.Create(proxy.suspend_SR);
-            version = proxy.version == null ? 0 : long.Parse((string)proxy.version);
-            generation_id = proxy.generation_id == null ? null : (string)proxy.generation_id;
-            hardware_platform_version = proxy.hardware_platform_version == null ? 0 : long.Parse((string)proxy.hardware_platform_version);
+            version = proxy.version == null ? 0 : long.Parse(proxy.version);
+            generation_id = proxy.generation_id == null ? null : proxy.generation_id;
+            hardware_platform_version = proxy.hardware_platform_version == null ? 0 : long.Parse(proxy.hardware_platform_version);
             has_vendor_device = (bool)proxy.has_vendor_device;
             requires_reboot = (bool)proxy.requires_reboot;
-            reference_label = proxy.reference_label == null ? null : (string)proxy.reference_label;
+            reference_label = proxy.reference_label == null ? null : proxy.reference_label;
             domain_type = proxy.domain_type == null ? (domain_type) 0 : (domain_type)Helper.EnumParseDefault(typeof(domain_type), (string)proxy.domain_type);
         }
 
@@ -414,7 +414,7 @@ namespace XenAPI
         {
             Proxy_VM result_ = new Proxy_VM();
             result_.uuid = uuid ?? "";
-            result_.allowed_operations = (allowed_operations != null) ? Helper.ObjectListToStringArray(allowed_operations) : new string[] {};
+            result_.allowed_operations = allowed_operations == null ? new string[] {} : Helper.ObjectListToStringArray(allowed_operations);
             result_.current_operations = Maps.convert_to_proxy_string_vm_operations(current_operations);
             result_.power_state = vm_power_state_helper.ToString(power_state);
             result_.name_label = name_label ?? "";
@@ -437,12 +437,12 @@ namespace XenAPI
             result_.actions_after_shutdown = on_normal_exit_helper.ToString(actions_after_shutdown);
             result_.actions_after_reboot = on_normal_exit_helper.ToString(actions_after_reboot);
             result_.actions_after_crash = on_crash_behaviour_helper.ToString(actions_after_crash);
-            result_.consoles = (consoles != null) ? Helper.RefListToStringArray(consoles) : new string[] {};
-            result_.VIFs = (VIFs != null) ? Helper.RefListToStringArray(VIFs) : new string[] {};
-            result_.VBDs = (VBDs != null) ? Helper.RefListToStringArray(VBDs) : new string[] {};
-            result_.VUSBs = (VUSBs != null) ? Helper.RefListToStringArray(VUSBs) : new string[] {};
-            result_.crash_dumps = (crash_dumps != null) ? Helper.RefListToStringArray(crash_dumps) : new string[] {};
-            result_.VTPMs = (VTPMs != null) ? Helper.RefListToStringArray(VTPMs) : new string[] {};
+            result_.consoles = consoles == null ? new string[] {} : Helper.RefListToStringArray(consoles);
+            result_.VIFs = VIFs == null ? new string[] {} : Helper.RefListToStringArray(VIFs);
+            result_.VBDs = VBDs == null ? new string[] {} : Helper.RefListToStringArray(VBDs);
+            result_.VUSBs = VUSBs == null ? new string[] {} : Helper.RefListToStringArray(VUSBs);
+            result_.crash_dumps = crash_dumps == null ? new string[] {} : Helper.RefListToStringArray(crash_dumps);
+            result_.VTPMs = VTPMs == null ? new string[] {} : Helper.RefListToStringArray(VTPMs);
             result_.PV_bootloader = PV_bootloader ?? "";
             result_.PV_kernel = PV_kernel ?? "";
             result_.PV_ramdisk = PV_ramdisk ?? "";
@@ -468,7 +468,7 @@ namespace XenAPI
             result_.ha_restart_priority = ha_restart_priority ?? "";
             result_.is_a_snapshot = is_a_snapshot;
             result_.snapshot_of = snapshot_of ?? "";
-            result_.snapshots = (snapshots != null) ? Helper.RefListToStringArray(snapshots) : new string[] {};
+            result_.snapshots = snapshots == null ? new string[] {} : Helper.RefListToStringArray(snapshots);
             result_.snapshot_time = snapshot_time;
             result_.transportable_snapshot_id = transportable_snapshot_id ?? "";
             result_.blobs = Maps.convert_to_proxy_string_XenRefBlob(blobs);
@@ -477,7 +477,7 @@ namespace XenAPI
             result_.snapshot_info = Maps.convert_to_proxy_string_string(snapshot_info);
             result_.snapshot_metadata = snapshot_metadata ?? "";
             result_.parent = parent ?? "";
-            result_.children = (children != null) ? Helper.RefListToStringArray(children) : new string[] {};
+            result_.children = children == null ? new string[] {} : Helper.RefListToStringArray(children);
             result_.bios_strings = Maps.convert_to_proxy_string_string(bios_strings);
             result_.protection_policy = protection_policy ?? "";
             result_.is_snapshot_from_vmpp = is_snapshot_from_vmpp;
@@ -487,8 +487,8 @@ namespace XenAPI
             result_.start_delay = start_delay.ToString();
             result_.shutdown_delay = shutdown_delay.ToString();
             result_.order = order.ToString();
-            result_.VGPUs = (VGPUs != null) ? Helper.RefListToStringArray(VGPUs) : new string[] {};
-            result_.attached_PCIs = (attached_PCIs != null) ? Helper.RefListToStringArray(attached_PCIs) : new string[] {};
+            result_.VGPUs = VGPUs == null ? new string[] {} : Helper.RefListToStringArray(VGPUs);
+            result_.attached_PCIs = attached_PCIs == null ? new string[] {} : Helper.RefListToStringArray(attached_PCIs);
             result_.suspend_SR = suspend_SR ?? "";
             result_.version = version.ToString();
             result_.generation_id = generation_id ?? "";
@@ -1087,7 +1087,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_uuid(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_uuid(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_uuid(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1143,7 +1143,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_name_label(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_name_label(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_name_label(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1157,7 +1157,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_name_description(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_name_description(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_name_description(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1171,7 +1171,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_user_version(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_user_version(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_user_version(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -1255,7 +1255,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_memory_overhead(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_memory_overhead(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_memory_overhead(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -1271,7 +1271,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_memory_target(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_memory_target(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_memory_target(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -1285,7 +1285,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_memory_static_max(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_memory_static_max(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_memory_static_max(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -1299,7 +1299,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_memory_dynamic_max(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_memory_dynamic_max(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_memory_dynamic_max(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -1313,7 +1313,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_memory_dynamic_min(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_memory_dynamic_min(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_memory_dynamic_min(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -1327,7 +1327,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_memory_static_min(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_memory_static_min(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_memory_static_min(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -1355,7 +1355,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_vcpus_max(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_vcpus_max(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_vcpus_max(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -1369,7 +1369,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_vcpus_at_startup(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_vcpus_at_startup(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_vcpus_at_startup(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -1509,7 +1509,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_pv_bootloader(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_pv_bootloader(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_pv_bootloader(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1523,7 +1523,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_pv_kernel(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_pv_kernel(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_pv_kernel(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1537,7 +1537,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_pv_ramdisk(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_pv_ramdisk(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_pv_ramdisk(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1551,7 +1551,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_pv_args(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_pv_args(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_pv_args(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1565,7 +1565,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_pv_bootloader_args(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_pv_bootloader_args(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_pv_bootloader_args(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1579,7 +1579,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_pv_legacy_args(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_pv_legacy_args(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_pv_legacy_args(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1595,7 +1595,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_hvm_boot_policy(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_hvm_boot_policy(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_hvm_boot_policy(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1653,7 +1653,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_pci_bus(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_pci_bus(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_pci_bus(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1681,7 +1681,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_domid(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_domid(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_domid(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -1695,7 +1695,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_domarch(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_domarch(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_domarch(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1765,7 +1765,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_last_booted_record(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_last_booted_record(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_last_booted_record(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1779,7 +1779,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_recommendations(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_recommendations(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_recommendations(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1823,7 +1823,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_ha_restart_priority(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_ha_restart_priority(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_ha_restart_priority(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1893,7 +1893,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_transportable_snapshot_id(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_transportable_snapshot_id(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_transportable_snapshot_id(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -1963,7 +1963,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_snapshot_metadata(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_snapshot_metadata(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_snapshot_metadata(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -2093,7 +2093,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_start_delay(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_start_delay(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_start_delay(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -2107,7 +2107,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_shutdown_delay(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_shutdown_delay(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_shutdown_delay(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -2121,7 +2121,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_order(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_order(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_order(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -2177,7 +2177,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_version(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_version(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_version(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -2191,7 +2191,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_generation_id(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_generation_id(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_generation_id(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
@@ -2205,7 +2205,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_hardware_platform_version(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_get_hardware_platform_version(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_get_hardware_platform_version(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -2247,12 +2247,12 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_reference_label(session.opaque_ref, _vm);
             else
-                return (string)session.proxy.vm_get_reference_label(session.opaque_ref, _vm ?? "").parse();
+                return session.proxy.vm_get_reference_label(session.opaque_ref, _vm ?? "").parse();
         }
 
         /// <summary>
         /// Get the domain_type field of the given VM.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.4.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
@@ -3571,7 +3571,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_compute_memory_overhead(session.opaque_ref, _vm);
             else
-                return long.Parse((string)session.proxy.vm_compute_memory_overhead(session.opaque_ref, _vm ?? "").parse());
+                return long.Parse(session.proxy.vm_compute_memory_overhead(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -4024,7 +4024,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_maximise_memory(session.opaque_ref, _vm, _total, _approximate);
             else
-                return long.Parse((string)session.proxy.vm_maximise_memory(session.opaque_ref, _vm ?? "", _total.ToString(), _approximate).parse());
+                return long.Parse(session.proxy.vm_maximise_memory(session.opaque_ref, _vm ?? "", _total.ToString(), _approximate).parse());
         }
 
         /// <summary>
@@ -4950,7 +4950,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_call_plugin(session.opaque_ref, _vm, _plugin, _fn, _args);
             else
-                return (string)session.proxy.vm_call_plugin(session.opaque_ref, _vm ?? "", _plugin ?? "", _fn ?? "", Maps.convert_to_proxy_string_string(_args)).parse();
+                return session.proxy.vm_call_plugin(session.opaque_ref, _vm ?? "", _plugin ?? "", _fn ?? "", Maps.convert_to_proxy_string_string(_args)).parse();
         }
 
         /// <summary>
@@ -6688,7 +6688,7 @@ namespace XenAPI
 
         /// <summary>
         /// The type of domain that will be created when the VM is started
-        /// First published in Unreleased.
+        /// First published in XenServer 7.4.
         /// </summary>
         [JsonConverter(typeof(domain_typeConverter))]
         public virtual domain_type domain_type

@@ -41,149 +41,141 @@ using Newtonsoft.Json.Converters;
 namespace XenAPI
 {
     /// <summary>
-    /// Data sources for logging in RRDs
-    /// First published in XenServer 5.0.
+    /// A set of high-level properties associated with an SR.
+    /// First published in Unreleased.
     /// </summary>
-    public partial class Data_source : XenObject<Data_source>
+    public partial class Sr_stat : XenObject<Sr_stat>
     {
-        public Data_source()
+        public Sr_stat()
         {
         }
 
-        public Data_source(string name_label,
+        public Sr_stat(string uuid,
+            string name_label,
             string name_description,
-            bool enabled,
-            bool standard,
-            string units,
-            double min,
-            double max,
-            double value)
+            long free_space,
+            long total_space,
+            bool clustered,
+            sr_health health)
         {
+            this.uuid = uuid;
             this.name_label = name_label;
             this.name_description = name_description;
-            this.enabled = enabled;
-            this.standard = standard;
-            this.units = units;
-            this.min = min;
-            this.max = max;
-            this.value = value;
+            this.free_space = free_space;
+            this.total_space = total_space;
+            this.clustered = clustered;
+            this.health = health;
         }
 
         /// <summary>
-        /// Creates a new Data_source from a Proxy_Data_source.
+        /// Creates a new Sr_stat from a Proxy_Sr_stat.
         /// </summary>
         /// <param name="proxy"></param>
-        public Data_source(Proxy_Data_source proxy)
+        public Sr_stat(Proxy_Sr_stat proxy)
         {
             this.UpdateFromProxy(proxy);
         }
 
         /// <summary>
         /// Updates each field of this instance with the value of
-        /// the corresponding field of a given Data_source.
+        /// the corresponding field of a given Sr_stat.
         /// </summary>
-        public override void UpdateFrom(Data_source update)
+        public override void UpdateFrom(Sr_stat update)
         {
+            uuid = update.uuid;
             name_label = update.name_label;
             name_description = update.name_description;
-            enabled = update.enabled;
-            standard = update.standard;
-            units = update.units;
-            min = update.min;
-            max = update.max;
-            value = update.value;
+            free_space = update.free_space;
+            total_space = update.total_space;
+            clustered = update.clustered;
+            health = update.health;
         }
 
-        internal void UpdateFromProxy(Proxy_Data_source proxy)
+        internal void UpdateFromProxy(Proxy_Sr_stat proxy)
         {
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
             name_description = proxy.name_description == null ? null : proxy.name_description;
-            enabled = (bool)proxy.enabled;
-            standard = (bool)proxy.standard;
-            units = proxy.units == null ? null : proxy.units;
-            min = Convert.ToDouble(proxy.min);
-            max = Convert.ToDouble(proxy.max);
-            value = Convert.ToDouble(proxy.value);
+            free_space = proxy.free_space == null ? 0 : long.Parse(proxy.free_space);
+            total_space = proxy.total_space == null ? 0 : long.Parse(proxy.total_space);
+            clustered = (bool)proxy.clustered;
+            health = proxy.health == null ? (sr_health) 0 : (sr_health)Helper.EnumParseDefault(typeof(sr_health), (string)proxy.health);
         }
 
-        public Proxy_Data_source ToProxy()
+        public Proxy_Sr_stat ToProxy()
         {
-            Proxy_Data_source result_ = new Proxy_Data_source();
+            Proxy_Sr_stat result_ = new Proxy_Sr_stat();
+            result_.uuid = uuid;
             result_.name_label = name_label ?? "";
             result_.name_description = name_description ?? "";
-            result_.enabled = enabled;
-            result_.standard = standard;
-            result_.units = units ?? "";
-            result_.min = min;
-            result_.max = max;
-            result_.value = value;
+            result_.free_space = free_space.ToString();
+            result_.total_space = total_space.ToString();
+            result_.clustered = clustered;
+            result_.health = sr_health_helper.ToString(health);
             return result_;
         }
 
         /// <summary>
-        /// Creates a new Data_source from a Hashtable.
+        /// Creates a new Sr_stat from a Hashtable.
         /// Note that the fields not contained in the Hashtable
         /// will be created with their default values.
         /// </summary>
         /// <param name="table"></param>
-        public Data_source(Hashtable table) : this()
+        public Sr_stat(Hashtable table) : this()
         {
             UpdateFrom(table);
         }
 
         /// <summary>
-        /// Given a Hashtable with field-value pairs, it updates the fields of this Data_source
+        /// Given a Hashtable with field-value pairs, it updates the fields of this Sr_stat
         /// with the values listed in the Hashtable. Note that only the fields contained
         /// in the Hashtable will be updated and the rest will remain the same.
         /// </summary>
         /// <param name="table"></param>
         public void UpdateFrom(Hashtable table)
         {
+            if (table.ContainsKey("uuid"))
+                uuid = Marshalling.ParseString(table, "uuid");
             if (table.ContainsKey("name_label"))
                 name_label = Marshalling.ParseString(table, "name_label");
             if (table.ContainsKey("name_description"))
                 name_description = Marshalling.ParseString(table, "name_description");
-            if (table.ContainsKey("enabled"))
-                enabled = Marshalling.ParseBool(table, "enabled");
-            if (table.ContainsKey("standard"))
-                standard = Marshalling.ParseBool(table, "standard");
-            if (table.ContainsKey("units"))
-                units = Marshalling.ParseString(table, "units");
-            if (table.ContainsKey("min"))
-                min = Marshalling.ParseDouble(table, "min");
-            if (table.ContainsKey("max"))
-                max = Marshalling.ParseDouble(table, "max");
-            if (table.ContainsKey("value"))
-                value = Marshalling.ParseDouble(table, "value");
+            if (table.ContainsKey("free_space"))
+                free_space = Marshalling.ParseLong(table, "free_space");
+            if (table.ContainsKey("total_space"))
+                total_space = Marshalling.ParseLong(table, "total_space");
+            if (table.ContainsKey("clustered"))
+                clustered = Marshalling.ParseBool(table, "clustered");
+            if (table.ContainsKey("health"))
+                health = (sr_health)Helper.EnumParseDefault(typeof(sr_health), Marshalling.ParseString(table, "health"));
         }
 
-        public bool DeepEquals(Data_source other)
+        public bool DeepEquals(Sr_stat other)
         {
             if (ReferenceEquals(null, other))
                 return false;
             if (ReferenceEquals(this, other))
                 return true;
 
-            return Helper.AreEqual2(this._name_label, other._name_label) &&
+            return Helper.AreEqual2(this._uuid, other._uuid) &&
+                Helper.AreEqual2(this._name_label, other._name_label) &&
                 Helper.AreEqual2(this._name_description, other._name_description) &&
-                Helper.AreEqual2(this._enabled, other._enabled) &&
-                Helper.AreEqual2(this._standard, other._standard) &&
-                Helper.AreEqual2(this._units, other._units) &&
-                Helper.AreEqual2(this._min, other._min) &&
-                Helper.AreEqual2(this._max, other._max) &&
-                Helper.AreEqual2(this._value, other._value);
+                Helper.AreEqual2(this._free_space, other._free_space) &&
+                Helper.AreEqual2(this._total_space, other._total_space) &&
+                Helper.AreEqual2(this._clustered, other._clustered) &&
+                Helper.AreEqual2(this._health, other._health);
         }
 
-        internal static List<Data_source> ProxyArrayToObjectList(Proxy_Data_source[] input)
+        internal static List<Sr_stat> ProxyArrayToObjectList(Proxy_Sr_stat[] input)
         {
-            var result = new List<Data_source>();
+            var result = new List<Sr_stat>();
             foreach (var item in input)
-                result.Add(new Data_source(item));
+                result.Add(new Sr_stat(item));
 
             return result;
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Data_source server)
+        public override string SaveChanges(Session session, string opaqueRef, Sr_stat server)
         {
             if (opaqueRef == null)
             {
@@ -196,7 +188,25 @@ namespace XenAPI
             }
         }
         /// <summary>
-        /// a human-readable name
+        /// Uuid that uniquely identifies this SR, if one is available.
+        /// </summary>
+        public virtual string uuid
+        {
+            get { return _uuid; }
+            set
+            {
+                if (!Helper.AreEqual(value, _uuid))
+                {
+                    _uuid = value;
+                    Changed = true;
+                    NotifyPropertyChanged("uuid");
+                }
+            }
+        }
+        private string _uuid;
+
+        /// <summary>
+        /// Short, human-readable label for the SR.
         /// </summary>
         public virtual string name_label
         {
@@ -214,7 +224,7 @@ namespace XenAPI
         private string _name_label = "";
 
         /// <summary>
-        /// a notes field containing human-readable description
+        /// Longer, human-readable description of the SR. Descriptions are generally only displayed by clients when the user is examining SRs in detail.
         /// </summary>
         public virtual string name_description
         {
@@ -232,111 +242,76 @@ namespace XenAPI
         private string _name_description = "";
 
         /// <summary>
-        /// true if the data source is being logged
+        /// Number of bytes free on the backing storage (in bytes)
         /// </summary>
-        public virtual bool enabled
+        public virtual long free_space
         {
-            get { return _enabled; }
+            get { return _free_space; }
             set
             {
-                if (!Helper.AreEqual(value, _enabled))
+                if (!Helper.AreEqual(value, _free_space))
                 {
-                    _enabled = value;
+                    _free_space = value;
                     Changed = true;
-                    NotifyPropertyChanged("enabled");
+                    NotifyPropertyChanged("free_space");
                 }
             }
         }
-        private bool _enabled;
+        private long _free_space;
 
         /// <summary>
-        /// true if the data source is enabled by default. Non-default data sources cannot be disabled
+        /// Total physical size of the backing storage (in bytes)
         /// </summary>
-        public virtual bool standard
+        public virtual long total_space
         {
-            get { return _standard; }
+            get { return _total_space; }
             set
             {
-                if (!Helper.AreEqual(value, _standard))
+                if (!Helper.AreEqual(value, _total_space))
                 {
-                    _standard = value;
+                    _total_space = value;
                     Changed = true;
-                    NotifyPropertyChanged("standard");
+                    NotifyPropertyChanged("total_space");
                 }
             }
         }
-        private bool _standard;
+        private long _total_space;
 
         /// <summary>
-        /// the units of the value
+        /// Indicates whether the SR uses clustered local storage.
         /// </summary>
-        public virtual string units
+        public virtual bool clustered
         {
-            get { return _units; }
+            get { return _clustered; }
             set
             {
-                if (!Helper.AreEqual(value, _units))
+                if (!Helper.AreEqual(value, _clustered))
                 {
-                    _units = value;
+                    _clustered = value;
                     Changed = true;
-                    NotifyPropertyChanged("units");
+                    NotifyPropertyChanged("clustered");
                 }
             }
         }
-        private string _units = "";
+        private bool _clustered;
 
         /// <summary>
-        /// the minimum value of the data source
+        /// The health status of the SR.
         /// </summary>
-        public virtual double min
+        [JsonConverter(typeof(sr_healthConverter))]
+        public virtual sr_health health
         {
-            get { return _min; }
+            get { return _health; }
             set
             {
-                if (!Helper.AreEqual(value, _min))
+                if (!Helper.AreEqual(value, _health))
                 {
-                    _min = value;
+                    _health = value;
                     Changed = true;
-                    NotifyPropertyChanged("min");
+                    NotifyPropertyChanged("health");
                 }
             }
         }
-        private double _min;
-
-        /// <summary>
-        /// the maximum value of the data source
-        /// </summary>
-        public virtual double max
-        {
-            get { return _max; }
-            set
-            {
-                if (!Helper.AreEqual(value, _max))
-                {
-                    _max = value;
-                    Changed = true;
-                    NotifyPropertyChanged("max");
-                }
-            }
-        }
-        private double _max;
-
-        /// <summary>
-        /// current value of the data source
-        /// </summary>
-        public virtual double value
-        {
-            get { return _value; }
-            set
-            {
-                if (!Helper.AreEqual(value, _value))
-                {
-                    _value = value;
-                    Changed = true;
-                    NotifyPropertyChanged("value");
-                }
-            }
-        }
-        private double _value;
+        private sr_health _health;
     }
 }

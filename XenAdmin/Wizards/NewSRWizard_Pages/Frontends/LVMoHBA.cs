@@ -54,20 +54,26 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
         public LVMoHBA()
         {
             InitializeComponent();
+            SrType = SR.SRTypes.lvmohba;
         }
 
-        public virtual SR.SRTypes SrType { get; set; }
+        public SR.SRTypes SrType { get; set; }
 
         public virtual bool ShowNicColumn { get { return false; } }
 
-        public virtual LvmOhbaSrDescriptor CreateSrDescriptor(FibreChannelDevice device)
+        private FibreChannelDescriptor CreateSrDescriptor(FibreChannelDevice device)
         {
-            return SrType == SR.SRTypes.gfs2 ? new Gfs2HbaSrDescriptor(device) : new LvmOhbaSrDescriptor(device, Connection);
+            return SrType == SR.SRTypes.gfs2 ? CreateGfs2Descriptor(device) : CreateLvmSrDescriptor(device);
         }
 
-        public virtual LvmOhbaSrDescriptor CreateLvmSrDescriptor(FibreChannelDevice device)
+        protected virtual FibreChannelDescriptor CreateLvmSrDescriptor(FibreChannelDevice device)
         {
-            return new LvmOhbaSrDescriptor(device, Connection);
+            return new LvmOhbaSrDescriptor(device);
+        }
+
+        protected virtual FibreChannelDescriptor CreateGfs2Descriptor(FibreChannelDevice device)
+        {
+            return new Gfs2HbaSrDescriptor(device);
         }
         
         #region XenTabPage overrides
@@ -89,38 +95,49 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
                 cancel = true;
                 return;
             }
-            
-            SrDescriptors = new List<LvmOhbaSrDescriptor>();
 
-            var existingSrDescriptors = new List<LvmOhbaSrDescriptor>();
-            var formatDiskDescriptors = new List<LvmOhbaSrDescriptor>();
+            SrDescriptors = new List<FibreChannelDescriptor>();
+
+            var existingSrDescriptors = new List<FibreChannelDescriptor>();
+            var formatDiskDescriptors = new List<FibreChannelDescriptor>();
+
+            var performSecondProbe = Helpers.KolkataOrGreater(Connection) && !Helpers.FeatureForbidden(Connection, Host.CorosyncDisabled)
+                && SrType != SR.SRTypes.lvmofcoe; // gfs2 over fcoe is not supported yet
 
             foreach (var device in _selectedDevices)
             {
-                LvmOhbaSrDescriptor descr = CreateSrDescriptor(device);
+                // Start probe
+                var formatDiskDescriptor = CreateSrDescriptor(device);
+                List<SR.SRInfo> srs;
 
-                // create an LVM descriptor, to be used with sr.probe
-                LvmOhbaSrDescriptor lvmdescr = CreateLvmSrDescriptor(device);
-                SR.SRTypes srType = lvmdescr is FcoeSrDescriptor ? SR.SRTypes.lvmofcoe : SR.SRTypes.lvmohba; //srType is a workaround instead of SrType
+                var currentSrDescriptor = formatDiskDescriptor;
 
-                var action = new SrProbeAction(Connection, master, srType, lvmdescr.DeviceConfig);// TODO: use SRType and descr
-                using (var dlg = new ActionProgressDialog(action, ProgressBarStyle.Marquee))
-                    dlg.ShowDialog(this);
-
-                if (!action.Succeeded)
+                if (!RunProbe(master, currentSrDescriptor, out srs))
                 {
                     cancel = true;
                     return;
                 }
 
-                descr.UUID = SrWizardHelpers.ExtractUUID(action.Result);
+                if (performSecondProbe && srs.Count == 0)
+                {
+                    // Start second probe
+                    currentSrDescriptor = SrType == SR.SRTypes.gfs2 ? CreateLvmSrDescriptor(device) : CreateGfs2Descriptor(device);
+
+                    if (!RunProbe(master, currentSrDescriptor, out srs))
+                    {
+                        cancel = true;
+                        return;
+                    }
+                }
+
+                currentSrDescriptor.UUID = srs.Select(sr => sr.UUID).FirstOrDefault();
 
                 if (!string.IsNullOrEmpty(SrWizardType.UUID))
                 {
                     // Check LUN contains correct SR
-                    if (descr.UUID == SrWizardType.UUID)
+                    if (currentSrDescriptor.UUID == SrWizardType.UUID)
                     {
-                        SrDescriptors.Add(descr);
+                        SrDescriptors.Add(currentSrDescriptor);
                         continue;
                     }
 
@@ -134,8 +151,8 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
                     cancel = true;
                     return;
                 }
-                
-                if (string.IsNullOrEmpty(descr.UUID))
+
+                if (string.IsNullOrEmpty(currentSrDescriptor.UUID))
                 {
                     // No existing SRs were found on this LUN. If allowed to create
                     // a new SR, ask the user if they want to proceed and format.
@@ -153,26 +170,45 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
                     }
 
                     if (!Program.RunInAutomatedTestMode)
-                        formatDiskDescriptors.Add(descr);
+                        formatDiskDescriptors.Add(formatDiskDescriptor);
                 }
                 else
                 {
-                    // CA-17230: Check this isn't a detached SR. If it is then just continue
-                    SR sr = SrWizardHelpers.SrInUse(descr.UUID);
-                    if (sr != null)
+                    // Check this isn't an existing SR on the current pool
+                    var existingSr = Connection.Cache.SRs.FirstOrDefault(sr => sr.uuid == currentSrDescriptor.UUID);
+                    if (existingSr != null)
                     {
-                        SrDescriptors.Add(descr);
+                        var pool = Helpers.GetPool(existingSr.Connection);
+                        var errorText = pool != null
+                            ? string.Format(Messages.NEWSR_LUN_IN_USE_ON_SELECTED_POOL, device.SCSIid, existingSr.Name())
+                            : string.Format(Messages.NEWSR_LUN_IN_USE_ON_SELECTED_SERVER, device.SCSIid, existingSr.Name());
+
+                        using (var dlog = new ThreeButtonDialog(new ThreeButtonDialog.Details(SystemIcons.Error,
+                                errorText, Messages.XENCENTER)))
+                        {
+                            dlog.ShowDialog(this);
+                        }
+                        cancel = true;
+                        return;
+                    }
+                    
+                    // CA-17230: Check this isn't an existing SR on any of the known pools. 
+                    // If it is then just continue (i.e. do not ask the user if they want to format or reattach it, we will just reattach it)
+                    existingSr = SrWizardHelpers.SrInUse(currentSrDescriptor.UUID);
+                    if (existingSr != null)
+                    {
+                        SrDescriptors.Add(currentSrDescriptor);
                         continue;
                     }
 
                     // We found a SR on this LUN. Will ask user for choice later.
-                    existingSrDescriptors.Add(descr);
+                    existingSrDescriptors.Add(currentSrDescriptor);
                 }
             }
 
             if (!cancel && existingSrDescriptors.Count > 0)
             {
-                var launcher = new LVMoHBAWarningDialogLauncher(this, existingSrDescriptors, true);
+                var launcher = new LVMoHBAWarningDialogLauncher(this, existingSrDescriptors, true, SrType);
                 launcher.ShowWarnings();
                 cancel = launcher.Cancelled;
                 if (!cancel && launcher.SrDescriptors.Count > 0)
@@ -181,12 +217,35 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
 
             if (!cancel && formatDiskDescriptors.Count > 0)
             {
-                var launcher = new LVMoHBAWarningDialogLauncher(this, formatDiskDescriptors, false);
+                var launcher = new LVMoHBAWarningDialogLauncher(this, formatDiskDescriptors, false, SrType);
                 launcher.ShowWarnings();
                 cancel = launcher.Cancelled;
                 if (!cancel && launcher.SrDescriptors.Count > 0)
                     SrDescriptors.AddRange(launcher.SrDescriptors);
             }
+        }
+
+        private bool RunProbe(Host master, FibreChannelDescriptor srDescriptor, out List<SR.SRInfo> srs)
+        {
+            srs = null;
+            var action = new SrProbeAction(Connection, master, srDescriptor.SrType, srDescriptor.DeviceConfig);
+
+            using (var dlg = new ActionProgressDialog(action, ProgressBarStyle.Marquee))
+                dlg.ShowDialog(this);
+
+            if (action.Succeeded)
+            {
+                try
+                {
+                    srs = action.ProbeExtResult != null ? SR.ParseSRList(action.ProbeExtResult) : SR.ParseSRListXML(action.Result);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            return false;
         }
 
         public override bool EnableNext()
@@ -203,8 +262,11 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             return true;
         }
 
-        public override void PopulatePage()
+        protected override void PageLoadedCore(PageLoadedDirection direction)
         {
+            if (direction == PageLoadedDirection.Back)
+                return;
+
             colNic.Visible = ShowNicColumn; 
             dataGridView.Rows.Clear();
 
@@ -340,43 +402,23 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             if (master == null)
                 return false;
 
-            SR.SRTypes srType = this is LVMoFCoE ? SR.SRTypes.lvmofcoe : SR.SRTypes.lvmohba; //srType is a workaround instead of SrType
-
-            FibreChannelProbeAction action = new FibreChannelProbeAction(master, srType);// TODO: use SRType
+            var action = new FibreChannelProbeAction(master, SrType);
             using (var  dialog = new ActionProgressDialog(action, ProgressBarStyle.Marquee))
                 dialog.ShowDialog(owner); //Will block until dialog closes, action completed
 
             if (!action.Succeeded)
                 return false;
 
-            try
-            {
-                devices = FibreChannelProbeParsing.ProcessXML(action.Result);
-
-                if (devices.Count == 0)
-                {
-                    using (var dlg = new ThreeButtonDialog(
-                        new ThreeButtonDialog.Details(SystemIcons.Warning, Messages.FIBRECHANNEL_NO_RESULTS, Messages.XENCENTER)))
-                    {
-                        dlg.ShowDialog();
-                    }
-
-                    return false;
-                }
+            devices = action.FibreChannelDevices;
+            if (devices != null && devices.Count > 0)
                 return true;
-            }
-            catch (Exception e)
-            {
-                log.Debug("Exception parsing result of fibre channel scan", e);
-                log.Debug(e, e);
-                using (var dlg = new ThreeButtonDialog(
-                    new ThreeButtonDialog.Details(SystemIcons.Warning, Messages.FIBRECHANNEL_XML_ERROR, Messages.XENCENTER)))
-                {
-                    dlg.ShowDialog();
-                }
 
-                return false;
+            using (var dlg = new ThreeButtonDialog(
+                new ThreeButtonDialog.Details(SystemIcons.Warning, Messages.FIBRECHANNEL_NO_RESULTS, Messages.XENCENTER)))
+            {
+                dlg.ShowDialog();
             }
+            return false;
         }
         #region Accessors
 
@@ -404,7 +446,7 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             }
         }
 
-        public List<LvmOhbaSrDescriptor> SrDescriptors { get; private set; }
+        public List<FibreChannelDescriptor> SrDescriptors { get; private set; }
 
         /// <summary>
         /// min size
@@ -479,28 +521,29 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
 
         private class LVMoHBAWarningDialogLauncher
         {
-            private readonly List<LvmOhbaSrDescriptor> inputSrDescriptors;
+            private readonly List<FibreChannelDescriptor> inputSrDescriptors;
             private readonly bool foundExistingSRs;
             private readonly IWin32Window owner;
+            private readonly SR.SRTypes requestedSrType;
             
-            public List<LvmOhbaSrDescriptor> SrDescriptors { get; private set; }
+            public List<FibreChannelDescriptor> SrDescriptors { get; private set; }
             public bool Cancelled { get; private set; }
 
-            public LVMoHBAWarningDialogLauncher(IWin32Window owner, List<LvmOhbaSrDescriptor> srDescriptors,
-                bool foundExistingSRs)
+            public LVMoHBAWarningDialogLauncher(IWin32Window owner, List<FibreChannelDescriptor> srDescriptors,
+                bool foundExistingSRs, SR.SRTypes requestedSrType)
             {
                 this.owner = owner;
                 this.foundExistingSRs = foundExistingSRs;
                 inputSrDescriptors = srDescriptors;
-                SrDescriptors = new List<LvmOhbaSrDescriptor>();
+                this.requestedSrType = requestedSrType;
+                SrDescriptors = new List<FibreChannelDescriptor>();
             }
 
-            private UserSelectedOption GetSelectedOption(LvmOhbaSrDescriptor lvmOhbaSrDescriptor,
+            private UserSelectedOption GetSelectedOption(FibreChannelDescriptor descriptor,
                 out bool repeatForRemainingLUNs)
             {
-                int remainingCount = inputSrDescriptors.Count - 1 - inputSrDescriptors.IndexOf(lvmOhbaSrDescriptor);
-
-                using (var dialog = new LVMoHBAWarningDialog(lvmOhbaSrDescriptor.Device, remainingCount, foundExistingSRs))
+                int remainingCount = inputSrDescriptors.Count - 1 - inputSrDescriptors.IndexOf(descriptor);
+                using (var dialog = new LVMoHBAWarningDialog(descriptor.Device, remainingCount, foundExistingSRs, descriptor.SrType, requestedSrType))
                 {
                     dialog.ShowDialog(owner);
                     repeatForRemainingLUNs = dialog.RepeatForRemainingLUNs;
@@ -513,21 +556,21 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
                 bool repeatForRemainingLUNs = false;
                 UserSelectedOption selectedOption = UserSelectedOption.Cancel;
 
-                foreach (LvmOhbaSrDescriptor lvmOhbaSrDescriptor in inputSrDescriptors)
+                foreach (var descriptor in inputSrDescriptors)
                 {
                     if (!repeatForRemainingLUNs)
                     {
-                        selectedOption = GetSelectedOption(lvmOhbaSrDescriptor, out repeatForRemainingLUNs);
+                        selectedOption = GetSelectedOption(descriptor, out repeatForRemainingLUNs);
                     }
 
                     switch (selectedOption)
                     {
                         case UserSelectedOption.Format:
-                            lvmOhbaSrDescriptor.UUID = null;
-                            SrDescriptors.Add(lvmOhbaSrDescriptor);
+                            descriptor.UUID = null;
+                            SrDescriptors.Add(descriptor);
                             break;
                         case UserSelectedOption.Reattach:
-                            SrDescriptors.Add(lvmOhbaSrDescriptor);
+                            SrDescriptors.Add(descriptor);
                             break;
                         case UserSelectedOption.Cancel:
                             SrDescriptors.Clear();

@@ -263,7 +263,7 @@ namespace XenAdmin.Dialogs.OptionsPages
 
         #endregion
 
-        #region VerticalTab Members
+        #region IVerticalTab Members
 
         public override string Text
         {

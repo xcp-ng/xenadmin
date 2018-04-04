@@ -106,7 +106,7 @@ namespace XenAdminTests.WizardTests.state1_xml.NewSRWizardTests
     public class NewSRWizardTest_iSCSI : WizardTest<NewSRWizard>
     {
         public NewSRWizardTest_iSCSI()
-            : base(new string[] { "Type", "Name", "Provisioning", "Location" }, false, false)  // can't finish because we haven't implemented probes of iSCSI LUNs etc.
+            : base(new string[] { "Type", "Name", "Location" }, false, false)  // can't finish because we haven't implemented probes of iSCSI LUNs etc.
         { }
 
         protected override NewSRWizard NewWizard()
@@ -125,7 +125,7 @@ namespace XenAdminTests.WizardTests.state1_xml.NewSRWizardTests
     public class NewSRWizardTest_HBA : WizardTest<NewSRWizard>
     {
         public NewSRWizardTest_HBA()
-            : base(new string[] { "Type", "Name", "Provisioning", "Location" }, true, false)
+            : base(new string[] { "Type", "Name", "Location" }, true, false)
         { }
 
         protected override NewSRWizard NewWizard()
@@ -149,7 +149,7 @@ namespace XenAdminTests.WizardTests.state1_xml.NewSRWizardTests
     public class NewSRWizardTest_HBANoSelection : WizardTest<NewSRWizard>
     {
         public NewSRWizardTest_HBANoSelection()
-            : base(new string[] { "Type", "Name", "Provisioning", "Location" }, false, false)
+            : base(new string[] { "Type", "Name", "Location" }, false, false)
         { }
 
         protected override NewSRWizard NewWizard()

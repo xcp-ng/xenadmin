@@ -132,12 +132,12 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_VMPP proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            name_label = proxy.name_label == null ? null : (string)proxy.name_label;
-            name_description = proxy.name_description == null ? null : (string)proxy.name_description;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            name_label = proxy.name_label == null ? null : proxy.name_label;
+            name_description = proxy.name_description == null ? null : proxy.name_description;
             is_policy_enabled = (bool)proxy.is_policy_enabled;
             backup_type = proxy.backup_type == null ? (vmpp_backup_type) 0 : (vmpp_backup_type)Helper.EnumParseDefault(typeof(vmpp_backup_type), (string)proxy.backup_type);
-            backup_retention_value = proxy.backup_retention_value == null ? 0 : long.Parse((string)proxy.backup_retention_value);
+            backup_retention_value = proxy.backup_retention_value == null ? 0 : long.Parse(proxy.backup_retention_value);
             backup_frequency = proxy.backup_frequency == null ? (vmpp_backup_frequency) 0 : (vmpp_backup_frequency)Helper.EnumParseDefault(typeof(vmpp_backup_frequency), (string)proxy.backup_frequency);
             backup_schedule = proxy.backup_schedule == null ? null : Maps.convert_from_proxy_string_string(proxy.backup_schedule);
             is_backup_running = (bool)proxy.is_backup_running;
@@ -173,7 +173,7 @@ namespace XenAPI
             result_.archive_schedule = Maps.convert_to_proxy_string_string(archive_schedule);
             result_.is_archive_running = is_archive_running;
             result_.archive_last_run_time = archive_last_run_time;
-            result_.VMs = (VMs != null) ? Helper.RefListToStringArray(VMs) : new string[] {};
+            result_.VMs = VMs == null ? new string[] {} : Helper.RefListToStringArray(VMs);
             result_.is_alarm_enabled = is_alarm_enabled;
             result_.alarm_config = Maps.convert_to_proxy_string_string(alarm_config);
             result_.recent_alerts = recent_alerts;
@@ -453,7 +453,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vmpp_get_uuid(session.opaque_ref, _vmpp);
             else
-                return (string)session.proxy.vmpp_get_uuid(session.opaque_ref, _vmpp ?? "").parse();
+                return session.proxy.vmpp_get_uuid(session.opaque_ref, _vmpp ?? "").parse();
         }
 
         /// <summary>
@@ -467,7 +467,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vmpp_get_name_label(session.opaque_ref, _vmpp);
             else
-                return (string)session.proxy.vmpp_get_name_label(session.opaque_ref, _vmpp ?? "").parse();
+                return session.proxy.vmpp_get_name_label(session.opaque_ref, _vmpp ?? "").parse();
         }
 
         /// <summary>
@@ -481,7 +481,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vmpp_get_name_description(session.opaque_ref, _vmpp);
             else
-                return (string)session.proxy.vmpp_get_name_description(session.opaque_ref, _vmpp ?? "").parse();
+                return session.proxy.vmpp_get_name_description(session.opaque_ref, _vmpp ?? "").parse();
         }
 
         /// <summary>
@@ -523,7 +523,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vmpp_get_backup_retention_value(session.opaque_ref, _vmpp);
             else
-                return long.Parse((string)session.proxy.vmpp_get_backup_retention_value(session.opaque_ref, _vmpp ?? "").parse());
+                return long.Parse(session.proxy.vmpp_get_backup_retention_value(session.opaque_ref, _vmpp ?? "").parse());
         }
 
         /// <summary>
@@ -793,7 +793,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vmpp_protect_now(session.opaque_ref, _vmpp);
             else
-                return (string)session.proxy.vmpp_protect_now(session.opaque_ref, _vmpp ?? "").parse();
+                return session.proxy.vmpp_protect_now(session.opaque_ref, _vmpp ?? "").parse();
         }
 
         /// <summary>
@@ -807,7 +807,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vmpp_archive_now(session.opaque_ref, _snapshot);
             else
-                return (string)session.proxy.vmpp_archive_now(session.opaque_ref, _snapshot ?? "").parse();
+                return session.proxy.vmpp_archive_now(session.opaque_ref, _snapshot ?? "").parse();
         }
 
         /// <summary>

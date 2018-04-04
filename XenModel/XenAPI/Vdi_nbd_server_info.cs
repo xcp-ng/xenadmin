@@ -87,11 +87,11 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Vdi_nbd_server_info proxy)
         {
-            exportname = proxy.exportname == null ? null : (string)proxy.exportname;
-            address = proxy.address == null ? null : (string)proxy.address;
-            port = proxy.port == null ? 0 : long.Parse((string)proxy.port);
-            cert = proxy.cert == null ? null : (string)proxy.cert;
-            subject = proxy.subject == null ? null : (string)proxy.subject;
+            exportname = proxy.exportname == null ? null : proxy.exportname;
+            address = proxy.address == null ? null : proxy.address;
+            port = proxy.port == null ? 0 : long.Parse(proxy.port);
+            cert = proxy.cert == null ? null : proxy.cert;
+            subject = proxy.subject == null ? null : proxy.subject;
         }
 
         public Proxy_Vdi_nbd_server_info ToProxy()

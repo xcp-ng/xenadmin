@@ -92,7 +92,7 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Cluster_host proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             cluster = proxy.cluster == null ? null : XenRef<Cluster>.Create(proxy.cluster);
             host = proxy.host == null ? null : XenRef<Host>.Create(proxy.host);
             enabled = (bool)proxy.enabled;
@@ -108,7 +108,7 @@ namespace XenAPI
             result_.cluster = cluster ?? "";
             result_.host = host ?? "";
             result_.enabled = enabled;
-            result_.allowed_operations = (allowed_operations != null) ? Helper.ObjectListToStringArray(allowed_operations) : new string[] {};
+            result_.allowed_operations = allowed_operations == null ? new string[] {} : Helper.ObjectListToStringArray(allowed_operations);
             result_.current_operations = Maps.convert_to_proxy_string_cluster_host_operation(current_operations);
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
@@ -227,7 +227,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.cluster_host_get_uuid(session.opaque_ref, _cluster_host);
             else
-                return (string)session.proxy.cluster_host_get_uuid(session.opaque_ref, _cluster_host ?? "").parse();
+                return session.proxy.cluster_host_get_uuid(session.opaque_ref, _cluster_host ?? "").parse();
         }
 
         /// <summary>

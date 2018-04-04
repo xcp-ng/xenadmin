@@ -111,17 +111,17 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_PIF_metrics proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             io_read_kbs = Convert.ToDouble(proxy.io_read_kbs);
             io_write_kbs = Convert.ToDouble(proxy.io_write_kbs);
             carrier = (bool)proxy.carrier;
-            vendor_id = proxy.vendor_id == null ? null : (string)proxy.vendor_id;
-            vendor_name = proxy.vendor_name == null ? null : (string)proxy.vendor_name;
-            device_id = proxy.device_id == null ? null : (string)proxy.device_id;
-            device_name = proxy.device_name == null ? null : (string)proxy.device_name;
-            speed = proxy.speed == null ? 0 : long.Parse((string)proxy.speed);
+            vendor_id = proxy.vendor_id == null ? null : proxy.vendor_id;
+            vendor_name = proxy.vendor_name == null ? null : proxy.vendor_name;
+            device_id = proxy.device_id == null ? null : proxy.device_id;
+            device_name = proxy.device_name == null ? null : proxy.device_name;
+            speed = proxy.speed == null ? 0 : long.Parse(proxy.speed);
             duplex = (bool)proxy.duplex;
-            pci_bus_path = proxy.pci_bus_path == null ? null : (string)proxy.pci_bus_path;
+            pci_bus_path = proxy.pci_bus_path == null ? null : proxy.pci_bus_path;
             last_updated = proxy.last_updated;
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
         }
@@ -279,7 +279,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pif_metrics_get_uuid(session.opaque_ref, _pif_metrics);
             else
-                return (string)session.proxy.pif_metrics_get_uuid(session.opaque_ref, _pif_metrics ?? "").parse();
+                return session.proxy.pif_metrics_get_uuid(session.opaque_ref, _pif_metrics ?? "").parse();
         }
 
         /// <summary>
@@ -335,7 +335,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pif_metrics_get_vendor_id(session.opaque_ref, _pif_metrics);
             else
-                return (string)session.proxy.pif_metrics_get_vendor_id(session.opaque_ref, _pif_metrics ?? "").parse();
+                return session.proxy.pif_metrics_get_vendor_id(session.opaque_ref, _pif_metrics ?? "").parse();
         }
 
         /// <summary>
@@ -349,7 +349,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pif_metrics_get_vendor_name(session.opaque_ref, _pif_metrics);
             else
-                return (string)session.proxy.pif_metrics_get_vendor_name(session.opaque_ref, _pif_metrics ?? "").parse();
+                return session.proxy.pif_metrics_get_vendor_name(session.opaque_ref, _pif_metrics ?? "").parse();
         }
 
         /// <summary>
@@ -363,7 +363,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pif_metrics_get_device_id(session.opaque_ref, _pif_metrics);
             else
-                return (string)session.proxy.pif_metrics_get_device_id(session.opaque_ref, _pif_metrics ?? "").parse();
+                return session.proxy.pif_metrics_get_device_id(session.opaque_ref, _pif_metrics ?? "").parse();
         }
 
         /// <summary>
@@ -377,7 +377,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pif_metrics_get_device_name(session.opaque_ref, _pif_metrics);
             else
-                return (string)session.proxy.pif_metrics_get_device_name(session.opaque_ref, _pif_metrics ?? "").parse();
+                return session.proxy.pif_metrics_get_device_name(session.opaque_ref, _pif_metrics ?? "").parse();
         }
 
         /// <summary>
@@ -391,7 +391,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pif_metrics_get_speed(session.opaque_ref, _pif_metrics);
             else
-                return long.Parse((string)session.proxy.pif_metrics_get_speed(session.opaque_ref, _pif_metrics ?? "").parse());
+                return long.Parse(session.proxy.pif_metrics_get_speed(session.opaque_ref, _pif_metrics ?? "").parse());
         }
 
         /// <summary>
@@ -419,7 +419,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pif_metrics_get_pci_bus_path(session.opaque_ref, _pif_metrics);
             else
-                return (string)session.proxy.pif_metrics_get_pci_bus_path(session.opaque_ref, _pif_metrics ?? "").parse();
+                return session.proxy.pif_metrics_get_pci_bus_path(session.opaque_ref, _pif_metrics ?? "").parse();
         }
 
         /// <summary>

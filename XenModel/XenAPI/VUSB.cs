@@ -93,7 +93,7 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_VUSB proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             allowed_operations = proxy.allowed_operations == null ? null : Helper.StringArrayToEnumList<vusb_operations>(proxy.allowed_operations);
             current_operations = proxy.current_operations == null ? null : Maps.convert_from_proxy_string_vusb_operations(proxy.current_operations);
             VM = proxy.VM == null ? null : XenRef<VM>.Create(proxy.VM);
@@ -106,7 +106,7 @@ namespace XenAPI
         {
             Proxy_VUSB result_ = new Proxy_VUSB();
             result_.uuid = uuid ?? "";
-            result_.allowed_operations = (allowed_operations != null) ? Helper.ObjectListToStringArray(allowed_operations) : new string[] {};
+            result_.allowed_operations = allowed_operations == null ? new string[] {} : Helper.ObjectListToStringArray(allowed_operations);
             result_.current_operations = Maps.convert_to_proxy_string_vusb_operations(current_operations);
             result_.VM = VM ?? "";
             result_.USB_group = USB_group ?? "";
@@ -233,7 +233,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vusb_get_uuid(session.opaque_ref, _vusb);
             else
-                return (string)session.proxy.vusb_get_uuid(session.opaque_ref, _vusb ?? "").parse();
+                return session.proxy.vusb_get_uuid(session.opaque_ref, _vusb ?? "").parse();
         }
 
         /// <summary>

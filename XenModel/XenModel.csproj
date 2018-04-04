@@ -86,6 +86,7 @@
     <Compile Include="Actions\Host\DestroyHostAction.cs" />
     <Compile Include="Actions\Host\EnableHostAction.cs" />
     <Compile Include="Actions\Host\EvacuateHostAction.cs" />
+    <Compile Include="Actions\Host\FibreChannelDevice.cs" />
     <Compile Include="Actions\Host\HostAbstractAction.cs" />
     <Compile Include="Actions\Host\HostWithStatus.cs" />
     <Compile Include="Actions\Host\RebootHostAction.cs" />
@@ -391,6 +392,7 @@
     <Compile Include="XenAPI\pool_allowed_operations.cs" />
     <Compile Include="XenAPI\Pool_update.cs" />
     <Compile Include="XenAPI\primary_address_type.cs" />
+    <Compile Include="XenAPI\Probe_result.cs" />
     <Compile Include="XenAPI\PUSB.cs" />
     <Compile Include="XenAPI\PVS_cache_storage.cs" />
     <Compile Include="XenAPI\PVS_proxy.cs" />
@@ -400,6 +402,8 @@
     <Compile Include="XenAPI\SDN_controller.cs" />
     <Compile Include="XenAPI\sdn_controller_protocol.cs" />
     <Compile Include="XenAPI\sriov_configuration_mode.cs" />
+    <Compile Include="XenAPI\sr_health.cs" />
+    <Compile Include="XenAPI\Sr_stat.cs" />
     <Compile Include="XenAPI\tristate_type.cs" />
     <Compile Include="XenAPI\update_after_apply_guidance.cs" />
     <Compile Include="XenAPI\USB_group.cs" />

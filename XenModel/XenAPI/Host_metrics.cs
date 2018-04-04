@@ -90,9 +90,9 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Host_metrics proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            memory_total = proxy.memory_total == null ? 0 : long.Parse((string)proxy.memory_total);
-            memory_free = proxy.memory_free == null ? 0 : long.Parse((string)proxy.memory_free);
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            memory_total = proxy.memory_total == null ? 0 : long.Parse(proxy.memory_total);
+            memory_free = proxy.memory_free == null ? 0 : long.Parse(proxy.memory_free);
             live = (bool)proxy.live;
             last_updated = proxy.last_updated;
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
@@ -223,7 +223,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_metrics_get_uuid(session.opaque_ref, _host_metrics);
             else
-                return (string)session.proxy.host_metrics_get_uuid(session.opaque_ref, _host_metrics ?? "").parse();
+                return session.proxy.host_metrics_get_uuid(session.opaque_ref, _host_metrics ?? "").parse();
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_metrics_get_memory_total(session.opaque_ref, _host_metrics);
             else
-                return long.Parse((string)session.proxy.host_metrics_get_memory_total(session.opaque_ref, _host_metrics ?? "").parse());
+                return long.Parse(session.proxy.host_metrics_get_memory_total(session.opaque_ref, _host_metrics ?? "").parse());
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_metrics_get_memory_free(session.opaque_ref, _host_metrics);
             else
-                return long.Parse((string)session.proxy.host_metrics_get_memory_free(session.opaque_ref, _host_metrics ?? "").parse());
+                return long.Parse(session.proxy.host_metrics_get_memory_free(session.opaque_ref, _host_metrics ?? "").parse());
         }
 
         /// <summary>

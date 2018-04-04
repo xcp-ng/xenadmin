@@ -250,7 +250,7 @@ namespace XenAdmin.Dialogs.OptionsPages
 
         #endregion
 
-        #region Implementation of VerticalTab
+        #region Implementation of IVerticalTab
 
         public override string Text { get { return Messages.PLUGINS; } }
 

@@ -107,16 +107,16 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Cluster proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             cluster_hosts = proxy.cluster_hosts == null ? null : XenRef<Cluster_host>.Create(proxy.cluster_hosts);
             network = proxy.network == null ? null : XenRef<Network>.Create(proxy.network);
-            cluster_token = proxy.cluster_token == null ? null : (string)proxy.cluster_token;
-            cluster_stack = proxy.cluster_stack == null ? null : (string)proxy.cluster_stack;
+            cluster_token = proxy.cluster_token == null ? null : proxy.cluster_token;
+            cluster_stack = proxy.cluster_stack == null ? null : proxy.cluster_stack;
             allowed_operations = proxy.allowed_operations == null ? null : Helper.StringArrayToEnumList<cluster_operation>(proxy.allowed_operations);
             current_operations = proxy.current_operations == null ? null : Maps.convert_from_proxy_string_cluster_operation(proxy.current_operations);
             pool_auto_join = (bool)proxy.pool_auto_join;
-            token_timeout = proxy.token_timeout == null ? 0 : long.Parse((string)proxy.token_timeout);
-            token_timeout_coefficient = proxy.token_timeout_coefficient == null ? 0 : long.Parse((string)proxy.token_timeout_coefficient);
+            token_timeout = proxy.token_timeout == null ? 0 : long.Parse(proxy.token_timeout);
+            token_timeout_coefficient = proxy.token_timeout_coefficient == null ? 0 : long.Parse(proxy.token_timeout_coefficient);
             cluster_config = proxy.cluster_config == null ? null : Maps.convert_from_proxy_string_string(proxy.cluster_config);
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
         }
@@ -125,11 +125,11 @@ namespace XenAPI
         {
             Proxy_Cluster result_ = new Proxy_Cluster();
             result_.uuid = uuid ?? "";
-            result_.cluster_hosts = (cluster_hosts != null) ? Helper.RefListToStringArray(cluster_hosts) : new string[] {};
+            result_.cluster_hosts = cluster_hosts == null ? new string[] {} : Helper.RefListToStringArray(cluster_hosts);
             result_.network = network ?? "";
             result_.cluster_token = cluster_token ?? "";
             result_.cluster_stack = cluster_stack ?? "";
-            result_.allowed_operations = (allowed_operations != null) ? Helper.ObjectListToStringArray(allowed_operations) : new string[] {};
+            result_.allowed_operations = allowed_operations == null ? new string[] {} : Helper.ObjectListToStringArray(allowed_operations);
             result_.current_operations = Maps.convert_to_proxy_string_cluster_operation(current_operations);
             result_.pool_auto_join = pool_auto_join;
             result_.token_timeout = token_timeout.ToString();
@@ -272,7 +272,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.cluster_get_uuid(session.opaque_ref, _cluster);
             else
-                return (string)session.proxy.cluster_get_uuid(session.opaque_ref, _cluster ?? "").parse();
+                return session.proxy.cluster_get_uuid(session.opaque_ref, _cluster ?? "").parse();
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.cluster_get_cluster_token(session.opaque_ref, _cluster);
             else
-                return (string)session.proxy.cluster_get_cluster_token(session.opaque_ref, _cluster ?? "").parse();
+                return session.proxy.cluster_get_cluster_token(session.opaque_ref, _cluster ?? "").parse();
         }
 
         /// <summary>
@@ -328,7 +328,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.cluster_get_cluster_stack(session.opaque_ref, _cluster);
             else
-                return (string)session.proxy.cluster_get_cluster_stack(session.opaque_ref, _cluster ?? "").parse();
+                return session.proxy.cluster_get_cluster_stack(session.opaque_ref, _cluster ?? "").parse();
         }
 
         /// <summary>
@@ -382,7 +382,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.cluster_get_token_timeout(session.opaque_ref, _cluster);
             else
-                return long.Parse((string)session.proxy.cluster_get_token_timeout(session.opaque_ref, _cluster ?? "").parse());
+                return long.Parse(session.proxy.cluster_get_token_timeout(session.opaque_ref, _cluster ?? "").parse());
         }
 
         /// <summary>
@@ -396,7 +396,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.cluster_get_token_timeout_coefficient(session.opaque_ref, _cluster);
             else
-                return long.Parse((string)session.proxy.cluster_get_token_timeout_coefficient(session.opaque_ref, _cluster ?? "").parse());
+                return long.Parse(session.proxy.cluster_get_token_timeout_coefficient(session.opaque_ref, _cluster ?? "").parse());
         }
 
         /// <summary>

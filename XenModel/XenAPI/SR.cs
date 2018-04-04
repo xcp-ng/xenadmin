@@ -135,18 +135,18 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_SR proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            name_label = proxy.name_label == null ? null : (string)proxy.name_label;
-            name_description = proxy.name_description == null ? null : (string)proxy.name_description;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            name_label = proxy.name_label == null ? null : proxy.name_label;
+            name_description = proxy.name_description == null ? null : proxy.name_description;
             allowed_operations = proxy.allowed_operations == null ? null : Helper.StringArrayToEnumList<storage_operations>(proxy.allowed_operations);
             current_operations = proxy.current_operations == null ? null : Maps.convert_from_proxy_string_storage_operations(proxy.current_operations);
             VDIs = proxy.VDIs == null ? null : XenRef<VDI>.Create(proxy.VDIs);
             PBDs = proxy.PBDs == null ? null : XenRef<PBD>.Create(proxy.PBDs);
-            virtual_allocation = proxy.virtual_allocation == null ? 0 : long.Parse((string)proxy.virtual_allocation);
-            physical_utilisation = proxy.physical_utilisation == null ? 0 : long.Parse((string)proxy.physical_utilisation);
-            physical_size = proxy.physical_size == null ? 0 : long.Parse((string)proxy.physical_size);
-            type = proxy.type == null ? null : (string)proxy.type;
-            content_type = proxy.content_type == null ? null : (string)proxy.content_type;
+            virtual_allocation = proxy.virtual_allocation == null ? 0 : long.Parse(proxy.virtual_allocation);
+            physical_utilisation = proxy.physical_utilisation == null ? 0 : long.Parse(proxy.physical_utilisation);
+            physical_size = proxy.physical_size == null ? 0 : long.Parse(proxy.physical_size);
+            type = proxy.type == null ? null : proxy.type;
+            content_type = proxy.content_type == null ? null : proxy.content_type;
             shared = (bool)proxy.shared;
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
             tags = proxy.tags == null ? new string[] {} : (string [])proxy.tags;
@@ -164,10 +164,10 @@ namespace XenAPI
             result_.uuid = uuid ?? "";
             result_.name_label = name_label ?? "";
             result_.name_description = name_description ?? "";
-            result_.allowed_operations = (allowed_operations != null) ? Helper.ObjectListToStringArray(allowed_operations) : new string[] {};
+            result_.allowed_operations = allowed_operations == null ? new string[] {} : Helper.ObjectListToStringArray(allowed_operations);
             result_.current_operations = Maps.convert_to_proxy_string_storage_operations(current_operations);
-            result_.VDIs = (VDIs != null) ? Helper.RefListToStringArray(VDIs) : new string[] {};
-            result_.PBDs = (PBDs != null) ? Helper.RefListToStringArray(PBDs) : new string[] {};
+            result_.VDIs = VDIs == null ? new string[] {} : Helper.RefListToStringArray(VDIs);
+            result_.PBDs = PBDs == null ? new string[] {} : Helper.RefListToStringArray(PBDs);
             result_.virtual_allocation = virtual_allocation.ToString();
             result_.physical_utilisation = physical_utilisation.ToString();
             result_.physical_size = physical_size.ToString();
@@ -379,7 +379,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sr_get_uuid(session.opaque_ref, _sr);
             else
-                return (string)session.proxy.sr_get_uuid(session.opaque_ref, _sr ?? "").parse();
+                return session.proxy.sr_get_uuid(session.opaque_ref, _sr ?? "").parse();
         }
 
         /// <summary>
@@ -393,7 +393,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sr_get_name_label(session.opaque_ref, _sr);
             else
-                return (string)session.proxy.sr_get_name_label(session.opaque_ref, _sr ?? "").parse();
+                return session.proxy.sr_get_name_label(session.opaque_ref, _sr ?? "").parse();
         }
 
         /// <summary>
@@ -407,7 +407,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sr_get_name_description(session.opaque_ref, _sr);
             else
-                return (string)session.proxy.sr_get_name_description(session.opaque_ref, _sr ?? "").parse();
+                return session.proxy.sr_get_name_description(session.opaque_ref, _sr ?? "").parse();
         }
 
         /// <summary>
@@ -477,7 +477,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sr_get_virtual_allocation(session.opaque_ref, _sr);
             else
-                return long.Parse((string)session.proxy.sr_get_virtual_allocation(session.opaque_ref, _sr ?? "").parse());
+                return long.Parse(session.proxy.sr_get_virtual_allocation(session.opaque_ref, _sr ?? "").parse());
         }
 
         /// <summary>
@@ -491,7 +491,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sr_get_physical_utilisation(session.opaque_ref, _sr);
             else
-                return long.Parse((string)session.proxy.sr_get_physical_utilisation(session.opaque_ref, _sr ?? "").parse());
+                return long.Parse(session.proxy.sr_get_physical_utilisation(session.opaque_ref, _sr ?? "").parse());
         }
 
         /// <summary>
@@ -505,7 +505,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sr_get_physical_size(session.opaque_ref, _sr);
             else
-                return long.Parse((string)session.proxy.sr_get_physical_size(session.opaque_ref, _sr ?? "").parse());
+                return long.Parse(session.proxy.sr_get_physical_size(session.opaque_ref, _sr ?? "").parse());
         }
 
         /// <summary>
@@ -519,7 +519,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sr_get_type(session.opaque_ref, _sr);
             else
-                return (string)session.proxy.sr_get_type(session.opaque_ref, _sr ?? "").parse();
+                return session.proxy.sr_get_type(session.opaque_ref, _sr ?? "").parse();
         }
 
         /// <summary>
@@ -533,7 +533,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sr_get_content_type(session.opaque_ref, _sr);
             else
-                return (string)session.proxy.sr_get_content_type(session.opaque_ref, _sr ?? "").parse();
+                return session.proxy.sr_get_content_type(session.opaque_ref, _sr ?? "").parse();
         }
 
         /// <summary>
@@ -982,7 +982,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sr_make(session.opaque_ref, _host, _device_config, _physical_size, _name_label, _name_description, _type, _content_type);
             else
-                return (string)session.proxy.sr_make(session.opaque_ref, _host ?? "", Maps.convert_to_proxy_string_string(_device_config), _physical_size.ToString(), _name_label ?? "", _name_description ?? "", _type ?? "", _content_type ?? "").parse();
+                return session.proxy.sr_make(session.opaque_ref, _host ?? "", Maps.convert_to_proxy_string_string(_device_config), _physical_size.ToString(), _name_label ?? "", _name_description ?? "", _type ?? "", _content_type ?? "").parse();
         }
 
         /// <summary>
@@ -1027,7 +1027,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sr_make(session.opaque_ref, _host, _device_config, _physical_size, _name_label, _name_description, _type, _content_type, _sm_config);
             else
-                return (string)session.proxy.sr_make(session.opaque_ref, _host ?? "", Maps.convert_to_proxy_string_string(_device_config), _physical_size.ToString(), _name_label ?? "", _name_description ?? "", _type ?? "", _content_type ?? "", Maps.convert_to_proxy_string_string(_sm_config)).parse();
+                return session.proxy.sr_make(session.opaque_ref, _host ?? "", Maps.convert_to_proxy_string_string(_device_config), _physical_size.ToString(), _name_label ?? "", _name_description ?? "", _type ?? "", _content_type ?? "", Maps.convert_to_proxy_string_string(_sm_config)).parse();
         }
 
         /// <summary>
@@ -1192,7 +1192,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sr_probe(session.opaque_ref, _host, _device_config, _type, _sm_config);
             else
-                return (string)session.proxy.sr_probe(session.opaque_ref, _host ?? "", Maps.convert_to_proxy_string_string(_device_config), _type ?? "", Maps.convert_to_proxy_string_string(_sm_config)).parse();
+                return session.proxy.sr_probe(session.opaque_ref, _host ?? "", Maps.convert_to_proxy_string_string(_device_config), _type ?? "", Maps.convert_to_proxy_string_string(_sm_config)).parse();
         }
 
         /// <summary>
@@ -1210,6 +1210,40 @@ namespace XenAPI
               return session.JsonRpcClient.async_sr_probe(session.opaque_ref, _host, _device_config, _type, _sm_config);
           else
               return XenRef<Task>.Create(session.proxy.async_sr_probe(session.opaque_ref, _host ?? "", Maps.convert_to_proxy_string_string(_device_config), _type ?? "", Maps.convert_to_proxy_string_string(_sm_config)).parse());
+        }
+
+        /// <summary>
+        /// Perform a backend-specific scan, using the given device_config.  If the device_config is complete, then this will return a list of the SRs present of this type on the device, if any.  If the device_config is partial, then a backend-specific scan will be performed, returning results that will guide the user in improving the device_config.
+        /// First published in Unreleased.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The host to create/make the SR on</param>
+        /// <param name="_device_config">The device config string that will be passed to backend SR driver</param>
+        /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
+        /// <param name="_sm_config">Storage backend specific configuration options</param>
+        public static List<Probe_result> probe_ext(Session session, string _host, Dictionary<string, string> _device_config, string _type, Dictionary<string, string> _sm_config)
+        {
+            if (session.JsonRpcClient != null)
+                return session.JsonRpcClient.sr_probe_ext(session.opaque_ref, _host, _device_config, _type, _sm_config);
+            else
+                return Probe_result.ProxyArrayToObjectList(session.proxy.sr_probe_ext(session.opaque_ref, _host ?? "", Maps.convert_to_proxy_string_string(_device_config), _type ?? "", Maps.convert_to_proxy_string_string(_sm_config)).parse());
+        }
+
+        /// <summary>
+        /// Perform a backend-specific scan, using the given device_config.  If the device_config is complete, then this will return a list of the SRs present of this type on the device, if any.  If the device_config is partial, then a backend-specific scan will be performed, returning results that will guide the user in improving the device_config.
+        /// First published in Unreleased.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The host to create/make the SR on</param>
+        /// <param name="_device_config">The device config string that will be passed to backend SR driver</param>
+        /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
+        /// <param name="_sm_config">Storage backend specific configuration options</param>
+        public static XenRef<Task> async_probe_ext(Session session, string _host, Dictionary<string, string> _device_config, string _type, Dictionary<string, string> _sm_config)
+        {
+          if (session.JsonRpcClient != null)
+              return session.JsonRpcClient.async_sr_probe_ext(session.opaque_ref, _host, _device_config, _type, _sm_config);
+          else
+              return XenRef<Task>.Create(session.proxy.async_sr_probe_ext(session.opaque_ref, _host ?? "", Maps.convert_to_proxy_string_string(_device_config), _type ?? "", Maps.convert_to_proxy_string_string(_sm_config)).parse());
         }
 
         /// <summary>

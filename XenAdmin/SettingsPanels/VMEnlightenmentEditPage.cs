@@ -49,7 +49,7 @@ namespace XenAdmin.SettingsPanels
             InitializeComponent();
         }
 
-        #region Implementation of VerticalTab
+        #region Implementation of IVerticalTab
 
         public override string Text
         {

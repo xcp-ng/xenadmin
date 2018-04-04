@@ -81,8 +81,8 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Secret proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            value = proxy.value == null ? null : (string)proxy.value;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            value = proxy.value == null ? null : proxy.value;
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
         }
 
@@ -259,7 +259,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.secret_get_uuid(session.opaque_ref, _secret);
             else
-                return (string)session.proxy.secret_get_uuid(session.opaque_ref, _secret ?? "").parse();
+                return session.proxy.secret_get_uuid(session.opaque_ref, _secret ?? "").parse();
         }
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.secret_get_value(session.opaque_ref, _secret);
             else
-                return (string)session.proxy.secret_get_value(session.opaque_ref, _secret ?? "").parse();
+                return session.proxy.secret_get_value(session.opaque_ref, _secret ?? "").parse();
         }
 
         /// <summary>

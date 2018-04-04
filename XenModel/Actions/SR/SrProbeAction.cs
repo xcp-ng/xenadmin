@@ -41,61 +41,68 @@ namespace XenAdmin.Actions
     public class SrProbeAction : PureAsyncAction
     {
         private readonly Host host;
-        private readonly SR.SRTypes srType;
+        public readonly SR.SRTypes SrType;
         private readonly Dictionary<String, String> dconf;
-        public const String DEVICE = "device";
-        public const String SCSIid = "SCSIid";
-        public const String PATH = "path";
-        public const String URI = "uri";
+
+        public List<Probe_result> ProbeExtResult;
 
         private readonly Dictionary<String, String> smconf;
+
         /// <summary>
         /// Won't appear in the program history (SuppressHistory == true).
         /// </summary>
-        /// <param name="masterUuid">The UUID of the host from which to perform the probe (usually the pool master).</param>
-        /// <param name="srType">netapp or iscsi</param>
-        public SrProbeAction(IXenConnection connection, Host host, SR.SRTypes srType, Dictionary<String, String> dconf)
+        public SrProbeAction(IXenConnection connection, Host host, SR.SRTypes srType,
+            Dictionary<String, String> dconf, Dictionary<String, String> smconf)
             : base(connection, string.Format(Messages.ACTION_SCANNING_SR_FROM, Helpers.GetName(connection)), null, true)
         {
             this.host = host;
-            this.srType = srType;
+            this.SrType = srType;
             this.dconf = dconf;
 
-            switch (srType) {
-                case XenAPI.SR.SRTypes.nfs:
-                    Description = string.Format(Messages.ACTION_SR_SCANNING,
-                        XenAPI.SR.getFriendlyTypeName(srType), dconf["server"]);
+            string target;
+            switch (srType)
+            {
+                case SR.SRTypes.nfs:
+                    target = dconf["server"];
                     break;
-                case XenAPI.SR.SRTypes.lvmoiscsi:
-                    Description = string.Format(Messages.ACTION_SR_SCANNING,
-                        XenAPI.SR.getFriendlyTypeName(srType), dconf["target"]);
+                case SR.SRTypes.lvmoiscsi:
+                    target = dconf["target"];
                     break;
-                case XenAPI.SR.SRTypes.lvmohba:
-                case XenAPI.SR.SRTypes.lvmofcoe:
-                    String device = dconf.ContainsKey(DEVICE) ?
-                        dconf[DEVICE] : dconf[SCSIid];
-                    Description = string.Format(Messages.ACTION_SR_SCANNING,
-                        XenAPI.SR.getFriendlyTypeName(srType), device);
+                case SR.SRTypes.lvmohba:
+                case SR.SRTypes.lvmofcoe:
+                    target = dconf.ContainsKey("device") ? dconf["device"] : dconf["SCSIid"];
+                    break;
+                case SR.SRTypes.gfs2:
+                    target = dconf.ContainsKey("ips") ? dconf["ips"] : dconf["ScsiId"];
                     break;
                 default:
-                    Description = string.Format(Messages.ACTION_SR_SCANNING,
-                        XenAPI.SR.getFriendlyTypeName(srType), Messages.REPAIRSR_SERVER); // this is a bit minging: CA-22111
+                    target = Messages.REPAIRSR_SERVER;
                     break;
             }
-            smconf = new Dictionary<string, string>();
+
+            Description = string.Format(Messages.ACTION_SR_SCANNING, SR.getFriendlyTypeName(srType), target);
+
+            this.smconf = smconf;
         }
 
-        public SrProbeAction(IXenConnection connection, Host host, SR.SRTypes srType, Dictionary<String, String> dconf, Dictionary<String, String> smconf)
-            : this(connection, host, srType, dconf)
+        public SrProbeAction(IXenConnection connection, Host host, SR.SRTypes srType, Dictionary<String, String> dconf)
+            : this(connection, host, srType, dconf, new Dictionary<string, string>())
         {
-            this.smconf = smconf;
         }
 
         protected override void Run()
         {
-            RelatedTask = XenAPI.SR.async_probe(this.Session, host.opaque_ref,
-                dconf, srType.ToString().ToLowerInvariant(), smconf);
-            PollToCompletion();
+            if (SrType != SR.SRTypes.gfs2)
+            {
+                RelatedTask = SR.async_probe(this.Session, host.opaque_ref,
+                    dconf, SrType.ToString().ToLowerInvariant(), smconf);
+                PollToCompletion();
+            }
+            else
+            {
+                ProbeExtResult = SR.probe_ext(this.Session, host.opaque_ref,
+                    dconf, SrType.ToString().ToLowerInvariant(), smconf);
+            }
             Description = Messages.ACTION_SR_SCAN_SUCCESSFUL;
         }
     }

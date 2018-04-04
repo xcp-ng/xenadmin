@@ -9602,6 +9602,20 @@ namespace XenAPI
             return Rpc<XenRef<Task>>("Async.SR.probe", new JArray(session, _host ?? "", _device_config == null ? new JObject() : JObject.FromObject(_device_config, serializer), _type ?? "", _sm_config == null ? new JObject() : JObject.FromObject(_sm_config, serializer)), serializer);
         }
 
+        public List<Probe_result> sr_probe_ext(string session, string _host, Dictionary<string, string> _device_config, string _type, Dictionary<string, string> _sm_config)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Host>(), new StringStringMapConverter(), new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<Probe_result>>("SR.probe_ext", new JArray(session, _host ?? "", _device_config == null ? new JObject() : JObject.FromObject(_device_config, serializer), _type ?? "", _sm_config == null ? new JObject() : JObject.FromObject(_sm_config, serializer)), serializer);
+        }
+
+        public XenRef<Task> async_sr_probe_ext(string session, string _host, Dictionary<string, string> _device_config, string _type, Dictionary<string, string> _sm_config)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefConverter<Host>(), new StringStringMapConverter(), new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.SR.probe_ext", new JArray(session, _host ?? "", _device_config == null ? new JObject() : JObject.FromObject(_device_config, serializer), _type ?? "", _sm_config == null ? new JObject() : JObject.FromObject(_sm_config, serializer)), serializer);
+        }
+
         public void sr_set_shared(string session, string _sr, bool _value)
         {
             var converters = new List<JsonConverter> {};
@@ -9789,6 +9803,20 @@ namespace XenAPI
             var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<SR>()};
             var serializer = CreateSerializer(converters);
             return Rpc<Dictionary<XenRef<SR>, SR>>("SR.get_all_records", new JArray(session), serializer);
+        }
+
+        public Dictionary<XenRef<Sr_stat>, Sr_stat> sr_stat_get_all_records(string session)
+        {
+            var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<Sr_stat>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<Dictionary<XenRef<Sr_stat>, Sr_stat>>("sr_stat.get_all_records", new JArray(session), serializer);
+        }
+
+        public Dictionary<XenRef<Probe_result>, Probe_result> probe_result_get_all_records(string session)
+        {
+            var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<Probe_result>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<Dictionary<XenRef<Probe_result>, Probe_result>>("probe_result.get_all_records", new JArray(session), serializer);
         }
 
         public LVHD lvhd_get_record(string session, string _lvhd)

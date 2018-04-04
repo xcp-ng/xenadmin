@@ -5349,7 +5349,7 @@
     <value>该存储类型不支持快速克隆</value>
   </data>
   <data name="FEATURE_DISABLED" xml:space="preserve">
-    <value>'{0}' feature is disabled due to license restrictions on the server.</value>
+    <value>“{0}”功能因服务器上的许可证限制而被禁用。</value>
   </data>
   <data name="FEATURE_DISABLED_IN_REGISTER" xml:space="preserve">
     <value>功能已在注册表中禁用</value>
@@ -6305,7 +6305,7 @@
     <value>实时修补状态</value>
   </data>
   <data name="HOST_NEEDS_REBOOT_ENABLE_SRIOV" xml:space="preserve">
-    <value>Yes (Host needs reboot)</value>
+    <value>是(主机需要重新启动)</value>
   </data>
   <data name="HOST_NETWORK_TAB_ADD_BUTTON_LABEL" xml:space="preserve">
     <value>添加网络(&amp;A)...</value>
@@ -8888,7 +8888,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>新搜索</value>
   </data>
   <data name="NEW_SRIOV_NETWORK_NAME" xml:space="preserve">
-    <value>New SR-IOV network</value>
+    <value>新建 SR-IOV 网络</value>
   </data>
   <data name="NEW_SR_CONNECTION_LOST" xml:space="preserve">
     <value>与 {0} 的连接丢失</value>
@@ -8976,7 +8976,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>半</value>
   </data>
   <data name="NICS_ARE_SRIOV_ENABLED" xml:space="preserve">
-    <value>All the supported NICs have enabled SR-IOV.</value>
+    <value>所有受支持的 NIC 都已启用 SR-IOV。</value>
   </data>
   <data name="NIC_HIDDEN" xml:space="preserve">
     <value>{0} (隐藏)</value>
@@ -9882,7 +9882,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>无法加入池</value>
   </data>
   <data name="POOL_JOIN_NON_COMPATIBLE_MANAGEMENT_INTERFACE" xml:space="preserve">
-    <value>This server must not have any bonds, non management VLANs, SR-IOV networks or cross-server private networks</value>
+    <value>此服务器不得具有任何绑定、非管理 VLAN、SR-IOV 网络或跨服务器专用网络</value>
   </data>
   <data name="POOL_JOIN_NOT_PHYSICAL_PIF" xml:space="preserve">
     <value>此服务器不得具有任何绑定、VLAN 或跨服务器专用网络</value>
@@ -10228,7 +10228,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>读/写</value>
   </data>
   <data name="REAMININF_VFS" xml:space="preserve">
-    <value>Yes ({0} VFs remaining)</value>
+    <value>是(剩余 {0} 个 VF)</value>
   </data>
   <data name="REATTACH_SR" xml:space="preserve">
     <value>重新连接(&amp;E)</value>
@@ -11067,19 +11067,19 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>存储库</value>
   </data>
   <data name="SRIOV_DISABLED" xml:space="preserve">
-    <value>Yes (disabled)</value>
+    <value>是(已禁用)</value>
   </data>
   <data name="SRIOV_ENABLE_REBOOT_WARNING" xml:space="preserve">
-    <value>These servers needs to be rebooted for this SR-IOV network to take effect:'{0}'</value>
+    <value>需要重新启动这些服务器，此 SR-IOV 网络才能生效: {0}</value>
   </data>
   <data name="SRIOV_NEED_NICSUPPORT" xml:space="preserve">
-    <value>SR-IOV networks require the SR-IOV capable NIC.</value>
+    <value>SR-IOV 网络需要支持 SR-IOV 的 NIC。</value>
   </data>
   <data name="SRIOV_NETWORK_CREATE" xml:space="preserve">
-    <value>Create &amp;SR-IOV anyway</value>
+    <value>仍创建 SR-IOV(&amp;S)</value>
   </data>
   <data name="SRIOV_NETWORK_CREATE_WILL_DISTURB_CONNECTION" xml:space="preserve">
-    <value>Creating this SR-IOV network will have effects on network connection status and [XenCenter] connections to the pool will temporarily be disturbed</value>
+    <value>创建此 SR-IOV 网络将对网络连接状态产生影响，并且 [XenCenter] 与池的连接将暂时受到干扰</value>
   </data>
   <data name="SRPANEL_ACTIVE" xml:space="preserve">
     <value>活动</value>
@@ -11839,10 +11839,10 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>无法迁移 VM“{0}”，因为该 VM 未安装最新的驱动程序。</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_NO_GPU" xml:space="preserve">
-    <value>Cannot migrate VM '{0}', because it has a virtual GPU attached and there is no suitable GPU available on other servers.</value>
+    <value>无法迁移 VM“{0}”，因为该 VM 连接了虚拟 GPU，并且其他服务器上没有合适的 GPU 可用。</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_PCI_REASON" xml:space="preserve">
-    <value>Cannot migrate VM '{0}', because it has one or more PCI devices attached.</value>
+    <value>无法迁移 VM“{0}”，因为该 VM 连接了一个或多个 PCI 设备。</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_SUSPEND_REASON" xml:space="preserve">
     <value>无法迁移 VM“{0}”，因为无法暂停该 VM。</value>

@@ -76,7 +76,7 @@ namespace XenAdmin.SettingsPanels
             }
         }
 
-        #region Implementation of VerticalTab
+        #region Implementation of IVerticalTab
 
         public override string Text
         {

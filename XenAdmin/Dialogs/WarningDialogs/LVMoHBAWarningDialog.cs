@@ -32,9 +32,10 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using XenAdmin.Actions;
 using XenAdmin.Core;
-using XenAdmin.Wizards.NewSRWizard_Pages;
 using XenAdmin.Wizards.NewSRWizard_Pages.Frontends;
+using XenAPI;
 
 namespace XenAdmin.Dialogs.WarningDialogs
 {
@@ -44,17 +45,21 @@ namespace XenAdmin.Dialogs.WarningDialogs
         private FibreChannelDevice currentDevice;
         private int remainingDevicesCount;
         private bool foundExistingSR;
+        private readonly SR.SRTypes existingSrType;
+        private readonly SR.SRTypes requestedSrType;
 
         public LVMoHBA.UserSelectedOption SelectedOption { get; private set; }
         public bool RepeatForRemainingLUNs { get { return checkBoxRepeat.Checked; } }
 
         public LVMoHBAWarningDialog(FibreChannelDevice currentDevice, int remainingDevicesCount,
-            bool foundExistingSR)
+            bool foundExistingSR, SR.SRTypes existingSrType, SR.SRTypes requestedSrType)
         {
             InitializeComponent();
             this.currentDevice = currentDevice;
             this.remainingDevicesCount = remainingDevicesCount;
             this.foundExistingSR = foundExistingSR;
+            this.existingSrType = existingSrType;
+            this.requestedSrType = requestedSrType;
             PopulateControls();
             ActiveControl = buttonCancel;
         }
@@ -128,7 +133,7 @@ namespace XenAdmin.Dialogs.WarningDialogs
         private void PopulateControls()
         {
             labelHeader.Text = foundExistingSR
-                                   ? Messages.LVMOHBA_WARNING_DIALOG_HEADER_FOUND_EXISTING_SR
+                                   ? string.Format(Messages.LVMOHBA_WARNING_DIALOG_HEADER_FOUND_EXISTING_SR, SR.getFriendlyTypeName(existingSrType))
                                    : Messages.LVMOHBA_WARNING_DIALOG_HEADER_NO_EXISTING_SRS;
 
             checkBoxRepeat.Text = foundExistingSR
@@ -143,12 +148,17 @@ namespace XenAdmin.Dialogs.WarningDialogs
                                                      : currentDevice.SCSIid,
                                                  Util.DiskSizeString(currentDevice.Size));
 
+            labelReattachInfo.Text = foundExistingSR
+                                   ? string.Format(Messages.LVMOHBA_WARNING_DIALOG_REATTACH_INFO, SR.getFriendlyTypeName(existingSrType))
+                                   : Messages.LVMOHBA_WARNING_DIALOG_REATTACH_LABEL_TEXT;
+
+            labelFormatInfo.Text = string.Format(Messages.LVMOHBA_WARNING_DIALOG_FORMAT_INFO, SR.getFriendlyTypeName(requestedSrType));
+
             panelReattach.Enabled = foundExistingSR;
             if (!panelReattach.Enabled)
-            {
-                labelReattachInfo.Text = Messages.LVMOHBA_WARNING_DIALOG_REATTACH_LABEL_TEXT;
                 pictureBoxArrowReattach.Image = Drawing.ConvertToGreyScale(pictureBoxArrowReattach.Image);
-            }
+
+            
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

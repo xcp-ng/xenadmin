@@ -567,6 +567,8 @@ namespace XenAdmin.Wlb
                 return sortedTasks;
             }
         }
+
+        /// <summary>
         /// Exposes a virtual representation of the WlbScheduledTasks collection, in which aggregate days
         /// are separated into individual days.  The entire list is also presorted chronologically.
         /// </summary>

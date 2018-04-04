@@ -44,11 +44,26 @@ namespace XenAdmin.Plugins
     internal class XenServerPowershellCmd : ShellCmd
     {
         // TODO: CA:40580: These version numbers are not checked anywhere at the moment, and thus are not documented as part of the plugin spec
-        public readonly Version SnapInMinVersion;    // optional - "version_min" attribute on the "XenServerPowerShellCmd" tag
-        public readonly Version SnapInMaxVersion;    // optional - "version_max" attribute on the "XenServerPowerShellCmd" tag
+        /// <summary>
+        /// optional - "version_min" attribute on the "XenServerPowerShellCmd" tag
+        /// </summary>
+        public readonly Version SnapInMinVersion;
+#pragma warning disable 649, 169
+        /// <summary>
+        /// optional - "version_max" attribute on the "XenServerPowerShellCmd" tag
+        /// </summary>
+        public readonly Version SnapInMaxVersion;
+#pragma warning restore 649, 169
 
-        public readonly bool Debug;                  // optional - "debug" attribute on the "XenServerPowerShellCmd" tag
-        public readonly string Function;   // optional - "function" attribute on the "PowerShellCmd" tag
+        /// <summary>
+        /// optional - "debug" attribute on the "XenServerPowerShellCmd" tag
+        /// </summary>
+        public readonly bool Debug;
+
+        /// <summary>
+        /// optional - "function" attribute on the "PowerShellCmd" tag
+        /// </summary>
+        public readonly string Function;
 
         public const string ATT_DEBUG = "debug";
         public const string ATT_VERSION_MIN = "version_min";

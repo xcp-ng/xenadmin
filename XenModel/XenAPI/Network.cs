@@ -120,16 +120,16 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Network proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            name_label = proxy.name_label == null ? null : (string)proxy.name_label;
-            name_description = proxy.name_description == null ? null : (string)proxy.name_description;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            name_label = proxy.name_label == null ? null : proxy.name_label;
+            name_description = proxy.name_description == null ? null : proxy.name_description;
             allowed_operations = proxy.allowed_operations == null ? null : Helper.StringArrayToEnumList<network_operations>(proxy.allowed_operations);
             current_operations = proxy.current_operations == null ? null : Maps.convert_from_proxy_string_network_operations(proxy.current_operations);
             VIFs = proxy.VIFs == null ? null : XenRef<VIF>.Create(proxy.VIFs);
             PIFs = proxy.PIFs == null ? null : XenRef<PIF>.Create(proxy.PIFs);
-            MTU = proxy.MTU == null ? 0 : long.Parse((string)proxy.MTU);
+            MTU = proxy.MTU == null ? 0 : long.Parse(proxy.MTU);
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
-            bridge = proxy.bridge == null ? null : (string)proxy.bridge;
+            bridge = proxy.bridge == null ? null : proxy.bridge;
             managed = (bool)proxy.managed;
             blobs = proxy.blobs == null ? null : Maps.convert_from_proxy_string_XenRefBlob(proxy.blobs);
             tags = proxy.tags == null ? new string[] {} : (string [])proxy.tags;
@@ -144,10 +144,10 @@ namespace XenAPI
             result_.uuid = uuid ?? "";
             result_.name_label = name_label ?? "";
             result_.name_description = name_description ?? "";
-            result_.allowed_operations = (allowed_operations != null) ? Helper.ObjectListToStringArray(allowed_operations) : new string[] {};
+            result_.allowed_operations = allowed_operations == null ? new string[] {} : Helper.ObjectListToStringArray(allowed_operations);
             result_.current_operations = Maps.convert_to_proxy_string_network_operations(current_operations);
-            result_.VIFs = (VIFs != null) ? Helper.RefListToStringArray(VIFs) : new string[] {};
-            result_.PIFs = (PIFs != null) ? Helper.RefListToStringArray(PIFs) : new string[] {};
+            result_.VIFs = VIFs == null ? new string[] {} : Helper.RefListToStringArray(VIFs);
+            result_.PIFs = PIFs == null ? new string[] {} : Helper.RefListToStringArray(PIFs);
             result_.MTU = MTU.ToString();
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             result_.bridge = bridge ?? "";
@@ -156,7 +156,7 @@ namespace XenAPI
             result_.tags = tags;
             result_.default_locking_mode = network_default_locking_mode_helper.ToString(default_locking_mode);
             result_.assigned_ips = Maps.convert_to_proxy_XenRefVIF_string(assigned_ips);
-            result_.purpose = (purpose != null) ? Helper.ObjectListToStringArray(purpose) : new string[] {};
+            result_.purpose = purpose == null ? new string[] {} : Helper.ObjectListToStringArray(purpose);
             return result_;
         }
 
@@ -391,7 +391,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.network_get_uuid(session.opaque_ref, _network);
             else
-                return (string)session.proxy.network_get_uuid(session.opaque_ref, _network ?? "").parse();
+                return session.proxy.network_get_uuid(session.opaque_ref, _network ?? "").parse();
         }
 
         /// <summary>
@@ -405,7 +405,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.network_get_name_label(session.opaque_ref, _network);
             else
-                return (string)session.proxy.network_get_name_label(session.opaque_ref, _network ?? "").parse();
+                return session.proxy.network_get_name_label(session.opaque_ref, _network ?? "").parse();
         }
 
         /// <summary>
@@ -419,7 +419,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.network_get_name_description(session.opaque_ref, _network);
             else
-                return (string)session.proxy.network_get_name_description(session.opaque_ref, _network ?? "").parse();
+                return session.proxy.network_get_name_description(session.opaque_ref, _network ?? "").parse();
         }
 
         /// <summary>
@@ -489,7 +489,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.network_get_mtu(session.opaque_ref, _network);
             else
-                return long.Parse((string)session.proxy.network_get_mtu(session.opaque_ref, _network ?? "").parse());
+                return long.Parse(session.proxy.network_get_mtu(session.opaque_ref, _network ?? "").parse());
         }
 
         /// <summary>
@@ -517,7 +517,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.network_get_bridge(session.opaque_ref, _network);
             else
-                return (string)session.proxy.network_get_bridge(session.opaque_ref, _network ?? "").parse();
+                return session.proxy.network_get_bridge(session.opaque_ref, _network ?? "").parse();
         }
 
         /// <summary>

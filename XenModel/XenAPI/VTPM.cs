@@ -81,7 +81,7 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_VTPM proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             VM = proxy.VM == null ? null : XenRef<VM>.Create(proxy.VM);
             backend = proxy.backend == null ? null : XenRef<VM>.Create(proxy.backend);
         }
@@ -250,7 +250,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vtpm_get_uuid(session.opaque_ref, _vtpm);
             else
-                return (string)session.proxy.vtpm_get_uuid(session.opaque_ref, _vtpm ?? "").parse();
+                return session.proxy.vtpm_get_uuid(session.opaque_ref, _vtpm ?? "").parse();
         }
 
         /// <summary>

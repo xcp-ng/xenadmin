@@ -111,17 +111,17 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_PUSB proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             USB_group = proxy.USB_group == null ? null : XenRef<USB_group>.Create(proxy.USB_group);
             host = proxy.host == null ? null : XenRef<Host>.Create(proxy.host);
-            path = proxy.path == null ? null : (string)proxy.path;
-            vendor_id = proxy.vendor_id == null ? null : (string)proxy.vendor_id;
-            vendor_desc = proxy.vendor_desc == null ? null : (string)proxy.vendor_desc;
-            product_id = proxy.product_id == null ? null : (string)proxy.product_id;
-            product_desc = proxy.product_desc == null ? null : (string)proxy.product_desc;
-            serial = proxy.serial == null ? null : (string)proxy.serial;
-            version = proxy.version == null ? null : (string)proxy.version;
-            description = proxy.description == null ? null : (string)proxy.description;
+            path = proxy.path == null ? null : proxy.path;
+            vendor_id = proxy.vendor_id == null ? null : proxy.vendor_id;
+            vendor_desc = proxy.vendor_desc == null ? null : proxy.vendor_desc;
+            product_id = proxy.product_id == null ? null : proxy.product_id;
+            product_desc = proxy.product_desc == null ? null : proxy.product_desc;
+            serial = proxy.serial == null ? null : proxy.serial;
+            version = proxy.version == null ? null : proxy.version;
+            description = proxy.description == null ? null : proxy.description;
             passthrough_enabled = (bool)proxy.passthrough_enabled;
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
         }
@@ -279,7 +279,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_uuid(session.opaque_ref, _pusb);
             else
-                return (string)session.proxy.pusb_get_uuid(session.opaque_ref, _pusb ?? "").parse();
+                return session.proxy.pusb_get_uuid(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_path(session.opaque_ref, _pusb);
             else
-                return (string)session.proxy.pusb_get_path(session.opaque_ref, _pusb ?? "").parse();
+                return session.proxy.pusb_get_path(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -335,7 +335,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_vendor_id(session.opaque_ref, _pusb);
             else
-                return (string)session.proxy.pusb_get_vendor_id(session.opaque_ref, _pusb ?? "").parse();
+                return session.proxy.pusb_get_vendor_id(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -349,7 +349,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_vendor_desc(session.opaque_ref, _pusb);
             else
-                return (string)session.proxy.pusb_get_vendor_desc(session.opaque_ref, _pusb ?? "").parse();
+                return session.proxy.pusb_get_vendor_desc(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -363,7 +363,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_product_id(session.opaque_ref, _pusb);
             else
-                return (string)session.proxy.pusb_get_product_id(session.opaque_ref, _pusb ?? "").parse();
+                return session.proxy.pusb_get_product_id(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -377,7 +377,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_product_desc(session.opaque_ref, _pusb);
             else
-                return (string)session.proxy.pusb_get_product_desc(session.opaque_ref, _pusb ?? "").parse();
+                return session.proxy.pusb_get_product_desc(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -391,7 +391,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_serial(session.opaque_ref, _pusb);
             else
-                return (string)session.proxy.pusb_get_serial(session.opaque_ref, _pusb ?? "").parse();
+                return session.proxy.pusb_get_serial(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -405,7 +405,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_version(session.opaque_ref, _pusb);
             else
-                return (string)session.proxy.pusb_get_version(session.opaque_ref, _pusb ?? "").parse();
+                return session.proxy.pusb_get_version(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -419,7 +419,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_description(session.opaque_ref, _pusb);
             else
-                return (string)session.proxy.pusb_get_description(session.opaque_ref, _pusb ?? "").parse();
+                return session.proxy.pusb_get_description(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>

@@ -34,7 +34,7 @@ using System.Collections.Generic;
 using System.Text;
 using XenCenterLib;
 
-namespace XenAdmin.Wizards.NewSRWizard_Pages
+namespace XenAdmin.Actions
 {
     public class FibreChannelDevice : IComparable<FibreChannelDevice>
     {
@@ -70,31 +70,77 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages
             this.pool_metadata_detected = false;
         }
 
-        public FibreChannelDevice(String serial, String path,
-            String vendor, long size, String SCSIid, String adapter,
-            String channel, String id, String lun,
-            String name_label, String name_description, bool pool_metadata_detected,
-            String eth)
+        public FibreChannelDevice(Dictionary<string, string> dict)
         {
-            this.Serial = serial;
-            this.Path = path;
-            this.Vendor = vendor;
-            this.Size = size;
-            this.SCSIid = SCSIid;
-            this.adapter = adapter;
-            this.channel = channel;
-            this.id = id;
-            this.lun = lun;
-            this.name_label = name_label;
-            this.name_description = name_description;
-            this.pool_metadata_detected = pool_metadata_detected;
-            this.eth = eth;
+            Vendor = dict.ContainsKey("vendor") ? dict["vendor"] : "";
+            Serial = dict.ContainsKey("serial") ? dict["serial"] : "";
+            Path = dict.ContainsKey("path") ? dict["path"] : "";
+            adapter = dict.ContainsKey("adapter") ? dict["adapter"] : "";
+            channel = dict.ContainsKey("channel") ? dict["channel"] : "";
+            id = dict.ContainsKey("id") ? dict["id"] : "";
+            lun = dict.ContainsKey("lun") ? dict["lun"] : "";
+            name_label = dict.ContainsKey("name_label") ? dict["name_label"] : "";
+            name_description = dict.ContainsKey("name_description") ? dict["name_description"] : "";
+            eth = dict.ContainsKey("eth") ? dict["eth"] : "";
+
+            SCSIid = dict.ContainsKey("scsiid")
+                ? dict["scsiid"]
+                : dict.ContainsKey("ScsiId")
+                    ? dict["ScsiId"] : "";
+
+            if (!dict.ContainsKey("size") || !TryParseSizeWithUnits(dict["size"], out Size))
+                Size = 0;
+
+            if (!dict.ContainsKey("pool_metadata_detected") ||
+                !bool.TryParse(dict["pool_metadata_detected"], out pool_metadata_detected))
+                pool_metadata_detected = false;
         }
 
         public int CompareTo(FibreChannelDevice other)
         {
             long n = Size - other.Size;
             return n == 0 ? StringUtility.NaturalCompare(Serial, other.Serial) : (int)n;
+        }
+
+        /// <summary>
+        /// Sometimes, the XML that is returned contains units.
+        /// (SR.probe XML earlier than Miami GA.
+        /// </summary>
+        private bool TryParseSizeWithUnits(string p, out long size)
+        {
+            if (long.TryParse(p, out size))
+                return true;
+
+            p = p.ToLowerInvariant();
+
+            if (p.Contains("kb"))
+            {
+                if (!long.TryParse(p.Replace("kb", ""), out size))
+                    return false;
+
+                size *= Util.BINARY_KILO;
+                return true;
+            }
+
+            if (p.Contains("mb"))
+            {
+                if (!long.TryParse(p.Replace("mb", ""), out size))
+                    return false;
+
+                size *= Util.BINARY_MEGA;
+                return true;
+            }
+
+            if (p.Contains("gb"))
+            {
+                if (!long.TryParse(p.Replace("mb", ""), out size))
+                    return false;
+
+                size *= Util.BINARY_GIGA;
+                return true;
+            }
+
+            return false;
         }
     }
 }

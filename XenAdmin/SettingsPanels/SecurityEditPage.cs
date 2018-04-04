@@ -100,7 +100,7 @@ namespace XenAdmin.SettingsPanels
 
         #endregion
 
-        #region VerticalTab Members
+        #region IVerticalTab Members
 
         public string SubText
         {

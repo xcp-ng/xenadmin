@@ -84,9 +84,9 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_User proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            short_name = proxy.short_name == null ? null : (string)proxy.short_name;
-            fullname = proxy.fullname == null ? null : (string)proxy.fullname;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            short_name = proxy.short_name == null ? null : proxy.short_name;
+            fullname = proxy.fullname == null ? null : proxy.fullname;
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
         }
 
@@ -279,7 +279,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.user_get_uuid(session.opaque_ref, _user);
             else
-                return (string)session.proxy.user_get_uuid(session.opaque_ref, _user ?? "").parse();
+                return session.proxy.user_get_uuid(session.opaque_ref, _user ?? "").parse();
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.user_get_short_name(session.opaque_ref, _user);
             else
-                return (string)session.proxy.user_get_short_name(session.opaque_ref, _user ?? "").parse();
+                return session.proxy.user_get_short_name(session.opaque_ref, _user ?? "").parse();
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.user_get_fullname(session.opaque_ref, _user);
             else
-                return (string)session.proxy.user_get_fullname(session.opaque_ref, _user ?? "").parse();
+                return session.proxy.user_get_fullname(session.opaque_ref, _user ?? "").parse();
         }
 
         /// <summary>

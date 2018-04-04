@@ -114,7 +114,7 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_VM_guest_metrics proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             os_version = proxy.os_version == null ? null : Maps.convert_from_proxy_string_string(proxy.os_version);
             PV_drivers_version = proxy.PV_drivers_version == null ? null : Maps.convert_from_proxy_string_string(proxy.PV_drivers_version);
             PV_drivers_up_to_date = (bool)proxy.PV_drivers_up_to_date;
@@ -287,7 +287,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_guest_metrics_get_uuid(session.opaque_ref, _vm_guest_metrics);
             else
-                return (string)session.proxy.vm_guest_metrics_get_uuid(session.opaque_ref, _vm_guest_metrics ?? "").parse();
+                return session.proxy.vm_guest_metrics_get_uuid(session.opaque_ref, _vm_guest_metrics ?? "").parse();
         }
 
         /// <summary>

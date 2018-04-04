@@ -5355,7 +5355,7 @@ CD をイジェクトしてから再試行してください。</value>
     <value>この種類のストレージでは、高速複製がサポートされません。</value>
   </data>
   <data name="FEATURE_DISABLED" xml:space="preserve">
-    <value>'{0}' feature is disabled due to license restrictions on the server.</value>
+    <value>'{0}' 機能は、サーバーのライセンス条件により無効になっています。</value>
   </data>
   <data name="FEATURE_DISABLED_IN_REGISTER" xml:space="preserve">
     <value>機能がレジストリで無効になっています。</value>
@@ -6311,7 +6311,7 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
     <value>ライブ パッチの状態</value>
   </data>
   <data name="HOST_NEEDS_REBOOT_ENABLE_SRIOV" xml:space="preserve">
-    <value>Yes (Host needs reboot)</value>
+    <value>はい (ホストの再起動が必要)</value>
   </data>
   <data name="HOST_NETWORK_TAB_ADD_BUTTON_LABEL" xml:space="preserve">
     <value>ネットワークの追加(&amp;A)...</value>
@@ -8890,7 +8890,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>新しい検索</value>
   </data>
   <data name="NEW_SRIOV_NETWORK_NAME" xml:space="preserve">
-    <value>New SR-IOV network</value>
+    <value>新しい SR-IOV ネットワーク</value>
   </data>
   <data name="NEW_SR_CONNECTION_LOST" xml:space="preserve">
     <value>{0} への接続が失われました</value>
@@ -8978,7 +8978,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>半</value>
   </data>
   <data name="NICS_ARE_SRIOV_ENABLED" xml:space="preserve">
-    <value>All the supported NICs have enabled SR-IOV.</value>
+    <value>サポートされるすべての NIC で SR-IOV が有効です。</value>
   </data>
   <data name="NIC_HIDDEN" xml:space="preserve">
     <value>{0} (非表示)</value>
@@ -9884,7 +9884,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>プールへの追加不可</value>
   </data>
   <data name="POOL_JOIN_NON_COMPATIBLE_MANAGEMENT_INTERFACE" xml:space="preserve">
-    <value>This server must not have any bonds, non management VLANs, SR-IOV networks or cross-server private networks</value>
+    <value>このサーバーには、ボンディング、非管理 VLAN、SR-IOV、またはサーバー間のプライベート ネットワークを使用することができません</value>
   </data>
   <data name="POOL_JOIN_NOT_PHYSICAL_PIF" xml:space="preserve">
     <value>このサーバーには、ボンディング、VLAN、またはサーバー間のプライベート ネットワークを使用することができません</value>
@@ -10230,7 +10230,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>読み取り/書き込み</value>
   </data>
   <data name="REAMININF_VFS" xml:space="preserve">
-    <value>Yes ({0} VFs remaining)</value>
+    <value>はい (残り {0} VF)</value>
   </data>
   <data name="REATTACH_SR" xml:space="preserve">
     <value>再接続(&amp;E)</value>
@@ -11069,19 +11069,19 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>ストレージ リポジトリ</value>
   </data>
   <data name="SRIOV_DISABLED" xml:space="preserve">
-    <value>Yes (disabled)</value>
+    <value>はい (無効)</value>
   </data>
   <data name="SRIOV_ENABLE_REBOOT_WARNING" xml:space="preserve">
-    <value>These servers needs to be rebooted for this SR-IOV network to take effect:'{0}'</value>
+    <value>この SR-IOV ネットワークを有効にするには、これらのサーバーを再起動する必要があります: '{0}'</value>
   </data>
   <data name="SRIOV_NEED_NICSUPPORT" xml:space="preserve">
-    <value>SR-IOV networks require the SR-IOV capable NIC.</value>
+    <value>SR-IOV ネットワークには、SR-IOV 対応 NIC が必要です。</value>
   </data>
   <data name="SRIOV_NETWORK_CREATE" xml:space="preserve">
-    <value>Create &amp;SR-IOV anyway</value>
+    <value>SR-IOV を作成する(&amp;S)</value>
   </data>
   <data name="SRIOV_NETWORK_CREATE_WILL_DISTURB_CONNECTION" xml:space="preserve">
-    <value>Creating this SR-IOV network will have effects on network connection status and [XenCenter] connections to the pool will temporarily be disturbed</value>
+    <value>この SR-IOV ネットワークを作成するとネットワーク接続の状態に影響を与え、[XenCenter] とプール間の接続が一時的に切断されます</value>
   </data>
   <data name="SRPANEL_ACTIVE" xml:space="preserve">
     <value>アクティブ</value>
@@ -11841,10 +11841,10 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>仮想マシン '{0}' を移行できません。最新のドライバーがインストールされていません。</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_NO_GPU" xml:space="preserve">
-    <value>Cannot migrate VM '{0}', because it has a virtual GPU attached and there is no suitable GPU available on other servers.</value>
+    <value>VM '{0}' は仮想 GPU を使用し他のサーバーには適切な GPU がないため、VM '{0}' を移行できません。</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_PCI_REASON" xml:space="preserve">
-    <value>Cannot migrate VM '{0}', because it has one or more PCI devices attached.</value>
+    <value>1 つまたは複数の PCI デバイスが接続されているため VM '{0}' を移行できません。</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_SUSPEND_REASON" xml:space="preserve">
     <value>仮想マシン '{0}' は一時停止できないため、移行できません。</value>

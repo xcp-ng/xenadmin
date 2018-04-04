@@ -475,6 +475,23 @@ namespace XenAPI
             return sm != null && -1 != Array.IndexOf(sm.capabilities, "VDI_CREATE");
         }
 
+        public static List<SRInfo> ParseSRList(List<Probe_result> probeExtResult)
+        {
+            List<SRInfo> results = new List<SRInfo>();
+            foreach (var probeResult in probeExtResult.Where(p => p.sr != null))
+            {
+                string uuid = probeResult.sr.uuid;
+                long size = probeResult.sr.total_space;
+                string aggr = "";
+                string name_label = probeResult.sr.name_label;
+                string name_description = probeResult.sr.name_description;
+                bool pool_metadata_detected = false;
+
+                results.Add(new SRInfo(uuid, size, aggr, name_label, name_description, pool_metadata_detected));
+            }
+            return results;
+        }
+
         /// <summary>
         /// Parses an XML list of SRs (as returned by the SR.probe() call) into a list of SRInfos.
         /// </summary>

@@ -87,7 +87,7 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_VBD_metrics proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             io_read_kbs = Convert.ToDouble(proxy.io_read_kbs);
             io_write_kbs = Convert.ToDouble(proxy.io_write_kbs);
             last_updated = proxy.last_updated;
@@ -215,7 +215,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vbd_metrics_get_uuid(session.opaque_ref, _vbd_metrics);
             else
-                return (string)session.proxy.vbd_metrics_get_uuid(session.opaque_ref, _vbd_metrics ?? "").parse();
+                return session.proxy.vbd_metrics_get_uuid(session.opaque_ref, _vbd_metrics ?? "").parse();
         }
 
         /// <summary>

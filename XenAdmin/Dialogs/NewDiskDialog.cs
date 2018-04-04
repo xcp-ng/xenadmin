@@ -39,8 +39,6 @@ using XenAdmin.Network;
 using XenAPI;
 using XenAdmin.Actions;
 using System.Drawing;
-using System.Globalization;
-using XenAdmin.Wizards.NewSRWizard_Pages.Frontends;
 
 
 namespace XenAdmin.Dialogs
@@ -478,24 +476,7 @@ namespace XenAdmin.Dialogs
         {
             UpdateDiskSize();
         }
-
-        bool userChangedInitialAllocationValue = false;
-        bool userEntered = false;
-        
-        private void initialAllocationNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            if (userEntered)
-                userChangedInitialAllocationValue = true;
-
-            if (userChangedInitialAllocationValue)
-                UpdateDiskSize();
-        }
-
-        private void initialAllocationNumericUpDown_Enter(object sender, EventArgs e)
-        {
-            userEntered = true;
-        }
-
+       
         private void UpdateDiskSize()
         {
             // Don't use DiskSizeNumericUpDown.Value here, as it will fire the NumericUpDown built-in validation. Use Text property instead. (CA-46028)
@@ -584,11 +565,6 @@ namespace XenAdmin.Dialogs
                         .ShowDialog(Program.MainWindow);
                 }
             });
-        }
-
-        private void initialAllocationNumericUpDown_Leave(object sender, EventArgs e)
-        {
-            userEntered = false;
         }
     }
 }

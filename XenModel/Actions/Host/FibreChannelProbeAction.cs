@@ -30,6 +30,8 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml;
 using XenAPI;
 
 
@@ -37,37 +39,83 @@ namespace XenAdmin.Actions
 {
     public class FibreChannelProbeAction : PureAsyncAction
     {
+        private readonly SR.SRTypes srType;
 
-        public FibreChannelProbeAction(Host master)
+        public List<FibreChannelDevice> FibreChannelDevices;
+
+        public FibreChannelProbeAction(Host master, SR.SRTypes srType = SR.SRTypes.lvmohba)
             : base(master.Connection, string.Format(Messages.PROBING_HBA_TITLE, master.Name()), null, true)
         {
             Host = master;
-        }
-
-        private SR.SRTypes srType = SR.SRTypes.lvmohba;
-
-        public FibreChannelProbeAction(Host master, SR.SRTypes srType)
-            : this(master)
-        {
             this.srType = srType;
         }
 
         protected override void Run()
         {
-            this.Description = Messages.PROBING_HBA;
+            Description = Messages.PROBING_HBA;
+            if (srType != SR.SRTypes.gfs2)
+            {
+                try
+                {
+                    Result = SR.probe(Session, Host.opaque_ref, new Dictionary<string, string>(), srType.ToString(), new Dictionary<string, string>());
+                }
+                catch (Failure f)
+                {
+                    if (f.ErrorDescription[0] == "SR_BACKEND_FAILURE_90" 
+                     || f.ErrorDescription[0] == "SR_BACKEND_FAILURE_107")
+                        Result = f.ErrorDescription[3];
+                    else
+                        throw;
+                }
+
+                FibreChannelDevices = ProcessXml(Result);
+            }
+            else
+            {
+                var deviceConfig = new Dictionary<string, string>();
+                deviceConfig["provider"] = "hba";
+                var result = SR.probe_ext(Session, Host.opaque_ref, deviceConfig, srType.ToString(), new Dictionary<string, string>());
+
+                var list = new List<FibreChannelDevice>();
+                foreach (var r in result)
+                {
+                    var dict = new Dictionary<string, string>(r.configuration);
+                    r.extra_info.ToList().ForEach(kvp => dict.Add(kvp.Key, kvp.Value));
+                    list.Add(new FibreChannelDevice(dict));
+                }
+                FibreChannelDevices = list;
+            }
+            Description = Messages.PROBED_HBA;
+        }
+
+
+        private static List<FibreChannelDevice> ProcessXml(string p)
+        {
             try
             {
-                Result = XenAPI.SR.probe(Session, Host.opaque_ref, new Dictionary<string, string>(), srType.ToString(), new Dictionary<string, string>());
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(p);
+
+                var devices = new List<FibreChannelDevice>();
+
+                var blockDevices = doc.GetElementsByTagName("BlockDevice");
+
+                foreach (XmlNode device in blockDevices)
+                {
+                    var properties = new Dictionary<string, string>();
+
+                    foreach (XmlNode node in device.ChildNodes)
+                        properties.Add(node.Name.ToLowerInvariant(), node.InnerText.Trim());
+
+                    devices.Add(new FibreChannelDevice(properties));
+                }
+
+                return devices;
             }
-            catch (XenAPI.Failure f)
+            catch (XmlException e)
             {
-                if (f.ErrorDescription[0] == "SR_BACKEND_FAILURE_90" 
-                 || f.ErrorDescription[0] == "SR_BACKEND_FAILURE_107")
-                    Result = f.ErrorDescription[3];
-                else
-                    throw;
+                throw new Failure(Messages.FIBRECHANNEL_XML_ERROR, e);
             }
-            this.Description = Messages.PROBED_HBA;
         }
     }
 }

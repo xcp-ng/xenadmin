@@ -87,7 +87,7 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_PVS_proxy proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             site = proxy.site == null ? null : XenRef<PVS_site>.Create(proxy.site);
             VIF = proxy.VIF == null ? null : XenRef<VIF>.Create(proxy.VIF);
             currently_attached = (bool)proxy.currently_attached;
@@ -210,7 +210,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pvs_proxy_get_uuid(session.opaque_ref, _pvs_proxy);
             else
-                return (string)session.proxy.pvs_proxy_get_uuid(session.opaque_ref, _pvs_proxy ?? "").parse();
+                return session.proxy.pvs_proxy_get_uuid(session.opaque_ref, _pvs_proxy ?? "").parse();
         }
 
         /// <summary>

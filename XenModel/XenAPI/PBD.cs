@@ -90,7 +90,7 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_PBD proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             host = proxy.host == null ? null : XenRef<Host>.Create(proxy.host);
             SR = proxy.SR == null ? null : XenRef<SR>.Create(proxy.SR);
             device_config = proxy.device_config == null ? null : Maps.convert_from_proxy_string_string(proxy.device_config);
@@ -283,7 +283,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pbd_get_uuid(session.opaque_ref, _pbd);
             else
-                return (string)session.proxy.pbd_get_uuid(session.opaque_ref, _pbd ?? "").parse();
+                return session.proxy.pbd_get_uuid(session.opaque_ref, _pbd ?? "").parse();
         }
 
         /// <summary>

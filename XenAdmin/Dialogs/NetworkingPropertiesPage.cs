@@ -41,7 +41,7 @@ using XenCenterLib;
 
 namespace XenAdmin.Dialogs
 {
-    public partial class NetworkingPropertiesPage : UserControl, VerticalTabs.VerticalTab
+    public partial class NetworkingPropertiesPage : UserControl, VerticalTabs.IVerticalTab
     {
         public enum Type { PRIMARY, PRIMARY_WITH_HA, SECONDARY };
 

@@ -42,7 +42,10 @@ namespace XenAdmin
         internal object Parent;
         internal object Group;
 
+        /// <summary></summary>
+        /// <param name="grouping"></param>
         /// <param name="parent">May be null.</param>
+        /// <param name="group"></param>
         internal GroupingTag(Grouping grouping, object parent, object group)
         {
             System.Diagnostics.Trace.Assert(grouping != null);

@@ -102,10 +102,10 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_VGPU proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             VM = proxy.VM == null ? null : XenRef<VM>.Create(proxy.VM);
             GPU_group = proxy.GPU_group == null ? null : XenRef<GPU_group>.Create(proxy.GPU_group);
-            device = proxy.device == null ? null : (string)proxy.device;
+            device = proxy.device == null ? null : proxy.device;
             currently_attached = (bool)proxy.currently_attached;
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
             type = proxy.type == null ? null : XenRef<VGPU_type>.Create(proxy.type);
@@ -255,7 +255,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_get_uuid(session.opaque_ref, _vgpu);
             else
-                return (string)session.proxy.vgpu_get_uuid(session.opaque_ref, _vgpu ?? "").parse();
+                return session.proxy.vgpu_get_uuid(session.opaque_ref, _vgpu ?? "").parse();
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_get_device(session.opaque_ref, _vgpu);
             else
-                return (string)session.proxy.vgpu_get_device(session.opaque_ref, _vgpu ?? "").parse();
+                return session.proxy.vgpu_get_device(session.opaque_ref, _vgpu ?? "").parse();
         }
 
         /// <summary>

@@ -843,7 +843,6 @@
     <Compile Include="Wizards\NewSRWizard_Pages\Frontends\CIFS_ISO.Designer.cs">
       <DependentUpon>CIFS_ISO.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizards\NewSRWizard_Pages\FibreChannelProbeParsing.cs" />
     <Compile Include="Wizards\NewSRWizard_Pages\Frontends\EqualLogic.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1497,7 +1496,6 @@
     <Compile Include="Wizards\NewSRWizard.Designer.cs">
       <DependentUpon>NewSRWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizards\NewSRWizard_Pages\FibreChannelDevice.cs" />
     <Compile Include="Wizards\NewSRWizard_Pages\Frontends\LVMoHBA.cs">
       <SubType>UserControl</SubType>
     </Compile>

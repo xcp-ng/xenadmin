@@ -760,7 +760,7 @@ namespace XenAdmin.Dialogs
             Cursor = Cursors.Default;
         }
 
-        protected override string GetTabTitle(VerticalTabs.VerticalTab verticalTab)
+        protected override string GetTabTitle(VerticalTabs.IVerticalTab verticalTab)
         {
             NetworkingPropertiesPage page = verticalTab as NetworkingPropertiesPage;
             if (page != null)

@@ -84,8 +84,8 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Subject proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            subject_identifier = proxy.subject_identifier == null ? null : (string)proxy.subject_identifier;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            subject_identifier = proxy.subject_identifier == null ? null : proxy.subject_identifier;
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
             roles = proxy.roles == null ? null : XenRef<Role>.Create(proxy.roles);
         }
@@ -96,7 +96,7 @@ namespace XenAPI
             result_.uuid = uuid ?? "";
             result_.subject_identifier = subject_identifier ?? "";
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
-            result_.roles = (roles != null) ? Helper.RefListToStringArray(roles) : new string[] {};
+            result_.roles = roles == null ? new string[] {} : Helper.RefListToStringArray(roles);
             return result_;
         }
 
@@ -258,7 +258,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.subject_get_uuid(session.opaque_ref, _subject);
             else
-                return (string)session.proxy.subject_get_uuid(session.opaque_ref, _subject ?? "").parse();
+                return session.proxy.subject_get_uuid(session.opaque_ref, _subject ?? "").parse();
         }
 
         /// <summary>
@@ -272,7 +272,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.subject_get_subject_identifier(session.opaque_ref, _subject);
             else
-                return (string)session.proxy.subject_get_subject_identifier(session.opaque_ref, _subject ?? "").parse();
+                return session.proxy.subject_get_subject_identifier(session.opaque_ref, _subject ?? "").parse();
         }
 
         /// <summary>

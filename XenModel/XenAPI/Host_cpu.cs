@@ -111,17 +111,17 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Host_cpu proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             host = proxy.host == null ? null : XenRef<Host>.Create(proxy.host);
-            number = proxy.number == null ? 0 : long.Parse((string)proxy.number);
-            vendor = proxy.vendor == null ? null : (string)proxy.vendor;
-            speed = proxy.speed == null ? 0 : long.Parse((string)proxy.speed);
-            modelname = proxy.modelname == null ? null : (string)proxy.modelname;
-            family = proxy.family == null ? 0 : long.Parse((string)proxy.family);
-            model = proxy.model == null ? 0 : long.Parse((string)proxy.model);
-            stepping = proxy.stepping == null ? null : (string)proxy.stepping;
-            flags = proxy.flags == null ? null : (string)proxy.flags;
-            features = proxy.features == null ? null : (string)proxy.features;
+            number = proxy.number == null ? 0 : long.Parse(proxy.number);
+            vendor = proxy.vendor == null ? null : proxy.vendor;
+            speed = proxy.speed == null ? 0 : long.Parse(proxy.speed);
+            modelname = proxy.modelname == null ? null : proxy.modelname;
+            family = proxy.family == null ? 0 : long.Parse(proxy.family);
+            model = proxy.model == null ? 0 : long.Parse(proxy.model);
+            stepping = proxy.stepping == null ? null : proxy.stepping;
+            flags = proxy.flags == null ? null : proxy.flags;
+            features = proxy.features == null ? null : proxy.features;
             utilisation = Convert.ToDouble(proxy.utilisation);
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
         }
@@ -283,7 +283,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_cpu_get_uuid(session.opaque_ref, _host_cpu);
             else
-                return (string)session.proxy.host_cpu_get_uuid(session.opaque_ref, _host_cpu ?? "").parse();
+                return session.proxy.host_cpu_get_uuid(session.opaque_ref, _host_cpu ?? "").parse();
         }
 
         /// <summary>
@@ -311,7 +311,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_cpu_get_number(session.opaque_ref, _host_cpu);
             else
-                return long.Parse((string)session.proxy.host_cpu_get_number(session.opaque_ref, _host_cpu ?? "").parse());
+                return long.Parse(session.proxy.host_cpu_get_number(session.opaque_ref, _host_cpu ?? "").parse());
         }
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_cpu_get_vendor(session.opaque_ref, _host_cpu);
             else
-                return (string)session.proxy.host_cpu_get_vendor(session.opaque_ref, _host_cpu ?? "").parse();
+                return session.proxy.host_cpu_get_vendor(session.opaque_ref, _host_cpu ?? "").parse();
         }
 
         /// <summary>
@@ -339,7 +339,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_cpu_get_speed(session.opaque_ref, _host_cpu);
             else
-                return long.Parse((string)session.proxy.host_cpu_get_speed(session.opaque_ref, _host_cpu ?? "").parse());
+                return long.Parse(session.proxy.host_cpu_get_speed(session.opaque_ref, _host_cpu ?? "").parse());
         }
 
         /// <summary>
@@ -353,7 +353,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_cpu_get_modelname(session.opaque_ref, _host_cpu);
             else
-                return (string)session.proxy.host_cpu_get_modelname(session.opaque_ref, _host_cpu ?? "").parse();
+                return session.proxy.host_cpu_get_modelname(session.opaque_ref, _host_cpu ?? "").parse();
         }
 
         /// <summary>
@@ -367,7 +367,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_cpu_get_family(session.opaque_ref, _host_cpu);
             else
-                return long.Parse((string)session.proxy.host_cpu_get_family(session.opaque_ref, _host_cpu ?? "").parse());
+                return long.Parse(session.proxy.host_cpu_get_family(session.opaque_ref, _host_cpu ?? "").parse());
         }
 
         /// <summary>
@@ -381,7 +381,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_cpu_get_model(session.opaque_ref, _host_cpu);
             else
-                return long.Parse((string)session.proxy.host_cpu_get_model(session.opaque_ref, _host_cpu ?? "").parse());
+                return long.Parse(session.proxy.host_cpu_get_model(session.opaque_ref, _host_cpu ?? "").parse());
         }
 
         /// <summary>
@@ -395,7 +395,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_cpu_get_stepping(session.opaque_ref, _host_cpu);
             else
-                return (string)session.proxy.host_cpu_get_stepping(session.opaque_ref, _host_cpu ?? "").parse();
+                return session.proxy.host_cpu_get_stepping(session.opaque_ref, _host_cpu ?? "").parse();
         }
 
         /// <summary>
@@ -409,7 +409,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_cpu_get_flags(session.opaque_ref, _host_cpu);
             else
-                return (string)session.proxy.host_cpu_get_flags(session.opaque_ref, _host_cpu ?? "").parse();
+                return session.proxy.host_cpu_get_flags(session.opaque_ref, _host_cpu ?? "").parse();
         }
 
         /// <summary>
@@ -423,7 +423,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_cpu_get_features(session.opaque_ref, _host_cpu);
             else
-                return (string)session.proxy.host_cpu_get_features(session.opaque_ref, _host_cpu ?? "").parse();
+                return session.proxy.host_cpu_get_features(session.opaque_ref, _host_cpu ?? "").parse();
         }
 
         /// <summary>

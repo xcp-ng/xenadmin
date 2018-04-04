@@ -90,11 +90,11 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_PVS_cache_storage proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             host = proxy.host == null ? null : XenRef<Host>.Create(proxy.host);
             SR = proxy.SR == null ? null : XenRef<SR>.Create(proxy.SR);
             site = proxy.site == null ? null : XenRef<PVS_site>.Create(proxy.site);
-            size = proxy.size == null ? 0 : long.Parse((string)proxy.size);
+            size = proxy.size == null ? 0 : long.Parse(proxy.size);
             VDI = proxy.VDI == null ? null : XenRef<VDI>.Create(proxy.VDI);
         }
 
@@ -274,7 +274,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pvs_cache_storage_get_uuid(session.opaque_ref, _pvs_cache_storage);
             else
-                return (string)session.proxy.pvs_cache_storage_get_uuid(session.opaque_ref, _pvs_cache_storage ?? "").parse();
+                return session.proxy.pvs_cache_storage_get_uuid(session.opaque_ref, _pvs_cache_storage ?? "").parse();
         }
 
         /// <summary>
@@ -330,7 +330,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pvs_cache_storage_get_size(session.opaque_ref, _pvs_cache_storage);
             else
-                return long.Parse((string)session.proxy.pvs_cache_storage_get_size(session.opaque_ref, _pvs_cache_storage ?? "").parse());
+                return long.Parse(session.proxy.pvs_cache_storage_get_size(session.opaque_ref, _pvs_cache_storage ?? "").parse());
         }
 
         /// <summary>

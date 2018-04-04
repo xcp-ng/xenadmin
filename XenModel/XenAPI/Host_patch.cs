@@ -102,14 +102,14 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Host_patch proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            name_label = proxy.name_label == null ? null : (string)proxy.name_label;
-            name_description = proxy.name_description == null ? null : (string)proxy.name_description;
-            version = proxy.version == null ? null : (string)proxy.version;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            name_label = proxy.name_label == null ? null : proxy.name_label;
+            name_description = proxy.name_description == null ? null : proxy.name_description;
+            version = proxy.version == null ? null : proxy.version;
             host = proxy.host == null ? null : XenRef<Host>.Create(proxy.host);
             applied = (bool)proxy.applied;
             timestamp_applied = proxy.timestamp_applied;
-            size = proxy.size == null ? 0 : long.Parse((string)proxy.size);
+            size = proxy.size == null ? 0 : long.Parse(proxy.size);
             pool_patch = proxy.pool_patch == null ? null : XenRef<Pool_patch>.Create(proxy.pool_patch);
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
         }
@@ -275,7 +275,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_patch_get_uuid(session.opaque_ref, _host_patch);
             else
-                return (string)session.proxy.host_patch_get_uuid(session.opaque_ref, _host_patch ?? "").parse();
+                return session.proxy.host_patch_get_uuid(session.opaque_ref, _host_patch ?? "").parse();
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_patch_get_name_label(session.opaque_ref, _host_patch);
             else
-                return (string)session.proxy.host_patch_get_name_label(session.opaque_ref, _host_patch ?? "").parse();
+                return session.proxy.host_patch_get_name_label(session.opaque_ref, _host_patch ?? "").parse();
         }
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_patch_get_name_description(session.opaque_ref, _host_patch);
             else
-                return (string)session.proxy.host_patch_get_name_description(session.opaque_ref, _host_patch ?? "").parse();
+                return session.proxy.host_patch_get_name_description(session.opaque_ref, _host_patch ?? "").parse();
         }
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_patch_get_version(session.opaque_ref, _host_patch);
             else
-                return (string)session.proxy.host_patch_get_version(session.opaque_ref, _host_patch ?? "").parse();
+                return session.proxy.host_patch_get_version(session.opaque_ref, _host_patch ?? "").parse();
         }
 
         /// <summary>
@@ -373,7 +373,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_patch_get_size(session.opaque_ref, _host_patch);
             else
-                return long.Parse((string)session.proxy.host_patch_get_size(session.opaque_ref, _host_patch ?? "").parse());
+                return long.Parse(session.proxy.host_patch_get_size(session.opaque_ref, _host_patch ?? "").parse());
         }
 
         /// <summary>
@@ -495,7 +495,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_patch_apply(session.opaque_ref, _host_patch);
             else
-                return (string)session.proxy.host_patch_apply(session.opaque_ref, _host_patch ?? "").parse();
+                return session.proxy.host_patch_apply(session.opaque_ref, _host_patch ?? "").parse();
         }
 
         /// <summary>

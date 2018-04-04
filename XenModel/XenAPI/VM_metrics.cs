@@ -120,9 +120,9 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_VM_metrics proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            memory_actual = proxy.memory_actual == null ? 0 : long.Parse((string)proxy.memory_actual);
-            VCPUs_number = proxy.VCPUs_number == null ? 0 : long.Parse((string)proxy.VCPUs_number);
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            memory_actual = proxy.memory_actual == null ? 0 : long.Parse(proxy.memory_actual);
+            VCPUs_number = proxy.VCPUs_number == null ? 0 : long.Parse(proxy.VCPUs_number);
             VCPUs_utilisation = proxy.VCPUs_utilisation == null ? null : Maps.convert_from_proxy_long_double(proxy.VCPUs_utilisation);
             VCPUs_CPU = proxy.VCPUs_CPU == null ? null : Maps.convert_from_proxy_long_long(proxy.VCPUs_CPU);
             VCPUs_params = proxy.VCPUs_params == null ? null : Maps.convert_from_proxy_string_string(proxy.VCPUs_params);
@@ -303,7 +303,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_metrics_get_uuid(session.opaque_ref, _vm_metrics);
             else
-                return (string)session.proxy.vm_metrics_get_uuid(session.opaque_ref, _vm_metrics ?? "").parse();
+                return session.proxy.vm_metrics_get_uuid(session.opaque_ref, _vm_metrics ?? "").parse();
         }
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_metrics_get_memory_actual(session.opaque_ref, _vm_metrics);
             else
-                return long.Parse((string)session.proxy.vm_metrics_get_memory_actual(session.opaque_ref, _vm_metrics ?? "").parse());
+                return long.Parse(session.proxy.vm_metrics_get_memory_actual(session.opaque_ref, _vm_metrics ?? "").parse());
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_metrics_get_vcpus_number(session.opaque_ref, _vm_metrics);
             else
-                return long.Parse((string)session.proxy.vm_metrics_get_vcpus_number(session.opaque_ref, _vm_metrics ?? "").parse());
+                return long.Parse(session.proxy.vm_metrics_get_vcpus_number(session.opaque_ref, _vm_metrics ?? "").parse());
         }
 
         /// <summary>
@@ -504,7 +504,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the current_domain_type field of the given VM_metrics.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.4.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
@@ -869,7 +869,7 @@ namespace XenAPI
 
         /// <summary>
         /// The current domain type of the VM (for running,suspended, or paused VMs). The last-known domain type for halted VMs.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.4.
         /// </summary>
         [JsonConverter(typeof(domain_typeConverter))]
         public virtual domain_type current_domain_type

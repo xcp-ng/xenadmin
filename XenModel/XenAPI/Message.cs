@@ -255,13 +255,13 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Message proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            name = proxy.name == null ? null : (string)proxy.name;
-            priority = proxy.priority == null ? 0 : long.Parse((string)proxy.priority);
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            name = proxy.name == null ? null : proxy.name;
+            priority = proxy.priority == null ? 0 : long.Parse(proxy.priority);
             cls = proxy.cls == null ? (cls) 0 : (cls)Helper.EnumParseDefault(typeof(cls), (string)proxy.cls);
-            obj_uuid = proxy.obj_uuid == null ? null : (string)proxy.obj_uuid;
+            obj_uuid = proxy.obj_uuid == null ? null : proxy.obj_uuid;
             timestamp = proxy.timestamp;
-            body = proxy.body == null ? null : (string)proxy.body;
+            body = proxy.body == null ? null : proxy.body;
         }
 
         public Proxy_Message ToProxy()

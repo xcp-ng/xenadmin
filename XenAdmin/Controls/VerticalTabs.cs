@@ -35,17 +35,17 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using XenAdmin.XenSearch;
 using XenAdmin.Core;
+
 
 namespace XenAdmin.Controls
 {
     public class VerticalTabs : FlickerFreeListBox
     {
-        public interface VerticalTab
+        public interface IVerticalTab
         {
-            String Text { get; }
-            String SubText { get; }
+            string Text { get; }
+            string SubText { get; }
             Image Image { get; }
         }
 
@@ -77,7 +77,7 @@ namespace XenAdmin.Controls
             if (e.Index < 0 || e.Index >= Items.Count)
                 return;
 
-            VerticalTab editPage = Items[e.Index] as VerticalTab;
+            IVerticalTab editPage = Items[e.Index] as IVerticalTab;
             if (editPage == null)
                 return;
 

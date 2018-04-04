@@ -78,7 +78,7 @@ namespace XenAdmin.Wizards.GenericPages
         public abstract bool HasChanged { get; }
         #endregion
 
-        #region VerticalTab Members
+        #region IVerticalTab Members
         public abstract string SubText { get; }
         public abstract Image Image { get; }
         #endregion

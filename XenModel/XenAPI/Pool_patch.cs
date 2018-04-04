@@ -102,11 +102,11 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Pool_patch proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            name_label = proxy.name_label == null ? null : (string)proxy.name_label;
-            name_description = proxy.name_description == null ? null : (string)proxy.name_description;
-            version = proxy.version == null ? null : (string)proxy.version;
-            size = proxy.size == null ? 0 : long.Parse((string)proxy.size);
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            name_label = proxy.name_label == null ? null : proxy.name_label;
+            name_description = proxy.name_description == null ? null : proxy.name_description;
+            version = proxy.version == null ? null : proxy.version;
+            size = proxy.size == null ? 0 : long.Parse(proxy.size);
             pool_applied = (bool)proxy.pool_applied;
             host_patches = proxy.host_patches == null ? null : XenRef<Host_patch>.Create(proxy.host_patches);
             after_apply_guidance = proxy.after_apply_guidance == null ? null : Helper.StringArrayToEnumList<after_apply_guidance>(proxy.after_apply_guidance);
@@ -123,8 +123,8 @@ namespace XenAPI
             result_.version = version ?? "";
             result_.size = size.ToString();
             result_.pool_applied = pool_applied;
-            result_.host_patches = (host_patches != null) ? Helper.RefListToStringArray(host_patches) : new string[] {};
-            result_.after_apply_guidance = (after_apply_guidance != null) ? Helper.ObjectListToStringArray(after_apply_guidance) : new string[] {};
+            result_.host_patches = host_patches == null ? new string[] {} : Helper.RefListToStringArray(host_patches);
+            result_.after_apply_guidance = after_apply_guidance == null ? new string[] {} : Helper.ObjectListToStringArray(after_apply_guidance);
             result_.pool_update = pool_update ?? "";
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
@@ -275,7 +275,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_patch_get_uuid(session.opaque_ref, _pool_patch);
             else
-                return (string)session.proxy.pool_patch_get_uuid(session.opaque_ref, _pool_patch ?? "").parse();
+                return session.proxy.pool_patch_get_uuid(session.opaque_ref, _pool_patch ?? "").parse();
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_patch_get_name_label(session.opaque_ref, _pool_patch);
             else
-                return (string)session.proxy.pool_patch_get_name_label(session.opaque_ref, _pool_patch ?? "").parse();
+                return session.proxy.pool_patch_get_name_label(session.opaque_ref, _pool_patch ?? "").parse();
         }
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_patch_get_name_description(session.opaque_ref, _pool_patch);
             else
-                return (string)session.proxy.pool_patch_get_name_description(session.opaque_ref, _pool_patch ?? "").parse();
+                return session.proxy.pool_patch_get_name_description(session.opaque_ref, _pool_patch ?? "").parse();
         }
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_patch_get_version(session.opaque_ref, _pool_patch);
             else
-                return (string)session.proxy.pool_patch_get_version(session.opaque_ref, _pool_patch ?? "").parse();
+                return session.proxy.pool_patch_get_version(session.opaque_ref, _pool_patch ?? "").parse();
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_patch_get_size(session.opaque_ref, _pool_patch);
             else
-                return long.Parse((string)session.proxy.pool_patch_get_size(session.opaque_ref, _pool_patch ?? "").parse());
+                return long.Parse(session.proxy.pool_patch_get_size(session.opaque_ref, _pool_patch ?? "").parse());
         }
 
         /// <summary>
@@ -464,7 +464,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_patch_apply(session.opaque_ref, _pool_patch, _host);
             else
-                return (string)session.proxy.pool_patch_apply(session.opaque_ref, _pool_patch ?? "", _host ?? "").parse();
+                return session.proxy.pool_patch_apply(session.opaque_ref, _pool_patch ?? "", _host ?? "").parse();
         }
 
         /// <summary>
@@ -530,7 +530,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_patch_precheck(session.opaque_ref, _pool_patch, _host);
             else
-                return (string)session.proxy.pool_patch_precheck(session.opaque_ref, _pool_patch ?? "", _host ?? "").parse();
+                return session.proxy.pool_patch_precheck(session.opaque_ref, _pool_patch ?? "", _host ?? "").parse();
         }
 
         /// <summary>

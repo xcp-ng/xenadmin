@@ -5508,6 +5508,14 @@ namespace XenAPI
         Response<string>
         async_sr_probe(string session, string _host, Object _device_config, string _type, Object _sm_config);
 
+        [XmlRpcMethod("SR.probe_ext")]
+        Response<Proxy_Probe_result[]>
+        sr_probe_ext(string session, string _host, Object _device_config, string _type, Object _sm_config);
+
+        [XmlRpcMethod("Async.SR.probe_ext")]
+        Response<string>
+        async_sr_probe_ext(string session, string _host, Object _device_config, string _type, Object _sm_config);
+
         [XmlRpcMethod("SR.set_shared")]
         Response<string>
         sr_set_shared(string session, string _sr, bool _value);
@@ -5615,6 +5623,14 @@ namespace XenAPI
         [XmlRpcMethod("SR.get_all_records")]
         Response<Object>
         sr_get_all_records(string session);
+
+        [XmlRpcMethod("sr_stat.get_all_records")]
+        Response<Object>
+        sr_stat_get_all_records(string session);
+
+        [XmlRpcMethod("probe_result.get_all_records")]
+        Response<Object>
+        probe_result_get_all_records(string session);
 
         [XmlRpcMethod("LVHD.get_record")]
         Response<Proxy_LVHD>
@@ -8894,6 +8910,27 @@ namespace XenAPI
         public string introduced_by;
         public bool clustered;
         public bool is_tools_sr;
+    }
+
+    [XmlRpcMissingMapping(MappingAction.Ignore)]
+    public class Proxy_Sr_stat
+    {
+        public string uuid;
+        public string name_label;
+        public string name_description;
+        public string free_space;
+        public string total_space;
+        public bool clustered;
+        public string health;
+    }
+
+    [XmlRpcMissingMapping(MappingAction.Ignore)]
+    public class Proxy_Probe_result
+    {
+        public Object configuration;
+        public bool complete;
+        public Proxy_Sr_stat sr;
+        public Object extra_info;
     }
 
     [XmlRpcMissingMapping(MappingAction.Ignore)]

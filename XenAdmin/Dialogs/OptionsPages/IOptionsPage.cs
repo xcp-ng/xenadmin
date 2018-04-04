@@ -36,7 +36,7 @@ using XenAdmin.Controls;
 
 namespace XenAdmin.Dialogs.OptionsPages
 {
-    interface IOptionsPage : VerticalTabs.VerticalTab
+    interface IOptionsPage : VerticalTabs.IVerticalTab
     {
         void Save();
     }

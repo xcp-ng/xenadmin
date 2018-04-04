@@ -63,17 +63,17 @@ namespace XenAdmin.Dialogs
                 blueBorder.BackColor = SystemColors.Control;
         }
 
-        public VerticalTabs.VerticalTab[] Tabs
+        public VerticalTabs.IVerticalTab[] Tabs
         {
-            get { return verticalTabs.Items.Cast<VerticalTabs.VerticalTab>().ToArray(); }
+            get { return verticalTabs.Items.Cast<VerticalTabs.IVerticalTab>().ToArray(); }
         }
 
-        public VerticalTabs.VerticalTab SelectedTab
+        public VerticalTabs.IVerticalTab SelectedTab
         {
-            get { return verticalTabs.SelectedItem as VerticalTabs.VerticalTab; }
+            get { return verticalTabs.SelectedItem as VerticalTabs.IVerticalTab; }
         }
 
-        protected void SelectPage(VerticalTabs.VerticalTab page)
+        protected void SelectPage(VerticalTabs.IVerticalTab page)
         {
             if (page == null || !verticalTabs.Items.Contains(page))
                 return;
@@ -87,7 +87,7 @@ namespace XenAdmin.Dialogs
             if (sender == null)
                 return;
 
-            VerticalTabs.VerticalTab editPage = listBox.SelectedItem as VerticalTabs.VerticalTab;
+            VerticalTabs.IVerticalTab editPage = listBox.SelectedItem as VerticalTabs.IVerticalTab;
             if (editPage == null)
                 return;
 
@@ -108,7 +108,7 @@ namespace XenAdmin.Dialogs
                 }
         }
 
-        protected virtual string GetTabTitle(VerticalTabs.VerticalTab verticalTab)
+        protected virtual string GetTabTitle(VerticalTabs.IVerticalTab verticalTab)
         {
             return verticalTab != null ? verticalTab.Text : String.Empty;
         }
@@ -123,11 +123,11 @@ namespace XenAdmin.Dialogs
             if (!DesignMode)
                 return;
 
-            VerticalTabs.VerticalTab verticalTab = e.Control as VerticalTabs.VerticalTab;
+            VerticalTabs.IVerticalTab verticalTab = e.Control as VerticalTabs.IVerticalTab;
             if (verticalTab == null)
                 return;
 
-            foreach (VerticalTabs.VerticalTab vt in verticalTabs.Items)
+            foreach (VerticalTabs.IVerticalTab vt in verticalTabs.Items)
                 if(vt == verticalTab)
                     return;
 
@@ -142,7 +142,7 @@ namespace XenAdmin.Dialogs
             if (!DesignMode)
                 return;
 
-            VerticalTabs.VerticalTab verticalTab = e.Control as VerticalTabs.VerticalTab;
+            VerticalTabs.IVerticalTab verticalTab = e.Control as VerticalTabs.IVerticalTab;
             if (verticalTab == null)
                 return;
 

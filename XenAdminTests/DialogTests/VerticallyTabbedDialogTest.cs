@@ -73,7 +73,7 @@ namespace XenAdminTests.DialogTests
             }
         }
 
-        private string GetNames(VerticalTabs.VerticalTab[] items)
+        private string GetNames(VerticalTabs.IVerticalTab[] items)
         {
             return string.Join(", ", (from t in items select t.Text).ToArray());
         }

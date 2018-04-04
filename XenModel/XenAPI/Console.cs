@@ -87,9 +87,9 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Console proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             protocol = proxy.protocol == null ? (console_protocol) 0 : (console_protocol)Helper.EnumParseDefault(typeof(console_protocol), (string)proxy.protocol);
-            location = proxy.location == null ? null : (string)proxy.location;
+            location = proxy.location == null ? null : proxy.location;
             VM = proxy.VM == null ? null : XenRef<VM>.Create(proxy.VM);
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
         }
@@ -271,7 +271,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.console_get_uuid(session.opaque_ref, _console);
             else
-                return (string)session.proxy.console_get_uuid(session.opaque_ref, _console ?? "").parse();
+                return session.proxy.console_get_uuid(session.opaque_ref, _console ?? "").parse();
         }
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.console_get_location(session.opaque_ref, _console);
             else
-                return (string)session.proxy.console_get_location(session.opaque_ref, _console ?? "").parse();
+                return session.proxy.console_get_location(session.opaque_ref, _console ?? "").parse();
         }
 
         /// <summary>

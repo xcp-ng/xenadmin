@@ -84,9 +84,9 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Role proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            name_label = proxy.name_label == null ? null : (string)proxy.name_label;
-            name_description = proxy.name_description == null ? null : (string)proxy.name_description;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            name_label = proxy.name_label == null ? null : proxy.name_label;
+            name_description = proxy.name_description == null ? null : proxy.name_description;
             subroles = proxy.subroles == null ? null : XenRef<Role>.Create(proxy.subroles);
         }
 
@@ -96,7 +96,7 @@ namespace XenAPI
             result_.uuid = uuid ?? "";
             result_.name_label = name_label ?? "";
             result_.name_description = name_description ?? "";
-            result_.subroles = (subroles != null) ? Helper.RefListToStringArray(subroles) : new string[] {};
+            result_.subroles = subroles == null ? new string[] {} : Helper.RefListToStringArray(subroles);
             return result_;
         }
 
@@ -216,7 +216,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_uuid(session.opaque_ref, _role);
             else
-                return (string)session.proxy.role_get_uuid(session.opaque_ref, _role ?? "").parse();
+                return session.proxy.role_get_uuid(session.opaque_ref, _role ?? "").parse();
         }
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_name_label(session.opaque_ref, _role);
             else
-                return (string)session.proxy.role_get_name_label(session.opaque_ref, _role ?? "").parse();
+                return session.proxy.role_get_name_label(session.opaque_ref, _role ?? "").parse();
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_name_description(session.opaque_ref, _role);
             else
-                return (string)session.proxy.role_get_name_description(session.opaque_ref, _role ?? "").parse();
+                return session.proxy.role_get_name_description(session.opaque_ref, _role ?? "").parse();
         }
 
         /// <summary>

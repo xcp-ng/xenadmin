@@ -73,11 +73,11 @@ namespace XenAdmin.Wlb
         /// </summary>
         /// <param name="reportName">The name of the report to be rendered</param>
         /// <param name="reportFile">The RDLC file name for the report</param>
+        /// <param name="reportDefinition"></param>
         /// <param name="DisplayHosts">Whether or not the report requires a host parameter value</param>
+        /// <param name="DisplayFilter"></param>
         /// <param name="DisplayUsers">Whether or not the report requires a user parameter value</param>
         /// <param name="DisplayAuditObjects">Whether or not the report requires a audit object parameter value</param>
-        /// <param name="UserNames">List of user names whose values are required for the SQL query</param>
-        /// <param name="AuditObjectNames">List of audit object names whose values are required for the SQL query</param>
         /// <param name="reportQueryParameterNames">List of parameter names whose values are required for the SQL query</param>
         public WlbReportInfo(string reportName, 
                              string reportFile, 

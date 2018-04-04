@@ -104,9 +104,9 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
                 return;
 
             dataGridViewSummary.Rows.Add(new LVMoHBASummaryHeaderGridViewRow(success, srDescriptors.Count));
-            foreach (var lvmOhbaSrDescriptor in srDescriptors)
+            foreach (var descriptor in srDescriptors)
             {
-                DataGridViewRow row = new LVMoHBASrDescriptorGridViewRow(lvmOhbaSrDescriptor) {Visible = false};
+                DataGridViewRow row = new LVMoHBASrDescriptorGridViewRow(descriptor) { Visible = false };
                 dataGridViewSummary.Rows.Add(row);
             }
         }
@@ -241,19 +241,19 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
 
             protected override DataGridViewTextBoxCell GetDetailsCell()
             {
-                LvmOhbaSrDescriptor lvmOhbaSrDescriptor = srDescriptor as LvmOhbaSrDescriptor;
-                string text = lvmOhbaSrDescriptor != null
-                                  ? string.Format(Messages.NEWSR_LVMOHBA_SUMMARY_DETAILS_CELL_TEXT,
-                                                  lvmOhbaSrDescriptor.Name,
-                                                  Util.DiskSizeString(lvmOhbaSrDescriptor.Device.Size),
-                                                  lvmOhbaSrDescriptor.Device.Serial)
-                                  : srDescriptor.Name;
-                
+                var descriptor = srDescriptor as FibreChannelDescriptor;
+                string text = descriptor != null
+                    ? string.Format(Messages.NEWSR_LVMOHBA_SUMMARY_DETAILS_CELL_TEXT,
+                        descriptor.Name,
+                        Util.DiskSizeString(descriptor.Device.Size),
+                        descriptor.Device.Serial)
+                    : srDescriptor.Name;
+
                 return new DataGridViewTextBoxCell
-                           {
-                               Value = text,
-                               Style = {Padding = new Padding(10, 0, 0, 0)}
-                           };
+                {
+                    Value = text,
+                    Style = {Padding = new Padding(10, 0, 0, 0)}
+                };
             }
         }
 

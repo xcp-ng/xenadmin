@@ -87,7 +87,7 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Tunnel proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             access_PIF = proxy.access_PIF == null ? null : XenRef<PIF>.Create(proxy.access_PIF);
             transport_PIF = proxy.transport_PIF == null ? null : XenRef<PIF>.Create(proxy.transport_PIF);
             status = proxy.status == null ? null : Maps.convert_from_proxy_string_string(proxy.status);
@@ -219,7 +219,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.tunnel_get_uuid(session.opaque_ref, _tunnel);
             else
-                return (string)session.proxy.tunnel_get_uuid(session.opaque_ref, _tunnel ?? "").parse();
+                return session.proxy.tunnel_get_uuid(session.opaque_ref, _tunnel ?? "").parse();
         }
 
         /// <summary>

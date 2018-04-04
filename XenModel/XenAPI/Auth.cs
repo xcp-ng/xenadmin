@@ -140,7 +140,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.auth_get_subject_identifier(session.opaque_ref, _subject_name);
             else
-                return (string)session.proxy.auth_get_subject_identifier(session.opaque_ref, _subject_name ?? "").parse();
+                return session.proxy.auth_get_subject_identifier(session.opaque_ref, _subject_name ?? "").parse();
         }
 
         /// <summary>

@@ -96,14 +96,14 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Bond proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             master = proxy.master == null ? null : XenRef<PIF>.Create(proxy.master);
             slaves = proxy.slaves == null ? null : XenRef<PIF>.Create(proxy.slaves);
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
             primary_slave = proxy.primary_slave == null ? null : XenRef<PIF>.Create(proxy.primary_slave);
             mode = proxy.mode == null ? (bond_mode) 0 : (bond_mode)Helper.EnumParseDefault(typeof(bond_mode), (string)proxy.mode);
             properties = proxy.properties == null ? null : Maps.convert_from_proxy_string_string(proxy.properties);
-            links_up = proxy.links_up == null ? 0 : long.Parse((string)proxy.links_up);
+            links_up = proxy.links_up == null ? 0 : long.Parse(proxy.links_up);
         }
 
         public Proxy_Bond ToProxy()
@@ -111,7 +111,7 @@ namespace XenAPI
             Proxy_Bond result_ = new Proxy_Bond();
             result_.uuid = uuid ?? "";
             result_.master = master ?? "";
-            result_.slaves = (slaves != null) ? Helper.RefListToStringArray(slaves) : new string[] {};
+            result_.slaves = slaves == null ? new string[] {} : Helper.RefListToStringArray(slaves);
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             result_.primary_slave = primary_slave ?? "";
             result_.mode = bond_mode_helper.ToString(mode);
@@ -239,7 +239,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_uuid(session.opaque_ref, _bond);
             else
-                return (string)session.proxy.bond_get_uuid(session.opaque_ref, _bond ?? "").parse();
+                return session.proxy.bond_get_uuid(session.opaque_ref, _bond ?? "").parse();
         }
 
         /// <summary>
@@ -337,7 +337,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_links_up(session.opaque_ref, _bond);
             else
-                return long.Parse((string)session.proxy.bond_get_links_up(session.opaque_ref, _bond ?? "").parse());
+                return long.Parse(session.proxy.bond_get_links_up(session.opaque_ref, _bond ?? "").parse());
         }
 
         /// <summary>
@@ -399,7 +399,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_create(session.opaque_ref, _network, _members, _mac);
             else
-                return XenRef<Bond>.Create(session.proxy.bond_create(session.opaque_ref, _network ?? "", (_members != null) ? Helper.RefListToStringArray(_members) : new string[] {}, _mac ?? "").parse());
+                return XenRef<Bond>.Create(session.proxy.bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "").parse());
         }
 
         /// <summary>
@@ -415,7 +415,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_bond_create(session.opaque_ref, _network, _members, _mac);
           else
-              return XenRef<Task>.Create(session.proxy.async_bond_create(session.opaque_ref, _network ?? "", (_members != null) ? Helper.RefListToStringArray(_members) : new string[] {}, _mac ?? "").parse());
+              return XenRef<Task>.Create(session.proxy.async_bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "").parse());
         }
 
         /// <summary>
@@ -432,7 +432,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_create(session.opaque_ref, _network, _members, _mac, _mode);
             else
-                return XenRef<Bond>.Create(session.proxy.bond_create(session.opaque_ref, _network ?? "", (_members != null) ? Helper.RefListToStringArray(_members) : new string[] {}, _mac ?? "", bond_mode_helper.ToString(_mode)).parse());
+                return XenRef<Bond>.Create(session.proxy.bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "", bond_mode_helper.ToString(_mode)).parse());
         }
 
         /// <summary>
@@ -449,7 +449,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_bond_create(session.opaque_ref, _network, _members, _mac, _mode);
           else
-              return XenRef<Task>.Create(session.proxy.async_bond_create(session.opaque_ref, _network ?? "", (_members != null) ? Helper.RefListToStringArray(_members) : new string[] {}, _mac ?? "", bond_mode_helper.ToString(_mode)).parse());
+              return XenRef<Task>.Create(session.proxy.async_bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "", bond_mode_helper.ToString(_mode)).parse());
         }
 
         /// <summary>
@@ -467,7 +467,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_create(session.opaque_ref, _network, _members, _mac, _mode, _properties);
             else
-                return XenRef<Bond>.Create(session.proxy.bond_create(session.opaque_ref, _network ?? "", (_members != null) ? Helper.RefListToStringArray(_members) : new string[] {}, _mac ?? "", bond_mode_helper.ToString(_mode), Maps.convert_to_proxy_string_string(_properties)).parse());
+                return XenRef<Bond>.Create(session.proxy.bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "", bond_mode_helper.ToString(_mode), Maps.convert_to_proxy_string_string(_properties)).parse());
         }
 
         /// <summary>
@@ -485,7 +485,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_bond_create(session.opaque_ref, _network, _members, _mac, _mode, _properties);
           else
-              return XenRef<Task>.Create(session.proxy.async_bond_create(session.opaque_ref, _network ?? "", (_members != null) ? Helper.RefListToStringArray(_members) : new string[] {}, _mac ?? "", bond_mode_helper.ToString(_mode), Maps.convert_to_proxy_string_string(_properties)).parse());
+              return XenRef<Task>.Create(session.proxy.async_bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "", bond_mode_helper.ToString(_mode), Maps.convert_to_proxy_string_string(_properties)).parse());
         }
 
         /// <summary>

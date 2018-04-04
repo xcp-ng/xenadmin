@@ -93,10 +93,10 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_PVS_site proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            name_label = proxy.name_label == null ? null : (string)proxy.name_label;
-            name_description = proxy.name_description == null ? null : (string)proxy.name_description;
-            PVS_uuid = proxy.PVS_uuid == null ? null : (string)proxy.PVS_uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            name_label = proxy.name_label == null ? null : proxy.name_label;
+            name_description = proxy.name_description == null ? null : proxy.name_description;
+            PVS_uuid = proxy.PVS_uuid == null ? null : proxy.PVS_uuid;
             cache_storage = proxy.cache_storage == null ? null : XenRef<PVS_cache_storage>.Create(proxy.cache_storage);
             servers = proxy.servers == null ? null : XenRef<PVS_server>.Create(proxy.servers);
             proxies = proxy.proxies == null ? null : XenRef<PVS_proxy>.Create(proxy.proxies);
@@ -109,9 +109,9 @@ namespace XenAPI
             result_.name_label = name_label ?? "";
             result_.name_description = name_description ?? "";
             result_.PVS_uuid = PVS_uuid ?? "";
-            result_.cache_storage = (cache_storage != null) ? Helper.RefListToStringArray(cache_storage) : new string[] {};
-            result_.servers = (servers != null) ? Helper.RefListToStringArray(servers) : new string[] {};
-            result_.proxies = (proxies != null) ? Helper.RefListToStringArray(proxies) : new string[] {};
+            result_.cache_storage = cache_storage == null ? new string[] {} : Helper.RefListToStringArray(cache_storage);
+            result_.servers = servers == null ? new string[] {} : Helper.RefListToStringArray(servers);
+            result_.proxies = proxies == null ? new string[] {} : Helper.RefListToStringArray(proxies);
             return result_;
         }
 
@@ -253,7 +253,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pvs_site_get_uuid(session.opaque_ref, _pvs_site);
             else
-                return (string)session.proxy.pvs_site_get_uuid(session.opaque_ref, _pvs_site ?? "").parse();
+                return session.proxy.pvs_site_get_uuid(session.opaque_ref, _pvs_site ?? "").parse();
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pvs_site_get_name_label(session.opaque_ref, _pvs_site);
             else
-                return (string)session.proxy.pvs_site_get_name_label(session.opaque_ref, _pvs_site ?? "").parse();
+                return session.proxy.pvs_site_get_name_label(session.opaque_ref, _pvs_site ?? "").parse();
         }
 
         /// <summary>
@@ -281,7 +281,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pvs_site_get_name_description(session.opaque_ref, _pvs_site);
             else
-                return (string)session.proxy.pvs_site_get_name_description(session.opaque_ref, _pvs_site ?? "").parse();
+                return session.proxy.pvs_site_get_name_description(session.opaque_ref, _pvs_site ?? "").parse();
         }
 
         /// <summary>
@@ -295,7 +295,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pvs_site_get_pvs_uuid(session.opaque_ref, _pvs_site);
             else
-                return (string)session.proxy.pvs_site_get_pvs_uuid(session.opaque_ref, _pvs_site ?? "").parse();
+                return session.proxy.pvs_site_get_pvs_uuid(session.opaque_ref, _pvs_site ?? "").parse();
         }
 
         /// <summary>

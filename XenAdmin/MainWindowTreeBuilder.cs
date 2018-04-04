@@ -91,6 +91,7 @@ namespace XenAdmin
         /// </summary>
         /// <param name="newRootNode">The new root node.</param>
         /// <param name="searchText">The search text for the currently active search.</param>
+        /// <param name="searchMode"></param>
         public void RefreshTreeView(VirtualTreeNode newRootNode, string searchText, NavigationPane.NavigationMode searchMode)
         {
             Util.ThrowIfParameterNull(newRootNode, "newRootNode");

@@ -153,20 +153,20 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_VIF proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             allowed_operations = proxy.allowed_operations == null ? null : Helper.StringArrayToEnumList<vif_operations>(proxy.allowed_operations);
             current_operations = proxy.current_operations == null ? null : Maps.convert_from_proxy_string_vif_operations(proxy.current_operations);
-            device = proxy.device == null ? null : (string)proxy.device;
+            device = proxy.device == null ? null : proxy.device;
             network = proxy.network == null ? null : XenRef<Network>.Create(proxy.network);
             VM = proxy.VM == null ? null : XenRef<VM>.Create(proxy.VM);
-            MAC = proxy.MAC == null ? null : (string)proxy.MAC;
-            MTU = proxy.MTU == null ? 0 : long.Parse((string)proxy.MTU);
+            MAC = proxy.MAC == null ? null : proxy.MAC;
+            MTU = proxy.MTU == null ? 0 : long.Parse(proxy.MTU);
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
             currently_attached = (bool)proxy.currently_attached;
-            status_code = proxy.status_code == null ? 0 : long.Parse((string)proxy.status_code);
-            status_detail = proxy.status_detail == null ? null : (string)proxy.status_detail;
+            status_code = proxy.status_code == null ? 0 : long.Parse(proxy.status_code);
+            status_detail = proxy.status_detail == null ? null : proxy.status_detail;
             runtime_properties = proxy.runtime_properties == null ? null : Maps.convert_from_proxy_string_string(proxy.runtime_properties);
-            qos_algorithm_type = proxy.qos_algorithm_type == null ? null : (string)proxy.qos_algorithm_type;
+            qos_algorithm_type = proxy.qos_algorithm_type == null ? null : proxy.qos_algorithm_type;
             qos_algorithm_params = proxy.qos_algorithm_params == null ? null : Maps.convert_from_proxy_string_string(proxy.qos_algorithm_params);
             qos_supported_algorithms = proxy.qos_supported_algorithms == null ? new string[] {} : (string [])proxy.qos_supported_algorithms;
             metrics = proxy.metrics == null ? null : XenRef<VIF_metrics>.Create(proxy.metrics);
@@ -176,17 +176,17 @@ namespace XenAPI
             ipv6_allowed = proxy.ipv6_allowed == null ? new string[] {} : (string [])proxy.ipv6_allowed;
             ipv4_configuration_mode = proxy.ipv4_configuration_mode == null ? (vif_ipv4_configuration_mode) 0 : (vif_ipv4_configuration_mode)Helper.EnumParseDefault(typeof(vif_ipv4_configuration_mode), (string)proxy.ipv4_configuration_mode);
             ipv4_addresses = proxy.ipv4_addresses == null ? new string[] {} : (string [])proxy.ipv4_addresses;
-            ipv4_gateway = proxy.ipv4_gateway == null ? null : (string)proxy.ipv4_gateway;
+            ipv4_gateway = proxy.ipv4_gateway == null ? null : proxy.ipv4_gateway;
             ipv6_configuration_mode = proxy.ipv6_configuration_mode == null ? (vif_ipv6_configuration_mode) 0 : (vif_ipv6_configuration_mode)Helper.EnumParseDefault(typeof(vif_ipv6_configuration_mode), (string)proxy.ipv6_configuration_mode);
             ipv6_addresses = proxy.ipv6_addresses == null ? new string[] {} : (string [])proxy.ipv6_addresses;
-            ipv6_gateway = proxy.ipv6_gateway == null ? null : (string)proxy.ipv6_gateway;
+            ipv6_gateway = proxy.ipv6_gateway == null ? null : proxy.ipv6_gateway;
         }
 
         public Proxy_VIF ToProxy()
         {
             Proxy_VIF result_ = new Proxy_VIF();
             result_.uuid = uuid ?? "";
-            result_.allowed_operations = (allowed_operations != null) ? Helper.ObjectListToStringArray(allowed_operations) : new string[] {};
+            result_.allowed_operations = allowed_operations == null ? new string[] {} : Helper.ObjectListToStringArray(allowed_operations);
             result_.current_operations = Maps.convert_to_proxy_string_vif_operations(current_operations);
             result_.device = device ?? "";
             result_.network = network ?? "";
@@ -469,7 +469,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vif_get_uuid(session.opaque_ref, _vif);
             else
-                return (string)session.proxy.vif_get_uuid(session.opaque_ref, _vif ?? "").parse();
+                return session.proxy.vif_get_uuid(session.opaque_ref, _vif ?? "").parse();
         }
 
         /// <summary>
@@ -511,7 +511,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vif_get_device(session.opaque_ref, _vif);
             else
-                return (string)session.proxy.vif_get_device(session.opaque_ref, _vif ?? "").parse();
+                return session.proxy.vif_get_device(session.opaque_ref, _vif ?? "").parse();
         }
 
         /// <summary>
@@ -553,7 +553,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vif_get_mac(session.opaque_ref, _vif);
             else
-                return (string)session.proxy.vif_get_mac(session.opaque_ref, _vif ?? "").parse();
+                return session.proxy.vif_get_mac(session.opaque_ref, _vif ?? "").parse();
         }
 
         /// <summary>
@@ -567,7 +567,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vif_get_mtu(session.opaque_ref, _vif);
             else
-                return long.Parse((string)session.proxy.vif_get_mtu(session.opaque_ref, _vif ?? "").parse());
+                return long.Parse(session.proxy.vif_get_mtu(session.opaque_ref, _vif ?? "").parse());
         }
 
         /// <summary>
@@ -609,7 +609,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vif_get_status_code(session.opaque_ref, _vif);
             else
-                return long.Parse((string)session.proxy.vif_get_status_code(session.opaque_ref, _vif ?? "").parse());
+                return long.Parse(session.proxy.vif_get_status_code(session.opaque_ref, _vif ?? "").parse());
         }
 
         /// <summary>
@@ -623,7 +623,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vif_get_status_detail(session.opaque_ref, _vif);
             else
-                return (string)session.proxy.vif_get_status_detail(session.opaque_ref, _vif ?? "").parse();
+                return session.proxy.vif_get_status_detail(session.opaque_ref, _vif ?? "").parse();
         }
 
         /// <summary>
@@ -651,7 +651,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vif_get_qos_algorithm_type(session.opaque_ref, _vif);
             else
-                return (string)session.proxy.vif_get_qos_algorithm_type(session.opaque_ref, _vif ?? "").parse();
+                return session.proxy.vif_get_qos_algorithm_type(session.opaque_ref, _vif ?? "").parse();
         }
 
         /// <summary>
@@ -791,7 +791,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vif_get_ipv4_gateway(session.opaque_ref, _vif);
             else
-                return (string)session.proxy.vif_get_ipv4_gateway(session.opaque_ref, _vif ?? "").parse();
+                return session.proxy.vif_get_ipv4_gateway(session.opaque_ref, _vif ?? "").parse();
         }
 
         /// <summary>
@@ -833,7 +833,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vif_get_ipv6_gateway(session.opaque_ref, _vif);
             else
-                return (string)session.proxy.vif_get_ipv6_gateway(session.opaque_ref, _vif ?? "").parse();
+                return session.proxy.vif_get_ipv6_gateway(session.opaque_ref, _vif ?? "").parse();
         }
 
         /// <summary>

@@ -54,6 +54,7 @@ namespace XenAdmin.Dialogs
         /// <param name="owner"></param>
         /// <param name="message"></param>
         /// <param name="title"></param>
+        /// <param name="helpID"></param>
         /// <returns>null if the user cancelled, otherwise the string they gave.</returns>
         public static String Prompt(IWin32Window owner, String message, String title, String helpID)
         {
@@ -67,6 +68,7 @@ namespace XenAdmin.Dialogs
         /// <param name="message"></param>
         /// <param name="title"></param>
         /// <param name="defaultInput"></param>
+        /// <param name="helpID"></param>
         /// <returns>null if the user cancelled, otherwise the string they gave.</returns>
         public static String Prompt(IWin32Window owner, String message, String title, String defaultInput, String helpID)
         {

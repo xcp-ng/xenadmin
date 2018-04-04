@@ -102,12 +102,12 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_VMSS proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            name_label = proxy.name_label == null ? null : (string)proxy.name_label;
-            name_description = proxy.name_description == null ? null : (string)proxy.name_description;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            name_label = proxy.name_label == null ? null : proxy.name_label;
+            name_description = proxy.name_description == null ? null : proxy.name_description;
             enabled = (bool)proxy.enabled;
             type = proxy.type == null ? (vmss_type) 0 : (vmss_type)Helper.EnumParseDefault(typeof(vmss_type), (string)proxy.type);
-            retained_snapshots = proxy.retained_snapshots == null ? 0 : long.Parse((string)proxy.retained_snapshots);
+            retained_snapshots = proxy.retained_snapshots == null ? 0 : long.Parse(proxy.retained_snapshots);
             frequency = proxy.frequency == null ? (vmss_frequency) 0 : (vmss_frequency)Helper.EnumParseDefault(typeof(vmss_frequency), (string)proxy.frequency);
             schedule = proxy.schedule == null ? null : Maps.convert_from_proxy_string_string(proxy.schedule);
             last_run_time = proxy.last_run_time;
@@ -126,7 +126,7 @@ namespace XenAPI
             result_.frequency = vmss_frequency_helper.ToString(frequency);
             result_.schedule = Maps.convert_to_proxy_string_string(schedule);
             result_.last_run_time = last_run_time;
-            result_.VMs = (VMs != null) ? Helper.RefListToStringArray(VMs) : new string[] {};
+            result_.VMs = VMs == null ? new string[] {} : Helper.RefListToStringArray(VMs);
             return result_;
         }
 
@@ -349,7 +349,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vmss_get_uuid(session.opaque_ref, _vmss);
             else
-                return (string)session.proxy.vmss_get_uuid(session.opaque_ref, _vmss ?? "").parse();
+                return session.proxy.vmss_get_uuid(session.opaque_ref, _vmss ?? "").parse();
         }
 
         /// <summary>
@@ -363,7 +363,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vmss_get_name_label(session.opaque_ref, _vmss);
             else
-                return (string)session.proxy.vmss_get_name_label(session.opaque_ref, _vmss ?? "").parse();
+                return session.proxy.vmss_get_name_label(session.opaque_ref, _vmss ?? "").parse();
         }
 
         /// <summary>
@@ -377,7 +377,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vmss_get_name_description(session.opaque_ref, _vmss);
             else
-                return (string)session.proxy.vmss_get_name_description(session.opaque_ref, _vmss ?? "").parse();
+                return session.proxy.vmss_get_name_description(session.opaque_ref, _vmss ?? "").parse();
         }
 
         /// <summary>
@@ -419,7 +419,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vmss_get_retained_snapshots(session.opaque_ref, _vmss);
             else
-                return long.Parse((string)session.proxy.vmss_get_retained_snapshots(session.opaque_ref, _vmss ?? "").parse());
+                return long.Parse(session.proxy.vmss_get_retained_snapshots(session.opaque_ref, _vmss ?? "").parse());
         }
 
         /// <summary>
@@ -534,7 +534,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vmss_snapshot_now(session.opaque_ref, _vmss);
             else
-                return (string)session.proxy.vmss_snapshot_now(session.opaque_ref, _vmss ?? "").parse();
+                return session.proxy.vmss_snapshot_now(session.opaque_ref, _vmss ?? "").parse();
         }
 
         /// <summary>

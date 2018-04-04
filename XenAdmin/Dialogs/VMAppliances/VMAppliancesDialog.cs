@@ -43,7 +43,6 @@ using XenAdmin.Wizards.ImportWizard;
 using XenAdmin.Wizards.NewVMApplianceWizard;
 using XenAdmin.Wizards.ExportWizard;
 using XenAPI;
-using XenCenterLib;
 
 
 namespace XenAdmin.Dialogs.VMAppliances
@@ -67,29 +66,23 @@ namespace XenAdmin.Dialogs.VMAppliances
 
         private VM_appliance currentSelected = null;
 
-        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void LoadVmAppliances()
         {
-            if (e.Error != null)
-            {
-                log.Error(e.Error);
-                return;
-            }
-
-            var selectedVMAppliance = currentSelected;
             dataGridViewVMAppliances.SuspendLayout();
             try
             {
                 dataGridViewVMAppliances.Rows.Clear();
 
-                foreach (var row in (List<DataGridViewRow>)e.Result)
+                foreach (var vmAppliance in Pool.Connection.Cache.VM_appliances)
                 {
-                    if (dataGridViewVMAppliances.ColumnCount > 0)
-                    {
-                        dataGridViewVMAppliances.Rows.Add(row);
-                    }
+                    var row = new VMApplianceRow(vmAppliance);
+                    dataGridViewVMAppliances.Rows.Add(row);
                 }
+
                 RefreshButtons();
                 RefreshGroupMembersPanel();
+
+                var selectedVMAppliance = currentSelected;
                 if (selectedVMAppliance != null)
                 {
                     foreach (DataGridViewRow row in dataGridViewVMAppliances.Rows)
@@ -110,18 +103,7 @@ namespace XenAdmin.Dialogs.VMAppliances
             }
         }
 
-        object worker_DoWork(object sender, object argument)
-        {
-            var list = new List<DataGridViewRow>();
-            foreach (var vmAppliance in Pool.Connection.Cache.VM_appliances)
-            {
-                VMApplianceRow vmApplianceRow = new VMApplianceRow(vmAppliance);
-                list.Add(vmApplianceRow);
-            }
-            return list;
-        }
-
-        void VMApplianceCollectionChanged(object sender, CollectionChangeEventArgs e)
+        private void VMApplianceCollectionChanged(object sender, CollectionChangeEventArgs e)
         {
             VM_appliance vmAppliance = (VM_appliance)e.Element;
             switch (e.Action)
@@ -134,13 +116,7 @@ namespace XenAdmin.Dialogs.VMAppliances
                     vmAppliance.PropertyChanged -= vApp_PropertyChanged;
                     break;
             }
-            LoadVMAppliances();
-        }
-
-        QueuedBackgroundWorker worker = new QueuedBackgroundWorker();
-        private void LoadVMAppliances()
-        {
-            worker.RunWorkerAsync(worker_DoWork, worker_RunWorkerCompleted);
+            Program.Invoke(this, LoadVmAppliances);
         }
 
         #region VMApplianceRow
@@ -388,7 +364,7 @@ namespace XenAdmin.Dialogs.VMAppliances
 
         private void VMAppliancesDialog_Load(object sender, EventArgs e)
         {
-            LoadVMAppliances();
+            LoadVmAppliances();
             Pool.Connection.Cache.RegisterCollectionChanged<VM_appliance>(VMApplianceCollectionChanged);
             Pool.Connection.Cache.RegisterCollectionChanged<VM>(VMCollectionChanged);
             foreach (VM vm in Pool.Connection.Cache.VMs)

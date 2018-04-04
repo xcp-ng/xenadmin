@@ -52,6 +52,7 @@ namespace XenAdmin.Network
         private readonly ChangeableDictionary<XenRef<Cluster>, Cluster> _cluster = new ChangeableDictionary<XenRef<Cluster>, Cluster>();
         private readonly ChangeableDictionary<XenRef<Cluster_host>, Cluster_host> _cluster_host = new ChangeableDictionary<XenRef<Cluster_host>, Cluster_host>();
         private readonly ChangeableDictionary<XenRef<XenAPI.Console>, XenAPI.Console> _console = new ChangeableDictionary<XenRef<XenAPI.Console>, XenAPI.Console>();
+        private readonly ChangeableDictionary<XenRef<Feature>, Feature> _feature = new ChangeableDictionary<XenRef<Feature>, Feature>();
         private readonly ChangeableDictionary<XenRef<Folder>, Folder> _folders = new ChangeableDictionary<XenRef<Folder>, Folder>();
         private readonly ChangeableDictionary<XenRef<DockerContainer>, DockerContainer> _dockerContainers = new ChangeableDictionary<XenRef<DockerContainer>, DockerContainer>();
 
@@ -140,6 +141,11 @@ namespace XenAdmin.Network
         public Cluster_host[] Cluster_hosts
         {
             get { return contents(_cluster_host); }
+        }
+
+        public Feature[] Features
+        {
+            get { return contents(_feature); }
         }
 
         public Folder[] Folders

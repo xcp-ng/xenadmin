@@ -33,9 +33,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
+using XenAdmin.Actions;
 using XenAdmin.Dialogs;
 using XenAdmin.Network;
-using XenAdmin.Wizards.NewVMWizard;
+using XenAPI;
 
 namespace XenAdminTests.DialogTests.state1_xml.DialogsForConnection
 {
@@ -113,7 +114,7 @@ namespace XenAdminTests.DialogTests.state1_xml.DialogsForConnection
         protected override IscsiChoicesDialog NewDialog()
         {
             XenAPI.SR.SRInfo srinfo = new XenAPI.SR.SRInfo("1234-5678-9012-3456", 200000000000);
-            return new IscsiChoicesDialog(GetAnyConnection(), srinfo);
+            return new IscsiChoicesDialog(GetAnyConnection(), srinfo, SR.SRTypes.lvmoiscsi, SR.SRTypes.lvmoiscsi);
         }
     }
 
@@ -122,7 +123,7 @@ namespace XenAdminTests.DialogTests.state1_xml.DialogsForConnection
     {
         protected override IscsiChoicesDialog NewDialog()
         {
-            XenAdmin.Wizards.NewSRWizard_Pages.FibreChannelDevice dev = new XenAdmin.Wizards.NewSRWizard_Pages.FibreChannelDevice(
+            var dev = new FibreChannelDevice(
                 "1234-5678-9012-3456", "path", "vendor", 200000000000, null, "adapter", "1", "ID", "lun");
             return new IscsiChoicesDialog(GetAnyConnection(), dev);
         }

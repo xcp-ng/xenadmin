@@ -114,19 +114,19 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_SM proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            name_label = proxy.name_label == null ? null : (string)proxy.name_label;
-            name_description = proxy.name_description == null ? null : (string)proxy.name_description;
-            type = proxy.type == null ? null : (string)proxy.type;
-            vendor = proxy.vendor == null ? null : (string)proxy.vendor;
-            copyright = proxy.copyright == null ? null : (string)proxy.copyright;
-            version = proxy.version == null ? null : (string)proxy.version;
-            required_api_version = proxy.required_api_version == null ? null : (string)proxy.required_api_version;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            name_label = proxy.name_label == null ? null : proxy.name_label;
+            name_description = proxy.name_description == null ? null : proxy.name_description;
+            type = proxy.type == null ? null : proxy.type;
+            vendor = proxy.vendor == null ? null : proxy.vendor;
+            copyright = proxy.copyright == null ? null : proxy.copyright;
+            version = proxy.version == null ? null : proxy.version;
+            required_api_version = proxy.required_api_version == null ? null : proxy.required_api_version;
             configuration = proxy.configuration == null ? null : Maps.convert_from_proxy_string_string(proxy.configuration);
             capabilities = proxy.capabilities == null ? new string[] {} : (string [])proxy.capabilities;
             features = proxy.features == null ? null : Maps.convert_from_proxy_string_long(proxy.features);
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
-            driver_filename = proxy.driver_filename == null ? null : (string)proxy.driver_filename;
+            driver_filename = proxy.driver_filename == null ? null : proxy.driver_filename;
             required_cluster_stack = proxy.required_cluster_stack == null ? new string[] {} : (string [])proxy.required_cluster_stack;
         }
 
@@ -301,7 +301,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sm_get_uuid(session.opaque_ref, _sm);
             else
-                return (string)session.proxy.sm_get_uuid(session.opaque_ref, _sm ?? "").parse();
+                return session.proxy.sm_get_uuid(session.opaque_ref, _sm ?? "").parse();
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sm_get_name_label(session.opaque_ref, _sm);
             else
-                return (string)session.proxy.sm_get_name_label(session.opaque_ref, _sm ?? "").parse();
+                return session.proxy.sm_get_name_label(session.opaque_ref, _sm ?? "").parse();
         }
 
         /// <summary>
@@ -329,7 +329,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sm_get_name_description(session.opaque_ref, _sm);
             else
-                return (string)session.proxy.sm_get_name_description(session.opaque_ref, _sm ?? "").parse();
+                return session.proxy.sm_get_name_description(session.opaque_ref, _sm ?? "").parse();
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sm_get_type(session.opaque_ref, _sm);
             else
-                return (string)session.proxy.sm_get_type(session.opaque_ref, _sm ?? "").parse();
+                return session.proxy.sm_get_type(session.opaque_ref, _sm ?? "").parse();
         }
 
         /// <summary>
@@ -357,7 +357,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sm_get_vendor(session.opaque_ref, _sm);
             else
-                return (string)session.proxy.sm_get_vendor(session.opaque_ref, _sm ?? "").parse();
+                return session.proxy.sm_get_vendor(session.opaque_ref, _sm ?? "").parse();
         }
 
         /// <summary>
@@ -371,7 +371,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sm_get_copyright(session.opaque_ref, _sm);
             else
-                return (string)session.proxy.sm_get_copyright(session.opaque_ref, _sm ?? "").parse();
+                return session.proxy.sm_get_copyright(session.opaque_ref, _sm ?? "").parse();
         }
 
         /// <summary>
@@ -385,7 +385,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sm_get_version(session.opaque_ref, _sm);
             else
-                return (string)session.proxy.sm_get_version(session.opaque_ref, _sm ?? "").parse();
+                return session.proxy.sm_get_version(session.opaque_ref, _sm ?? "").parse();
         }
 
         /// <summary>
@@ -399,7 +399,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sm_get_required_api_version(session.opaque_ref, _sm);
             else
-                return (string)session.proxy.sm_get_required_api_version(session.opaque_ref, _sm ?? "").parse();
+                return session.proxy.sm_get_required_api_version(session.opaque_ref, _sm ?? "").parse();
         }
 
         /// <summary>
@@ -471,7 +471,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sm_get_driver_filename(session.opaque_ref, _sm);
             else
-                return (string)session.proxy.sm_get_driver_filename(session.opaque_ref, _sm ?? "").parse();
+                return session.proxy.sm_get_driver_filename(session.opaque_ref, _sm ?? "").parse();
         }
 
         /// <summary>

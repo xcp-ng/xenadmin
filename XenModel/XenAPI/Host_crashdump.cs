@@ -87,10 +87,10 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Host_crashdump proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             host = proxy.host == null ? null : XenRef<Host>.Create(proxy.host);
             timestamp = proxy.timestamp;
-            size = proxy.size == null ? 0 : long.Parse((string)proxy.size);
+            size = proxy.size == null ? 0 : long.Parse(proxy.size);
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
         }
 
@@ -215,7 +215,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_crashdump_get_uuid(session.opaque_ref, _host_crashdump);
             else
-                return (string)session.proxy.host_crashdump_get_uuid(session.opaque_ref, _host_crashdump ?? "").parse();
+                return session.proxy.host_crashdump_get_uuid(session.opaque_ref, _host_crashdump ?? "").parse();
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_crashdump_get_size(session.opaque_ref, _host_crashdump);
             else
-                return long.Parse((string)session.proxy.host_crashdump_get_size(session.opaque_ref, _host_crashdump ?? "").parse());
+                return long.Parse(session.proxy.host_crashdump_get_size(session.opaque_ref, _host_crashdump ?? "").parse());
         }
 
         /// <summary>

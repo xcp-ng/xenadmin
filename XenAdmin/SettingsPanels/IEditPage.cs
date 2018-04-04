@@ -31,46 +31,57 @@
 
 using System;
 using XenAdmin.Actions;
-using System.Drawing;
 using XenAdmin.Controls;
 using XenAPI;
-using System.ComponentModel;
+
 
 namespace XenAdmin.SettingsPanels
 {
-    public interface IEditPage : VerticalTabs.VerticalTab
+    public interface IEditPage : VerticalTabs.IVerticalTab
     {
-        /** Each page's SaveSettings() can do two things:
-         *    1) Edit the cloned XenObject (which is a clone of the one in the cache)
-         *       for simple field changes;
-         *    2) Return an AsyncAction for later or more complicated actions.
-         *  When the user clicks OK on the PropertiesDialog, we run SaveSettings
-         *  for each page. We then save all changes to the XenModelObject from step (1).
-         *  Finally we execute each of the actions we have collected from step (2).
-         *  Because we are expecting things to happen in that order, the SaveSettings()
-         *  should not make any API calls itself: it should put them in its returned action.
-         */
+        /// <summary>
+        /// Each page's SaveSettings() can do two things:
+        ///   1) Edit the cloned XenObject (which is a clone of the one in the cache)
+        ///      for simple field changes;
+        ///   2) Return an AsyncAction for later or more complicated actions.
+        /// When the user clicks OK on the PropertiesDialog, we run SaveSettings
+        /// for each page. We then save all changes to the XenModelObject from step (1).
+        /// Finally we execute each of the actions we have collected from step (2).
+        /// Because we are expecting things to happen in that order, the SaveSettings()
+        /// should not make any API calls itself: it should put them in its returned action.
+        /// </summary>
+        /// <returns></returns>
         AsyncAction SaveSettings();
 
-        /** Sets the control's active object to match the current selection.
-         *  Most actions should be carried out on the cloned object, which is guaranteed
-         *  not to change while the dialog is open. Most pages therefore ignore the orig
-         *  object, but some delegates from SaveSettings() need to know it too.
-         */
+        /// <summary>
+        /// Sets the control's active object to match the current selection.
+        /// Most actions should be carried out on the cloned object, which is guaranteed
+        ///  not to change while the dialog is open. Most pages therefore ignore the orig
+        /// object, but some delegates from SaveSettings() need to know it too.
+        /// </summary>
+        /// <param name="orig"></param>
+        /// <param name="clone"></param>
         void SetXenObjects(IXenObject orig, IXenObject clone);
 
-        /** Performs local validation on the fields in the control and lets the
-         *  user know if it is ok to save the XenObject. 
-         */
+        /// <summary>
+        /// Performs local validation on the fields in the control and lets the
+        /// user know if it is ok to save the XenObject.
+        /// </summary>
         bool ValidToSave { get; }
 
-        /** Show local validation balloon tooltips */
+        /// <summary>
+        /// Show local validation balloon tooltips
+        /// </summary>
         void ShowLocalValidationMessages();
 
-        /** Unregister listeners, dispose balloon tooltips, etc. */
+        /// <summary>
+        /// Unregister listeners, dispose balloon tooltips, etc.
+        /// </summary>
         void Cleanup();
 
-        /** Have any of the fields in the view changed since init? */
+        /// <summary>
+        /// Have any of the fields in the view changed since init?
+        /// </summary>
         bool HasChanged { get; }
     }
 }

@@ -50,7 +50,7 @@ namespace XenAdmin
             /// <summary>
             /// Call this to register an updates that took the specified length of time (in ms).
             /// </summary>
-            /// <param name="ms">The length of time that the update took (in ms).</param>
+            /// <param name="duration">The length of time that the update took (in ms).</param>
             public void RegisterLatestUpdate(long duration)
             {
                 if (duration > 0)

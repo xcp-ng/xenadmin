@@ -444,6 +444,21 @@ namespace XenAPI
         {
             return BoolKeyPreferTrue(h.license_params, "restrict_corosync");
         }
+        
+        public static bool CorosyncDisabled(Host h)
+        {
+            return  RestrictCorosync(h) && FeatureDisabled(h, "corosync");
+        }
+
+        public static bool FeatureDisabled(Host h, string featureName)
+        {
+            foreach (var feature in h.Connection.ResolveAll(h.features))
+            {
+                if (feature.name_label.Equals(featureName, StringComparison.OrdinalIgnoreCase))
+                    return !feature.enabled;
+            }
+            return false;
+        }
 
         public bool HasPBDTo(SR sr)
         {

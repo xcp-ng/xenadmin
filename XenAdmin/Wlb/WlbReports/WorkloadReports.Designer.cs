@@ -122,7 +122,6 @@
             this.wlbReportView1.ViewerReportInfo = null;
             this.wlbReportView1.Close += new System.EventHandler(this.wlbReportView1_Close);
             this.wlbReportView1.ReportDrilledThrough += new Microsoft.Reporting.WinForms.DrillthroughEventHandler(this.wlbReportView1_ReportDrilledThrough);
-            this.wlbReportView1.ReportBack += new Microsoft.Reporting.WinForms.BackEventHandler(this.wlbReportView1_ReportBack);
             this.wlbReportView1.PoolConnectionLost += new System.EventHandler(this.wlbReportView1_PoolConnectionLost);
             // 
             // subscriptionView1

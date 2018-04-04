@@ -91,5 +91,6 @@ namespace XenAdmin.Network
         void CheckDockerContainersBatchChange();
         Cluster[] Clusters { get; }
         Cluster_host[] Cluster_hosts { get; }
+        Feature[] Features { get; }
     }
 }

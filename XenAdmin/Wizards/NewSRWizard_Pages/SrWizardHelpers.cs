@@ -107,25 +107,5 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages
         {
             return DefaultSRName(potentialName, connection.Cache.SRs.Select(sr => sr.Name()));
         }
-
-        public static String ExtractUUID(String p)
-        {
-            List<SR.SRInfo> lst = SR.ParseSRListXML(p);
-
-            foreach (SR.SRInfo sr in lst)
-            {
-                return sr.UUID;
-            }
-
-            return null;
-        }
-
-        public static String GetEntry(Dictionary<String, String> dconf, String Key, String Default)
-        {
-            if (dconf.ContainsKey(Key))
-                return dconf[Key];
-
-            return Default;
-        }
     }
 }

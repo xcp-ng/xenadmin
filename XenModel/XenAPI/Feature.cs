@@ -93,12 +93,12 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Feature proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
-            name_label = proxy.name_label == null ? null : (string)proxy.name_label;
-            name_description = proxy.name_description == null ? null : (string)proxy.name_description;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
+            name_label = proxy.name_label == null ? null : proxy.name_label;
+            name_description = proxy.name_description == null ? null : proxy.name_description;
             enabled = (bool)proxy.enabled;
             experimental = (bool)proxy.experimental;
-            version = proxy.version == null ? null : (string)proxy.version;
+            version = proxy.version == null ? null : proxy.version;
             host = proxy.host == null ? null : XenRef<Host>.Create(proxy.host);
         }
 
@@ -240,7 +240,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.feature_get_uuid(session.opaque_ref, _feature);
             else
-                return (string)session.proxy.feature_get_uuid(session.opaque_ref, _feature ?? "").parse();
+                return session.proxy.feature_get_uuid(session.opaque_ref, _feature ?? "").parse();
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.feature_get_name_label(session.opaque_ref, _feature);
             else
-                return (string)session.proxy.feature_get_name_label(session.opaque_ref, _feature ?? "").parse();
+                return session.proxy.feature_get_name_label(session.opaque_ref, _feature ?? "").parse();
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.feature_get_name_description(session.opaque_ref, _feature);
             else
-                return (string)session.proxy.feature_get_name_description(session.opaque_ref, _feature ?? "").parse();
+                return session.proxy.feature_get_name_description(session.opaque_ref, _feature ?? "").parse();
         }
 
         /// <summary>
@@ -310,7 +310,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.feature_get_version(session.opaque_ref, _feature);
             else
-                return (string)session.proxy.feature_get_version(session.opaque_ref, _feature ?? "").parse();
+                return session.proxy.feature_get_version(session.opaque_ref, _feature ?? "").parse();
         }
 
         /// <summary>

@@ -138,13 +138,13 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_VBD proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             allowed_operations = proxy.allowed_operations == null ? null : Helper.StringArrayToEnumList<vbd_operations>(proxy.allowed_operations);
             current_operations = proxy.current_operations == null ? null : Maps.convert_from_proxy_string_vbd_operations(proxy.current_operations);
             VM = proxy.VM == null ? null : XenRef<VM>.Create(proxy.VM);
             VDI = proxy.VDI == null ? null : XenRef<VDI>.Create(proxy.VDI);
-            device = proxy.device == null ? null : (string)proxy.device;
-            userdevice = proxy.userdevice == null ? null : (string)proxy.userdevice;
+            device = proxy.device == null ? null : proxy.device;
+            userdevice = proxy.userdevice == null ? null : proxy.userdevice;
             bootable = (bool)proxy.bootable;
             mode = proxy.mode == null ? (vbd_mode) 0 : (vbd_mode)Helper.EnumParseDefault(typeof(vbd_mode), (string)proxy.mode);
             type = proxy.type == null ? (vbd_type) 0 : (vbd_type)Helper.EnumParseDefault(typeof(vbd_type), (string)proxy.type);
@@ -153,10 +153,10 @@ namespace XenAPI
             empty = (bool)proxy.empty;
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
             currently_attached = (bool)proxy.currently_attached;
-            status_code = proxy.status_code == null ? 0 : long.Parse((string)proxy.status_code);
-            status_detail = proxy.status_detail == null ? null : (string)proxy.status_detail;
+            status_code = proxy.status_code == null ? 0 : long.Parse(proxy.status_code);
+            status_detail = proxy.status_detail == null ? null : proxy.status_detail;
             runtime_properties = proxy.runtime_properties == null ? null : Maps.convert_from_proxy_string_string(proxy.runtime_properties);
-            qos_algorithm_type = proxy.qos_algorithm_type == null ? null : (string)proxy.qos_algorithm_type;
+            qos_algorithm_type = proxy.qos_algorithm_type == null ? null : proxy.qos_algorithm_type;
             qos_algorithm_params = proxy.qos_algorithm_params == null ? null : Maps.convert_from_proxy_string_string(proxy.qos_algorithm_params);
             qos_supported_algorithms = proxy.qos_supported_algorithms == null ? new string[] {} : (string [])proxy.qos_supported_algorithms;
             metrics = proxy.metrics == null ? null : XenRef<VBD_metrics>.Create(proxy.metrics);
@@ -166,7 +166,7 @@ namespace XenAPI
         {
             Proxy_VBD result_ = new Proxy_VBD();
             result_.uuid = uuid ?? "";
-            result_.allowed_operations = (allowed_operations != null) ? Helper.ObjectListToStringArray(allowed_operations) : new string[] {};
+            result_.allowed_operations = allowed_operations == null ? new string[] {} : Helper.ObjectListToStringArray(allowed_operations);
             result_.current_operations = Maps.convert_to_proxy_string_vbd_operations(current_operations);
             result_.VM = VM ?? "";
             result_.VDI = VDI ?? "";
@@ -437,7 +437,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vbd_get_uuid(session.opaque_ref, _vbd);
             else
-                return (string)session.proxy.vbd_get_uuid(session.opaque_ref, _vbd ?? "").parse();
+                return session.proxy.vbd_get_uuid(session.opaque_ref, _vbd ?? "").parse();
         }
 
         /// <summary>
@@ -507,7 +507,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vbd_get_device(session.opaque_ref, _vbd);
             else
-                return (string)session.proxy.vbd_get_device(session.opaque_ref, _vbd ?? "").parse();
+                return session.proxy.vbd_get_device(session.opaque_ref, _vbd ?? "").parse();
         }
 
         /// <summary>
@@ -521,7 +521,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vbd_get_userdevice(session.opaque_ref, _vbd);
             else
-                return (string)session.proxy.vbd_get_userdevice(session.opaque_ref, _vbd ?? "").parse();
+                return session.proxy.vbd_get_userdevice(session.opaque_ref, _vbd ?? "").parse();
         }
 
         /// <summary>
@@ -647,7 +647,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vbd_get_status_code(session.opaque_ref, _vbd);
             else
-                return long.Parse((string)session.proxy.vbd_get_status_code(session.opaque_ref, _vbd ?? "").parse());
+                return long.Parse(session.proxy.vbd_get_status_code(session.opaque_ref, _vbd ?? "").parse());
         }
 
         /// <summary>
@@ -661,7 +661,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vbd_get_status_detail(session.opaque_ref, _vbd);
             else
-                return (string)session.proxy.vbd_get_status_detail(session.opaque_ref, _vbd ?? "").parse();
+                return session.proxy.vbd_get_status_detail(session.opaque_ref, _vbd ?? "").parse();
         }
 
         /// <summary>
@@ -689,7 +689,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vbd_get_qos_algorithm_type(session.opaque_ref, _vbd);
             else
-                return (string)session.proxy.vbd_get_qos_algorithm_type(session.opaque_ref, _vbd ?? "").parse();
+                return session.proxy.vbd_get_qos_algorithm_type(session.opaque_ref, _vbd ?? "").parse();
         }
 
         /// <summary>

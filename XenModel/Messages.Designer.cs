@@ -14665,6 +14665,17 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An existing {0} SR was found on the selected LUN. Click Reattach to use the existing SR, or click Format to destroy any data present on the disk and create a new {1} SR.
+        ///
+        ///Warning: to prevent data loss you must ensure that the LUN is not in use by any other system, including [XenServer] hosts that are not connected to [XenCenter]..
+        /// </summary>
+        public static string EXISTING_SR_FOUND_ON_LUN {
+            get {
+                return ResourceManager.GetString("EXISTING_SR_FOUND_ON_LUN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit &amp;Maintenance Mode.
         /// </summary>
         public static string EXIT_MAINTENANCE_MODE {
@@ -15296,7 +15307,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The scan failed. Please try again..
+        ///   Looks up a localized string similar to The scan failed..
         /// </summary>
         public static string FIBRECHANNEL_XML_ERROR {
             get {
@@ -20662,7 +20673,16 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An existing SR was found on the selected LUN.
+        ///   Looks up a localized string similar to Destroy any data present on the disk and create a new {0} SR.
+        /// </summary>
+        public static string LVMOHBA_WARNING_DIALOG_FORMAT_INFO {
+            get {
+                return ResourceManager.GetString("LVMOHBA_WARNING_DIALOG_FORMAT_INFO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An existing {0} SR was found on the selected LUN.
         /// </summary>
         public static string LVMOHBA_WARNING_DIALOG_HEADER_FOUND_EXISTING_SR {
             get {
@@ -20688,6 +20708,15 @@ namespace XenAdmin {
         public static string LVMOHBA_WARNING_DIALOG_LUN_DETAILS {
             get {
                 return ResourceManager.GetString("LVMOHBA_WARNING_DIALOG_LUN_DETAILS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use the existing {0} SR.
+        /// </summary>
+        public static string LVMOHBA_WARNING_DIALOG_REATTACH_INFO {
+            get {
+                return ResourceManager.GetString("LVMOHBA_WARNING_DIALOG_REATTACH_INFO", resourceCulture);
             }
         }
         
@@ -24466,6 +24495,24 @@ namespace XenAdmin {
         public static string NEWSR_LUN_IN_USE_ON_POOL {
             get {
                 return ResourceManager.GetString("NEWSR_LUN_IN_USE_ON_POOL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The LUN {0} is already in use as SR {1} on your pool. Please select another LUN..
+        /// </summary>
+        public static string NEWSR_LUN_IN_USE_ON_SELECTED_POOL {
+            get {
+                return ResourceManager.GetString("NEWSR_LUN_IN_USE_ON_SELECTED_POOL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The LUN {0} is already in use as SR {1} on your server. Please select another LUN..
+        /// </summary>
+        public static string NEWSR_LUN_IN_USE_ON_SELECTED_SERVER {
+            get {
+                return ResourceManager.GetString("NEWSR_LUN_IN_USE_ON_SELECTED_SERVER", resourceCulture);
             }
         }
         

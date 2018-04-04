@@ -31,9 +31,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
 using XenAdmin.Actions;
-using XenAdmin.Core;
 using XenAdmin.Network;
 using XenAPI;
 
@@ -54,64 +52,76 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages
         public string UUID { get; set; }
     }
 
-    public class LvmOhbaSrDescriptor : SrDescriptor
+    public abstract class FibreChannelDescriptor : SrDescriptor
     {
-        public LvmOhbaSrDescriptor(FibreChannelDevice device, IXenConnection connection)
+        protected FibreChannelDescriptor(FibreChannelDevice device, string descrFormat)
         {
             Device = device;
-            DeviceConfig[SrProbeAction.SCSIid] = device.SCSIid;
-
-            Description = string.Format(Messages.NEWSR_LVMOHBA_DESCRIPTION, device.Vendor, device.Serial);
+            Description = string.Format(descrFormat, device.Vendor, device.Serial);
         }
 
-        public LvmOhbaSrDescriptor(FibreChannelDevice device)
-        {
-            Device = device;
-
-            Description = string.Format(Messages.NEWSR_LVMOHBA_DESCRIPTION, device.Vendor, device.Serial);
-        }
+        public abstract SR.SRTypes SrType { get; }
 
         public FibreChannelDevice Device { get; private set; }
     }
 
-    public class FcoeSrDescriptor : LvmOhbaSrDescriptor
+    public class LvmOhbaSrDescriptor : FibreChannelDescriptor
     {
-        public FcoeSrDescriptor(FibreChannelDevice device) : base(device)
+        public LvmOhbaSrDescriptor(FibreChannelDevice device)
+            : base(device, Messages.NEWSR_LVMOHBA_DESCRIPTION)
         {
-            DeviceConfig[SrProbeAction.SCSIid] = device.SCSIid;
-            DeviceConfig[SrProbeAction.PATH] = device.Path;
+            DeviceConfig["SCSIid"] = device.SCSIid;
+        }
 
-            Description = string.Format(Messages.NEWSR_LVMOFCOE_DESCRIPTION, device.Vendor, device.Serial);
+        public override SR.SRTypes SrType
+        {
+            get { return SR.SRTypes.lvmohba; }
         }
     }
 
-    public class Gfs2HbaSrDescriptor : LvmOhbaSrDescriptor
+    public class FcoeSrDescriptor : FibreChannelDescriptor
+    {
+        public FcoeSrDescriptor(FibreChannelDevice device)
+            : base(device, Messages.NEWSR_LVMOFCOE_DESCRIPTION)
+        {
+            DeviceConfig["SCSIid"] = device.SCSIid;
+            DeviceConfig["path"] = device.Path;
+        }
+
+        public override SR.SRTypes SrType
+        {
+            get { return SR.SRTypes.lvmofcoe; }
+        }
+    }
+
+    public class Gfs2HbaSrDescriptor : FibreChannelDescriptor
     {
         public Gfs2HbaSrDescriptor(FibreChannelDevice device)
-            : base(device)
+            : base(device, Messages.NEWSR_LVMOHBA_DESCRIPTION)
         {
-            var jsonUri = new JavaScriptSerializer().Serialize(new
-            {
-                provider = "hba",
-                ScsiId = device.SCSIid
-            });
-            DeviceConfig[SrProbeAction.URI] = jsonUri;
-            Description = string.Format(Messages.NEWSR_LVMOHBA_DESCRIPTION, device.Vendor, device.Serial);
+            DeviceConfig["provider"] = "hba";
+            DeviceConfig["ScsiId"] = device.SCSIid;
+        }
+
+        public override SR.SRTypes SrType
+        {
+            get { return SR.SRTypes.gfs2; }
         }
     }
 
-    public class Gfs2FcoeSrDescriptor : FcoeSrDescriptor
+    public class Gfs2FcoeSrDescriptor : FibreChannelDescriptor
     {
         public Gfs2FcoeSrDescriptor(FibreChannelDevice device)
-            : base(device)
+            : base(device, Messages.NEWSR_LVMOFCOE_DESCRIPTION)
         {
-            var jsonUri = new JavaScriptSerializer().Serialize(new
-            {
-                provider = "fcoe",
-                ScsiId = device.SCSIid
-            });
-            DeviceConfig[SrProbeAction.URI] = jsonUri;
-            Description = string.Format(Messages.NEWSR_LVMOFCOE_DESCRIPTION, device.Vendor, device.Serial);
+            DeviceConfig["provider"] = "fcoe";
+            DeviceConfig["ScsiId"] = device.SCSIid;
+            DeviceConfig["path"] = device.Path;
+        }
+
+        public override SR.SRTypes SrType
+        {
+            get { return SR.SRTypes.gfs2; }
         }
     }
 
