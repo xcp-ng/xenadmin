@@ -544,7 +544,7 @@
     <value>许可证</value>
   </data>
   <data name="Label-host.edition-free" xml:space="preserve">
-    <value>[XenServer product]</value>
+    <value>[XCP-ng product]</value>
   </data>
   <data name="Label-host.enabled" xml:space="preserve">
     <value>已启用</value>
@@ -1026,7 +1026,7 @@
     <value>在池中同步性能统计信息时出现临时故障，这可能是因为一个或多个服务器处于脱机状态。稍后将再次尝试同步。</value>
   </data>
   <data name="Message.body-license_does_not_support_pooling" xml:space="preserve">
-    <value>服务器“{0}”上的许可证已过期或被更改，不再支持 [XenServer product] Enterprise 功能。</value>
+    <value>服务器“{0}”上的许可证已过期或被更改，不再支持 [XCP-ng product] Enterprise 功能。</value>
   </data>
   <data name="Message.body-license_expired" xml:space="preserve">
     <value>{0} 的许可证已过期。</value>
@@ -1440,7 +1440,7 @@
     <value>{0} 上的本地存储</value>
   </data>
   <data name="SR.name_description-xenserver-tools" xml:space="preserve">
-    <value>[XenServer product] Tools ISO</value>
+    <value>[XCP-ng product] Tools ISO</value>
   </data>
   <data name="SR.name_label-ebs" xml:space="preserve">
     <value>EBS</value>
@@ -1467,7 +1467,7 @@
     <value>{0} 上的本地存储</value>
   </data>
   <data name="SR.name_label-xenserver-tools" xml:space="preserve">
-    <value>[XenServer product] Tools</value>
+    <value>[XCP-ng product] Tools</value>
   </data>
   <data name="VM.TemplateDescription-Demo Linux VM" xml:space="preserve">
     <value>此模板可用于通过内置 Linux 发行版创建 Linux VM，以进行测试和演示。建议不要在生产环境中使用。</value>
@@ -1533,10 +1533,10 @@
     <value>潜在回收的内存</value>
   </data>
   <data name="Label-host.edition-per-socket" xml:space="preserve">
-    <value>[XenServer product] Per-Socket</value>
+    <value>[XCP-ng product] Per-Socket</value>
   </data>
   <data name="Label-host.edition-xendesktop" xml:space="preserve">
-    <value>[XenServer product] for XenDesktop</value>
+    <value>[XCP-ng product] for XenDesktop</value>
   </data>
   <data name="Message.help-extauth_init_in_host_failed" xml:space="preserve">
     <value>有关 AD 的帮助</value>
@@ -1608,13 +1608,13 @@
     <value>许可证服务器版本已过时。</value>
   </data>
   <data name="Label-host.edition-enterprise-per-socket" xml:space="preserve">
-    <value>[XenServer product] Enterprise Per-Socket</value>
+    <value>[XCP-ng product] Enterprise Per-Socket</value>
   </data>
   <data name="Label-host.edition-enterprise-per-user" xml:space="preserve">
-    <value>[XenServer product] Enterprise Per-User</value>
+    <value>[XCP-ng product] Enterprise Per-User</value>
   </data>
   <data name="Label-host.edition-standard-per-socket" xml:space="preserve">
-    <value>[XenServer product] Standard Per-Socket</value>
+    <value>[XCP-ng product] Standard Per-Socket</value>
   </data>
   <data name="Message.help-license_expired" xml:space="preserve">
     <value>有关许可的帮助</value>
@@ -1737,10 +1737,10 @@
     <value>卷管理器日志</value>
   </data>
   <data name="Label-host.edition-premium" xml:space="preserve">
-    <value>[Company] [XenServer product] Ultimate Edition</value>
+    <value>[Company] [XCP-ng product] Ultimate Edition</value>
   </data>
   <data name="Label-host.edition-basic" xml:space="preserve">
-    <value>[Company] [XenServer product] Basic Edition</value>
+    <value>[Company] [XCP-ng product] Basic Edition</value>
   </data>
   <data name="Label-host.system_status-xscontainer" xml:space="preserve">
     <value>容器管理日志</value>
@@ -1752,7 +1752,7 @@
     <value>测试连接</value>
   </data>
   <data name="Label-host.edition-standard" xml:space="preserve">
-    <value>[Company] [XenServer product] Standard Edition</value>
+    <value>[Company] [XCP-ng product] Standard Edition</value>
   </data>
   <data name="Label-Pool_patch.required-updates" xml:space="preserve">
     <value>必需的更新</value>

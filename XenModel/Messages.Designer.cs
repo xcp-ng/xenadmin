@@ -6340,7 +6340,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must install [XenServer product] Tools on VM &apos;{0}&apos; before you can activate this virtual disk for the VM..
+        ///   Looks up a localized string similar to You must install [XCP-ng product] Tools on VM &apos;{0}&apos; before you can activate this virtual disk for the VM..
         /// </summary>
         public static string CANNOT_ACTIVATE_VD_VM_NEEDS_TOOLS {
             get {
@@ -6448,7 +6448,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must install [XenServer product] Tools on VM &apos;{0}&apos; before you can deactivate this virtual disk for the VM..
+        ///   Looks up a localized string similar to You must install [XCP-ng product] Tools on VM &apos;{0}&apos; before you can deactivate this virtual disk for the VM..
         /// </summary>
         public static string CANNOT_DEACTIVATE_VDI_NEEDS_TOOLS {
             get {
@@ -6567,7 +6567,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deleting the [XenServer product] Tools ISO storage is not supported..
+        ///   Looks up a localized string similar to Deleting the [XCP-ng product] Tools ISO storage is not supported..
         /// </summary>
         public static string CANNOT_DELETE_TOOLS_SR {
             get {
@@ -8407,9 +8407,9 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connection to server {0} restricted - a connection to a [Company] [XenServer product] Express Edition server ({1}) already exists.
+        ///   Looks up a localized string similar to Connection to server {0} restricted - a connection to a [Company] [XCP-ng product] Express Edition server ({1}) already exists.
         ///
-        ///You can only connect to a single [Company] [XenServer product] Express Edition server at a time. To find out how to upgrade your license, follow the link below..
+        ///You can only connect to a single [Company] [XCP-ng product] Express Edition server at a time. To find out how to upgrade your license, follow the link below..
         /// </summary>
         public static string CONNECTION_RESTRICTED_MESSAGE_LONG {
             get {
@@ -10478,7 +10478,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to VMs without [XenServer product] Tools.
+        ///   Looks up a localized string similar to VMs without [XCP-ng product] Tools.
         /// </summary>
         public static string DEFAULT_SEARCH_VMS_WO_XS_TOOLS {
             get {
@@ -11709,7 +11709,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A memory range cannot be set because [XenServer product] Tools are not installed on this VM..
+        ///   Looks up a localized string similar to A memory range cannot be set because [XCP-ng product] Tools are not installed on this VM..
         /// </summary>
         public static string DMC_UNAVAILABLE_NOTOOLS {
             get {
@@ -11718,7 +11718,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A memory range cannot be set because [XenServer product] Tools are not installed on these VMs..
+        ///   Looks up a localized string similar to A memory range cannot be set because [XCP-ng product] Tools are not installed on these VMs..
         /// </summary>
         public static string DMC_UNAVAILABLE_NOTOOLS_PLURAL {
             get {
@@ -11745,7 +11745,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A memory range cannot be set because [XenServer product] Tools are out of date on this VM..
+        ///   Looks up a localized string similar to A memory range cannot be set because [XCP-ng product] Tools are out of date on this VM..
         /// </summary>
         public static string DMC_UNAVAILABLE_OLDTOOLS {
             get {
@@ -11754,7 +11754,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A memory range cannot be set because [XenServer product] Tools are out of date on these VMs..
+        ///   Looks up a localized string similar to A memory range cannot be set because [XCP-ng product] Tools are out of date on these VMs..
         /// </summary>
         public static string DMC_UNAVAILABLE_OLDTOOLS_PLURAL {
             get {
@@ -14530,7 +14530,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} Install [XenServer product] Tools.
+        ///   Looks up a localized string similar to {0} Install [XCP-ng product] Tools.
         /// </summary>
         public static string EVACUATE_HOST_INSTALL_TOOLS_PROMPT {
             get {
@@ -16414,7 +16414,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To view memory data for this VM, you need to install [XenServer product] Tools.
+        ///   Looks up a localized string similar to To view memory data for this VM, you need to install [XCP-ng product] Tools.
         /// </summary>
         public static string GRAPH_NEEDS_TOOLS {
             get {
@@ -19322,7 +19322,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disk and memory snapshots need [XenServer product] Tools to be installed.
+        ///   Looks up a localized string similar to Disk and memory snapshots need [XCP-ng product] Tools to be installed.
         /// </summary>
         public static string INFO_DISKMEMORY_MODE_NO_TOOLS {
             get {
@@ -19358,7 +19358,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quiesced snapshots need [XenServer product] Tools to be installed.
+        ///   Looks up a localized string similar to Quiesced snapshots need [XCP-ng product] Tools to be installed.
         /// </summary>
         public static string INFO_QUIESCE_MODE_NO_TOOLS {
             get {
@@ -19448,7 +19448,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Install [XenServer product] Tools.
+        ///   Looks up a localized string similar to Install [XCP-ng product] Tools.
         /// </summary>
         public static string INSTALL_XENSERVER_TOOLS {
             get {
@@ -19457,7 +19457,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Install [XenServer product] Tools....
+        ///   Looks up a localized string similar to Install [XCP-ng product] Tools....
         /// </summary>
         public static string INSTALL_XENSERVER_TOOLS_DOTS {
             get {
@@ -19466,7 +19466,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Install [XenServer product] Tools.
+        ///   Looks up a localized string similar to Install [XCP-ng product] Tools.
         /// </summary>
         public static string INSTALL_XS_TOOLS {
             get {
@@ -19493,7 +19493,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not find the [XenServer product] Tools install disc..
+        ///   Looks up a localized string similar to Could not find the [XCP-ng product] Tools install disc..
         /// </summary>
         public static string INSTALLTOOLS_COULDNOTFIND_WIN {
             get {
@@ -19502,7 +19502,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Tools installation launched..
+        ///   Looks up a localized string similar to [XCP-ng product] Tools installation launched..
         /// </summary>
         public static string INSTALLTOOLS_DONE {
             get {
@@ -19511,7 +19511,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Tools are already installed on this VM..
+        ///   Looks up a localized string similar to [XCP-ng product] Tools are already installed on this VM..
         /// </summary>
         public static string INSTALLTOOLS_EXIST {
             get {
@@ -19520,7 +19520,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Launching [XenServer product] Tools installation..
+        ///   Looks up a localized string similar to Launching [XCP-ng product] Tools installation..
         /// </summary>
         public static string INSTALLTOOLS_STARTING {
             get {
@@ -19529,7 +19529,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Installing [XenServer product] Tools on VM {0}.
+        ///   Looks up a localized string similar to Installing [XCP-ng product] Tools on VM {0}.
         /// </summary>
         public static string INSTALLTOOLS_TITLE {
             get {
@@ -21310,7 +21310,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inst&amp;all [XenServer product] Tools....
+        ///   Looks up a localized string similar to Inst&amp;all [XCP-ng product] Tools....
         /// </summary>
         public static string MAINWINDOW_INSTALL_TOOLS {
             get {
@@ -22916,7 +22916,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to One or more paths to at least one of your storages has failed. Refer to the &quot;[XenServer product] Administrator&apos;s Guide&quot; for information about configuring storage multipathing..
+        ///   Looks up a localized string similar to One or more paths to at least one of your storages has failed. Refer to the &quot;[XCP-ng product] Administrator&apos;s Guide&quot; for information about configuring storage multipathing..
         /// </summary>
         public static string MULTIPATH_FAILED {
             get {
@@ -23562,7 +23562,7 @@ namespace XenAdmin {
         
         /// <summary>
         ///   Looks up a localized string similar to You must shutdown and then restart the VM to finish the installation of the new DVD drive.
-        ///Once the VM has restarted click the Install [XenServer product] Tools menu item once again..
+        ///Once the VM has restarted click the Install [XCP-ng product] Tools menu item once again..
         /// </summary>
         public static string NEW_DVD_DRIVE_REBOOT_TOOLS {
             get {
@@ -23571,7 +23571,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The VM you want to install [XenServer product] Tools onto has no DVD drive, would you like to create one?.
+        ///   Looks up a localized string similar to The VM you want to install [XCP-ng product] Tools onto has no DVD drive, would you like to create one?.
         /// </summary>
         public static string NEW_DVD_DRIVE_REQUIRED {
             get {
@@ -23580,7 +23580,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to At least one of the VMs you want to install [XenServer product] Tools onto has no DVD drive. Would you like to create a new DVD drive for each of the VMs that requires one?.
+        ///   Looks up a localized string similar to At least one of the VMs you want to install [XCP-ng product] Tools onto has no DVD drive. Would you like to create a new DVD drive for each of the VMs that requires one?.
         /// </summary>
         public static string NEW_DVD_DRIVES_REQUIRED {
             get {
@@ -27838,7 +27838,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [Company] [XenServer product] Per-&amp;Socket ({0} required).
+        ///   Looks up a localized string similar to [Company] [XCP-ng product] Per-&amp;Socket ({0} required).
         /// </summary>
         public static string PERSOCKET_LICENSES_X_REQUIRED {
             get {
@@ -28894,7 +28894,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Tools not installed.
+        ///   Looks up a localized string similar to [XCP-ng product] Tools not installed.
         /// </summary>
         public static string PV_DRIVERS_NOT_INSTALLED {
             get {
@@ -28903,7 +28903,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Tools out of date (version {0} installed).
+        ///   Looks up a localized string similar to [XCP-ng product] Tools out of date (version {0} installed).
         /// </summary>
         public static string PV_DRIVERS_OUT_OF_DATE {
             get {
@@ -28912,7 +28912,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Tools out of date.
+        ///   Looks up a localized string similar to [XCP-ng product] Tools out of date.
         /// </summary>
         public static string PV_DRIVERS_OUT_OF_DATE_UNKNOWN_VERSION {
             get {
@@ -30057,7 +30057,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Backup file loaded to server &apos;{0}&apos;.  Refer to the &quot;[XenServer product] Administrator&apos;s Guide&quot; for instructions on how to complete the restore procedure..
+        ///   Looks up a localized string similar to Backup file loaded to server &apos;{0}&apos;.  Refer to the &quot;[XCP-ng product] Administrator&apos;s Guide&quot; for instructions on how to complete the restore procedure..
         /// </summary>
         public static string RESTORE_FROM_BACKUP_FINALIZE {
             get {
@@ -32355,7 +32355,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] &amp;Standard Per-Socket ({0} required).
+        ///   Looks up a localized string similar to [XCP-ng product] &amp;Standard Per-Socket ({0} required).
         /// </summary>
         public static string STANDARD_PERSOCKET_LICENSES_X_REQUIRED {
             get {
@@ -32906,7 +32906,7 @@ namespace XenAdmin {
         /// <summary>
         ///   Looks up a localized string similar to {0}
         ///
-        ///Refer to the &quot;[XenServer product] Administrator&apos;s Guide&quot; for instructions on how to manually install a supplemental pack on a server..
+        ///Refer to the &quot;[XCP-ng product] Administrator&apos;s Guide&quot; for instructions on how to manually install a supplemental pack on a server..
         /// </summary>
         public static string SUPP_PACK_INSTALL_FAILED_MORE_INFO {
             get {
@@ -33185,7 +33185,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Tools: Not present.
+        ///   Looks up a localized string similar to [XCP-ng product] Tools: Not present.
         /// </summary>
         public static string TEMPLATE_INFO_TOOLSNOTPRESENT {
             get {
@@ -33194,7 +33194,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Tools: Out of date (version {0}.{1} installed).
+        ///   Looks up a localized string similar to [XCP-ng product] Tools: Out of date (version {0}.{1} installed).
         /// </summary>
         public static string TEMPLATE_INFO_TOOLSOLD {
             get {
@@ -33203,7 +33203,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Tools: Up to date.
+        ///   Looks up a localized string similar to [XCP-ng product] Tools: Up to date.
         /// </summary>
         public static string TEMPLATE_INFO_TOOLSUPTODATE {
             get {
@@ -33500,7 +33500,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disks cannot be activated or deactivated from running VMs without [XenServer product] Tools installed.
+        ///   Looks up a localized string similar to Disks cannot be activated or deactivated from running VMs without [XCP-ng product] Tools installed.
         /// </summary>
         public static string TOOLTIP_DEACTIVATE_VDI_NEED_TOOLS {
             get {
@@ -33545,7 +33545,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disks cannot be deleted from running VMs without [XenServer product] Tools installed.
+        ///   Looks up a localized string similar to Disks cannot be deleted from running VMs without [XCP-ng product] Tools installed.
         /// </summary>
         public static string TOOLTIP_DELETE_VDI_NEED_TOOLS {
             get {
@@ -33581,7 +33581,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disks cannot be removed from running VMs without [XenServer product] Tools installed.
+        ///   Looks up a localized string similar to Disks cannot be removed from running VMs without [XCP-ng product] Tools installed.
         /// </summary>
         public static string TOOLTIP_DETACH_VDI_NEED_TOOLS {
             get {
@@ -33599,7 +33599,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Tools must be installed to edit a network on a running VM.
+        ///   Looks up a localized string similar to [XCP-ng product] Tools must be installed to edit a network on a running VM.
         /// </summary>
         public static string TOOLTIP_EDIT_NETWORK_TOOLS {
             get {
@@ -33653,7 +33653,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Tools must be installed to remove a network on a running VM.
+        ///   Looks up a localized string similar to [XCP-ng product] Tools must be installed to remove a network on a running VM.
         /// </summary>
         public static string TOOLTIP_REMOVE_NETWORK_TOOLS {
             get {
@@ -34737,7 +34737,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The VM {0} does not have [XenServer product] Tools installed..
+        ///   Looks up a localized string similar to The VM {0} does not have [XCP-ng product] Tools installed..
         /// </summary>
         public static string UPDATES_WIZARD_NO_TOOLS {
             get {
@@ -34782,7 +34782,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The VM {0} cannot be suspended until it has up to date [XenServer product] Tools..
+        ///   Looks up a localized string similar to The VM {0} cannot be suspended until it has up to date [XCP-ng product] Tools..
         /// </summary>
         public static string UPDATES_WIZARD_OUT_OF_DATE_TOOLS {
             get {
@@ -39788,7 +39788,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Tools DVDs will now be inserted into the DVD drive of each of the selected VMs. Any disks currently in the drives will be ejected.
+        ///   Looks up a localized string similar to [XCP-ng product] Tools DVDs will now be inserted into the DVD drive of each of the selected VMs. Any disks currently in the drives will be ejected.
         ///
         ///You will need to navigate to the Console on each of the selected VMs to complete the installation..
         /// </summary>
@@ -39799,7 +39799,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The [XenServer product] Tools SR could not be found..
+        ///   Looks up a localized string similar to The [XCP-ng product] Tools SR could not be found..
         /// </summary>
         public static string XS_TOOLS_SR_NOT_FOUND {
             get {

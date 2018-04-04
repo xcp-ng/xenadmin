@@ -316,7 +316,7 @@
     <value>Note that scheduled disk and memory snapshots will only be taken of VMs in this {0} that meet all of the following conditions:
 
 1. The VM is running or suspended at the time the snapshot is scheduled.
-2. The VM has [XenServer product] Tools installed.
+2. The VM has [XCP-ng product] Tools installed.
 3. The VM DOES NOT have dedicated GPU assigned to it.</value>
   </data>
   <data name="&gt;&gt;labelWarning.Name" xml:space="preserve">

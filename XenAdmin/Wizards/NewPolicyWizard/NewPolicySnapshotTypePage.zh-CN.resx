@@ -315,7 +315,7 @@
   <data name="labelWarning.Text" xml:space="preserve">
     <value>请注意，将仅创建此 {0} 中满足以下所有条件的 VM 的计划磁盘和内存快照:
 1. 计划快照时 VM 正在运行或已暂停。
-2. VM 上已安装 [XenServer product] Tools。
+2. VM 上已安装 [XCP-ng product] Tools。
 3. VM 没有为其分配的专用 GPU。</value>
   </data>
   <data name="&gt;&gt;labelWarning.Name" xml:space="preserve">

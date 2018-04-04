@@ -253,7 +253,7 @@
     <value>0</value>
   </data>
   <data name="btnOK.Text" xml:space="preserve">
-    <value>&amp;Install [XenServer product] Tools</value>
+    <value>&amp;Install [XCP-ng product] Tools</value>
   </data>
   <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
     <value>btnOK</value>
@@ -319,9 +319,9 @@
     <value>0</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Do you want [XenCenter] to insert the [XenServer product] Tools DVD into your VM's DVD drive and take you to the VM's console?
+    <value>Do you want [XenCenter] to insert the [XCP-ng product] Tools DVD into your VM's DVD drive and take you to the VM's console?
 
-Any disk in your VM's DVD drive will be ejected when installing [XenServer product] Tools.</value>
+Any disk in your VM's DVD drive will be ejected when installing [XCP-ng product] Tools.</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -354,7 +354,7 @@ Any disk in your VM's DVD drive will be ejected when installing [XenServer produ
     <value>1</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Read more about installing [XenServer product] Tools</value>
+    <value>Read more about installing [XCP-ng product] Tools</value>
   </data>
   <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
     <value>linkLabel1</value>
@@ -429,7 +429,7 @@ Any disk in your VM's DVD drive will be ejected when installing [XenServer produ
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Install [XenServer product] Tools</value>
+    <value>Install [XCP-ng product] Tools</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>InstallToolsWarningDialog</value>

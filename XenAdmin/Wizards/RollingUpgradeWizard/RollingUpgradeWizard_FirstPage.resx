@@ -259,7 +259,7 @@
     <value>6</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>Before you begin a rolling pool upgrade, [Company] strongly recommends that you take a backup of the state of your existing pool using the pool-dump-database CLI command (see the [XenServer product] Administrator's Guide). This will ensure that that you can revert a partially complete rolling upgrade back to its original state without losing any VM data.</value>
+    <value>Before you begin a rolling pool upgrade, [Company] strongly recommends that you take a backup of the state of your existing pool using the pool-dump-database CLI command (see the [XCP-ng product] Administrator's Guide). This will ensure that that you can revert a partially complete rolling upgrade back to its original state without losing any VM data.</value>
   </data>
   <data name="&gt;&gt;label7.Name" xml:space="preserve">
     <value>label7</value>

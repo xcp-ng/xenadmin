@@ -781,7 +781,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [Company] [XenServer product] Basic Edition.
+        ///   Looks up a localized string similar to [Company] [XCP-ng product] Basic Edition.
         /// </summary>
         public static string Label_host_edition_basic {
             get {
@@ -817,7 +817,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Enterprise Per-Socket.
+        ///   Looks up a localized string similar to [XCP-ng product] Enterprise Per-Socket.
         /// </summary>
         public static string Label_host_edition_enterprise_per_socket {
             get {
@@ -826,7 +826,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Enterprise Per-User.
+        ///   Looks up a localized string similar to [XCP-ng product] Enterprise Per-User.
         /// </summary>
         public static string Label_host_edition_enterprise_per_user {
             get {
@@ -835,7 +835,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product].
+        ///   Looks up a localized string similar to [XCP-ng product].
         /// </summary>
         public static string Label_host_edition_free {
             get {
@@ -844,7 +844,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Per-Socket.
+        ///   Looks up a localized string similar to [XCP-ng product] Per-Socket.
         /// </summary>
         public static string Label_host_edition_per_socket {
             get {
@@ -853,7 +853,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [Company] [XenServer product] Ultimate Edition.
+        ///   Looks up a localized string similar to [Company] [XCP-ng product] Ultimate Edition.
         /// </summary>
         public static string Label_host_edition_premium {
             get {
@@ -862,7 +862,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [Company] [XenServer product] Standard Edition.
+        ///   Looks up a localized string similar to [Company] [XCP-ng product] Standard Edition.
         /// </summary>
         public static string Label_host_edition_standard {
             get {
@@ -871,7 +871,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Standard Per-Socket.
+        ///   Looks up a localized string similar to [XCP-ng product] Standard Per-Socket.
         /// </summary>
         public static string Label_host_edition_standard_per_socket {
             get {
@@ -880,7 +880,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] for XenDesktop.
+        ///   Looks up a localized string similar to [XCP-ng product] for XenDesktop.
         /// </summary>
         public static string Label_host_edition_xendesktop {
             get {
@@ -3663,7 +3663,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The license on server &apos;{0}&apos; has expired or been changed, and no longer supports [XenServer product] Enterprise features..
+        ///   Looks up a localized string similar to The license on server &apos;{0}&apos; has expired or been changed, and no longer supports [XCP-ng product] Enterprise features..
         /// </summary>
         public static string Message_body_license_does_not_support_pooling {
             get {
@@ -5064,7 +5064,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Tools ISOs.
+        ///   Looks up a localized string similar to [XCP-ng product] Tools ISOs.
         /// </summary>
         public static string SR_name_description_xenserver_tools {
             get {
@@ -5145,7 +5145,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenServer product] Tools.
+        ///   Looks up a localized string similar to [XCP-ng product] Tools.
         /// </summary>
         public static string SR_name_label_xenserver_tools {
             get {

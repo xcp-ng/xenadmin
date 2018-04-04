@@ -985,7 +985,7 @@ namespace XenAdmin
         public static bool SameProductBrand(Host host)
         {
             var brand = host.ProductBrand();
-            return brand == Branding.PRODUCT_BRAND || Branding.PRODUCT_BRAND == "[XenServer product]";
+            return brand == Branding.PRODUCT_BRAND || Branding.PRODUCT_BRAND == "[XCP-ng product]";
         }
 
         /// <summary>

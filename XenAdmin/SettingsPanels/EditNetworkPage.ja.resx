@@ -688,7 +688,7 @@
     <value>12</value>
   </data>
   <data name="labelCannotConfigureMTU.Text" xml:space="preserve">
-    <value>([XenServer product] Tools がインストールされていないアクティブな仮想マシンが接続されているため、このネットワークの MTU を変更できません)</value>
+    <value>([XCP-ng product] Tools がインストールされていないアクティブな仮想マシンが接続されているため、このネットワークの MTU を変更できません)</value>
   </data>
   <data name="&gt;&gt;labelCannotConfigureMTU.Name" xml:space="preserve">
     <value>labelCannotConfigureMTU</value>

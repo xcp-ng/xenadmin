@@ -253,7 +253,7 @@
     <value>0</value>
   </data>
   <data name="btnOK.Text" xml:space="preserve">
-    <value>安装 [XenServer product] Tools(&amp;I)</value>
+    <value>安装 [XCP-ng product] Tools(&amp;I)</value>
   </data>
   <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
     <value>btnOK</value>
@@ -319,9 +319,9 @@
     <value>0</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>是否希望 [XenCenter] 将 [XenServer product] Tools DVD 插入 VM 的 DVD 驱动器中并将您引导至 VM 的控制台?
+    <value>是否希望 [XenCenter] 将 [XCP-ng product] Tools DVD 插入 VM 的 DVD 驱动器中并将您引导至 VM 的控制台?
 
-安装 [XenServer product] Tools 时将弹出 VM 的 DVD 驱动器中的任何磁盘。</value>
+安装 [XCP-ng product] Tools 时将弹出 VM 的 DVD 驱动器中的任何磁盘。</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -354,7 +354,7 @@
     <value>1</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>阅读有关安装 [XenServer product] Tools 的更多信息</value>
+    <value>阅读有关安装 [XCP-ng product] Tools 的更多信息</value>
   </data>
   <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
     <value>linkLabel1</value>
@@ -429,7 +429,7 @@
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>安装 [XenServer product] Tools</value>
+    <value>安装 [XCP-ng product] Tools</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>InstallToolsWarningDialog</value>

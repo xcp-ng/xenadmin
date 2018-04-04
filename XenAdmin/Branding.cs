@@ -43,7 +43,7 @@ namespace XenAdmin
         public const string XENCENTER_VERSION = "[BRANDING_PRODUCT_VERSION]";
         public const string COMPANY_NAME_LEGAL = "[BRANDING_COMPANY_NAME_LEGAL]";
         public const string BRAND_CONSOLE = "[XenCenter]";
-        public const string PRODUCT_BRAND = "[XenServer product]";
+        public const string PRODUCT_BRAND = "[XCP-ng product]";
         public const string COMPANY_NAME_SHORT = "[Company]";
         public const string SEARCH = "[xensearch]";
         public const string UPDATE = "[xsupdate]";

@@ -1324,7 +1324,7 @@
       <ToolStripItem Text="&amp;Export..." IsSeparator="False" Bold="False" Available="True" Index="10" />
       <ToolStripItem Text="Assign to vA&amp;pp" IsSeparator="False" Bold="False" Available="True" Index="11" />
       <ToolStripItem Text="" IsSeparator="True" Bold="False" Available="True" Index="12" />
-			<ToolStripItem Text="Inst&amp;all [XenServer product] Tools..." IsSeparator="False" Bold="False" Available="True" Index="13" />
+			<ToolStripItem Text="Inst&amp;all [XCP-ng product] Tools..." IsSeparator="False" Bold="False" Available="True" Index="13" />
 			<ToolStripItem Text="De&amp;lete..." IsSeparator="False" Bold="False" Available="True" Index="14" />
 			<ToolStripItem Text="Edit Ta&amp;gs..." IsSeparator="False" Bold="False" Available="True" Index="15" />
 		</ToolStripItems>
@@ -1345,7 +1345,7 @@
 			<ToolStripItem Text="M&amp;igrate to Server" IsSeparator="False" Bold="False" Available="True" Index="7" />
       <ToolStripItem Text="Assign to vA&amp;pp" IsSeparator="False" Bold="False" Available="True" Index="8" />
 			<ToolStripItem Text="" IsSeparator="True" Bold="False" Available="True" Index="9" />
-			<ToolStripItem Text="Inst&amp;all [XenServer product] Tools..." IsSeparator="False" Bold="False" Available="True" Index="10" />
+			<ToolStripItem Text="Inst&amp;all [XCP-ng product] Tools..." IsSeparator="False" Bold="False" Available="True" Index="10" />
 			<ToolStripItem Text="Edit Ta&amp;gs..." IsSeparator="False" Bold="False" Available="True" Index="11" />
 		</ToolStripItems>
 	</Test>
@@ -1456,7 +1456,7 @@
       <ToolStripItem Text="&amp;Export..." IsSeparator="False" Bold="False" Available="True" Index="6" />
       <ToolStripItem Text="Assign to vA&amp;pp" IsSeparator="False" Bold="False" Available="True" Index="7" />
       <ToolStripItem Text="" IsSeparator="True" Bold="False" Available="True" Index="8" />
-			<ToolStripItem Text="Inst&amp;all [XenServer product] Tools..." IsSeparator="False" Bold="False" Available="True" Index="9" />
+			<ToolStripItem Text="Inst&amp;all [XCP-ng product] Tools..." IsSeparator="False" Bold="False" Available="True" Index="9" />
 			<ToolStripItem Text="De&amp;lete..." IsSeparator="False" Bold="False" Available="True" Index="10" />
 			<ToolStripItem Text="Edit Ta&amp;gs..." IsSeparator="False" Bold="False" Available="True" Index="11" />
 		</ToolStripItems>

@@ -730,7 +730,7 @@
     <value>0</value>
   </data>
   <data name="perSocketRadioButton.Text" xml:space="preserve">
-    <value>[XenServer product] Per-Socket(&amp;S)</value>
+    <value>[XCP-ng product] Per-Socket(&amp;S)</value>
   </data>
   <data name="&gt;&gt;perSocketRadioButton.Name" xml:space="preserve">
     <value>perSocketRadioButton</value>
@@ -763,7 +763,7 @@
     <value>4</value>
   </data>
   <data name="xenDesktopEnterpriseRadioButton.Text" xml:space="preserve">
-    <value>[XenServer product] for XenDesktop(&amp;X)</value>
+    <value>[XCP-ng product] for XenDesktop(&amp;X)</value>
   </data>
   <data name="&gt;&gt;xenDesktopEnterpriseRadioButton.Name" xml:space="preserve">
     <value>xenDesktopEnterpriseRadioButton</value>
@@ -796,7 +796,7 @@
     <value>5</value>
   </data>
   <data name="enterprisePerSocketRadioButton.Text" xml:space="preserve">
-    <value>[XenServer product] Enterprise Per-Socket(&amp;N)</value>
+    <value>[XCP-ng product] Enterprise Per-Socket(&amp;N)</value>
   </data>
   <data name="&gt;&gt;enterprisePerSocketRadioButton.Name" xml:space="preserve">
     <value>enterprisePerSocketRadioButton</value>
@@ -829,7 +829,7 @@
     <value>6</value>
   </data>
   <data name="enterprisePerUserRadioButton.Text" xml:space="preserve">
-    <value>[XenServer product] Enterprise Per-User(&amp;E)</value>
+    <value>[XCP-ng product] Enterprise Per-User(&amp;E)</value>
   </data>
   <data name="enterprisePerUserRadioButton.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -967,7 +967,7 @@
     <value>7</value>
   </data>
   <data name="standardPerSocketRadioButton.Text" xml:space="preserve">
-    <value>[XenServer product] Standard Per-Socket(&amp;S)</value>
+    <value>[XCP-ng product] Standard Per-Socket(&amp;S)</value>
   </data>
   <data name="&gt;&gt;standardPerSocketRadioButton.Name" xml:space="preserve">
     <value>standardPerSocketRadioButton</value>

@@ -2404,7 +2404,7 @@
     <value>246, 22</value>
   </data>
   <data name="installToolsToolStripMenuItem.Text" xml:space="preserve">
-    <value>[XenServer product] Tools のインストール(&amp;X)</value>
+    <value>[XCP-ng product] Tools のインストール(&amp;X)</value>
   </data>
   <data name="sendCtrlAltDelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>246, 22</value>
@@ -2710,7 +2710,7 @@
     <value>197, 22</value>
   </data>
   <data name="xenSourceOnTheWebToolStripMenuItem.Text" xml:space="preserve">
-    <value>Web 上の [XenServer product](&amp;W)</value>
+    <value>Web 上の [XCP-ng product](&amp;W)</value>
   </data>
   <data name="xenCenterPluginsOnlineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>192, 22</value>

@@ -2204,7 +2204,7 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>アップグレード後に接続に問題が生じた SR があります。この問題を解決するには、SR を再接続してください。</value>
   </data>
   <data name="BROKEN_TOOLS_PROMPT" xml:space="preserve">
-    <value>接続に問題が生じた SR 上に [XenServer product] Tools ISO があるため、[XenCenter] によって修復が試行されます。続行しますか?</value>
+    <value>接続に問題が生じた SR 上に [XCP-ng product] Tools ISO があるため、[XenCenter] によって修復が試行されます。続行しますか?</value>
   </data>
   <data name="BUGTOOL_FILE_PREFIX" xml:space="preserve">
     <value>状態レポート -</value>
@@ -2315,7 +2315,7 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>VM '{0}' 上でこの仮想ディスクをアクティブにするには、VM に I/O ドライバーをインストールする必要があります。</value>
   </data>
   <data name="CANNOT_ACTIVATE_VD_VM_NEEDS_TOOLS" xml:space="preserve">
-    <value>この仮想ディスクを VM '{0}' 上でアクティブにするには、VM に [XenServer product] Tools をインストールする必要があります。</value>
+    <value>この仮想ディスクを VM '{0}' 上でアクティブにするには、VM に [XCP-ng product] Tools をインストールする必要があります。</value>
   </data>
   <data name="CANNOT_CHANGE_IP_CLUSTERING_ENABLED" xml:space="preserve">
     <value>{0} でクラスタリングが有効になるため、ホストが保守モードの場合のみインターフェイスを変更できます。</value>
@@ -2324,7 +2324,7 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>(管理インターフェイス '{0}' により使用されているため、このネットワークの MTU を変更できません)</value>
   </data>
   <data name="CANNOT_CONFIGURE_JUMBO_VM_NO_TOOLS" xml:space="preserve">
-    <value>([XenServer product] Tools がインストールされていないアクティブな仮想マシンが接続されているため、このネットワークの MTU を変更できません)</value>
+    <value>([XCP-ng product] Tools がインストールされていないアクティブな仮想マシンが接続されているため、このネットワークの MTU を変更できません)</value>
   </data>
   <data name="CANNOT_CONFIGURE_MORE_FREQ_ARCHIVE" xml:space="preserve">
     <value>スナップショットのスケジュールよりも頻繁なアーカイブを構成することはできません。</value>
@@ -2351,7 +2351,7 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>VM '{0}' 上でこの仮想ディスクを非アクティブにするには、VM に I/O ドライバーをインストールする必要があります。</value>
   </data>
   <data name="CANNOT_DEACTIVATE_VDI_NEEDS_TOOLS" xml:space="preserve">
-    <value>この仮想ディスクを VM '{0}' 上で非アクティブにするには、VM に [XenServer product] Tools をインストールする必要があります。</value>
+    <value>この仮想ディスクを VM '{0}' 上で非アクティブにするには、VM に [XCP-ng product] Tools をインストールする必要があります。</value>
   </data>
   <data name="CANNOT_DEACTIVATE_VDI_VM_NOT_RUNNING" xml:space="preserve">
     <value>実行されていない仮想マシン '{0}' 上でこの仮想ディスクを非アクティブにすることはできません。</value>
@@ -2392,7 +2392,7 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>このスナップショットは使用中であり削除できません。</value>
   </data>
   <data name="CANNOT_DELETE_TOOLS_SR" xml:space="preserve">
-    <value>[XenServer product] Tools の ISO ストレージの削除はサポートされていません。</value>
+    <value>[XCP-ng product] Tools の ISO ストレージの削除はサポートされていません。</value>
   </data>
   <data name="CANNOT_DELETE_VDI_ACTIVE_ON" xml:space="preserve">
     <value>この仮想ディスクは VM '{0}' 上でアクティブになっています。非アクティブにしてから削除してください。</value>
@@ -2401,7 +2401,7 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>この仮想ディスクは複数の VM に接続されています。すべての VM から接続を解除してから削除してください。</value>
   </data>
   <data name="CANNOT_DELETE_VDI_RUNNING_VM_NO_TOOLS" xml:space="preserve">
-    <value>実行中の VM の仮想ディスクを削除するには [XenServer product] Tools をインストールする必要があります。このディスクは実行中の VM '{0}' により使用されています。</value>
+    <value>実行中の VM の仮想ディスクを削除するには [XCP-ng product] Tools をインストールする必要があります。このディスクは実行中の VM '{0}' により使用されています。</value>
   </data>
   <data name="CANNOT_DELETE_VDI_SUSPENDED_VM" xml:space="preserve">
     <value>一時停止中の VM の仮想ディスクは削除できません。このディスクは一時停止中の VM '{0}' により使用されています。</value>
@@ -3045,9 +3045,9 @@ VM {2} をエクスポートしてもよろしいですか?</value>
     <comment>Message shown when user attempts to connect to a second XE Express host from the UI</comment>
   </data>
   <data name="CONNECTION_RESTRICTED_MESSAGE_LONG" xml:space="preserve">
-    <value>[Company] [XenServer product] Express Edition サーバー ({1}) に接続済みであるため、サーバー {0} への接続は制限されます。
+    <value>[Company] [XCP-ng product] Express Edition サーバー ({1}) に接続済みであるため、サーバー {0} への接続は制限されます。
 
-同時に複数の [Company] [XenServer product] Express Edition サーバーに接続することはできません。ライセンスのアップグレードについては、下のリンクを参照してください。</value>
+同時に複数の [Company] [XCP-ng product] Express Edition サーバーに接続することはできません。ライセンスのアップグレードについては、下のリンクを参照してください。</value>
   </data>
   <data name="CONNECTION_RESTRICTED_NOTICE_TITLE" xml:space="preserve">
     <value>ライセンスによる制限のため、{0} に接続できません</value>
@@ -3756,7 +3756,7 @@ VM 移行処理のパフォーマンスや信頼性を向上させるため、�
     <value>VM - 電源状態</value>
   </data>
   <data name="DEFAULT_SEARCH_VMS_WO_XS_TOOLS" xml:space="preserve">
-    <value>[XenServer product] Tools なしの VM</value>
+    <value>[XCP-ng product] Tools なしの VM</value>
   </data>
   <data name="DEFAULT_VDI_NAME" xml:space="preserve">
     <value>新規仮想ディスク</value>
@@ -4165,10 +4165,10 @@ VM 移行処理のパフォーマンスや信頼性を向上させるため、�
     <value>表示オプション</value>
   </data>
   <data name="DMC_UNAVAILABLE_NOTOOLS" xml:space="preserve">
-    <value>[XenServer product] Tools が VM にインストールされていないため、メモリ範囲を設定できません。</value>
+    <value>[XCP-ng product] Tools が VM にインストールされていないため、メモリ範囲を設定できません。</value>
   </data>
   <data name="DMC_UNAVAILABLE_NOTOOLS_PLURAL" xml:space="preserve">
-    <value>[XenServer product] Tools が VM にインストールされていないため、メモリ範囲を設定できません。</value>
+    <value>[XCP-ng product] Tools が VM にインストールされていないため、メモリ範囲を設定できません。</value>
   </data>
   <data name="DMC_UNAVAILABLE_NOTSUPPORTED" xml:space="preserve">
     <value>VM のオペレーティング システムでサポートされないためメモリ範囲を設定できません。</value>
@@ -4183,10 +4183,10 @@ VM 移行処理のパフォーマンスや信頼性を向上させるため、�
     <value>I/O ドライバーが VM にインストールされていないため、メモリ範囲を設定できません。</value>
   </data>
   <data name="DMC_UNAVAILABLE_OLDTOOLS" xml:space="preserve">
-    <value>VM の [XenServer product] Tools のバージョンが古いため、メモリ範囲を設定できません。</value>
+    <value>VM の [XCP-ng product] Tools のバージョンが古いため、メモリ範囲を設定できません。</value>
   </data>
   <data name="DMC_UNAVAILABLE_OLDTOOLS_PLURAL" xml:space="preserve">
-    <value>VM の [XenServer product] Tools のバージョンが古いため、メモリ範囲を設定できません。</value>
+    <value>VM の [XCP-ng product] Tools のバージョンが古いため、メモリ範囲を設定できません。</value>
   </data>
   <data name="DMC_UNAVAILABLE_TEMPLATE" xml:space="preserve">
     <value>このテンプレートではメモリ範囲を設定できません。</value>
@@ -5120,7 +5120,7 @@ CD をイジェクトしてから再試行してください。</value>
     <value>{0} 管理エージェントのインストール</value>
   </data>
   <data name="EVACUATE_HOST_INSTALL_TOOLS_PROMPT" xml:space="preserve">
-    <value>{0} [XenServer product] Tools のインストール</value>
+    <value>{0} [XCP-ng product] Tools のインストール</value>
   </data>
   <data name="EVACUATE_HOST_LOCAL_CD" xml:space="preserve">
     <value>この VM はローカル CD を使用します。</value>
@@ -5783,7 +5783,7 @@ CD をイジェクトしてから再試行してください。</value>
     <value>パフォーマンス グラフ</value>
   </data>
   <data name="GRAPH_NEEDS_TOOLS" xml:space="preserve">
-    <value>この VM のメモリ データを表示するには、[XenServer product] Tools をインストールする必要があります</value>
+    <value>この VM のメモリ データを表示するには、[XCP-ng product] Tools をインストールする必要があります</value>
   </data>
   <data name="GREATER_THAN" xml:space="preserve">
     <value>&gt; {0}</value>
@@ -6728,7 +6728,7 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
     <value>ディスクおよびメモリのスナップショットを作成するには、I/O ドライバーをインストールする必要があります</value>
   </data>
   <data name="INFO_DISKMEMORY_MODE_NO_TOOLS" xml:space="preserve">
-    <value>ディスクおよびメモリのスナップショットを作成するには、[XenServer product] Tools をインストールする必要があります</value>
+    <value>ディスクおよびメモリのスナップショットを作成するには、[XCP-ng product] Tools をインストールする必要があります</value>
   </data>
   <data name="INFO_DISKMEMORY_MODE_POWER_STATE" xml:space="preserve">
     <value>ディスクおよびメモリのスナップショットを作成するには、VM が実行中である必要があります</value>
@@ -6743,7 +6743,7 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
     <value>休止スナップショットを作成するには、管理エージェントをインストールする必要があります</value>
   </data>
   <data name="INFO_QUIESCE_MODE_NO_TOOLS" xml:space="preserve">
-    <value>休止スナップショットを作成するには、[XenServer product] Tools をインストールする必要があります</value>
+    <value>休止スナップショットを作成するには、[XCP-ng product] Tools をインストールする必要があります</value>
   </data>
   <data name="INFO_QUIESCE_MODE_POWER_STATE" xml:space="preserve">
     <value>休止スナップショットを作成するには、VM が実行中である必要があります</value>
@@ -6767,19 +6767,19 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
     <value>選択された VM に CD ドライブが見つかりません。</value>
   </data>
   <data name="INSTALLTOOLS_COULDNOTFIND_WIN" xml:space="preserve">
-    <value>[XenServer product] Tools インストール ディスクが見つかりません。</value>
+    <value>[XCP-ng product] Tools インストール ディスクが見つかりません。</value>
   </data>
   <data name="INSTALLTOOLS_DONE" xml:space="preserve">
-    <value>[XenServer product] Tools のインストール プログラムが開始しました。</value>
+    <value>[XCP-ng product] Tools のインストール プログラムが開始しました。</value>
   </data>
   <data name="INSTALLTOOLS_EXIST" xml:space="preserve">
-    <value>[XenServer product] Tools は、この VM に既にインストールされています。</value>
+    <value>[XCP-ng product] Tools は、この VM に既にインストールされています。</value>
   </data>
   <data name="INSTALLTOOLS_STARTING" xml:space="preserve">
-    <value>[XenServer product] Tools のインストール プログラムを開始しています。</value>
+    <value>[XCP-ng product] Tools のインストール プログラムを開始しています。</value>
   </data>
   <data name="INSTALLTOOLS_TITLE" xml:space="preserve">
-    <value>VM {0} への [XenServer product] Tools のインストール</value>
+    <value>VM {0} への [XCP-ng product] Tools のインストール</value>
   </data>
   <data name="INSTALL_FILES_CANNOT_BE_FOUND" xml:space="preserve">
     <value>指定されたネットワークの場所にインストール ファイルが見つかりません。</value>
@@ -6791,13 +6791,13 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
     <value>保留中のアップデートのインストール(&amp;U)...</value>
   </data>
   <data name="INSTALL_XENSERVER_TOOLS" xml:space="preserve">
-    <value>[XenServer product] Tools のインストール</value>
+    <value>[XCP-ng product] Tools のインストール</value>
   </data>
   <data name="INSTALL_XENSERVER_TOOLS_DOTS" xml:space="preserve">
-    <value>[XenServer product] Tools のインストール...</value>
+    <value>[XCP-ng product] Tools のインストール...</value>
   </data>
   <data name="INSTALL_XS_TOOLS" xml:space="preserve">
-    <value>[XenServer product] Tools のインストール</value>
+    <value>[XCP-ng product] Tools のインストール</value>
   </data>
   <data name="INSTANT_VM_CREATE_DESCRIPTION" xml:space="preserve">
     <value>テンプレート '{1}' からの VM '{0}' の作成</value>
@@ -7409,7 +7409,7 @@ SCSI ID: {2}
     <value>高可用性(&amp;H)...</value>
   </data>
   <data name="MAINWINDOW_INSTALL_TOOLS" xml:space="preserve">
-    <value>[XenServer product] Tools のインストール(&amp;X)...</value>
+    <value>[XCP-ng product] Tools のインストール(&amp;X)...</value>
   </data>
   <data name="MAINWINDOW_INSTANT_VM_FROM_TEMPLATE" xml:space="preserve">
     <value>高速作成(&amp;Q)</value>
@@ -7959,7 +7959,7 @@ SCSI ID: {2}
     <value>マルチパス対応</value>
   </data>
   <data name="MULTIPATH_FAILED" xml:space="preserve">
-    <value>ストレージのパスのいずれかが正しく動作していません。『[XenServer product] 管理者ガイド』を参照して、ストレージのマルチパス構成を確認してください。</value>
+    <value>ストレージのパスのいずれかが正しく動作していません。『[XCP-ng product] 管理者ガイド』を参照して、ストレージのマルチパス構成を確認してください。</value>
   </data>
   <data name="MULTIPATH_NOT_ACTIVE" xml:space="preserve">
     <value>非アクティブ</value>
@@ -8793,7 +8793,7 @@ NFS ストレージ リポジトリを構成する場合は、NFS サーバー�
     <value>ディスクの作成先のストレージ リポジトリを選択してください</value>
   </data>
   <data name="NEW_DVD_DRIVES_REQUIRED" xml:space="preserve">
-    <value>[XenServer product] Tools のインストール先の仮想マシンに DVD ドライブがないものがあります。必要に応じて新しい DVD ドライブを作成してもよろしいですか?</value>
+    <value>[XCP-ng product] Tools のインストール先の仮想マシンに DVD ドライブがないものがあります。必要に応じて新しい DVD ドライブを作成してもよろしいですか?</value>
   </data>
   <data name="NEW_DVD_DRIVE_CREATED" xml:space="preserve">
     <value>DVD ドライブが作成されました</value>
@@ -8812,10 +8812,10 @@ NFS ストレージ リポジトリを構成する場合は、NFS サーバー�
   </data>
   <data name="NEW_DVD_DRIVE_REBOOT_TOOLS" xml:space="preserve">
     <value>新規 DVD ドライブのインストールを完了するには、VM をシャットダウンして再起動する必要があります。
-VM が再起動したら、[[XenServer product] Tools のインストール] を再度クリックしてください。</value>
+VM が再起動したら、[[XCP-ng product] Tools のインストール] を再度クリックしてください。</value>
   </data>
   <data name="NEW_DVD_DRIVE_REQUIRED" xml:space="preserve">
-    <value>[XenServer product] Tools のインストール先仮想マシンには、DVD ドライブがありません。DVD ドライブを作成しますか?</value>
+    <value>[XCP-ng product] Tools のインストール先仮想マシンには、DVD ドライブがありません。DVD ドライブを作成しますか?</value>
   </data>
   <data name="NEW_FOLDER" xml:space="preserve">
     <value>新規フォルダ(&amp;N)...</value>
@@ -9666,7 +9666,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>権限が拒否されました</value>
   </data>
   <data name="PERSOCKET_LICENSES_X_REQUIRED" xml:space="preserve">
-    <value>[Company] [XenServer product] Per-Socket ({0} ソケット分必要)(&amp;S)</value>
+    <value>[Company] [XCP-ng product] Per-Socket ({0} ソケット分必要)(&amp;S)</value>
   </data>
   <data name="PHYSICAL_DEVICE" xml:space="preserve">
     <value>物理デバイス</value>
@@ -10059,13 +10059,13 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>PVS アクセラレータ</value>
   </data>
   <data name="PV_DRIVERS_NOT_INSTALLED" xml:space="preserve">
-    <value>[XenServer product] Tools 未インストール</value>
+    <value>[XCP-ng product] Tools 未インストール</value>
   </data>
   <data name="PV_DRIVERS_OUT_OF_DATE" xml:space="preserve">
-    <value>[XenServer product] Tools の旧バージョン (Version {0} インストール済み)</value>
+    <value>[XCP-ng product] Tools の旧バージョン (Version {0} インストール済み)</value>
   </data>
   <data name="PV_DRIVERS_OUT_OF_DATE_UNKNOWN_VERSION" xml:space="preserve">
-    <value>[XenServer product] Tools の旧バージョン</value>
+    <value>[XCP-ng product] Tools の旧バージョン</value>
   </data>
   <data name="QOS_LIMIT_INVALID" xml:space="preserve">
     <value>QoS 制限は 1 ～ 2147483647 (または空白) で指定してください。</value>
@@ -10427,7 +10427,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>クリアされたアップデートを復元</value>
   </data>
   <data name="RESTORE_FROM_BACKUP_FINALIZE" xml:space="preserve">
-    <value>バックアップ ファイルがサーバー '{0}' にロードされました。復元手順については、『[XenServer product] 管理者ガイド』を参照してください。</value>
+    <value>バックアップ ファイルがサーバー '{0}' にロードされました。復元手順については、『[XCP-ng product] 管理者ガイド』を参照してください。</value>
   </data>
   <data name="RESTORE_HOST" xml:space="preserve">
     <value>バックアップから復元...</value>
@@ -11204,7 +11204,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>{1} の SR {0}</value>
   </data>
   <data name="STANDARD_PERSOCKET_LICENSES_X_REQUIRED" xml:space="preserve">
-    <value>[XenServer product] Standard Per-Socket ({0} ソケット分必要)(&amp;S)</value>
+    <value>[XCP-ng product] Standard Per-Socket ({0} ソケット分必要)(&amp;S)</value>
   </data>
   <data name="STARTED" xml:space="preserve">
     <value>起動しました</value>
@@ -11389,7 +11389,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="SUPP_PACK_INSTALL_FAILED_MORE_INFO" xml:space="preserve">
     <value>{0}
 
-サーバーにサプリメンタル パックを手動でインストールする方法については、『[XenServer product] 管理者ガイド』を参照してください。</value>
+サーバーにサプリメンタル パックを手動でインストールする方法については、『[XCP-ng product] 管理者ガイド』を参照してください。</value>
   </data>
   <data name="SUPP_PACK_MISSING_ON" xml:space="preserve">
     <value>{0} ({1} に未インストール)</value>
@@ -11482,13 +11482,13 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>OS: {0}</value>
   </data>
   <data name="TEMPLATE_INFO_TOOLSNOTPRESENT" xml:space="preserve">
-    <value>[XenServer product] Tools: 未インストール</value>
+    <value>[XCP-ng product] Tools: 未インストール</value>
   </data>
   <data name="TEMPLATE_INFO_TOOLSOLD" xml:space="preserve">
-    <value>[XenServer product] Tools: 旧バージョン (Version {0}.{1} インストール済み)</value>
+    <value>[XCP-ng product] Tools: 旧バージョン (Version {0}.{1} インストール済み)</value>
   </data>
   <data name="TEMPLATE_INFO_TOOLSUPTODATE" xml:space="preserve">
-    <value>[XenServer product] Tools: 最新バージョン</value>
+    <value>[XCP-ng product] Tools: 最新バージョン</value>
   </data>
   <data name="TEMPLATE_INFO_VCPUS" xml:space="preserve">
     <value>vCPU: {0}</value>
@@ -11578,7 +11578,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>VM が一時停止しているためネットワークをアクティブにできません</value>
   </data>
   <data name="TOOLTIP_ACTIVATE_VIF_TOOLS" xml:space="preserve">
-    <value>[XenServer product] Tools 未インストールの VM では実行中にネットワークをアクティブにできません</value>
+    <value>[XCP-ng product] Tools 未インストールの VM では実行中にネットワークをアクティブにできません</value>
   </data>
   <data name="TOOLTIP_DEACTIVATE_SUSPENDED" xml:space="preserve">
     <value>VM が一時停止しているため、ディスクをアクティブまたは非アクティブにできません</value>
@@ -11587,13 +11587,13 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>VM が実行されているため、システム ディスクをアクティブまたは非アクティブにできません</value>
   </data>
   <data name="TOOLTIP_DEACTIVATE_VDI_NEED_TOOLS" xml:space="preserve">
-    <value>[XenServer product] Tools がインストールされていない場合、実行中の VM のディスクをアクティブまたは非アクティブにすることはできません</value>
+    <value>[XCP-ng product] Tools がインストールされていない場合、実行中の VM のディスクをアクティブまたは非アクティブにすることはできません</value>
   </data>
   <data name="TOOLTIP_DEACTIVATE_VIF_SUSPENDED" xml:space="preserve">
     <value>VM が一時停止しているためネットワークを非アクティブにできません</value>
   </data>
   <data name="TOOLTIP_DEACTIVATE_VIF_TOOLS" xml:space="preserve">
-    <value>[XenServer product] Tools 未インストールの VM では実行中にネットワークを非アクティブにできません</value>
+    <value>[XCP-ng product] Tools 未インストールの VM では実行中にネットワークを非アクティブにできません</value>
   </data>
   <data name="TOOLTIP_DELETE_SUSPENDED" xml:space="preserve">
     <value>VM が一時停止しているためディスクを削除できません</value>
@@ -11602,7 +11602,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>VM が実行されているためシステム ディスクを削除できません</value>
   </data>
   <data name="TOOLTIP_DELETE_VDI_NEED_TOOLS" xml:space="preserve">
-    <value>[XenServer product] Tools がインストールされていない場合、実行中の VM からディスクを削除することはできません</value>
+    <value>[XCP-ng product] Tools がインストールされていない場合、実行中の VM からディスクを削除することはできません</value>
   </data>
   <data name="TOOLTIP_DETACH_SUSPENDED" xml:space="preserve">
     <value>VM が一時停止しているためディスクをイジェクトできません</value>
@@ -11614,13 +11614,13 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>ディスクの接続を解除するには、非アクティブ化しておく必要があります。</value>
   </data>
   <data name="TOOLTIP_DETACH_VDI_NEED_TOOLS" xml:space="preserve">
-    <value>[XenServer product] Tools がインストールされていない場合、実行中の VM からディスクを削除することはできません</value>
+    <value>[XCP-ng product] Tools がインストールされていない場合、実行中の VM からディスクを削除することはできません</value>
   </data>
   <data name="TOOLTIP_EDIT_NETWORK_IO_DRIVERS" xml:space="preserve">
     <value>実行中の VM のネットワークを編集するには、I/O ドライバーをインストールする必要があります</value>
   </data>
   <data name="TOOLTIP_EDIT_NETWORK_TOOLS" xml:space="preserve">
-    <value>実行中の VM のネットワークを編集するには、[XenServer product] Tools をインストールする必要があります</value>
+    <value>実行中の VM のネットワークを編集するには、[XCP-ng product] Tools をインストールする必要があります</value>
   </data>
   <data name="TOOLTIP_MAX_NETWORKS_FROM_DEFAULT_TEMPLATE" xml:space="preserve">
     <value>デフォルトのテンプレートで VM を作成する場合、サポートされるネットワークの数は最大 {0} です</value>
@@ -11638,7 +11638,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>一時停止中の VM からネットワークを削除することはできません</value>
   </data>
   <data name="TOOLTIP_REMOVE_NETWORK_TOOLS" xml:space="preserve">
-    <value>実行中の VM のネットワークを削除するには、[XenServer product] Tools をインストールする必要があります</value>
+    <value>実行中の VM のネットワークを削除するには、[XCP-ng product] Tools をインストールする必要があります</value>
   </data>
   <data name="TOOLTIP_REMOVE_PIF" xml:space="preserve">
     <value>このネットワークは物理デバイスであるため削除できません</value>
@@ -11975,10 +11975,10 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>{0}: ライブ パッチが使用されるため、このサーバーは再起動する必要がありません。</value>
   </data>
   <data name="UPDATES_WIZARD_NO_TOOLS" xml:space="preserve">
-    <value>VM {0} には [XenServer product] Tools がインストールされていません。</value>
+    <value>VM {0} には [XCP-ng product] Tools がインストールされていません。</value>
   </data>
   <data name="UPDATES_WIZARD_OUT_OF_DATE_TOOLS" xml:space="preserve">
-    <value>最新の [XenServer product] Tools がインストールされるまで、VM {0} を一時停止することはできません。</value>
+    <value>最新の [XCP-ng product] Tools がインストールされるまで、VM {0} を一時停止することはできません。</value>
   </data>
   <data name="UPDATES_WIZARD_PAGE1_TOPTEXT" xml:space="preserve">
     <value>アップデート対象のサーバーのチェックボックスをオンにしてください。プール内で使用可能なすべてのサーバーをアップデートするには、プールのチェックボックスをオンにします。</value>
@@ -13696,12 +13696,12 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>[XenServer] ライセンス ファイル</value>
   </data>
   <data name="XS_TOOLS_MESSAGE_MORE_THAN_ONE_VM" xml:space="preserve">
-    <value>選択した各 VM の DVD ドライブに [XenServer product] Tools DVD が挿入されます。これらのドライブに挿入されているディスクはすべてイジェクトされます。
+    <value>選択した各 VM の DVD ドライブに [XCP-ng product] Tools DVD が挿入されます。これらのドライブに挿入されているディスクはすべてイジェクトされます。
 
 各 VM のコンソールを使用して、インストールを完了してください。</value>
   </data>
   <data name="XS_TOOLS_SR_NOT_FOUND" xml:space="preserve">
-    <value>[XenServer product] Tools SR が見つかりません。</value>
+    <value>[XCP-ng product] Tools SR が見つかりません。</value>
   </data>
   <data name="X_HIDDEN" xml:space="preserve">
     <value>{0} (非表示)</value>

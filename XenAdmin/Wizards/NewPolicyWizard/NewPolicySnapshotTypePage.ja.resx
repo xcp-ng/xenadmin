@@ -315,7 +315,7 @@
   <data name="labelWarning.Text" xml:space="preserve">
     <value>スケジュールされたディスクとメモリのスナップショットは、この {0} の対象 VM が以下のすべての条件を満たす場合のみ作成されます。
 1. スケジュールされた時間に VM が実行中である、または一時停止している。
-2. VM に [XenServer product] Tools がインストールされている。
+2. VM に [XCP-ng product] Tools がインストールされている。
 3. VM に専用の GPU が割り当てられていない。</value>
   </data>
   <data name="&gt;&gt;labelWarning.Name" xml:space="preserve">
