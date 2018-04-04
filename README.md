@@ -1,5 +1,10 @@
 
-First have a look here: https://github.com/borzel/xc-ng-project
+First have a look here
+======================
+
+Project coordination: https://github.com/borzel/xc-ng-project
+
+Sources (first steps of unBranding): https://github.com/borzel/xenadmin/tree/XCP-ng_unBrand
 
 
 XenCenter
