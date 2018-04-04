@@ -1,14 +1,14 @@
 
-XenCenter
+[XC-ng]
 =========
 
-This repository contains the source code for XenCenter.
+This repository contains the source code for [XC-ng].
 
-XenCenter is a Windows-based management tool for XenServer environments
+[XC-ng] is a Windows-based management tool for XenServer environments
 which enables users to manage and monitor XenServer hosts and resource pools,
 and to deploy, monitor, manage and migrate virtual machines.
 
-XenCenter is written mostly in C#.
+[XC-ng] is written mostly in C#.
 
 Contributions
 -------------
@@ -23,10 +23,10 @@ License
 This code is licensed under the BSD 2-Clause license. Please see the
 [LICENSE](LICENSE) file for more information.
 
-How to build XenCenter
+How to build [XC-ng]
 ----------------------
 
-To build XenCenter, you need
+To build [XC-ng], you need
 
 * the source from xenadmin repository
 * Visual Studio 2017 Community
@@ -38,10 +38,9 @@ To build XenCenter, you need
 * Ionic.Zip.dll
 * log4net.dll
 
-You have to add those two libraries yourself (ZIP files in ExternalLibs folder):
+You have to add this library yourself (ZIP file in ExternalLibs folder):
 
 * CookComputing.XmlRpcV2.dll (Extract zip file, dll is allready in folder xml-rpc.net.2.5.0\bin)
-* 
 
 
 (Only for testing purposes) you also need NUnit libraries 
