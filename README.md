@@ -16,9 +16,6 @@ Contributions
 The preferable way to contribute patches is to fork the repository on Github and
 then submit a pull request. If for some reason you can't use Github to submit a
 pull request, then you may send your patch for review to the
-xs-devel@lists.xenserver.org mailing list, with a link to a public git repository
-for review. Please see the [CONTRIB](CONTRIB) file for some general guidelines
-on submitting changes.
 
 License
 -------
@@ -32,21 +29,22 @@ How to build XenCenter
 To build XenCenter, you need
 
 * the source from xenadmin repository
-* Visual Studio 2013
+* Visual Studio 2017 Community
 
-and also some libraries which we do not store in the source tree:
-
-* CookComputing.XmlRpcV2.dll
+(these should Visual Studio restore automatically per NuGet)
 * Newtonsoft.Json.dll
 * DiscUtils.dll
 * ICSharpCode.SharpZipLib.dll
 * Ionic.Zip.dll
 * log4net.dll
 
-You can find the source code of these libraries (along with some patches) in
-[dotnet-packages](https://github.com/xenserver/dotnet-packages) repository.
+You have to add those two libraries yourself (ZIP files in ExternalLibs folder):
 
-You also need NUnit libraries
+* CookComputing.XmlRpcV2.dll (Extract zip file, dll is allready in folder xml-rpc.net.2.5.0\bin)
+* 
+
+
+(Only for testing purposes) you also need NUnit libraries 
 
 * nunit.framework.dll
 * Moq.dll
