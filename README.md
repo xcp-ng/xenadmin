@@ -1,14 +1,14 @@
 
-XenCenter
+[XC-ng]
 =========
 
-This repository contains the source code for XenCenter.
+This repository contains the source code for [XC-ng].
 
-XenCenter is a Windows-based management tool for XenServer environments
+[XC-ng] is a Windows-based management tool for XenServer environments
 which enables users to manage and monitor XenServer hosts and resource pools,
 and to deploy, monitor, manage and migrate virtual machines.
 
-XenCenter is written mostly in C#.
+[XC-ng] is written mostly in C#.
 
 Contributions
 -------------
@@ -23,10 +23,10 @@ License
 This code is licensed under the BSD 2-Clause license. Please see the
 [LICENSE](LICENSE) file for more information.
 
-How to build XenCenter
+How to build [XC-ng]
 ----------------------
 
-To build XenCenter, you need
+To build [XC-ng], you need
 
 * the source from xenadmin repository
 * Visual Studio 2017 Community
