@@ -145,7 +145,7 @@
     <value>1</value>
   </data>
   <data name="labelWithoutAutomatedUpdates.Text" xml:space="preserve">
-    <value>[Citrix] からダウンロードする更新を選択するか、更新またはサプリメンタルパック ファイルをローカル コンピューターで検索します。</value>
+    <value>[Company] からダウンロードする更新を選択するか、更新またはサプリメンタルパック ファイルをローカル コンピューターで検索します。</value>
   </data>
   <data name="&gt;&gt;labelWithoutAutomatedUpdates.Name" xml:space="preserve">
     <value>labelWithoutAutomatedUpdates</value>
@@ -181,7 +181,7 @@
     <value>0</value>
   </data>
   <data name="labelWithAutomatedUpdates.Text" xml:space="preserve">
-    <value>自動アップデートを選択するか、[Citrix] からのアップデートのダウンロードを選択します。アップデートまたはサプリメンタルパック ファイルをローカル コンピューターで検索します。</value>
+    <value>自動アップデートを選択するか、[Company] からのアップデートのダウンロードを選択します。アップデートまたはサプリメンタルパック ファイルをローカル コンピューターで検索します。</value>
   </data>
   <data name="&gt;&gt;labelWithAutomatedUpdates.Name" xml:space="preserve">
     <value>labelWithAutomatedUpdates</value>
@@ -247,7 +247,7 @@
     <value>3</value>
   </data>
   <data name="automatedUpdatesOptionLabel.Text" xml:space="preserve">
-    <value>[XenCenter] では、最新バージョンのすべてのリリース済みアップデートが [Citrix] からダウンロードされてインストールされます。通常は終了後に 1 回のみ再起動します。</value>
+    <value>[XenCenter] では、最新バージョンのすべてのリリース済みアップデートが [Company] からダウンロードされてインストールされます。通常は終了後に 1 回のみ再起動します。</value>
   </data>
   <data name="&gt;&gt;automatedUpdatesOptionLabel.Name" xml:space="preserve">
     <value>automatedUpdatesOptionLabel</value>
@@ -280,7 +280,7 @@
     <value>4</value>
   </data>
   <data name="downloadUpdateRadioButton.Text" xml:space="preserve">
-    <value>[Citrix] からアップデートまたは新しいバージョンをダウンロード(&amp;D)</value>
+    <value>[Company] からアップデートまたは新しいバージョンをダウンロード(&amp;D)</value>
   </data>
   <data name="&gt;&gt;downloadUpdateRadioButton.Name" xml:space="preserve">
     <value>downloadUpdateRadioButton</value>

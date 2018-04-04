@@ -499,7 +499,7 @@
     <value>6</value>
   </data>
   <data name="uploadCheckBox.Text" xml:space="preserve">
-    <value>将状态报告上载到 [Citrix] Insight Services(&amp;U)</value>
+    <value>将状态报告上载到 [Company] Insight Services(&amp;U)</value>
   </data>
   <data name="&gt;&gt;uploadCheckBox.Name" xml:space="preserve">
     <value>uploadCheckBox</value>

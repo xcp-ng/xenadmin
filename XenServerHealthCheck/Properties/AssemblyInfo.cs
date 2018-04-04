@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("XenServerHealthCheck")]
-[assembly: AssemblyDescription("[Citrix] [XenServer] Health Check Service")]
+[assembly: AssemblyDescription("[Company] [XenServer] Health Check Service")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("[BRANDING_COMPANY_NAME_LEGAL]")]
 [assembly: AssemblyProduct("[XenServer] Health Check Service")]

@@ -184,7 +184,7 @@
     <value>1</value>
   </data>
   <data name="CPSOptimizationRadioButton.Text" xml:space="preserve">
-    <value>针对 [Citrix] XenApp 进行优化(&amp;X)</value>
+    <value>针对 [Company] XenApp 进行优化(&amp;X)</value>
   </data>
   <data name="&gt;&gt;CPSOptimizationRadioButton.Name" xml:space="preserve">
     <value>CPSOptimizationRadioButton</value>

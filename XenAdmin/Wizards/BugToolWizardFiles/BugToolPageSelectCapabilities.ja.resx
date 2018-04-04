@@ -238,7 +238,7 @@
     <value>2</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>[Citrix] 個人情報保護ポリシー</value>
+    <value>[Company] 個人情報保護ポリシー</value>
   </data>
   <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
     <value>linkLabel1</value>

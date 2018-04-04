@@ -151,7 +151,7 @@
     <value>Always try to restart VM</value>
   </data>
   <data name="Description-host.system_status-CVSM" xml:space="preserve">
-    <value>The configuration settings of [Citrix] Storagelink</value>
+    <value>The configuration settings of [Company] Storagelink</value>
   </data>
   <data name="Description-host.system_status-X11" xml:space="preserve">
     <value>Log files from the X server</value>
@@ -598,7 +598,7 @@
     <value>[XenServer] version</value>
   </data>
   <data name="Label-host.system_status-CVSM" xml:space="preserve">
-    <value>[Citrix] StorageLink configuration</value>
+    <value>[Company] StorageLink configuration</value>
   </data>
   <data name="Label-host.system_status-X11" xml:space="preserve">
     <value>X server logs</value>
@@ -1740,10 +1740,10 @@
     <value>Volume manager logs</value>
   </data>
   <data name="Label-host.edition-premium" xml:space="preserve">
-    <value>[Citrix] [XenServer product] Ultimate Edition</value>
+    <value>[Company] [XenServer product] Ultimate Edition</value>
   </data>
   <data name="Label-host.edition-basic" xml:space="preserve">
-    <value>[Citrix] [XenServer product] Basic Edition</value>
+    <value>[Company] [XenServer product] Basic Edition</value>
   </data>
   <data name="Label-host.system_status-xscontainer" xml:space="preserve">
     <value>Container management logs</value>
@@ -1755,7 +1755,7 @@
     <value>Connection test</value>
   </data>
   <data name="Label-host.edition-standard" xml:space="preserve">
-    <value>[Citrix] [XenServer product] Standard Edition</value>
+    <value>[Company] [XenServer product] Standard Edition</value>
   </data>
   <data name="Label-Pool_patch.required-updates" xml:space="preserve">
     <value>Required Updates</value>
@@ -1842,6 +1842,6 @@
     <value>GFS2</value>
   </data>
   <data name="Label-host.edition-desktop-cloud" xml:space="preserve">
-    <value>XenApp/XenDesktop [Citrix] Cloud</value>
+    <value>XenApp/XenDesktop [Company] Cloud</value>
   </data>
 </root>

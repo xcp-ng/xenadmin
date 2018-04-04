@@ -517,7 +517,7 @@
     <value>Get space requirements</value>
   </data>
   <data name="ACTION_GET_HEALTH_CHECK_RESULT" xml:space="preserve">
-    <value>Get Health Check analysis result from [Citrix] Insight Services</value>
+    <value>Get Health Check analysis result from [Company] Insight Services</value>
   </data>
   <data name="ACTION_GET_HEALTH_CHECK_RESULT_FAILED" xml:space="preserve">
     <value>Failed to get the analysis result</value>
@@ -550,10 +550,10 @@
     <value>Setting HA restart priority on '{0}' to '{1}'</value>
   </data>
   <data name="ACTION_HEALTHCHECK_AUTHENTICATION" xml:space="preserve">
-    <value>Authentication with [Citrix] Insight Services</value>
+    <value>Authentication with [Company] Insight Services</value>
   </data>
   <data name="ACTION_HEALTHCHECK_AUTHENTICATION_PROGRESS" xml:space="preserve">
-    <value>Authenticating with [Citrix] Insight Services</value>
+    <value>Authenticating with [Company] Insight Services</value>
   </data>
   <data name="ACTION_HOSTS_REBOOTED" xml:space="preserve">
     <value>Servers rebooted</value>
@@ -994,13 +994,13 @@
     <value>Upload error. The patch was uploaded, but it cannot be found on the host.</value>
   </data>
   <data name="ACTION_UPLOAD_SERVER_STATUS_REPORT" xml:space="preserve">
-    <value>Upload server status report to [Citrix] Insight Services</value>
+    <value>Upload server status report to [Company] Insight Services</value>
   </data>
   <data name="ACTION_UPLOAD_SERVER_STATUS_REPORT_FAILED" xml:space="preserve">
     <value>Failed to upload the status report.</value>
   </data>
   <data name="ACTION_UPLOAD_SERVER_STATUS_REPORT_PROGRESS" xml:space="preserve">
-    <value>Uploading report to [Citrix] Insight Services</value>
+    <value>Uploading report to [Company] Insight Services</value>
   </data>
   <data name="ACTION_USB_PASSTHROUGH_DISABLED" xml:space="preserve">
     <value>USB passthrough disabled</value>
@@ -1839,7 +1839,7 @@ Note that if RBAC is enabled, only alerts which you have privileges to dismiss w
     <value>{0} is now available</value>
   </data>
   <data name="ALERT_NEW_VERSION_DETAILS" xml:space="preserve">
-    <value>{0} is now available. Download the new version from the [Citrix] website.</value>
+    <value>{0} is now available. Download the new version from the [Company] website.</value>
   </data>
   <data name="ALERT_NEW_VERSION_DOWNLOAD" xml:space="preserve">
     <value>Go to Web Page</value>
@@ -3041,9 +3041,9 @@ Would you like to carry out the operation at this time?</value>
     <comment>Message shown when user attempts to connect to a second XE Express host from the UI</comment>
   </data>
   <data name="CONNECTION_RESTRICTED_MESSAGE_LONG" xml:space="preserve">
-    <value>Connection to server {0} restricted - a connection to a [Citrix] [XenServer product] Express Edition server ({1}) already exists.
+    <value>Connection to server {0} restricted - a connection to a [Company] [XenServer product] Express Edition server ({1}) already exists.
 
-You can only connect to a single [Citrix] [XenServer product] Express Edition server at a time. To find out how to upgrade your license, follow the link below.</value>
+You can only connect to a single [Company] [XenServer product] Express Edition server at a time. To find out how to upgrade your license, follow the link below.</value>
   </data>
   <data name="CONNECTION_RESTRICTED_NOTICE_TITLE" xml:space="preserve">
     <value>Cannot connect to {0} because of license restriction</value>
@@ -4304,7 +4304,7 @@ This will also delete its subfolders.</value>
     <value>Download...</value>
   </data>
   <data name="DOWNLOAD_LATEST_XS_BODY" xml:space="preserve">
-    <value>{0} is now available. Download the latest at the [Citrix] website.</value>
+    <value>{0} is now available. Download the latest at the [Company] website.</value>
   </data>
   <data name="DO_NOT_SHOW_THIS_MESSAGE" xml:space="preserve">
     <value>&amp;Don't show this message again</value>
@@ -6088,10 +6088,10 @@ Click Configure HA to alter the settings displayed below.</value>
     <value>Review configuration and activate HA</value>
   </data>
   <data name="HEALTHCHECK_AUTHENTICATION_RUBRIC_EXISTING_TOKEN" xml:space="preserve">
-    <value>Authentication with [Citrix] Insight Services is required in order to enable this feature. [XenCenter] detected a previous successful authentication for one of other connected pools. You can choose to re-use it or authenticate again.</value>
+    <value>Authentication with [Company] Insight Services is required in order to enable this feature. [XenCenter] detected a previous successful authentication for one of other connected pools. You can choose to re-use it or authenticate again.</value>
   </data>
   <data name="HEALTHCHECK_AUTHENTICATION_RUBRIC_NO_TOKEN" xml:space="preserve">
-    <value>Authentication with [Citrix] Insight Services is required in order to enable this feature. Please register by providing MyCitrix credentials (see {0}). These credentials will only be used to obtain an upload token and will not be stored on this machine or on your server.</value>
+    <value>Authentication with [Company] Insight Services is required in order to enable this feature. Please register by providing MyCitrix credentials (see {0}). These credentials will only be used to obtain an upload token and will not be stored on this machine or on your server.</value>
   </data>
   <data name="HEALTHCHECK_ENROLLMENT_CONFIRMATION_BUTTON_LABEL" xml:space="preserve">
     <value>OK, Enable Health Check</value>
@@ -6130,7 +6130,7 @@ Click Configure HA to alter the settings displayed below.</value>
     <value>HealthCheck</value>
   </data>
   <data name="HEALTH_CHECK_AUTHENTICATION_FAILED" xml:space="preserve">
-    <value>Authentication with [Citrix] Insight Services failed. See the application log files for more information.</value>
+    <value>Authentication with [Company] Insight Services failed. See the application log files for more information.</value>
   </data>
   <data name="HEALTH_CHECK_AUTHENTICATION_INVALID_CREDENTIALS" xml:space="preserve">
     <value>Invalid user name or password. Please try again.</value>
@@ -6142,7 +6142,7 @@ Click Configure HA to alter the settings displayed below.</value>
     <value>http://www.citrix.com/about/legal/privacy.html</value>
   </data>
   <data name="HEALTH_CHECK_PRIVACY_POLICY" xml:space="preserve">
-    <value>The information that Health Check uploads to [Citrix] Insight Services will be used for troubleshooting and diagnostics support purposes, as well as to improve the quality, reliability, and performance of our products subject to the [Citrix] Insight Services Policy at {0} and [Citrix] Privacy Policy at {1}.</value>
+    <value>The information that Health Check uploads to [Company] Insight Services will be used for troubleshooting and diagnostics support purposes, as well as to improve the quality, reliability, and performance of our products subject to the [Company] Insight Services Policy at {0} and [Company] Privacy Policy at {1}.</value>
   </data>
   <data name="HEALTH_CHECK_USER_HAS_NO_PERMISSION_TO_CONNECT" xml:space="preserve">
     <value>This user is not authorized to access this server.</value>
@@ -7088,7 +7088,7 @@ Size: {3}</value>
   </data>
   <data name="LICENSE_SUPPORT_AND_DESKTOP_CLOUD_FEATURES_ENABLED" xml:space="preserve">
     <value>Eligible for support 
-XenAdd/XenDesktop [Citrix] Cloud features enabled</value>
+XenAdd/XenDesktop [Company] Cloud features enabled</value>
   </data>
   <data name="LICENSE_SUPPORT_AND_DESKTOP_FEATURES_ENABLED" xml:space="preserve">
     <value>Eligible for support 
@@ -8728,7 +8728,7 @@ Review these settings, then click Previous if you need to change anything. Other
     <value>CentOS</value>
   </data>
   <data name="NEWVMWIZARD_TEMPLATEPAGE_CITRIX" xml:space="preserve">
-    <value>[Citrix]</value>
+    <value>[Company]</value>
   </data>
   <data name="NEWVMWIZARD_TEMPLATEPAGE_COREOS" xml:space="preserve">
     <value>CoreOS</value>
@@ -9682,7 +9682,7 @@ File not found</value>
     <value>Permission Denied</value>
   </data>
   <data name="PERSOCKET_LICENSES_X_REQUIRED" xml:space="preserve">
-    <value>[Citrix] [XenServer product] Per-&amp;Socket ({0} required)</value>
+    <value>[Company] [XenServer product] Per-&amp;Socket ({0} required)</value>
   </data>
   <data name="PHYSICAL_DEVICE" xml:space="preserve">
     <value>Physical device</value>
@@ -11298,7 +11298,7 @@ The upper limit: SR size / {2}</value>
     <value>In progress</value>
   </data>
   <data name="STATUS_REPORT_ENTER_CREDENTIALS_MESSAGE" xml:space="preserve">
-    <value>Enter your MyCitrix credentials (see {0}). These credentials will only be used to authenticate with [Citrix] Insight Services once and will not be stored on this machine or on your server.</value>
+    <value>Enter your MyCitrix credentials (see {0}). These credentials will only be used to authenticate with [Company] Insight Services once and will not be stored on this machine or on your server.</value>
   </data>
   <data name="STATUS_REPORT_ZIP_FAILED" xml:space="preserve">
     <value>There was an error while packaging the server status report. Only a partial report may be available</value>

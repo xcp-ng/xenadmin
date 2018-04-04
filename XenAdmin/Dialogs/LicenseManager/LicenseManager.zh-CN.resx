@@ -331,7 +331,7 @@
     <value>4</value>
   </data>
   <data name="downloadLicenseServerLink.Text" xml:space="preserve">
-    <value>下载 [Citrix] 许可证服务器虚拟设备</value>
+    <value>下载 [Company] 许可证服务器虚拟设备</value>
   </data>
   <data name="downloadLicenseServerLink.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>

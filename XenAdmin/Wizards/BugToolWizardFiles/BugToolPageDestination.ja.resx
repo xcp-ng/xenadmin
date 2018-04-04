@@ -499,7 +499,7 @@
     <value>6</value>
   </data>
   <data name="uploadCheckBox.Text" xml:space="preserve">
-    <value>[Citrix] Insight Services に状態レポートをアップロード(&amp;U)</value>
+    <value>[Company] Insight Services に状態レポートをアップロード(&amp;U)</value>
   </data>
   <data name="&gt;&gt;uploadCheckBox.Name" xml:space="preserve">
     <value>uploadCheckBox</value>

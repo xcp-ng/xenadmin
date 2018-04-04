@@ -257,7 +257,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 
 
-Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Citrix] Systems, Inc. in the United States and other countries.</value>
+Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Company] Systems, Inc. in the United States and other countries.</value>
   </data>
   <data name="&gt;&gt;textBox1.Name" xml:space="preserve">
     <value>textBox1</value>
@@ -293,7 +293,7 @@ Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Cit
     <value>5</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>[Citrix]、[Citrix] [XenServer]、Xen、Xen 徽标、[XenCenter]、XenMotion 是 [Citrix] Systems, Inc. 在美国及其他国家/地区的商标和/或注册商标。</value>
+    <value>[Company]、[Company] [XenServer]、Xen、Xen 徽标、[XenCenter]、XenMotion 是 [Company] Systems, Inc. 在美国及其他国家/地区的商标和/或注册商标。</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -365,7 +365,7 @@ Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Cit
     <value>4</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>版权所有 © [Citrix] Systems, Inc. 保留所有权利。</value>
+    <value>版权所有 © [Company] Systems, Inc. 保留所有权利。</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>

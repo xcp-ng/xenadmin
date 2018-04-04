@@ -262,7 +262,7 @@
     <value>1</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>版权所有 © [Citrix] Systems, Inc. 保留所有权利。</value>
+    <value>版权所有 © [Company] Systems, Inc. 保留所有权利。</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>

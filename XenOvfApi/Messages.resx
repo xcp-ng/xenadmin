@@ -151,7 +151,7 @@
     <value>Reject</value>
   </data>
   <data name="EULA_TITLE" xml:space="preserve">
-    <value>[Citrix] OVF EULA</value>
+    <value>[Company] OVF EULA</value>
   </data>
   <data name="FAILED_TO_ADD_OS_SECTION" xml:space="preserve">
     <value>Failed to add operating system section because the virtual system collection is invalid.</value>

@@ -1,0 +1,253 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1B4B0A58-0AFB-4090-91DD-18912CC7DE65}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>CookComputing.XmlRpcV2</AssemblyName>
+    <AssemblyOriginatorKeyFile Condition="'$(BuildingInsideVisualStudio)' == ''">$(KeyFile)</AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>xmlrpc</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SignAssembly Condition="'$(BuildingInsideVisualStudio)' == ''">false</SignAssembly>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>649</NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>649</NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DateTime8601.cs" />
+    <Compile Include="GuidEx.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IHttpRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IHttpRequestHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IHttpResponse.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IXmlRpcProxy.cs" />
+    <Compile Include="RequestResponseLogger.cs" />
+    <Compile Include="SystemMethodsBase.cs" />
+    <Compile Include="Tracer.cs" />
+    <Compile Include="util.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcAsyncResult.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcBeginAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcBoolean.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcClientFormatterSink.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcClientFormatterSinkProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcClientProtocol.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="XmlRpcDateTime.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcDocWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcDouble.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcEndAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcFaultException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcHttpRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcHttpResponse.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcHttpServerProtocol.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcInt.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcListenerRequest.cs" />
+    <Compile Include="XmlRpcListenerResponse.cs" />
+    <Compile Include="XmlRpcListenerService.cs" />
+    <Compile Include="XmlRpcLogger.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcMemberAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcMethodAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcMethodInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcMissingMappingAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcNonStandard.cs" />
+    <Compile Include="XmlRpcParameterAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcParameterInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcProxyCodeGen.cs" />
+    <Compile Include="XmlRpcProxyGen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcRequestEventArgs.cs" />
+    <Compile Include="XmlRpcResponse.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcResponseEventArgs.cs" />
+    <Compile Include="XmlRpcReturnValueAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcSerializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcServerFormatterSink.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcServerFormatterSinkProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcServerProtocol.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcServiceAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcServiceInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcStruct.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlRpcUrlAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Target Name="BeforeBuild">
+    <CreateItem Include="AssemblyBuildNumber.cs" Condition="'$(BuildingInsideVisualStudio)' == ''">
+      <Output TaskParameter="Include" ItemName="Compile" />
+    </CreateItem>
+    <CreateItem Include="AssemblyDescFX1_0.cs" Condition="'$(TargetFX1_0)'=='true'">
+      <Output TaskParameter="Include" ItemName="Compile" />
+    </CreateItem>
+    <CreateItem Include="AssemblyDesc.cs" Condition="'$(TargetFX1_0)'!='true'">
+      <Output TaskParameter="Include" ItemName="Compile" />
+    </CreateItem>
+  </Target>
+</Project>

@@ -160,7 +160,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The configuration settings of [Citrix] Storagelink.
+        ///   Looks up a localized string similar to The configuration settings of [Company] Storagelink.
         /// </summary>
         public static string Description_host_system_status_CVSM {
             get {
@@ -781,7 +781,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [Citrix] [XenServer product] Basic Edition.
+        ///   Looks up a localized string similar to [Company] [XenServer product] Basic Edition.
         /// </summary>
         public static string Label_host_edition_basic {
             get {
@@ -799,7 +799,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to XenApp/XenDesktop [Citrix] Cloud.
+        ///   Looks up a localized string similar to XenApp/XenDesktop [Company] Cloud.
         /// </summary>
         public static string Label_host_edition_desktop_cloud {
             get {
@@ -853,7 +853,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [Citrix] [XenServer product] Ultimate Edition.
+        ///   Looks up a localized string similar to [Company] [XenServer product] Ultimate Edition.
         /// </summary>
         public static string Label_host_edition_premium {
             get {
@@ -862,7 +862,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [Citrix] [XenServer product] Standard Edition.
+        ///   Looks up a localized string similar to [Company] [XenServer product] Standard Edition.
         /// </summary>
         public static string Label_host_edition_standard {
             get {
@@ -1087,7 +1087,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [Citrix] StorageLink configuration.
+        ///   Looks up a localized string similar to [Company] StorageLink configuration.
         /// </summary>
         public static string Label_host_system_status_CVSM {
             get {

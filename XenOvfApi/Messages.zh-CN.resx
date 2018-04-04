@@ -151,7 +151,7 @@
     <value>拒绝</value>
   </data>
   <data name="EULA_TITLE" xml:space="preserve">
-    <value>[Citrix] OVF EULA</value>
+    <value>[Company] OVF EULA</value>
   </data>
   <data name="FAILED_TO_ADD_OS_SECTION" xml:space="preserve">
     <value>无法添加操作系统部分，因为虚拟系统集合无效。</value>

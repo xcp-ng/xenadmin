@@ -145,7 +145,7 @@
     <value>1</value>
   </data>
   <data name="labelWithoutAutomatedUpdates.Text" xml:space="preserve">
-    <value>Select an update to be downloaded from [Citrix] or browse your computer for an update or supplemental pack file.</value>
+    <value>Select an update to be downloaded from [Company] or browse your computer for an update or supplemental pack file.</value>
   </data>
   <data name="&gt;&gt;labelWithoutAutomatedUpdates.Name" xml:space="preserve">
     <value>labelWithoutAutomatedUpdates</value>
@@ -181,7 +181,7 @@
     <value>0</value>
   </data>
   <data name="labelWithAutomatedUpdates.Text" xml:space="preserve">
-    <value>Select Automated Updates, choose an update to be downloaded from [Citrix], or browse your computer for an update or supplemental pack file.</value>
+    <value>Select Automated Updates, choose an update to be downloaded from [Company], or browse your computer for an update or supplemental pack file.</value>
   </data>
   <data name="&gt;&gt;labelWithAutomatedUpdates.Name" xml:space="preserve">
     <value>labelWithAutomatedUpdates</value>
@@ -247,7 +247,7 @@
     <value>3</value>
   </data>
   <data name="automatedUpdatesOptionLabel.Text" xml:space="preserve">
-    <value>[XenCenter] will download and install all released updates on the current version from [Citrix], usually with only a single reboot at the end.
+    <value>[XenCenter] will download and install all released updates on the current version from [Company], usually with only a single reboot at the end.
 </value>
   </data>
   <data name="&gt;&gt;automatedUpdatesOptionLabel.Name" xml:space="preserve">
@@ -281,7 +281,7 @@
     <value>4</value>
   </data>
   <data name="downloadUpdateRadioButton.Text" xml:space="preserve">
-    <value>&amp;Download update or new version from [Citrix]</value>
+    <value>&amp;Download update or new version from [Company]</value>
   </data>
   <data name="&gt;&gt;downloadUpdateRadioButton.Name" xml:space="preserve">
     <value>downloadUpdateRadioButton</value>

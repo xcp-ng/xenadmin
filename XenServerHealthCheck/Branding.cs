@@ -40,6 +40,6 @@ namespace XenServerHealthCheck
     static public class Branding
     {
         public const string PRODUCT_BRAND = "[XenServer product]";
-        public const string COMPANY_NAME_SHORT = "[Citrix]";
+        public const string COMPANY_NAME_SHORT = "[Company]";
     }
 }

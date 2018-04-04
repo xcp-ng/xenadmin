@@ -517,7 +517,7 @@
     <value>領域条件の取得</value>
   </data>
   <data name="ACTION_GET_HEALTH_CHECK_RESULT" xml:space="preserve">
-    <value>[Citrix] Insight Services からヘルス チェック分析の結果を取得</value>
+    <value>[Company] Insight Services からヘルス チェック分析の結果を取得</value>
   </data>
   <data name="ACTION_GET_HEALTH_CHECK_RESULT_FAILED" xml:space="preserve">
     <value>分析結果の取得に失敗しました</value>
@@ -550,10 +550,10 @@
     <value>'{0}' の高可用性再起動優先度の '{1}' への設定</value>
   </data>
   <data name="ACTION_HEALTHCHECK_AUTHENTICATION" xml:space="preserve">
-    <value>[Citrix] Insight Services での認証</value>
+    <value>[Company] Insight Services での認証</value>
   </data>
   <data name="ACTION_HEALTHCHECK_AUTHENTICATION_PROGRESS" xml:space="preserve">
-    <value>[Citrix] Insight Services で認証中</value>
+    <value>[Company] Insight Services で認証中</value>
   </data>
   <data name="ACTION_HOSTS_REBOOTED" xml:space="preserve">
     <value>サーバーが再起動しました</value>
@@ -994,13 +994,13 @@
     <value>アップロード エラー。パッチはアップロードされましたが、ホストで見つかりません。</value>
   </data>
   <data name="ACTION_UPLOAD_SERVER_STATUS_REPORT" xml:space="preserve">
-    <value>[Citrix] Insight Services にサーバーの状態レポートをアップロード</value>
+    <value>[Company] Insight Services にサーバーの状態レポートをアップロード</value>
   </data>
   <data name="ACTION_UPLOAD_SERVER_STATUS_REPORT_FAILED" xml:space="preserve">
     <value>状態レポートのアップロードに失敗しました。</value>
   </data>
   <data name="ACTION_UPLOAD_SERVER_STATUS_REPORT_PROGRESS" xml:space="preserve">
-    <value>[Citrix] Insight Services にレポートをアップロードしています</value>
+    <value>[Company] Insight Services にレポートをアップロードしています</value>
   </data>
   <data name="ACTION_USB_PASSTHROUGH_DISABLED" xml:space="preserve">
     <value>USB パススルーが無効です</value>
@@ -1843,7 +1843,7 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>{0} がリリースされています</value>
   </data>
   <data name="ALERT_NEW_VERSION_DETAILS" xml:space="preserve">
-    <value>{0} がリリースされています。[Citrix] Web サイトから新しいバージョンをダウンロードできます。</value>
+    <value>{0} がリリースされています。[Company] Web サイトから新しいバージョンをダウンロードできます。</value>
   </data>
   <data name="ALERT_NEW_VERSION_DOWNLOAD" xml:space="preserve">
     <value>Web ページを開く</value>
@@ -3045,9 +3045,9 @@ VM {2} をエクスポートしてもよろしいですか?</value>
     <comment>Message shown when user attempts to connect to a second XE Express host from the UI</comment>
   </data>
   <data name="CONNECTION_RESTRICTED_MESSAGE_LONG" xml:space="preserve">
-    <value>[Citrix] [XenServer product] Express Edition サーバー ({1}) に接続済みであるため、サーバー {0} への接続は制限されます。
+    <value>[Company] [XenServer product] Express Edition サーバー ({1}) に接続済みであるため、サーバー {0} への接続は制限されます。
 
-同時に複数の [Citrix] [XenServer product] Express Edition サーバーに接続することはできません。ライセンスのアップグレードについては、下のリンクを参照してください。</value>
+同時に複数の [Company] [XenServer product] Express Edition サーバーに接続することはできません。ライセンスのアップグレードについては、下のリンクを参照してください。</value>
   </data>
   <data name="CONNECTION_RESTRICTED_NOTICE_TITLE" xml:space="preserve">
     <value>ライセンスによる制限のため、{0} に接続できません</value>
@@ -4309,7 +4309,7 @@ VM 移行処理のパフォーマンスや信頼性を向上させるため、�
     <value>ダウンロード...</value>
   </data>
   <data name="DOWNLOAD_LATEST_XS_BODY" xml:space="preserve">
-    <value>{0} がリリースされています。[Citrix] Web サイトから最新バージョンをダウンロードできます。</value>
+    <value>{0} がリリースされています。[Company] Web サイトから最新バージョンをダウンロードできます。</value>
   </data>
   <data name="DO_NOT_SHOW_THIS_MESSAGE" xml:space="preserve">
     <value>次回からこのメッセージを表示しない(&amp;D)</value>
@@ -6088,10 +6088,10 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
     <value>高可用性構成の確認と有効化</value>
   </data>
   <data name="HEALTHCHECK_AUTHENTICATION_RUBRIC_EXISTING_TOKEN" xml:space="preserve">
-    <value>この機能を有効にするには、[Citrix] Insight Services による認証が必要です。[XenCenter] によって、ほかの接続プールに対して成功した認証が検出されます。この認証を再び使用するか、新しく認証するかを選択できます。</value>
+    <value>この機能を有効にするには、[Company] Insight Services による認証が必要です。[XenCenter] によって、ほかの接続プールに対して成功した認証が検出されます。この認証を再び使用するか、新しく認証するかを選択できます。</value>
   </data>
   <data name="HEALTHCHECK_AUTHENTICATION_RUBRIC_NO_TOKEN" xml:space="preserve">
-    <value>この機能を有効にするには、[Citrix] Insight Services による認証が必要です。MyCitrix 資格情報を入力して登録してください ({0} 参照)。この資格情報はアップロード トークンの取得にのみ使用され、このマシンやサーバーには格納されません。</value>
+    <value>この機能を有効にするには、[Company] Insight Services による認証が必要です。MyCitrix 資格情報を入力して登録してください ({0} 参照)。この資格情報はアップロード トークンの取得にのみ使用され、このマシンやサーバーには格納されません。</value>
   </data>
   <data name="HEALTHCHECK_ENROLLMENT_CONFIRMATION_BUTTON_LABEL" xml:space="preserve">
     <value>OK、ヘルス チェックを有効にする</value>
@@ -6130,7 +6130,7 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
     <value>ヘルスチェック</value>
   </data>
   <data name="HEALTH_CHECK_AUTHENTICATION_FAILED" xml:space="preserve">
-    <value>[Citrix] Insight Services による認証が失敗しました。詳しくは、アプリケーション ログ ファイルを確認してください。</value>
+    <value>[Company] Insight Services による認証が失敗しました。詳しくは、アプリケーション ログ ファイルを確認してください。</value>
   </data>
   <data name="HEALTH_CHECK_AUTHENTICATION_INVALID_CREDENTIALS" xml:space="preserve">
     <value>ユーザー名またはパスワードが無効です。再試行してください。</value>
@@ -6142,7 +6142,7 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
     <value>http://www.citrix.co.jp/about/legal/privacy/</value>
   </data>
   <data name="HEALTH_CHECK_PRIVACY_POLICY" xml:space="preserve">
-    <value>ヘルス チェックによって [Citrix] Insight Services にアップロードされる情報は、トラブルシューティングや診断サポート、および [Citrix] Insight Services Policy ({0}) と [Citrix] Privacy Policy ({1}) で必要な製品の品質、信頼性、パフォーマンスを改善するために使用されます。</value>
+    <value>ヘルス チェックによって [Company] Insight Services にアップロードされる情報は、トラブルシューティングや診断サポート、および [Company] Insight Services Policy ({0}) と [Company] Privacy Policy ({1}) で必要な製品の品質、信頼性、パフォーマンスを改善するために使用されます。</value>
   </data>
   <data name="HEALTH_CHECK_USER_HAS_NO_PERMISSION_TO_CONNECT" xml:space="preserve">
     <value>このユーザーにはこのサーバーにアクセスする権限がありません。</value>
@@ -7088,7 +7088,7 @@ SCSI ID: {2}
   </data>
   <data name="LICENSE_SUPPORT_AND_DESKTOP_CLOUD_FEATURES_ENABLED" xml:space="preserve">
     <value>サポート契約が有効です
-XenApp/XenDesktop [Citrix] Cloud 機能が有効です</value>
+XenApp/XenDesktop [Company] Cloud 機能が有効です</value>
   </data>
   <data name="LICENSE_SUPPORT_AND_DESKTOP_FEATURES_ENABLED" xml:space="preserve">
     <value>サポート契約が有効です
@@ -8712,7 +8712,7 @@ NFS ストレージ リポジトリを構成する場合は、NFS サーバー�
     <value>CentOS</value>
   </data>
   <data name="NEWVMWIZARD_TEMPLATEPAGE_CITRIX" xml:space="preserve">
-    <value>[Citrix]</value>
+    <value>[Company]</value>
   </data>
   <data name="NEWVMWIZARD_TEMPLATEPAGE_COREOS" xml:space="preserve">
     <value>CoreOS</value>
@@ -9666,7 +9666,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>権限が拒否されました</value>
   </data>
   <data name="PERSOCKET_LICENSES_X_REQUIRED" xml:space="preserve">
-    <value>[Citrix] [XenServer product] Per-Socket ({0} ソケット分必要)(&amp;S)</value>
+    <value>[Company] [XenServer product] Per-Socket ({0} ソケット分必要)(&amp;S)</value>
   </data>
   <data name="PHYSICAL_DEVICE" xml:space="preserve">
     <value>物理デバイス</value>
@@ -11282,7 +11282,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>進行中</value>
   </data>
   <data name="STATUS_REPORT_ENTER_CREDENTIALS_MESSAGE" xml:space="preserve">
-    <value>MyCitrix 資格情報を入力します ({0} 参照)。この資格情報は、[Citrix] Insight Services での認証に一度のみ使用され、このマシンやサーバーには格納されません。</value>
+    <value>MyCitrix 資格情報を入力します ({0} 参照)。この資格情報は、[Company] Insight Services での認証に一度のみ使用され、このマシンやサーバーには格納されません。</value>
   </data>
   <data name="STATUS_REPORT_ZIP_FAILED" xml:space="preserve">
     <value>サーバーの状態レポートのパッケージ化時にエラーが発生しました。一部のレポートが作成されていない場合があります</value>

@@ -1,0 +1,253 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{57A1A190-6DCA-4611-8CB8-2A24B11A5C7A}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>CookComputing.XmlRpc.CF</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OutputFileFolder>\Program Files\CF</OutputFileFolder>
+    <RootNamespace>CookComputing.XmlRpc</RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <FormFactorID>
+    </FormFactorID>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OSVersion>4.20</OSVersion>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <NativePlatformName>Pocket PC 2003</NativePlatformName>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PlatformID>3C41C503-53EF-4c2a-8DD4-A8217CAD115E</PlatformID>
+    <PlatformFamilyName>PocketPC</PlatformFamilyName>
+    <DeployDirSuffix>$(AssemblyName)</DeployDirSuffix>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>0</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;DEBUG;COMPACT_FRAMEWORK;FX1_0</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <GenerateSerializationAssemblies>off</GenerateSerializationAssemblies>
+    <NoWarn>649</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>0</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;COMPACT_FRAMEWORK;FX1_0</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <GenerateSerializationAssemblies>off</GenerateSerializationAssemblies>
+    <NoWarn>649</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib">
+      <Name>MSCorLib</Name>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\src\AssemblyInfo.cs">
+      <Link>AssemblyInfo.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\DateTime8601.cs">
+      <Link>DateTime8601.cs</Link>
+    </Compile>
+    <Compile Include="..\src\GuidEx.cs">
+      <Link>GuidEx.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\IXmlRpcProxy.cs">
+      <Link>IXmlRpcProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\src\util.cs">
+      <Link>util.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcAsyncResult.cs">
+      <Link>XmlRpcAsyncResult.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcBeginAttribute.cs">
+      <Link>XmlRpcBeginAttribute.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcBoolean.cs">
+      <Link>XmlRpcBoolean.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcClientProtocol.cs">
+      <Link>XmlRpcClientProtocol.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcDateTime.cs">
+      <Link>XmlRpcDateTime.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcDouble.cs">
+      <Link>XmlRpcDouble.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcEndAttribute.cs">
+      <Link>XmlRpcEndAttribute.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcException.cs">
+      <Link>XmlRpcException.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcFaultException.cs">
+      <Link>XmlRpcFaultException.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcInt.cs">
+      <Link>XmlRpcInt.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcLogger.cs">
+      <Link>XmlRpcLogger.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcMemberAttribute.cs">
+      <Link>XmlRpcMemberAttribute.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcMethodAttribute.cs">
+      <Link>XmlRpcMethodAttribute.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcMethodInfo.cs">
+      <Link>XmlRpcMethodInfo.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcMissingMappingAttribute.cs">
+      <Link>XmlRpcMissingMappingAttribute.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcNonStandard.cs">
+      <Link>XmlRpcNonStandard.cs</Link>
+    </Compile>
+    <Compile Include="..\src\XmlRpcParameterAttribute.cs">
+      <Link>XmlRpcParameterAttribute.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcParameterInfo.cs">
+      <Link>XmlRpcParameterInfo.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcRequest.cs">
+      <Link>XmlRpcRequest.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcRequestEventArgs.cs">
+      <Link>XmlRpcRequestEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\src\XmlRpcResponse.cs">
+      <Link>XmlRpcResponse.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcResponseEventArgs.cs">
+      <Link>XmlRpcResponseEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\src\XmlRpcReturnValueAttribute.cs">
+      <Link>XmlRpcReturnValueAttribute.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcSerializer.cs">
+      <Link>XmlRpcSerializer.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcServiceAttribute.cs">
+      <Link>XmlRpcServiceAttribute.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcServiceInfo.cs">
+      <Link>XmlRpcServiceInfo.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcStruct.cs">
+      <Link>XmlRpcStruct.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\src\XmlRpcUrlAttribute.cs">
+      <Link>XmlRpcUrlAttribute.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Condition="'$(TargetFrameworkVersion)' == 'v1.0'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.v1.targets" />
+  <Import Condition="'$(TargetFrameworkVersion)' == 'v2.0'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Target Name="BeforeBuild">
+    <CreateItem Include="..\src\AssemblyBuildNumber.cs" Condition="'$(BuildingInsideVisualStudio)' == ''">
+      <Output TaskParameter="Include" ItemName="Compile" />
+    </CreateItem>
+  </Target>
+  <Import Condition="'$(TargetFrameworkVersion)' == 'v3.5'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
+</Project>

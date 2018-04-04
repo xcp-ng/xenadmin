@@ -184,7 +184,7 @@
     <value>1</value>
   </data>
   <data name="CPSOptimizationRadioButton.Text" xml:space="preserve">
-    <value>Optimize for [Citrix] &amp;XenApp</value>
+    <value>Optimize for [Company] &amp;XenApp</value>
   </data>
   <data name="&gt;&gt;CPSOptimizationRadioButton.Name" xml:space="preserve">
     <value>CPSOptimizationRadioButton</value>

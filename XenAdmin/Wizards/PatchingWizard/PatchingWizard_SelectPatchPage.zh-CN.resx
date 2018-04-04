@@ -145,7 +145,7 @@
     <value>1</value>
   </data>
   <data name="labelWithoutAutomatedUpdates.Text" xml:space="preserve">
-    <value>选择要从 [Citrix] 下载的更新，或者浏览您的计算机，查找更新或补充包文件。</value>
+    <value>选择要从 [Company] 下载的更新，或者浏览您的计算机，查找更新或补充包文件。</value>
   </data>
   <data name="&gt;&gt;labelWithoutAutomatedUpdates.Name" xml:space="preserve">
     <value>labelWithoutAutomatedUpdates</value>
@@ -181,7 +181,7 @@
     <value>0</value>
   </data>
   <data name="labelWithAutomatedUpdates.Text" xml:space="preserve">
-    <value>选择“自动更新”，选择要从 [Citrix] 下载的更新，或者浏览您的计算机，查找更新或补充包文件。</value>
+    <value>选择“自动更新”，选择要从 [Company] 下载的更新，或者浏览您的计算机，查找更新或补充包文件。</value>
   </data>
   <data name="&gt;&gt;labelWithAutomatedUpdates.Name" xml:space="preserve">
     <value>labelWithAutomatedUpdates</value>
@@ -247,7 +247,7 @@
     <value>3</value>
   </data>
   <data name="automatedUpdatesOptionLabel.Text" xml:space="preserve">
-    <value>[XenCenter] 将从 [Citrix] 下载并安装与当前版本有关的所有已发布的更新，通常只需要在结束时重新启动一次。</value>
+    <value>[XenCenter] 将从 [Company] 下载并安装与当前版本有关的所有已发布的更新，通常只需要在结束时重新启动一次。</value>
   </data>
   <data name="&gt;&gt;automatedUpdatesOptionLabel.Name" xml:space="preserve">
     <value>automatedUpdatesOptionLabel</value>
@@ -280,7 +280,7 @@
     <value>4</value>
   </data>
   <data name="downloadUpdateRadioButton.Text" xml:space="preserve">
-    <value>从 [Citrix] 下载更新或新版本(&amp;D)</value>
+    <value>从 [Company] 下载更新或新版本(&amp;D)</value>
   </data>
   <data name="&gt;&gt;downloadUpdateRadioButton.Name" xml:space="preserve">
     <value>downloadUpdateRadioButton</value>

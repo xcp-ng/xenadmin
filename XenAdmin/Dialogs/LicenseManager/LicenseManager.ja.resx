@@ -331,7 +331,7 @@
     <value>4</value>
   </data>
   <data name="downloadLicenseServerLink.Text" xml:space="preserve">
-    <value>[Citrix] ライセンス サーバーの仮想アプライアンスのダウンロード</value>
+    <value>[Company] ライセンス サーバーの仮想アプライアンスのダウンロード</value>
   </data>
   <data name="downloadLicenseServerLink.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>

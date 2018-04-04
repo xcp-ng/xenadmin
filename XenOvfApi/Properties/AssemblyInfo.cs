@@ -37,9 +37,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("XenCenterOVF")]
-[assembly: AssemblyDescription("[Citrix] [XenCenter] OVF API")]
+[assembly: AssemblyDescription("[Company] [XenCenter] OVF API")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("[Citrix]")]
+[assembly: AssemblyCompany("[Company]")]
 [assembly: AssemblyProduct("XenCenterOVF")]
 [assembly: AssemblyCopyright("[BRANDING_COPYRIGHT]")]
 [assembly: AssemblyTrademark("")]

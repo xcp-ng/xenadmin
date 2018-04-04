@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <Major>2</Major>
+    <Minor>5</Minor>
+    <Build>0</Build>
+    <Revision>0</Revision>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\tools\CommunityTasks\</MSBuildCommunityTasksPath>
+    <NUnitToolPath>$(MSBuildProjectDirectory)\tools\NUnit\</NUnitToolPath>
+    <KeyFile>CookComputing.key</KeyFile>
+  </PropertyGroup>
+
+  <Import Project="tools\CommunityTasks\MSBuild.Community.Tasks.Targets"/>
+
+  <Target Name="Build" DependsOnTargets="KeyFileExists">
+    <Message Text="Starting to Build"/> 
+    <MSBuild Projects="src\xmlrpc.sln" Properties="Configuration=Release;SignAssembly=true;AssemblyOriginatorKeyFile=$(MSBuildProjectDirectory)\$(KeyFile)" /> 
+  </Target>
+
+
+  <Target Name="KeyFileExists">
+    <Error Text="Please supply your own key file CookComputing.key in build directory"  
+           Condition = "!Exists('$(KeyFile)')"/>
+    <AssemblyInfo CodeLanguage="CS" 
+      OutputFile="src\AssemblyBuildNumber.cs"
+      AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)"
+    />
+    <Copy
+        SourceFiles="README.template"
+        DestinationFiles="README.txt"
+    />
+    <FileUpdate 
+        Files="README.txt"
+        Regex="v\d+\.\d+\.\d+ Release"
+        ReplacementText="v$(Major).$(Minor).$(Build) Release" 
+    />
+  </Target>
+
+  <Target Name="Release" DependsOnTargets="Clean;Build;Test;Package">
+  </Target>
+
+  <Target Name="Upload" DependsOnTargets="UploadDistribution;UploadWebPages">
+  </Target>
+
+  <PropertyGroup>
+    <BuildDir>./bin</BuildDir>
+    <BuildOutput>./buildoutput</BuildOutput>
+  </PropertyGroup>
+
+  <Target Name ="Clean">
+    <RemoveDir Directories="$(BuildDir)" />
+    <RemoveDir Directories=".\src\obj" />
+    <RemoveDir Directories=".\ntest\bin" />
+    <RemoveDir Directories=".\ntest\obj" />
+    <Delete Files="src\AssemblyBuildNumber.cs" />
+  </Target>
+
+  <Target Name="Test" >
+    <Copy
+     SourceFiles="ntest\iso-8859-1_response.xml;ntest\iso-8859-1_request.xml"
+     DestinationFolder="."
+        />
+    <NUnit Assemblies="$(MSBuildProjectDirectory)\ntest\bin\ntest.dll" ToolPath="$(NUnitToolPath)" />
+  </Target>
+
+  <ItemGroup>
+    <ZipFiles Include="src/*.cs" />
+    <ZipFiles Include="src/*.sln" />
+    <ZipFiles Include="src/*.csproj" />
+    <ZipFiles Include="src/*.resx" />
+    <ZipFiles Include="src/CookComputing.XmlRpc.Targets" />
+    <ZipFiles Include="xmlrpcCF/xmlrpcCF.csproj" />
+    <ZipFiles Include="interfaces/*" />
+    <ZipFiles Include="ntest/*.cs" />
+    <ZipFiles Include="ntest/*.sln" />
+    <ZipFiles Include="ntest/*.csproj" />
+    <ZipFiles Include="ntest/*.xml" />
+    <ZipFiles Include="samples/**/*.cs" />
+    <ZipFiles Include="samples/**/*.vb" />
+    <ZipFiles Include="samples/**/*.sln" />
+    <ZipFiles Include="samples/**/*.csproj" />
+    <ZipFiles Include="samples/**/*.vbproj" />
+    <ZipFiles Include="samples/**/*.resx" />
+    <ZipFiles Include="samples/**/*.ashx" />
+    <ZipFiles Include="samples/**/*.config" />
+    <ZipFiles Include="samples/**/*.ico" />
+    <ZipFiles Include="samples/**/MathService.dll" />
+    <ZipFiles Include="README.txt" />
+    <ZipFiles Include="xml-rpc.net.proj" />
+
+    <ZipFiles Include="$(BuildDir)/BettyApp.exe" />
+    <ZipFiles Include="$(BuildDir)/BettyAsyncApp.exe" />
+    <ZipFiles Include="$(BuildDir)/LoggingExample.exe" />
+    <ZipFiles Include="$(BuildDir)/MathApp.exe" />
+    <ZipFiles Include="$(BuildDir)/StateNameClient.exe" />
+    <ZipFiles Include="$(BuildDir)/StateNameServer.exe" />
+    <ZipFiles Include="$(BuildDir)/StateNameServer.exe.config" />
+
+    <ZipFiles Include="$(BuildDir)/CookComputing.XmlRpc.CF.dll" />
+    <ZipFiles Include="$(BuildDir)/CookComputing.XmlRpcV2.dll" />
+    <ZipFiles Include="$(BuildDir)/IStateName.dll" />
+
+    <ZipFiles Include="xrpgen/AssemblyInfo.vb" />
+    <ZipFiles Include="xrpgen/Main.vb" />
+    <ZipFiles Include="xrpgen/xrpgen.sln" />
+    <ZipFiles Include="xrpgen/XrpGen.vb" />
+    <ZipFiles Include="xrpgen/xrpgen.vbproj" />
+  </ItemGroup>
+
+  <Target Name="Package">
+    <MakeDir Directories = "$(BuildOutput)" Condition = "!Exists('$($(BuildOutput))')" />
+    <Zip Files="@(ZipFiles)"
+      ZipFileName="buildoutput\xml-rpc.net.$(Major).$(Minor).$(Build).zip">
+    </Zip>
+  </Target>
+
+  <Import Condition=" '$(username)' != '' AND '$(password)' != ''"
+    Project="upload.proj"/>
+  
+</Project>

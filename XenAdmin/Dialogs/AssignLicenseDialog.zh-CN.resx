@@ -931,7 +931,7 @@
     <value>6</value>
   </data>
   <data name="desktopCloudRadioButton.Text" xml:space="preserve">
-    <value>XenApp/XenDesktop [Citrix] Cloud(&amp;C)</value>
+    <value>XenApp/XenDesktop [Company] Cloud(&amp;C)</value>
   </data>
   <data name="desktopCloudRadioButton.Visible" type="System.Boolean, mscorlib">
     <value>False</value>

@@ -151,7 +151,7 @@
     <value>始终尝试重新启动 VM</value>
   </data>
   <data name="Description-host.system_status-CVSM" xml:space="preserve">
-    <value>[Citrix] Storagelink 的配置设置</value>
+    <value>[Company] Storagelink 的配置设置</value>
   </data>
   <data name="Description-host.system_status-X11" xml:space="preserve">
     <value>来自 X 服务器的日志文件</value>
@@ -595,7 +595,7 @@
     <value>[XenServer] 版本</value>
   </data>
   <data name="Label-host.system_status-CVSM" xml:space="preserve">
-    <value>[Citrix] StorageLink 配置</value>
+    <value>[Company] StorageLink 配置</value>
   </data>
   <data name="Label-host.system_status-X11" xml:space="preserve">
     <value>X 服务器日志</value>
@@ -1737,10 +1737,10 @@
     <value>卷管理器日志</value>
   </data>
   <data name="Label-host.edition-premium" xml:space="preserve">
-    <value>[Citrix] [XenServer product] Ultimate Edition</value>
+    <value>[Company] [XenServer product] Ultimate Edition</value>
   </data>
   <data name="Label-host.edition-basic" xml:space="preserve">
-    <value>[Citrix] [XenServer product] Basic Edition</value>
+    <value>[Company] [XenServer product] Basic Edition</value>
   </data>
   <data name="Label-host.system_status-xscontainer" xml:space="preserve">
     <value>容器管理日志</value>
@@ -1752,7 +1752,7 @@
     <value>测试连接</value>
   </data>
   <data name="Label-host.edition-standard" xml:space="preserve">
-    <value>[Citrix] [XenServer product] Standard Edition</value>
+    <value>[Company] [XenServer product] Standard Edition</value>
   </data>
   <data name="Label-Pool_patch.required-updates" xml:space="preserve">
     <value>必需的更新</value>
@@ -1839,7 +1839,7 @@
     <value>GFS2</value>
   </data>
   <data name="Label-host.edition-desktop-cloud" xml:space="preserve">
-    <value>XenApp/XenDesktop [Citrix] Cloud</value>
+    <value>XenApp/XenDesktop [Company] Cloud</value>
   </data>
   <data name="Label-host.edition-xcp-ng" xml:space="preserve">
     <value>XCP-ng Free/Libre Edition</value>

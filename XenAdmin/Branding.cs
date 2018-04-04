@@ -44,7 +44,7 @@ namespace XenAdmin
         public const string COMPANY_NAME_LEGAL = "[BRANDING_COMPANY_NAME_LEGAL]";
         public const string BRAND_CONSOLE = "[XenCenter]";
         public const string PRODUCT_BRAND = "[XenServer product]";
-        public const string COMPANY_NAME_SHORT = "[Citrix]";
+        public const string COMPANY_NAME_SHORT = "[Company]";
         public const string SEARCH = "[xensearch]";
         public const string UPDATE = "[xsupdate]";
         public const string UPDATEISO = "[iso]";

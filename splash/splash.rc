@@ -97,13 +97,13 @@ BEGIN
     BEGIN
         BLOCK "080904b0"
         BEGIN
-            VALUE "CompanyName", "[Citrix]"
+            VALUE "CompanyName", "[Company]"
             VALUE "FileDescription", "[XenCenter]"
             VALUE "FileVersion", "1, 0, 0, 1"
             VALUE "InternalName", "[XenCenter]"
             VALUE "LegalCopyright", "[BRANDING_COPYRIGHT_2]"
             VALUE "OriginalFilename", "[XenCenter].exe"
-            VALUE "ProductName", "[Citrix] [XenCenter]"
+            VALUE "ProductName", "[Company] [XenCenter]"
             VALUE "ProductVersion", "1, 0, 0, 1"
         END
     END
