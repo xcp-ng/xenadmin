@@ -184,7 +184,7 @@
     <value>4</value>
   </data>
   <data name="ExitButton.Text" xml:space="preserve">
-    <value>始终退出 [XenCenter](&amp;X)</value>
+    <value>始终退出 [XC-ng](&amp;X)</value>
   </data>
   <data name="&gt;&gt;ExitButton.Name" xml:space="preserve">
     <value>ExitButton</value>
@@ -223,7 +223,7 @@
     <value>0</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>如果您在任务完成前退出 [XenCenter]，未完成的任务可能无法成功完成。</value>
+    <value>如果您在任务完成前退出 [XC-ng]，未完成的任务可能无法成功完成。</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -395,7 +395,7 @@
     <value>1</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>[XenCenter] 仍在执行以下任务:</value>
+    <value>[XC-ng] 仍在执行以下任务:</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -428,7 +428,7 @@
     <value>12, 12, 12, 12</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>[XenCenter]</value>
+    <value>[XC-ng]</value>
   </data>
   <data name="&gt;&gt;columnExpander.Name" xml:space="preserve">
     <value>columnExpander</value>

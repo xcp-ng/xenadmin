@@ -193,7 +193,7 @@
     <value>0</value>
   </data>
   <data name="saveStateLabel.Text" xml:space="preserve">
-    <value>各サーバーへのログイン情報を保存しておくと、[XenCenter] セッションを開始したときに、それらのサーバーとの接続が自動的に復元されます。</value>
+    <value>各サーバーへのログイン情報を保存しておくと、[XC-ng] セッションを開始したときに、それらのサーバーとの接続が自動的に復元されます。</value>
   </data>
   <data name="&gt;&gt;saveStateLabel.Name" xml:space="preserve">
     <value>saveStateLabel</value>
@@ -241,7 +241,7 @@
     <value>0</value>
   </data>
   <data name="masterPasswordLabel.Text" xml:space="preserve">
-    <value>マスター パスワードにより、すべてのサーバー用のログイン情報が保護されます。[XenCenter] セッションを開始するときに、このマスター パスワードを入力します。
+    <value>マスター パスワードにより、すべてのサーバー用のログイン情報が保護されます。[XC-ng] セッションを開始するときに、このマスター パスワードを入力します。
 </value>
   </data>
   <data name="&gt;&gt;masterPasswordLabel.Name" xml:space="preserve">

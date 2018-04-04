@@ -157,7 +157,7 @@
     <value>0</value>
   </data>
   <data name="AllowXenCenterUpdatesCheckBox.Text" xml:space="preserve">
-    <value>Check for &amp;new [XenCenter] versions</value>
+    <value>Check for &amp;new [XC-ng] versions</value>
   </data>
   <data name="&gt;&gt;AllowXenCenterUpdatesCheckBox.Name" xml:space="preserve">
     <value>AllowXenCenterUpdatesCheckBox</value>
@@ -190,7 +190,7 @@
     <value>2</value>
   </data>
   <data name="XenCenterGroupBox.Text" xml:space="preserve">
-    <value>Automatically check for [XenCenter] updates</value>
+    <value>Automatically check for [XC-ng] updates</value>
   </data>
   <data name="&gt;&gt;XenCenterGroupBox.Name" xml:space="preserve">
     <value>XenCenterGroupBox</value>
@@ -337,7 +337,7 @@
     <value>3</value>
   </data>
   <data name="UpdatesBlurb.Text" xml:space="preserve">
-    <value>You can configure [XenCenter] to periodically check for available updates and prompt you when an update or new [XenServer] version is available for download.</value>
+    <value>You can configure [XC-ng] to periodically check for available updates and prompt you when an update or new [XenServer] version is available for download.</value>
   </data>
   <data name="&gt;&gt;UpdatesBlurb.Name" xml:space="preserve">
     <value>UpdatesBlurb</value>

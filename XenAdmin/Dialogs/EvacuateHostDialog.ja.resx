@@ -433,7 +433,7 @@
     <value>1</value>
   </data>
   <data name="labelMasterBlurb.Text" xml:space="preserve">
-    <value>このサーバーはプール マスターとして動作しています。保守モードに入る前に、新しいプール マスターが選出されます。[XenCenter] とプールとの接続は、一時的に切断されます。</value>
+    <value>このサーバーはプール マスターとして動作しています。保守モードに入る前に、新しいプール マスターが選出されます。[XC-ng] とプールとの接続は、一時的に切断されます。</value>
   </data>
   <data name="&gt;&gt;labelMasterBlurb.Name" xml:space="preserve">
     <value>labelMasterBlurb</value>

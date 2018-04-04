@@ -283,7 +283,7 @@
     <value>0</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>この新規仮想マシンを識別するための名前を入力します。ソフトウェアやハードウェアの違いがわかるような名前を使用すると便利です (RHEL DHCP Server、Exchange 2007 Client Access Server など)。この名前は [XenCenter] のリソース ペインに表示され、後で変更することができます。
+    <value>この新規仮想マシンを識別するための名前を入力します。ソフトウェアやハードウェアの違いがわかるような名前を使用すると便利です (RHEL DHCP Server、Exchange 2007 Client Access Server など)。この名前は [XC-ng] のリソース ペインに表示され、後で変更することができます。
 
 必要に応じて、より詳細な情報を説明として追加することもできます。</value>
   </data>

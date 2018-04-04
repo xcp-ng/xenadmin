@@ -1060,7 +1060,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] logs.
+        ///   Looks up a localized string similar to [XC-ng] logs.
         /// </summary>
         public static string Label_host_system_status_client_logs {
             get {
@@ -3753,7 +3753,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server &apos;{0}&apos; has experienced a change in multipath status. Currently {1} out of {2} paths are active. See the [XenCenter] logs for the full details..
+        ///   Looks up a localized string similar to Server &apos;{0}&apos; has experienced a change in multipath status. Currently {1} out of {2} paths are active. See the [XC-ng] logs for the full details..
         /// </summary>
         public static string Message_body_multipath_periodic_alert {
             get {
@@ -3762,7 +3762,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Servers in pool &apos;{0}&apos; have experienced a change in multipath status. Currently all paths are active. See the [XenCenter] logs for the full details..
+        ///   Looks up a localized string similar to Servers in pool &apos;{0}&apos; have experienced a change in multipath status. Currently all paths are active. See the [XC-ng] logs for the full details..
         /// </summary>
         public static string Message_body_multipath_periodic_alert_healthy {
             get {
@@ -3771,7 +3771,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server &apos;{0}&apos; has experienced a change in multipath status. Currently all paths are active. See the [XenCenter] logs for the full details..
+        ///   Looks up a localized string similar to Server &apos;{0}&apos; has experienced a change in multipath status. Currently all paths are active. See the [XC-ng] logs for the full details..
         /// </summary>
         public static string Message_body_multipath_periodic_alert_healthy_standalone {
             get {
@@ -3780,7 +3780,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Servers in pool &apos;{0}&apos; have experienced a change in multipath status. Currently the following servers have inactive paths: {1}. See the [XenCenter] logs for the full details..
+        ///   Looks up a localized string similar to Servers in pool &apos;{0}&apos; have experienced a change in multipath status. Currently the following servers have inactive paths: {1}. See the [XC-ng] logs for the full details..
         /// </summary>
         public static string Message_body_multipath_periodic_alert_summary {
             get {

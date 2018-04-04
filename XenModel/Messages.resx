@@ -955,7 +955,7 @@
     <value>Finished compiling status report (with errors). A partial status report was compiled.</value>
   </data>
   <data name="ACTION_SYSTEM_STATUS_SUCCESSFUL_WITH_ERRORS_XCLOGS" xml:space="preserve">
-    <value>Finished compiling status report (with errors). Only [XenCenter] logs were compiled.</value>
+    <value>Finished compiling status report (with errors). Only [XC-ng] logs were compiled.</value>
   </data>
   <data name="ACTION_SYSTEM_STATUS_TITLE" xml:space="preserve">
     <value>Getting system status information</value>
@@ -1303,7 +1303,7 @@
     <value>A&amp;ctivate</value>
   </data>
   <data name="ACTIVATION_FAILED_MESSAGE" xml:space="preserve">
-    <value>[XenCenter] is unable to contact the activation server.
+    <value>[XC-ng] is unable to contact the activation server.
 
 If you are not currently connected to the internet, we can save
 the activation request to a file, for you to upload at a later date.
@@ -1365,7 +1365,7 @@ To use this file, visit https://{0}.</value>
     <value>Address</value>
   </data>
   <data name="ADDSERVER_PASS_NEW" xml:space="preserve">
-    <value>[XenCenter] can no longer authenticate with the existing credentials for this server. Enter new credentials to proceed.</value>
+    <value>[XC-ng] can no longer authenticate with the existing credentials for this server. Enter new credentials to proceed.</value>
   </data>
   <data name="ADD_CUSTOM_FIELD" xml:space="preserve">
     <value>Add custom field '{0}'</value>
@@ -1637,7 +1637,7 @@ Do you want to continue?</value>
 Do you want to continue?</value>
   </data>
   <data name="AD_MASTER_UNAVAILABLE_BLURB" xml:space="preserve">
-    <value>Please wait while [XenCenter] establishes your current external authentication configuration.</value>
+    <value>Please wait while [XC-ng] establishes your current external authentication configuration.</value>
   </data>
   <data name="AD_NOT_CONFIGURED_BLURB" xml:space="preserve">
     <value>AD is not currently configured for pool '{0}'. To enable AD authentication, click Join Domain.</value>
@@ -1886,7 +1886,7 @@ Note that if RBAC is enabled, only alerts which you have privileges to dismiss w
   <data name="ALREADY_ATTACHED_ELSEWHERE" xml:space="preserve">
     <value>The SR '{0}' is currently attached elsewhere. Do you want to attach it to '{1}'? 
 
-Warning: you must ensure that the SR is not in use by any server not connected to [XenCenter]. Failure to do so may result in data loss.</value>
+Warning: you must ensure that the SR is not in use by any server not connected to [XC-ng]. Failure to do so may result in data loss.</value>
   </data>
   <data name="ALREADY_CONNECTED" xml:space="preserve">
     <value>You are already connected to server '{0}'.</value>
@@ -2142,9 +2142,9 @@ Both types of interface cannot be added to the same bond. Choose different bond 
   <data name="BOND_CREATE_WILL_DISTURB_PRIMARY" xml:space="preserve">
     <value>Creating this bond will automatically move the management interface on one of your selected bond members to the bond itself:
 
-- [XenCenter] connections to the pool will temporarily be disturbed
+- [XC-ng] connections to the pool will temporarily be disturbed
 
-- If your network configuration is incorrect then [XenCenter] may permanently lose the connection to the pool, or pool members may be unable to contact each other.</value>
+- If your network configuration is incorrect then [XC-ng] may permanently lose the connection to the pool, or pool members may be unable to contact each other.</value>
   </data>
   <data name="BOND_CREATE_WILL_DISTURB_SECONDARY" xml:space="preserve">
     <value>Creating this bond will disrupt traffic through the secondary interfaces on the bond members while the interfaces are moved onto the bond itself.</value>
@@ -2164,20 +2164,20 @@ To continue, disable HA, delete the bond, and then enable HA again.</value>
 
 Deleting this bond will automatically transfer the management and secondary interfaces on the bond to the first slave member of the bond: 
 
-- [XenCenter] connections to the pool will temporarily be disturbed
+- [XC-ng] connections to the pool will temporarily be disturbed
 
 - Traffic through the secondary interface will be disrupted
 
-- If your network configuration is incorrect then [XenCenter] may permanently lose the connection to the pool, or pool members may be unable to contact each other.</value>
+- If your network configuration is incorrect then [XC-ng] may permanently lose the connection to the pool, or pool members may be unable to contact each other.</value>
   </data>
   <data name="BOND_DELETE_WILL_DISTURB_PRIMARY" xml:space="preserve">
     <value>{0}
 
 Deleting this bond will automatically transfer the management interface on the bond to the first slave member of the bond: 
 
-- [XenCenter] connections to the pool will temporarily be disturbed
+- [XC-ng] connections to the pool will temporarily be disturbed
 
-- If your network configuration is incorrect then [XenCenter] may permanently lose the connection to the pool, or pool members may be unable to contact each other.</value>
+- If your network configuration is incorrect then [XC-ng] may permanently lose the connection to the pool, or pool members may be unable to contact each other.</value>
   </data>
   <data name="BOND_DELETE_WILL_DISTURB_SECONDARY" xml:space="preserve">
     <value>{0}
@@ -2200,7 +2200,7 @@ Deleting this bond will disrupt traffic through the secondary interface on the b
     <value>There are broken SRs after the upgrade. To solve this problem you should reattach the SRs.</value>
   </data>
   <data name="BROKEN_TOOLS_PROMPT" xml:space="preserve">
-    <value>Your Tools ISO is on a broken SR, [XenCenter] will attempt to fix it before proceeding. Do you want to continue?</value>
+    <value>Your Tools ISO is on a broken SR, [XC-ng] will attempt to fix it before proceeding. Do you want to continue?</value>
   </data>
   <data name="BUGTOOL_FILE_PREFIX" xml:space="preserve">
     <value>status-report-</value>
@@ -2409,7 +2409,7 @@ Deleting this bond will disrupt traffic through the secondary interface on the b
     <value>This virtual disk is currently in use and cannot be deleted.</value>
   </data>
   <data name="CANNOT_FIND_SR_WIZARD_TYPE" xml:space="preserve">
-    <value>You cannot configure an SR of type '{0}' using [XenCenter].</value>
+    <value>You cannot configure an SR of type '{0}' using [XC-ng].</value>
   </data>
   <data name="CANNOT_MIGRATE_VDI_NON_RUNNING_VM" xml:space="preserve">
     <value>Cannot move this virtual disk because it is attached to a VM that is not running.</value>
@@ -2461,10 +2461,10 @@ Deleting this bond will disrupt traffic through the secondary interface on the b
     <value>Change...</value>
   </data>
   <data name="CHANGED_MASTER_PASSWORD" xml:space="preserve">
-    <value>Changed [XenCenter] master password</value>
+    <value>Changed [XC-ng] master password</value>
   </data>
   <data name="CHANGED_MASTER_PASSWORD_LONG" xml:space="preserve">
-    <value>Changed [XenCenter] master password for session restore</value>
+    <value>Changed [XC-ng] master password for session restore</value>
   </data>
   <data name="CHANGED_SERVER_CD" xml:space="preserve">
     <value>Server CD changed</value>
@@ -2550,7 +2550,7 @@ Do you want to assign it to the schedule '{2}' instead?</value>
     <value>Checking upgrade hotfix status</value>
   </data>
   <data name="CHECKING_XENCENTER_VERSION" xml:space="preserve">
-    <value>Checking [XenCenter] version</value>
+    <value>Checking [XC-ng] version</value>
   </data>
   <data name="CHECK_WLB_ENABLED" xml:space="preserve">
     <value>Pool '{0}' cannot have WLB enabled</value>
@@ -2759,10 +2759,10 @@ This action is final and unrecoverable.</value>
     <value>&amp;Yes, Destroy</value>
   </data>
   <data name="CONFIRM_DISABLE_CBT_VM" xml:space="preserve">
-    <value>This will disable Changed Block Tracking on the disks of the selected VM. If you are using any third-party solutions to back up the VM, they might be affected. Note that Changed Block Tracking cannot be enabled again from [XenCenter]. Do you want to continue?</value>
+    <value>This will disable Changed Block Tracking on the disks of the selected VM. If you are using any third-party solutions to back up the VM, they might be affected. Note that Changed Block Tracking cannot be enabled again from [XC-ng]. Do you want to continue?</value>
   </data>
   <data name="CONFIRM_DISABLE_CBT_VMS" xml:space="preserve">
-    <value>This will disable Changed Block Tracking on the disks of the selected VMs. If you are using any third-party solutions to back up the VMs, they might be affected. Note that Changed Block Tracking cannot be enabled again from [XenCenter]. Do you want to continue?</value>
+    <value>This will disable Changed Block Tracking on the disks of the selected VMs. If you are using any third-party solutions to back up the VMs, they might be affected. Note that Changed Block Tracking cannot be enabled again from [XC-ng]. Do you want to continue?</value>
   </data>
   <data name="CONFIRM_DISABLE_CBT_VMS_TITLE" xml:space="preserve">
     <value>Disable Changed Block Tracking on selected VMs</value>
@@ -2876,10 +2876,10 @@ This will also shut down all the VMs currently running on them.</value>
     <value>Reboot VM</value>
   </data>
   <data name="CONFIRM_RESTART_TOOLSTACK_MANY_SERVERS" xml:space="preserve">
-    <value>Are you sure you want to restart the toolstack on the selected servers? Note that [XenCenter] will temporarily lose connection to them.</value>
+    <value>Are you sure you want to restart the toolstack on the selected servers? Note that [XC-ng] will temporarily lose connection to them.</value>
   </data>
   <data name="CONFIRM_RESTART_TOOLSTACK_ONE_SERVER" xml:space="preserve">
-    <value>Are you sure you want to restart the toolstack on '{0}'? Note that [XenCenter] will temporarily lose connection to the server.</value>
+    <value>Are you sure you want to restart the toolstack on '{0}'? Note that [XC-ng] will temporarily lose connection to the server.</value>
   </data>
   <data name="CONFIRM_RESTART_TOOLSTACK_TITLE" xml:space="preserve">
     <value>Restart Toolstack</value>
@@ -3971,7 +3971,7 @@ This will also delete its subfolders.</value>
     <value>{0} (Detached)</value>
   </data>
   <data name="DETACHED_ISCI_DETECTED" xml:space="preserve">
-    <value>[XenCenter] has detected that an SR already exists on this LUN. This SR is not currently in use by '{0}',  would you like to attach it?</value>
+    <value>[XC-ng] has detected that an SR already exists on this LUN. This SR is not currently in use by '{0}',  would you like to attach it?</value>
   </data>
   <data name="DETACH_ALL_BUTTON_LABEL" xml:space="preserve">
     <value>&amp;Detach all</value>
@@ -4890,7 +4890,7 @@ Would you like to eject these ISOs before continuing?</value>
     <value>&amp;Enter Maintenance Mode...</value>
   </data>
   <data name="ENTER_MASTER_PASSWORD_TO_ACCESS_SETTINGS_TT" xml:space="preserve">
-    <value>To access your saved session it is required that you enter the master password when starting [XenCenter]</value>
+    <value>To access your saved session it is required that you enter the master password when starting [XC-ng]</value>
   </data>
   <data name="ENTER_VALID_QOS" xml:space="preserve">
     <value>The value for your QoS limit needs to be greater than zero</value>
@@ -4911,7 +4911,7 @@ Would you like to eject these ISOs before continuing?</value>
     <value>User name and password mismatch.</value>
   </data>
   <data name="ERROR_CONNECTING_BLURB" xml:space="preserve">
-    <value>[XenCenter] has encountered a problem connecting to this server.</value>
+    <value>[XC-ng] has encountered a problem connecting to this server.</value>
   </data>
   <data name="ERROR_DEACTIVATING_MULTIPLE_VDIS_MESSAGE" xml:space="preserve">
     <value>The following virtual disks could not be deactivated:</value>
@@ -5085,7 +5085,7 @@ Would you like to eject these ISOs before continuing?</value>
     <value>Could not authenticate to proxy server on '{0}'.</value>
   </data>
   <data name="ERROR_PUTTY_LAUNCHING" xml:space="preserve">
-    <value>[XenCenter] has encountered a problem launching PuTTY.</value>
+    <value>[XC-ng] has encountered a problem launching PuTTY.</value>
   </data>
   <data name="ERROR_SECURE_CHANNEL_FAILURE" xml:space="preserve">
     <value>Could not create SSL/TLS secure channel.</value>
@@ -5162,7 +5162,7 @@ Would you like to eject these ISOs before continuing?</value>
   <data name="EXISTING_SR_FOUND_ON_LUN" xml:space="preserve">
     <value>An existing {0} SR was found on the selected LUN. Click Reattach to use the existing SR, or click Format to destroy any data present on the disk and create a new {1} SR.
 
-Warning: to prevent data loss you must ensure that the LUN is not in use by any other system, including [XenServer] hosts that are not connected to [XenCenter].</value>
+Warning: to prevent data loss you must ensure that the LUN is not in use by any other system, including [XenServer] hosts that are not connected to [XC-ng].</value>
   </data>
   <data name="EXIT_MAINTENANCE_MODE" xml:space="preserve">
     <value>Exit &amp;Maintenance Mode</value>
@@ -5795,12 +5795,12 @@ Note: Any custom color selections will remain unchanged</value>
     <value>Group Roles</value>
   </data>
   <data name="GUI_OUT_OF_DATE" xml:space="preserve">
-    <value>This version of [XenCenter] is out of date and cannot connect to {0}.</value>
+    <value>This version of [XC-ng] is out of date and cannot connect to {0}.</value>
   </data>
   <data name="GUI_OUT_OF_DATE_MORE" xml:space="preserve">
     <value>
 
-You can get a compatible version of [XenCenter] from the following location:</value>
+You can get a compatible version of [XC-ng] from the following location:</value>
   </data>
   <data name="HA" xml:space="preserve">
     <value>HA</value>
@@ -6088,7 +6088,7 @@ Click Configure HA to alter the settings displayed below.</value>
     <value>Review configuration and activate HA</value>
   </data>
   <data name="HEALTHCHECK_AUTHENTICATION_RUBRIC_EXISTING_TOKEN" xml:space="preserve">
-    <value>Authentication with [Company] Insight Services is required in order to enable this feature. [XenCenter] detected a previous successful authentication for one of other connected pools. You can choose to re-use it or authenticate again.</value>
+    <value>Authentication with [Company] Insight Services is required in order to enable this feature. [XC-ng] detected a previous successful authentication for one of other connected pools. You can choose to re-use it or authenticate again.</value>
   </data>
   <data name="HEALTHCHECK_AUTHENTICATION_RUBRIC_NO_TOKEN" xml:space="preserve">
     <value>Authentication with [Company] Insight Services is required in order to enable this feature. Please register by providing MyCitrix credentials (see {0}). These credentials will only be used to obtain an upload token and will not be stored on this machine or on your server.</value>
@@ -6698,7 +6698,7 @@ Click Configure HA to alter the settings displayed below.</value>
     <value>Select the storage repository for the imported virtual machine.</value>
   </data>
   <data name="INCOMPATIBLE_PRODUCTS" xml:space="preserve">
-    <value>This server version is incompatible with [XenCenter].</value>
+    <value>This server version is incompatible with [XC-ng].</value>
   </data>
   <data name="INCOMPATIBLE_PROTOCOL_VERSION" xml:space="preserve">
     <value>Incompatible protocol version</value>
@@ -7481,7 +7481,7 @@ This will permanently delete and reinitialize all local storage on the servers. 
     <value>Start in Reco&amp;very Mode</value>
   </data>
   <data name="MAINWINDOW_REMOVE_HOST" xml:space="preserve">
-    <value>Remo&amp;ve from [XenCenter]</value>
+    <value>Remo&amp;ve from [XC-ng]</value>
   </data>
   <data name="MAINWINDOW_REMOVE_HOST_CRASHDUMPS" xml:space="preserve">
     <value>Remove Crash Dump &amp;Files</value>
@@ -7849,7 +7849,7 @@ This action is final and unrecoverable.</value>
 {1}</value>
   </data>
   <data name="MESSAGEBOX_PROGRAM_UNEXPECTED_TITLE" xml:space="preserve">
-    <value>[XenCenter] - Error</value>
+    <value>[XC-ng] - Error</value>
   </data>
   <data name="MESSAGEBOX_RECONNECT_FAIL" xml:space="preserve">
     <value>Unable to reconnect to {0} . Server is unavailable.</value>
@@ -8048,12 +8048,12 @@ You can also assign IP addresses for dedicated storage or other types of network
     <value>Configure IP Addresses - {0}</value>
   </data>
   <data name="NETWORKING_PROPERTIES_WARNING_CHANGING_MANAGEMENT_HOST" xml:space="preserve">
-    <value>You are reconfiguring the primary management interface.  If the new settings are incorrect then [XenCenter] may permanently lose the connection to the server.
+    <value>You are reconfiguring the primary management interface.  If the new settings are incorrect then [XC-ng] may permanently lose the connection to the server.
 
 You should only proceed if you have verified that these settings are correct.</value>
   </data>
   <data name="NETWORKING_PROPERTIES_WARNING_CHANGING_MANAGEMENT_POOL" xml:space="preserve">
-    <value>You are reconfiguring the primary management interface.  If the new settings are incorrect then [XenCenter] may permanently lose the connection to the server, or pool members may be unable to contact each other.
+    <value>You are reconfiguring the primary management interface.  If the new settings are incorrect then [XC-ng] may permanently lose the connection to the server, or pool members may be unable to contact each other.
 
 You should only proceed if you have verified that these settings are correct.</value>
   </data>
@@ -8178,7 +8178,7 @@ You should only proceed if you have verified that these settings are correct.</v
     <value>Disk Created</value>
   </data>
   <data name="NEWER_GUI_AVAILABLE" xml:space="preserve">
-    <value>There is a newer version of [XenCenter] available. Please contact your support representative.</value>
+    <value>There is a newer version of [XC-ng] available. Please contact your support representative.</value>
   </data>
   <data name="NEWNETWORKWIZARD_TITLE" xml:space="preserve">
     <value>New Network - {0}</value>
@@ -8426,7 +8426,7 @@ Once all configuration is complete the HBA will expose a SCSI device backed by t
     <value>iSCSI</value>
   </data>
   <data name="NEWSR_MULTI_POOL_WARNING" xml:space="preserve">
-    <value>Warning: you must ensure that the following SR is not in use by any server not connected to [XenCenter]. Failure to do so may result in data loss.
+    <value>Warning: you must ensure that the following SR is not in use by any server not connected to [XC-ng]. Failure to do so may result in data loss.
 
 SR:  {0}
 
@@ -8973,7 +8973,7 @@ It is strongly recommended that you Cancel and apply the latest version of the p
     <value>YinheKylin</value>
   </data>
   <data name="NEW_XENCENTER_REQUIRED_INFO" xml:space="preserve">
-    <value>New [XenCenter] version required</value>
+    <value>New [XC-ng] version required</value>
   </data>
   <data name="NFS_ISO_ALREADY_ATTACHED" xml:space="preserve">
     <value>This NFS ISO storage is already attached to '{0}'</value>
@@ -9090,7 +9090,7 @@ It is strongly recommended that you Cancel and apply the latest version of the p
     <value>Space available: {0}</value>
   </data>
   <data name="NOT_ENOUGH_SPACE_MESSAGE_CLEANUP" xml:space="preserve">
-    <value>[XenCenter] can free up {0} by removing residual update files. Do you want to proceed with the cleanup?</value>
+    <value>[XC-ng] can free up {0} by removing residual update files. Do you want to proceed with the cleanup?</value>
   </data>
   <data name="NOT_ENOUGH_SPACE_MESSAGE_INSTALL" xml:space="preserve">
     <value>There is not enough space on '{0}' to install update '{1}'.</value>
@@ -9272,7 +9272,7 @@ However, there is not enough space to perform the repartitioning, so the current
     <value>(avg / max KBs)</value>
   </data>
   <data name="OVF_CREATED" xml:space="preserve">
-    <value>Created by [XenCenter] Disk Image Import</value>
+    <value>Created by [XC-ng] Disk Image Import</value>
   </data>
   <data name="OVF_DISK_CAPTION" xml:space="preserve">
     <value>Virtual Disk</value>
@@ -9549,11 +9549,11 @@ Servers where this update cannot be applied appear disabled in this list.</value
     <value>Automated updates have finished.</value>
   </data>
   <data name="PATCHINGWIZARD_UPLOADPAGE_MESSAGE_DOWNLOAD_AND_UPLOAD" xml:space="preserve">
-    <value>[XenCenter] is now downloading your update and uploading it to the servers specified in the previous step.
+    <value>[XC-ng] is now downloading your update and uploading it to the servers specified in the previous step.
 Please wait for these operations to complete, then click Next to continue with the installation.</value>
   </data>
   <data name="PATCHINGWIZARD_UPLOADPAGE_MESSAGE_ONLY_UPLOAD" xml:space="preserve">
-    <value>[XenCenter] is now uploading your update to the servers specified in the previous step.
+    <value>[XC-ng] is now uploading your update to the servers specified in the previous step.
 Please wait for this operation to complete, then click Next to continue with the installation.</value>
   </data>
   <data name="PATCHINGWIZARD_UPLOADPAGE_TEXT" xml:space="preserve">
@@ -9645,7 +9645,7 @@ Size: {3}</value>
     <value>Installation size: {0}</value>
   </data>
   <data name="PATCH_NEEDS_NEW_XENCENTER" xml:space="preserve">
-    <value>This version requires [XenCenter] {0} or newer</value>
+    <value>This version requires [XC-ng] {0} or newer</value>
   </data>
   <data name="PATCH_NOT_FOUND" xml:space="preserve">
     <value>Not found</value>
@@ -9771,7 +9771,7 @@ Please reconnect the host and try again</value>
     <value>Plugins</value>
   </data>
   <data name="PLUGINS_DESC" xml:space="preserve">
-    <value>Adjust settings for plugins to [XenCenter]</value>
+    <value>Adjust settings for plugins to [XC-ng]</value>
   </data>
   <data name="PLUGINS_MENU_ITEMS_ONLY_ONE_CHILD_ALLOWED" xml:space="preserve">
     <value>Menu item features must only have a single command XML node as a child</value>
@@ -9999,7 +9999,7 @@ Please reconnect the host and try again</value>
     <value>VM '{0}'</value>
   </data>
   <data name="PROBLEM_XENCENTER_VERSION_TITLE" xml:space="preserve">
-    <value>[XenCenter] version</value>
+    <value>[XC-ng] version</value>
   </data>
   <data name="PROCEED" xml:space="preserve">
     <value>&amp;Proceed</value>
@@ -10745,7 +10745,7 @@ The master must be upgraded first, so if you skip the master, the rolling pool u
     <value>Servers, VMs, Custom Templates and Remote SRs</value>
   </data>
   <data name="SERVER_API_INCOMPATIBLE" xml:space="preserve">
-    <value>This server is using an API that is incompatible with [XenCenter].</value>
+    <value>This server is using an API that is incompatible with [XC-ng].</value>
   </data>
   <data name="SERVER_COLON" xml:space="preserve">
     <value>Server:</value>
@@ -10787,10 +10787,10 @@ The master must be upgraded first, so if you skip the master, the rolling pool u
     <value>The current time on the pool master is: {0}</value>
   </data>
   <data name="SERVER_TOO_OLD" xml:space="preserve">
-    <value>This version of [XenCenter] supports [XenServer] [BRANDING_VERSION_6_2] onwards.</value>
+    <value>This version of [XC-ng] supports [XenServer] [BRANDING_VERSION_6_2] onwards.</value>
   </data>
   <data name="SERVER_TOO_OLD_SOLUTION" xml:space="preserve">
-    <value>Use an earlier version of [XenCenter] to manage this server.</value>
+    <value>Use an earlier version of [XC-ng] to manage this server.</value>
   </data>
   <data name="SERVER_X" xml:space="preserve">
     <value>server '{0}'</value>
@@ -11052,7 +11052,7 @@ Do you want to connect to the pool master '{1}'?</value>
     <value>Try again using a correct user name and password.</value>
   </data>
   <data name="SOLUTION_CHECK_PROXY" xml:space="preserve">
-    <value>Check that the proxy server on '{0}' is configured correctly and [XenCenter]'s connection settings are correct and try again.</value>
+    <value>Check that the proxy server on '{0}' is configured correctly and [XC-ng]'s connection settings are correct and try again.</value>
   </data>
   <data name="SOLUTION_CHECK_XENSERVER" xml:space="preserve">
     <value>Check that [XenServer] is configured correctly on '{0}' and try again.</value>
@@ -11073,7 +11073,7 @@ Do you want to connect to the pool master '{1}'?</value>
     <value />
   </data>
   <data name="SOME_ERRORS_ENCOUNTERED" xml:space="preserve">
-    <value>Some errors were encountered. See the [XenCenter] log for more information.</value>
+    <value>Some errors were encountered. See the [XC-ng] log for more information.</value>
   </data>
   <data name="SPACED_HYPHEN" xml:space="preserve">
     <value> - </value>
@@ -11097,7 +11097,7 @@ Do you want to connect to the pool master '{1}'?</value>
     <value>Create &amp;SR-IOV anyway</value>
   </data>
   <data name="SRIOV_NETWORK_CREATE_WILL_DISTURB_CONNECTION" xml:space="preserve">
-    <value>Creating this SR-IOV network will have effects on network connection status and [XenCenter] connections to the pool will temporarily be disturbed</value>
+    <value>Creating this SR-IOV network will have effects on network connection status and [XC-ng] connections to the pool will temporarily be disturbed</value>
   </data>
   <data name="SRPANEL_ACTIVE" xml:space="preserve">
     <value>Active</value>
@@ -11139,13 +11139,13 @@ Do you want to connect to the pool master '{1}'?</value>
     <value>There is currently an action in progress on this SR.</value>
   </data>
   <data name="SR_CANNOT_BE_DESTROYED_WITH_XC" xml:space="preserve">
-    <value>This SR cannot be destroyed with [XenCenter].</value>
+    <value>This SR cannot be destroyed with [XC-ng].</value>
   </data>
   <data name="SR_CANNOT_BE_DETACHED_WITH_XC" xml:space="preserve">
-    <value>This SR cannot be detached with [XenCenter].</value>
+    <value>This SR cannot be detached with [XC-ng].</value>
   </data>
   <data name="SR_CANNOT_BE_FORGOTTEN_WITH_XC" xml:space="preserve">
-    <value>This SR cannot be forgotten with [XenCenter].</value>
+    <value>This SR cannot be forgotten with [XC-ng].</value>
   </data>
   <data name="SR_CANNOT_BE_SEEN" xml:space="preserve">
     <value>This storage repository cannot be seen from {0}</value>
@@ -11711,12 +11711,12 @@ Refer to the "[XCP-ng product] Administrator's Guide" for instructions on how to
     <value>Import a locally stored VM, template or snapshot as a new VM.</value>
   </data>
   <data name="UNABLE_TO_IMPORT_SEARCH" xml:space="preserve">
-    <value>[XenCenter] was unable to import a saved search from file '{0}'.
+    <value>[XC-ng] was unable to import a saved search from file '{0}'.
 
 Verify that the file is a valid {1} export.</value>
   </data>
   <data name="UNCOMPRESS_APPLIANCE_DESCRIPTION" xml:space="preserve">
-    <value>[XenCenter] will uncompress the file to '{0}'. After uncompression the original file '{1}' will be deleted. Continue?</value>
+    <value>[XC-ng] will uncompress the file to '{0}'. After uncompression the original file '{1}' will be deleted. Continue?</value>
   </data>
   <data name="UNINSTALL" xml:space="preserve">
     <value>Delete</value>
@@ -11761,7 +11761,7 @@ Verify that the file is a valid {1} export.</value>
     <value>Updates</value>
   </data>
   <data name="UPDATES_DESC" xml:space="preserve">
-    <value>Automatically check for [XenServer] or [XenCenter] updates</value>
+    <value>Automatically check for [XenServer] or [XC-ng] updates</value>
   </data>
   <data name="UPDATES_DIALOG_ACTION_REQUIRED" xml:space="preserve">
     <value>For the update to take effect after application, the following action is required:
@@ -11813,7 +11813,7 @@ Verify that the file is a valid {1} export.</value>
     <value>Download and Install</value>
   </data>
   <data name="UPDATES_DOWNLOAD_REQUIRED_XENCENTER" xml:space="preserve">
-    <value>Download [XenCenter]</value>
+    <value>Download [XC-ng]</value>
   </data>
   <data name="UPDATES_WIZARD" xml:space="preserve">
     <value>Install Update</value>
@@ -11952,10 +11952,10 @@ Check your settings and try again.</value>
     <value>{0}: The VM '{1}' uses local storage and cannot be migrated.</value>
   </data>
   <data name="UPDATES_WIZARD_NEWER_XENCENTER_REQUIRED" xml:space="preserve">
-    <value>[XenCenter] version {0} or newer is required.</value>
+    <value>[XC-ng] version {0} or newer is required.</value>
   </data>
   <data name="UPDATES_WIZARD_NEWER_XENCENTER_WARNING" xml:space="preserve">
-    <value>Ensure you have upgraded [XenCenter] before upgrading [XenServer].</value>
+    <value>Ensure you have upgraded [XC-ng] before upgrading [XenServer].</value>
   </data>
   <data name="UPDATES_WIZARD_NOTVALID_EXTENSION" xml:space="preserve">
     <value>The selected file does not have a valid extension. Valid extensions are: *.{0} and *.iso</value>
@@ -12322,7 +12322,7 @@ To start a [XenServer] trial, click the button below.</value>
     <value>USB</value>
   </data>
   <data name="USER_AUTHORIZATION_FAILED" xml:space="preserve">
-    <value>[XenCenter] was unable to authorize the action as {0}. See the application log files for more information.</value>
+    <value>[XC-ng] was unable to authorize the action as {0}. See the application log files for more information.</value>
   </data>
   <data name="USER_NOT_AUTHORIZED" xml:space="preserve">
     <value>The user you have entered is not authorized to complete this action</value>
@@ -12469,7 +12469,7 @@ To start a [XenServer] trial, click the button below.</value>
     <value>Version</value>
   </data>
   <data name="VERSION_NUMBER" xml:space="preserve">
-    <value>[XenCenter] version {0} (build {1}.{2}) {3}-bit</value>
+    <value>[XC-ng] version {0} (build {1}.{2}) {3}-bit</value>
   </data>
   <data name="VGPU_DESCRIPTION_MANY" xml:space="preserve">
     <value>{0} virtual GPU ({1} per GPU, {2}, {3} displays)</value>
@@ -13673,16 +13673,16 @@ Are you sure you want to enable automated power management for this Host?</value
     <value>You are attempting an action which requires additional privileges to those granted by your current role.</value>
   </data>
   <data name="XENCENTER" xml:space="preserve">
-    <value>[XenCenter]</value>
+    <value>[XC-ng]</value>
   </data>
   <data name="XENCENTER_CONFIG_FILTER" xml:space="preserve">
-    <value>[XenCenter] Settings|*.config</value>
+    <value>[XC-ng] Settings|*.config</value>
   </data>
   <data name="XENCENTER_NEWER_AVAILABLE" xml:space="preserve">
-    <value>Newer [XenCenter] Available</value>
+    <value>Newer [XC-ng] Available</value>
   </data>
   <data name="XENCENTER_VERSION_CHECK_DESCRIPTION" xml:space="preserve">
-    <value>[XenCenter] version check</value>
+    <value>[XC-ng] version check</value>
   </data>
   <data name="XENSEARCH_SAVED_SEARCH" xml:space="preserve">
     <value>Saved Searches (*.{0})|*.{0}</value>

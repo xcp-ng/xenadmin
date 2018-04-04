@@ -307,7 +307,7 @@
     <value>11</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>[XenCenter] でこのストレージ リポジトリとの接続の問題を診断して解決するには、[修復] をクリックします。問題が解決されない場合は、[XenCenter] ログのエラー メッセージを参照してください。</value>
+    <value>[XC-ng] でこのストレージ リポジトリとの接続の問題を診断して解決するには、[修復] をクリックします。問題が解決されない場合は、[XC-ng] ログのエラー メッセージを参照してください。</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>

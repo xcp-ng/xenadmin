@@ -193,7 +193,7 @@
     <value>0</value>
   </data>
   <data name="saveStateLabel.Text" xml:space="preserve">
-    <value>[XenCenter] 可以记住托管服务器的登录凭据，并在您启动会话时使用这些凭据自动还原服务器的连接状态。</value>
+    <value>[XC-ng] 可以记住托管服务器的登录凭据，并在您启动会话时使用这些凭据自动还原服务器的连接状态。</value>
   </data>
   <data name="&gt;&gt;saveStateLabel.Name" xml:space="preserve">
     <value>saveStateLabel</value>

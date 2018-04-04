@@ -295,7 +295,7 @@
     <value>0</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>The supported number of server failures could not be calculated. See the [XenCenter] logs for further information.</value>
+    <value>The supported number of server failures could not be calculated. See the [XC-ng] logs for further information.</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>

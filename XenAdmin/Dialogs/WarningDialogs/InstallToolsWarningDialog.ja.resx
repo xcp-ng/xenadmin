@@ -319,7 +319,7 @@
     <value>0</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>[XenCenter] によって、この仮想マシンの DVD ドライブに [XCP-ng product] Tools DVD が挿入され、コンソール画面に切り替わります。よろしいですか?
+    <value>[XC-ng] によって、この仮想マシンの DVD ドライブに [XCP-ng product] Tools DVD が挿入され、コンソール画面に切り替わります。よろしいですか?
 
 [XCP-ng product] Tools のインストールにより、現在仮想マシンの DVD ドライブにあるディスクはすべてイジェクトされます。</value>
   </data>

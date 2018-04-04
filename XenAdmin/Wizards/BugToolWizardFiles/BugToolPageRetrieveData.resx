@@ -145,7 +145,7 @@
     <value>1</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>[XenCenter] is now collecting your status report. This consists of report from each of your designated servers and your [XenCenter] logs if specified in the previous step.
+    <value>[XC-ng] is now collecting your status report. This consists of report from each of your designated servers and your [XC-ng] logs if specified in the previous step.
 
 To collect a new status report or to change the items which are included in the report, press the previous button. A new report will be collected upon returning to this step.</value>
   </data>

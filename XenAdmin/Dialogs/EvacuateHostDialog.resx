@@ -433,7 +433,7 @@
     <value>1</value>
   </data>
   <data name="labelMasterBlurb.Text" xml:space="preserve">
-    <value>This server is the pool master. Entering maintenance mode will nominate a new master for the pool. [XenCenter] will temporarily lose its connection to the pool.</value>
+    <value>This server is the pool master. Entering maintenance mode will nominate a new master for the pool. [XC-ng] will temporarily lose its connection to the pool.</value>
   </data>
   <data name="&gt;&gt;labelMasterBlurb.Name" xml:space="preserve">
     <value>labelMasterBlurb</value>

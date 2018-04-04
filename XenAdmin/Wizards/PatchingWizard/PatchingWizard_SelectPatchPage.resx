@@ -247,7 +247,7 @@
     <value>3</value>
   </data>
   <data name="automatedUpdatesOptionLabel.Text" xml:space="preserve">
-    <value>[XenCenter] will download and install all released updates on the current version from [Company], usually with only a single reboot at the end.
+    <value>[XC-ng] will download and install all released updates on the current version from [Company], usually with only a single reboot at the end.
 </value>
   </data>
   <data name="&gt;&gt;automatedUpdatesOptionLabel.Name" xml:space="preserve">

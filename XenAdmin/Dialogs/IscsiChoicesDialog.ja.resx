@@ -378,7 +378,7 @@
   <data name="labelMessage.Text" xml:space="preserve">
     <value>選択した LUN に既存の SR があります。この既存の SR を使用するには [再接続] をクリックします。[フォーマット] をクリックすると、このディスク上のすべてのデータが消去され、新しい SR が作成されます。
 
-警告: データの損失を防ぐため、[XenCenter] で接続していない [XenServer] ホストを含め、ほかのシステムがこの LUN を使用していないことを確認してください。</value>
+警告: データの損失を防ぐため、[XC-ng] で接続していない [XenServer] ホストを含め、ほかのシステムがこの LUN を使用していないことを確認してください。</value>
   </data>
   <data name="&gt;&gt;labelMessage.Name" xml:space="preserve">
     <value>labelMessage</value>

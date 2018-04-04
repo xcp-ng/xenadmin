@@ -154,7 +154,7 @@
     <value>zh-CN</value>
   </data>
   <data name="LOG_FILENAME" xml:space="preserve">
-    <value>[XenCenter].log</value>
+    <value>[XC-ng].log</value>
   </data>
   <data name="MAINWINDOW_HELP_PARAMS" xml:space="preserve">
     <value>-mapid {0} {1}</value>

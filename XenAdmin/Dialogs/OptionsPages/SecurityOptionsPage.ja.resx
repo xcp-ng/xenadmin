@@ -262,7 +262,7 @@
     <value>0</value>
   </data>
   <data name="SSLLabel.Text" xml:space="preserve">
-    <value>管理対象サーバーで新規または変更された SSL 証明書が検出された場合には警告を表示するように [XenCenter] を構成できます。</value>
+    <value>管理対象サーバーで新規または変更された SSL 証明書が検出された場合には警告を表示するように [XC-ng] を構成できます。</value>
   </data>
   <data name="&gt;&gt;SSLLabel.Name" xml:space="preserve">
     <value>SSLLabel</value>

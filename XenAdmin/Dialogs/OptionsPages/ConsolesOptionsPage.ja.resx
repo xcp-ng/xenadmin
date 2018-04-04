@@ -781,7 +781,7 @@
     <value>4</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>[XenCenter] のサーバーや VM のコンソールで使用するキーボード ショートカットやクリップボード オプションを構成します。VM でリモート デスクトップ接続がサポートされる場合は、追加のオプションを設定できます。</value>
+    <value>[XC-ng] のサーバーや VM のコンソールで使用するキーボード ショートカットやクリップボード オプションを構成します。VM でリモート デスクトップ接続がサポートされる場合は、追加のオプションを設定できます。</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>

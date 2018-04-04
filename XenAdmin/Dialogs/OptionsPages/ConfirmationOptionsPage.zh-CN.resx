@@ -151,7 +151,7 @@
     <value>0</value>
   </data>
   <data name="labelBlurb.Text" xml:space="preserve">
-    <value>可以将 [XenCenter] 配置为每当您消除“通知”视图中的一个或多个警报、更新或事件时显示一条警告。</value>
+    <value>可以将 [XC-ng] 配置为每当您消除“通知”视图中的一个或多个警报、更新或事件时显示一条警告。</value>
   </data>
   <data name="&gt;&gt;labelBlurb.Name" xml:space="preserve">
     <value>labelBlurb</value>

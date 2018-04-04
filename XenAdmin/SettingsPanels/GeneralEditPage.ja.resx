@@ -460,7 +460,7 @@
     <value>0</value>
   </data>
   <data name="labelTitle.Text" xml:space="preserve">
-    <value>[XenCenter] では、管理するリソースを整理するためのいくつかの機能が用意されています。フォルダーでグループ化したり、タグを追加したりして、複数サーバー上のリソースを簡単に管理できます。</value>
+    <value>[XC-ng] では、管理するリソースを整理するためのいくつかの機能が用意されています。フォルダーでグループ化したり、タグを追加したりして、複数サーバー上のリソースを簡単に管理できます。</value>
   </data>
   <data name="&gt;&gt;labelTitle.Name" xml:space="preserve">
     <value>labelTitle</value>

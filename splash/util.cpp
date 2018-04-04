@@ -62,7 +62,7 @@ void ErrorExit(wostringstream& logStream, const LPTSTR lpszFunction, bool showDi
     // Get %APPDATA% path
     if (SHGetSpecialFolderPath(NULL, destBuf, CSIDL_APPDATA, 1) == TRUE)
     {
-        DebugFilePath << destBuf << "\\[Company]\\[XenCenter]\\logs\\splash.log";
+        DebugFilePath << destBuf << "\\[Company]\\[XC-ng]\\logs\\splash.log";
         wofstream fileStream(DebugFilePath.str().c_str(), ios_base::out | ios_base::trunc);
         fileStream << logStream.str() << endl;
     }

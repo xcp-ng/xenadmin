@@ -178,7 +178,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter].log.
+        ///   Looks up a localized string similar to [XC-ng].log.
         /// </summary>
         public static string LOG_FILENAME {
             get {

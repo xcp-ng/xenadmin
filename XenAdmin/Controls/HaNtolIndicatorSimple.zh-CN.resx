@@ -295,7 +295,7 @@
     <value>0</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>无法计算支持的服务器故障数。有关更多信息，请参阅 [XenCenter] 日志。</value>
+    <value>无法计算支持的服务器故障数。有关更多信息，请参阅 [XC-ng] 日志。</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>

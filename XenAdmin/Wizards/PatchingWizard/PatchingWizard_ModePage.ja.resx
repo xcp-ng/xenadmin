@@ -274,7 +274,7 @@
     <value>1</value>
   </data>
   <data name="AutomaticRadioButton.Text" xml:space="preserve">
-    <value>アップデート後タスクを [XenCenter] で自動的に実行する(&amp;A)</value>
+    <value>アップデート後タスクを [XC-ng] で自動的に実行する(&amp;A)</value>
   </data>
   <data name="&gt;&gt;AutomaticRadioButton.Name" xml:space="preserve">
     <value>AutomaticRadioButton</value>
@@ -334,7 +334,7 @@
     <value>5</value>
   </data>
   <data name="removeUpdateFileCheckBox.Text" xml:space="preserve">
-    <value>アップデート インストール ファイルを [XenCenter] で削除する(&amp;D)</value>
+    <value>アップデート インストール ファイルを [XC-ng] で削除する(&amp;D)</value>
   </data>
   <data name="&gt;&gt;removeUpdateFileCheckBox.Name" xml:space="preserve">
     <value>removeUpdateFileCheckBox</value>

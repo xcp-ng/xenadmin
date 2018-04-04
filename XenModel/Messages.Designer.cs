@@ -2572,7 +2572,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Finished compiling status report (with errors). Only [XenCenter] logs were compiled..
+        ///   Looks up a localized string similar to Finished compiling status report (with errors). Only [XC-ng] logs were compiled..
         /// </summary>
         public static string ACTION_SYSTEM_STATUS_SUCCESSFUL_WITH_ERRORS_XCLOGS {
             get {
@@ -3616,7 +3616,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] is unable to contact the activation server.
+        ///   Looks up a localized string similar to [XC-ng] is unable to contact the activation server.
         ///
         ///If you are not currently connected to the internet, we can save
         ///the activation request to a file, for you to upload at a later date.
@@ -3986,7 +3986,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please wait while [XenCenter] establishes your current external authentication configuration..
+        ///   Looks up a localized string similar to Please wait while [XC-ng] establishes your current external authentication configuration..
         /// </summary>
         public static string AD_MASTER_UNAVAILABLE_BLURB {
             get {
@@ -4559,7 +4559,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] can no longer authenticate with the existing credentials for this server. Enter new credentials to proceed..
+        ///   Looks up a localized string similar to [XC-ng] can no longer authenticate with the existing credentials for this server. Enter new credentials to proceed..
         /// </summary>
         public static string ADDSERVER_PASS_NEW {
             get {
@@ -5141,7 +5141,7 @@ namespace XenAdmin {
         /// <summary>
         ///   Looks up a localized string similar to The SR &apos;{0}&apos; is currently attached elsewhere. Do you want to attach it to &apos;{1}&apos;? 
         ///
-        ///Warning: you must ensure that the SR is not in use by any server not connected to [XenCenter]. Failure to do so may result in data loss..
+        ///Warning: you must ensure that the SR is not in use by any server not connected to [XC-ng]. Failure to do so may result in data loss..
         /// </summary>
         public static string ALREADY_ATTACHED_ELSEWHERE {
             get {
@@ -5877,9 +5877,9 @@ namespace XenAdmin {
         /// <summary>
         ///   Looks up a localized string similar to Creating this bond will automatically move the management interface on one of your selected bond members to the bond itself:
         ///
-        ///- [XenCenter] connections to the pool will temporarily be disturbed
+        ///- [XC-ng] connections to the pool will temporarily be disturbed
         ///
-        ///- If your network configuration is incorrect then [XenCenter] may permanently lose the connection to the pool, or pool members may be unable to contact each other..
+        ///- If your network configuration is incorrect then [XC-ng] may permanently lose the connection to the pool, or pool members may be unable to contact each other..
         /// </summary>
         public static string BOND_CREATE_WILL_DISTURB_PRIMARY {
             get {
@@ -5923,11 +5923,11 @@ namespace XenAdmin {
         ///
         ///Deleting this bond will automatically transfer the management and secondary interfaces on the bond to the first slave member of the bond: 
         ///
-        ///- [XenCenter] connections to the pool will temporarily be disturbed
+        ///- [XC-ng] connections to the pool will temporarily be disturbed
         ///
         ///- Traffic through the secondary interface will be disrupted
         ///
-        ///- If your network configuration is incorrect then [XenCenter] may permanently lose the connection to the pool, or pool members may be unable to contact each other..
+        ///- If your network configuration is incorrect then [XC-ng] may permanently lose the connection to the pool, or pool members may be unable to contact each other..
         /// </summary>
         public static string BOND_DELETE_WILL_DISTURB_BOTH {
             get {
@@ -5940,9 +5940,9 @@ namespace XenAdmin {
         ///
         ///Deleting this bond will automatically transfer the management interface on the bond to the first slave member of the bond: 
         ///
-        ///- [XenCenter] connections to the pool will temporarily be disturbed
+        ///- [XC-ng] connections to the pool will temporarily be disturbed
         ///
-        ///- If your network configuration is incorrect then [XenCenter] may permanently lose the connection to the pool, or pool members may be unable to contact each other..
+        ///- If your network configuration is incorrect then [XC-ng] may permanently lose the connection to the pool, or pool members may be unable to contact each other..
         /// </summary>
         public static string BOND_DELETE_WILL_DISTURB_PRIMARY {
             get {
@@ -6007,7 +6007,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Tools ISO is on a broken SR, [XenCenter] will attempt to fix it before proceeding. Do you want to continue?.
+        ///   Looks up a localized string similar to Your Tools ISO is on a broken SR, [XC-ng] will attempt to fix it before proceeding. Do you want to continue?.
         /// </summary>
         public static string BROKEN_TOOLS_PROMPT {
             get {
@@ -6630,7 +6630,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You cannot configure an SR of type &apos;{0}&apos; using [XenCenter]..
+        ///   Looks up a localized string similar to You cannot configure an SR of type &apos;{0}&apos; using [XC-ng]..
         /// </summary>
         public static string CANNOT_FIND_SR_WIZARD_TYPE {
             get {
@@ -6867,7 +6867,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Changed [XenCenter] master password.
+        ///   Looks up a localized string similar to Changed [XC-ng] master password.
         /// </summary>
         public static string CHANGED_MASTER_PASSWORD {
             get {
@@ -6876,7 +6876,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Changed [XenCenter] master password for session restore.
+        ///   Looks up a localized string similar to Changed [XC-ng] master password for session restore.
         /// </summary>
         public static string CHANGED_MASTER_PASSWORD_LONG {
             get {
@@ -7038,7 +7038,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Checking [XenCenter] version.
+        ///   Looks up a localized string similar to Checking [XC-ng] version.
         /// </summary>
         public static string CHECKING_XENCENTER_VERSION {
             get {
@@ -7568,7 +7568,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This will disable Changed Block Tracking on the disks of the selected VM. If you are using any third-party solutions to back up the VM, they might be affected. Note that Changed Block Tracking cannot be enabled again from [XenCenter]. Do you want to continue?.
+        ///   Looks up a localized string similar to This will disable Changed Block Tracking on the disks of the selected VM. If you are using any third-party solutions to back up the VM, they might be affected. Note that Changed Block Tracking cannot be enabled again from [XC-ng]. Do you want to continue?.
         /// </summary>
         public static string CONFIRM_DISABLE_CBT_VM {
             get {
@@ -7586,7 +7586,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This will disable Changed Block Tracking on the disks of the selected VMs. If you are using any third-party solutions to back up the VMs, they might be affected. Note that Changed Block Tracking cannot be enabled again from [XenCenter]. Do you want to continue?.
+        ///   Looks up a localized string similar to This will disable Changed Block Tracking on the disks of the selected VMs. If you are using any third-party solutions to back up the VMs, they might be affected. Note that Changed Block Tracking cannot be enabled again from [XC-ng]. Do you want to continue?.
         /// </summary>
         public static string CONFIRM_DISABLE_CBT_VMS {
             get {
@@ -7883,7 +7883,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to restart the toolstack on the selected servers? Note that [XenCenter] will temporarily lose connection to them..
+        ///   Looks up a localized string similar to Are you sure you want to restart the toolstack on the selected servers? Note that [XC-ng] will temporarily lose connection to them..
         /// </summary>
         public static string CONFIRM_RESTART_TOOLSTACK_MANY_SERVERS {
             get {
@@ -7892,7 +7892,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to restart the toolstack on &apos;{0}&apos;? Note that [XenCenter] will temporarily lose connection to the server..
+        ///   Looks up a localized string similar to Are you sure you want to restart the toolstack on &apos;{0}&apos;? Note that [XC-ng] will temporarily lose connection to the server..
         /// </summary>
         public static string CONFIRM_RESTART_TOOLSTACK_ONE_SERVER {
             get {
@@ -11142,7 +11142,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] has detected that an SR already exists on this LUN. This SR is not currently in use by &apos;{0}&apos;,  would you like to attach it?.
+        ///   Looks up a localized string similar to [XC-ng] has detected that an SR already exists on this LUN. This SR is not currently in use by &apos;{0}&apos;,  would you like to attach it?.
         /// </summary>
         public static string DETACHED_ISCI_DETECTED {
             get {
@@ -13846,7 +13846,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To access your saved session it is required that you enter the master password when starting [XenCenter].
+        ///   Looks up a localized string similar to To access your saved session it is required that you enter the master password when starting [XC-ng].
         /// </summary>
         public static string ENTER_MASTER_PASSWORD_TO_ACCESS_SETTINGS_TT {
             get {
@@ -13927,7 +13927,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] has encountered a problem connecting to this server..
+        ///   Looks up a localized string similar to [XC-ng] has encountered a problem connecting to this server..
         /// </summary>
         public static string ERROR_CONNECTING_BLURB {
             get {
@@ -14449,7 +14449,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] has encountered a problem launching PuTTY..
+        ///   Looks up a localized string similar to [XC-ng] has encountered a problem launching PuTTY..
         /// </summary>
         public static string ERROR_PUTTY_LAUNCHING {
             get {
@@ -14667,7 +14667,7 @@ namespace XenAdmin {
         /// <summary>
         ///   Looks up a localized string similar to An existing {0} SR was found on the selected LUN. Click Reattach to use the existing SR, or click Format to destroy any data present on the disk and create a new {1} SR.
         ///
-        ///Warning: to prevent data loss you must ensure that the LUN is not in use by any other system, including [XenServer] hosts that are not connected to [XenCenter]..
+        ///Warning: to prevent data loss you must ensure that the LUN is not in use by any other system, including [XenServer] hosts that are not connected to [XC-ng]..
         /// </summary>
         public static string EXISTING_SR_FOUND_ON_LUN {
             get {
@@ -16560,7 +16560,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This version of [XenCenter] is out of date and cannot connect to {0}..
+        ///   Looks up a localized string similar to This version of [XC-ng] is out of date and cannot connect to {0}..
         /// </summary>
         public static string GUI_OUT_OF_DATE {
             get {
@@ -16571,7 +16571,7 @@ namespace XenAdmin {
         /// <summary>
         ///   Looks up a localized string similar to 
         ///
-        ///You can get a compatible version of [XenCenter] from the following location:.
+        ///You can get a compatible version of [XC-ng] from the following location:.
         /// </summary>
         public static string GUI_OUT_OF_DATE_MORE {
             get {
@@ -17447,7 +17447,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Authentication with [Company] Insight Services is required in order to enable this feature. [XenCenter] detected a previous successful authentication for one of other connected pools. You can choose to re-use it or authenticate again..
+        ///   Looks up a localized string similar to Authentication with [Company] Insight Services is required in order to enable this feature. [XC-ng] detected a previous successful authentication for one of other connected pools. You can choose to re-use it or authenticate again..
         /// </summary>
         public static string HEALTHCHECK_AUTHENTICATION_RUBRIC_EXISTING_TOKEN {
             get {
@@ -19232,7 +19232,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This server version is incompatible with [XenCenter]..
+        ///   Looks up a localized string similar to This server version is incompatible with [XC-ng]..
         /// </summary>
         public static string INCOMPATIBLE_PRODUCTS {
             get {
@@ -21508,7 +21508,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remo&amp;ve from [XenCenter].
+        ///   Looks up a localized string similar to Remo&amp;ve from [XC-ng].
         /// </summary>
         public static string MAINWINDOW_REMOVE_HOST {
             get {
@@ -22563,7 +22563,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] - Error.
+        ///   Looks up a localized string similar to [XC-ng] - Error.
         /// </summary>
         public static string MESSAGEBOX_PROGRAM_UNEXPECTED_TITLE {
             get {
@@ -23386,7 +23386,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You are reconfiguring the primary management interface.  If the new settings are incorrect then [XenCenter] may permanently lose the connection to the server.
+        ///   Looks up a localized string similar to You are reconfiguring the primary management interface.  If the new settings are incorrect then [XC-ng] may permanently lose the connection to the server.
         ///
         ///You should only proceed if you have verified that these settings are correct..
         /// </summary>
@@ -23397,7 +23397,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You are reconfiguring the primary management interface.  If the new settings are incorrect then [XenCenter] may permanently lose the connection to the server, or pool members may be unable to contact each other.
+        ///   Looks up a localized string similar to You are reconfiguring the primary management interface.  If the new settings are incorrect then [XC-ng] may permanently lose the connection to the server, or pool members may be unable to contact each other.
         ///
         ///You should only proceed if you have verified that these settings are correct..
         /// </summary>
@@ -23944,7 +23944,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New [XenCenter] version required.
+        ///   Looks up a localized string similar to New [XC-ng] version required.
         /// </summary>
         public static string NEW_XENCENTER_REQUIRED_INFO {
             get {
@@ -23971,7 +23971,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is a newer version of [XenCenter] available. Please contact your support representative..
+        ///   Looks up a localized string similar to There is a newer version of [XC-ng] available. Please contact your support representative..
         /// </summary>
         public static string NEWER_GUI_AVAILABLE {
             get {
@@ -24687,7 +24687,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Warning: you must ensure that the following SR is not in use by any server not connected to [XenCenter]. Failure to do so may result in data loss.
+        ///   Looks up a localized string similar to Warning: you must ensure that the following SR is not in use by any server not connected to [XC-ng]. Failure to do so may result in data loss.
         ///
         ///SR:  {0}
         ///
@@ -26180,7 +26180,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] can free up {0} by removing residual update files. Do you want to proceed with the cleanup?.
+        ///   Looks up a localized string similar to [XC-ng] can free up {0} by removing residual update files. Do you want to proceed with the cleanup?.
         /// </summary>
         public static string NOT_ENOUGH_SPACE_MESSAGE_CLEANUP {
             get {
@@ -26647,7 +26647,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Created by [XenCenter] Disk Image Import.
+        ///   Looks up a localized string similar to Created by [XC-ng] Disk Image Import.
         /// </summary>
         public static string OVF_CREATED {
             get {
@@ -26893,7 +26893,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This version requires [XenCenter] {0} or newer.
+        ///   Looks up a localized string similar to This version requires [XC-ng] {0} or newer.
         /// </summary>
         public static string PATCH_NEEDS_NEW_XENCENTER {
             get {
@@ -27719,7 +27719,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] is now downloading your update and uploading it to the servers specified in the previous step.
+        ///   Looks up a localized string similar to [XC-ng] is now downloading your update and uploading it to the servers specified in the previous step.
         ///Please wait for these operations to complete, then click Next to continue with the installation..
         /// </summary>
         public static string PATCHINGWIZARD_UPLOADPAGE_MESSAGE_DOWNLOAD_AND_UPLOAD {
@@ -27729,7 +27729,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] is now uploading your update to the servers specified in the previous step.
+        ///   Looks up a localized string similar to [XC-ng] is now uploading your update to the servers specified in the previous step.
         ///Please wait for this operation to complete, then click Next to continue with the installation..
         /// </summary>
         public static string PATCHINGWIZARD_UPLOADPAGE_MESSAGE_ONLY_UPLOAD {
@@ -28182,7 +28182,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adjust settings for plugins to [XenCenter].
+        ///   Looks up a localized string similar to Adjust settings for plugins to [XC-ng].
         /// </summary>
         public static string PLUGINS_DESC {
             get {
@@ -28785,7 +28785,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] version.
+        ///   Looks up a localized string similar to [XC-ng] version.
         /// </summary>
         public static string PROBLEM_XENCENTER_VERSION_TITLE {
             get {
@@ -30902,7 +30902,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This server is using an API that is incompatible with [XenCenter]..
+        ///   Looks up a localized string similar to This server is using an API that is incompatible with [XC-ng]..
         /// </summary>
         public static string SERVER_API_INCOMPATIBLE {
             get {
@@ -31028,7 +31028,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This version of [XenCenter] supports [XenServer] [BRANDING_VERSION_6_2] onwards..
+        ///   Looks up a localized string similar to This version of [XC-ng] supports [XenServer] [BRANDING_VERSION_6_2] onwards..
         /// </summary>
         public static string SERVER_TOO_OLD {
             get {
@@ -31037,7 +31037,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use an earlier version of [XenCenter] to manage this server..
+        ///   Looks up a localized string similar to Use an earlier version of [XC-ng] to manage this server..
         /// </summary>
         public static string SERVER_TOO_OLD_SOLUTION {
             get {
@@ -31857,7 +31857,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check that the proxy server on &apos;{0}&apos; is configured correctly and [XenCenter]&apos;s connection settings are correct and try again..
+        ///   Looks up a localized string similar to Check that the proxy server on &apos;{0}&apos; is configured correctly and [XC-ng]&apos;s connection settings are correct and try again..
         /// </summary>
         public static string SOLUTION_CHECK_PROXY {
             get {
@@ -31920,7 +31920,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Some errors were encountered. See the [XenCenter] log for more information..
+        ///   Looks up a localized string similar to Some errors were encountered. See the [XC-ng] log for more information..
         /// </summary>
         public static string SOME_ERRORS_ENCOUNTERED {
             get {
@@ -31965,7 +31965,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This SR cannot be destroyed with [XenCenter]..
+        ///   Looks up a localized string similar to This SR cannot be destroyed with [XC-ng]..
         /// </summary>
         public static string SR_CANNOT_BE_DESTROYED_WITH_XC {
             get {
@@ -31974,7 +31974,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This SR cannot be detached with [XenCenter]..
+        ///   Looks up a localized string similar to This SR cannot be detached with [XC-ng]..
         /// </summary>
         public static string SR_CANNOT_BE_DETACHED_WITH_XC {
             get {
@@ -31983,7 +31983,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This SR cannot be forgotten with [XenCenter]..
+        ///   Looks up a localized string similar to This SR cannot be forgotten with [XC-ng]..
         /// </summary>
         public static string SR_CANNOT_BE_FORGOTTEN_WITH_XC {
             get {
@@ -32238,7 +32238,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Creating this SR-IOV network will have effects on network connection status and [XenCenter] connections to the pool will temporarily be disturbed.
+        ///   Looks up a localized string similar to Creating this SR-IOV network will have effects on network connection status and [XC-ng] connections to the pool will temporarily be disturbed.
         /// </summary>
         public static string SRIOV_NETWORK_CREATE_WILL_DISTURB_CONNECTION {
             get {
@@ -33824,7 +33824,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] was unable to import a saved search from file &apos;{0}&apos;.
+        ///   Looks up a localized string similar to [XC-ng] was unable to import a saved search from file &apos;{0}&apos;.
         ///
         ///Verify that the file is a valid {1} export..
         /// </summary>
@@ -33835,7 +33835,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] will uncompress the file to &apos;{0}&apos;. After uncompression the original file &apos;{1}&apos; will be deleted. Continue?.
+        ///   Looks up a localized string similar to [XC-ng] will uncompress the file to &apos;{0}&apos;. After uncompression the original file &apos;{1}&apos; will be deleted. Continue?.
         /// </summary>
         public static string UNCOMPRESS_APPLIANCE_DESCRIPTION {
             get {
@@ -34093,7 +34093,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Automatically check for [XenServer] or [XenCenter] updates.
+        ///   Looks up a localized string similar to Automatically check for [XenServer] or [XC-ng] updates.
         /// </summary>
         public static string UPDATES_DESC {
             get {
@@ -34247,7 +34247,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download [XenCenter].
+        ///   Looks up a localized string similar to Download [XC-ng].
         /// </summary>
         public static string UPDATES_DOWNLOAD_REQUIRED_XENCENTER {
             get {
@@ -34656,7 +34656,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] version {0} or newer is required..
+        ///   Looks up a localized string similar to [XC-ng] version {0} or newer is required..
         /// </summary>
         public static string UPDATES_WIZARD_NEWER_XENCENTER_REQUIRED {
             get {
@@ -34665,7 +34665,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ensure you have upgraded [XenCenter] before upgrading [XenServer]..
+        ///   Looks up a localized string similar to Ensure you have upgraded [XC-ng] before upgrading [XenServer]..
         /// </summary>
         public static string UPDATES_WIZARD_NEWER_XENCENTER_WARNING {
             get {
@@ -35623,7 +35623,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] was unable to authorize the action as {0}. See the application log files for more information..
+        ///   Looks up a localized string similar to [XC-ng] was unable to authorize the action as {0}. See the application log files for more information..
         /// </summary>
         public static string USER_AUTHORIZATION_FAILED {
             get {
@@ -36064,7 +36064,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] version {0} (build {1}.{2}) {3}-bit.
+        ///   Looks up a localized string similar to [XC-ng] version {0} (build {1}.{2}) {3}-bit.
         /// </summary>
         public static string VERSION_NUMBER {
             get {
@@ -39680,7 +39680,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter].
+        ///   Looks up a localized string similar to [XC-ng].
         /// </summary>
         public static string XENCENTER {
             get {
@@ -39689,7 +39689,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] Settings|*.config.
+        ///   Looks up a localized string similar to [XC-ng] Settings|*.config.
         /// </summary>
         public static string XENCENTER_CONFIG_FILTER {
             get {
@@ -39698,7 +39698,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Newer [XenCenter] Available.
+        ///   Looks up a localized string similar to Newer [XC-ng] Available.
         /// </summary>
         public static string XENCENTER_NEWER_AVAILABLE {
             get {
@@ -39707,7 +39707,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [XenCenter] version check.
+        ///   Looks up a localized string similar to [XC-ng] version check.
         /// </summary>
         public static string XENCENTER_VERSION_CHECK_DESCRIPTION {
             get {

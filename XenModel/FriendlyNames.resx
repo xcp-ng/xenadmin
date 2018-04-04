@@ -613,7 +613,7 @@
     <value>Boot loader configuration</value>
   </data>
   <data name="Label-host.system_status-client-logs" xml:space="preserve">
-    <value>[XenCenter] logs</value>
+    <value>[XC-ng] logs</value>
   </data>
   <data name="Label-host.system_status-device-model" xml:space="preserve">
     <value>Device model</value>
@@ -1056,16 +1056,16 @@
     <value>Pool '{0}' successfully accessed the HA metadata disk after a previous failure and can perform a successful recovery in the event of an HA failover.</value>
   </data>
   <data name="Message.body-multipath_periodic_alert" xml:space="preserve">
-    <value>Server '{0}' has experienced a change in multipath status. Currently {1} out of {2} paths are active. See the [XenCenter] logs for the full details.</value>
+    <value>Server '{0}' has experienced a change in multipath status. Currently {1} out of {2} paths are active. See the [XC-ng] logs for the full details.</value>
   </data>
   <data name="Message.body-multipath_periodic_alert_healthy" xml:space="preserve">
-    <value>Servers in pool '{0}' have experienced a change in multipath status. Currently all paths are active. See the [XenCenter] logs for the full details.</value>
+    <value>Servers in pool '{0}' have experienced a change in multipath status. Currently all paths are active. See the [XC-ng] logs for the full details.</value>
   </data>
   <data name="Message.body-multipath_periodic_alert_healthy_standalone" xml:space="preserve">
-    <value>Server '{0}' has experienced a change in multipath status. Currently all paths are active. See the [XenCenter] logs for the full details.</value>
+    <value>Server '{0}' has experienced a change in multipath status. Currently all paths are active. See the [XC-ng] logs for the full details.</value>
   </data>
   <data name="Message.body-multipath_periodic_alert_summary" xml:space="preserve">
-    <value>Servers in pool '{0}' have experienced a change in multipath status. Currently the following servers have inactive paths: {1}. See the [XenCenter] logs for the full details.</value>
+    <value>Servers in pool '{0}' have experienced a change in multipath status. Currently the following servers have inactive paths: {1}. See the [XC-ng] logs for the full details.</value>
   </data>
   <data name="Message.body-pbd_plug_failed_on_server_start" xml:space="preserve">
     <value>A storage repository could not be attached when server '{0}' started.</value>

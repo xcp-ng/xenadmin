@@ -210,7 +210,7 @@
     <value>1</value>
   </data>
   <data name="BlurbLabel.Text" xml:space="preserve">
-    <value>是否希望 [XenCenter] 定期在 Internet 中检查 [XenServer] 更新和新版本的 [XenCenter]?</value>
+    <value>是否希望 [XC-ng] 定期在 Internet 中检查 [XenServer] 更新和新版本的 [XC-ng]?</value>
   </data>
   <data name="&gt;&gt;BlurbLabel.Name" xml:space="preserve">
     <value>BlurbLabel</value>
@@ -357,7 +357,7 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>[XenCenter]</value>
+    <value>[XC-ng]</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>AllowUpdatesDialog</value>

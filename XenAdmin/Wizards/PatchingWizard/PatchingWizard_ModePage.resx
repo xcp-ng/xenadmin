@@ -274,7 +274,7 @@
     <value>1</value>
   </data>
   <data name="AutomaticRadioButton.Text" xml:space="preserve">
-    <value>&amp;Allow [XenCenter] to carry out the post-update tasks as soon as the update has been applied.</value>
+    <value>&amp;Allow [XC-ng] to carry out the post-update tasks as soon as the update has been applied.</value>
   </data>
   <data name="&gt;&gt;AutomaticRadioButton.Name" xml:space="preserve">
     <value>AutomaticRadioButton</value>
@@ -334,7 +334,7 @@
     <value>5</value>
   </data>
   <data name="removeUpdateFileCheckBox.Text" xml:space="preserve">
-    <value>Allow [XenCenter] to &amp;delete the update installation file</value>
+    <value>Allow [XC-ng] to &amp;delete the update installation file</value>
   </data>
   <data name="&gt;&gt;removeUpdateFileCheckBox.Name" xml:space="preserve">
     <value>removeUpdateFileCheckBox</value>

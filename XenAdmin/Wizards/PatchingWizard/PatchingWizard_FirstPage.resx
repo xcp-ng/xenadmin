@@ -224,7 +224,7 @@
     <value>6</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Ensure that you are logged in to [XenCenter] as a Pool Administrator or Pool Operator, or using a local root account.</value>
+    <value>Ensure that you are logged in to [XC-ng] as a Pool Administrator or Pool Operator, or using a local root account.</value>
   </data>
   <data name="label9.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>

@@ -226,7 +226,7 @@
     <value>0</value>
   </data>
   <data name="labelIntro.Text" xml:space="preserve">
-    <value>プラグインを使用して [XenCenter] の機能を拡張できます。</value>
+    <value>プラグインを使用して [XC-ng] の機能を拡張できます。</value>
   </data>
   <data name="&gt;&gt;labelIntro.Name" xml:space="preserve">
     <value>labelIntro</value>
@@ -262,7 +262,7 @@
     <value>7</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>ネット上の [XenCenter] プラグイン</value>
+    <value>ネット上の [XC-ng] プラグイン</value>
   </data>
   <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
     <value>linkLabel1</value>

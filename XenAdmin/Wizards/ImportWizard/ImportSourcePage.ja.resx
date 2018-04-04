@@ -364,7 +364,7 @@
     <value>1</value>
   </data>
   <data name="autoHeightLabel1.Text" xml:space="preserve">
-    <value>このパッケージは暗号化されています。[XenCenter] では、暗号化された OVF/OVA パッケージをインポートすることはできません。ほかのファイルを選択してください。</value>
+    <value>このパッケージは暗号化されています。[XC-ng] では、暗号化された OVF/OVA パッケージをインポートすることはできません。ほかのファイルを選択してください。</value>
   </data>
   <data name="autoHeightLabel1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>

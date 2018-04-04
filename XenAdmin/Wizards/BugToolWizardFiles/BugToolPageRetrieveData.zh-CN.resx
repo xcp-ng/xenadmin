@@ -145,7 +145,7 @@
     <value>1</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>[XenCenter] 现在正在收集状态报告。其中包括来自每个指定服务器的报告以及 [XenCenter] 日志(如果已在上一步中指定)。
+    <value>[XC-ng] 现在正在收集状态报告。其中包括来自每个指定服务器的报告以及 [XC-ng] 日志(如果已在上一步中指定)。
 
 要收集新的状态报告或更改报告中包含的项目，请按“上一步”按钮。返回此步骤后，将收集新报告。</value>
   </data>

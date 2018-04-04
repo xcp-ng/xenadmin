@@ -157,7 +157,7 @@
     <value>0</value>
   </data>
   <data name="AllowXenCenterUpdatesCheckBox.Text" xml:space="preserve">
-    <value>检查新 [XenCenter] 版本(&amp;N)</value>
+    <value>检查新 [XC-ng] 版本(&amp;N)</value>
   </data>
   <data name="&gt;&gt;AllowXenCenterUpdatesCheckBox.Name" xml:space="preserve">
     <value>AllowXenCenterUpdatesCheckBox</value>
@@ -190,7 +190,7 @@
     <value>2</value>
   </data>
   <data name="XenCenterGroupBox.Text" xml:space="preserve">
-    <value>自动检查 [XenCenter] 更新</value>
+    <value>自动检查 [XC-ng] 更新</value>
   </data>
   <data name="&gt;&gt;XenCenterGroupBox.Name" xml:space="preserve">
     <value>XenCenterGroupBox</value>
@@ -337,7 +337,7 @@
     <value>3</value>
   </data>
   <data name="UpdatesBlurb.Text" xml:space="preserve">
-    <value>可以将 [XenCenter] 配置为定期检查可用更新，并在找到可供下载的更新或新 [XenServer] 版本时提示您。</value>
+    <value>可以将 [XC-ng] 配置为定期检查可用更新，并在找到可供下载的更新或新 [XenServer] 版本时提示您。</value>
   </data>
   <data name="&gt;&gt;UpdatesBlurb.Name" xml:space="preserve">
     <value>UpdatesBlurb</value>

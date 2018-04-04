@@ -36,11 +36,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("[XenCenter]")]
-[assembly: AssemblyDescription("[Company] [XenCenter]")]
+[assembly: AssemblyTitle("[XC-ng]")]
+[assembly: AssemblyDescription("[Company] [XC-ng]")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("[Company]")]
-[assembly: AssemblyProduct("[XenCenter]")]
+[assembly: AssemblyProduct("[XC-ng]")]
 [assembly: AssemblyCopyright("[BRANDING_COPYRIGHT]")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

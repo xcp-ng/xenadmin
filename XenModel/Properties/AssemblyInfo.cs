@@ -38,10 +38,10 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("XenModel")]
-[assembly: AssemblyDescription("[Company] [XenCenter]")]
+[assembly: AssemblyDescription("[Company] [XC-ng]")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("[Company]")]
-[assembly: AssemblyProduct("[XenCenter]")]
+[assembly: AssemblyProduct("[XC-ng]")]
 [assembly: AssemblyCopyright("[BRANDING_COPYRIGHT]")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

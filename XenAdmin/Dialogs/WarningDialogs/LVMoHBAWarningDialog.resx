@@ -580,7 +580,7 @@
     <value>5</value>
   </data>
   <data name="labelWarning.Text" xml:space="preserve">
-    <value>To prevent data loss you must ensure that the LUN is not in use by any other system, including [XenServer] hosts that are not connected to [XenCenter].</value>
+    <value>To prevent data loss you must ensure that the LUN is not in use by any other system, including [XenServer] hosts that are not connected to [XC-ng].</value>
   </data>
   <data name="&gt;&gt;labelWarning.Name" xml:space="preserve">
     <value>labelWarning</value>

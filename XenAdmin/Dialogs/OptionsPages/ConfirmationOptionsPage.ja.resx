@@ -151,7 +151,7 @@
     <value>0</value>
   </data>
   <data name="labelBlurb.Text" xml:space="preserve">
-    <value>'通知' ビューの 1 つまたは複数のアラート、アップデート、またはイベントをクリアするたびに表示する警告を [XenCenter] で構成できます。</value>
+    <value>'通知' ビューの 1 つまたは複数のアラート、アップデート、またはイベントをクリアするたびに表示する警告を [XC-ng] で構成できます。</value>
   </data>
   <data name="&gt;&gt;labelBlurb.Name" xml:space="preserve">
     <value>labelBlurb</value>

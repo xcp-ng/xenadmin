@@ -224,7 +224,7 @@
     <value>6</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>确保以池管理员或池操作员身份或者使用本地 root 帐户登录 [XenCenter]。</value>
+    <value>确保以池管理员或池操作员身份或者使用本地 root 帐户登录 [XC-ng]。</value>
   </data>
   <data name="label9.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>

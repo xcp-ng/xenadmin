@@ -319,7 +319,7 @@
     <value>0</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Do you want [XenCenter] to insert the [XCP-ng product] Tools DVD into your VM's DVD drive and take you to the VM's console?
+    <value>Do you want [XC-ng] to insert the [XCP-ng product] Tools DVD into your VM's DVD drive and take you to the VM's console?
 
 Any disk in your VM's DVD drive will be ejected when installing [XCP-ng product] Tools.</value>
   </data>

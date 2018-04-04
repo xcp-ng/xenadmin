@@ -364,7 +364,7 @@
     <value>1</value>
   </data>
   <data name="autoHeightLabel1.Text" xml:space="preserve">
-    <value>The selected package is encrypted. [XenCenter] does not support import of encrypted OVF/OVA packages. Please select a different file.</value>
+    <value>The selected package is encrypted. [XC-ng] does not support import of encrypted OVF/OVA packages. Please select a different file.</value>
   </data>
   <data name="autoHeightLabel1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>

@@ -226,7 +226,7 @@
     <value>0</value>
   </data>
   <data name="labelIntro.Text" xml:space="preserve">
-    <value>可以使用插件扩展 [XenCenter] 的功能。</value>
+    <value>可以使用插件扩展 [XC-ng] 的功能。</value>
   </data>
   <data name="&gt;&gt;labelIntro.Name" xml:space="preserve">
     <value>labelIntro</value>
@@ -262,7 +262,7 @@
     <value>7</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>联机查找 [XenCenter] 插件</value>
+    <value>联机查找 [XC-ng] 插件</value>
   </data>
   <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
     <value>linkLabel1</value>

@@ -283,7 +283,7 @@
     <value>0</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>输入有助于以后识别虚拟机的名称。此名称可以描述其软件和硬件，例如 RHEL DHCP 服务器或 Exchange 2007 客户端访问服务器。此名称还将在 [XenCenter] 的“资源”窗格中显示，以后可以更改。
+    <value>输入有助于以后识别虚拟机的名称。此名称可以描述其软件和硬件，例如 RHEL DHCP 服务器或 Exchange 2007 客户端访问服务器。此名称还将在 [XC-ng] 的“资源”窗格中显示，以后可以更改。
 
 如果需要，还可以添加更加详细的 VM 说明。</value>
   </data>

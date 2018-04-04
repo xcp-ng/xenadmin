@@ -583,7 +583,7 @@
     <value>5</value>
   </data>
   <data name="labelWarning.Text" xml:space="preserve">
-    <value>为防止数据丢失，必须确保 LUN 未被任何其他系统使用，包括未连接到 [XenCenter] 的 [XenServer] 主机。</value>
+    <value>为防止数据丢失，必须确保 LUN 未被任何其他系统使用，包括未连接到 [XC-ng] 的 [XenServer] 主机。</value>
   </data>
   <data name="&gt;&gt;labelWarning.Name" xml:space="preserve">
     <value>labelWarning</value>

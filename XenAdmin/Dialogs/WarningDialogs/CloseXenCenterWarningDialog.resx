@@ -184,7 +184,7 @@
     <value>4</value>
   </data>
   <data name="ExitButton.Text" xml:space="preserve">
-    <value>E&amp;xit [XenCenter] anyway</value>
+    <value>E&amp;xit [XC-ng] anyway</value>
   </data>
   <data name="&gt;&gt;ExitButton.Name" xml:space="preserve">
     <value>ExitButton</value>
@@ -223,7 +223,7 @@
     <value>0</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Unfinished tasks may not complete successfully if you exit [XenCenter] before they finish.</value>
+    <value>Unfinished tasks may not complete successfully if you exit [XC-ng] before they finish.</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -395,7 +395,7 @@
     <value>1</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>[XenCenter] is still performing the following tasks:</value>
+    <value>[XC-ng] is still performing the following tasks:</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -428,7 +428,7 @@
     <value>12, 12, 12, 12</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>[XenCenter]</value>
+    <value>[XC-ng]</value>
   </data>
   <data name="&gt;&gt;columnExpander.Name" xml:space="preserve">
     <value>columnExpander</value>

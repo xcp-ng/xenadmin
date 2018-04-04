@@ -334,7 +334,7 @@
     <value>15</value>
   </data>
   <data name="VersionLabel.Text" xml:space="preserve">
-    <value>[XenCenter] 1.2.3 (build 4567)</value>
+    <value>[XC-ng] 1.2.3 (build 4567)</value>
   </data>
   <data name="&gt;&gt;VersionLabel.Name" xml:space="preserve">
     <value>VersionLabel</value>
@@ -370,7 +370,7 @@
     <value>21</value>
   </data>
   <data name="showAgainCheckBox.Text" xml:space="preserve">
-    <value>打开 [XenCenter] 时显示此对话框(&amp;S)</value>
+    <value>打开 [XC-ng] 时显示此对话框(&amp;S)</value>
   </data>
   <data name="showAgainCheckBox.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -472,7 +472,7 @@
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>关于 [XenCenter]</value>
+    <value>关于 [XC-ng]</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>AboutDialog</value>

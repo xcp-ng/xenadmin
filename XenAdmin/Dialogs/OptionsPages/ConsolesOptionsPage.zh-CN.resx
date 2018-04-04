@@ -781,7 +781,7 @@
     <value>4</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>可以使用各种键盘快捷方式和剪贴板选项配置 [XenCenter] 中的服务器和 VM 控制台，有些特定选项适用于支持远程桌面连接的 VM。</value>
+    <value>可以使用各种键盘快捷方式和剪贴板选项配置 [XC-ng] 中的服务器和 VM 控制台，有些特定选项适用于支持远程桌面连接的 VM。</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>

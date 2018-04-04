@@ -142,7 +142,7 @@
     <value>1</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>[XenCenter] は前の手順で指定したサーバーにアップデートをアップロードしています。
+    <value>[XC-ng] は前の手順で指定したサーバーにアップデートをアップロードしています。
 操作が完了するまで待ってから [次へ] をクリックしインストールを続行してください。</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">

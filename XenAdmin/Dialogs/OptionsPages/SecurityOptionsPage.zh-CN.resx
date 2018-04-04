@@ -262,7 +262,7 @@
     <value>0</value>
   </data>
   <data name="SSLLabel.Text" xml:space="preserve">
-    <value>可以将 [XenCenter] 配置为每次在托管服务器上找到新的或修改过的 SSL 证书时显示警告。</value>
+    <value>可以将 [XC-ng] 配置为每次在托管服务器上找到新的或修改过的 SSL 证书时显示警告。</value>
   </data>
   <data name="&gt;&gt;SSLLabel.Name" xml:space="preserve">
     <value>SSLLabel</value>

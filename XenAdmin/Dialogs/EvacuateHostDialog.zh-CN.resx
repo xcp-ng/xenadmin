@@ -433,7 +433,7 @@
     <value>1</value>
   </data>
   <data name="labelMasterBlurb.Text" xml:space="preserve">
-    <value>此服务器为池主服务器。进入维护模式时，将为池指定一个新的主服务器。[XenCenter] 将暂时中断与池的连接。</value>
+    <value>此服务器为池主服务器。进入维护模式时，将为池指定一个新的主服务器。[XC-ng] 将暂时中断与池的连接。</value>
   </data>
   <data name="&gt;&gt;labelMasterBlurb.Name" xml:space="preserve">
     <value>labelMasterBlurb</value>

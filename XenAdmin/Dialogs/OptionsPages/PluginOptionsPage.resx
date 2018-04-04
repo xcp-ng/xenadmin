@@ -226,7 +226,7 @@
     <value>0</value>
   </data>
   <data name="labelIntro.Text" xml:space="preserve">
-    <value>Plugins can be used to extend [XenCenter]'s functionality.</value>
+    <value>Plugins can be used to extend [XC-ng]'s functionality.</value>
   </data>
   <data name="&gt;&gt;labelIntro.Name" xml:space="preserve">
     <value>labelIntro</value>
@@ -262,7 +262,7 @@
     <value>7</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Find [XenCenter] plugins online</value>
+    <value>Find [XC-ng] plugins online</value>
   </data>
   <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
     <value>linkLabel1</value>

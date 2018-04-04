@@ -460,7 +460,7 @@
     <value>0</value>
   </data>
   <data name="labelTitle.Text" xml:space="preserve">
-    <value>[XenCenter] 提供了多种标记和组织资源的方法。通过文件夹和标记等功能，可以在所连服务器之间对资源进行快速分组和管理。</value>
+    <value>[XC-ng] 提供了多种标记和组织资源的方法。通过文件夹和标记等功能，可以在所连服务器之间对资源进行快速分组和管理。</value>
   </data>
   <data name="&gt;&gt;labelTitle.Name" xml:space="preserve">
     <value>labelTitle</value>

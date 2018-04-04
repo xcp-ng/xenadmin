@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VirtualTreeView>
-  <node text="[XenCenter]" imageindex="Home">
+  <node text="[XC-ng]" imageindex="Home">
     <node text="Hottub" imageindex="PoolConnected" tag="Hottub">
       <node text="inflames" imageindex="HostConnected" tag="inflames">
         <node text="Windows Server 2003 x64 (1)" imageindex="VmRunning" tag="Windows Server 2003 x64 (1)" />

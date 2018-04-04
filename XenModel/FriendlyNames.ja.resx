@@ -610,7 +610,7 @@
     <value>ブート ローダー構成</value>
   </data>
   <data name="Label-host.system_status-client-logs" xml:space="preserve">
-    <value>[XenCenter] ログ</value>
+    <value>[XC-ng] ログ</value>
   </data>
   <data name="Label-host.system_status-device-model" xml:space="preserve">
     <value>デバイスのモデル</value>
@@ -1053,16 +1053,16 @@
     <value>プール '{0}' の高可用性メタデータ ディスクへのアクセスが復元されました。これにより、サーバー障害からの回復が正しく実行されるようになりました。</value>
   </data>
   <data name="Message.body-multipath_periodic_alert" xml:space="preserve">
-    <value>サーバー '{0}' でマルチパスの状態に変更がありました。現在、{2} パス中 {1} パスがアクティブです。詳しくは、[XenCenter] のログを参照してください。</value>
+    <value>サーバー '{0}' でマルチパスの状態に変更がありました。現在、{2} パス中 {1} パスがアクティブです。詳しくは、[XC-ng] のログを参照してください。</value>
   </data>
   <data name="Message.body-multipath_periodic_alert_healthy" xml:space="preserve">
-    <value>プール '{0}' のサーバーでマルチパスの状態に変更がありました。現在、すべてのパスがアクティブです。詳しくは、[XenCenter] のログを参照してください。</value>
+    <value>プール '{0}' のサーバーでマルチパスの状態に変更がありました。現在、すべてのパスがアクティブです。詳しくは、[XC-ng] のログを参照してください。</value>
   </data>
   <data name="Message.body-multipath_periodic_alert_healthy_standalone" xml:space="preserve">
-    <value>サーバー '{0}' でマルチパスの状態に変更がありました。現在、すべてのパスがアクティブです。詳しくは、[XenCenter] のログを参照してください。</value>
+    <value>サーバー '{0}' でマルチパスの状態に変更がありました。現在、すべてのパスがアクティブです。詳しくは、[XC-ng] のログを参照してください。</value>
   </data>
   <data name="Message.body-multipath_periodic_alert_summary" xml:space="preserve">
-    <value>プール '{0}' のサーバーでマルチパスの状態に変更がありました。現在、次のサーバーにアクティブでないパスがあります。{1}。詳しくは、[XenCenter] のログを参照してください。</value>
+    <value>プール '{0}' のサーバーでマルチパスの状態に変更がありました。現在、次のサーバーにアクティブでないパスがあります。{1}。詳しくは、[XC-ng] のログを参照してください。</value>
   </data>
   <data name="Message.body-pbd_plug_failed_on_server_start" xml:space="preserve">
     <value>サーバー '{0}' の起動時にストレージリポジトリを接続できませんでした。</value>

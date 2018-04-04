@@ -151,7 +151,7 @@
     <value>0</value>
   </data>
   <data name="labelBlurb.Text" xml:space="preserve">
-    <value>You can configure [XenCenter] to display a warning whenever you dismiss one or more alerts, updates, or events on the 'Notifications' view.</value>
+    <value>You can configure [XC-ng] to display a warning whenever you dismiss one or more alerts, updates, or events on the 'Notifications' view.</value>
   </data>
   <data name="&gt;&gt;labelBlurb.Name" xml:space="preserve">
     <value>labelBlurb</value>

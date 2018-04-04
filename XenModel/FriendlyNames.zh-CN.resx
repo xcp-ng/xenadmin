@@ -610,7 +610,7 @@
     <value>引导加载程序配置</value>
   </data>
   <data name="Label-host.system_status-client-logs" xml:space="preserve">
-    <value>[XenCenter] 日志</value>
+    <value>[XC-ng] 日志</value>
   </data>
   <data name="Label-host.system_status-device-model" xml:space="preserve">
     <value>设备型号</value>
@@ -1053,16 +1053,16 @@
     <value>池“{0}”在上一次故障后已成功访问过高可用性元数据磁盘，如果发生高可用性故障转移，可以成功进行恢复。</value>
   </data>
   <data name="Message.body-multipath_periodic_alert" xml:space="preserve">
-    <value>服务器“{0}”的多路径状态发生变化。在 {2} 条路径中，当前有 {1} 条处于活动状态。有关完整详细信息，请参阅 [XenCenter] 日志。</value>
+    <value>服务器“{0}”的多路径状态发生变化。在 {2} 条路径中，当前有 {1} 条处于活动状态。有关完整详细信息，请参阅 [XC-ng] 日志。</value>
   </data>
   <data name="Message.body-multipath_periodic_alert_healthy" xml:space="preserve">
-    <value>池“{0}”中服务器的多路径状态发生变化。当前所有路径均处于活动状态。有关完整详细信息，请参阅 [XenCenter] 日志。</value>
+    <value>池“{0}”中服务器的多路径状态发生变化。当前所有路径均处于活动状态。有关完整详细信息，请参阅 [XC-ng] 日志。</value>
   </data>
   <data name="Message.body-multipath_periodic_alert_healthy_standalone" xml:space="preserve">
-    <value>服务器“{0}”的多路径状态发生变化。当前所有路径均处于活动状态。有关完整详细信息，请参阅 [XenCenter] 日志。</value>
+    <value>服务器“{0}”的多路径状态发生变化。当前所有路径均处于活动状态。有关完整详细信息，请参阅 [XC-ng] 日志。</value>
   </data>
   <data name="Message.body-multipath_periodic_alert_summary" xml:space="preserve">
-    <value>池“{0}”中服务器的多路径状态发生变化。以下服务器当前具有非活动路径: {1}。有关完整详细信息，请参阅 [XenCenter] 日志。</value>
+    <value>池“{0}”中服务器的多路径状态发生变化。以下服务器当前具有非活动路径: {1}。有关完整详细信息，请参阅 [XC-ng] 日志。</value>
   </data>
   <data name="Message.body-pbd_plug_failed_on_server_start" xml:space="preserve">
     <value>服务器“{0}”启动时无法附加存储库。</value>

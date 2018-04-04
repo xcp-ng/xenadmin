@@ -955,7 +955,7 @@
     <value>状態レポートの作成が完了しました (エラーあり)。不完全な状態レポートが作成されました。</value>
   </data>
   <data name="ACTION_SYSTEM_STATUS_SUCCESSFUL_WITH_ERRORS_XCLOGS" xml:space="preserve">
-    <value>状態レポートの作成が完了しました (エラーあり)。[XenCenter] のログだけが作成されました。</value>
+    <value>状態レポートの作成が完了しました (エラーあり)。[XC-ng] のログだけが作成されました。</value>
   </data>
   <data name="ACTION_SYSTEM_STATUS_TITLE" xml:space="preserve">
     <value>システム状態の情報の取得</value>
@@ -1303,7 +1303,7 @@
     <value>アクティブ化(&amp;C)</value>
   </data>
   <data name="ACTIVATION_FAILED_MESSAGE" xml:space="preserve">
-    <value>[XenCenter] でアクティブ化サーバーと通信できません。
+    <value>[XC-ng] でアクティブ化サーバーと通信できません。
 
 インターネットに接続していない場合は、アクティブ化要求をファイルに
 保存しておくことができます。
@@ -1365,7 +1365,7 @@
     <value>アドレス</value>
   </data>
   <data name="ADDSERVER_PASS_NEW" xml:space="preserve">
-    <value>[XenCenter] では、このサーバー用に設定されている資格情報で認証できなくなりました。新しい資格情報を入力してください。</value>
+    <value>[XC-ng] では、このサーバー用に設定されている資格情報で認証できなくなりました。新しい資格情報を入力してください。</value>
   </data>
   <data name="ADD_CUSTOM_FIELD" xml:space="preserve">
     <value>カスタム フィールド '{0}' を追加します</value>
@@ -1641,7 +1641,7 @@ Active Directory ドメイン '{1}' から削除すると、このサーバー�
 続行しますか?</value>
   </data>
   <data name="AD_MASTER_UNAVAILABLE_BLURB" xml:space="preserve">
-    <value>[XenCenter] で現在の外部認証の構成を確立しています。お待ちください。</value>
+    <value>[XC-ng] で現在の外部認証の構成を確立しています。お待ちください。</value>
   </data>
   <data name="AD_NOT_CONFIGURED_BLURB" xml:space="preserve">
     <value>プール '{0}' の Active Directory は構成されていません。Active Directory 認証を有効にするには、[ドメインに追加] をクリックしてください。</value>
@@ -1890,7 +1890,7 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
   <data name="ALREADY_ATTACHED_ELSEWHERE" xml:space="preserve">
     <value>現在、SR '{0}' はほかに接続されています。この SR を '{1}' に接続しますか? 
 
-警告: [XenCenter] に接続していないほかのサーバーがこの SR を使用していないことを確認してください。データが失われる場合があります。</value>
+警告: [XC-ng] に接続していないほかのサーバーがこの SR を使用していないことを確認してください。データが失われる場合があります。</value>
   </data>
   <data name="ALREADY_CONNECTED" xml:space="preserve">
     <value>既にサーバー '{0}' に接続されています。</value>
@@ -2146,9 +2146,9 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
   <data name="BOND_CREATE_WILL_DISTURB_PRIMARY" xml:space="preserve">
     <value>このボンディングを作成すると、選択したいずれかの NIC 上の管理インターフェイスがボンディングに移動されます。
 
-- [XenCenter] とプール間の接続が一時的に切断されます。
+- [XC-ng] とプール間の接続が一時的に切断されます。
 
-- ネットワーク構成に問題があると、[XenCenter] でプールに再接続できなくなったり、プール メンバー間の通信が不能になったりします。</value>
+- ネットワーク構成に問題があると、[XC-ng] でプールに再接続できなくなったり、プール メンバー間の通信が不能になったりします。</value>
   </data>
   <data name="BOND_CREATE_WILL_DISTURB_SECONDARY" xml:space="preserve">
     <value>このボンディングを作成すると、選択した NIC 上のセカンダリ インターフェイスがボンディングに移動され、その間このインターフェイスによるトラフィックが中断されます。</value>
@@ -2168,20 +2168,20 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
 
 このボンディングを削除すると、ボンディング上の管理インターフェイスおよびセカンダリ インターフェイスがボンディングの最初のスレーブに移動されます。 
 
-- [XenCenter] とプール間の接続が一時的に切断されます。
+- [XC-ng] とプール間の接続が一時的に切断されます。
 
 - セカンダリ インターフェイスによるトラフィックが中断されます。
 
-- ネットワーク構成に問題があると、[XenCenter] でプールに再接続できなくなったり、プール メンバー間の通信が不能になったりします。</value>
+- ネットワーク構成に問題があると、[XC-ng] でプールに再接続できなくなったり、プール メンバー間の通信が不能になったりします。</value>
   </data>
   <data name="BOND_DELETE_WILL_DISTURB_PRIMARY" xml:space="preserve">
     <value>{0}
 
 このボンディングを削除すると、ボンディング上の管理インターフェイスがボンディングの最初のスレーブに移動されます。 
 
-- [XenCenter] とプール間の接続が一時的に切断されます。
+- [XC-ng] とプール間の接続が一時的に切断されます。
 
-- ネットワーク構成に問題があると、[XenCenter] でプールに再接続できなくなったり、プール メンバー間の通信が不能になったりします。</value>
+- ネットワーク構成に問題があると、[XC-ng] でプールに再接続できなくなったり、プール メンバー間の通信が不能になったりします。</value>
   </data>
   <data name="BOND_DELETE_WILL_DISTURB_SECONDARY" xml:space="preserve">
     <value>{0}
@@ -2204,7 +2204,7 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>アップグレード後に接続に問題が生じた SR があります。この問題を解決するには、SR を再接続してください。</value>
   </data>
   <data name="BROKEN_TOOLS_PROMPT" xml:space="preserve">
-    <value>接続に問題が生じた SR 上に [XCP-ng product] Tools ISO があるため、[XenCenter] によって修復が試行されます。続行しますか?</value>
+    <value>接続に問題が生じた SR 上に [XCP-ng product] Tools ISO があるため、[XC-ng] によって修復が試行されます。続行しますか?</value>
   </data>
   <data name="BUGTOOL_FILE_PREFIX" xml:space="preserve">
     <value>状態レポート -</value>
@@ -2413,7 +2413,7 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>この仮想ディスクは使用中であり削除できません。</value>
   </data>
   <data name="CANNOT_FIND_SR_WIZARD_TYPE" xml:space="preserve">
-    <value>[XenCenter] で種類 '{0}' の SR を構成できません。</value>
+    <value>[XC-ng] で種類 '{0}' の SR を構成できません。</value>
   </data>
   <data name="CANNOT_MIGRATE_VDI_NON_RUNNING_VM" xml:space="preserve">
     <value>この仮想ディスクは実行中でない仮想マシンに接続されているため、削除できません。</value>
@@ -2465,10 +2465,10 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>変更...</value>
   </data>
   <data name="CHANGED_MASTER_PASSWORD" xml:space="preserve">
-    <value>[XenCenter] のマスター パスワードが変更されました</value>
+    <value>[XC-ng] のマスター パスワードが変更されました</value>
   </data>
   <data name="CHANGED_MASTER_PASSWORD_LONG" xml:space="preserve">
-    <value>セッションを復元するために [XenCenter] のマスター パスワードが変更されました</value>
+    <value>セッションを復元するために [XC-ng] のマスター パスワードが変更されました</value>
   </data>
   <data name="CHANGED_SERVER_CD" xml:space="preserve">
     <value>Server CD の変更</value>
@@ -2554,7 +2554,7 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>Hotfix のアップグレード状態のチェック</value>
   </data>
   <data name="CHECKING_XENCENTER_VERSION" xml:space="preserve">
-    <value>[XenCenter] バージョンの確認</value>
+    <value>[XC-ng] バージョンの確認</value>
   </data>
   <data name="CHECK_WLB_ENABLED" xml:space="preserve">
     <value>プール '{0}' の WLB が有効になっています</value>
@@ -2763,10 +2763,10 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>破棄する(&amp;Y)</value>
   </data>
   <data name="CONFIRM_DISABLE_CBT_VM" xml:space="preserve">
-    <value>これにより、選択した VM のディスクで変更ブロック追跡が無効になります。VM のバックアップ作成にサードパーティのソリューションを使用している場合、影響を受けることがあります。[XenCenter] から再度変更ブロック追跡を有効にすることはできません。続行しますか?</value>
+    <value>これにより、選択した VM のディスクで変更ブロック追跡が無効になります。VM のバックアップ作成にサードパーティのソリューションを使用している場合、影響を受けることがあります。[XC-ng] から再度変更ブロック追跡を有効にすることはできません。続行しますか?</value>
   </data>
   <data name="CONFIRM_DISABLE_CBT_VMS" xml:space="preserve">
-    <value>これにより、選択した VM のディスクで変更ブロック追跡が無効になります。VM のバックアップ作成にサードパーティのソリューションを使用している場合、影響を受けることがあります。[XenCenter] から再度変更ブロック追跡を有効にすることはできません。続行しますか?</value>
+    <value>これにより、選択した VM のディスクで変更ブロック追跡が無効になります。VM のバックアップ作成にサードパーティのソリューションを使用している場合、影響を受けることがあります。[XC-ng] から再度変更ブロック追跡を有効にすることはできません。続行しますか?</value>
   </data>
   <data name="CONFIRM_DISABLE_CBT_VMS_TITLE" xml:space="preserve">
     <value>選択した VM の 変更ブロック追跡を無効化</value>
@@ -2880,10 +2880,10 @@ VM {2} をエクスポートしてもよろしいですか?</value>
     <value>VM の再起動</value>
   </data>
   <data name="CONFIRM_RESTART_TOOLSTACK_MANY_SERVERS" xml:space="preserve">
-    <value>選択したサーバーでツールスタックを再起動しますか? これにより、[XenCenter] とこれらのサーバーとの接続が一時的に切断されます。</value>
+    <value>選択したサーバーでツールスタックを再起動しますか? これにより、[XC-ng] とこれらのサーバーとの接続が一時的に切断されます。</value>
   </data>
   <data name="CONFIRM_RESTART_TOOLSTACK_ONE_SERVER" xml:space="preserve">
-    <value>'{0}' でツールスタックを再起動しますか? これにより、[XenCenter] とこのサーバーとの接続が一時的に切断されます。</value>
+    <value>'{0}' でツールスタックを再起動しますか? これにより、[XC-ng] とこのサーバーとの接続が一時的に切断されます。</value>
   </data>
   <data name="CONFIRM_RESTART_TOOLSTACK_TITLE" xml:space="preserve">
     <value>ツールスタックの再起動</value>
@@ -4895,7 +4895,7 @@ CD をイジェクトしてから再試行してください。</value>
     <value>保守モードへの切り替え(&amp;E)...</value>
   </data>
   <data name="ENTER_MASTER_PASSWORD_TO_ACCESS_SETTINGS_TT" xml:space="preserve">
-    <value>保存したセッションにアクセスするには、[XenCenter] の起動時にマスター パスワードを入力する必要があります</value>
+    <value>保存したセッションにアクセスするには、[XC-ng] の起動時にマスター パスワードを入力する必要があります</value>
   </data>
   <data name="ENTER_VALID_QOS" xml:space="preserve">
     <value>QoS 制限に、0 よりも大きな値を指定してください</value>
@@ -4916,7 +4916,7 @@ CD をイジェクトしてから再試行してください。</value>
     <value>ユーザー名とパスワードが一致しません。</value>
   </data>
   <data name="ERROR_CONNECTING_BLURB" xml:space="preserve">
-    <value>[XenCenter] でこのサーバーに接続するときに問題が発生しました。</value>
+    <value>[XC-ng] でこのサーバーに接続するときに問題が発生しました。</value>
   </data>
   <data name="ERROR_DEACTIVATING_MULTIPLE_VDIS_MESSAGE" xml:space="preserve">
     <value>以下の仮想ディスクを非アクティブにできません。</value>
@@ -5090,7 +5090,7 @@ CD をイジェクトしてから再試行してください。</value>
     <value>'{0}' のプロキシ サーバーに認証できませんでした。</value>
   </data>
   <data name="ERROR_PUTTY_LAUNCHING" xml:space="preserve">
-    <value>[XenCenter] で PuTTY の開始中に問題が発生しました。</value>
+    <value>[XC-ng] で PuTTY の開始中に問題が発生しました。</value>
   </data>
   <data name="ERROR_SECURE_CHANNEL_FAILURE" xml:space="preserve">
     <value>SSL/TLS の保護されたチャネルを作成できませんでした。</value>
@@ -5795,12 +5795,12 @@ CD をイジェクトしてから再試行してください。</value>
     <value>グループの役割</value>
   </data>
   <data name="GUI_OUT_OF_DATE" xml:space="preserve">
-    <value>[XenCenter] のバージョンが古いため、{0} に接続できません。</value>
+    <value>[XC-ng] のバージョンが古いため、{0} に接続できません。</value>
   </data>
   <data name="GUI_OUT_OF_DATE_MORE" xml:space="preserve">
     <value>
 
-最新バージョンの [XenCenter] は、以下の場所から入手できます。</value>
+最新バージョンの [XC-ng] は、以下の場所から入手できます。</value>
   </data>
   <data name="HA" xml:space="preserve">
     <value>高可用性</value>
@@ -6088,7 +6088,7 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
     <value>高可用性構成の確認と有効化</value>
   </data>
   <data name="HEALTHCHECK_AUTHENTICATION_RUBRIC_EXISTING_TOKEN" xml:space="preserve">
-    <value>この機能を有効にするには、[Company] Insight Services による認証が必要です。[XenCenter] によって、ほかの接続プールに対して成功した認証が検出されます。この認証を再び使用するか、新しく認証するかを選択できます。</value>
+    <value>この機能を有効にするには、[Company] Insight Services による認証が必要です。[XC-ng] によって、ほかの接続プールに対して成功した認証が検出されます。この認証を再び使用するか、新しく認証するかを選択できます。</value>
   </data>
   <data name="HEALTHCHECK_AUTHENTICATION_RUBRIC_NO_TOKEN" xml:space="preserve">
     <value>この機能を有効にするには、[Company] Insight Services による認証が必要です。MyCitrix 資格情報を入力して登録してください ({0} 参照)。この資格情報はアップロード トークンの取得にのみ使用され、このマシンやサーバーには格納されません。</value>
@@ -6698,7 +6698,7 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
     <value>インポートした VM のストレージ リポジトリを選択してください。</value>
   </data>
   <data name="INCOMPATIBLE_PRODUCTS" xml:space="preserve">
-    <value>このバージョンのサーバーには、[XenCenter] との互換性がありません。</value>
+    <value>このバージョンのサーバーには、[XC-ng] との互換性がありません。</value>
   </data>
   <data name="INCOMPATIBLE_PROTOCOL_VERSION" xml:space="preserve">
     <value>互換性のないプロトコル バージョン</value>
@@ -7475,7 +7475,7 @@ SCSI ID: {2}
     <value>リカバリ モードで起動(&amp;V)</value>
   </data>
   <data name="MAINWINDOW_REMOVE_HOST" xml:space="preserve">
-    <value>[XenCenter] から削除(&amp;V)</value>
+    <value>[XC-ng] から削除(&amp;V)</value>
   </data>
   <data name="MAINWINDOW_REMOVE_HOST_CRASHDUMPS" xml:space="preserve">
     <value>クラッシュ ダンプ ファイルの削除(&amp;F)</value>
@@ -7843,7 +7843,7 @@ SCSI ID: {2}
 {1}</value>
   </data>
   <data name="MESSAGEBOX_PROGRAM_UNEXPECTED_TITLE" xml:space="preserve">
-    <value>[XenCenter] - エラー</value>
+    <value>[XC-ng] - エラー</value>
   </data>
   <data name="MESSAGEBOX_RECONNECT_FAIL" xml:space="preserve">
     <value>サーバー '{0}' に再接続できません。サーバーが使用可能ではありません。</value>
@@ -8042,12 +8042,12 @@ SCSI ID: {2}
     <value>IP アドレスの構成 - {0}</value>
   </data>
   <data name="NETWORKING_PROPERTIES_WARNING_CHANGING_MANAGEMENT_HOST" xml:space="preserve">
-    <value>プライマリの管理インターフェイスを再構成します。新しい設定に問題があると、[XenCenter] とサーバーとの接続が完全に切断されます。
+    <value>プライマリの管理インターフェイスを再構成します。新しい設定に問題があると、[XC-ng] とサーバーとの接続が完全に切断されます。
 
 設定が正しいことを確認してから続行してください。</value>
   </data>
   <data name="NETWORKING_PROPERTIES_WARNING_CHANGING_MANAGEMENT_POOL" xml:space="preserve">
-    <value>プライマリの管理インターフェイスを再構成します。新しい設定に問題があると、[XenCenter] とサーバーとの接続が完全に切断されたり、プール メンバー間の通信が不能になったりします。
+    <value>プライマリの管理インターフェイスを再構成します。新しい設定に問題があると、[XC-ng] とサーバーとの接続が完全に切断されたり、プール メンバー間の通信が不能になったりします。
 
 設定が正しいことを確認してから続行してください。</value>
   </data>
@@ -8172,7 +8172,7 @@ SCSI ID: {2}
     <value>ディスクが作成されました</value>
   </data>
   <data name="NEWER_GUI_AVAILABLE" xml:space="preserve">
-    <value>[XenCenter] の最新バージョンがリリースされています。サポート担当者に連絡してください。</value>
+    <value>[XC-ng] の最新バージョンがリリースされています。サポート担当者に連絡してください。</value>
   </data>
   <data name="NEWNETWORKWIZARD_TITLE" xml:space="preserve">
     <value>新規ネットワーク - {0}</value>
@@ -8414,7 +8414,7 @@ LUN をホストに提供するための構成は、[XenServer] ホストのス�
     <value>iSCSI</value>
   </data>
   <data name="NEWSR_MULTI_POOL_WARNING" xml:space="preserve">
-    <value>警告: この SR が [XenCenter] に接続していないほかのサーバーで使用されていないことを確認してください。データが失われる場合があります。
+    <value>警告: この SR が [XC-ng] に接続していないほかのサーバーで使用されていないことを確認してください。データが失われる場合があります。
 
 SR: {0}
 
@@ -8957,7 +8957,7 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>YinheKylin</value>
   </data>
   <data name="NEW_XENCENTER_REQUIRED_INFO" xml:space="preserve">
-    <value>新しい [XenCenter] バージョンが必要です</value>
+    <value>新しい [XC-ng] バージョンが必要です</value>
   </data>
   <data name="NFS_ISO_ALREADY_ATTACHED" xml:space="preserve">
     <value>この NFS ISO ストレージは既に '{0}' に接続されています</value>
@@ -9074,7 +9074,7 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>使用可能な領域: {0}</value>
   </data>
   <data name="NOT_ENOUGH_SPACE_MESSAGE_CLEANUP" xml:space="preserve">
-    <value>残りのアップデート ファイルを削除して、[XenCenter] は {0} を解放できます。クリーンアップを行いますか?</value>
+    <value>残りのアップデート ファイルを削除して、[XC-ng] は {0} を解放できます。クリーンアップを行いますか?</value>
   </data>
   <data name="NOT_ENOUGH_SPACE_MESSAGE_INSTALL" xml:space="preserve">
     <value>アップデート '{1}' をインストールするために十分な領域が '{0}' にありません。</value>
@@ -9256,7 +9256,7 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>(平均/最大KB秒)</value>
   </data>
   <data name="OVF_CREATED" xml:space="preserve">
-    <value>[XenCenter] ディスク イメージのインポート機能により作成</value>
+    <value>[XC-ng] ディスク イメージのインポート機能により作成</value>
   </data>
   <data name="OVF_DISK_CAPTION" xml:space="preserve">
     <value>仮想ディスク</value>
@@ -9533,11 +9533,11 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>自動アップデートが完了しました。</value>
   </data>
   <data name="PATCHINGWIZARD_UPLOADPAGE_MESSAGE_DOWNLOAD_AND_UPLOAD" xml:space="preserve">
-    <value>[XenCenter] は、前の手順で指定したサーバーにアップデートをダウンロードしてから、そのサーバーにアップロードしています。
+    <value>[XC-ng] は、前の手順で指定したサーバーにアップデートをダウンロードしてから、そのサーバーにアップロードしています。
 操作が完了するまで待ってから [次へ] をクリックしインストールを続行してください。</value>
   </data>
   <data name="PATCHINGWIZARD_UPLOADPAGE_MESSAGE_ONLY_UPLOAD" xml:space="preserve">
-    <value>[XenCenter] は前の手順で指定したサーバーにアップデートをアップロードしています。
+    <value>[XC-ng] は前の手順で指定したサーバーにアップデートをアップロードしています。
 操作が完了するまで待ってから [次へ] をクリックしインストールを続行してください。</value>
   </data>
   <data name="PATCHINGWIZARD_UPLOADPAGE_TEXT" xml:space="preserve">
@@ -9629,7 +9629,7 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>インストール サイズ: {0}</value>
   </data>
   <data name="PATCH_NEEDS_NEW_XENCENTER" xml:space="preserve">
-    <value>このバージョンには [XenCenter] {0} 以降が必要です</value>
+    <value>このバージョンには [XC-ng] {0} 以降が必要です</value>
   </data>
   <data name="PATCH_NOT_FOUND" xml:space="preserve">
     <value>見つかりません</value>
@@ -9755,7 +9755,7 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>プラグイン</value>
   </data>
   <data name="PLUGINS_DESC" xml:space="preserve">
-    <value>[XenCenter] のプラグイン設定を変更します</value>
+    <value>[XC-ng] のプラグイン設定を変更します</value>
   </data>
   <data name="PLUGINS_MENU_ITEMS_ONLY_ONE_CHILD_ALLOWED" xml:space="preserve">
     <value>メニューの子項目に追加できるのは単一コマンド XML ノードのみです</value>
@@ -9983,7 +9983,7 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>VM '{0}'</value>
   </data>
   <data name="PROBLEM_XENCENTER_VERSION_TITLE" xml:space="preserve">
-    <value>[XenCenter] バージョン</value>
+    <value>[XC-ng] バージョン</value>
   </data>
   <data name="PROCEED" xml:space="preserve">
     <value>続行する(&amp;P)</value>
@@ -10729,7 +10729,7 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>サーバー、VM、カスタム テンプレート、およびリモート SR</value>
   </data>
   <data name="SERVER_API_INCOMPATIBLE" xml:space="preserve">
-    <value>このサーバーは [XenCenter] と互換性のない API を使用しています。</value>
+    <value>このサーバーは [XC-ng] と互換性のない API を使用しています。</value>
   </data>
   <data name="SERVER_COLON" xml:space="preserve">
     <value>サーバー:</value>
@@ -10771,10 +10771,10 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>プール マスターの現在の時間: {0}</value>
   </data>
   <data name="SERVER_TOO_OLD" xml:space="preserve">
-    <value>このバージョンの [XenCenter] では [XenServer] [BRANDING_VERSION_6_2] 以降のバージョンがサポートされます。</value>
+    <value>このバージョンの [XC-ng] では [XenServer] [BRANDING_VERSION_6_2] 以降のバージョンがサポートされます。</value>
   </data>
   <data name="SERVER_TOO_OLD_SOLUTION" xml:space="preserve">
-    <value>このサーバーを管理するには、以前のバージョンの [XenCenter] を使用してください。</value>
+    <value>このサーバーを管理するには、以前のバージョンの [XC-ng] を使用してください。</value>
   </data>
   <data name="SERVER_X" xml:space="preserve">
     <value>サーバー '{0}'</value>
@@ -11036,7 +11036,7 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>正しいユーザー名とパスワードを使用して再試行してください。</value>
   </data>
   <data name="SOLUTION_CHECK_PROXY" xml:space="preserve">
-    <value>'{0}' のプロキシ サーバーの構成および [XenCenter] の接続設定が正しいことを確認して再試行してください。</value>
+    <value>'{0}' のプロキシ サーバーの構成および [XC-ng] の接続設定が正しいことを確認して再試行してください。</value>
   </data>
   <data name="SOLUTION_CHECK_XENSERVER" xml:space="preserve">
     <value>'{0}' 上の [XenServer] が正しく構成されていることを確認して、再試行してください。</value>
@@ -11057,7 +11057,7 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value/>
   </data>
   <data name="SOME_ERRORS_ENCOUNTERED" xml:space="preserve">
-    <value>いくつかのエラーが発生しました。詳しくは、[XenCenter] のログを参照してください。</value>
+    <value>いくつかのエラーが発生しました。詳しくは、[XC-ng] のログを参照してください。</value>
   </data>
   <data name="SPACED_HYPHEN" xml:space="preserve">
     <value> - </value>
@@ -11081,7 +11081,7 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>SR-IOV を作成する(&amp;S)</value>
   </data>
   <data name="SRIOV_NETWORK_CREATE_WILL_DISTURB_CONNECTION" xml:space="preserve">
-    <value>この SR-IOV ネットワークを作成するとネットワーク接続の状態に影響を与え、[XenCenter] とプール間の接続が一時的に切断されます</value>
+    <value>この SR-IOV ネットワークを作成するとネットワーク接続の状態に影響を与え、[XC-ng] とプール間の接続が一時的に切断されます</value>
   </data>
   <data name="SRPANEL_ACTIVE" xml:space="preserve">
     <value>アクティブ</value>
@@ -11123,13 +11123,13 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>この SR 上で現在処理中の操作があります。</value>
   </data>
   <data name="SR_CANNOT_BE_DESTROYED_WITH_XC" xml:space="preserve">
-    <value>この SR は [XenCenter] で破棄できません。</value>
+    <value>この SR は [XC-ng] で破棄できません。</value>
   </data>
   <data name="SR_CANNOT_BE_DETACHED_WITH_XC" xml:space="preserve">
-    <value>この SR は [XenCenter] で接続解除できません。</value>
+    <value>この SR は [XC-ng] で接続解除できません。</value>
   </data>
   <data name="SR_CANNOT_BE_FORGOTTEN_WITH_XC" xml:space="preserve">
-    <value>この SR は [XenCenter] で接続消去できません。</value>
+    <value>この SR は [XC-ng] で接続消去できません。</value>
   </data>
   <data name="SR_CANNOT_BE_SEEN" xml:space="preserve">
     <value>このストレージ リポジトリは、{0} からアクセスできません</value>
@@ -11745,7 +11745,7 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>アップデート</value>
   </data>
   <data name="UPDATES_DESC" xml:space="preserve">
-    <value>[XenServer] または [XenCenter] アップデートの自動確認</value>
+    <value>[XenServer] または [XC-ng] アップデートの自動確認</value>
   </data>
   <data name="UPDATES_DIALOG_ACTION_REQUIRED" xml:space="preserve">
     <value>適用したアップデートを有効にするには、以下の操作が必要です。
@@ -11797,7 +11797,7 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>ダウンロードしてインストール</value>
   </data>
   <data name="UPDATES_DOWNLOAD_REQUIRED_XENCENTER" xml:space="preserve">
-    <value>[XenCenter] のダウンロード</value>
+    <value>[XC-ng] のダウンロード</value>
   </data>
   <data name="UPDATES_WIZARD" xml:space="preserve">
     <value>アップデートのインストール</value>
@@ -11936,10 +11936,10 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>{0}: VM '{1}' はローカル ストレージを使用しているため移行できません。</value>
   </data>
   <data name="UPDATES_WIZARD_NEWER_XENCENTER_REQUIRED" xml:space="preserve">
-    <value>[XenCenter] バージョン {0} 以降が必要です。</value>
+    <value>[XC-ng] バージョン {0} 以降が必要です。</value>
   </data>
   <data name="UPDATES_WIZARD_NEWER_XENCENTER_WARNING" xml:space="preserve">
-    <value>[XenServer] をアップグレードする前に [XenCenter] をアップグレードする必要があります。</value>
+    <value>[XenServer] をアップグレードする前に [XC-ng] をアップグレードする必要があります。</value>
   </data>
   <data name="UPDATES_WIZARD_NOTVALID_EXTENSION" xml:space="preserve">
     <value>選択したファイルには有効な拡張子がありません。有効な拡張子: *.{0} および *.iso</value>
@@ -12306,7 +12306,7 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>USB</value>
   </data>
   <data name="USER_AUTHORIZATION_FAILED" xml:space="preserve">
-    <value>[XenCenter] で {0} の操作を許可できません。詳しくは、アプリケーション ログ ファイルを参照してください。</value>
+    <value>[XC-ng] で {0} の操作を許可できません。詳しくは、アプリケーション ログ ファイルを参照してください。</value>
   </data>
   <data name="USER_NOT_AUTHORIZED" xml:space="preserve">
     <value>指定したユーザーは、この操作を完了する権限がありません。</value>
@@ -12453,7 +12453,7 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>バージョン</value>
   </data>
   <data name="VERSION_NUMBER" xml:space="preserve">
-    <value>[XenCenter] Version {0} (build {1}.{2}) {3} ビット</value>
+    <value>[XC-ng] Version {0} (build {1}.{2}) {3} ビット</value>
   </data>
   <data name="VGPU_DESCRIPTION_MANY" xml:space="preserve">
     <value>{0} 仮想 GPU ({1}/GPU、{2}、{3} ディスプレイ)</value>
@@ -13657,16 +13657,16 @@ VM が再起動したら、[[XCP-ng product] Tools のインストール] を再
     <value>この操作を実行するには、現在の役割に付与されていない追加権限が必要です。</value>
   </data>
   <data name="XENCENTER" xml:space="preserve">
-    <value>[XenCenter]</value>
+    <value>[XC-ng]</value>
   </data>
   <data name="XENCENTER_CONFIG_FILTER" xml:space="preserve">
-    <value>[XenCenter] 設定|*.config</value>
+    <value>[XC-ng] 設定|*.config</value>
   </data>
   <data name="XENCENTER_NEWER_AVAILABLE" xml:space="preserve">
-    <value>新しい [XenCenter] が使用可能</value>
+    <value>新しい [XC-ng] が使用可能</value>
   </data>
   <data name="XENCENTER_VERSION_CHECK_DESCRIPTION" xml:space="preserve">
-    <value>[XenCenter] バージョンの確認</value>
+    <value>[XC-ng] バージョンの確認</value>
   </data>
   <data name="XENSEARCH_SAVED_SEARCH" xml:space="preserve">
     <value>保存済みの検索 (*.{0})|*.{0}</value>

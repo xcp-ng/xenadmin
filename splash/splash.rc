@@ -98,12 +98,12 @@ BEGIN
         BLOCK "080904b0"
         BEGIN
             VALUE "CompanyName", "[Company]"
-            VALUE "FileDescription", "[XenCenter]"
+            VALUE "FileDescription", "[XC-ng]"
             VALUE "FileVersion", "1, 0, 0, 1"
-            VALUE "InternalName", "[XenCenter]"
+            VALUE "InternalName", "[XC-ng]"
             VALUE "LegalCopyright", "[BRANDING_COPYRIGHT_2]"
-            VALUE "OriginalFilename", "[XenCenter].exe"
-            VALUE "ProductName", "[Company] [XenCenter]"
+            VALUE "OriginalFilename", "[XC-ng].exe"
+            VALUE "ProductName", "[Company] [XC-ng]"
             VALUE "ProductVersion", "1, 0, 0, 1"
         END
     END

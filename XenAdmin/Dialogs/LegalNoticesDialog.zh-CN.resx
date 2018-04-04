@@ -293,7 +293,7 @@ Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Com
     <value>5</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>[Company]、[Company] [XenServer]、Xen、Xen 徽标、[XenCenter]、XenMotion 是 [Company] Systems, Inc. 在美国及其他国家/地区的商标和/或注册商标。</value>
+    <value>[Company]、[Company] [XenServer]、Xen、Xen 徽标、[XC-ng]、XenMotion 是 [Company] Systems, Inc. 在美国及其他国家/地区的商标和/或注册商标。</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>

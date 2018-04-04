@@ -364,7 +364,7 @@
     <value>1</value>
   </data>
   <data name="autoHeightLabel1.Text" xml:space="preserve">
-    <value>所选包已加密。[XenCenter] 不支持导入已加密的 OVF/OVA 包。请选择其他文件。</value>
+    <value>所选包已加密。[XC-ng] 不支持导入已加密的 OVF/OVA 包。请选择其他文件。</value>
   </data>
   <data name="autoHeightLabel1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
