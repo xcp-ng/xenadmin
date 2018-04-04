@@ -38,10 +38,9 @@ To build XenCenter, you need
 * Ionic.Zip.dll
 * log4net.dll
 
-You have to add those two libraries yourself (ZIP files in ExternalLibs folder):
+You have to add this library yourself (ZIP file in ExternalLibs folder):
 
 * CookComputing.XmlRpcV2.dll (Extract zip file, dll is allready in folder xml-rpc.net.2.5.0\bin)
-* 
 
 
 (Only for testing purposes) you also need NUnit libraries 
