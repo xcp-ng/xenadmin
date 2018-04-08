@@ -59,7 +59,7 @@ namespace XenAdminTests.UnitTests.Diagnostics
             string[] enumNames = Enum.GetNames(typeof (HotfixFactory.HotfixableServerVersion));
             Array.Sort(enumNames);
 
-            string[] expectedNames = new []{"Clearwater", "Creedence", "Dundee", "ElyFalcon"};
+            string[] expectedNames = new []{"Clearwater", "Creedence", "Dundee", "ElyJura"};
             Array.Sort(expectedNames);
 
             CollectionAssert.AreEqual(expectedNames, enumNames, "Expected contents of HotfixableServerVersion enum");
@@ -80,9 +80,9 @@ namespace XenAdminTests.UnitTests.Diagnostics
                             factory.Hotfix(HotfixFactory.HotfixableServerVersion.Dundee).UUID,
                             "Dundee UUID lookup from enum");
 
-            Assert.AreEqual("439235bf-48fa-4ee3-9c11-d67084a01205",
-                            factory.Hotfix(HotfixFactory.HotfixableServerVersion.ElyFalcon).UUID,
-                            "Ely/Falcon UUID lookup from enum");
+            Assert.AreEqual("c79166a9-c71d-4c3f-9cca-019a274e8d87",
+                            factory.Hotfix(HotfixFactory.HotfixableServerVersion.ElyJura).UUID,
+                            "Ely-Jura UUID lookup from enum");
         }
 
         [Test]
@@ -101,12 +101,12 @@ namespace XenAdminTests.UnitTests.Diagnostics
                             "Dundee Filename lookup from enum");
 
             Assert.AreEqual("RPU004",
-                            factory.Hotfix(HotfixFactory.HotfixableServerVersion.ElyFalcon).Filename,
-                            "Ely/Falcon Filename lookup from enum");
+                            factory.Hotfix(HotfixFactory.HotfixableServerVersion.ElyJura).Filename,
+                            "Ely-Jura Filename lookup from enum");
         }
 
         [Test]
-        [TestCase("2.3.50", Description = "Inverness")]
+        [TestCase("2.5.50", Description = "Kolkata")]
         [TestCase("9999.9999.9999", Description = "Future")]
         public void TestPlatformVersionNumbersInvernessOrGreaterGiveNulls(string platformVersion)
         {
@@ -116,7 +116,9 @@ namespace XenAdminTests.UnitTests.Diagnostics
         }
 
         [Test]
-        [TestCase("2.3.50", Description = "Inverness", Result = false)]
+        [TestCase("2.5.50", Description = "Kolkata", Result = false)]
+        [TestCase("2.5.0", Description = "Jura", Result = true)]
+        [TestCase("2.4.0", Description = "Inverness", Result = true)]
         [TestCase("2.3.0", Description = "Falcon", Result = true)]
         [TestCase("2.1.1", Description = "Ely", Result = true)]
         [TestCase("2.0.0", Description = "Dundee", Result = true)]

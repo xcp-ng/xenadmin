@@ -126,7 +126,7 @@ namespace XenAPI
 
     internal class JsonResponseV1<T> : JsonResponse<T>
     {
-        [JsonProperty("error", Required = Required.AllowNull)] public object Error = null;
+        [JsonProperty("error", Required = Required.AllowNull)] public JToken Error = null;
     }
 
     internal class JsonResponseV2<T> : JsonResponse<T>
@@ -268,7 +268,11 @@ namespace XenAPI
                                 var res1 = (JsonResponseV1<T>)serializer.Deserialize(responseReader, typeof(JsonResponseV1<T>));
 #endif
                                 if (res1.Error != null)
-                                    throw new Failure(res1.Error as string[]);
+                                {
+                                    var errorArray = res1.Error.ToObject<string[]>();
+                                    if (errorArray != null)
+                                        throw new Failure(errorArray);
+                                }
                                 return res1.Result;
                         }
                     }

@@ -42,7 +42,7 @@ namespace XenAdmin.Diagnostics.Hotfixing
             Clearwater,
             Creedence,
             Dundee,
-            ElyFalcon
+            ElyJura
         }
 
         private readonly Hotfix clearwaterHotfix = new SingleHotfix
@@ -63,16 +63,16 @@ namespace XenAdmin.Diagnostics.Hotfixing
             UUID = "474a0f28-0d33-4c9b-9e20-52baaea8ce5e"
         };
 
-        private readonly Hotfix elyFalconHotfix = new SingleHotfix
+        private readonly Hotfix elyJuraHotfix = new SingleHotfix
         {
             Filename = "RPU004",
-            UUID = "439235bf-48fa-4ee3-9c11-d67084a01205"
+            UUID = "c79166a9-c71d-4c3f-9cca-019a274e8d87"
         };
 
         public Hotfix Hotfix(Host host)
         {
-            if (Helpers.ElyOrGreater(host) && !Helpers.InvernessOrGreater(host))
-                return Hotfix(HotfixableServerVersion.ElyFalcon);
+            if (Helpers.ElyOrGreater(host) && !Helpers.KolkataOrGreater(host))
+                return Hotfix(HotfixableServerVersion.ElyJura);
             if (Helpers.DundeeOrGreater(host) && !Helpers.ElyOrGreater(host))
                 return Hotfix(HotfixableServerVersion.Dundee);
             if (Helpers.CreedenceOrGreater(host) && !Helpers.DundeeOrGreater(host))
@@ -85,8 +85,8 @@ namespace XenAdmin.Diagnostics.Hotfixing
 
         public Hotfix Hotfix(HotfixableServerVersion version)
         {
-            if (version == HotfixableServerVersion.ElyFalcon)
-                return elyFalconHotfix;
+            if (version == HotfixableServerVersion.ElyJura)
+                return elyJuraHotfix;
             if (version == HotfixableServerVersion.Dundee)
                 return dundeeHotfix; 
             if (version == HotfixableServerVersion.Creedence)
