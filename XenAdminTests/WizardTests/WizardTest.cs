@@ -58,16 +58,15 @@ namespace XenAdminTests.WizardTests
 
 
         [Test(Description = "Test that the Enter key takes us forward through the wizard")]
-        [Timeout(100 * 1000)]
         public void RunWizardKeyboardTests()
         {
             SetUp();
 
             RunWizardTests(() =>
-                {
+            {
                     //ensure the focus is not on Previous or Cancel, otherwise pressing Enter will result in clicking those
                     for (int j = 0; j < wizard.Controls.Count; j++)
-                    {
+                {
                         if (!btnCancel.Focused && !btnPrevious.Focused)
                             break;
                         wizard.Controls[j].Focus();
@@ -76,16 +75,16 @@ namespace XenAdminTests.WizardTests
                 },
                 btnPrevious.PerformClick,
                 () =>
-                {
+                    {
                     var key = doFinish ? Keys.Enter : Keys.Escape;
                     Win32.PostMessage(wizard.Handle, Win32.WM_KEYDOWN, new IntPtr((int)key), IntPtr.Zero);
-                });
+                    });
         }
 
         [Test(Description = "Test that Next/Previous buttons take us forwards/backwards through the wizard")]
         [Timeout(100 * 1000)]
         public void RunWizardButtonTests()
-        {
+                {
             SetUp();
 
             RunWizardTests(
@@ -102,7 +101,13 @@ namespace XenAdminTests.WizardTests
                 });
         }
 
+<<<<<<< .mine
+        [Test, MaxTime(100 * 1000)]
+        public void RunWizardTests()
+=======
         private void SetUp()
+
+>>>>>>> .theirs
         {
             RunBefore();
 
@@ -136,7 +141,7 @@ namespace XenAdminTests.WizardTests
 
                     // wait for any progress dialog to close
                     MWWaitFor(() => wizard.Visible && wizard.CanFocus);
-
+                    
                     Assert.AreEqual(pageNames[i + 1], CurrentPageName(wizard),
                         $"Next button didn't get from page {pageNames[i]} to page {pageNames[i + 1]}");
 

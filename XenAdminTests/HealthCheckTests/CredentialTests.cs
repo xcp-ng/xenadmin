@@ -42,14 +42,14 @@ namespace XenAdminTests.HealthCheckTests
 {
     public class CredentialTests : UnitTester_TestFixture
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void FixtureSetup()
         {
             CredentialReceiver.instance.Init();
             ServerListHelper.instance.Init();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void FixtureTearDown()
         {
             CredentialReceiver.instance.UnInit();

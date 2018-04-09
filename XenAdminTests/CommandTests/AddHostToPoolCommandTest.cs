@@ -49,7 +49,7 @@ namespace XenAdminTests.CommandTests
         { }
 
         [Test]
-        [Timeout(100 * 1000)]
+        [MaxTime(100 * 1000)]
         public void Run()
         {
             AddHostToPoolCommandTest tester = new AddHostToPoolCommandTest();

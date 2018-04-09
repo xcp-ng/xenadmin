@@ -95,10 +95,10 @@ namespace XenAPI
             return false;
         }
 
-        public bool IsFreeLicenseOrExpired()
+        public bool IsFreeLicenseOrExpired
         {
-            return Connection.Cache.Hosts.Any(h => h.IsFreeLicenseOrExpired());
-        }
+                return Connection.Cache.Hosts.Any(h => h.IsExpired());
+            }
 
         /// <summary>
         /// Determine whether the given pool is a visible pool, i.e. not a pool-of-one.

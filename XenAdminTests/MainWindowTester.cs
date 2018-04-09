@@ -191,7 +191,7 @@ namespace XenAdminTests
 
         public static string GetTestResource(string name)
         {
-            return Path.Combine(Directory.GetCurrentDirectory(), "TestResources", name);
+            return Path.Combine(Directory.GetCurrentDirectory(), @"XenAdminTests\TestResources", name);
         }
 
 

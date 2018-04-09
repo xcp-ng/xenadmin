@@ -108,7 +108,7 @@ namespace XenAdmin
         internal readonly UsbPage UsbPage = new UsbPage();
 
         private ActionBase statusBarAction = null;
-
+      
         private bool IgnoreTabChanges = false;
         private bool ToolbarsEnabled;
 
@@ -483,10 +483,10 @@ namespace XenAdmin
             Debug.Assert(0 <= percentage && percentage <= 100,
                 "PercentComplete is out of range, the reporting action needs to be fixed."); //CA-8517
 
-            var meddlingAction = action as MeddlingAction;
-            if (meddlingAction == null)
+             var meddlingAction = action as MeddlingAction;
+             if (meddlingAction == null)
             {
-                statusProgressBar.Visible = action.ShowProgress && !action.IsCompleted;
+                 statusProgressBar.Visible = action.ShowProgress && !action.IsCompleted;
 
                 if (percentage < 0)
                     percentage = 0;
@@ -494,21 +494,21 @@ namespace XenAdmin
                     percentage = 100;
                 statusProgressBar.Value = percentage;
 
-                // Don't show cancelled exception
-                if (action.Exception != null && !(action.Exception is CancelledException))
-                {
+            // Don't show cancelled exception
+            if (action.Exception != null && !(action.Exception is CancelledException))
+            {
                     SetStatusBar(Properties.Resources._000_error_h32bit_16, action.Exception.Message);
-                }
+            }
                 else
-                {
-                    SetStatusBar(null, action.IsCompleted
-                        ? null
-                        : !string.IsNullOrEmpty(action.Description)
-                            ? action.Description
-                            : !string.IsNullOrEmpty(action.Title)
-                                ? action.Title
-                                : null);
-                }
+            {
+                SetStatusBar(null, action.IsCompleted
+                                       ? null
+                                       : !string.IsNullOrEmpty(action.Description)
+                                             ? action.Description
+                                             : !string.IsNullOrEmpty(action.Title)
+                                                   ? action.Title
+                                                   : null);
+            }
             }
 
             int errors = ConnectionsManager.History.Count(a => a.IsCompleted && !a.Succeeded && !(a is CancellingAction && ((CancellingAction)a).Cancelled));
@@ -881,7 +881,7 @@ namespace XenAdmin
                         dlog.ShowDialog(this);
                 });
                 return;
-            }
+                    }
 
             //check the pool has no slaves earlier than the lowest supported version 
             //(could happen if trying to connect to a partially upgraded pool where
@@ -995,8 +995,11 @@ namespace XenAdmin
 
         private static bool SameProductBrand(Host host)
         {
-            var brand = host.ProductBrand();
-            return brand == Branding.PRODUCT_BRAND || brand == Branding.LEGACY_PRODUCT_BRAND ||  Branding.PRODUCT_BRAND == "[XenServer product]";
+            //var brand = host.ProductBrand();
+            //return brand == Branding.PRODUCT_BRAND || brand == Branding.LEGACY_PRODUCT_BRAND ||  Branding.PRODUCT_BRAND == "[XenServer product]";
+
+            // XCP-ng Console: we want to connect to any flavor of XenServer
+            return true;
         }
 
         /// <summary>
@@ -1283,14 +1286,14 @@ namespace XenAdmin
 
             try
             {
-                ToolStrip.SuspendLayout();
-                UpdateToolbarsCore();
-                MainMenuBar_MenuActivate(null, null);
+            ToolStrip.SuspendLayout();
+            UpdateToolbarsCore();
+            MainMenuBar_MenuActivate(null, null);
             }
             finally
             {
-                ToolStrip.ResumeLayout();
-            }
+            ToolStrip.ResumeLayout();
+        }
 
             // Save and restore focus on treeView, since selecting tabs in ChangeToNewTabs() has the
             // unavoidable side-effect of giving them focus - this is irritating if trying to navigate
@@ -1474,14 +1477,14 @@ namespace XenAdmin
                         f.SetUrl();
                         if (!f.IsError)
                             consoleFeatures.Add(f);
-                    }
+            }
                     else
                     {
                         var page = GetLastSelectedPage(xenObject);
                         if (page != null && page.Tag == f)
                             f.SetUrl();
                         otherFeatures.Add(f);
-                    }
+        }
                 }
             }
         }
@@ -1503,25 +1506,25 @@ namespace XenAdmin
                 {
                     if (!newTabs.Contains(page))
                         TheTabControl.TabPages.Remove(page);
-                }
+                    }
 
                 int m = 0; // Index into TheTabControl.TabPages
 
                 foreach (var newTab in newTabs)
-                {
+                    {
                     var index = TheTabControl.TabPages.IndexOf(newTab);
                     if (index < 0)
                         TheTabControl.TabPages.Insert(m, newTab);
 
-                    m++;
+                        m++;
 
                     if (newTab == pageToSelect)
                         TheTabControl.SelectedTab = newTab;
-                }
+                    }
 
                 if (pageToSelect == null)
                     TheTabControl.SelectedTab = TheTabControl.TabPages[0];
-            }
+                    }
             finally
             {
                 IgnoreTabChanges = false;
@@ -2519,7 +2522,7 @@ namespace XenAdmin
                 $"{Branding.XENCENTER_VERSION}.{Program.Version.Revision}",
                 "ui_link",
                 Messages.XENCENTER);
-
+             
             if (!string.IsNullOrEmpty(helpTopicUrl))
                 Program.OpenURL(helpTopicUrl);
 
@@ -2714,11 +2717,11 @@ namespace XenAdmin
         {
             if (WizardHelpers.IsValidFile(path, out var failureReason))
             {
-                var wizard = new PatchingWizard();
-                wizard.Show(this);
-                wizard.NextStep();
-                wizard.AddFile(path);
-            }
+            var wizard = new PatchingWizard();
+            wizard.Show(this);
+            wizard.NextStep();
+            wizard.AddFile(path);
+        }
             else
                 using (var popup = new ThreeButtonDialog(new ThreeButtonDialog.Details(
                     SystemIcons.Error, failureReason, Messages.UPDATES)))
@@ -2817,7 +2820,7 @@ namespace XenAdmin
                 IXenObject xenObject = SelectionManager.Selection[0].XenObject;
                 TitleLabel.Text = xenObject.NameWithLocation();
                 TitleIcon.Image = Images.GetImage16For(xenObject);
-                
+
                 licenseText = GetLicenseStatusText(xenObject, out licenseColor);
 
                 // When in folder view only show the logged in label if it is clear to which connection the object belongs (most likely pools and hosts)
@@ -2843,29 +2846,29 @@ namespace XenAdmin
         {
             foreColor = Program.TitleBarForeColor;
 
-            var pool = xenObject as Pool;
+                var pool = xenObject as Pool;
             if (pool != null && pool.Connection != null && pool.Connection.IsConnected && pool.Connection.CacheIsPopulated)
-            {
-                if (pool.IsFreeLicenseOrExpired())
                 {
+                if (pool.IsFreeLicenseOrExpired())
+                    {
                     foreColor = Color.Red;
                     return Messages.MAINWINDOW_HEADER_UNLICENSED;
-                }
+                    }
 
                 return string.Format(Messages.MAINWINDOW_HEADER_LICENSED_WITH, Helpers.GetFriendlyLicenseName(pool));
-            }
+                    }
 
-            var host = xenObject as Host;
+                var host = xenObject as Host;
             if (host != null && host.Connection != null && host.Connection.IsConnected && host.Connection.CacheIsPopulated)
-            {
-                if (host.IsFreeLicenseOrExpired())
                 {
+                    if (host.IsExpired())
+                    {
                     foreColor = Color.Red;
                     return Messages.MAINWINDOW_HEADER_UNLICENSED;
-                }
+                    }
 
                 return string.Format(Messages.MAINWINDOW_HEADER_LICENSED_WITH, Helpers.GetFriendlyLicenseName(host));
-            }
+                    }
 
             return string.Empty;
         }
@@ -2948,7 +2951,7 @@ namespace XenAdmin
                     alertPage.ShowPage();
                     break;
                 case NotificationsSubMode.Updates:
-                    if (alertPage.Visible)
+            if (alertPage.Visible)
                         alertPage.HidePage();
                     if (eventsPage.Visible)
                         eventsPage.HidePage();
@@ -2957,11 +2960,11 @@ namespace XenAdmin
                 case NotificationsSubMode.Events:
                     if (alertPage.Visible)
                         alertPage.HidePage();
-                    if (updatesPage.Visible)
+            if (updatesPage.Visible)
                         updatesPage.HidePage();
                     eventsPage.ShowPage();
                     break;
-            } 
+            }
 
             TheTabControl.Visible = false;
 
@@ -3026,7 +3029,7 @@ namespace XenAdmin
                 SearchPage.BuildList();
 
             UpdateHeader();
-            UpdateToolbars();
+                UpdateToolbars();
         }
 
         #endregion

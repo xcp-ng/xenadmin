@@ -50,9 +50,9 @@ namespace XenAdminTests.Controls
         }
 
         [Test]
-        [TestCase(0, Result = true)]
-        [TestCase(1, Result = false)]
-        [TestCase(22, Result = false)]
+        [TestCase(0, ExpectedResult = true)]
+        [TestCase(1, ExpectedResult = false)]
+        [TestCase(22, ExpectedResult = false)]
         public bool VBDCountDisablesItem(int vbdCount)
         {
             Mock<VDI> vdi = GetMockVdi(vbdCount);
@@ -68,12 +68,12 @@ namespace XenAdminTests.Controls
             Assert.That(item.Enabled, Is.EqualTo(expectedEnabled), description);
         }
 
-        [Test, ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void NullAdditionalConstraintsThrows()
         {
             Mock<VDI> vdi = GetMockVdi(0);
             LunComboBoxItem item = new LunComboBoxItem(vdi.Object) { AdditionalConstraints = null };
-            bool b = item.Enabled;
+            Assert.That(()=> item.Enabled, Throws.ArgumentNullException);
         }
 
    

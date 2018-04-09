@@ -53,7 +53,7 @@ namespace XenAdminTests.TabsAndMenus
             public LicenseStatus.HostState State { get; set; }
         }
 
-        private IEnumerable<TestData> StatusTestData
+        private static IEnumerable<TestData> StatusTestData
         {
             get
             {
