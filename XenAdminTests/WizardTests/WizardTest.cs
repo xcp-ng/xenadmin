@@ -59,8 +59,7 @@ namespace XenAdminTests.WizardTests
         }
 
 
-        [Test]
-        [Timeout(100 * 1000)]
+        [Test, MaxTime(100 * 1000)]
         public void RunWizardKeyboardTests()
         {
             RunBefore();
@@ -102,8 +101,7 @@ namespace XenAdminTests.WizardTests
             MW(() => wizard.Dispose());
         }
 
-        [Test]
-        [Timeout(100 * 1000)]
+        [Test, MaxTime(100 * 1000)]
         public void RunWizardTests()
         {
             RunBefore();

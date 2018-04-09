@@ -85,7 +85,7 @@ BRANDING_XC_PRODUCT_6_0_VERSION=6.0
 BRANDING_XC_PRODUCT_6_2_VERSION=6.2
 BRANDING_XC_PRODUCT_6_5_VERSION=6.5
 BRANDING_XC_PRODUCT_7_0_VERSION=7.0
-BRANDING_XENSERVER_UPDATE_URL=https://xcp-ng.org
+BRANDING_XENSERVER_UPDATE_URL="https://raw.githubusercontent.com/xcp-ng/xenadmin/master/updates.xml"
 BRANDING_HIDDEN_FEATURES=""
 BRANDING_ADDITIONAL_FEATURES=""
 
@@ -95,6 +95,11 @@ BRANDING_ADDITIONAL_FEATURES=""
 #		mk/re-branding.sh
 #
 #######################################################################
+
+if [ -z "$BUILD_NUMBER" ]; then
+    echo "Need to set BUILD_NUMBER"
+    exit 1
+fi
 
 
 version_cpp()
@@ -109,6 +114,7 @@ version_cpp()
 version_csharp()
 {
   sed -b -i -e "s/0\.0\.0\.0/${BRANDING_XC_PRODUCT_VERSION}.${BUILD_NUMBER}/g" \
+	  -e "s/0000/${BRANDING_XC_PRODUCT_VERSION}.${BUILD_NUMBER}/g" \
       $1 
 }
 

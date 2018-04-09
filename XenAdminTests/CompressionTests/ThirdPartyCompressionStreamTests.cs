@@ -41,7 +41,7 @@ namespace XenAdminTests.CompressionTests
     [TestFixture, Category(TestCategories.UICategoryA), Category(TestCategories.SmokeTest)]
     public class GzipCompressionTests : ThirdPartyCompressionTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupFixture()
         {
             Compressor = new DotNetZipGZipOutputStream();
@@ -52,7 +52,7 @@ namespace XenAdminTests.CompressionTests
     [TestFixture, Category(TestCategories.UICategoryA), Category(TestCategories.SmokeTest)]
     public class Bzip2CompressionTests : ThirdPartyCompressionTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupFixture()
         {
             Compressor = new DotNetZipBZip2OutputStream();

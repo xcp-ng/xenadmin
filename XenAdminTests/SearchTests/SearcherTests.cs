@@ -101,7 +101,7 @@ namespace XenAdminTests.SearchTests
         /// </summary>
         /// <param name="xenObject">The xen object to be tested.</param>
         [Test]
-        [Ignore]
+        [Ignore("???")]
         public void TestSearcherUpdatesWhenTagsChange()
         {
             MW(() => EditSearchButton.PerformClick());
@@ -144,7 +144,7 @@ namespace XenAdminTests.SearchTests
         }
 
         [Test]
-        [Ignore]
+        [Ignore("")]
         public void TestSearcherUpdatesWhenCustomFieldsChange()
         {
             MW(() => EditSearchButton.PerformClick());

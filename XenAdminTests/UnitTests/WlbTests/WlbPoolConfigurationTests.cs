@@ -45,10 +45,10 @@ namespace XenAdminTests.UnitTests.WlbTests
         private WlbPoolConfiguration wlbPool;
         private const int NUMBER_OF_PROPERTIES = 33;
 
-        [Test, ExpectedException(typeof(Exception))]
+        [Test]
         public void NullCtorThrows()
         {
-           wlbPool = new WlbPoolConfiguration(null); 
+           Assert.That(()=> new WlbPoolConfiguration(null), Throws.Exception); 
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace XenAdminTests.UnitTests.WlbTests
                 }
             }
 
-            Assert.IsNullOrEmpty(wlbPool.ReportingSMTPServer);
+            Assert.That(wlbPool.ReportingSMTPServer, Is.Null.Or.Empty);
 
         }
 
