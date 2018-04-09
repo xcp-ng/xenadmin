@@ -7,7 +7,7 @@ XCP-ng Console is a Windows-based management tool for XCP-ng and XenServer envir
 which enables users to manage and monitor XCP-ng and XenServer hosts and resource pools,
 and to deploy, monitor, manage and migrate virtual machines.
 
-XCP-ng Console. is written mostly in C#.
+XCP-ng Console is written mostly in C#.
 
 Contributions
 -------------
