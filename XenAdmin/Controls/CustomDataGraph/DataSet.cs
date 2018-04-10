@@ -227,6 +227,11 @@ namespace XenAdmin.Controls.CustomDataGraph
                 dataSet.MultiplyingFactor = 100;
                 dataSet.Type = DataType.LoadAverage;
             }
+            else if (settype.EndsWith("-avg-freq"))
+            { 
+                dataSet.CustomYRange = new DataRange(1, 0, 1, Unit.None, RangeScaleMode.Auto);
+                dataSet.Type = DataType.Cpu;
+            }
             else if (settype.StartsWith("cpu") || settype == "avg_cpu" || settype.StartsWith("runstate"))
             {
                 dataSet.CustomYRange = new DataRange(100, 0, 10, Unit.Percentage, RangeScaleMode.Fixed);

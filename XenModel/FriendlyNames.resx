@@ -747,6 +747,9 @@
   <data name="Label-performance.cpu" xml:space="preserve">
     <value>CPU {0}</value>
   </data>
+  <data name="Label-performance.cpu-avg-freq" xml:space="preserve">
+    <value>CPU {0} Average Frequency</value>
+  </data>
   <data name="Label-performance.lo_rx" xml:space="preserve">
     <value>Loopback Receive</value>
   </data>
