@@ -1001,9 +1001,8 @@ namespace XenAdmin
         {
             // XCP-ng Console: we want to connect to any flavor of XenServer
             return true;
-
-            var brand = host.ProductBrand();
-            return brand == Branding.PRODUCT_BRAND || Branding.PRODUCT_BRAND == "[XenServer product]";
+            //var brand = host.ProductBrand();
+            //return brand == Branding.PRODUCT_BRAND || Branding.PRODUCT_BRAND == "[XenServer product]";
         }
 
         /// <summary>
