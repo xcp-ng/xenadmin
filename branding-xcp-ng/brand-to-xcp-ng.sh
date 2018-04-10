@@ -46,8 +46,6 @@ WIX_INSTALLER_DEFAULT_GUID=65AE1345-A520-456D-8A19-2F52D43D3A09
 WIX_INSTALLER_DEFAULT_VERSION=1.0.0
 PRODUCT_GUID=$(uuidgen | tr [a-z] [A-Z])
 
-BUILD_NUMBER=1
-
 # Create some dummy files and folders
 mkdir -p ${REPO}/Branding/Hotfixes
 
