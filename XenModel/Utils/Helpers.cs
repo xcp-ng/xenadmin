@@ -1001,6 +1001,7 @@ namespace XenAdmin.Core
         #endregion
 
         public static Regex CpuRegex = new Regex("^cpu([0-9]+)$");
+        public static Regex CpuAvgFreqRegex = new Regex("^CPU([0-9]+)-avg-freq$");
         public static Regex CpuStateRegex = new Regex("^cpu([0-9]+)-(C|P)([0-9]+)$");
         static Regex VifRegex = new Regex("^vif_([0-9]+)_(tx|rx)((_errors)?)$");
         static Regex PifEthRegex = new Regex("^pif_eth([0-9]+)_(tx|rx)((_errors)?)$");
@@ -1039,6 +1040,10 @@ namespace XenAdmin.Core
             m = CpuRegex.Match(name);
             if (m.Success)
                 return FormatFriendly("Label-performance.cpu", m.Groups[1].Value);
+
+            m = CpuAvgFreqRegex.Match(name);
+            if (m.Success)
+                return FormatFriendly("Label-performance.cpu-avg-freq", m.Groups[1].Value);
 
             m = VifRegex.Match(name);
             if (m.Success)
