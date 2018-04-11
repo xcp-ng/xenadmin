@@ -126,6 +126,7 @@ version_cpp()
 version_csharp()
 {
   sed -b -i -e "s/0\.0\.0\.0/${BRANDING_XC_PRODUCT_VERSION}.${BUILD_NUMBER}/g" \
+	  -e "s/0000/${BRANDING_XC_PRODUCT_VERSION}.${BUILD_NUMBER}/g" \
       $1 
 }
 
