@@ -130,7 +130,7 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="textBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 110</value>
+    <value>12, 156</value>
   </data>
   <data name="textBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>12, 3, 10, 3</value>
@@ -142,7 +142,7 @@
     <value>Both</value>
   </data>
   <data name="textBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>572, 111</value>
+    <value>781, 305</value>
   </data>
   <data name="textBox1.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -250,7 +250,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 
 
-Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Citrix] Systems, Inc. in the United States and other countries.</value>
+Xen®, the Xen logo, XenMotion® are trademarks and/or registered trademarks of Citrix Systems, Inc. in the United States and other countries.</value>
   </data>
   <data name="&gt;&gt;textBox1.Name" xml:space="preserve">
     <value>textBox1</value>
@@ -277,13 +277,16 @@ Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Cit
     <value>10, 5, 5, 5</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>564, 42</value>
+    <value>785, 88</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>[Citrix], [Citrix] [XenServer], Xen, the Xen logo, [XenCenter], XenMotion are trademarks and/or registered trademarks of [Citrix] Systems, Inc. in the United States and other countries.</value>
+    <value>
+Copyright for portions of XCP-ng Console are held by Citrix Systems, Inc. as part of Citrix® XenServer® and Citrix® XenCenter®.
+
+Citrix®, Citrix® XenServer®, Xen®, the Xen logo, XenCenter®, XenMotion® are trademarks and/or registered trademarks of Citrix Systems, Inc. in the United States and other countries.</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -307,7 +310,7 @@ Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Cit
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 87</value>
+    <value>10, 133</value>
   </data>
   <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>10, 5, 5, 5</value>
@@ -336,6 +339,9 @@ Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Cit
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="label2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
   <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
@@ -349,13 +355,13 @@ Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Cit
     <value>10, 10, 5, 5</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>275, 15</value>
+    <value>788, 15</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Copyright © [Citrix] Systems, Inc. All rights reserved.</value>
+    <value>Copyright © 2018 XCP-ng Project.</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -379,7 +385,7 @@ Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Cit
     <value>NoControl</value>
   </data>
   <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>511, 232</value>
+    <value>720, 472</value>
   </data>
   <data name="button1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>8, 8, 8, 8</value>
@@ -418,7 +424,7 @@ Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Cit
     <value>5</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>594, 263</value>
+    <value>803, 503</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -436,7 +442,7 @@ Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Cit
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="textBox1" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label1" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="button1" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,20,AutoSize,0,AutoSize,50,Percent,100,AutoSize,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="textBox1" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label1" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="button1" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,20,AutoSize,0,AutoSize,50,Percent,100,AutoSize,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -445,7 +451,7 @@ Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Cit
     <value>96, 96</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>594, 263</value>
+    <value>803, 503</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 8pt</value>
