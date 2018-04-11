@@ -256,13 +256,13 @@
     <value>14, 3, 14, 5</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 15</value>
+    <value>188, 15</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Copyright © XCP-ng Project.</value>
+    <value>Copyright © 2018 XCP-ng Project.</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -478,6 +478,6 @@
     <value>AboutDialog</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>XenAdmin.Dialogs.XenDialogBase, XenCenterMain, Version=7.4.0.2, Culture=neutral, PublicKeyToken=null</value>
+    <value>XenAdmin.Dialogs.XenDialogBase, XenCenterMain, Version=7.4.0.3, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
