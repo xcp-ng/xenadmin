@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -181,7 +180,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.crashdump_get_record(session.opaque_ref, _crashdump);
             else
-                return new Crashdump((Proxy_Crashdump)session.proxy.crashdump_get_record(session.opaque_ref, _crashdump ?? "").parse());
+                return new Crashdump(session.proxy.crashdump_get_record(session.opaque_ref, _crashdump ?? "").parse());
         }
 
         /// <summary>

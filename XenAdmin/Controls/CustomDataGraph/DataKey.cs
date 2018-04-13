@@ -32,6 +32,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using XenAdmin.Core;
@@ -108,27 +109,27 @@ namespace XenAdmin.Controls.CustomDataGraph
             if (DataPlot == null || DataPlot.DataPlotNav == null)
                 return;
 
-            List<DataSetCollectionWrapper> wrappers = new List<DataSetCollectionWrapper>();
+            var wrappers = new List<DataSetCollectionWrapper>();
+            var archives = ArchiveMaintainer.Archives;
+            var fiveSecSets = archives[ArchiveInterval.FiveSecond].Sets;
 
-            for (int i = 0; i < ArchiveMaintainer.Archives[ArchiveInterval.FiveSecond].Sets.Count; i++)
+            foreach (DataSet fivesecond in fiveSecSets)
             {
-                DataSetCollectionWrapper wrapper = new DataSetCollectionWrapper();
-                DataSet fivesecond = ArchiveMaintainer.Archives[ArchiveInterval.FiveSecond].Sets[i];
+                var wrapper = new DataSetCollectionWrapper();
+
                 if (!DataSourceUUIDsToShow.Contains(fivesecond.Uuid))
                     continue;
 
-                Predicate<DataSet> uuidpredicate = new Predicate<DataSet>(delegate(DataSet item) { return item.Uuid == fivesecond.Uuid; });
-
                 wrapper.Sets.Add(ArchiveInterval.FiveSecond, fivesecond);
+                var intervals = new[] {ArchiveInterval.OneMinute, ArchiveInterval.OneHour, ArchiveInterval.OneDay};
 
-                if(ArchiveMaintainer.Archives[ArchiveInterval.OneMinute].Sets.Contains(fivesecond))
-                    wrapper.Sets.Add(ArchiveInterval.OneMinute, ArchiveMaintainer.Archives[ArchiveInterval.OneMinute].Sets.Find(uuidpredicate));
+                foreach (var interval in intervals)
+                {
+                    var found = archives[interval].Sets.FirstOrDefault(s => s.Uuid == fivesecond.Uuid);
+                    if (found != null)
+                        wrapper.Sets.Add(interval, found);
+                }
 
-                if (ArchiveMaintainer.Archives[ArchiveInterval.OneHour].Sets.Contains(fivesecond))
-                    wrapper.Sets.Add(ArchiveInterval.OneHour, ArchiveMaintainer.Archives[ArchiveInterval.OneHour].Sets.Find(uuidpredicate));
-
-                if (ArchiveMaintainer.Archives[ArchiveInterval.OneDay].Sets.Contains(fivesecond))
-                    wrapper.Sets.Add(ArchiveInterval.OneDay, ArchiveMaintainer.Archives[ArchiveInterval.OneDay].Sets.Find(uuidpredicate));
                 wrappers.Add(wrapper);
             }
 
@@ -149,15 +150,15 @@ namespace XenAdmin.Controls.CustomDataGraph
                 }
             }
 
-            CurrentKeys.RemoveAll(new Predicate<DataSetCollectionWrapper>(delegate(DataSetCollectionWrapper item)
+            CurrentKeys.RemoveAll(item =>
             {
-                if(!wrappers.Contains(item))
+                if (!wrappers.Contains(item))
                 {
                     anynew = true;
                     return true;
                 }
                 return false;
-            }));
+            });
 
             if (!anynew)
             {

@@ -74,14 +74,7 @@ namespace XenAPI
 
         public Session(int timeout, string url)
         {
-            proxy = XmlRpcProxyGen.Create<Proxy>();
-            proxy.Url = url;
-            proxy.NonStandard = XmlRpcNonStandard.All;
-            proxy.Timeout = timeout;
-            proxy.UseIndentation = false;
-            proxy.UserAgent = UserAgent;
-            proxy.KeepAlive = true;
-            proxy.Proxy = Proxy;
+            InitializeXmlRpcProxy(url, timeout);
         }
 
         public Session(string url)
@@ -132,12 +125,23 @@ namespace XenAPI
         // Used after VDI.open_database
         public static Session get_record(Session session, string _session)
         {
-            Session newSession = new Session(session.proxy.Url);
-            newSession.opaque_ref = _session;
+            Session newSession = new Session(session.Url) {opaque_ref = _session};
             newSession.SetAPIVersion();
             if (newSession.XmlRpcToJsonRpcInvoker != null)
                 newSession.XmlRpcToJsonRpcInvoker(newSession);
             return newSession;
+        }
+
+        private void InitializeXmlRpcProxy(string url, int timeout)
+        {
+            proxy = XmlRpcProxyGen.Create<Proxy>();
+            proxy.Url = url;
+            proxy.NonStandard = XmlRpcNonStandard.All;
+            proxy.Timeout = timeout;
+            proxy.UseIndentation = false;
+            proxy.UserAgent = UserAgent;
+            proxy.KeepAlive = true;
+            proxy.Proxy = Proxy;
         }
 
         /// <summary>
@@ -246,6 +250,20 @@ namespace XenAPI
                     JsonRpcClient.ConnectionGroupName = value;
                 else
                     proxy.ConnectionGroupName = value;
+            }
+        }
+
+        public ICredentials Credentials
+        {
+            get
+            {
+                if (JsonRpcClient != null)
+                    return JsonRpcClient.WebProxy == null ? null : JsonRpcClient.WebProxy.Credentials;
+
+                if (proxy != null)
+                    return proxy.Proxy == null ? null : proxy.Proxy.Credentials;
+
+                return null;
             }
         }
 

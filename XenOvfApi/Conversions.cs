@@ -31,6 +31,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Management;
 using System.Reflection;
@@ -61,11 +62,7 @@ namespace XenOvf
         private Dictionary<string, string> mappings = new Dictionary<string, string>();
 
         #region CONVERSIONS
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pathToOvf"></param>
-        /// <param name="ovfFileName"></param>
+
         public void ConvertOVAtoOVF(string ovaFileName)
         {
             try
@@ -73,7 +70,9 @@ namespace XenOvf
                 Load(ovaFileName);
                 File.Delete(ovaFileName);
             }
-            catch { }
+            catch
+            {
+            }
             finally
             {
                 _processId = System.Diagnostics.Process.GetCurrentProcess().Id;
@@ -84,142 +83,84 @@ namespace XenOvf
                 }
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pathToOvf"></param>
-        /// <param name="ovfFileName"></param>
-        /// <param name="compress"></param>
-        public static void ConvertOVFtoOVA(string pathToOvf, string ovfFileName, bool compress)
+
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope",
+             Justification = "Tar Object uses close not Dispose, it cleans up all streams used.")]
+        public static void ConvertOVFtoOVA(string pathToOvf, string ovfFileName, bool compress, bool cleanup = true)
         {
-            ConvertOVFtoOVA(pathToOvf, ovfFileName, compress, true);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pathToOvf"></param>
-        /// <param name="ovfFileName"></param>
-        /// <param name="compress"></param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope",
-                                                         Justification = "Tar Object uses close not Dispose, it cleans up all streams used.")]
-        public static void ConvertOVFtoOVA(string pathToOvf, string ovfFileName, bool compress, bool cleanup)
-        {
-            Dictionary<long, string> filesDictionary = new Dictionary<long, string>();
+            // throws exception if any of the parameters is null (which we want)
+            string fullOvfPath = Path.Combine(pathToOvf, ovfFileName);
+            
+            if (!File.Exists(fullOvfPath))
+                throw new FileNotFoundException(string.Format(Messages.FILE_MISSING, fullOvfPath));
 
-			EnvelopeType ovfobj = Load(Path.Combine(pathToOvf, ovfFileName));
-
-            EnvelopeType ovfenv = ovfobj;
-            File_Type[] files = ovfenv.References.File;
-
-
-            string manifestfile = string.Format(@"{0}.mf", Path.GetFileNameWithoutExtension(ovfFileName));
-            string signaturefile = string.Format(@"{0}.cert", Path.GetFileNameWithoutExtension(ovfFileName));
-
-            string origDir = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(pathToOvf);
-            string ick = Directory.GetCurrentDirectory();
-
-
-            if (ick != pathToOvf)
-            {
-                Directory.SetCurrentDirectory(pathToOvf);
-                // try again.
-            }
-
-            if (files != null)
-            {
-                foreach (File_Type file in files)
-                {
-                    string filename = Path.GetFileName(file.href);
-                    FileInfo fi = new FileInfo(Path.Combine(pathToOvf, filename));
-                }
-            }
-
-            string ovafilename = Path.Combine(pathToOvf, string.Format("{0}.ova", Path.GetFileNameWithoutExtension(ovfFileName)));
-
-            Stream ovaStream = null;
             // File Order is:
             // 1. OVF File
             // 2. Manifest (if exists)
             // 3. Signature File (if exists)
             // 4. All files listed in References.File.
-            ArchiveWriter tar = null;
+
+            string origDir = "";
             try
             {
-                if (ovfFileName != null && pathToOvf != null)
+                origDir = Directory.GetCurrentDirectory();
+                Directory.SetCurrentDirectory(pathToOvf);
+
+                EnvelopeType ovfenv = Load(ovfFileName);
+                File_Type[] files = ovfenv.References.File;
+
+                string ovafilename = string.Format("{0}.ova", Path.GetFileNameWithoutExtension(ovfFileName));
+                string manifestfile = string.Format("{0}.mf", Path.GetFileNameWithoutExtension(ovfFileName));
+                string signaturefile = string.Format("{0}.cert", Path.GetFileNameWithoutExtension(ovfFileName));
+
+                #region COMPRESSION STREAM
+
+                Stream ovaStream;
+                if (compress)
                 {
-                    #region COMPRESSION STREAM
-                    if (compress)  // need to compress.
+                    if (Properties.Settings.Default.useGZip)
                     {
-                        if (Properties.Settings.Default.useGZip)
-                        {
-                            log.Info("OVF.ConvertOVFtoOVA GZIP compression stream inserted");
-                            FileStream fsStream = new FileStream(ovafilename + ".gz", FileMode.CreateNew, FileAccess.Write, FileShare.None);
-                            ovaStream = CompressionFactory.Writer(CompressionFactory.Type.Gz, fsStream);
-                        }
-                        else
-                        {
-                            log.Info("OVF.ConvertOVFtoOVA BZIP2 compression stream inserted");
-                            FileStream fsStream = new FileStream(ovafilename + ".bz2", FileMode.CreateNew, FileAccess.Write, FileShare.None);
-                            ovaStream = CompressionFactory.Writer(CompressionFactory.Type.Bz2, fsStream);
-                        }
+                        log.Info("OVF.ConvertOVFtoOVA GZIP compression stream inserted");
+                        FileStream fsStream = new FileStream(ovafilename + ".gz", FileMode.CreateNew, FileAccess.Write, FileShare.None);
+                        ovaStream = CompressionFactory.Writer(CompressionFactory.Type.Gz, fsStream);
                     }
                     else
                     {
-                        ovaStream = new FileStream(ovafilename, FileMode.CreateNew, FileAccess.Write, FileShare.None);
+                        log.Info("OVF.ConvertOVFtoOVA BZIP2 compression stream inserted");
+                        FileStream fsStream = new FileStream(ovafilename + ".bz2", FileMode.CreateNew, FileAccess.Write, FileShare.None);
+                        ovaStream = CompressionFactory.Writer(CompressionFactory.Type.Bz2, fsStream);
                     }
-                    #endregion
-
-                    #region TAR
-
-                    using (tar = ArchiveFactory.Writer(ArchiveFactory.Type.Tar, ovaStream))
-                    {
-                        Directory.SetCurrentDirectory(pathToOvf);
-
-                        if (File.Exists(ovfFileName))
-                        {
-                            log.InfoFormat("OVF.ConvertOVFtoOVA: added file: {0}", ovfFileName);
-                            AddFileToArchiveWriter(tar, ovfFileName);
-                            if (cleanup) File.Delete(ovfFileName);
-                        }
-                        else
-                        {
-                            throw new ArgumentException(string.Format(Messages.FILE_MISSING,
-                                                                      Path.Combine(pathToOvf, ovfFileName)));
-                        }
-
-                        if (File.Exists(manifestfile))
-                        {
-                            AddFileToArchiveWriter(tar, manifestfile);
-                            log.InfoFormat("OVF.ConvertOVFtoOVA: added file: {0}", manifestfile);
-                            if (cleanup) File.Delete(manifestfile);
-                            // Cannot exist with out manifest file.
-                            if (File.Exists(signaturefile))
-                            {
-                                AddFileToArchiveWriter(tar, signaturefile);
-                                log.InfoFormat("OVF.ConvertOVFtoOVA: added file: {0}", signaturefile);
-                                if (cleanup) File.Delete(signaturefile);
-                            }
-                        }
-                        if (files != null && files.Length > 0)
-                        {
-                            List<File_Type> filelist = new List<File_Type>();
-                            filelist.AddRange(files);
-                            foreach (File_Type file in filelist)
-                            {
-                                AddFileToArchiveWriter(tar, file.href);
-                                log.InfoFormat("OVF.ConvertOVFtoOVA: added file: {0}", file.href);
-                                if (cleanup) File.Delete(file.href);
-                            }
-                        }
-                    }
-
-                    #endregion
                 }
                 else
                 {
-                    throw new ArgumentException(string.Format(Messages.FILE_MISSING, Path.Combine(pathToOvf, ovfFileName)));
+                    ovaStream = new FileStream(ovafilename, FileMode.CreateNew, FileAccess.Write, FileShare.None);
                 }
+
+                #endregion
+
+                #region TAR
+
+                using (var tar = ArchiveFactory.Writer(ArchiveFactory.Type.Tar, ovaStream))
+                {
+                    AddFileToArchiveWriter(tar, ovfFileName, cleanup);
+
+                    if (File.Exists(manifestfile))
+                    {
+                        AddFileToArchiveWriter(tar, manifestfile, cleanup);
+                       
+                        // Cannot exist without manifest file.
+                        if (File.Exists(signaturefile))
+                            AddFileToArchiveWriter(tar, signaturefile, cleanup);
+                    }
+
+                    if (files != null)
+                    {
+                        foreach (File_Type file in files)
+                            AddFileToArchiveWriter(tar, file.href, cleanup);
+                    }
+                }
+
+                #endregion
             }
             catch (Exception ex)
             {
@@ -228,6 +169,8 @@ namespace XenOvf
             }
             finally
             {
+                Directory.SetCurrentDirectory(origDir);
+
                 _processId = System.Diagnostics.Process.GetCurrentProcess().Id;
                 _touchFile = Path.Combine(pathToOvf, "xen__" + _processId);
                 if (File.Exists(_touchFile))
@@ -238,59 +181,61 @@ namespace XenOvf
             log.Debug("OVF.ConvertOVFtoOVA completed");
         }
 
-        private static void AddFileToArchiveWriter(ArchiveWriter tar, string fileName)
+        private static void AddFileToArchiveWriter(ArchiveWriter tar, string fileName, bool cleanup)
         {
             using (FileStream fs = File.OpenRead(fileName))
-            {
                 tar.Add(fs, fileName);
+
+            log.InfoFormat("Added file {0} to OVA archive", fileName);
+
+            if (cleanup)
+            {
+                try
+                {
+                    File.Delete(fileName);
+                }
+                catch
+                {
+                }
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vhdExports"></param>
-        /// <param name="pathToOvf"></param>
-        /// <param name="ovfName"></param>
-        /// <returns></returns>
         public EnvelopeType ConvertPhysicaltoOVF(DiskInfo[] vhdExports, string pathToOvf, string ovfName)
         {
             return ConvertPhysicaltoOVF(vhdExports, pathToOvf, ovfName, Properties.Settings.Default.Language);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vhdExports"></param>
-        /// <param name="pathToOvf"></param>
-        /// <param name="ovfName"></param>
-        /// <param name="lang"></param>
-        /// <returns></returns>
+
         public EnvelopeType ConvertPhysicaltoOVF(DiskInfo[] vhdExports, string pathToOvf, string ovfName, string lang)
         {
             CollectInformation();
             var env = CreateEnvelope(ovfName, lang);
-			string vmUuid = AddVirtualSystem(env, lang, ovfName);
-			string vhsId = AddVirtualHardwareSection(env, vmUuid, lang);
-			AddVssd(env, vmUuid, vhsId);
-			AddCPUs(env, vmUuid);
-			AddMemory(env, vmUuid);
-			AddNetworks(env, vmUuid, lang);
-			CreateConnectedDevices(env, vmUuid, vhdExports);
+            string vmUuid = AddVirtualSystem(env, lang, ovfName);
+            string vhsId = AddVirtualHardwareSection(env, vmUuid, lang);
+            AddVssd(env, vmUuid, vhsId);
+            AddCPUs(env, vmUuid);
+            AddMemory(env, vmUuid);
+            AddNetworks(env, vmUuid, lang);
+            CreateConnectedDevices(env, vmUuid, vhdExports);
+
             #region CREATE PVP ENTRIES
+
             foreach (DiskInfo di in vhdExports)
             {
                 string pvpFilename = string.Format(@"{0}.pvp", Path.GetFileNameWithoutExtension(di.VhdFileName));
                 string pvpPathWithFilename = Path.Combine(pathToOvf, pvpFilename);
                 if (File.Exists(pvpPathWithFilename))
                 {
-					AddExternalFile(env, pvpFilename, null);
+                    AddExternalFile(env, pvpFilename, null);
                 }
             }
+
             #endregion
-			FinalizeEnvelope(env);
+
+            FinalizeEnvelope(env);
             log.DebugFormat("OVF.Create completed, {0}", ovfName);
-			return env;
+            return env;
         }
+
         /// <summary>
         /// Converts an ova.xml (version 2) file from an XenServer Export *.xva into and OVF xml string.
         /// </summary>
@@ -303,6 +248,7 @@ namespace XenOvf
         {
             return ConvertXVAtoOVF(vhdExports, ovaxml, ovfFilePath, ovfName, Properties.Settings.Default.Language);
         }
+
         /// <summary>
         /// Converts an ova.xml (version 2) file from an XenServer Export *.xva into and OVF xml string.
         /// </summary>
@@ -320,6 +266,7 @@ namespace XenOvf
             log.Debug("OVF.ConvertXVAtoOVF completed");
             return xmlstring;
         }
+
         /// <summary>
         /// Comverts an ova.xml V 0.1 from a XenServer 3 export into an OVF Xml String
         /// </summary>
@@ -331,6 +278,7 @@ namespace XenOvf
         {
             return ConvertXVAv1toOVF(vhdExports, ovaxmlFileName, ovfName, Properties.Settings.Default.Language);
         }
+
         /// <summary>
         /// Comverts an ova.xml V 0.1 from a XenServer 3 export into an OVF Xml String
         /// </summary>
@@ -345,6 +293,7 @@ namespace XenOvf
             EnvelopeType env = ConvertFromXenOVAv1(xca, vhdExports, ovfName, lang);
             return Tools.Serialize(env, typeof(EnvelopeType), Tools.LoadNamespaces());
         }
+
         /// <summary>
         /// Convert Virtual PC configuration file to an OVF Xml string.
         /// </summary>
@@ -355,6 +304,7 @@ namespace XenOvf
         {
             return ConvertVPCtoOVF(vpcFileName, ovfName, Properties.Settings.Default.Language);
         }
+
         /// <summary>
         /// Convert Virtual PC configuration file to an OVF Xml string.
         /// </summary>
@@ -365,11 +315,12 @@ namespace XenOvf
         public string ConvertVPCtoOVF(string vpcFileName, string ovfName, string lang)
         {
             string vpcstring = Tools.LoadFile(vpcFileName);
-            vpcstring = vpcstring.Replace("utf-16", "utf-8").Replace("UTF-16","UTF-8");  // fails if we don't do this. (not nice need to figure real answer)
+            vpcstring = vpcstring.Replace("utf-16", "utf-8").Replace("UTF-16", "UTF-8"); // fails if we don't do this. (not nice need to figure real answer)
             Ms_Vmc_Type xca = (Ms_Vmc_Type)Tools.Deserialize(vpcstring, typeof(Ms_Vmc_Type));
             EnvelopeType env = ConvertFromVPCXml(xca, Path.GetFileNameWithoutExtension(vpcFileName), ovfName, lang);
             return Tools.Serialize(env, typeof(EnvelopeType), Tools.LoadNamespaces());
         }
+
         /// <summary>
         /// Convert Vmware meta data to OVF xml string
         /// </summary>
@@ -380,6 +331,7 @@ namespace XenOvf
         {
             return ConvertVMXtoOVF(vmxFileName, ovfName, Properties.Settings.Default.Language);
         }
+
         /// <summary>
         /// Convert Vmware meta data to OVF xml string
         /// </summary>
@@ -396,17 +348,25 @@ namespace XenOvf
             {
                 if (!string.IsNullOrEmpty(line) && line.Contains("="))
                 {
-                    string[] vmxpair = line.Split(new char[] { '=' });
-                    mappings.Add(vmxpair[0].Trim(), vmxpair[1].Replace("\"","").Trim());
+                    string[] vmxpair = line.Split(new char[] {'='});
+                    mappings.Add(vmxpair[0].Trim(), vmxpair[1].Replace("\"", "").Trim());
                 }
-                try { line = sr.ReadLine(); if (line == null) break; }
-                catch { break; }
+                try
+                {
+                    line = sr.ReadLine();
+                    if (line == null) break;
+                }
+                catch
+                {
+                    break;
+                }
 
             }
             sr.Dispose();
             EnvelopeType env = ConvertFromVMXcfg(mappings, ovfName, lang);
             return Tools.Serialize(env, typeof(EnvelopeType), Tools.LoadNamespaces());
         }
+
         /// <summary>
         /// Convert Hyper-V Export CIM XML vm meta data to OVF xml
         /// </summary>
@@ -417,6 +377,7 @@ namespace XenOvf
         {
             return ConvertHyperVtoOVF(hvxmlFileName, ovfName, Properties.Settings.Default.Language);
         }
+
         /// <summary>
         /// Convert Hyper-V Export CIM XML vm meta data to OVF xml
         /// </summary>
@@ -427,7 +388,7 @@ namespace XenOvf
         public string ConvertHyperVtoOVF(string hvxmlFileName, string ovfName, string lang)
         {
             string hvxml = Tools.LoadFile(hvxmlFileName);
-            hvxml = hvxml.Replace("utf-16", "utf-8");  // fails if we don't do this.
+            hvxml = hvxml.Replace("utf-16", "utf-8"); // fails if we don't do this.
             string xmlstring = null;
             Ms_Declarations_Type hvobj = (Ms_Declarations_Type)Tools.Deserialize(hvxml, typeof(Ms_Declarations_Type));
             if (hvobj != null &&
@@ -446,9 +407,11 @@ namespace XenOvf
             }
             return xmlstring;
         }
+
         #endregion
 
         #region PRIVATE
+
         private EnvelopeType ConvertFromXenOVA(XenXva xenxva, DiskInfo[] vhdExports, string ovfFilePath, string ovfname, string lang)
         {
             mappings.Clear();
@@ -477,6 +440,7 @@ namespace XenOvf
                             foreach (XenMember xmm in ((XenStruct)obj).xenmember)
                             {
                                 #region SET AREA
+
                                 if (xmm.xenname.ToLower().Equals("class") &&
                                     xmm.xenvalue != null &&
                                     xmm.xenvalue is string &&
@@ -486,52 +450,54 @@ namespace XenOvf
                                     AtVM = true;
                                 }
                                 else if (xmm.xenname.ToLower().Equals("class") &&
-                                    xmm.xenvalue != null &&
-                                    xmm.xenvalue is string &&
-                                    ((string)xmm.xenvalue).Length > 0 &&
-                                    ((string)xmm.xenvalue).ToLower().Equals("vbd"))
+                                         xmm.xenvalue != null &&
+                                         xmm.xenvalue is string &&
+                                         ((string)xmm.xenvalue).Length > 0 &&
+                                         ((string)xmm.xenvalue).ToLower().Equals("vbd"))
                                 {
                                     AtVBD = true;
                                 }
 
                                 else if (xmm.xenname.ToLower().Equals("class") &&
-                                    xmm.xenvalue != null &&
-                                    xmm.xenvalue is string &&
-                                    ((string)xmm.xenvalue).Length > 0 &&
-                                    ((string)xmm.xenvalue).ToLower().Equals("vif"))
+                                         xmm.xenvalue != null &&
+                                         xmm.xenvalue is string &&
+                                         ((string)xmm.xenvalue).Length > 0 &&
+                                         ((string)xmm.xenvalue).ToLower().Equals("vif"))
                                 {
                                     AtVIF = true;
                                 }
                                 else if (xmm.xenname.ToLower().Equals("class") &&
-                                    xmm.xenvalue != null &&
-                                    xmm.xenvalue is string &&
-                                    ((string)xmm.xenvalue).Length > 0 &&
-                                    ((string)xmm.xenvalue).ToLower().Equals("network"))
+                                         xmm.xenvalue != null &&
+                                         xmm.xenvalue is string &&
+                                         ((string)xmm.xenvalue).Length > 0 &&
+                                         ((string)xmm.xenvalue).ToLower().Equals("network"))
                                 {
                                     AtNetwork = true;
                                 }
                                 else if (xmm.xenname.ToLower().Equals("class") &&
-                                    xmm.xenvalue != null &&
-                                    xmm.xenvalue is string &&
-                                    ((string)xmm.xenvalue).Length > 0 &&
-                                    ((string)xmm.xenvalue).ToLower().Equals("vdi"))
+                                         xmm.xenvalue != null &&
+                                         xmm.xenvalue is string &&
+                                         ((string)xmm.xenvalue).Length > 0 &&
+                                         ((string)xmm.xenvalue).ToLower().Equals("vdi"))
                                 {
                                     AtVDI = true;
                                 }
                                 else if (xmm.xenname.ToLower().Equals("class") &&
-                                    xmm.xenvalue != null &&
-                                    xmm.xenvalue is string &&
-                                    ((string)xmm.xenvalue).Length > 0 &&
-                                    ((string)xmm.xenvalue).ToLower().Equals("sr"))
+                                         xmm.xenvalue != null &&
+                                         xmm.xenvalue is string &&
+                                         ((string)xmm.xenvalue).Length > 0 &&
+                                         ((string)xmm.xenvalue).ToLower().Equals("sr"))
                                 {
                                     AtSR = true;
                                 }
+
                                 #endregion
 
                                 #region CHECK REFERENCE
+
                                 if (xmm.xenname.ToLower().Equals("id") &&
-                                   xmm.xenvalue != null &&
-                                   xmm.xenvalue is string)
+                                    xmm.xenvalue != null &&
+                                    xmm.xenvalue is string)
                                 {
                                     string curid = (string)(xmm.xenvalue);
                                     if (mappings.ContainsKey(curid))
@@ -544,9 +510,11 @@ namespace XenOvf
                                         IsReferenced = false;
                                     }
                                 }
+
                                 #endregion
 
                                 #region GET DATA
+
                                 if (xmm.xenname.ToLower().Equals("snapshot") &&
                                     xmm.xenvalue != null &&
                                     xmm.xenvalue is XenStruct)
@@ -605,6 +573,7 @@ namespace XenOvf
                                     }
                                     IsReferenced = false;
                                 }
+
                                 #endregion
                             }
                         }
@@ -616,6 +585,7 @@ namespace XenOvf
             mappings.Clear();
             return env;
         }
+
         private EnvelopeType ConvertFromXenOVAv1(XcAppliance xenxva, DiskInfo[] vhdExports, string ovfname, string lang)
         {
             mappings.Clear();
@@ -637,7 +607,7 @@ namespace XenOvf
             ulong mem = 0;
             if (xenxva.vm.config.memset != 0)
             {
-                mem = xenxva.vm.config.memset / MB; 
+                mem = xenxva.vm.config.memset/MB;
                 SetMemory(env, vsId, mem, "MB");
             }
             if (xenxva.vm.config.vcpus != 0)
@@ -646,7 +616,7 @@ namespace XenOvf
             }
             if (xenxva.vm.hacks.isHVM)
             {
-                AddVirtualSystemSettingData(env, vsId, vhsId, xenxva.vm.label.Trim(), xenxva.vm.label.Trim() , _ovfrm.GetString("CONVERT_XVA_VSSD_CAPTION"), Guid.NewGuid().ToString(), Properties.Settings.Default.xenDefaultVirtualSystemType);
+                AddVirtualSystemSettingData(env, vsId, vhsId, xenxva.vm.label.Trim(), xenxva.vm.label.Trim(), _ovfrm.GetString("CONVERT_XVA_VSSD_CAPTION"), Guid.NewGuid().ToString(), Properties.Settings.Default.xenDefaultVirtualSystemType);
                 AddOtherSystemSettingData(env, vsId, lang, "HVM_boot_policy", Properties.Settings.Default.xenBootOptions, _ovfrm.GetString("XENSERVER_SPECIFIC_DESCRIPTION"));
                 AddOtherSystemSettingData(env, vsId, lang, "HVM_boot_params", Properties.Settings.Default.xenBootOrder, _ovfrm.GetString("XENSERVER_SPECIFIC_DESCRIPTION"));
                 AddOtherSystemSettingData(env, vsId, lang, "platform", Properties.Settings.Default.xenPlatformSetting, _ovfrm.GetString("XENSERVER_PLATFORM_DESCRIPTION"));
@@ -660,7 +630,7 @@ namespace XenOvf
                 AddOtherSystemSettingData(env, vsId, lang, "platform", Properties.Settings.Default.xenPVPlatformSetting, _ovfrm.GetString("XENSERVER_PLATFORM_DESCRIPTION"));
             }
             UpdateVirtualSystemName(env, vsId, lang, xenxva.vm.label.Trim());
-            AddNetwork(env, vsId, lang, _ovfrm.GetString("RASD_10_CAPTION"),  _ovfrm.GetString("RASD_10_DESCRIPTION"), null);
+            AddNetwork(env, vsId, lang, _ovfrm.GetString("RASD_10_CAPTION"), _ovfrm.GetString("RASD_10_DESCRIPTION"), null);
             string contollerId = Guid.NewGuid().ToString();
             AddController(env, vsId, DeviceType.IDE, contollerId, 0);
             int i = 0;
@@ -677,6 +647,7 @@ namespace XenOvf
             mappings.Clear();
             return env;
         }
+
         private EnvelopeType ConvertFromHyperVXml(Ms_Declarations_Type hvobj, string ovfname, string lang)
         {
             EnvelopeType env = CreateEnvelope(ovfname, lang);
@@ -689,206 +660,213 @@ namespace XenOvf
                 RASD_Type rasd = new RASD_Type();
                 switch (wrap.instance.className)
                 {
-                    #region CASE: Msvm_VirtualSystemSettingData
+                        #region CASE: Msvm_VirtualSystemSettingData
+
                     case "Msvm_VirtualSystemSettingData":
+                    {
+                        string ElementName = null;
+                        string InstanceId = null;
+                        string SystemName = null;
+                        string VirtualSystemType = null;
+                        foreach (Ms_Property_Base_Type prop in wrap.instance.Properties)
                         {
-                            string ElementName = null;
-                            string InstanceId = null;
-                            string SystemName = null;
-                            string VirtualSystemType = null;
-                            foreach (Ms_Property_Base_Type prop in wrap.instance.Properties)
+                            switch (prop.Name)
                             {
-                                switch (prop.Name)
+                                case "ElementName":
                                 {
-                                    case "ElementName":
-                                        {
-                                            ElementName = ((Ms_ParameterValue_Type)prop).Value;
-                                            break;
-                                        }
-                                    case "InstanceID":
-                                        {
-                                            InstanceId = ((Ms_ParameterValue_Type)prop).Value;
-                                            break;
-                                        }
-                                    case "SystemName":
-                                        {
-                                            SystemName = ((Ms_ParameterValue_Type)prop).Value;
-                                            break;
-                                        }
-                                    case "VirtualSystemType":
-                                        {
-                                            VirtualSystemType = ((Ms_ParameterValue_Type)prop).Value;
-                                            break;
-                                        }
+                                    ElementName = ((Ms_ParameterValue_Type)prop).Value;
+                                    break;
+                                }
+                                case "InstanceID":
+                                {
+                                    InstanceId = ((Ms_ParameterValue_Type)prop).Value;
+                                    break;
+                                }
+                                case "SystemName":
+                                {
+                                    SystemName = ((Ms_ParameterValue_Type)prop).Value;
+                                    break;
+                                }
+                                case "VirtualSystemType":
+                                {
+                                    VirtualSystemType = ((Ms_ParameterValue_Type)prop).Value;
+                                    break;
                                 }
                             }
-                            AddVirtualSystemSettingData(env, systemId, vhsid, ElementName, ElementName, ElementName, InstanceId, VirtualSystemType);
-                            UpdateVirtualSystemName(env, systemId, lang, ElementName);
-                            break;
                         }
-                    #endregion
+                        AddVirtualSystemSettingData(env, systemId, vhsid, ElementName, ElementName, ElementName, InstanceId, VirtualSystemType);
+                        UpdateVirtualSystemName(env, systemId, lang, ElementName);
+                        break;
+                    }
 
-                    #region CASE: ResourceAllocationSettingData
+                        #endregion
+
+                        #region CASE: ResourceAllocationSettingData
+
                     case "Msvm_ProcessorSettingData":
                     case "Msvm_MemorySettingData":
                     case "Msvm_SyntheticEthernetPortSettingData":
                     case "Msvm_ResourceAllocationSettingData":
+                    {
+                        foreach (Ms_Property_Base_Type prop in wrap.instance.Properties)
                         {
-                            foreach (Ms_Property_Base_Type prop in wrap.instance.Properties)
+                            if (prop is Ms_ParameterValue_Type)
                             {
-                                if (prop is Ms_ParameterValue_Type) 
+                                if (((Ms_ParameterValue_Type)prop).Value == null ||
+                                    ((Ms_ParameterValue_Type)prop).Value.Length <= 0)
                                 {
-                                  if (((Ms_ParameterValue_Type)prop).Value == null ||
-                                     ((Ms_ParameterValue_Type)prop).Value.Length <= 0)
-                                     {
-                                         continue;
-                                     }
-                                }
-                                else if (prop is Ms_ParameterValueArray_Type) 
-                                {
-                                    if  (((Ms_ParameterValueArray_Type)prop).Values == null ||
-                                        ((Ms_ParameterValueArray_Type)prop).Values.Length <= 0)
-                                    {
-                                        continue;
-                                    }
-                                }
-
-                                PropertyInfo[] properties = rasd.GetType().GetProperties();
-                                foreach (PropertyInfo pi in properties)
-                                {
-                                    if (pi.Name.ToLower().Equals(prop.Name.ToLower()))
-                                    {
-                                        object newvalue = null;
-                                        if (prop is Ms_ParameterValue_Type)
-                                        {
-                                            switch (prop.Type.ToLower())
-                                            {
-                                                case "string":
-                                                    {
-                                                        newvalue = new cimString((string)((Ms_ParameterValue_Type)prop).Value);
-                                                        break;
-                                                    }
-                                                case "boolean":
-                                                    {
-                                                        newvalue = new cimBoolean();
-                                                        ((cimBoolean)newvalue).Value = Convert.ToBoolean(((Ms_ParameterValue_Type)prop).Value);
-                                                        break;
-                                                    }
-                                                case "uint16":
-                                                    {
-                                                        newvalue = new cimUnsignedShort();
-                                                        ((cimUnsignedShort)newvalue).Value = Convert.ToUInt16(((Ms_ParameterValue_Type)prop).Value);
-                                                        break;
-                                                    }
-                                                case "uint32":
-                                                    {
-                                                        newvalue = new cimUnsignedInt();
-                                                        ((cimUnsignedInt)newvalue).Value = Convert.ToUInt32(((Ms_ParameterValue_Type)prop).Value);
-                                                        break;
-                                                    }
-                                                case "uint64":
-                                                    {
-                                                        newvalue = new cimUnsignedLong();
-                                                        ((cimUnsignedLong)newvalue).Value = Convert.ToUInt64(((Ms_ParameterValue_Type)prop).Value);
-                                                        break;
-                                                    }
-                                            }
-                                        }
-                                        else if (prop is Ms_ParameterValueArray_Type)
-                                        {
-                                            switch (prop.Type.ToLower())
-                                            {
-                                                case "string":
-                                                    {
-                                                        List<cimString> sarray = new List<cimString>();
-                                                        foreach (Ms_ParameterValue_Type svalue in ((Ms_ParameterValueArray_Type)prop).Values)
-                                                        {
-                                                            sarray.Add(new cimString(svalue.Value));
-                                                        }
-                                                        newvalue = sarray.ToArray();
-                                                        break;
-                                                    }
-                                            }
-                                        }
-
-                                        object tmpobject = null;
-                                        switch (pi.Name.ToLower())
-                                        {
-                                            case "caption":
-                                                {
-                                                    newvalue = new Caption(((cimString)newvalue).Value);
-                                                    break;
-                                                }
-                                            case "changeabletype":
-                                                {
-                                                    tmpobject = newvalue;
-                                                    newvalue = new ChangeableType();
-                                                    ((ChangeableType)newvalue).Value = ((cimUnsignedShort)tmpobject).Value;
-                                                    break;
-                                                }
-                                            case "consumervisibility":
-                                                {
-                                                    tmpobject = newvalue;
-                                                    newvalue = new ConsumerVisibility();
-                                                    ((ConsumerVisibility)newvalue).Value = ((cimUnsignedShort)tmpobject).Value;
-                                                    break;
-                                                }
-                                            case "mappingbehavior":
-                                                {
-                                                    tmpobject = newvalue;
-                                                    newvalue = new MappingBehavior();
-                                                    ((MappingBehavior)newvalue).Value = ((cimUnsignedShort)tmpobject).Value;
-                                                    break;
-                                                }
-                                            case "resourcetype":
-                                                {
-                                                    tmpobject = newvalue;
-                                                    newvalue = new ResourceType();
-                                                    ((ResourceType)newvalue).Value = ((cimUnsignedShort)tmpobject).Value;
-                                                    break;
-                                                }
-                                            case "connection":
-                                            case "hostresource":
-                                            default:
-                                                {
-                                                    break;
-                                                }
-
-                                        }
-                                        pi.SetValue(rasd, newvalue, null);
-                                    }
+                                    continue;
                                 }
                             }
-                            if (rasd != null)
+                            else if (prop is Ms_ParameterValueArray_Type)
                             {
-                                if (FillEmptyRequiredFields(rasd))
+                                if (((Ms_ParameterValueArray_Type)prop).Values == null ||
+                                    ((Ms_ParameterValueArray_Type)prop).Values.Length <= 0)
                                 {
-                                    if (rasd.ResourceType.Value == 21 &&
-                                        rasd.Caption.Value.ToLower().StartsWith(_ovfrm.GetString("RASD_19_CAPTION").ToLower()))
-                                    {
-                                        string filename = Path.GetFileName(rasd.Connection[0].Value);
-                                        AddFileReference(env, lang, filename, rasd.InstanceID.Value, 0, Properties.Settings.Default.winFileFormatURI);
-                                        AddRasd(env, systemId, rasd);
-                                    }
-                                    else if (rasd.ResourceType.Value == 10)
-                                    {
-                                        AddNetwork(env, systemId, lang, rasd.InstanceID.Value, rasd.Caption.Value, rasd.Address.Value);
-                                    }
-                                    else
-                                    {
-                                        AddRasd(env, systemId, rasd);
-                                    }
+                                    continue;
                                 }
                             }
-                            break;
+
+                            PropertyInfo[] properties = rasd.GetType().GetProperties();
+                            foreach (PropertyInfo pi in properties)
+                            {
+                                if (pi.Name.ToLower().Equals(prop.Name.ToLower()))
+                                {
+                                    object newvalue = null;
+                                    if (prop is Ms_ParameterValue_Type)
+                                    {
+                                        switch (prop.Type.ToLower())
+                                        {
+                                            case "string":
+                                            {
+                                                newvalue = new cimString((string)((Ms_ParameterValue_Type)prop).Value);
+                                                break;
+                                            }
+                                            case "boolean":
+                                            {
+                                                newvalue = new cimBoolean();
+                                                ((cimBoolean)newvalue).Value = Convert.ToBoolean(((Ms_ParameterValue_Type)prop).Value);
+                                                break;
+                                            }
+                                            case "uint16":
+                                            {
+                                                newvalue = new cimUnsignedShort();
+                                                ((cimUnsignedShort)newvalue).Value = Convert.ToUInt16(((Ms_ParameterValue_Type)prop).Value);
+                                                break;
+                                            }
+                                            case "uint32":
+                                            {
+                                                newvalue = new cimUnsignedInt();
+                                                ((cimUnsignedInt)newvalue).Value = Convert.ToUInt32(((Ms_ParameterValue_Type)prop).Value);
+                                                break;
+                                            }
+                                            case "uint64":
+                                            {
+                                                newvalue = new cimUnsignedLong();
+                                                ((cimUnsignedLong)newvalue).Value = Convert.ToUInt64(((Ms_ParameterValue_Type)prop).Value);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    else if (prop is Ms_ParameterValueArray_Type)
+                                    {
+                                        switch (prop.Type.ToLower())
+                                        {
+                                            case "string":
+                                            {
+                                                List<cimString> sarray = new List<cimString>();
+                                                foreach (Ms_ParameterValue_Type svalue in ((Ms_ParameterValueArray_Type)prop).Values)
+                                                {
+                                                    sarray.Add(new cimString(svalue.Value));
+                                                }
+                                                newvalue = sarray.ToArray();
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    object tmpobject = null;
+                                    switch (pi.Name.ToLower())
+                                    {
+                                        case "caption":
+                                        {
+                                            newvalue = new Caption(((cimString)newvalue).Value);
+                                            break;
+                                        }
+                                        case "changeabletype":
+                                        {
+                                            tmpobject = newvalue;
+                                            newvalue = new ChangeableType();
+                                            ((ChangeableType)newvalue).Value = ((cimUnsignedShort)tmpobject).Value;
+                                            break;
+                                        }
+                                        case "consumervisibility":
+                                        {
+                                            tmpobject = newvalue;
+                                            newvalue = new ConsumerVisibility();
+                                            ((ConsumerVisibility)newvalue).Value = ((cimUnsignedShort)tmpobject).Value;
+                                            break;
+                                        }
+                                        case "mappingbehavior":
+                                        {
+                                            tmpobject = newvalue;
+                                            newvalue = new MappingBehavior();
+                                            ((MappingBehavior)newvalue).Value = ((cimUnsignedShort)tmpobject).Value;
+                                            break;
+                                        }
+                                        case "resourcetype":
+                                        {
+                                            tmpobject = newvalue;
+                                            newvalue = new ResourceType();
+                                            ((ResourceType)newvalue).Value = ((cimUnsignedShort)tmpobject).Value;
+                                            break;
+                                        }
+                                        case "connection":
+                                        case "hostresource":
+                                        default:
+                                        {
+                                            break;
+                                        }
+
+                                    }
+                                    pi.SetValue(rasd, newvalue, null);
+                                }
+                            }
                         }
-                    #endregion
- 
-                    #region CASE: Msvm_VLANEndpointSettingData
-                    case "Msvm_VLANEndpointSettingData":
-                    #endregion
+                        if (rasd != null)
+                        {
+                            if (FillEmptyRequiredFields(rasd))
+                            {
+                                if (rasd.ResourceType.Value == 21 &&
+                                    rasd.Caption.Value.ToLower().StartsWith(_ovfrm.GetString("RASD_19_CAPTION").ToLower()))
+                                {
+                                    string filename = Path.GetFileName(rasd.Connection[0].Value);
+                                    AddFileReference(env, lang, filename, rasd.InstanceID.Value, 0, Properties.Settings.Default.winFileFormatURI);
+                                    AddRasd(env, systemId, rasd);
+                                }
+                                else if (rasd.ResourceType.Value == 10)
+                                {
+                                    AddNetwork(env, systemId, lang, rasd.InstanceID.Value, rasd.Caption.Value, rasd.Address.Value);
+                                }
+                                else
+                                {
+                                    AddRasd(env, systemId, rasd);
+                                }
+                            }
+                        }
+                        break;
+                    }
 
-                    #region CASE: SKIPPED / DEFAULT
+                        #endregion
+
+                        #region CASE: Msvm_VLANEndpointSettingData
+
+                    case "Msvm_VLANEndpointSettingData":
+
+                        #endregion
+
+                        #region CASE: SKIPPED / DEFAULT
+
                     case "Msvm_VirtualSystemExportSettingData":
                     case "Msvm_VirtualSystemGlobalSettingData":
                     case "Msvm_HeartbeatComponentSettingData":
@@ -899,16 +877,18 @@ namespace XenOvf
                     case "Msvm_SwitchPort":
                     case "Msvm_VirtualSwitch":
                     default:
-                        {
-                            break;
-                        }
-                    #endregion
+                    {
+                        break;
+                    }
+
+                        #endregion
                 }
             }
 
             FinalizeEnvelope(env);
             return env;
         }
+
         private EnvelopeType ConvertFromVPCXml(Ms_Vmc_Type vmcobj, string vpcName, string ovfname, string lang)
         {
             EnvelopeType env = CreateEnvelope(ovfname, lang);
@@ -916,7 +896,7 @@ namespace XenOvf
             string vhsId = AddVirtualHardwareSection(env, vsId, lang);
             SetMemory(env, vsId, Convert.ToUInt64(vmcobj.hardware.memory.ram_size.value), "MB");
             // TODO: See if this is set in the other versions somewhere.
-            SetCPUs(env, vsId, (ulong)1 );
+            SetCPUs(env, vsId, (ulong)1);
             AddVirtualSystemSettingData(env, vsId, vhsId, vpcName, vpcName, _ovfrm.GetString("CONVERT_VPC_VSSD_CAPTION"), Guid.NewGuid().ToString(), Properties.Settings.Default.xenDefaultVirtualSystemType);
             AddOtherSystemSettingData(env, vsId, lang, "HVM_boot_policy", Properties.Settings.Default.xenBootOptions, _ovfrm.GetString("XENSERVER_SPECIFIC_DESCRIPTION"));
             AddOtherSystemSettingData(env, vsId, lang, "HVM_boot_params", Properties.Settings.Default.xenBootOrder, _ovfrm.GetString("XENSERVER_SPECIFIC_DESCRIPTION"));
@@ -947,24 +927,27 @@ namespace XenOvf
                     string diskId = Guid.NewGuid().ToString();
                     switch (loc.drive_type.value)
                     {
-                        case "0": { continue;  }  // when 0 location appears empty
+                        case "0":
+                        {
+                            continue;
+                        } // when 0 location appears empty
                         case "1": // when 1 VHD
-                            {
-                                AddDisk(env, vsId, lang, diskId, Path.GetFileName(loc.pathname.absolute.value), true, _ovfrm.GetString("RASD_19_CAPTION"), _ovfrm.GetString("RASD_19_DESCRIPTION"), 0, 0);
-                                break; 
-                            } 
+                        {
+                            AddDisk(env, vsId, lang, diskId, Path.GetFileName(loc.pathname.absolute.value), true, _ovfrm.GetString("RASD_19_CAPTION"), _ovfrm.GetString("RASD_19_DESCRIPTION"), 0, 0);
+                            break;
+                        }
                         case "2": // when 2 ISO
+                        {
+                            AddCDROM(env, vsId, diskId, _ovfrm.GetString("RASD_16_CAPTION"), _ovfrm.GetString("RASD_16_ELEMENTNAME"));
+                            if (loc.pathname != null &&
+                                loc.pathname.absolute != null &&
+                                !string.IsNullOrEmpty(loc.pathname.absolute.value))
                             {
-                                AddCDROM(env, vsId, diskId, _ovfrm.GetString("RASD_16_CAPTION"), _ovfrm.GetString("RASD_16_ELEMENTNAME"));
-                                if (loc.pathname != null &&
-                                    loc.pathname.absolute != null &&
-                                    !string.IsNullOrEmpty(loc.pathname.absolute.value))
-                                {
-                                    AddFileReference(env, lang, Path.GetFileName(loc.pathname.absolute.value), diskId, 0, Properties.Settings.Default.isoFileFormatURI);
-                                    UpdateResourceAllocationSettingData(env, vsId, diskId, "HostResource", string.Format(Properties.Settings.Default.hostresource, diskId));
-                                }
-                                break; 
-                            } 
+                                AddFileReference(env, lang, Path.GetFileName(loc.pathname.absolute.value), diskId, 0, Properties.Settings.Default.isoFileFormatURI);
+                                UpdateResourceAllocationSettingData(env, vsId, diskId, "HostResource", string.Format(Properties.Settings.Default.hostresource, diskId));
+                            }
+                            break;
+                        }
                     }
                     AddDeviceToController(env, vsId, diskId, ideId, loc.id);
                 }
@@ -975,6 +958,7 @@ namespace XenOvf
             mappings.Clear();
             return env;
         }
+
         private EnvelopeType ConvertFromVMXcfg(Dictionary<string, string> vmxcfg, string ovfname, string lang)
         {
             EnvelopeType env = CreateEnvelope(ovfname, lang);
@@ -983,7 +967,7 @@ namespace XenOvf
             int addedNetwork = 0;
             int addedIDE = 0;
             int addedSCSI = 0;
-            string vmxName = ovfname.Replace("\"","");
+            string vmxName = ovfname.Replace("\"", "");
 
             // just in case these are in vmx file:
             if (!vmxcfg.ContainsKey("numvcpus"))
@@ -992,7 +976,7 @@ namespace XenOvf
             }
             else
             {
-                    SetCPUs(env, vsId, Convert.ToUInt64("numvcpus"));
+                SetCPUs(env, vsId, Convert.ToUInt64("numvcpus"));
             }
             if (!vmxcfg.ContainsKey("memsize"))
             {
@@ -1033,7 +1017,7 @@ namespace XenOvf
                     int ideIdx = (int)i - 48;
                     if (ideIdx == addedIDE)
                     {
-                        string[] parts = key.Split(new char[] { ':', '.' });
+                        string[] parts = key.Split(new char[] {':', '.'});
                         int port = 0;
                         if (parts.Length == 3)
                         {
@@ -1084,7 +1068,7 @@ namespace XenOvf
                     int scsiIdx = (int)i - 48;
                     if (scsiIdx == addedSCSI)
                     {
-                        string[] parts = key.Split(new char[] { ':', '.' });
+                        string[] parts = key.Split(new char[] {':', '.'});
                         int port = 0;
                         if (parts.Length == 3)
                         {
@@ -1142,6 +1126,7 @@ namespace XenOvf
             mappings.Clear();
             return env;
         }
+
         private void TransformXvaOvf_VM(EnvelopeType env, string vsId, string lang, XenStruct vmstruct)
         {
             int PVvalue = 0;
@@ -1167,7 +1152,7 @@ namespace XenOvf
                 {
                     if (n.xenvalue != null && n.xenvalue is string && ((string)n.xenvalue).Length > 0)
                     {
-                        UInt64 memory = Convert.ToUInt64(n.xenvalue) / MB;
+                        UInt64 memory = Convert.ToUInt64(n.xenvalue)/MB;
                         SetMemory(env, vsId, memory, "MB");
                     }
                 }
@@ -1180,15 +1165,15 @@ namespace XenOvf
                     }
                 }
                 else if (
-                         n.xenname.ToLower().Equals("pv_bootloader") ||
-                         n.xenname.ToLower().Equals("pv_kernel") ||
-                         n.xenname.ToLower().Equals("pv_ramdisk") ||
-                         n.xenname.ToLower().Equals("pv_args") ||
-                         n.xenname.ToLower().Equals("pv_bootloader_args") ||
-                         n.xenname.ToLower().Equals("pv_legacy_args") ||
-                         n.xenname.ToLower().Equals("hvm_boot_policy") ||
-                         n.xenname.ToLower().Equals("hvm_shadow_multiplier")
-                        )
+                    n.xenname.ToLower().Equals("pv_bootloader") ||
+                    n.xenname.ToLower().Equals("pv_kernel") ||
+                    n.xenname.ToLower().Equals("pv_ramdisk") ||
+                    n.xenname.ToLower().Equals("pv_args") ||
+                    n.xenname.ToLower().Equals("pv_bootloader_args") ||
+                    n.xenname.ToLower().Equals("pv_legacy_args") ||
+                    n.xenname.ToLower().Equals("hvm_boot_policy") ||
+                    n.xenname.ToLower().Equals("hvm_shadow_multiplier")
+                )
                 {
                     if (n.xenvalue != null && n.xenvalue is string && ((string)n.xenvalue).Length > 0)
                     {
@@ -1267,6 +1252,7 @@ namespace XenOvf
             }
             log.DebugFormat("OVF.TransformXvaOvf_VM completed {0}", vsId);
         }
+
         private void TransformXvaOvf_VBD(EnvelopeType env, string vsId, string lang, XenStruct vmstruct)
         {
 
@@ -1346,19 +1332,19 @@ namespace XenOvf
                     switch (((string)n.xenvalue).ToUpper())
                     {
                         case "CD":
-                            {
-                                isDisk = false;
-                                caption = _ovfrm.GetString("RASD_16_CAPTION");
-                                description = _ovfrm.GetString("RASD_16_DESCRIPTION");
-                                break;
-                            }
+                        {
+                            isDisk = false;
+                            caption = _ovfrm.GetString("RASD_16_CAPTION");
+                            description = _ovfrm.GetString("RASD_16_DESCRIPTION");
+                            break;
+                        }
                         case "DISK":
-                            {
-                                caption = _ovfrm.GetString("RASD_19_CAPTION");
-                                description = _ovfrm.GetString("RASD_19_DESCRIPTION");
-                                isDisk = true;
-                                break;
-                            }
+                        {
+                            caption = _ovfrm.GetString("RASD_19_CAPTION");
+                            description = _ovfrm.GetString("RASD_19_DESCRIPTION");
+                            isDisk = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -1376,6 +1362,7 @@ namespace XenOvf
             }
             log.DebugFormat("OVF.TransformXvaOvf_VBD completed {0}", vsId);
         }
+
         private void TransformXvaOvf_VIF(EnvelopeType env, string vsId, string lang, XenStruct vmstruct)
         {
             string vifuuid = null;
@@ -1422,6 +1409,7 @@ namespace XenOvf
             AddNetwork(env, vsId, lang, vifuuid, null, mac);
             log.DebugFormat("OVF.TransformXvaOvf_VIF completed {0}", vsId);
         }
+
         private void TransformXvaOvf_Network(EnvelopeType env, string vsId, string lang, string refId, XenStruct vmstruct)
         {
             string networkName = null;
@@ -1432,9 +1420,9 @@ namespace XenOvf
                 // Currently these are the only values we care about.
                 //
                 if (n.xenname.ToLower().Equals("name_label") &&
-                         n.xenvalue != null &&
-                         n.xenvalue is string &&
-                         ((string)n.xenvalue).Length > 0)
+                    n.xenvalue != null &&
+                    n.xenvalue is string &&
+                    ((string)n.xenvalue).Length > 0)
                 {
                     networkName = ((string)n.xenvalue);
                     break;
@@ -1461,6 +1449,7 @@ namespace XenOvf
             }
             log.DebugFormat("OVF.TransformXvaOvf_Network completed {0}", vsId);
         }
+
         private void TransformXvaOvf_VDI(EnvelopeType env, string vsId, string lang, string refId, DiskInfo di, XenStruct vmstruct)
         {
             string instanceId = null;
@@ -1492,6 +1481,7 @@ namespace XenOvf
             UpdateDisk(env, vsId, instanceId, description, vhdfilename, filesize, capacity, freespace);
             log.DebugFormat("OVF.TransformXvaOvf_VDI completed {0}", vsId);
         }
+
         private void TransformXvaOvf_SR(EnvelopeType env, string vsId, string lang, XenStruct vmstruct)
         {
             //
@@ -1503,8 +1493,8 @@ namespace XenOvf
         }
 
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
-                                                         Justification = "Logging only usage")]
+        [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
+             Justification = "Logging only usage")]
         private void CollectInformation()
         {
             Win32_ComputerSystem = null;
@@ -1522,12 +1512,13 @@ namespace XenOvf
             ManagementObjectSearcher searcher = null;
 
             #region Win32_ComputerSystem
+
             try
             {
                 searcher = new ManagementObjectSearcher(@"select * from Win32_ComputerSystem");
                 foreach (ManagementObject mgtobj in searcher.Get())
                 {
-                    Win32_ComputerSystem = mgtobj;  // only want one.
+                    Win32_ComputerSystem = mgtobj; // only want one.
                     break;
                 }
                 log.Debug("OVF.CollectionInformation Win32_ComputerSystem.1");
@@ -1542,15 +1533,17 @@ namespace XenOvf
                     searcher.Dispose();
                 searcher = null;
             }
+
             #endregion
 
             #region Win32_Processor
+
             try
             {
                 searcher = new ManagementObjectSearcher(@"select * from Win32_Processor");
                 foreach (ManagementObject mgtobj in searcher.Get())
                 {
-                    Win32_Processor.Add(mgtobj);  // only want one.
+                    Win32_Processor.Add(mgtobj); // only want one.
                     break;
                 }
                 log.DebugFormat("OVF.CollectionInformation Win32_Processor.{0}", Win32_Processor.Count);
@@ -1565,9 +1558,11 @@ namespace XenOvf
                     searcher.Dispose();
                 searcher = null;
             }
+
             #endregion
 
             #region Win32_CDROMDrive
+
             try
             {
                 searcher = new ManagementObjectSearcher(@"select * from Win32_CDROMDrive");
@@ -1587,9 +1582,11 @@ namespace XenOvf
                     searcher.Dispose();
                 searcher = null;
             }
+
             #endregion
 
             #region Win32_DiskDrive
+
             try
             {
                 searcher = new ManagementObjectSearcher(@"select * from Win32_DiskDrive");
@@ -1609,9 +1606,11 @@ namespace XenOvf
                     searcher.Dispose();
                 searcher = null;
             }
+
             #endregion
 
             #region Win32_NetworkAdapter
+
             try
             {
                 searcher = new ManagementObjectSearcher(@"select * from Win32_NetworkAdapter");
@@ -1631,9 +1630,11 @@ namespace XenOvf
                     searcher.Dispose();
                 searcher = null;
             }
+
             #endregion
 
             #region Win32_IDEController
+
             try
             {
                 searcher = new ManagementObjectSearcher(@"select * from Win32_IDEController");
@@ -1653,9 +1654,11 @@ namespace XenOvf
                     searcher.Dispose();
                 searcher = null;
             }
+
             #endregion
 
             #region Win32_SCSIController
+
             try
             {
                 searcher = new ManagementObjectSearcher(@"select * from Win32_SCSIController");
@@ -1675,9 +1678,11 @@ namespace XenOvf
                     searcher.Dispose();
                 searcher = null;
             }
+
             #endregion
 
             #region Win32_DiskPartition
+
             try
             {
                 searcher = new ManagementObjectSearcher(@"select * from Win32_DiskPartition");
@@ -1697,9 +1702,11 @@ namespace XenOvf
                     searcher.Dispose();
                 searcher = null;
             }
+
             #endregion
 
             #region Win32_DiskDriveToDiskPartition
+
             try
             {
                 searcher = new ManagementObjectSearcher(@"select * from Win32_DiskDriveToDiskPartition");
@@ -1719,6 +1726,7 @@ namespace XenOvf
                     searcher.Dispose();
                 searcher = null;
             }
+
             #endregion
 
         }
@@ -1727,14 +1735,16 @@ namespace XenOvf
         {
             AddVssd(ovfEnv, vsId, vhsId, Properties.Settings.Default.Language);
         }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
-                                                         Justification = "Logging mechanism")]
+
+        [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
+             Justification = "Logging mechanism")]
         private void AddVssd(EnvelopeType ovfEnv, string vsId, string vhsId, string lang)
         {
 
             if (Win32_ComputerSystem != null)
             {
                 #region FIND BY PROPERTIES NOT EXPLICID
+
                 string name = "Generic Computer";
                 string caption = "Generic Caption";
                 string description = "Autogenerated OVF/OVA Package";
@@ -1754,16 +1764,18 @@ namespace XenOvf
                         description = (string)pd.Value;
                     }
                 }
+
                 #endregion
+
                 UpdateVirtualSystemName(ovfEnv, vsId, lang, name);
                 AddVirtualSystemSettingData(ovfEnv,
-                                            vsId,
-                                            vhsId,
-                                            name,
-                                            caption,
-                                            description,
-                                            Guid.NewGuid().ToString(),
-                                            "301"); // 301 == Microsoft (source), hvm-3.0-unknown == (xen source) Microsoft && Linux NOT PV'd, xen-3.0-unknown == PV'd
+                    vsId,
+                    vhsId,
+                    name,
+                    caption,
+                    description,
+                    Guid.NewGuid().ToString(),
+                    "301"); // 301 == Microsoft (source), hvm-3.0-unknown == (xen source) Microsoft && Linux NOT PV'd, xen-3.0-unknown == PV'd
 
             }
             else
@@ -1774,13 +1786,13 @@ namespace XenOvf
                 string description = string.Format(Messages.UNKNOWN);
                 UpdateVirtualSystem(ovfEnv, vsId, lang, name);
                 AddVirtualSystemSettingData(ovfEnv,
-                                            vsId,
-                                            vhsId,
-                                            name,
-                                            caption,
-                                            description,
-                                            Guid.NewGuid().ToString(),
-                                            "301");
+                    vsId,
+                    vhsId,
+                    name,
+                    caption,
+                    description,
+                    Guid.NewGuid().ToString(),
+                    "301");
                 log.Warn("System definition not available, created defaults");
             }
             log.Debug("OVF.AddVssd completed");
@@ -1790,8 +1802,9 @@ namespace XenOvf
         {
             AddNetworks(ovfEnv, vsId, Properties.Settings.Default.Language);
         }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
-                                                         Justification = "Logging mechanism")]
+
+        [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
+             Justification = "Logging mechanism")]
         private void AddNetworks(EnvelopeType ovfEnv, string vsId, string lang)
         {
             if (Win32_NetworkAdapter != null)
@@ -1889,8 +1902,9 @@ namespace XenOvf
         {
             AddCPUs(ovfEnv, vsId, Properties.Settings.Default.Language);
         }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
-                                                         Justification = "Logging mechanism")]
+
+        [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
+             Justification = "Logging mechanism")]
         private void AddCPUs(EnvelopeType ovfEnv, string vsId, string lang)
         {
             UInt64 cpucount = 0;
@@ -1899,6 +1913,7 @@ namespace XenOvf
                 foreach (ManagementObject mo in Win32_Processor)
                 {
                     #region FIND BY PROPERTIES NOT EXPLICID
+
                     uint numberofcores = 1;
 
                     foreach (PropertyData pd in mo.Properties)
@@ -1908,7 +1923,9 @@ namespace XenOvf
                             numberofcores = (uint)pd.Value;
                         }
                     }
+
                     #endregion
+
                     cpucount += Convert.ToUInt64(numberofcores);
                 }
 
@@ -1926,12 +1943,13 @@ namespace XenOvf
         {
             AddMemory(ovfEnv, vsId, Properties.Settings.Default.Language);
         }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
-                                                         Justification = "Logging mechanism")]
+
+        [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
+             Justification = "Logging mechanism")]
         private void AddMemory(EnvelopeType ovfEnv, string vsId, string lang)
         {
-            ulong divisor = 1024 * 1024;
-            ulong totalphysicalmemory = divisor * 512;  // 512MB Default Memory
+            ulong divisor = 1024*1024;
+            ulong totalphysicalmemory = divisor*512; // 512MB Default Memory
             ulong memory = 0;
 
             if (Win32_ComputerSystem != null)
@@ -1946,8 +1964,10 @@ namespace XenOvf
                         break;
                     }
                 }
+
                 #endregion
-                memory = totalphysicalmemory / divisor;
+
+                memory = totalphysicalmemory/divisor;
             }
             else
             {
@@ -1962,19 +1982,23 @@ namespace XenOvf
         {
             CreateConnectedDevices(ovfEnv, vsId, Properties.Settings.Default.Language, vhdExports);
         }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
-                                                         Justification = "Logging mechanism")]
+
+        [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
+             Justification = "Logging mechanism")]
         private void CreateConnectedDevices(EnvelopeType ovfEnv, string vsId, string lang, DiskInfo[] vhdExports)
         {
             //VirtualHardwareSection_Type vhs = FindVirtualHardwareSection(ovfEnv, vsId);
             bool guessPosition = true;
             int i = 0;
+
             #region IDE
+
             if (Win32_IDEController != null && Win32_IDEController.Count > 0)
             {
                 foreach (ManagementObject mo in Win32_IDEController)
                 {
                     #region FIND BY PROPERTIES NOT EXPLICID
+
                     string deviceid = null;
                     foreach (PropertyData pd in mo.Properties)
                     {
@@ -1983,6 +2007,7 @@ namespace XenOvf
                             deviceid = (string)pd.Value;
                         }
                     }
+
                     #endregion
 
                     if (deviceid == null)
@@ -1997,6 +2022,7 @@ namespace XenOvf
                     foreach (ManagementObject ca in ControllerAssociations)
                     {
                         #region FIND BY PROPERTIES NOT EXPLICID
+
                         string _dependent = null;
                         foreach (PropertyData pd in ca.Properties)
                         {
@@ -2010,8 +2036,10 @@ namespace XenOvf
                             traceLog.Debug("PCI Association not available, continuing.");
                             continue;
                         }
+
                         #endregion
-                        string[] dependent = _dependent.Split(new char[] { '=' });
+
+                        string[] dependent = _dependent.Split(new char[] {'='});
                         string dependentId = dependent[dependent.Length - 1].Replace("\"", "");
                         dependentId = dependentId.Replace(@"\", "");
                         string startswith = dependentId; //.Replace(@"\", "");
@@ -2022,6 +2050,7 @@ namespace XenOvf
                             foreach (ManagementObject md in Win32_DiskDrive)
                             {
                                 #region FIND BY PROPERTIES NOT EXPLICID
+
                                 string _deviceid = null;
                                 string _pnpdeviceid = null;
                                 UInt64 _size = 0;
@@ -2041,6 +2070,7 @@ namespace XenOvf
                                     }
 
                                 }
+
                                 #endregion
 
                                 _pnpdeviceid = _pnpdeviceid.Replace(@"\", "");
@@ -2056,7 +2086,7 @@ namespace XenOvf
                                                 string diskInstanceId = Guid.NewGuid().ToString();
                                                 int lastAmp = dependentId.LastIndexOf('&');
                                                 if (lastAmp < 0) lastAmp = 0;
-                                                string[] tmp = dependentId.Substring(lastAmp + 1).Split(new char[] { '.' });
+                                                string[] tmp = dependentId.Substring(lastAmp + 1).Split(new char[] {'.'});
                                                 string address = null;
                                                 if (tmp.Length >= 2)
                                                 {
@@ -2070,9 +2100,9 @@ namespace XenOvf
                                                 address = address.Replace("&", "_");
                                                 bool bootable = IsBootDisk(di.DriveId);
                                                 AddDisk(ovfEnv, vsId, diskInstanceId, lang, di.VhdFileName, bootable,
-                                                        _ovfrm.GetString("RASD_19_CAPTION"),
-                                                        _ovfrm.GetString("RASD_19_DESCRIPTION"),
-                                                        Convert.ToUInt64(di.PhysicalSize), Convert.ToUInt64(di.CapacitySize));
+                                                    _ovfrm.GetString("RASD_19_CAPTION"),
+                                                    _ovfrm.GetString("RASD_19_DESCRIPTION"),
+                                                    Convert.ToUInt64(di.PhysicalSize), Convert.ToUInt64(di.CapacitySize));
                                                 AddDeviceToController(ovfEnv, vsId, diskInstanceId, controllerInstanceId, address);
                                                 di.Added = true;
                                                 log.DebugFormat("OVF.CreateConnectedDevices: {0} ({1}) added to {2}", di.DriveId, di.VhdFileName, dependentId);
@@ -2094,6 +2124,7 @@ namespace XenOvf
                             foreach (ManagementObject md in Win32_CDROMDrive)
                             {
                                 #region FIND BY PROPERTIES NOT EXPLICID
+
                                 string _pnpdeviceid = null;
                                 foreach (PropertyData pd in md.Properties)
                                 {
@@ -2107,7 +2138,9 @@ namespace XenOvf
                                     traceLog.Debug("PNPDeviceID not available, continuing.");
                                     continue;
                                 }
+
                                 #endregion
+
                                 _pnpdeviceid = _pnpdeviceid.Replace(@"\", "");
                                 if (_pnpdeviceid.Equals(dependentId))
                                 {
@@ -2117,7 +2150,7 @@ namespace XenOvf
                                         string diskInstanceId = Guid.NewGuid().ToString();
                                         int lastAmp = dependentId.LastIndexOf('&');
                                         if (lastAmp < 0) lastAmp = 0;
-                                        string[] tmp = dependentId.Substring(lastAmp + 1).Split(new char[] { '.' });
+                                        string[] tmp = dependentId.Substring(lastAmp + 1).Split(new char[] {'.'});
                                         //string[] tmp = dependentId.Split(new char[] { '.' });
                                         string address = tmp[1];
                                         int idetest = Convert.ToInt32(address);
@@ -2144,14 +2177,17 @@ namespace XenOvf
                 log.Info("OVF.CreateConnectedDevices NO IDE controllers detected.");
             }
             log.Debug("OVF.CreateConnectedDevices IDE Controllers completed.");
+
             #endregion
 
             #region SCSI
+
             if (Win32_SCSIController != null && Win32_SCSIController.Count > 0)
             {
                 foreach (ManagementObject device in Win32_SCSIController)
                 {
                     #region FIND BY PROPERTIES NOT EXPLICID
+
                     string _deviceid = null;
                     foreach (PropertyData pd in device.Properties)
                     {
@@ -2165,7 +2201,9 @@ namespace XenOvf
                         traceLog.Debug("SCSI DeviceID not available, continuing.");
                         continue;
                     }
+
                     #endregion
+
                     List<ManagementObject> ControllerAssociations = FindDeviceReferences("Win32_SCSIControllerDevice", _deviceid);
                     string controllerInstanceId = Guid.NewGuid().ToString();
 
@@ -2179,6 +2217,7 @@ namespace XenOvf
                     foreach (ManagementObject ca in ControllerAssociations)
                     {
                         #region FIND BY PROPERTIES NOT EXPLICID
+
                         string _dependent = null;
                         foreach (PropertyData pd in ca.Properties)
                         {
@@ -2192,9 +2231,10 @@ namespace XenOvf
                             traceLog.Debug("SCSI Association not available, continuing.");
                             continue;
                         }
+
                         #endregion
 
-                        string[] dependent = _dependent.Split(new char[] { '=' });
+                        string[] dependent = _dependent.Split(new char[] {'='});
                         string dependentId = dependent[dependent.Length - 1].Replace("\"", "");
                         dependentId = dependentId.Replace(@"\", "");
                         string startswith = dependentId; //.Replace(@"\", "");
@@ -2204,6 +2244,7 @@ namespace XenOvf
                             foreach (ManagementObject md in Win32_DiskDrive)
                             {
                                 #region FIND BY PROPERTIES NOT EXPLICID
+
                                 string __deviceid = null;
                                 string __pnpdeviceid = null;
                                 UInt32 __scsibus = 0;
@@ -2247,6 +2288,7 @@ namespace XenOvf
                                     traceLog.Debug("SCSI DeviceID not available, continuing.");
                                     continue;
                                 }
+
                                 #endregion
 
                                 __pnpdeviceid = __pnpdeviceid.Replace(@"\", "");
@@ -2273,6 +2315,7 @@ namespace XenOvf
                             foreach (ManagementObject md in Win32_CDROMDrive)
                             {
                                 #region FIND BY PROPERTIES NOT EXPLICID
+
                                 string __deviceid = null;
                                 string __pnpdeviceid = null;
                                 UInt32 __scsibus = 0;
@@ -2311,7 +2354,9 @@ namespace XenOvf
                                     traceLog.Debug("SCSI DeviceID not available, continuing.");
                                     continue;
                                 }
+
                                 #endregion
+
                                 __pnpdeviceid = __pnpdeviceid.Replace(@"\", "");
                                 if (__pnpdeviceid.Equals(dependentId))
                                 {
@@ -2331,9 +2376,11 @@ namespace XenOvf
                 log.Info("OVF.CreateConnectedDevices no SCSI Controllers detected.");
             }
             log.DebugFormat("OVF.CreateConnectedDevices SCSI Controllers completed {0} ", vsId);
+
             #endregion
 
             #region OTHER CONTROLLER DISKS
+
             // These are disks that were not found on an IDE or SCSI, but exist and want to be exported.
             // these could be USB, 1394 etc.
             foreach (DiskInfo di in vhdExports)
@@ -2347,6 +2394,7 @@ namespace XenOvf
                     foreach (ManagementObject md in Win32_DiskDrive)
                     {
                         #region FIND BY PROPERTIES NOT EXPLICID
+
                         foreach (PropertyData pd in md.Properties)
                         {
                             if (pd.Name.ToLower().Equals("deviceid") && pd.Value != null)
@@ -2363,6 +2411,7 @@ namespace XenOvf
                             }
 
                         }
+
                         #endregion
                     }
 
@@ -2373,9 +2422,11 @@ namespace XenOvf
                 }
             }
             log.DebugFormat("OVF.CreateConnectedDevices OTHER Controllers completed {0} ", vsId);
+
             #endregion
 
             #region CHECK ALL DISKS WERE DEFINED
+
             foreach (DiskInfo di in vhdExports)
             {
                 if (!di.Added)
@@ -2386,10 +2437,12 @@ namespace XenOvf
                     log.WarnFormat("CreateConnectedDevices: {0} ({1}) NOT FOUND, added as Unknown with 0 Size", di.DriveId, di.VhdFileName);
                 }
             }
+
             #endregion
 
             log.DebugFormat("OVF.CreateConnectedDevices completed {0} ", vsId);
-        }   
+        }
+
         #endregion
     }
 }

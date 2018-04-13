@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -437,7 +436,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vdi_get_record(session.opaque_ref, _vdi);
             else
-                return new VDI((Proxy_VDI)session.proxy.vdi_get_record(session.opaque_ref, _vdi ?? "").parse());
+                return new VDI(session.proxy.vdi_get_record(session.opaque_ref, _vdi ?? "").parse());
         }
 
         /// <summary>

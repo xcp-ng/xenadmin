@@ -414,7 +414,6 @@ namespace XenAdmin.Wizards.PatchingWizard
                             }
                             
                             cancel = true;
-                            base.PageLeave(direction, ref cancel);
                             return;
                         }
                     }

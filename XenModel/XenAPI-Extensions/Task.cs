@@ -157,7 +157,7 @@ namespace XenAPI
                 try
                 {
                     // Try and logout the old session using the new session
-                    newSession.proxy.session_logout(session.opaque_ref);
+                    newSession.logout(session.opaque_ref);
                 }
                 catch
                 {

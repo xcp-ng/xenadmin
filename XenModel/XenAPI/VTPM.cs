@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -166,7 +165,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vtpm_get_record(session.opaque_ref, _vtpm);
             else
-                return new VTPM((Proxy_VTPM)session.proxy.vtpm_get_record(session.opaque_ref, _vtpm ?? "").parse());
+                return new VTPM(session.proxy.vtpm_get_record(session.opaque_ref, _vtpm ?? "").parse());
         }
 
         /// <summary>

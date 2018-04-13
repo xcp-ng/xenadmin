@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -87,7 +86,7 @@ namespace XenAPI
 
         internal void UpdateFromProxy(Proxy_Network_sriov proxy)
         {
-            uuid = proxy.uuid == null ? null : (string)proxy.uuid;
+            uuid = proxy.uuid == null ? null : proxy.uuid;
             physical_PIF = proxy.physical_PIF == null ? null : XenRef<PIF>.Create(proxy.physical_PIF);
             logical_PIF = proxy.logical_PIF == null ? null : XenRef<PIF>.Create(proxy.logical_PIF);
             requires_reboot = (bool)proxy.requires_reboot;
@@ -182,7 +181,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.network_sriov_get_record(session.opaque_ref, _network_sriov);
             else
-                return new Network_sriov((Proxy_Network_sriov)session.proxy.network_sriov_get_record(session.opaque_ref, _network_sriov ?? "").parse());
+                return new Network_sriov(session.proxy.network_sriov_get_record(session.opaque_ref, _network_sriov ?? "").parse());
         }
 
         /// <summary>
@@ -210,7 +209,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.network_sriov_get_uuid(session.opaque_ref, _network_sriov);
             else
-                return (string)session.proxy.network_sriov_get_uuid(session.opaque_ref, _network_sriov ?? "").parse();
+                return session.proxy.network_sriov_get_uuid(session.opaque_ref, _network_sriov ?? "").parse();
         }
 
         /// <summary>
@@ -338,7 +337,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.network_sriov_get_remaining_capacity(session.opaque_ref, _network_sriov);
             else
-                return long.Parse((string)session.proxy.network_sriov_get_remaining_capacity(session.opaque_ref, _network_sriov ?? "").parse());
+                return long.Parse(session.proxy.network_sriov_get_remaining_capacity(session.opaque_ref, _network_sriov ?? "").parse());
         }
 
         /// <summary>

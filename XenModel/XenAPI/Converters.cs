@@ -387,25 +387,33 @@ namespace XenAPI
 
     internal class XenDateTimeConverter : IsoDateTimeConverter
     {
-        private static readonly string[] DateFormats = {"yyyyMMddTHH:mm:ssZ", "yyyyMMddTHH:mm:ss"};
+        private static readonly string[] DateFormatsUniversal =
+        {
+            "yyyyMMddTHH:mm:ssZ"
+        };
+
+        private static readonly string[] DateFormatsOther =
+        {
+            "yyyyMMddTHH:mm:ss",
+            "yyyyMMddTHHmmsszzz",
+            "yyyyMMddTHHmmsszz"
+        };
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            JToken jToken = JToken.Load(reader);
-            var str = jToken.ToObject<string>();
+            string str = JToken.Load(reader).ToString();
 
-            try
-            {
-                return DateTime.ParseExact(str, DateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None);
-            }
-            catch (FormatException)
-            {
-                return DateTime.MinValue;
-            }
-            catch (ArgumentException)
-            {
-                return DateTime.MinValue;
-            }
+            DateTime result;
+
+            if (DateTime.TryParseExact(str, DateFormatsUniversal, CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out result))
+                return result;
+
+            if (DateTime.TryParseExact(str, DateFormatsOther, CultureInfo.InvariantCulture,
+                DateTimeStyles.None, out result))
+                return result;
+
+            return DateTime.MinValue;
         }
     }
 

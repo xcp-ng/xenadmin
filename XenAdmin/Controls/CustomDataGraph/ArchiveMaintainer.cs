@@ -197,7 +197,7 @@ namespace XenAdmin.Controls.CustomDataGraph
                     }
 
                     foreach (DataArchive a in Archives.Values)
-                        a.Sets.Clear();
+                        a.ClearSets();
 
                     LoadingInitialData = true;
                     OnArchivesUpdated();

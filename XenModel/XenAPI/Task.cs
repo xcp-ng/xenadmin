@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -285,7 +284,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.task_get_record(session.opaque_ref, _task);
             else
-                return new Task((Proxy_Task)session.proxy.task_get_record(session.opaque_ref, _task ?? "").parse());
+                return new Task(session.proxy.task_get_record(session.opaque_ref, _task ?? "").parse());
         }
 
         /// <summary>

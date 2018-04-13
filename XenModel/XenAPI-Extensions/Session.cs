@@ -47,8 +47,9 @@ namespace XenAPI
         public bool IsElevatedSession = false;
 
         private Session(int timeout, IXenConnection connection, string url)
-            : this(CreateProxy(url, timeout), connection)
+            :this(timeout, url)
         {
+            Connection = connection;
             proxy.RequestEvent += LogRequest;
             proxy.ResponseEvent += LogResponse;
         }
@@ -67,7 +68,7 @@ namespace XenAPI
         public Session(Session session, Proxy proxy, IXenConnection connection)
             : this(proxy, connection)
         {
-            InitAD(session);
+            CopyADFromSession(session);
         }
 
         /// <summary>
@@ -79,21 +80,25 @@ namespace XenAPI
         {
             if (session.JsonRpcClient != null)
             {
-                JsonRpcClient = new JsonRpcClient(session.Url) {JsonRpcVersion = session.JsonRpcClient.JsonRpcVersion};
+                JsonRpcClient = new JsonRpcClient(session.Url)
+                {
+                    JsonRpcVersion = session.JsonRpcClient.JsonRpcVersion,
+                    Timeout = timeout
+                };
                 JsonRpcClient.RequestEvent += LogJsonRequest;
             }
             else
             {
-                proxy = CreateProxy(session.Url, timeout);
+                InitializeXmlRpcProxy(session.Url, timeout);
                 proxy.RequestEvent += LogRequest;
                 proxy.ResponseEvent += LogResponse;
             }
 
             Connection = connection;
-            InitAD(session);
+            CopyADFromSession(session);
         }
 
-        private void InitAD(Session session)
+        private void CopyADFromSession(Session session)
         {
             opaque_ref = session.opaque_ref;
             APIVersion = session.APIVersion;
@@ -102,21 +107,6 @@ namespace XenAPI
             _isLocalSuperuser = session.IsLocalSuperuser;
             roles = session.Roles;
             permissions = session.Permissions;
-        }
-
-        private static Proxy CreateProxy(string url, int timeout)
-        {
-            var xmlrpcProxy = XmlRpcProxyGen.Create<Proxy>();
-            xmlrpcProxy.Url = url;
-            xmlrpcProxy.NonStandard = XmlRpcNonStandard.All;
-            xmlrpcProxy.Timeout = timeout;
-            xmlrpcProxy.UseIndentation = false;
-            xmlrpcProxy.UserAgent = UserAgent;
-            xmlrpcProxy.KeepAlive = true;
-
-            xmlrpcProxy.Proxy = Proxy;
-            // reverted because of CA-137829/CA-137959: _proxy.ConnectionGroupName = Guid.NewGuid().ToString(); // this will force the Session onto a different set of TCP streams (see CA-108676)
-            return xmlrpcProxy;
         }
 
         /// <summary>

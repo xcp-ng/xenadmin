@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -355,7 +354,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vmpp_get_record(session.opaque_ref, _vmpp);
             else
-                return new VMPP((Proxy_VMPP)session.proxy.vmpp_get_record(session.opaque_ref, _vmpp ?? "").parse());
+                return new VMPP(session.proxy.vmpp_get_record(session.opaque_ref, _vmpp ?? "").parse());
         }
 
         /// <summary>

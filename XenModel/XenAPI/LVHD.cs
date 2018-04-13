@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -150,7 +149,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.lvhd_get_record(session.opaque_ref, _lvhd);
             else
-                return new LVHD((Proxy_LVHD)session.proxy.lvhd_get_record(session.opaque_ref, _lvhd ?? "").parse());
+                return new LVHD(session.proxy.lvhd_get_record(session.opaque_ref, _lvhd ?? "").parse());
         }
 
         /// <summary>

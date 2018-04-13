@@ -104,21 +104,18 @@ namespace XenAdmin.Wizards.ImportWizard
 				if (IsUri() && !PerformCheck(CheckDownloadFromUri))
 				{
 					cancel = true;
-					base.PageLeave(direction, ref cancel);
 					return;
 				}
 
                 if (!PerformCheck(CheckIsSupportedType, CheckPathExists))
 				{
 					cancel = true;
-					base.PageLeave(direction, ref cancel);
 					return;
 				}
 
                 if (!PerformCheck(CheckIsCompressed))
 				{
 					cancel = true;
-					base.PageLeave(direction, ref cancel);
 					return;
 				}
 
@@ -139,7 +136,6 @@ namespace XenAdmin.Wizards.ImportWizard
 				if (!PerformCheck(checks.ToArray()))
 				{
 					cancel = true;
-					base.PageLeave(direction, ref cancel);
 					return;
 				}
 

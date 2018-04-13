@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -187,7 +186,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vlan_get_record(session.opaque_ref, _vlan);
             else
-                return new VLAN((Proxy_VLAN)session.proxy.vlan_get_record(session.opaque_ref, _vlan ?? "").parse());
+                return new VLAN(session.proxy.vlan_get_record(session.opaque_ref, _vlan ?? "").parse());
         }
 
         /// <summary>

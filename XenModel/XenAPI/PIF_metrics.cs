@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -251,7 +250,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pif_metrics_get_record(session.opaque_ref, _pif_metrics);
             else
-                return new PIF_metrics((Proxy_PIF_metrics)session.proxy.pif_metrics_get_record(session.opaque_ref, _pif_metrics ?? "").parse());
+                return new PIF_metrics(session.proxy.pif_metrics_get_record(session.opaque_ref, _pif_metrics ?? "").parse());
         }
 
         /// <summary>

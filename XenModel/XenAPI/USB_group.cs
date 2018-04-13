@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -203,7 +202,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.usb_group_get_record(session.opaque_ref, _usb_group);
             else
-                return new USB_group((Proxy_USB_group)session.proxy.usb_group_get_record(session.opaque_ref, _usb_group ?? "").parse());
+                return new USB_group(session.proxy.usb_group_get_record(session.opaque_ref, _usb_group ?? "").parse());
         }
 
         /// <summary>

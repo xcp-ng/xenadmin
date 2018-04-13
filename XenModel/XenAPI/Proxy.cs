@@ -38,7 +38,7 @@ using CookComputing.XmlRpc;
 
 namespace XenAPI
 {
-    public partial interface Proxy : IXmlRpcProxy
+    public interface Proxy : IXmlRpcProxy
     {
         [XmlRpcMethod("event.get_record")]
         Response<Proxy_Event>
@@ -4796,10 +4796,6 @@ namespace XenAPI
         Response<string>
         pif_remove_from_other_config(string session, string _pif, string _key);
 
-        [XmlRpcMethod("PIF.set_disallow_unplug")]
-        Response<string>
-        pif_set_disallow_unplug(string session, string _pif, bool _disallow_unplug);
-
         [XmlRpcMethod("PIF.create_VLAN")]
         Response<string>
         pif_create_vlan(string session, string _device, string _network, string _host, string _vlan);
@@ -4879,6 +4875,14 @@ namespace XenAPI
         [XmlRpcMethod("Async.PIF.unplug")]
         Response<string>
         async_pif_unplug(string session, string _pif);
+
+        [XmlRpcMethod("PIF.set_disallow_unplug")]
+        Response<string>
+        pif_set_disallow_unplug(string session, string _pif, bool _value);
+
+        [XmlRpcMethod("Async.PIF.set_disallow_unplug")]
+        Response<string>
+        async_pif_set_disallow_unplug(string session, string _pif, bool _value);
 
         [XmlRpcMethod("PIF.plug")]
         Response<string>
@@ -8279,7 +8283,6 @@ namespace XenAPI
         [XmlRpcMethod("Cluster_host.get_all_records")]
         Response<Object>
         cluster_host_get_all_records(string session);
-
     }
 
     [XmlRpcMissingMapping(MappingAction.Ignore)]

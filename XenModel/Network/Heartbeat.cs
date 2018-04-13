@@ -155,7 +155,7 @@ namespace XenAdmin.Network
                 {
                     if (session == null)
                         log.Debug("Heartbeat has failed due to null session; closing the main connection");
-                    else if (session.proxy.Proxy.Credentials == null)
+                    else if (session.Credentials == null)
                         log.DebugFormat("Heartbeat for {0} has failed due to missing credentials; closing the main connection", session.Url);
                     else
                         log.DebugFormat("Heartbeat for {0} has failed due to incorrect credentials; closing the main connection", session.Url);

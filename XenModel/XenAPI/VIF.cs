@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -385,7 +384,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vif_get_record(session.opaque_ref, _vif);
             else
-                return new VIF((Proxy_VIF)session.proxy.vif_get_record(session.opaque_ref, _vif ?? "").parse());
+                return new VIF(session.proxy.vif_get_record(session.opaque_ref, _vif ?? "").parse());
         }
 
         /// <summary>

@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -187,7 +186,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vbd_metrics_get_record(session.opaque_ref, _vbd_metrics);
             else
-                return new VBD_metrics((Proxy_VBD_metrics)session.proxy.vbd_metrics_get_record(session.opaque_ref, _vbd_metrics ?? "").parse());
+                return new VBD_metrics(session.proxy.vbd_metrics_get_record(session.opaque_ref, _vbd_metrics ?? "").parse());
         }
 
         /// <summary>

@@ -35,14 +35,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
 {
     /// <summary>
     /// A set of properties that describe one result element of SR.probe. Result elements and properties can change dynamically based on changes to the the SR.probe input-parameters or the target.
-    /// First published in Unreleased.
     /// </summary>
     public partial class Probe_result : XenObject<Probe_result>
     {
@@ -86,7 +84,7 @@ namespace XenAPI
         {
             configuration = proxy.configuration == null ? null : Maps.convert_from_proxy_string_string(proxy.configuration);
             complete = (bool)proxy.complete;
-            sr = proxy.sr == null ? null : new Sr_stat((Proxy_Sr_stat)proxy.sr);
+            sr = proxy.sr == null ? null : new Sr_stat(proxy.sr);
             extra_info = proxy.extra_info == null ? null : Maps.convert_from_proxy_string_string(proxy.extra_info);
         }
 
@@ -165,6 +163,7 @@ namespace XenAPI
         }
         /// <summary>
         /// Plugin-specific configuration which describes where and how to locate the storage repository. This may include the physical block device name, a remote NFS server and path or an RBD storage pool.
+        /// Experimental. First published in Unreleased.
         /// </summary>
         [JsonConverter(typeof(StringStringMapConverter))]
         public virtual Dictionary<string, string> configuration
@@ -184,6 +183,7 @@ namespace XenAPI
 
         /// <summary>
         /// True if this configuration is complete and can be used to call SR.create. False if it requires further iterative calls to SR.probe, to potentially narrow down on a configuration that can be used.
+        /// Experimental. First published in Unreleased.
         /// </summary>
         public virtual bool complete
         {
@@ -202,6 +202,7 @@ namespace XenAPI
 
         /// <summary>
         /// Existing SR found for this configuration
+        /// Experimental. First published in Unreleased.
         /// </summary>
         public virtual Sr_stat sr
         {
@@ -220,6 +221,7 @@ namespace XenAPI
 
         /// <summary>
         /// Additional plugin-specific information about this configuration, that might be of use for an API user. This can for example include the LUN or the WWPN.
+        /// Experimental. First published in Unreleased.
         /// </summary>
         [JsonConverter(typeof(StringStringMapConverter))]
         public virtual Dictionary<string, string> extra_info

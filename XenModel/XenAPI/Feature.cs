@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -198,7 +197,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.feature_get_record(session.opaque_ref, _feature);
             else
-                return new Feature((Proxy_Feature)session.proxy.feature_get_record(session.opaque_ref, _feature ?? "").parse());
+                return new Feature(session.proxy.feature_get_record(session.opaque_ref, _feature ?? "").parse());
         }
 
         /// <summary>

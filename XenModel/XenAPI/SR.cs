@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -337,7 +336,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sr_get_record(session.opaque_ref, _sr);
             else
-                return new SR((Proxy_SR)session.proxy.sr_get_record(session.opaque_ref, _sr ?? "").parse());
+                return new SR(session.proxy.sr_get_record(session.opaque_ref, _sr ?? "").parse());
         }
 
         /// <summary>
@@ -1214,7 +1213,7 @@ namespace XenAPI
 
         /// <summary>
         /// Perform a backend-specific scan, using the given device_config.  If the device_config is complete, then this will return a list of the SRs present of this type on the device, if any.  If the device_config is partial, then a backend-specific scan will be performed, returning results that will guide the user in improving the device_config.
-        /// First published in Unreleased.
+        /// Experimental. First published in Unreleased.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The host to create/make the SR on</param>
@@ -1231,7 +1230,7 @@ namespace XenAPI
 
         /// <summary>
         /// Perform a backend-specific scan, using the given device_config.  If the device_config is complete, then this will return a list of the SRs present of this type on the device, if any.  If the device_config is partial, then a backend-specific scan will be performed, returning results that will guide the user in improving the device_config.
-        /// First published in Unreleased.
+        /// Experimental. First published in Unreleased.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The host to create/make the SR on</param>

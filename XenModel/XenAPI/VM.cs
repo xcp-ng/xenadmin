@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -989,7 +988,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_record(session.opaque_ref, _vm);
             else
-                return new VM((Proxy_VM)session.proxy.vm_get_record(session.opaque_ref, _vm ?? "").parse());
+                return new VM(session.proxy.vm_get_record(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -2252,7 +2251,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the domain_type field of the given VM.
-        /// First published in XenServer 7.4.
+        /// First published in Unreleased.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
@@ -4212,7 +4211,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vm_get_boot_record(session.opaque_ref, _vm);
             else
-                return new VM((Proxy_VM)session.proxy.vm_get_boot_record(session.opaque_ref, _vm ?? "").parse());
+                return new VM(session.proxy.vm_get_boot_record(session.opaque_ref, _vm ?? "").parse());
         }
 
         /// <summary>
@@ -6688,7 +6687,7 @@ namespace XenAPI
 
         /// <summary>
         /// The type of domain that will be created when the VM is started
-        /// First published in XenServer 7.4.
+        /// First published in Unreleased.
         /// </summary>
         [JsonConverter(typeof(domain_typeConverter))]
         public virtual domain_type domain_type

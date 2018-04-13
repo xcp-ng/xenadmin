@@ -270,6 +270,9 @@
   <data name="CLUSTERING_ENABLED" xml:space="preserve">
     <value>An operation was attempted while clustering was enabled on the cluster_host.</value>
   </data>
+  <data name="CLUSTERING_ENABLED_ON_NETWORK" xml:space="preserve">
+    <value>The network has cluster objects attached.</value>
+  </data>
   <data name="CLUSTER_ALREADY_EXISTS" xml:space="preserve">
     <value>A cluster already exists in the pool.</value>
   </data>
@@ -281,6 +284,9 @@
   </data>
   <data name="CLUSTER_FORCE_DESTROY_FAILED" xml:space="preserve">
     <value>Force destroy failed on a Cluster_host while force destroying the cluster.</value>
+  </data>
+  <data name="CLUSTER_STACK_IN_USE" xml:space="preserve">
+    <value>The cluster stack is already in use.</value>
   </data>
   <data name="COULD_NOT_FIND_NETWORK_INTERFACE_WITH_SPECIFIED_DEVICE_NAME_AND_MAC_ADDRESS" xml:space="preserve">
     <value>Could not find a network interface with the specified device name and MAC address.</value>
@@ -861,6 +867,9 @@
   <data name="PGPU_NOT_COMPATIBLE_WITH_GPU_GROUP" xml:space="preserve">
     <value>GPU type not compatible with destination group.</value>
   </data>
+  <data name="PIF_ALLOWS_UNPLUG" xml:space="preserve">
+    <value>The operation you requested cannot be performed because the specified PIF allows unplug.</value>
+  </data>
   <data name="PIF_ALREADY_BONDED" xml:space="preserve">
     <value>You cannot create a bond of an interface which is a member of an existing bond.</value>
   </data>
@@ -946,7 +955,7 @@
     <value>External authentication has been disabled with errors: Some AD machine accounts were not disabled on the AD server due to invalid credentials.</value>
   </data>
   <data name="POOL_AUTH_ENABLE_FAILED" xml:space="preserve">
-    <value>Could not enable external authentication: {1}</value>
+    <value>Could not enable external authentication.</value>
   </data>
   <data name="POOL_AUTH_ENABLE_FAILED_DOMAIN_LOOKUP_FAILED" xml:space="preserve">
     <value>The server was unable to contact your domain server to enable external authentication. Check that your settings are correct and a route to the server exists.</value>
@@ -2068,6 +2077,9 @@ Authorized Roles: {1}</value>
   </data>
   <data name="VM_MEMORY_SIZE_TOO_LOW" xml:space="preserve">
     <value>The specified VM has too little memory to be started.</value>
+  </data>
+  <data name="VM_MIGRATE_CONTACT_REMOTE_SERVICE_FAILED" xml:space="preserve">
+    <value>Failed to contact service on the destination host.</value>
   </data>
   <data name="VM_MIGRATE_FAILED" xml:space="preserve">
     <value>VM migration failed: {3}</value>

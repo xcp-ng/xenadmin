@@ -105,7 +105,7 @@ namespace XenAdmin.Wizards.PatchingWizard
             return _nextEnabled;
         }
 
-        private bool _cancelEnabled;
+        private bool _cancelEnabled = true;
         public override bool EnableCancel()
         {
             return _cancelEnabled;
@@ -287,14 +287,14 @@ namespace XenAdmin.Wizards.PatchingWizard
             {
                 if (pa.Visible)
                 {
-                    sb.Append(pa);
+                    sb.Append(pa.ProgressDescription ?? pa.ToString());
                     sb.AppendLine(Messages.DONE);
                 }
             }
 
             foreach (var pa in errorActions)
             {
-                sb.Append(pa);
+                sb.Append(pa.ProgressDescription ?? pa.ToString());
                 sb.AppendLine(Messages.ERROR);
             }
 

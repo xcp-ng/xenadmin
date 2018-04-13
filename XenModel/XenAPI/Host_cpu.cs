@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -253,7 +252,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.host_cpu_get_record(session.opaque_ref, _host_cpu);
             else
-                return new Host_cpu((Proxy_Host_cpu)session.proxy.host_cpu_get_record(session.opaque_ref, _host_cpu ?? "").parse());
+                return new Host_cpu(session.proxy.host_cpu_get_record(session.opaque_ref, _host_cpu ?? "").parse());
         }
 
         /// <summary>

@@ -123,5 +123,10 @@ namespace XenAdmin.Controls.CustomDataGraph
                 });
             }
         }
+
+        internal void ClearSets()
+        {
+            Program.Invoke(Program.MainWindow, () => Sets.Clear());
+        }
     }
 }

@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -205,7 +204,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vusb_get_record(session.opaque_ref, _vusb);
             else
-                return new VUSB((Proxy_VUSB)session.proxy.vusb_get_record(session.opaque_ref, _vusb ?? "").parse());
+                return new VUSB(session.proxy.vusb_get_record(session.opaque_ref, _vusb ?? "").parse());
         }
 
         /// <summary>

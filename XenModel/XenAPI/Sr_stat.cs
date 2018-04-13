@@ -35,14 +35,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
 {
     /// <summary>
     /// A set of high-level properties associated with an SR.
-    /// First published in Unreleased.
     /// </summary>
     public partial class Sr_stat : XenObject<Sr_stat>
     {
@@ -189,6 +187,7 @@ namespace XenAPI
         }
         /// <summary>
         /// Uuid that uniquely identifies this SR, if one is available.
+        /// Experimental. First published in Unreleased.
         /// </summary>
         public virtual string uuid
         {
@@ -207,6 +206,7 @@ namespace XenAPI
 
         /// <summary>
         /// Short, human-readable label for the SR.
+        /// Experimental. First published in Unreleased.
         /// </summary>
         public virtual string name_label
         {
@@ -225,6 +225,7 @@ namespace XenAPI
 
         /// <summary>
         /// Longer, human-readable description of the SR. Descriptions are generally only displayed by clients when the user is examining SRs in detail.
+        /// Experimental. First published in Unreleased.
         /// </summary>
         public virtual string name_description
         {
@@ -243,6 +244,7 @@ namespace XenAPI
 
         /// <summary>
         /// Number of bytes free on the backing storage (in bytes)
+        /// Experimental. First published in Unreleased.
         /// </summary>
         public virtual long free_space
         {
@@ -261,6 +263,7 @@ namespace XenAPI
 
         /// <summary>
         /// Total physical size of the backing storage (in bytes)
+        /// Experimental. First published in Unreleased.
         /// </summary>
         public virtual long total_space
         {
@@ -279,6 +282,7 @@ namespace XenAPI
 
         /// <summary>
         /// Indicates whether the SR uses clustered local storage.
+        /// Experimental. First published in Unreleased.
         /// </summary>
         public virtual bool clustered
         {
@@ -297,6 +301,7 @@ namespace XenAPI
 
         /// <summary>
         /// The health status of the SR.
+        /// Experimental. First published in Unreleased.
         /// </summary>
         [JsonConverter(typeof(sr_healthConverter))]
         public virtual sr_health health

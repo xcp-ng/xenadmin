@@ -253,13 +253,12 @@ namespace XenAdmin.Actions
             int pc = (int)(95.0 * e.BytesReceived / e.TotalBytesToReceive);
             if (pc != PercentComplete)
             {
-                PercentComplete = pc;
-
                 DownloadProgressDescription
                     = Description 
                     = string.Format(Messages.DOWNLOAD_AND_EXTRACT_ACTION_DOWNLOADING_DETAILS_DESC, updateName,
                                             Util.DiskSizeString(e.BytesReceived),
                                             Util.DiskSizeString(e.TotalBytesToReceive));
+                PercentComplete = pc;
             }
         }
 

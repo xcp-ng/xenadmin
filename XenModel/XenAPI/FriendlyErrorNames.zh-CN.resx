@@ -946,7 +946,7 @@
     <value>已禁用外部身份验证，错误消息如下: 由于凭据无效，因此未在 AD 服务器上禁用某些 AD 计算机帐户。</value>
   </data>
   <data name="POOL_AUTH_ENABLE_FAILED" xml:space="preserve">
-    <value>无法启用外部身份验证: {1}</value>
+    <value>无法启用外部身份验证。</value>
   </data>
   <data name="POOL_AUTH_ENABLE_FAILED_DOMAIN_LOOKUP_FAILED" xml:space="preserve">
     <value>此服务器无法与域服务器联系以启用外部身份验证。请检查您的设置是否正确以及是否存在到服务器的路由。</value>

@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -235,7 +234,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_record(session.opaque_ref, _pci);
             else
-                return new PCI((Proxy_PCI)session.proxy.pci_get_record(session.opaque_ref, _pci ?? "").parse());
+                return new PCI(session.proxy.pci_get_record(session.opaque_ref, _pci ?? "").parse());
         }
 
         /// <summary>
@@ -403,7 +402,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_driver_name(session.opaque_ref, _pci);
             else
-                return (string)session.proxy.pci_get_driver_name(session.opaque_ref, _pci ?? "").parse();
+                return session.proxy.pci_get_driver_name(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>

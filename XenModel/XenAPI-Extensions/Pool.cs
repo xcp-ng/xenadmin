@@ -164,11 +164,6 @@ namespace XenAPI
             return max;
         }
 
-        public static Dictionary<string, string> retrieve_wlb_default_configuration(Session session)
-        {
-            return Maps.convert_from_proxy_string_string(session.proxy.pool_retrieve_wlb_configuration("default").parse());
-        }
-
         public string GetXCPluginSecret(string plugin_name, IXenObject obj)
         {
             return Get(gui_config, XCPluginSecretName(plugin_name, obj));

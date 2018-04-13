@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -249,8 +248,8 @@ namespace XenAPI
             result_.properties = Maps.convert_to_proxy_string_string(properties);
             result_.capabilities = capabilities;
             result_.igmp_snooping_status = pif_igmp_status_helper.ToString(igmp_snooping_status);
-            result_.sriov_physical_PIF_of = (sriov_physical_PIF_of != null) ? Helper.RefListToStringArray(sriov_physical_PIF_of) : new string[] {};
-            result_.sriov_logical_PIF_of = (sriov_logical_PIF_of != null) ? Helper.RefListToStringArray(sriov_logical_PIF_of) : new string[] {};
+            result_.sriov_physical_PIF_of = sriov_physical_PIF_of == null ? new string[] {} : Helper.RefListToStringArray(sriov_physical_PIF_of);
+            result_.sriov_logical_PIF_of = sriov_logical_PIF_of == null ? new string[] {} : Helper.RefListToStringArray(sriov_logical_PIF_of);
             result_.PCI = PCI ?? "";
             return result_;
         }
@@ -412,10 +411,6 @@ namespace XenAPI
                 {
                     PIF.set_other_config(session, opaqueRef, _other_config);
                 }
-                if (!Helper.AreEqual2(_disallow_unplug, server._disallow_unplug))
-                {
-                    PIF.set_disallow_unplug(session, opaqueRef, _disallow_unplug);
-                }
 
                 return null;
             }
@@ -431,7 +426,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pif_get_record(session.opaque_ref, _pif);
             else
-                return new PIF((Proxy_PIF)session.proxy.pif_get_record(session.opaque_ref, _pif ?? "").parse());
+                return new PIF(session.proxy.pif_get_record(session.opaque_ref, _pif ?? "").parse());
         }
 
         /// <summary>
@@ -985,21 +980,6 @@ namespace XenAPI
         }
 
         /// <summary>
-        /// Set the disallow_unplug field of the given PIF.
-        /// First published in XenServer 5.0.
-        /// </summary>
-        /// <param name="session">The session</param>
-        /// <param name="_pif">The opaque_ref of the given pif</param>
-        /// <param name="_disallow_unplug">New value to set</param>
-        public static void set_disallow_unplug(Session session, string _pif, bool _disallow_unplug)
-        {
-            if (session.JsonRpcClient != null)
-                session.JsonRpcClient.pif_set_disallow_unplug(session.opaque_ref, _pif, _disallow_unplug);
-            else
-                session.proxy.pif_set_disallow_unplug(session.opaque_ref, _pif ?? "", _disallow_unplug).parse();
-        }
-
-        /// <summary>
         /// Create a VLAN interface from an existing physical interface. This call is deprecated: use VLAN.create instead
         /// First published in XenServer 4.0.
         /// Deprecated since XenServer 4.1.
@@ -1321,6 +1301,36 @@ namespace XenAPI
               return session.JsonRpcClient.async_pif_unplug(session.opaque_ref, _pif);
           else
               return XenRef<Task>.Create(session.proxy.async_pif_unplug(session.opaque_ref, _pif ?? "").parse());
+        }
+
+        /// <summary>
+        /// Set whether unplugging the PIF is allowed
+        /// First published in XenServer 5.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <param name="_value">New value to set</param>
+        public static void set_disallow_unplug(Session session, string _pif, bool _value)
+        {
+            if (session.JsonRpcClient != null)
+                session.JsonRpcClient.pif_set_disallow_unplug(session.opaque_ref, _pif, _value);
+            else
+                session.proxy.pif_set_disallow_unplug(session.opaque_ref, _pif ?? "", _value).parse();
+        }
+
+        /// <summary>
+        /// Set whether unplugging the PIF is allowed
+        /// First published in XenServer 5.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <param name="_value">New value to set</param>
+        public static XenRef<Task> async_set_disallow_unplug(Session session, string _pif, bool _value)
+        {
+          if (session.JsonRpcClient != null)
+              return session.JsonRpcClient.async_pif_set_disallow_unplug(session.opaque_ref, _pif, _value);
+          else
+              return XenRef<Task>.Create(session.proxy.async_pif_set_disallow_unplug(session.opaque_ref, _pif ?? "", _value).parse());
         }
 
         /// <summary>

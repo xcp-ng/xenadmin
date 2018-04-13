@@ -35,7 +35,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 namespace XenAPI
@@ -239,7 +238,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.gpu_group_get_record(session.opaque_ref, _gpu_group);
             else
-                return new GPU_group((Proxy_GPU_group)session.proxy.gpu_group_get_record(session.opaque_ref, _gpu_group ?? "").parse());
+                return new GPU_group(session.proxy.gpu_group_get_record(session.opaque_ref, _gpu_group ?? "").parse());
         }
 
         /// <summary>

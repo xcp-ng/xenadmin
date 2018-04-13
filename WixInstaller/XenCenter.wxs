@@ -211,6 +211,7 @@
 								<File Id="HealthCheck_XenServerHealthCheck.exe" Name="XenServerHealthCheck.exe" KeyPath="yes" Source="..\XenServerHealthCheck\bin\Release\XenServerHealthCheck.exe" />
 								<File Id="HealthCheck_CommandLib.dll" Name="CommandLib.dll" Source="..\XenServerHealthCheck\bin\Release\CommandLib.dll" />
 								<File Id="HealthCheck_CookComputing.XmlRpcV2.dll" Name="CookComputing.XmlRpcV2.dll" Source="..\XenServerHealthCheck\bin\Release\CookComputing.XmlRpcV2.dll" />
+								<File Id="HealthCheck_NewtonsoftJsonDLL" Source="..\XenServerHealthCheck\bin\Release\Newtonsoft.Json.dll" />
 								<File Id="HealthCheck_ICSharpCode.SharpZipLib.dll" Name="ICSharpCode.SharpZipLib.dll" Source="..\XenServerHealthCheck\bin\Release\ICSharpCode.SharpZipLib.dll" />
 								<File Id="HealthCheck_Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="..\XenServerHealthCheck\bin\Release\Ionic.Zip.dll" />
 								<File Id="HealthCheck_log4net.dll" Name="log4net.dll" Source="..\XenServerHealthCheck\bin\Release\log4net.dll" />

@@ -946,7 +946,7 @@
     <value>以下のエラーにより、外部認証が無効になりました。資格情報が無効なため、一部の Active Directory マシン アカウントが Active Directory サーバー上で無効になっていません。</value>
   </data>
   <data name="POOL_AUTH_ENABLE_FAILED" xml:space="preserve">
-    <value>外部認証を有効にできません。{1}</value>
+    <value>外部認証を有効にできません。</value>
   </data>
   <data name="POOL_AUTH_ENABLE_FAILED_DOMAIN_LOOKUP_FAILED" xml:space="preserve">
     <value>サーバーでドメイン サーバーに接続できないため外部認証を有効にできません。設定を確認し、ドメイン サーバーに接続できることを確認してください。</value>

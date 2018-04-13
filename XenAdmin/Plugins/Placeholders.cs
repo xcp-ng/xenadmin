@@ -169,7 +169,7 @@ namespace XenAdmin.Plugins
         /// Since ip_address can take several values over different Networks, this method returns a list of Uri for
         /// each of the different IP addresses.
         /// </summary>
-        /// <param name="text">The text that contains the placeholders to be replaced.</param>
+        /// <param name="uri">The text that contains the placeholders to be replaced.</param>
         /// <param name="obj">The object that the placeholder replacements are for.</param>
         /// <returns>A List of Uris.</returns>
         public static List<Uri> SubstituteUri(string uri, IXenObject obj)

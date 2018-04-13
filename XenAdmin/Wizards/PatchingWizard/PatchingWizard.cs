@@ -384,7 +384,7 @@ namespace XenAdmin.Wizards.PatchingWizard
         {
             if (PatchingWizard_UploadPage.AllIntroducedPoolUpdates != null && PatchingWizard_UploadPage.AllIntroducedPoolUpdates.Count > 0)
             {
-                return PatchingWizard_UploadPage.AllIntroducedPoolUpdates.Keys.Select(GetCleanUpPoolUpdateAction).ToList();
+                return PatchingWizard_UploadPage.AllIntroducedPoolUpdates.Keys.Where(u => u.Connection != null && u.Connection.IsConnected).Select(GetCleanUpPoolUpdateAction).ToList();
             }
 
             return new List<AsyncAction>();
