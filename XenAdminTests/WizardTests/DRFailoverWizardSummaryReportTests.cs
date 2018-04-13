@@ -84,7 +84,7 @@ namespace XenAdminTests.WizardTests
                             "Adding no rows did not produce an empty string");
         }
 
-        [Test]
+        [Test, SetCulture("en-EN")]
         public void AddingNullStringsAddsJustDecorations()
         {
             summaryReport.AddLine(null);
