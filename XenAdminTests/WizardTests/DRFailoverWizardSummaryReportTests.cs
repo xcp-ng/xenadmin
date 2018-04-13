@@ -36,7 +36,7 @@ using XenAdmin.Wizards.DRWizards;
 
 namespace XenAdminTests.WizardTests
 {
-    [TestFixture, Category(TestCategories.UICategoryB)]
+    [TestFixture, Category(TestCategories.UICategoryB), SetCulture("en-EN")]
     public class DRFailoverWizardSummaryReportTests
     {
 
@@ -84,7 +84,7 @@ namespace XenAdminTests.WizardTests
                             "Adding no rows did not produce an empty string");
         }
 
-        [Test, SetCulture("en-EN")]
+        [Test]
         public void AddingNullStringsAddsJustDecorations()
         {
             summaryReport.AddLine(null);
