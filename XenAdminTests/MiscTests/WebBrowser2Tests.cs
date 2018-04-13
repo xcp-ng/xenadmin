@@ -40,7 +40,7 @@ using System.Net;
 
 namespace XenAdminTests.MiscTests
 {
-    [TestFixture, RequiresSTA]
+    [TestFixture, Apartment(ApartmentState.STA)]
     public class WebBrowser2Tests : MainWindowLauncher_TestFixture
     {
         private WebBrowser2 _wb;

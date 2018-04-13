@@ -155,13 +155,13 @@ namespace XenAdminTests.ArchiveTests
         } 
         #endregion
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             fakeIterator = new ArchiveIteratorFake();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             fakeIterator.Dispose();
@@ -175,18 +175,16 @@ namespace XenAdminTests.ArchiveTests
 
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void AnExceptionIsThrownForNullArgumentWhenCallingExtractAllContents()
         {
-            fakeIterator.ExtractAllContents(null);
+            Assert.That(() => fakeIterator.ExtractAllContents(null), Throws.ArgumentException);
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void AnExceptionIsThrownForANullFileNameWhenCallingExtractAllContents()
         {
             fakeIterator.CurrentFileNameReturn = null;
-            fakeIterator.ExtractAllContents(Path.GetTempPath());
+            Assert.That(() => fakeIterator.ExtractAllContents(Path.GetTempPath()), Throws.ArgumentException);
         }
         
         [Test]

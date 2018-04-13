@@ -76,17 +76,15 @@ namespace XenAdminTests.MiscTests
         }
 
         [Test]
-        [ExpectedException(typeof(FormatException))]
         public void ISODateTimeParseWithBadFormat()
         {
-            TimeUtil.ParseISO8601DateTime("20111225T1020:37Z");
+            Assert.That(() => TimeUtil.ParseISO8601DateTime("20111225T1020:37Z"), Throws.Exception.With.TypeOf(typeof(FormatException)));
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ISODateTimeParseWithNullArg()
         {
-            TimeUtil.ParseISO8601DateTime(null);
+            Assert.That(() => TimeUtil.ParseISO8601DateTime(null), Throws.ArgumentNullException);
         }
 
         [Test]

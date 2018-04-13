@@ -192,12 +192,12 @@ namespace XenAdminTests.WizardTests.ExportWizard
             Assert.That(checker.ErrorReason, Is.EqualTo(errorMessage), "error message");
         }
 
-        [Test, ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void NullPaths()
         {
             ApplianceCheck checker = new ApplianceExistsCheck(null, null,
                                                               ApplianceCheck.FileExtension.ovaovf);
-            checker.Validate();
+            Assert.That(()=> checker.Validate(), Throws.ArgumentNullException);
         }
 
     }

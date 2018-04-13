@@ -209,13 +209,13 @@ namespace XenAdminTests
             : base(readOnly, databases)
         { }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             base._SetUp();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             base._TearDown();

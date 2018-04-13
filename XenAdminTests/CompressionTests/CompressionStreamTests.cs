@@ -56,13 +56,13 @@ namespace XenAdminTests.CompressionTests
 
         private CompressionStreamFake fakeCompressionStream;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetUp()
         {
             fakeCompressionStream = new CompressionStreamFake();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TestFixtureTearDown()
         {
             fakeCompressionStream.Dispose();

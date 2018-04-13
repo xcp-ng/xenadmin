@@ -97,14 +97,16 @@ namespace XenAdminTests.CompressionTests
          * As this is not the case then this null construction will throw an exception
          */
         [Test]
-        [ExpectedException(typeof(IOException))]
         public void TestFailingReaderGeneration()
         {
+            
+
             using (MemoryStream ms = new MemoryStream())
             {
-                using( CompressionFactory.Reader(CompressionFactory.Type.Bz2, ms))
-                {}
+                 using ( CompressionFactory.Reader(CompressionFactory.Type.Bz2, ms))
+                    Assert.That(() => { } , Throws.InvalidOperationException);
             }
+            
         }
     }
 }

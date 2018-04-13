@@ -111,10 +111,10 @@ namespace XenAdminTests.UnitTests.WlbTests
 
         }
 
-        [Test, ExpectedException(typeof(KeyNotFoundException))]
+        [Test]
         public void ExceptionRaisedIfOptModeNotSetButRequested()
         {
-            WlbScheduledTask.GetTaskOptMode(task);
+            Assert.That(() => WlbScheduledTask.GetTaskOptMode(task), Throws.Exception.With.TypeOf(typeof(KeyNotFoundException)));
         }
 
         [Test]

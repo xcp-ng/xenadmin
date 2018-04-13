@@ -81,17 +81,15 @@ namespace XenAdminTests.ArchiveTests
         }
 
         [Test]
-        [ExpectedException(typeof(NotSupportedException))]
         public void TestInvalidTarGzWriterGeneration()
         {
-            CreateInvalidWriterType(ArchiveFactory.Type.TarGz);
+            Assert.That(()=> CreateInvalidWriterType(ArchiveFactory.Type.TarGz), Throws.ArgumentException);
         }
 
         [Test]
-        [ExpectedException(typeof(NotSupportedException))]
         public void TestInvalidTarBz2WriterGeneration()
         {
-            CreateInvalidWriterType(ArchiveFactory.Type.TarBz2);
+            Assert.That(() => CreateInvalidWriterType(ArchiveFactory.Type.TarBz2), Throws.ArgumentException); 
         }
 
         private void CreateInvalidWriterType(ArchiveFactory.Type type)

@@ -61,10 +61,10 @@ namespace XenAdminTests.WizardTests
         }
 
         [Test]
-        [TestCase(true, true, Description = "Wlb enabled both", Result = true)]
-        [TestCase(false, false, Description = "Wlb disabled both", Result = false)]
-        [TestCase(true, false, Description = "Wlb enabled VM", Result = true)]
-        [TestCase(false, true, Description = "Wlb enabled target", Result = true)]
+        [TestCase(true, true, Description = "Wlb enabled both", ExpectedResult = true)]
+        [TestCase(false, false, Description = "Wlb disabled both", ExpectedResult = false)]
+        [TestCase(true, false, Description = "Wlb enabled VM", ExpectedResult = true)]
+        [TestCase(false, true, Description = "Wlb enabled target", ExpectedResult = true)]
         public bool WlbEnabledFilterResults(bool WlbEnabledVM, bool WlbEnabledTarget)
         {
             Mock<Pool> pool = ObjectManager.NewXenObject<Pool>(id);
@@ -78,10 +78,10 @@ namespace XenAdminTests.WizardTests
         }
 
         [Test]
-        [TestCase(true, true, Description = "Wlb enabled both", Result = hostFailureReason)]
-        [TestCase(false, false, Description = "Wlb disabled both", Result = vmFailureReason)]
-        [TestCase(true, false, Description = "Wlb enabled VM", Result = vmFailureReason)]
-        [TestCase(false, true, Description = "Wlb enabled target", Result = hostFailureReason)]
+        [TestCase(true, true, Description = "Wlb enabled both", ExpectedResult = hostFailureReason)]
+        [TestCase(false, false, Description = "Wlb disabled both", ExpectedResult = vmFailureReason)]
+        [TestCase(true, false, Description = "Wlb enabled VM", ExpectedResult = vmFailureReason)]
+        [TestCase(false, true, Description = "Wlb enabled target", ExpectedResult = hostFailureReason)]
         public string WlbEnabledFailureReasons(bool WlbEnabledVM, bool WlbEnabledTarget)
         {
             Mock<Pool> pool = ObjectManager.NewXenObject<Pool>(id);

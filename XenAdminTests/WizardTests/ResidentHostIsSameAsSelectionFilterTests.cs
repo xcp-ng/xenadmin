@@ -97,28 +97,28 @@ namespace XenAdminTests.WizardTests
             }
         }
 
-        [Test, ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void VerifyExceptionThrownForNullConstructedCommand()
         {
-            var filter = new ResidentHostIsSameAsSelectionFilter(null, new List<VM>());
+            Assert.That(() => new ResidentHostIsSameAsSelectionFilter(null, new List<VM>()), Throws.ArgumentException);
         }
 
-        [Test, ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void VerifyExceptionThrownForDoubleNullConstructedCommand()
         {
-            var filter = new ResidentHostIsSameAsSelectionFilter(null, null);
+            Assert.That(() => new ResidentHostIsSameAsSelectionFilter(null, null), Throws.ArgumentException);
         }
 
-        [Test, ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void VerifyExceptionThrownForNullIXenObjectAsTarget()
         {
-            var filter = new ResidentHostIsSameAsSelectionFilter(null, CreateSingleVmListFromOneHostPool());
+            Assert.That(() => new ResidentHostIsSameAsSelectionFilter(null, CreateSingleVmListFromOneHostPool()), Throws.ArgumentException);
         }
 
-        [Test, ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void VerifyExceptionThrownForUnsupportedTargetObject()
         {
-            var filter = new ResidentHostIsSameAsSelectionFilter(CreateSingleVmListFromOneHostPool().First(), new List<VM>());
+            Assert.That(()=> new ResidentHostIsSameAsSelectionFilter(CreateSingleVmListFromOneHostPool().First(), new List<VM>()), Throws.ArgumentException);
         }
 
         [Test]

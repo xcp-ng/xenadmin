@@ -120,13 +120,13 @@ namespace XenAdminTests.ArchiveTests
 
         private FakeArchiveWriter fakeWriter;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void FixtureSetup()
         {
             fakeWriter = new FakeArchiveWriter();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void FixtureTearDown()
         {
             fakeWriter.Dispose();
@@ -182,10 +182,9 @@ namespace XenAdminTests.ArchiveTests
         }
 
         [Test]
-        [ExpectedException(typeof(FileNotFoundException))]
         public void CreateArchiveThrowsWithBadPath()
         {
-            fakeWriter.CreateArchive("Yellow brick road - not a path!");
+            Assert.That(()=> fakeWriter.CreateArchive("Yellow brick road - not a path!"), Throws.ArgumentException);
         }
 
         [Test]
