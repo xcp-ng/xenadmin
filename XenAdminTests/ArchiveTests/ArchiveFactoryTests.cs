@@ -52,7 +52,7 @@ namespace XenAdminTests.ArchiveTests
 
             foreach (KeyValuePair<ArchiveFactory.Type, Type> pair in validIterators)
             {
-                string target = Path.Combine(Directory.GetCurrentDirectory(), @"TestResources\emptyfile.bz2");
+                string target = Path.Combine(Directory.GetCurrentDirectory(), @"XenAdminTests\TestResources\emptyfile.bz2");
                 using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(target)))
                 {
                     ArchiveIterator providedStream = ArchiveFactory.Reader(pair.Key, ms);
@@ -83,13 +83,13 @@ namespace XenAdminTests.ArchiveTests
         [Test]
         public void TestInvalidTarGzWriterGeneration()
         {
-            Assert.That(()=> CreateInvalidWriterType(ArchiveFactory.Type.TarGz), Throws.ArgumentException);
+            Assert.That(()=> CreateInvalidWriterType(ArchiveFactory.Type.TarGz), Throws.Exception.With.TypeOf(typeof(NotSupportedException)));
         }
 
         [Test]
         public void TestInvalidTarBz2WriterGeneration()
         {
-            Assert.That(() => CreateInvalidWriterType(ArchiveFactory.Type.TarBz2), Throws.ArgumentException); 
+            Assert.That(() => CreateInvalidWriterType(ArchiveFactory.Type.TarBz2), Throws.Exception.With.TypeOf(typeof(NotSupportedException))); 
         }
 
         private void CreateInvalidWriterType(ArchiveFactory.Type type)
