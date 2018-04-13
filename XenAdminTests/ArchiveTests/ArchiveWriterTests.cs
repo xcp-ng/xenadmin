@@ -184,7 +184,7 @@ namespace XenAdminTests.ArchiveTests
         [Test]
         public void CreateArchiveThrowsWithBadPath()
         {
-            Assert.That(()=> fakeWriter.CreateArchive("Yellow brick road - not a path!"), Throws.ArgumentException);
+            Assert.That(()=> fakeWriter.CreateArchive("Yellow brick road - not a path!"), Throws.Exception.With.TypeOf(typeof(FileNotFoundException)));
         }
 
         [Test]

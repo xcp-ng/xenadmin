@@ -177,14 +177,14 @@ namespace XenAdminTests.ArchiveTests
         [Test]
         public void AnExceptionIsThrownForNullArgumentWhenCallingExtractAllContents()
         {
-            Assert.That(() => fakeIterator.ExtractAllContents(null), Throws.ArgumentException);
+            Assert.That(() => fakeIterator.ExtractAllContents(null), Throws.ArgumentNullException);
         }
 
         [Test]
         public void AnExceptionIsThrownForANullFileNameWhenCallingExtractAllContents()
         {
             fakeIterator.CurrentFileNameReturn = null;
-            Assert.That(() => fakeIterator.ExtractAllContents(Path.GetTempPath()), Throws.ArgumentException);
+            Assert.That(() => fakeIterator.ExtractAllContents(Path.GetTempPath()), Throws.ArgumentNullException);
         }
         
         [Test]
