@@ -32,6 +32,24 @@
 
 set -ex
 
+#######################################################################
+#
+#	Version
+#
+#######################################################################
+
+BRANDING_PRODUCT_VERSION_TEXT=7.4
+BRANDING_PRODUCT_MAJOR_VERSION=7
+BRANDING_PRODUCT_MINOR_VERSION=4
+BRANDING_PRODUCT_MICRO_VERSION=1
+
+
+######################################################################
+#
+#	below this line just for experts :-)
+#
+######################################################################
+
 SET_ENV_FILE="/cygdrive/c/env.sh"
 if [ -f ${SET_ENV_FILE} ]; then
    . ${SET_ENV_FILE}
@@ -54,32 +72,21 @@ cp ${REPO}/branding-xcp-ng/HomePage/HomePage.mht ${REPO}/XenAdmin/
 cp ${REPO}/branding-xcp-ng/Images/* ${REPO}/Branding/Images/
 
 
-#######################################################################
-#
-#		Branding/branding.sh
-#
-#######################################################################
-
 BRANDING_COMPANY_NAME_LEGAL="XCP New Generation"
 BRANDING_COMPANY_NAME_SHORT=XCP-ng
-BRANDING_COPYRIGHT=\"Copyright\ ©\ ${BRANDING_COMPANY_NAME_LEGAL}\"
-BRANDING_COPYRIGHT_2=\"Copyright\ \\\\251\ ${BRANDING_COMPANY_NAME_LEGAL}\"
+BRANDING_BRAND_CONSOLE="XCP-ng Center"
 BRANDING_PRODUCT_BRAND=XCP-ng
 BRANDING_COMPANY_URL=xcp-ng.org
 
-BRANDING_PRODUCT_VERSION_TEXT=TrialAndError-Edition
-BRANDING_PRODUCT_MAJOR_VERSION=7
-BRANDING_PRODUCT_MINOR_VERSION=4
-BRANDING_PRODUCT_MICRO_VERSION=0
+BRANDING_COPYRIGHT=\"Copyright\ ©\ ${BRANDING_COMPANY_NAME_LEGAL}\"
+BRANDING_COPYRIGHT_2=\"Copyright\ \\\\251\ ${BRANDING_COMPANY_NAME_LEGAL}\"
 
 BRANDING_SEARCH=xensearch
 BRANDING_UPDATE=xsupdate
 BRANDING_BACKUP=xbk
 BRANDING_SERVER=${BRANDING_PRODUCT_BRAND}
-BRANDING_BRAND_CONSOLE="XCP-ng Console"
 
 BRANDING_PERF_ALERT_MAIL_LANGUAGE_DEFAULT=en-US
-
 
 BRANDING_XC_PRODUCT_VERSION=${BRANDING_PRODUCT_MAJOR_VERSION}.${BRANDING_PRODUCT_MINOR_VERSION}.${BRANDING_PRODUCT_MICRO_VERSION}
 BRANDING_XC_PRODUCT_5_6_VERSION=5.6
