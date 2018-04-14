@@ -228,13 +228,13 @@ namespace XenAdminTests
             : base(databases)
         { }
 
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             base._SetUp();
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             base._TearDown();

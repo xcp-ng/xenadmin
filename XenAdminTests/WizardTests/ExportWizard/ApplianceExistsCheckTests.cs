@@ -102,7 +102,7 @@ namespace XenAdminTests.WizardTests.ExportWizard
         private readonly string errorMessage = Messages.EXPORT_APPLIANCE_PAGE_ERROR_APP_EXISTS;
         private readonly string noErrorMessage = string.Empty;
 
-        private IEnumerable<TestCase> TestCases
+        private static IEnumerable<TestCase> TestCases
         {
             get
             {

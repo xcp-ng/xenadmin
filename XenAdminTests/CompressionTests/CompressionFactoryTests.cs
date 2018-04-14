@@ -74,7 +74,7 @@ namespace XenAdminTests.CompressionTests
 
             foreach (KeyValuePair<CompressionFactory.Type, Type> pair in validReaders)
             {
-                string target = Path.Combine(Directory.GetCurrentDirectory(), "TestResources", "emptyfile.bz2");
+                string target = Path.Combine(Directory.GetCurrentDirectory(), @"XenAdminTests\TestResources", "emptyfile.bz2");
                 /*
                  * Note: Reading a bzip2 file in as a byte[] works for gzip as well as bzip2 stream 
                  * as the implementation of bzip2 must be initialised with a string containing a 
