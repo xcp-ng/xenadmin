@@ -37,7 +37,7 @@ using XenAdminTests.UnitTests.UnitTestHelper;
 
 namespace XenAdminTests.UnitTests.WlbTests
 {
-    [TestFixture, Category(TestCategories.Unit)]
+    [TestFixture, Category(TestCategories.Unit), SetCulture("en-EN")]
     public class WlbScheduledTaskTests
     {
         #region Private Class Data

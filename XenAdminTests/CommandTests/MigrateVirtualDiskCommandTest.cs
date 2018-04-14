@@ -43,7 +43,7 @@ namespace XenAdminTests.CommandTests
     public class MigrateVirtualDiskCommandTest : DatabaseTester_TestFixture
     {
         private readonly IMainWindow mw = new MockMainWindow();
-        private const string dbName = @"XenAdminTests\tampa_livevdimove_xapi-db.xml";
+        private const string dbName = "tampa_livevdimove_xapi-db.xml";
 
         public MigrateVirtualDiskCommandTest() : base(dbName){}
         
