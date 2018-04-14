@@ -50,7 +50,7 @@ namespace XenAdminTests.DialogTests.LicenseManager.Comparers
             public bool VersionChecked { get; set; }
         }
 
-        private IEnumerable<TestCase> TestCases
+        private static IEnumerable<TestCase> TestCases
         {
             get
             {
