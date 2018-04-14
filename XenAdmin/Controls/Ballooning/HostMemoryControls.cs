@@ -52,6 +52,15 @@ namespace XenAdmin.Controls.Ballooning
 
         private Host _host;
         private Host_metrics host_metrics;
+        private long memory_of_biggest_host;
+
+        [Browsable(false)]
+        public void SetHost(Host host, long memory_of_biggest_host)
+        {
+            this.memory_of_biggest_host = memory_of_biggest_host;
+            this.host = host;
+        }
+
         [Browsable(false)]
         public Host host
         {
@@ -100,7 +109,7 @@ namespace XenAdmin.Controls.Ballooning
                 : 0;
 
             // Initialize the shiny bar
-            hostShinyBar.Initialize(host, xen_memory, dom0);
+            hostShinyBar.Initialize(host, xen_memory, dom0, this.memory_of_biggest_host);
 
             // Set the text values
             valueTotal.Text = Util.MemorySizeStringSuitableUnits(total, true);

@@ -36,6 +36,8 @@ namespace XenAdmin.Controls.Ballooning
 {
     public partial class HostMemoryRow : UserControl
     {
+        long memory_of_biggest_host;
+
         public HostMemoryRow()
         {
             InitializeComponent();
@@ -47,6 +49,13 @@ namespace XenAdmin.Controls.Ballooning
             this.host = host;
         }
 
+        public HostMemoryRow(Host host, long maxmemory)
+            : this()
+        {
+            this.memory_of_biggest_host = maxmemory;
+            this.host = host;
+        }
+
         private Host host
         {
             set
@@ -54,7 +63,8 @@ namespace XenAdmin.Controls.Ballooning
                 // For a host, the labelPanel only ever has one row, so we don't need
                 // to worry about all the sizing stuff like in the VM case.
                 memoryRowLabel.Initialize(false, value);
-                hostMemoryControls.host = value;
+                //hostMemoryControls.host = value;
+                hostMemoryControls.SetHost(value, memory_of_biggest_host);
                 Refresh();
             }
         }

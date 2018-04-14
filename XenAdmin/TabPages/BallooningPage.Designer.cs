@@ -41,6 +41,7 @@ namespace XenAdmin.TabPages
             resources.ApplyResources(this, "$this");
             this.Name = "BallooningPage";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
