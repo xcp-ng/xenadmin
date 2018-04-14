@@ -15,7 +15,6 @@ namespace XenAdminDemo
         public void Launch()
         {
             base._SetUp();
-            base.
         }
     }
 }

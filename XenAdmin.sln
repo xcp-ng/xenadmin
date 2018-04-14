@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenAdmin", "XenAdmin\XenAdmin.csproj", "{70BDA4BC-F062-4302-8ACD-A15D8BF31D65}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -30,6 +30,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenOvfTransport", "XenOvfTransport\XenOvfTransport.csproj", "{9F7E6285-5CBF-41B4-8CB9-AB06DFF90DC0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenServerHealthCheck", "XenServerHealthCheck\XenServerHealthCheck.csproj", "{DEB3208D-1153-407C-8C99-0D8899BE25A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenAdminDemo", "XenAdminDemo\XenAdminDemo.csproj", "{7F12481B-8BCD-4754-B909-046AACBE6038}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,8 +157,23 @@ Global
 		{DEB3208D-1153-407C-8C99-0D8899BE25A5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DEB3208D-1153-407C-8C99-0D8899BE25A5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DEB3208D-1153-407C-8C99-0D8899BE25A5}.Release|Win32.ActiveCfg = Release|Any CPU
+		{7F12481B-8BCD-4754-B909-046AACBE6038}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F12481B-8BCD-4754-B909-046AACBE6038}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F12481B-8BCD-4754-B909-046AACBE6038}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7F12481B-8BCD-4754-B909-046AACBE6038}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7F12481B-8BCD-4754-B909-046AACBE6038}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{7F12481B-8BCD-4754-B909-046AACBE6038}.Debug|Win32.Build.0 = Debug|Any CPU
+		{7F12481B-8BCD-4754-B909-046AACBE6038}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F12481B-8BCD-4754-B909-046AACBE6038}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F12481B-8BCD-4754-B909-046AACBE6038}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7F12481B-8BCD-4754-B909-046AACBE6038}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7F12481B-8BCD-4754-B909-046AACBE6038}.Release|Win32.ActiveCfg = Release|Any CPU
+		{7F12481B-8BCD-4754-B909-046AACBE6038}.Release|Win32.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E34D4EC-6A7A-4C64-85A7-63E1850FD7E7}
 	EndGlobalSection
 EndGlobal
