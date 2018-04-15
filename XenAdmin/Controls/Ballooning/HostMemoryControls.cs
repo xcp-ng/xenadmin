@@ -108,8 +108,23 @@ namespace XenAdmin.Controls.Ballooning
                 ? (long)Math.Round((double)tot_dyn_max / (double)total * 100.0)
                 : 0;
 
+            // relative memory view
+            if (memory_of_biggest_host > 0)
+            {
+                hostShinyBar.Dock = DockStyle.Top | DockStyle.Left; // undock right
+                int barMaxLength = labelTotal.Left;
+                int fixedPart = 45; // to calulate just the drawn bar, not the gap at the end
+                int hostmem = (int)(total / 1000000000); //GB
+                int hostmem_max_in_pool = (int)(memory_of_biggest_host / 1000000000); //GB
+                
+                int barRelativeLength = (((hostmem * 1000 / hostmem_max_in_pool) * (barMaxLength - fixedPart)) / 1000) + fixedPart;
+
+                // set length relative to host with the most memory
+                hostShinyBar.Width = barRelativeLength;
+            }
+
             // Initialize the shiny bar
-            hostShinyBar.Initialize(host, xen_memory, dom0, this.memory_of_biggest_host);
+            hostShinyBar.Initialize(host, xen_memory, dom0);
 
             // Set the text values
             valueTotal.Text = Util.MemorySizeStringSuitableUnits(total, true);

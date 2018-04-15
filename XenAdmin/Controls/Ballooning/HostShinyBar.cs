@@ -54,22 +54,13 @@ namespace XenAdmin.Controls.Ballooning
         Dictionary<VM, VM_metrics> vm_metrics;
         long xen_memory;
         long dom0_memory;
-        long memory_of_biggest_host;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="host"></param>
-        /// <param name="xen_memory"></param>
-        /// <param name="dom0_memory"></param>
-        /// <param name="memory_of_biggest_host">If set > 0, calculate the width of the shiny bar along the host with most memory for relative display</param>
-        public void Initialize(Host host, long xen_memory, long dom0_memory, long memory_of_biggest_host = 0)
+        public void Initialize(Host host, long xen_memory, long dom0_memory)
         {
             this.host = host;
             this.host_metrics = host.Connection.Resolve(host.metrics);
             this.xen_memory = xen_memory;
             this.dom0_memory = dom0_memory;
-            this.memory_of_biggest_host = memory_of_biggest_host;
             vms = host.Connection.ResolveAll(host.resident_VMs);
             vm_metrics = new Dictionary<VM, VM_metrics>();
             foreach (VM vm in vms)
@@ -83,15 +74,7 @@ namespace XenAdmin.Controls.Ballooning
 
             Graphics g = e.Graphics;
             Rectangle barArea = barRect;
-
-            long reverece_memory;
-            if (memory_of_biggest_host > 0)
-                reverece_memory = memory_of_biggest_host;
-            else
-                reverece_memory = host_metrics.memory_total;
-
-
-            double bytesPerPixel = (double)reverece_memory / (double)barArea.Width;
+            double bytesPerPixel = (double)host_metrics.memory_total / (double)barArea.Width;
 
             // Grid
             DrawGrid(g, barArea, bytesPerPixel, host_metrics.memory_total);
@@ -121,9 +104,7 @@ namespace XenAdmin.Controls.Ballooning
             }
 
             // One final bar for free space
-            long factor_percent = (host_metrics.memory_total*100) / memory_of_biggest_host;
-
-            Rectangle rectFree = new Rectangle((int)left, barArea.Top, (int)(((barArea.Right - (int)left) * factor_percent)/100), barArea.Height);
+            Rectangle rectFree = new Rectangle((int)left, barArea.Top, barArea.Right - (int)left, barArea.Height);
             DrawToTarget(g, barArea, rectFree, BallooningColors.HostShinyBar_Unused);
         }
 
