@@ -46,7 +46,6 @@ namespace XenAdmin.TabPages
     public partial class BallooningPage : BaseTabPage
     {
         private const int ROW_GAP = 10;
-        private const bool MEM_RELATIVE_VIEW = true;
 
         public BallooningPage()
         {
@@ -350,7 +349,7 @@ namespace XenAdmin.TabPages
 
             // find the host with the most memory as a reference to the max witdh
             long maxmem = 0;
-            if (MEM_RELATIVE_VIEW)
+            if (Properties.Settings.Default.ViewMemoryRelativeToEachOther)
             {
                 foreach (Host host in hosts)
                 {
@@ -371,7 +370,8 @@ namespace XenAdmin.TabPages
                 Host_metrics metrics = host.Connection.Resolve(host.metrics);
                 if (metrics == null || !metrics.live)
                     continue;
-                if (MEM_RELATIVE_VIEW)
+
+                if (Properties.Settings.Default.ViewMemoryRelativeToEachOther)
                 {
                     AddRowToPanel(new HostMemoryRow(host, maxmem), ref top);
                 }

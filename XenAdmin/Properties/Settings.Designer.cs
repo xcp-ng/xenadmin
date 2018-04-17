@@ -499,7 +499,23 @@ namespace XenAdmin.Properties {
                 this["FillAreaUnderGraphs"] = value;
             }
         }
-        
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public bool ViewMemoryRelativeToEachOther
+        {
+            get
+            {
+                return ((bool)(this["ViewMemoryRelativeToEachOther"]));
+            }
+            set
+            {
+                this["ViewMemoryRelativeToEachOther"] = value;
+            }
+        }
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("null")]

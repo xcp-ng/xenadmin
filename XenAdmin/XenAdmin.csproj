@@ -262,6 +262,12 @@
     <Compile Include="Dialogs\OptionsPages\ConfirmationOptionsPage.Designer.cs">
       <DependentUpon>ConfirmationOptionsPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\OptionsPages\DisplayOptions2Page.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dialogs\OptionsPages\DisplayOptions2Page.Designer.cs">
+      <DependentUpon>DisplayOptions2Page.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\PvsCacheConfigurationDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1694,6 +1700,16 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\OptionsPages\ConfirmationOptionsPage.zh-CN.resx">
       <DependentUpon>ConfirmationOptionsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\OptionsPages\DisplayOptions2Page.ja.resx">
+      <DependentUpon>DisplayOptions2Page.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\OptionsPages\DisplayOptions2Page.resx">
+      <DependentUpon>DisplayOptions2Page.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\OptionsPages\DisplayOptions2Page.zh-CN.resx">
+      <DependentUpon>DisplayOptions2Page.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\PvsCacheConfigurationDialog.ja.resx">
       <DependentUpon>PvsCacheConfigurationDialog.cs</DependentUpon>

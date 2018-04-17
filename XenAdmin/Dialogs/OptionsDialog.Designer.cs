@@ -32,6 +32,7 @@ namespace XenAdmin.Dialogs
             this.connectionOptionsPage1 = new XenAdmin.Dialogs.OptionsPages.ConnectionOptionsPage();
             this.consolesOptionsPage1 = new XenAdmin.Dialogs.OptionsPages.ConsolesOptionsPage();
             this.graphsOptionsPage1 = new XenAdmin.Dialogs.OptionsPages.DisplayOptionsPage();
+            this.graphsOptions2Page1 = new XenAdmin.Dialogs.OptionsPages.DisplayOptions2Page();
             this.updatesOptionsPage1 = new XenAdmin.Dialogs.OptionsPages.UpdatesOptionsPage();
             this.securityOptionsPage1 = new XenAdmin.Dialogs.OptionsPages.SecurityOptionsPage();
             this.saveAndRestoreOptionsPage1 = new XenAdmin.Dialogs.OptionsPages.SaveAndRestoreOptionsPage();
@@ -54,6 +55,7 @@ namespace XenAdmin.Dialogs
             this.ContentPanel.Controls.Add(this.securityOptionsPage1);
             this.ContentPanel.Controls.Add(this.updatesOptionsPage1);
             this.ContentPanel.Controls.Add(this.graphsOptionsPage1);
+            this.ContentPanel.Controls.Add(this.graphsOptions2Page1);
             this.ContentPanel.Controls.Add(this.consolesOptionsPage1);
             this.ContentPanel.Controls.Add(this.connectionOptionsPage1);
             // 
@@ -64,6 +66,7 @@ namespace XenAdmin.Dialogs
             this.securityOptionsPage1,
             this.updatesOptionsPage1,
             this.graphsOptionsPage1,
+            this.graphsOptions2Page1,
             this.consolesOptionsPage1,
             this.connectionOptionsPage1,
             this.saveAndRestoreOptionsPage1,
@@ -102,6 +105,11 @@ namespace XenAdmin.Dialogs
             // 
             resources.ApplyResources(this.graphsOptionsPage1, "graphsOptionsPage1");
             this.graphsOptionsPage1.Name = "graphsOptionsPage1";
+            // 
+            // graphsOptions2Page1
+            // 
+            resources.ApplyResources(this.graphsOptions2Page1, "graphsOptions2Page1");
+            this.graphsOptions2Page1.Name = "graphsOptions2Page1";
             // 
             // updatesOptionsPage1
             // 
@@ -149,6 +157,7 @@ namespace XenAdmin.Dialogs
         private XenAdmin.Dialogs.OptionsPages.ConsolesOptionsPage consolesOptionsPage1;
         private XenAdmin.Dialogs.OptionsPages.UpdatesOptionsPage updatesOptionsPage1;
         private XenAdmin.Dialogs.OptionsPages.DisplayOptionsPage graphsOptionsPage1;
+        private XenAdmin.Dialogs.OptionsPages.DisplayOptions2Page graphsOptions2Page1;
         private XenAdmin.Dialogs.OptionsPages.SecurityOptionsPage securityOptionsPage1;
         private XenAdmin.Dialogs.OptionsPages.SaveAndRestoreOptionsPage saveAndRestoreOptionsPage1;
         private XenAdmin.Dialogs.OptionsPages.PluginOptionsPage pluginOptionsPage1;
