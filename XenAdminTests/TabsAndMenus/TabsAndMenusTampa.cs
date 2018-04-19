@@ -51,7 +51,7 @@ namespace XenAdminTests.TabsAndMenus
         {
         }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetUp()
         {
             DisableAllPlugins();

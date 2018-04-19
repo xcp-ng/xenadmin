@@ -42,7 +42,7 @@ namespace XenAdminTests.ArchiveTests
     [TestFixture, Category(TestCategories.UICategoryA), Category(TestCategories.SmokeTest)]
     public class TarArchiveWriterTests : ThirdPartyArchiveWriterTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetUp()
         {
             Writer = new SharpZipTarArchiveWriter();
@@ -53,14 +53,14 @@ namespace XenAdminTests.ArchiveTests
     [TestFixture, Category(TestCategories.UICategoryA), Category(TestCategories.SmokeTest)]
     public class ZipArchiveWriterTests : ThirdPartyArchiveWriterTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetUp()
         {
             Writer = new DotNetZipZipWriter();
             Reader = null;
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TestFixtureTearDown()
         {
             Writer.Dispose();

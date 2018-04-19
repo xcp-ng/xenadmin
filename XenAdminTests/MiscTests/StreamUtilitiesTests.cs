@@ -43,23 +43,21 @@ namespace XenAdminTests.MiscTests
     class StreamUtilitiesTests
     {
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void BufferedStreamCopyWithNullInputStream()
         {
             using( MemoryStream ms = new MemoryStream() )
             {
-               StreamUtilities.BufferedStreamCopy( null, ms ); 
+                Assert.That(() => StreamUtilities.BufferedStreamCopy(null, ms), Throws.ArgumentNullException);
             }
             
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void BufferedStreamCopyWithNullOutputStream()
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                StreamUtilities.BufferedStreamCopy(ms, null);
+                Assert.That(() => StreamUtilities.BufferedStreamCopy(ms, null), Throws.ArgumentNullException);
             }
         }
 

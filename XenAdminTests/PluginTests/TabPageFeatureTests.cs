@@ -56,7 +56,7 @@ namespace XenAdminTests.PluginTests
             _pluginManager = new PluginManager();
         }
 
-        [Test, RequiresSTA]
+        [Test, Apartment(System.Threading.ApartmentState.STA)]
         public void TestLoadPlugin()
         {
             _pluginLoader = new TestPluginLoader("TabPageFeatureTestPlugin", _pluginManager);

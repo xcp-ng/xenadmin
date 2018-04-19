@@ -41,7 +41,7 @@ namespace XenAdminTests.SearchTests
     class SearchMarshallingTests
     {
         [Test]
-        public void RunTest()
+        public void SearchMarshallingTest()
         {
             foreach (Search search in Search.Searches)
             {

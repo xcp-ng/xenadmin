@@ -37,7 +37,7 @@ using System;
 
 namespace XenAdminTests.UnitTests.MiscTests
 {
-    [TestFixture, Category(TestCategories.Unit)]
+    [TestFixture, Category(TestCategories.Unit), SetCulture("en-EN")]
     internal class UtilTests
     {
         #region Test Data

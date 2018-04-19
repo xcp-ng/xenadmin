@@ -49,7 +49,7 @@ namespace XenAdminTests.UnitTests
         /// <summary>
         /// Gets all Types that derive from IXenObject except Folder and DockerContainer
         /// </summary>
-        public IEnumerable<Type> AllXenObjectTypesExceptFolder
+        public static IEnumerable<Type> AllXenObjectTypesExceptFolder
         {
             get
             {

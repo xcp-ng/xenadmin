@@ -58,7 +58,7 @@ namespace XenAdminTests.XenOvf
             }
         }
 
-        private IEnumerable<TestCase> TestCases
+        private static IEnumerable<TestCase> TestCases
         {
             get
             {

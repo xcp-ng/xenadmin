@@ -66,14 +66,14 @@ namespace XenAdminTests.HealthCheckTests
             config[HealthCheckSettings.LAST_FAILED_UPLOAD] = "";
             return config;
         }
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void FixtureSetup()
         {
             CredentialReceiver.instance.Init();
             ServerListHelper.instance.Init();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void FixtureTearDown()
         {
             CredentialReceiver.instance.UnInit();
@@ -109,7 +109,7 @@ namespace XenAdminTests.HealthCheckTests
             
         }
 
-        [Test, Timeout( 100 * 1000 )]
+        [Test, MaxTime( 100 * 1000 )]
         public void checkUploadLock()
         {
             IXenConnection connection = DatabaseManager.ConnectionFor(dbName);

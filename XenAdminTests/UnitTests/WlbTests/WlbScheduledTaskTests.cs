@@ -37,7 +37,7 @@ using XenAdminTests.UnitTests.UnitTestHelper;
 
 namespace XenAdminTests.UnitTests.WlbTests
 {
-    [TestFixture, Category(TestCategories.Unit)]
+    [TestFixture, Category(TestCategories.Unit), SetCulture("en-EN")]
     public class WlbScheduledTaskTests
     {
         #region Private Class Data
@@ -111,10 +111,10 @@ namespace XenAdminTests.UnitTests.WlbTests
 
         }
 
-        [Test, ExpectedException(typeof(KeyNotFoundException))]
+        [Test]
         public void ExceptionRaisedIfOptModeNotSetButRequested()
         {
-            WlbScheduledTask.GetTaskOptMode(task);
+            Assert.That(() => WlbScheduledTask.GetTaskOptMode(task), Throws.Exception.With.TypeOf(typeof(KeyNotFoundException)));
         }
 
         [Test]

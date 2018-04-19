@@ -51,7 +51,7 @@ namespace XenAdminTests.CommandTests
         { }
 
         [Test]
-        [Timeout(100 * 1000)]
+        [MaxTime(100 * 1000)]
         public void Run()
         {
             NewFolderCommandTest tester = new NewFolderCommandTest();
@@ -67,7 +67,7 @@ namespace XenAdminTests.CommandTests
         { }
 
         [Test]
-        [Timeout(100 * 1000)]
+        [MaxTime(100 * 1000)]
         public void Run()
         {
             NewFolderCommandTest tester = new NewFolderCommandTest();
