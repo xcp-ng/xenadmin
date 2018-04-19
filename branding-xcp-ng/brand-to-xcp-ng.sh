@@ -113,6 +113,11 @@ BRANDING_HEALTH_CHECK_GUID=9D686BFC-B4FD-435F-AC74-0ACE29425095
 #
 #######################################################################
 
+if [ -z "$BUILD_NUMBER" ]; then
+    echo "Need to set BUILD_NUMBER"
+    exit 1
+fi
+
 
 version_cpp()
 {

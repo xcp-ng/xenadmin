@@ -6950,8 +6950,6 @@
     <PostBuildEvent Condition=" '$(Configuration)' == 'Release' ">mt.exe -nologo -manifest "$(ProjectDir)$(ProjectName).manifest" -outputresource:"$(TargetDir)..\..\bin\$(Configuration)\$(TargetFileName)";#1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)\ReportViewer\resource_report.rdlc" "$(TargetDir)"
-
-copy "$(ProjectDir)\..\packages\putty.exe" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)\ReportViewer\resource_report.rdlc" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>
