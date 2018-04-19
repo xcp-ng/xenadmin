@@ -102,7 +102,7 @@ namespace XenAdminTests.WizardTests.ExportWizard
         private readonly string errorMessage = Messages.EXPORT_APPLIANCE_PAGE_ERROR_APP_EXISTS;
         private readonly string noErrorMessage = string.Empty;
 
-        private IEnumerable<TestCase> TestCases
+        private static IEnumerable<TestCase> TestCases
         {
             get
             {
@@ -192,12 +192,12 @@ namespace XenAdminTests.WizardTests.ExportWizard
             Assert.That(checker.ErrorReason, Is.EqualTo(errorMessage), "error message");
         }
 
-        [Test, ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void NullPaths()
         {
             ApplianceCheck checker = new ApplianceExistsCheck(null, null,
                                                               ApplianceCheck.FileExtension.ovaovf);
-            checker.Validate();
+            Assert.That(()=> checker.Validate(), Throws.ArgumentNullException);
         }
 
     }

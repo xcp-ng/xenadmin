@@ -158,10 +158,10 @@ namespace XenAdminTests.UnitTests.AlertTests
             VerifyHostsExpectations(Times.Never);
         }
 
-        [Test, ExpectedException(typeof(NullReferenceException))]
+        [Test]
         public void TestAlertWithNullPatch()
         {
-            XenServerPatchAlert alert = new XenServerPatchAlert(null);
+            Assert.That(()=> new XenServerPatchAlert(null), Throws.Exception.With.TypeOf(typeof(NullReferenceException)));
         }
 
         private void VerifyConnExpectations(Func<Times> times)

@@ -42,7 +42,7 @@ namespace XenAdminTests.TabsAndMenus
     public class StartUpStateTests : TabsAndMenus
     {
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetUp()
         {
             ConnectToStateDBs("state1.xml");
@@ -50,7 +50,7 @@ namespace XenAdminTests.TabsAndMenus
             DisableAllPlugins();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public new void TearDown()
         {
             MW(RemoveStateDBs);

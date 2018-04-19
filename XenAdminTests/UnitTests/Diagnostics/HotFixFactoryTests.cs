@@ -116,13 +116,13 @@ namespace XenAdminTests.UnitTests.Diagnostics
         }
 
         [Test]
-        [TestCase("2.3.50", Description = "Inverness", Result = false)]
-        [TestCase("2.3.0", Description = "Falcon", Result = true)]
-        [TestCase("2.1.1", Description = "Ely", Result = true)]
-        [TestCase("2.0.0", Description = "Dundee", Result = true)]
-        [TestCase("1.9.0", Description = "Creedence", Result = true)]
-        [TestCase("1.8.0", Description = "Clearwater", Result = true)]
-        [TestCase("9999.9999.9999", Description = "Future", Result = false)]
+        [TestCase("2.3.50", Description = "Inverness", ExpectedResult = false)]
+        [TestCase("2.3.0", Description = "Falcon", ExpectedResult = true)]
+        [TestCase("2.1.1", Description = "Ely", ExpectedResult = true)]
+        [TestCase("2.0.0", Description = "Dundee", ExpectedResult = true)]
+        [TestCase("1.9.0", Description = "Creedence", ExpectedResult = true)]
+        [TestCase("1.8.0", Description = "Clearwater", ExpectedResult = true)]
+        [TestCase("9999.9999.9999", Description = "Future", ExpectedResult = false)]
         public bool TestIsHotfixRequiredBasedOnPlatformVersion(string version)
         {
             Mock<Host> host = ObjectManager.NewXenObject<Host>(id);

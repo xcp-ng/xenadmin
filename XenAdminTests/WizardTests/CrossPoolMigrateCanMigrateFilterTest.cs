@@ -71,7 +71,7 @@ namespace XenAdminTests.WizardTests
 
         }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestSetup()
         {
             //one host pool
@@ -196,7 +196,7 @@ namespace XenAdminTests.WizardTests
             {
                 var filter = new CrossPoolMigrateCanMigrateFilter(data.Item1, data.Item2, WizardMode.Migrate);
                 Assert.False(filter.FailureFound, "Did not expect to find failure");
-                Assert.IsNullOrEmpty(filter.Reason, "Did not expect failure reason");
+                Assert.That(filter.Reason, Is.Null.Or.Empty); //Did not expect failure reason
             }
         }
 
@@ -225,7 +225,7 @@ namespace XenAdminTests.WizardTests
             {
                 var filter = new CrossPoolMigrateCanMigrateFilter(data.Item1, data.Item2, WizardMode.Migrate);
                 Assert.True(filter.FailureFound, "Expected to find failure");
-                Assert.IsNullOrEmpty(filter.Reason, "Did not expect failure reason");
+                Assert.That(filter.Reason, Is.Null.Or.Empty); //Did not expect failure reason
             }
         }
     }
