@@ -1,13 +1,13 @@
-XCP-ng Console
-==============
+XCP-ng Center
+=============
 
-This repository contains the source code for XCP-ng Console.
+This repository contains the source code for XCP-ng Center.
 
-XCP-ng Console is a Windows-based management tool for XCP-ng and Citrix® XenServer® environments
+XCP-ng Center is a Windows-based management tool for XCP-ng and Citrix® XenServer® environments
 which enables users to manage and monitor XCP-ng and Citrix® XenServer® hosts and resource pools,
 and to deploy, monitor, manage and migrate virtual machines.
 
-XCP-ng Console is written mostly in C#.
+XCP-ng Center is written mostly in C#.
 
 Contributions
 -------------
@@ -24,6 +24,8 @@ This code is licensed under the BSD 2-Clause license. Please see the
 
 Developer Build
 ---------------
+
+Latest instructions can be found at https://github.com/xcp-ng/xenadmin/wiki/Building
 
 You need:
 
