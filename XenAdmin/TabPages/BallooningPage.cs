@@ -347,9 +347,9 @@ namespace XenAdmin.TabPages
                 settingsToVMs[settings].Add(vm);
             }
 
-            // find the host with the most memory as a reference to the max witdh
+            // find the host with the most memory as a reference to the max witdh; only if there are more than 1 host and no VMs
             long maxmem = 0;
-            if (Properties.Settings.Default.ViewMemoryRelativeToEachOther)
+            if (hosts.Count > 1 & vms.Count == 0 & Properties.Settings.Default.ViewMemoryRelativeToEachOther)
             {
                 foreach (Host host in hosts)
                 {
