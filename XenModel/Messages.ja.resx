@@ -5164,6 +5164,11 @@ CD をイジェクトしてから再試行してください。</value>
   <data name="EXCEPTION_USER_CANCELLED_MASTER" xml:space="preserve">
     <value>キャンセルされました。最初にマスターをアップグレードしてください。</value>
   </data>
+  <data name="EXISTING_SR_FOUND_ON_LUN" xml:space="preserve">
+    <value>選択した LUN に既存の {0} SR があります。この既存の SR を使用するには [再接続] をクリックします。[フォーマット] をクリックすると、このディスク上のすべてのデータが消去され、新しい {1} SR が作成されます。
+
+警告: データの損失を防ぐため、[XenCenter] で接続していない [XenServer] ホストを含め、ほかのシステムがこの LUN を使用していないことを確認してください。</value>
+  </data>
   <data name="EXIT_MAINTENANCE_MODE" xml:space="preserve">
     <value>保守モードからの切り替え(&amp;M)</value>
   </data>
@@ -5376,7 +5381,7 @@ CD をイジェクトしてから再試行してください。</value>
     <value>LUN が見つかりません。ハードウェア構成を確認してください。</value>
   </data>
   <data name="FIBRECHANNEL_XML_ERROR" xml:space="preserve">
-    <value>スキャンに失敗しました。再試行してください。</value>
+    <value>スキャンが失敗しました。</value>
   </data>
   <data name="FIELD_DISABLED" xml:space="preserve">
     <value>この機能は、サーバーのライセンス条件により無効になっています。</value>
@@ -7197,8 +7202,11 @@ Standard 機能のみ有効です</value>
   <data name="LUNPERVDI_PAGE_TITLE" xml:space="preserve">
     <value>仮想ディスク (VDI) をターゲット SR 上の個々の LUN にマップします</value>
   </data>
+  <data name="LVMOHBA_WARNING_DIALOG_FORMAT_INFO" xml:space="preserve">
+    <value>ディスク上に存在するすべてのデータを破棄して新規 {0} SR を作成する</value>
+  </data>
   <data name="LVMOHBA_WARNING_DIALOG_HEADER_FOUND_EXISTING_SR" xml:space="preserve">
-    <value>選択した LUN に既存の SR があります</value>
+    <value>選択した LUN に既存の {0} SR があります</value>
   </data>
   <data name="LVMOHBA_WARNING_DIALOG_HEADER_NO_EXISTING_SRS" xml:space="preserve">
     <value>選択した LUN に既存の SR がありません</value>
@@ -7208,6 +7216,9 @@ Standard 機能のみ有効です</value>
 シリアル番号: {1}
 SCSI ID: {2}
 サイズ: {3}</value>
+  </data>
+  <data name="LVMOHBA_WARNING_DIALOG_REATTACH_INFO" xml:space="preserve">
+    <value>既存の {0} SR を使用</value>
   </data>
   <data name="LVMOHBA_WARNING_DIALOG_REATTACH_LABEL_TEXT" xml:space="preserve">
     <value>再接続するための既存の SR がありません</value>
@@ -8350,6 +8361,12 @@ SMB ストレージ リポジトリを構成する場合は、SMB サーバー�
   </data>
   <data name="NEWSR_LUN_IN_USE_ON_POOL" xml:space="preserve">
     <value>この LUN はプール {1} の SR {0} として既に使用されています。</value>
+  </data>
+  <data name="NEWSR_LUN_IN_USE_ON_SELECTED_POOL" xml:space="preserve">
+    <value>LUN {0} は、プールで既に SR {1} として使用されています。別の LUN を選択してください。</value>
+  </data>
+  <data name="NEWSR_LUN_IN_USE_ON_SELECTED_SERVER" xml:space="preserve">
+    <value>LUN {0} は、サーバーで既に SR {1} として使用されています。別の LUN を選択してください。</value>
   </data>
   <data name="NEWSR_LUN_IN_USE_ON_SERVER" xml:space="preserve">
     <value>この LUN はサーバー {1} の SR {0} として既に使用されています。</value>

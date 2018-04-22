@@ -376,7 +376,7 @@
     <value>5</value>
   </data>
   <data name="labelMessage.Text" xml:space="preserve">
-    <value>在所选 LUN 上找到现有 SR。请单击“重新连接”以使用现有 SR，或者单击“格式化”以销毁磁盘上现有的任何数据并创建一个新 SR。
+    <value>在所选 LUN 上找到现有 SR。请单击“重新连接”以使用现有 SR，或者单击“格式化”以销毁磁盘上的所有数据并创建一个新 SR。
 
 警告: 为避免数据丢失，必须确保该 LUN 未在由其他任何系统(包括未连接到 [XenCenter] 的 [XenServer] 主机)使用。</value>
   </data>

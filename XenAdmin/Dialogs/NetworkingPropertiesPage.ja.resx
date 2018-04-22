@@ -119,10 +119,10 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
   <data name="NetworkComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>110, 53</value>
+    <value>92, 54</value>
   </data>
   <data name="NetworkComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>213, 20</value>
+    <value>225, 21</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
   <data name="NetworkComboBox.TabIndex" type="System.Int32, mscorlib">
@@ -163,7 +163,7 @@
     <value>3, 4, 0, 4</value>
   </data>
   <data name="IpAddressSettingsLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>437, 17</value>
+    <value>437, 13</value>
   </data>
   <data name="IpAddressSettingsLabel.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -202,7 +202,7 @@
     <value>3, 0, 6, 0</value>
   </data>
   <data name="PurposeLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 25</value>
+    <value>80, 26</value>
   </data>
   <data name="PurposeLabel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -226,10 +226,10 @@
     <value>1</value>
   </data>
   <data name="PurposeTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>110, 28</value>
+    <value>92, 28</value>
   </data>
   <data name="PurposeTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>213, 19</value>
+    <value>213, 20</value>
   </data>
   <data name="PurposeTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -421,7 +421,7 @@
     <value>6</value>
   </data>
   <data name="tableLayoutPanelStaticSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>385, 144</value>
+    <value>420, 144</value>
   </data>
   <data name="tableLayoutPanelStaticSettings.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -475,7 +475,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelHAEnabledWarning.Size" type="System.Drawing.Size, System.Drawing">
-    <value>405, 25</value>
+    <value>440, 25</value>
   </data>
   <data name="panelHAEnabledWarning.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -526,7 +526,7 @@
     <value>0, 5, 0, 0</value>
   </data>
   <data name="panelInUseWarning.Size" type="System.Drawing.Size, System.Drawing">
-    <value>405, 26</value>
+    <value>440, 26</value>
   </data>
   <data name="panelInUseWarning.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -553,7 +553,7 @@
     <value>23, 156</value>
   </data>
   <data name="FixedIPRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 17</value>
+    <value>152, 17</value>
   </data>
   <data name="FixedIPRadioButton.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -583,7 +583,7 @@
     <value>23, 133</value>
   </data>
   <data name="DHCPIPRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 17</value>
+    <value>184, 17</value>
   </data>
   <data name="DHCPIPRadioButton.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -619,13 +619,13 @@
     <value>NoControl</value>
   </data>
   <data name="DeleteButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>265, 371</value>
+    <value>297, 330</value>
   </data>
   <data name="DeleteButton.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 0, 5, 0</value>
   </data>
   <data name="DeleteButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 23</value>
+    <value>140, 23</value>
   </data>
   <data name="DeleteButton.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -688,7 +688,7 @@
     <value>1</value>
   </data>
   <data name="tableLayoutInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>399, 35</value>
+    <value>434, 1</value>
   </data>
   <data name="tableLayoutInfo.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -724,7 +724,7 @@
     <value>10</value>
   </data>
   <data name="tableLayoutPanelBody.Size" type="System.Drawing.Size, System.Drawing">
-    <value>405, 397</value>
+    <value>440,356</value>
   </data>
   <data name="tableLayoutPanelBody.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -757,7 +757,7 @@
     <value>3, 0, 6, 0</value>
   </data>
   <data name="Network2Label.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 27</value>
+    <value>80, 27</value>
   </data>
   <data name="Network2Label.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -790,7 +790,7 @@
     <value>16, 0</value>
   </data>
   <data name="InUseWarningText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>389, 26</value>
+    <value>424, 26</value>
   </data>
   <data name="InUseWarningText.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -817,7 +817,7 @@
     <value>16, 0</value>
   </data>
   <data name="haEnabledRubric.Size" type="System.Drawing.Size, System.Drawing">
-    <value>389, 25</value>
+    <value>424, 25</value>
   </data>
   <data name="haEnabledRubric.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -838,7 +838,7 @@
     <value>0</value>
   </data>
   <data name="AlternateDNS2TextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 120</value>
+    <value>148, 120</value>
   </data>
   <data name="AlternateDNS2TextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -877,7 +877,7 @@
     <value>22, 0, 10, 0</value>
   </data>
   <data name="AlternateDNS2Label.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 24</value>
+    <value>116, 24</value>
   </data>
   <data name="AlternateDNS2Label.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -916,7 +916,7 @@
     <value>22, 0, 10, 0</value>
   </data>
   <data name="IPAddressLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 24</value>
+    <value>116, 24</value>
   </data>
   <data name="IPAddressLabel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -949,13 +949,13 @@
     <value>NoControl</value>
   </data>
   <data name="RangeEndLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>291, 0</value>
+    <value>279, 0</value>
   </data>
   <data name="RangeEndLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>6, 0, 3, 0</value>
   </data>
   <data name="RangeEndLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 24</value>
+    <value>138, 24</value>
   </data>
   <data name="RangeEndLabel.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -976,7 +976,7 @@
     <value>3</value>
   </data>
   <data name="IPAddressTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 0</value>
+    <value>148, 0</value>
   </data>
   <data name="IPAddressTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1003,7 +1003,7 @@
     <value>4</value>
   </data>
   <data name="AlternateDNS1TextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 96</value>
+    <value>148, 96</value>
   </data>
   <data name="AlternateDNS1TextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1042,7 +1042,7 @@
     <value>22, 0, 10, 0</value>
   </data>
   <data name="PreferredDNSLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 24</value>
+    <value>116, 24</value>
   </data>
   <data name="PreferredDNSLabel.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -1081,7 +1081,7 @@
     <value>22, 0, 10, 0</value>
   </data>
   <data name="AlternateDNS1Label.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 24</value>
+    <value>116, 24</value>
   </data>
   <data name="AlternateDNS1Label.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1105,7 +1105,7 @@
     <value>7</value>
   </data>
   <data name="PreferredDNSTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 72</value>
+    <value>148, 72</value>
   </data>
   <data name="PreferredDNSTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1147,7 +1147,7 @@
     <value>22, 0, 10, 0</value>
   </data>
   <data name="SubnetMaskLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 24</value>
+    <value>116, 24</value>
   </data>
   <data name="SubnetMaskLabel.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1186,7 +1186,7 @@
     <value>22, 0, 10, 0</value>
   </data>
   <data name="GatewayLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 24</value>
+    <value>116, 24</value>
   </data>
   <data name="GatewayLabel.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -1210,7 +1210,7 @@
     <value>10</value>
   </data>
   <data name="GatewayTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 48</value>
+    <value>148, 48</value>
   </data>
   <data name="GatewayTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1237,7 +1237,7 @@
     <value>11</value>
   </data>
   <data name="SubnetTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 24</value>
+    <value>148, 24</value>
   </data>
   <data name="SubnetTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>

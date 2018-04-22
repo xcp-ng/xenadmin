@@ -130,7 +130,7 @@
     <value>3, 0, 3, 14</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 13</value>
+    <value>55, 13</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -160,7 +160,7 @@
     <value>6, 36</value>
   </data>
   <data name="radioButtonDiskOnly.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 20</value>
+    <value>107, 17</value>
   </data>
   <data name="radioButtonDiskOnly.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -181,7 +181,7 @@
     <value>6</value>
   </data>
   <data name="quiesceCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>39, 92</value>
+    <value>39, 98</value>
   </data>
   <data name="quiesceCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>419, 34</value>
@@ -214,7 +214,7 @@
     <value>6, 132</value>
   </data>
   <data name="radioButtonDiskAndMemory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 17</value>
+    <value>134, 17</value>
   </data>
   <data name="radioButtonDiskAndMemory.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -268,7 +268,7 @@
     <value>NoControl</value>
   </data>
   <data name="checkpointInfoPictureBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>188, 103</value>
+    <value>146, 133</value>
   </data>
   <data name="checkpointInfoPictureBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
@@ -307,7 +307,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="labelWarning.Size" type="System.Drawing.Size, System.Drawing">
-    <value>427, 78</value>
+    <value>396, 52</value>
   </data>
   <data name="labelWarning.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -388,7 +388,7 @@
     <value>NoControl</value>
   </data>
   <data name="pictureBoxVSS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>343, 94</value>
+    <value>276, 107</value>
   </data>
   <data name="pictureBoxVSS.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
@@ -415,10 +415,10 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 148</value>
+    <value>24, 155</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>453, 52</value>
+    <value>453, 40</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>

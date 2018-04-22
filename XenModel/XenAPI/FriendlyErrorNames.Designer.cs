@@ -529,6 +529,15 @@ namespace XenAPI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The cluster stack is already in use..
+        /// </summary>
+        public static string CLUSTER_STACK_IN_USE {
+            get {
+                return ResourceManager.GetString("CLUSTER_STACK_IN_USE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An SR is using clustered local storage. It is not safe to reboot a host at the moment..
         /// </summary>
         public static string CLUSTERED_SR_DEGRADED {
@@ -552,6 +561,15 @@ namespace XenAPI {
         public static string CLUSTERING_ENABLED {
             get {
                 return ResourceManager.GetString("CLUSTERING_ENABLED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The network has cluster objects attached..
+        /// </summary>
+        public static string CLUSTERING_ENABLED_ON_NETWORK {
+            get {
+                return ResourceManager.GetString("CLUSTERING_ENABLED_ON_NETWORK", resourceCulture);
             }
         }
         
@@ -1150,7 +1168,7 @@ namespace XenAPI {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This server can not be forgotten because there are some user VMs still running.
+        ///   Looks up a localized string similar to This server cannot be forgotten because there are some user VMs still running.
         /// </summary>
         public static string HOST_HAS_RESIDENT_VMS {
             get {
@@ -1429,7 +1447,7 @@ namespace XenAPI {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to These PIFs can not be bonded, because their properties are different..
+        ///   Looks up a localized string similar to These PIFs cannot be bonded, because their properties are different..
         /// </summary>
         public static string INCOMPATIBLE_PIF_PROPERTIES {
             get {
@@ -2293,6 +2311,15 @@ namespace XenAPI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The operation you requested cannot be performed because the specified PIF allows unplug..
+        /// </summary>
+        public static string PIF_ALLOWS_UNPLUG {
+            get {
+                return ResourceManager.GetString("PIF_ALLOWS_UNPLUG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You cannot create a bond of an interface which is a member of an existing bond..
         /// </summary>
         public static string PIF_ALREADY_BONDED {
@@ -2545,7 +2572,7 @@ namespace XenAPI {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not enable external authentication: {1}.
+        ///   Looks up a localized string similar to Could not enable external authentication..
         /// </summary>
         public static string POOL_AUTH_ENABLE_FAILED {
             get {
@@ -5867,6 +5894,15 @@ namespace XenAPI {
         public static string VM_MEMORY_SIZE_TOO_LOW {
             get {
                 return ResourceManager.GetString("VM_MEMORY_SIZE_TOO_LOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to contact service on the destination host..
+        /// </summary>
+        public static string VM_MIGRATE_CONTACT_REMOTE_SERVICE_FAILED {
+            get {
+                return ResourceManager.GetString("VM_MIGRATE_CONTACT_REMOTE_SERVICE_FAILED", resourceCulture);
             }
         }
         

@@ -15118,7 +15118,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Couldn&apos;t show file open dialog - {0}.
+        ///   Looks up a localized string similar to Could not show file open dialog - {0}.
         /// </summary>
         public static string EXPORTVM_COULD_NOT_SHOW {
             get {
@@ -16658,7 +16658,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server &apos;{0}&apos; can not be placed in Maintenance Mode because it is the master of an HA-enabled pool..
+        ///   Looks up a localized string similar to Server &apos;{0}&apos; cannot be placed in Maintenance Mode because it is the master of an HA-enabled pool..
         /// </summary>
         public static string HA_CANNOT_EVACUATE_MASTER {
             get {
@@ -32220,7 +32220,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SR-IOV networks require the SR-IOV capable NIC..
+        ///   Looks up a localized string similar to SR-IOV networks require an SR-IOV capable NIC..
         /// </summary>
         public static string SRIOV_NEED_NICSUPPORT {
             get {
@@ -38043,7 +38043,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WLB can&apos;t find a host that has required storage repositories to place a VM. .
+        ///   Looks up a localized string similar to WLB cannot find a host that has required storage repositories to place a VM. .
         /// </summary>
         public static string WLB_ERROR_4017 {
             get {
@@ -38052,7 +38052,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WLB can&apos;t find required free CPUs to place a VM..
+        ///   Looks up a localized string similar to WLB cannot find required free CPUs to place a VM..
         /// </summary>
         public static string WLB_ERROR_4018 {
             get {
@@ -38061,7 +38061,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WLB can&apos;t find required free memory to place a VM..
+        ///   Looks up a localized string similar to WLB cannot find required free memory to place a VM..
         /// </summary>
         public static string WLB_ERROR_4019 {
             get {

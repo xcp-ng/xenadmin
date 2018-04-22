@@ -132,7 +132,7 @@ namespace XenAdmin.Wizards.GenericPages
                 string sysId = kvp.Key;
                 var vmMapping = kvp.Value;
 
-                var cb = FillGridComboBox(vmMapping.XenRef);
+                var cb = FillGridComboBox(vmMapping.XenRef, sysId);
 
                 foreach (INetworkResource networkResource in NetworkData(sysId))
                 {
@@ -232,14 +232,14 @@ namespace XenAdmin.Wizards.GenericPages
             OnPageUpdated();
         }   
 
-		protected DataGridViewComboBoxCell FillGridComboBox(object xenRef)
+		private DataGridViewComboBoxCell FillGridComboBox(object xenRef, string vsId)
 		{
 		    var cb = new DataGridViewComboBoxCell {FlatStyle = FlatStyle.Flat, Sorted = true};
 
 			XenRef<Host> hostRef = xenRef as XenRef<Host>;
 			Host host = TargetConnection.Resolve(hostRef);
 
-            var availableNetworks = TargetConnection.Cache.Networks.Where(net => ShowNetwork(host, net));
+            var availableNetworks = TargetConnection.Cache.Networks.Where(net => ShowNetwork(host, net, vsId));
 
 			foreach (XenAPI.Network netWork in availableNetworks)
 			{
@@ -255,8 +255,11 @@ namespace XenAdmin.Wizards.GenericPages
 			return cb;
 		}
 
-        private bool ShowNetwork(Host targetHost, XenAPI.Network network)
+        private bool ShowNetwork(Host targetHost, XenAPI.Network network, string vsId)
         {
+            if (network.IsSriov() && !AllowSriovNetwork(network, vsId))
+                return false;
+
             if (!network.Show(Properties.Settings.Default.ShowHiddenVMs))
                 return false;
 
@@ -271,6 +274,11 @@ namespace XenAdmin.Wizards.GenericPages
 
             return true;
         }
+
+        protected virtual bool AllowSriovNetwork(XenAPI.Network network, string sysId)
+	    {
+	        return true;
+	    }
 
 	    private void m_dataGridView_CellEnter(object sender, DataGridViewCellEventArgs e)
 		{

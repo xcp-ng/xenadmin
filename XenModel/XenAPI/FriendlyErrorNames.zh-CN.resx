@@ -270,6 +270,9 @@
   <data name="CLUSTERING_ENABLED" xml:space="preserve">
     <value>在 cluster_host 上启用了群集时已尝试执行操作。</value>
   </data>
+  <data name="CLUSTERING_ENABLED_ON_NETWORK" xml:space="preserve">
+    <value>网络连接了群集对象。</value>
+  </data>
   <data name="CLUSTER_ALREADY_EXISTS" xml:space="preserve">
     <value>池中已存在群集。</value>
   </data>
@@ -281,6 +284,9 @@
   </data>
   <data name="CLUSTER_FORCE_DESTROY_FAILED" xml:space="preserve">
     <value>强制销毁群集时在 Cluster_host 上执行强制销毁失败。</value>
+  </data>
+  <data name="CLUSTER_STACK_IN_USE" xml:space="preserve">
+    <value>群集堆栈已在使用中。</value>
   </data>
   <data name="COULD_NOT_FIND_NETWORK_INTERFACE_WITH_SPECIFIED_DEVICE_NAME_AND_MAC_ADDRESS" xml:space="preserve">
     <value>找不到具有指定设备名称和 MAC 地址的网络接口。</value>
@@ -860,6 +866,9 @@
   </data>
   <data name="PGPU_NOT_COMPATIBLE_WITH_GPU_GROUP" xml:space="preserve">
     <value>GPU 类型与目标组不兼容。</value>
+  </data>
+  <data name="PIF_ALLOWS_UNPLUG" xml:space="preserve">
+    <value>请求的操作无法执行，因为指定的 PIF 允许拔出。</value>
   </data>
   <data name="PIF_ALREADY_BONDED" xml:space="preserve">
     <value>无法为已属于现有绑定的接口创建绑定。</value>
@@ -2068,6 +2077,9 @@
   </data>
   <data name="VM_MEMORY_SIZE_TOO_LOW" xml:space="preserve">
     <value>指定 VM 的内存过少，无法启动。</value>
+  </data>
+  <data name="VM_MIGRATE_CONTACT_REMOTE_SERVICE_FAILED" xml:space="preserve">
+    <value>无法联系目标主机上的服务。</value>
   </data>
   <data name="VM_MIGRATE_FAILED" xml:space="preserve">
     <value>VM 迁移失败: {3}</value>

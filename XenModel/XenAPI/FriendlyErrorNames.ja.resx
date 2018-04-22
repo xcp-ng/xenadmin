@@ -270,6 +270,9 @@
   <data name="CLUSTERING_ENABLED" xml:space="preserve">
     <value>cluster_host でクラスタリングが有効になっている間に、操作が試行されました。</value>
   </data>
+  <data name="CLUSTERING_ENABLED_ON_NETWORK" xml:space="preserve">
+    <value>ネットワークにクラスター オブジェクトが接続されています。</value>
+  </data>
   <data name="CLUSTER_ALREADY_EXISTS" xml:space="preserve">
     <value>クラスターは既にプールに存在します。</value>
   </data>
@@ -281,6 +284,9 @@
   </data>
   <data name="CLUSTER_FORCE_DESTROY_FAILED" xml:space="preserve">
     <value>クラスターの強制破棄中、Cluster_host での強制破棄に失敗しました。</value>
+  </data>
+  <data name="CLUSTER_STACK_IN_USE" xml:space="preserve">
+    <value>クラスター スタックは既に使用されています。</value>
   </data>
   <data name="COULD_NOT_FIND_NETWORK_INTERFACE_WITH_SPECIFIED_DEVICE_NAME_AND_MAC_ADDRESS" xml:space="preserve">
     <value>指定したデバイス名および MAC アドレスのネットワーク インターフェイスが見つかりません。</value>
@@ -860,6 +866,9 @@
   </data>
   <data name="PGPU_NOT_COMPATIBLE_WITH_GPU_GROUP" xml:space="preserve">
     <value>GPU の種類が割り当て先のグループのものと非互換です。</value>
+  </data>
+  <data name="PIF_ALLOWS_UNPLUG" xml:space="preserve">
+    <value>この PIF でアンプラグが許可されているため、要求された処理を実行できません。</value>
   </data>
   <data name="PIF_ALREADY_BONDED" xml:space="preserve">
     <value>ボンディング済みのインターフェイスを使ってボンディングを作成することはできません。</value>
@@ -2068,6 +2077,9 @@
   </data>
   <data name="VM_MEMORY_SIZE_TOO_LOW" xml:space="preserve">
     <value>指定した VM は、メモリが足りないため起動できません。</value>
+  </data>
+  <data name="VM_MIGRATE_CONTACT_REMOTE_SERVICE_FAILED" xml:space="preserve">
+    <value>移行先ホストのサービスと通信できません。</value>
   </data>
   <data name="VM_MIGRATE_FAILED" xml:space="preserve">
     <value>VM の移行に失敗しました。{3}</value>

@@ -31,6 +31,7 @@
 
 using System;
 using System.Collections.Generic;
+using XenAdmin.Core;
 using XenAPI;
 
 
@@ -71,18 +72,22 @@ namespace XenAdmin.Actions
                 }
 
                 // CA-19392: Multipath enablement / disablement
-                if (multipath)
+
+                if (Helpers.KolkataOrGreater(host))
                 {
-                    Host.remove_from_other_config(Session, host.opaque_ref, Host.MULTIPATH);
-                    Host.add_to_other_config(Session, host.opaque_ref, Host.MULTIPATH, "true");
-                    Host.remove_from_other_config(Session, host.opaque_ref, Host.MULTIPATH_HANDLE);
-                    Host.add_to_other_config(Session, host.opaque_ref, Host.MULTIPATH_HANDLE, DEFAULT_MULTIPATH_HANDLE);
+                    Host.set_multipathing(Session, host.opaque_ref, multipath);
                 }
                 else
                 {
                     Host.remove_from_other_config(Session, host.opaque_ref, Host.MULTIPATH);
-                    Host.add_to_other_config(Session, host.opaque_ref, Host.MULTIPATH, "false");
-                    Host.remove_from_other_config(Session, host.opaque_ref, Host.MULTIPATH_HANDLE);
+                    Host.add_to_other_config(Session, host.opaque_ref, Host.MULTIPATH, multipath.ToString().ToLowerInvariant());
+                }
+
+                Host.remove_from_other_config(Session, host.opaque_ref, Host.MULTIPATH_HANDLE);
+                
+                if (multipath)
+                {
+                    Host.add_to_other_config(Session, host.opaque_ref, Host.MULTIPATH_HANDLE, DEFAULT_MULTIPATH_HANDLE);
                 }
 
             }

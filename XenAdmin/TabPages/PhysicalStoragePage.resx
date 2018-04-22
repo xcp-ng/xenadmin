@@ -121,84 +121,117 @@
   <data name="panel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="columnHeader1.Text" xml:space="preserve">
-    <value>Name</value>
+  <metadata name="columnImage.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="columnImage.HeaderText" xml:space="preserve">
+    <value />
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="columnHeader1.Width" type="System.Int32, mscorlib">
-    <value>160</value>
+  <data name="columnImage.Width" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="columnHeader2.Text" xml:space="preserve">
+  <metadata name="columnName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="columnName.HeaderText" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="columnName.MinimumWidth" type="System.Int32, mscorlib">
+    <value>60</value>
+  </data>
+  <metadata name="columnDescription.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="columnDescription.HeaderText" xml:space="preserve">
     <value>Description</value>
   </data>
-  <data name="columnHeader2.Width" type="System.Int32, mscorlib">
-    <value>180</value>
+  <data name="columnDescription.MinimumWidth" type="System.Int32, mscorlib">
+    <value>60</value>
   </data>
-  <data name="columnHeader3.Text" xml:space="preserve">
+  <metadata name="columnType.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="columnType.HeaderText" xml:space="preserve">
     <value>Type</value>
   </data>
-  <data name="columnHeader3.Width" type="System.Int32, mscorlib">
-    <value>85</value>
+  <data name="columnType.MinimumWidth" type="System.Int32, mscorlib">
+    <value>30</value>
   </data>
-  <data name="columnHeader4.Text" xml:space="preserve">
+  <data name="columnType.Width" type="System.Int32, mscorlib">
+    <value>54</value>
+  </data>
+  <metadata name="columnShared.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="columnShared.HeaderText" xml:space="preserve">
     <value>Shared</value>
   </data>
-  <data name="columnHeader4.Width" type="System.Int32, mscorlib">
-    <value>55</value>
+  <data name="columnShared.MinimumWidth" type="System.Int32, mscorlib">
+    <value>30</value>
   </data>
-  <data name="columnHeader5.Text" xml:space="preserve">
+  <data name="columnShared.Width" type="System.Int32, mscorlib">
+    <value>68</value>
+  </data>
+  <metadata name="columnUsage.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="columnUsage.HeaderText" xml:space="preserve">
     <value>Usage</value>
   </data>
-  <data name="columnHeader5.Width" type="System.Int32, mscorlib">
-    <value>125</value>
+  <data name="columnUsage.MinimumWidth" type="System.Int32, mscorlib">
+    <value>60</value>
   </data>
-  <data name="columnHeader6.Text" xml:space="preserve">
+  <data name="columnUsage.Width" type="System.Int32, mscorlib">
+    <value>64</value>
+  </data>
+  <metadata name="columnSize.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="columnSize.HeaderText" xml:space="preserve">
     <value>Size</value>
   </data>
-  <data name="columnHeader7.Text" xml:space="preserve">
+  <data name="columnSize.MinimumWidth" type="System.Int32, mscorlib">
+    <value>60</value>
+  </data>
+  <data name="columnSize.Width" type="System.Int32, mscorlib">
+    <value>60</value>
+  </data>
+  <metadata name="columnVirtAlloc.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="columnVirtAlloc.HeaderText" xml:space="preserve">
     <value>Virtual allocation</value>
   </data>
-  <data name="columnHeader7.Width" type="System.Int32, mscorlib">
-    <value>119</value>
+  <data name="columnVirtAlloc.MinimumWidth" type="System.Int32, mscorlib">
+    <value>60</value>
   </data>
-  <metadata name="contextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 4</value>
+  <data name="columnVirtAlloc.Width" type="System.Int32, mscorlib">
+    <value>120</value>
   </data>
-  <data name="&gt;&gt;contextMenuStrip.Name" xml:space="preserve">
-    <value>contextMenuStrip</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStrip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="listViewSrs.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="dataGridViewSr.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="listViewSrs.Location" type="System.Drawing.Point, System.Drawing">
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="dataGridViewSr.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="listViewSrs.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 5</value>
-  </data>
-  <data name="listViewSrs.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="dataGridViewSr.Size" type="System.Drawing.Size, System.Drawing">
     <value>897, 259</value>
   </data>
-  <data name="listViewSrs.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="dataGridViewSr.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
-  <data name="&gt;&gt;listViewSrs.Name" xml:space="preserve">
-    <value>listViewSrs</value>
+  <data name="&gt;&gt;dataGridViewSr.Name" xml:space="preserve">
+    <value>dataGridViewSr</value>
   </data>
-  <data name="&gt;&gt;listViewSrs.Type" xml:space="preserve">
-    <value>XenAdmin.Controls.ListViewEx, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;dataGridViewSr.Type" xml:space="preserve">
+    <value>XenAdmin.Controls.DataGridViewEx.DataGridViewEx, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;listViewSrs.Parent" xml:space="preserve">
+  <data name="&gt;&gt;dataGridViewSr.Parent" xml:space="preserve">
     <value>panel1</value>
   </data>
-  <data name="&gt;&gt;listViewSrs.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;dataGridViewSr.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="newSRButton.Location" type="System.Drawing.Point, System.Drawing">
@@ -453,6 +486,18 @@
   <data name="&gt;&gt;pageContainerPanel.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="contextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 4</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip.Name" xml:space="preserve">
+    <value>contextMenuStrip</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="TitleLabel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -498,47 +543,53 @@
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>920, 422</value>
   </data>
-  <data name="&gt;&gt;columnHeader1.Name" xml:space="preserve">
-    <value>columnHeader1</value>
+  <data name="&gt;&gt;columnImage.Name" xml:space="preserve">
+    <value>columnImage</value>
   </data>
-  <data name="&gt;&gt;columnHeader1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;columnImage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;columnHeader2.Name" xml:space="preserve">
-    <value>columnHeader2</value>
+  <data name="&gt;&gt;columnName.Name" xml:space="preserve">
+    <value>columnName</value>
   </data>
-  <data name="&gt;&gt;columnHeader2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;columnName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;columnHeader3.Name" xml:space="preserve">
-    <value>columnHeader3</value>
+  <data name="&gt;&gt;columnDescription.Name" xml:space="preserve">
+    <value>columnDescription</value>
   </data>
-  <data name="&gt;&gt;columnHeader3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;columnDescription.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;columnHeader4.Name" xml:space="preserve">
-    <value>columnHeader4</value>
+  <data name="&gt;&gt;columnType.Name" xml:space="preserve">
+    <value>columnType</value>
   </data>
-  <data name="&gt;&gt;columnHeader4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;columnType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;columnHeader5.Name" xml:space="preserve">
-    <value>columnHeader5</value>
+  <data name="&gt;&gt;columnShared.Name" xml:space="preserve">
+    <value>columnShared</value>
   </data>
-  <data name="&gt;&gt;columnHeader5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;columnShared.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;columnHeader6.Name" xml:space="preserve">
-    <value>columnHeader6</value>
+  <data name="&gt;&gt;columnUsage.Name" xml:space="preserve">
+    <value>columnUsage</value>
   </data>
-  <data name="&gt;&gt;columnHeader6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;columnUsage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;columnHeader7.Name" xml:space="preserve">
-    <value>columnHeader7</value>
+  <data name="&gt;&gt;columnSize.Name" xml:space="preserve">
+    <value>columnSize</value>
   </data>
-  <data name="&gt;&gt;columnHeader7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;columnSize.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;columnVirtAlloc.Name" xml:space="preserve">
+    <value>columnVirtAlloc</value>
+  </data>
+  <data name="&gt;&gt;columnVirtAlloc.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PhysicalStoragePage</value>

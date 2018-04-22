@@ -150,12 +150,23 @@ namespace XenAPI
 
         public string GetIscsiIqn()
         {
+            if (Helpers.KolkataOrGreater(this))
+            {
+                return iscsi_iqn;
+            }
             return Get(other_config, "iscsi_iqn") ?? "";
         }
 
         public void SetIscsiIqn(string value)
         {
-            other_config = SetDictionaryKey(other_config, "iscsi_iqn", value);
+            if (Helpers.KolkataOrGreater(this))
+            {
+                iscsi_iqn = value;
+            }
+            else
+            {
+                other_config = SetDictionaryKey(other_config, "iscsi_iqn", value);
+            }
         }
 
         public override string ToString()
@@ -493,6 +504,10 @@ namespace XenAPI
 
         public bool MultipathEnabled()
         {
+            if (Helpers.KolkataOrGreater(this))
+            {
+                return multipathing;
+            }
             return BoolKey(other_config, MULTIPATH);
         }
 

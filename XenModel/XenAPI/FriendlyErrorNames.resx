@@ -493,7 +493,7 @@
     <value>The server failed to acquire an IP address on its management interface and therefore cannot contact the master.</value>
   </data>
   <data name="HOST_HAS_RESIDENT_VMS" xml:space="preserve">
-    <value>This server can not be forgotten because there are some user VMs still running</value>
+    <value>This server cannot be forgotten because there are some user VMs still running</value>
   </data>
   <data name="HOST_IN_EMERGENCY_MODE" xml:space="preserve">
     <value>This server is in emergency mode</value>
@@ -580,7 +580,7 @@
     <value>This operation cannot be performed, because it is incompatible with the currently active HA cluster stack.</value>
   </data>
   <data name="INCOMPATIBLE_PIF_PROPERTIES" xml:space="preserve">
-    <value>These PIFs can not be bonded, because their properties are different.</value>
+    <value>These PIFs cannot be bonded, because their properties are different.</value>
   </data>
   <data name="INCOMPATIBLE_STATEFILE_SR" xml:space="preserve">
     <value>The specified SR is incompatible with the selected HA cluster stack.</value>

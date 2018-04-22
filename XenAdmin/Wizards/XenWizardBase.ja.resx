@@ -268,7 +268,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="wizardProgress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 404</value>
+    <value>188, 481</value>
   </data>
   <data name="wizardProgress.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -298,7 +298,7 @@
     <value>15, 15, 15, 15</value>
   </data>
   <data name="xenTabControlBody.Size" type="System.Drawing.Size, System.Drawing">
-    <value>591, 375</value>
+    <value>582, 408</value>
   </data>
   <data name="xenTabControlBody.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -367,7 +367,7 @@
     <value>2</value>
   </data>
   <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>612, 398</value>
+    <value>612, 475</value>
   </data>
   <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -400,7 +400,7 @@
     <value>2</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>809, 465</value>
+    <value>809, 544</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -436,7 +436,7 @@
     <value>NoControl</value>
   </data>
   <data name="buttonPrevious.Location" type="System.Drawing.Point, System.Drawing">
-    <value>510, 12</value>
+    <value>566, 15</value>
   </data>
   <data name="buttonPrevious.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 0, 3, 0</value>
@@ -472,13 +472,13 @@
     <value>NoControl</value>
   </data>
   <data name="buttonCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>672, 12</value>
+    <value>728, 16</value>
   </data>
   <data name="buttonCancel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 0, 3, 0</value>
   </data>
   <data name="buttonCancel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 24</value>
+    <value>64, 23</value>
   </data>
   <data name="buttonCancel.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -517,7 +517,7 @@
     <value>NoControl</value>
   </data>
   <data name="buttonNext.Location" type="System.Drawing.Point, System.Drawing">
-    <value>591, 12</value>
+    <value>647, 15</value>
   </data>
   <data name="buttonNext.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 0, 3, 0</value>
@@ -550,7 +550,7 @@
     <value>21, 0</value>
   </data>
   <data name="labelGeneralInformationMessage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>527, 22</value>
+    <value>462, 22</value>
   </data>
   <data name="labelGeneralInformationMessage.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -601,16 +601,16 @@
     <value>1</value>
   </data>
   <data name="panelGeneralInformationMessage.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
+    <value>None</value>
   </data>
   <data name="panelGeneralInformationMessage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 9</value>
+    <value>6, 15</value>
   </data>
   <data name="panelGeneralInformationMessage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>6, 3, 3, 3</value>
   </data>
   <data name="panelGeneralInformationMessage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>548, 25</value>
+    <value>554, 25</value>
   </data>
   <data name="panelGeneralInformationMessage.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -634,7 +634,7 @@
     <value>Bottom</value>
   </data>
   <data name="tableLayoutPanelNavigation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 465</value>
+    <value>0, 544</value>
   </data>
   <data name="tableLayoutPanelNavigation.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -646,7 +646,7 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanelNavigation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>809, 37</value>
+    <value>809, 43</value>
   </data>
   <data name="tableLayoutPanelNavigation.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -673,7 +673,7 @@
     <value>96, 96</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>809, 514</value>
+    <value>809, 599</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 8.25pt</value>
@@ -682,7 +682,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>817, 548</value>
+    <value>817, 588</value>
   </data>
   <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 12</value>

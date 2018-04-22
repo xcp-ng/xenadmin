@@ -37,17 +37,18 @@ namespace XenAdmin.TabPages
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PhysicalStoragePage));
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.listViewSrs = new XenAdmin.Controls.ListViewEx();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.labelNetworkheadings = new System.Windows.Forms.Label();
             this.TitleLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.dataGridViewSr = new XenAdmin.Controls.DataGridViewEx.DataGridViewEx();
+            this.columnImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.columnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnShared = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnUsage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnVirtAlloc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.newSRButton = new XenAdmin.Commands.CommandButton();
             this.trimButtonContainer = new XenAdmin.Controls.ToolTipContainer();
@@ -56,6 +57,7 @@ namespace XenAdmin.TabPages
             this.buttonProperties = new System.Windows.Forms.Button();
             this.pageContainerPanel.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSr)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.trimButtonContainer.SuspendLayout();
             this.SuspendLayout();
@@ -72,54 +74,6 @@ namespace XenAdmin.TabPages
             resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
-            // listViewSrs
-            // 
-            this.listViewSrs.AllowColumnReorder = true;
-            this.listViewSrs.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader5,
-            this.columnHeader6,
-            this.columnHeader7});
-            this.listViewSrs.ContextMenuStrip = this.contextMenuStrip;
-            resources.ApplyResources(this.listViewSrs, "listViewSrs");
-            this.listViewSrs.FullRowSelect = true;
-            this.listViewSrs.HideSelection = false;
-            this.listViewSrs.Name = "listViewSrs";
-            this.listViewSrs.UseCompatibleStateImageBehavior = false;
-            this.listViewSrs.View = System.Windows.Forms.View.Details;
-            this.listViewSrs.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewSrs_ColumnClick);
-            // 
-            // columnHeader1
-            // 
-            resources.ApplyResources(this.columnHeader1, "columnHeader1");
-            // 
-            // columnHeader2
-            // 
-            resources.ApplyResources(this.columnHeader2, "columnHeader2");
-            // 
-            // columnHeader3
-            // 
-            resources.ApplyResources(this.columnHeader3, "columnHeader3");
-            // 
-            // columnHeader4
-            // 
-            resources.ApplyResources(this.columnHeader4, "columnHeader4");
-            // 
-            // columnHeader5
-            // 
-            resources.ApplyResources(this.columnHeader5, "columnHeader5");
-            // 
-            // columnHeader6
-            // 
-            resources.ApplyResources(this.columnHeader6, "columnHeader6");
-            // 
-            // columnHeader7
-            // 
-            resources.ApplyResources(this.columnHeader7, "columnHeader7");
-            // 
             // labelNetworkheadings
             // 
             resources.ApplyResources(this.labelNetworkheadings, "labelNetworkheadings");
@@ -134,9 +88,78 @@ namespace XenAdmin.TabPages
             // panel1
             // 
             resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Controls.Add(this.listViewSrs);
+            this.panel1.Controls.Add(this.dataGridViewSr);
             this.panel1.Controls.Add(this.flowLayoutPanel1);
             this.panel1.Name = "panel1";
+            // 
+            // dataGridViewSr
+            // 
+            this.dataGridViewSr.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dataGridViewSr.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dataGridViewSr.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dataGridViewSr.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.columnImage,
+            this.columnName,
+            this.columnDescription,
+            this.columnType,
+            this.columnShared,
+            this.columnUsage,
+            this.columnSize,
+            this.columnVirtAlloc});
+            resources.ApplyResources(this.dataGridViewSr, "dataGridViewSr");
+            this.dataGridViewSr.Name = "dataGridViewSr";
+            this.dataGridViewSr.SelectionChanged += new System.EventHandler(this.dataGridViewSrs_SelectedIndexChanged);
+            this.dataGridViewSr.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dataGridViewSr_SortCompare);
+            this.dataGridViewSr.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dataGridViewSr_MouseUp);
+            // 
+            // columnImage
+            // 
+            this.columnImage.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            resources.ApplyResources(this.columnImage, "columnImage");
+            this.columnImage.Name = "columnImage";
+            this.columnImage.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // columnName
+            // 
+            this.columnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            resources.ApplyResources(this.columnName, "columnName");
+            this.columnName.Name = "columnName";
+            // 
+            // columnDescription
+            // 
+            this.columnDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            resources.ApplyResources(this.columnDescription, "columnDescription");
+            this.columnDescription.Name = "columnDescription";
+            // 
+            // columnType
+            // 
+            this.columnType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            resources.ApplyResources(this.columnType, "columnType");
+            this.columnType.Name = "columnType";
+            // 
+            // columnShared
+            // 
+            this.columnShared.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            resources.ApplyResources(this.columnShared, "columnShared");
+            this.columnShared.Name = "columnShared";
+            // 
+            // columnUsage
+            // 
+            this.columnUsage.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            resources.ApplyResources(this.columnUsage, "columnUsage");
+            this.columnUsage.Name = "columnUsage";
+            // 
+            // columnSize
+            // 
+            this.columnSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            resources.ApplyResources(this.columnSize, "columnSize");
+            this.columnSize.Name = "columnSize";
+            // 
+            // columnVirtAlloc
+            // 
+            this.columnVirtAlloc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            resources.ApplyResources(this.columnVirtAlloc, "columnVirtAlloc");
+            this.columnVirtAlloc.Name = "columnVirtAlloc";
             // 
             // flowLayoutPanel1
             // 
@@ -191,6 +214,7 @@ namespace XenAdmin.TabPages
             this.pageContainerPanel.ResumeLayout(false);
             this.pageContainerPanel.PerformLayout();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSr)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.trimButtonContainer.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -201,15 +225,7 @@ namespace XenAdmin.TabPages
         #endregion
 
         private System.Windows.Forms.Label TitleLabel;
-        private XenAdmin.Controls.ListViewEx listViewSrs;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
-        private System.Windows.Forms.ColumnHeader columnHeader6;
-        private System.Windows.Forms.ColumnHeader columnHeader7;
         private System.Windows.Forms.Label labelNetworkheadings;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonProperties;
@@ -218,5 +234,14 @@ namespace XenAdmin.TabPages
         private XenAdmin.Commands.CommandButton trimButton;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private Controls.ToolTipContainer trimButtonContainer;
+        private Controls.DataGridViewEx.DataGridViewEx dataGridViewSr;
+        private System.Windows.Forms.DataGridViewImageColumn columnImage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnDescription;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnShared;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnUsage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnVirtAlloc;
     }
 }

@@ -506,7 +506,7 @@ This type of network requires the vSwitch Controller to be running.</value>
     <value>10</value>
   </data>
   <data name="labelSriov.Text" xml:space="preserve">
-    <value>Enable SR-IOV on a NIC and create a SR-IOV network on that NIC.</value>
+    <value>Enable SR-IOV on a NIC and create an SR-IOV network on that NIC.</value>
   </data>
   <data name="&gt;&gt;labelSriov.Name" xml:space="preserve">
     <value>labelSriov</value>

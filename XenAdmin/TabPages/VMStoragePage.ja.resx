@@ -196,7 +196,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="DeactivateButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 23</value>
+    <value>96, 29</value>
   </data>
   <data name="DeactivateButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -253,7 +253,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="MoveButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 23</value>
+    <value>96, 29</value>
   </data>
   <data name="MoveButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -310,7 +310,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="EditButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 23</value>
+    <value>96, 29</value>
   </data>
   <data name="EditButton.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -370,7 +370,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="DeleteButtonContainer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 23</value>
+    <value>96, 29</value>
   </data>
   <data name="DeleteButtonContainer.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -427,7 +427,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="DetachButtonContainer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 23</value>
+    <value>96, 29</value>
   </data>
   <data name="DetachButtonContainer.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>

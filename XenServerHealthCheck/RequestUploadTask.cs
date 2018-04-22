@@ -144,26 +144,21 @@ namespace XenServerHealthCheck
                 {
                     DateTime LastFailedUpload = HealthCheckSettings.StringToDateTime(Get(config, HealthCheckSettings.LAST_FAILED_UPLOAD));
 
-                    if (haveSuccessfulUpload)
-                    {
-                        if (DateTime.Compare(lastSuccessfulUpload, LastFailedUpload) > 0)
-                            return false; //A retry is not needed
-                    }
-
                     int retryInterval = IntKey(config, HealthCheckSettings.RETRY_INTERVAL, HealthCheckSettings.DEFAULT_RETRY_INTERVAL);
                     if (DateTime.Compare(LastFailedUpload.AddDays(retryInterval), DateTime.UtcNow) <= 0)
                     {
-                        log.InfoFormat("Retry since retryInterval{0} - {1} > {2} meeted", LastFailedUpload, DateTime.UtcNow, retryInterval);
-                        needRetry = true;
+                        if ((!haveSuccessfulUpload) ||
+                            (DateTime.Compare(lastSuccessfulUpload, LastFailedUpload) < 0))
+                        {
+                            log.InfoFormat("Retry since retryInterval{0} - {1} > {2} meeted", LastFailedUpload, DateTime.UtcNow, retryInterval);
+                            needRetry = true;
+                        }
                     }
-                    else
-                        return false;
                 }
                 catch (Exception exn)
                 {
                     log.Error("Catch exception when check if retry was needed", exn);
                 }
-
             }
 
             DateTime currentTime = DateTime.Now;

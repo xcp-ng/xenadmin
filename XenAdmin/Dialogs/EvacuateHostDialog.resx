@@ -316,7 +316,7 @@
     <value>0</value>
   </data>
   <data name="labelBlurb.Text" xml:space="preserve">
-    <value>This operation will migrate all VMs running on this server and transition it into maintenance mode. If a VM can not be migrated you need to suspend it or shut it down.</value>
+    <value>This operation will migrate all VMs running on this server and transition it into maintenance mode. If a VM cannot be migrated you need to suspend it or shut it down.</value>
   </data>
   <data name="&gt;&gt;labelBlurb.Name" xml:space="preserve">
     <value>labelBlurb</value>

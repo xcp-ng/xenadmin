@@ -5158,6 +5158,11 @@
   <data name="EXCEPTION_USER_CANCELLED_MASTER" xml:space="preserve">
     <value>用户已取消。需要先升级主服务器。</value>
   </data>
+  <data name="EXISTING_SR_FOUND_ON_LUN" xml:space="preserve">
+    <value>在所选 LUN 上找到现有 {0} SR。请单击“重新连接”以使用现有 SR，或者单击“格式化”以销毁磁盘上的所有数据并创建一个新 {1} SR。
+
+警告: 为避免数据丢失，必须确保该 LUN 未在由其他任何系统(包括未连接到 [XenCenter] 的 [XenServer] 主机)使用。</value>
+  </data>
   <data name="EXIT_MAINTENANCE_MODE" xml:space="preserve">
     <value>退出维护模式(&amp;M)</value>
   </data>
@@ -5370,7 +5375,7 @@
     <value>未找到 LUN。请验证硬件配置。</value>
   </data>
   <data name="FIBRECHANNEL_XML_ERROR" xml:space="preserve">
-    <value>扫描失败。请重试。</value>
+    <value>扫描失败。</value>
   </data>
   <data name="FIELD_DISABLED" xml:space="preserve">
     <value>该功能因服务器的许可证限制而被禁用。</value>
@@ -7191,8 +7196,11 @@ XenApp/XenDesktop Platinum 功能已启用</value>
   <data name="LUNPERVDI_PAGE_TITLE" xml:space="preserve">
     <value>将虚拟磁盘(VDI)映射到目标 SR 上的各个 LUN</value>
   </data>
+  <data name="LVMOHBA_WARNING_DIALOG_FORMAT_INFO" xml:space="preserve">
+    <value>销毁磁盘上的所有数据并创建一个新 {0} SR</value>
+  </data>
   <data name="LVMOHBA_WARNING_DIALOG_HEADER_FOUND_EXISTING_SR" xml:space="preserve">
-    <value>在所选 LUN 上找到现有 SR</value>
+    <value>在所选 LUN 上找到现有 {0} SR</value>
   </data>
   <data name="LVMOHBA_WARNING_DIALOG_HEADER_NO_EXISTING_SRS" xml:space="preserve">
     <value>在所选 LUN 上未找到现有 SR</value>
@@ -7202,6 +7210,9 @@ XenApp/XenDesktop Platinum 功能已启用</value>
 序列号: {1}
 SCSI ID: {2}
 大小: {3}</value>
+  </data>
+  <data name="LVMOHBA_WARNING_DIALOG_REATTACH_INFO" xml:space="preserve">
+    <value>使用现有 {0} SR</value>
   </data>
   <data name="LVMOHBA_WARNING_DIALOG_REATTACH_LABEL_TEXT" xml:space="preserve">
     <value>没有要重新连接的现有 SR</value>
@@ -8345,13 +8356,19 @@ SCSI ID: {2}
   <data name="NEWSR_LUN_IN_USE_ON_POOL" xml:space="preserve">
     <value>该 LUN 已在池 {1} 中作为 SR {0} 使用。</value>
   </data>
+  <data name="NEWSR_LUN_IN_USE_ON_SELECTED_POOL" xml:space="preserve">
+    <value>LUN {0} 已在池中作为 SR {1} 使用。请选择其他 LUN。</value>
+  </data>
+  <data name="NEWSR_LUN_IN_USE_ON_SELECTED_SERVER" xml:space="preserve">
+    <value>LUN {0} 已在服务器中作为 SR {1} 使用。请选择其他 LUN。</value>
+  </data>
   <data name="NEWSR_LUN_IN_USE_ON_SERVER" xml:space="preserve">
     <value>该 LUN 已在服务器 {1} 中作为 SR {0} 使用。</value>
   </data>
   <data name="NEWSR_LVMOFCOE_BLURB" xml:space="preserve">
     <value>[XenServer] 主机在这种情况下使用支持 FCoE 的受支持融合网络适配器(CNA)来支持基于软件的以太网光纤通道。
 
-要将 LUN 显示给主机，必须手动完成所需要的所有配置，其中包括配置 FCoE 架构以及将 LUN 分配给 CNA 的公共全球名称(PWWN)。 
+要将 LUN 显示给主机，必须手动完成所需要的所有配置，其中包括配置 FCoE 架构以及将 LUN 分配给 CNA 的公共全球通用名称(PWWN)。 
 
 完成此配置后，此向导将引导您完成发现和装载对主机 CNA 可用的 LUN 作为 SCSI 设备。然后可以使用该 SCSI 设备访问 LUN，就像本地连接了 SCSI 设备一样。</value>
   </data>

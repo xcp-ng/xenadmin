@@ -431,7 +431,7 @@ namespace XenAPI
             XmlDocument xd = GetRecommendations();
 
             if (xd == null)
-                return true;
+                return false;
 
             try
             {
@@ -439,37 +439,36 @@ namespace XenAPI
                 if (xn == null || xn.Attributes == null)
                     return false;
 
-                return true;
+                return
+                   Convert.ToInt32(xn.Attributes["value"].Value) != 0;
             }
             catch
             {
                 return false;
             }
+
         }
 
         public bool HasVendorDeviceRecommendation()
         {
-            bool result = false;
-
             XmlDocument xd = GetRecommendations();
 
             if (xd == null)
-                return result;
+                return false;
 
             try
             {
                 XmlNode xn = xd.SelectSingleNode(@"restrictions/restriction[@field='has-vendor-device']");
                 if (xn == null || xn.Attributes == null)
-                    return result;
+                    return false;
 
-                result = bool.Parse(xn.Attributes["value"].Value);
+                return bool.Parse(xn.Attributes["value"].Value);
             }
             catch (Exception ex)
             {
                 log.Error("Error parsing has-vendor-device on the template.", ex);
+                return false;
             }
-
-            return result;
         }
 
         /// <summary>Returns true if

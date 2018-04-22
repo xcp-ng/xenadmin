@@ -5199,7 +5199,7 @@ Warning: to prevent data loss you must ensure that the LUN is not in use by any 
     <value>Exporting VMs...</value>
   </data>
   <data name="EXPORTVM_COULD_NOT_SHOW" xml:space="preserve">
-    <value>Couldn't show file open dialog - {0}</value>
+    <value>Could not show file open dialog - {0}</value>
   </data>
   <data name="EXPORTVM_NOT_HAPPEN" xml:space="preserve">
     <value>Should not happen</value>
@@ -5847,7 +5847,7 @@ not currently live:
 {0}</value>
   </data>
   <data name="HA_CANNOT_EVACUATE_MASTER" xml:space="preserve">
-    <value>Server '{0}' can not be placed in Maintenance Mode because it is the master of an HA-enabled pool.</value>
+    <value>Server '{0}' cannot be placed in Maintenance Mode because it is the master of an HA-enabled pool.</value>
   </data>
   <data name="HA_CHECK_DESCRIPTION" xml:space="preserve">
     <value>HA and WLB check</value>
@@ -11091,7 +11091,7 @@ Do you want to connect to the pool master '{1}'?</value>
     <value>These servers needs to be rebooted for this SR-IOV network to take effect:'{0}'</value>
   </data>
   <data name="SRIOV_NEED_NICSUPPORT" xml:space="preserve">
-    <value>SR-IOV networks require the SR-IOV capable NIC.</value>
+    <value>SR-IOV networks require an SR-IOV capable NIC.</value>
   </data>
   <data name="SRIOV_NETWORK_CREATE" xml:space="preserve">
     <value>Create &amp;SR-IOV anyway</value>
@@ -13170,13 +13170,13 @@ A {1} user cannot alter the Workload Balancing settings.</value>
     <value>WLB does not have current metrics.</value>
   </data>
   <data name="WLB_ERROR_4017" xml:space="preserve">
-    <value>WLB can't find a host that has required storage repositories to place a VM. </value>
+    <value>WLB cannot find a host that has required storage repositories to place a VM. </value>
   </data>
   <data name="WLB_ERROR_4018" xml:space="preserve">
-    <value>WLB can't find required free CPUs to place a VM.</value>
+    <value>WLB cannot find required free CPUs to place a VM.</value>
   </data>
   <data name="WLB_ERROR_4019" xml:space="preserve">
-    <value>WLB can't find required free memory to place a VM.</value>
+    <value>WLB cannot find required free memory to place a VM.</value>
   </data>
   <data name="WLB_ERROR_4020" xml:space="preserve">
     <value>One or more hosts in the pool do not have an appropriate license.</value>

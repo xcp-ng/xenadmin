@@ -130,7 +130,7 @@
     <value>3, 0, 3, 14</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 17</value>
+    <value>110, 13</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -160,7 +160,7 @@
     <value>6, 36</value>
   </data>
   <data name="radioButtonDiskOnly.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 18</value>
+    <value>188, 17</value>
   </data>
   <data name="radioButtonDiskOnly.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -181,7 +181,7 @@
     <value>6</value>
   </data>
   <data name="quiesceCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 87</value>
+    <value>29, 92</value>
   </data>
   <data name="quiesceCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>419, 34</value>
@@ -214,7 +214,7 @@
     <value>6, 127</value>
   </data>
   <data name="radioButtonDiskAndMemory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 18</value>
+    <value>225, 17</value>
   </data>
   <data name="radioButtonDiskAndMemory.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -232,7 +232,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;radioButtonDiskAndMemory.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -268,7 +268,7 @@
     <value>NoControl</value>
   </data>
   <data name="checkpointInfoPictureBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>238, 103</value>
+    <value>237, 129</value>
   </data>
   <data name="checkpointInfoPictureBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
@@ -307,7 +307,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="labelWarning.Size" type="System.Drawing.Size, System.Drawing">
-    <value>427, 78</value>
+    <value>428, 65</value>
   </data>
   <data name="labelWarning.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -388,7 +388,7 @@
     <value>NoControl</value>
   </data>
   <data name="pictureBoxVSS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>343, 94</value>
+    <value>355, 100</value>
   </data>
   <data name="pictureBoxVSS.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
