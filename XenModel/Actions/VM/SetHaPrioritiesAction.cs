@@ -66,9 +66,7 @@ namespace XenAdmin.Actions
             this.ntol = ntol;
             this.pool = Helpers.GetPoolOfOne(this.Connection);
             if (this.pool == null)
-            {
-                throw new Exception("Could not resolve pool in constructor");
-            }
+                throw new Failure(Failure.INTERNAL_ERROR, Messages.POOL_GONE);
             this.Pool = pool;
         }
 

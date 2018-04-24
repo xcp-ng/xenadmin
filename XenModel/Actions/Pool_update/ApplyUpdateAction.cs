@@ -31,9 +31,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using XenAPI;
-using XenAdmin.Network;
 using System.Linq;
 
 
@@ -75,7 +73,7 @@ namespace XenAdmin.Actions
                 var poolUpdate = poolUpdates.FirstOrDefault(u => u != null && string.Equals(u.uuid, update.uuid, StringComparison.OrdinalIgnoreCase));
 
                 if (poolUpdate == null)
-                    throw new Exception("Pool_update not found");
+                    throw new Failure(Failure.INTERNAL_ERROR, Messages.POOL_UPDATE_GONE);
 
                 if (!poolUpdate.AppliedOn(host))
                 {

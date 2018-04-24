@@ -2184,6 +2184,12 @@ Deleting this bond will automatically transfer the management interface on the b
 
 Deleting this bond will disrupt traffic through the secondary interface on the bond while the interface is moved to the first slave of the bond.</value>
   </data>
+  <data name="BOND_GONE" xml:space="preserve">
+    <value>Could not find the bond in [XenCenter]'s cache.</value>
+  </data>
+  <data name="BOND_MASTER_GONE" xml:space="preserve">
+    <value>Could not find the bond master in [XenCenter]'s cache.</value>
+  </data>
   <data name="BOOTORDER" xml:space="preserve">
     <value>Boot order: {0}</value>
   </data>
@@ -2407,6 +2413,9 @@ Deleting this bond will disrupt traffic through the secondary interface on the b
   </data>
   <data name="CANNOT_DELETE_VD_IN_USE" xml:space="preserve">
     <value>This virtual disk is currently in use and cannot be deleted.</value>
+  </data>
+  <data name="CANNOT_FIND_NODE" xml:space="preserve">
+    <value>Could not find XML node {0}.</value>
   </data>
   <data name="CANNOT_FIND_SR_WIZARD_TYPE" xml:space="preserve">
     <value>You cannot configure an SR of type '{0}' using [XenCenter].</value>
@@ -6634,9 +6643,6 @@ Click Configure HA to alter the settings displayed below.</value>
   <data name="IMPORT_VM_CONFIGURE_STORAGE" xml:space="preserve">
     <value>Configure storage for the new VM</value>
   </data>
-  <data name="IMPORT_VM_FILE_DISAPPEARED" xml:space="preserve">
-    <value>{0} has disappeared. Please choose a valid filename.</value>
-  </data>
   <data name="IMPORT_VM_FROM" xml:space="preserve">
     <value>Import VM from...</value>
   </data>
@@ -8994,7 +9000,7 @@ It is strongly recommended that you Cancel and apply the latest version of the p
     <value>Half</value>
   </data>
   <data name="NICS_ARE_SRIOV_ENABLED" xml:space="preserve">
-    <value>All the supported NICs have enabled SR-IOV.</value>
+    <value>SR-IOV is already enabled on all the SR-IOV capable NICs.</value>
   </data>
   <data name="NIC_HIDDEN" xml:space="preserve">
     <value>{0} (Hidden)</value>
@@ -9851,6 +9857,9 @@ Please reconnect the host and try again</value>
   <data name="POOLCREATE_DESTROYING" xml:space="preserve">
     <value>Making pool into standalone server</value>
   </data>
+  <data name="POOLCREATE_MULTIHOST" xml:space="preserve">
+    <value>Cannot make pool with more than one hosts into standalone server.</value>
+  </data>
   <data name="POOLCREATE_REMOVED" xml:space="preserve">
     <value>Removed from pool</value>
   </data>
@@ -9882,7 +9891,7 @@ Please reconnect the host and try again</value>
     <value>Pool General Properties</value>
   </data>
   <data name="POOL_GONE" xml:space="preserve">
-    <value>Pool has disappeared!</value>
+    <value>Could not find the pool in [XenCenter]'s cache.</value>
   </data>
   <data name="POOL_HAS_MIXED_LICENSES" xml:space="preserve">
     <value>This pool has hosts with different types of license.</value>
@@ -9911,6 +9920,9 @@ Please reconnect the host and try again</value>
   <data name="POOL_MASTER" xml:space="preserve">
     <value>Pool master</value>
   </data>
+  <data name="POOL_MASTER_GONE" xml:space="preserve">
+    <value>Could not find the pool master in [XenCenter]'s cache.</value>
+  </data>
   <data name="POOL_NAME_EMPTY" xml:space="preserve">
     <value>Pool name cannot be empty</value>
   </data>
@@ -9922,6 +9934,9 @@ Please reconnect the host and try again</value>
   </data>
   <data name="POOL_PICKER_BLURB_NO_AFFINITY" xml:space="preserve">
     <value>Select a pool or stand alone server to import this VM to. The home server setting will be taken from the template.\n\nIf this value does not correspond to a server within the selected resource pool then it will be ignored for all resourcing decisions.</value>
+  </data>
+  <data name="POOL_UPDATE_GONE" xml:space="preserve">
+    <value>Could not find the pool update in [XenCenter]'s cache.</value>
   </data>
   <data name="POOL_VERSIONS_LINK_TEXT" xml:space="preserve">
     <value>Pool partially upgraded to [XenServer] {0}</value>
@@ -11107,9 +11122,6 @@ Do you want to connect to the pool master '{1}'?</value>
   </data>
   <data name="SRPICKER_ERROR_LOCAL_SR_MUST_BE_RESIDENT_HOSTS" xml:space="preserve">
     <value>Local storage must belong to resident host</value>
-  </data>
-  <data name="SRPICKER_NETWORK_GONE" xml:space="preserve">
-    <value>VDI has disappeared...</value>
   </data>
   <data name="SRPICKER_SR_FULL" xml:space="preserve">
     <value>This storage repository is full</value>
@@ -12903,8 +12915,8 @@ To start a [XenServer] trial, click the button below.</value>
   <data name="VNC_FULLSCREEN_MESSAGE_F12" xml:space="preserve">
     <value>Press F12 to exit full screen mode</value>
   </data>
-  <data name="VNC_HOST_GONE" xml:space="preserve">
-    <value>Server has disappeared.</value>
+  <data name="HOST_GONE" xml:space="preserve">
+    <value>Could not find host in [XenCenter]'s cache.</value>
   </data>
   <data name="VNC_LOOKING" xml:space="preserve">
     <value>Looking for guest console...</value>
@@ -13555,6 +13567,9 @@ Would you like to adjust the current Optimization Mode to match the schedule?</v
   </data>
   <data name="WLB_RETRIEVING_CONFIGURATION" xml:space="preserve">
     <value>Retrieving WLB Configuration</value>
+  </data>
+  <data name="WLB_RETRIEVING_RECOMMENDATIONS" xml:space="preserve">
+    <value>Retrieving WLB recommendations for pool {0}</value>
   </data>
   <data name="WLB_SAVING_SETTINGS" xml:space="preserve">
     <value>Saving Workload Balancing settings</value>

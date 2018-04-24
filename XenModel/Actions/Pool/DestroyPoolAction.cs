@@ -30,6 +30,7 @@
  */
 
 using System;
+using XenAPI;
 
 namespace XenAdmin.Actions
 {
@@ -45,10 +46,9 @@ namespace XenAdmin.Actions
 
         protected override void Run()
         {
-
             this.Description = Messages.POOLCREATE_DESTROYING;
             if (Connection.Cache.HostCount != 1)
-                throw new Exception("Cannot destroy a pool of more than one host");  // We should not have any UI to reach here, and must not be allowed to proceed
+                throw new Failure(Failure.INTERNAL_ERROR, Messages.POOLCREATE_MULTIHOST);  // We should not have any UI to reach here, and must not be allowed to proceed
             XenAPI.Pool.set_name_label(Session, Pool.opaque_ref, "");
             XenAPI.Pool.set_name_description(Session, Pool.opaque_ref, "");
             this.Description = Messages.POOLCREATE_DESTROYED;

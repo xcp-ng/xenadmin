@@ -331,7 +331,7 @@ namespace XenAdmin.Actions
             string folder_str = string.Join(Folders.EMPTY_FOLDERS_SEPARATOR, folders.ToArray());
             Pool pool = Helpers.GetPoolOfOne(connection);
             if (pool == null)
-                throw new Failure(Failure.INTERNAL_ERROR, "Pool has gone away!");
+                throw new Failure(Failure.INTERNAL_ERROR, Messages.POOL_GONE);
             Helpers.SetOtherConfig(GetSession(pool.Connection), pool, Folders.EMPTY_FOLDERS, folder_str);
             WaitForEmptyFoldersCacheChange(pool, folder_str, cancelling);
         }

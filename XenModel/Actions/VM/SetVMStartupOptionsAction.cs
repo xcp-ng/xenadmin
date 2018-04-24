@@ -52,10 +52,7 @@ namespace XenAdmin.Actions
             this.settings = settings;
             this.pool = Helpers.GetPoolOfOne(this.Connection);
             if (this.pool == null)
-            {
-                throw new Exception("Could not resolve pool in constructor");
-            }
-          
+                throw new Failure(Failure.INTERNAL_ERROR, Messages.POOL_GONE);
         }
 
         protected override void Run()

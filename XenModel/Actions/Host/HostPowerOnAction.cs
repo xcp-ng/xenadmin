@@ -103,10 +103,10 @@ namespace XenAdmin.Actions.HostActions
                 }
             }
         }
+
         /// <summary>
         /// Attempts to set the LastPowerOnSucceeded flag in the WLB Host configuration
         /// </summary>
-        /// <param name="successful">bool </param>
         private void UpdateHostLastPowerOnSucceeded(bool succeeded, XenAPI.Host host)
         {
             try
@@ -126,7 +126,7 @@ namespace XenAdmin.Actions.HostActions
                 }
                 else
                 {
-                    throw new Exception("Could not find host's pool.");
+                    throw new Failure(Failure.INTERNAL_ERROR, Messages.POOL_GONE);
                 }
             }
             catch (Exception ex)

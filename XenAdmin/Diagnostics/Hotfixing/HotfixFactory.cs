@@ -60,13 +60,13 @@ namespace XenAdmin.Diagnostics.Hotfixing
         private readonly Hotfix dundeeHotfix = new SingleHotfix
         {
             Filename = "RPU003",
-            UUID = "474a0f28-0d33-4c9b-9e20-52baaea8ce5e"
+            UUID = "f6014211-7611-47ac-ac4c-e66bb1692c35"
         };
 
         private readonly Hotfix elyJuraHotfix = new SingleHotfix
         {
             Filename = "RPU004",
-            UUID = "c79166a9-c71d-4c3f-9cca-019a274e8d87"
+            UUID = "ddd68553-2bf8-411d-99bc-ed4a95265840"
         };
 
         public Hotfix Hotfix(Host host)

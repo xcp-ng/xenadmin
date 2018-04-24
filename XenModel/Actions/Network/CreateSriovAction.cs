@@ -55,7 +55,7 @@ namespace XenAdmin.Actions
         {
             // Create the new network            
             XenRef<XenAPI.Network> networkRef = XenAPI.Network.create(Session, newNetwork);
-
+     
             PIF pifOnMaster =null;
             foreach (PIF thePif in selectedPifs)
             {
@@ -69,24 +69,31 @@ namespace XenAdmin.Actions
                     break;
                 }
             }
-
             Connection.ExpectDisruption = true;
 
-            // Enable SR-IOV network on Pool Master
-            RelatedTask = Network_sriov.async_create(Session, pifOnMaster.opaque_ref, networkRef);
-            PollToCompletion(0, 100);
+            //Enable SR-IOV network on Pool requires enabling master first.
+            if (pifOnMaster != null)
+            {
+                selectedPifs.Remove(pifOnMaster);
+                selectedPifs.Insert(0, pifOnMaster);
+            }
 
-            // Enable SR-IOV network on Pool Slaves
-            selectedPifs.Remove(pifOnMaster);
+            int inc = 100 / (selectedPifs.Count + 1);
+            int lo = inc;
+
             foreach (PIF thePif in selectedPifs)
             {
-                Network_sriov.create(Session, thePif.opaque_ref, networkRef);
+                RelatedTask = Network_sriov.async_create(Session, thePif.opaque_ref, networkRef);
+                PollToCompletion(lo, lo + inc);
+                lo += inc;
             }
+
         }
 
         protected override void Clean()
         {
             Connection.ExpectDisruption = false;
         }
+
     }
 }

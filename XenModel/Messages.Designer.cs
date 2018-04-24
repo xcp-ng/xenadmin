@@ -5962,6 +5962,24 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not find the bond in [XenCenter]&apos;s cache..
+        /// </summary>
+        public static string BOND_GONE {
+            get {
+                return ResourceManager.GetString("BOND_GONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find the bond master in [XenCenter]&apos;s cache..
+        /// </summary>
+        public static string BOND_MASTER_GONE {
+            get {
+                return ResourceManager.GetString("BOND_MASTER_GONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to VM will not boot from devices below this line.
         /// </summary>
         public static string BOOT_DEVICE_DISABLED_ROW_TEXT {
@@ -6626,6 +6644,15 @@ namespace XenAdmin {
         public static string CANNOT_DELETE_VDI_SUSPENDED_VM {
             get {
                 return ResourceManager.GetString("CANNOT_DELETE_VDI_SUSPENDED_VM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find XML node {0}..
+        /// </summary>
+        public static string CANNOT_FIND_NODE {
+            get {
+                return ResourceManager.GetString("CANNOT_FIND_NODE", resourceCulture);
             }
         }
         
@@ -17825,6 +17852,15 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not find host in [XenCenter]&apos;s cache..
+        /// </summary>
+        public static string HOST_GONE {
+            get {
+                return ResourceManager.GetString("HOST_GONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In maintenance mode.
         /// </summary>
         public static string HOST_IN_MAINTENANCE_MODE {
@@ -18895,15 +18931,6 @@ namespace XenAdmin {
         public static string IMPORT_VM_CONFIGURE_STORAGE {
             get {
                 return ResourceManager.GetString("IMPORT_VM_CONFIGURE_STORAGE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} has disappeared. Please choose a valid filename..
-        /// </summary>
-        public static string IMPORT_VM_FILE_DISAPPEARED {
-            get {
-                return ResourceManager.GetString("IMPORT_VM_FILE_DISAPPEARED", resourceCulture);
             }
         }
         
@@ -25865,7 +25892,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All the supported NICs have enabled SR-IOV..
+        ///   Looks up a localized string similar to SR-IOV is already enabled on all the SR-IOV capable NICs..
         /// </summary>
         public static string NICS_ARE_SRIOV_ENABLED {
             get {
@@ -28362,7 +28389,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pool has disappeared!.
+        ///   Looks up a localized string similar to Could not find the pool in [XenCenter]&apos;s cache..
         /// </summary>
         public static string POOL_GONE {
             get {
@@ -28452,6 +28479,15 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not find the pool master in [XenCenter]&apos;s cache..
+        /// </summary>
+        public static string POOL_MASTER_GONE {
+            get {
+                return ResourceManager.GetString("POOL_MASTER_GONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pool name cannot be empty.
         /// </summary>
         public static string POOL_NAME_EMPTY {
@@ -28484,6 +28520,15 @@ namespace XenAdmin {
         public static string POOL_PICKER_BLURB_NO_AFFINITY {
             get {
                 return ResourceManager.GetString("POOL_PICKER_BLURB_NO_AFFINITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find the pool update in [XenCenter]&apos;s cache..
+        /// </summary>
+        public static string POOL_UPDATE_GONE {
+            get {
+                return ResourceManager.GetString("POOL_UPDATE_GONE", resourceCulture);
             }
         }
         
@@ -28565,6 +28610,15 @@ namespace XenAdmin {
         public static string POOLCREATE_DESTROYING {
             get {
                 return ResourceManager.GetString("POOLCREATE_DESTROYING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot make pool with more than one hosts into standalone server..
+        /// </summary>
+        public static string POOLCREATE_MULTIHOST {
+            get {
+                return ResourceManager.GetString("POOLCREATE_MULTIHOST", resourceCulture);
             }
         }
         
@@ -32270,15 +32324,6 @@ namespace XenAdmin {
         public static string SRPICKER_ERROR_LOCAL_SR_MUST_BE_RESIDENT_HOSTS {
             get {
                 return ResourceManager.GetString("SRPICKER_ERROR_LOCAL_SR_MUST_BE_RESIDENT_HOSTS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to VDI has disappeared....
-        /// </summary>
-        public static string SRPICKER_NETWORK_GONE {
-            get {
-                return ResourceManager.GetString("SRPICKER_NETWORK_GONE", resourceCulture);
             }
         }
         
@@ -37369,15 +37414,6 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server has disappeared..
-        /// </summary>
-        public static string VNC_HOST_GONE {
-            get {
-                return ResourceManager.GetString("VNC_HOST_GONE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Looking for guest console....
         /// </summary>
         public static string VNC_LOOKING {
@@ -39188,6 +39224,15 @@ namespace XenAdmin {
         public static string WLB_RETRIEVING_CONFIGURATION {
             get {
                 return ResourceManager.GetString("WLB_RETRIEVING_CONFIGURATION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retrieving WLB recommendations for pool {0}.
+        /// </summary>
+        public static string WLB_RETRIEVING_RECOMMENDATIONS {
+            get {
+                return ResourceManager.GetString("WLB_RETRIEVING_RECOMMENDATIONS", resourceCulture);
             }
         }
         

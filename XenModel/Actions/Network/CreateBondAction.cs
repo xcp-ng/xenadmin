@@ -86,11 +86,11 @@ namespace XenAdmin.Actions
 
             Pool = Helpers.GetPoolOfOne(Connection);
             if (Pool == null)
-                throw new Failure(Failure.INTERNAL_ERROR, "Pool has gone away");
+                throw new Failure(Failure.INTERNAL_ERROR, Messages.POOL_GONE);
 
             Master = Connection.Resolve(Pool.master);
             if (Master == null)
-                throw new Failure(Failure.INTERNAL_ERROR, "Pool master has gone away");
+                throw new Failure(Failure.INTERNAL_ERROR, Messages.POOL_MASTER_GONE);
 
             foreach (Host host in Connection.Cache.Hosts)
                 AppliesTo.Add(host.opaque_ref);
@@ -162,11 +162,11 @@ namespace XenAdmin.Actions
 
                     Bond new_bond = Connection.WaitForCache(new XenRef<Bond>(Result));
                     if (new_bond == null)
-                        throw new Failure(Failure.INTERNAL_ERROR, "Bond didn't appear in our cache!");
+                        throw new Failure(Failure.INTERNAL_ERROR, Messages.BOND_GONE);
 
                     PIF new_master = Connection.Resolve(new_bond.master);
                     if (new_master == null)
-                        throw new Failure(Failure.INTERNAL_ERROR, "Bond master didn't appear in our cache!");
+                        throw new Failure(Failure.INTERNAL_ERROR, Messages.BOND_MASTER_GONE);
 
                     new_bonds.Add(new NewBond(new_bond, new_master, pifs));
 

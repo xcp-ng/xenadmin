@@ -76,11 +76,11 @@ namespace XenAdminTests.UnitTests.Diagnostics
                             factory.Hotfix(HotfixFactory.HotfixableServerVersion.Creedence).UUID,
                             "Creedence UUID lookup from enum");
 
-            Assert.AreEqual("474a0f28-0d33-4c9b-9e20-52baaea8ce5e",
+            Assert.AreEqual("f6014211-7611-47ac-ac4c-e66bb1692c35",
                             factory.Hotfix(HotfixFactory.HotfixableServerVersion.Dundee).UUID,
                             "Dundee UUID lookup from enum");
 
-            Assert.AreEqual("c79166a9-c71d-4c3f-9cca-019a274e8d87",
+            Assert.AreEqual("ddd68553-2bf8-411d-99bc-ed4a95265840",
                             factory.Hotfix(HotfixFactory.HotfixableServerVersion.ElyJura).UUID,
                             "Ely-Jura UUID lookup from enum");
         }

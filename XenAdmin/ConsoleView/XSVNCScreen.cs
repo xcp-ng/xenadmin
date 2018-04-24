@@ -939,7 +939,7 @@ namespace XenAdmin.ConsoleView
                                 bool isHostGoneMessage = failure != null
                                     && failure.ErrorDescription.Count == 2
                                     && failure.ErrorDescription[0] == Failure.INTERNAL_ERROR
-                                    && failure.ErrorDescription[1] == Messages.VNC_HOST_GONE;
+                                    && failure.ErrorDescription[1] == Messages.HOST_GONE;
 
                                 if (isHostGoneMessage)
                                 {
@@ -1082,7 +1082,7 @@ namespace XenAdmin.ConsoleView
             Host host = console.Connection.Resolve(Source.resident_on);
             if (host == null)
             {
-                throw new Failure(Failure.INTERNAL_ERROR, Messages.VNC_HOST_GONE);
+                throw new Failure(Failure.INTERNAL_ERROR, Messages.HOST_GONE);
             }
 
             Uri uri = new Uri(console.location);

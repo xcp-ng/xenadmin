@@ -110,7 +110,7 @@ namespace XenAdmin.Actions
 
             if (nodes == null || nodes.Count == 0)
             {
-                throw new InvalidOperationException("Node not found: " + xPath);
+                throw new InvalidOperationException(string.Format(Messages.CANNOT_FIND_NODE, xPath));
             }
 
             return nodes[0].InnerText;
@@ -126,7 +126,7 @@ namespace XenAdmin.Actions
 
             if (nodes == null)
             {
-                throw new InvalidOperationException("Node not found: " + xPath);
+                throw new InvalidOperationException(string.Format(Messages.CANNOT_FIND_NODE, xPath));
             }
 
             foreach (XmlNode n in nodes)
