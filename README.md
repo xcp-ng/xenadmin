@@ -9,6 +9,8 @@ and to deploy, monitor, manage and migrate virtual machines.
 
 XCP-ng Center is written mostly in C#.
 
+![XCP-ng Center Screenshot](branding-xcp-ng/Images/XCP-ng_Center_Screenshot.png)
+
 Contributions
 -------------
 
