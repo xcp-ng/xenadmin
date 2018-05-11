@@ -1962,16 +1962,6 @@ namespace XenAdmin.Core
            return master != null && CreedenceOrGreater(master) && master.vSwitchNetworkBackend();
        }
 
-       public static bool ContainerCapability(IXenConnection connection)
-       {
-           var master = GetMaster(connection);
-           if (master == null)
-               return false;
-           if (ElyOrGreater(connection))
-               return master.AppliedUpdates().Any(update => update.Name().ToLower().StartsWith("xscontainer")); 
-           return CreamOrGreater(connection) && master.SuppPacks().Any(suppPack => suppPack.Name.ToLower().StartsWith("xscontainer")); 
-       }
-
        public static bool PvsCacheCapability(IXenConnection connection)
        {
            var master = GetMaster(connection);
