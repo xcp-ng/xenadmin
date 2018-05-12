@@ -95,11 +95,11 @@ namespace XenAPI
             return false;
         }
 
-        public bool IsFreeLicenseOrExpired
+        public bool IsExpired
         {
             get
             {
-                return Connection.Cache.Hosts.Any(h => h.IsFreeLicenseOrExpired());
+                return Connection.Cache.Hosts.Any(h => h.IsExpired());
             }
         }
 
