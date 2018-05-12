@@ -46,7 +46,7 @@ namespace XenAdminTests.SearchTests
             : base(databases)
         { }
 
-        [SetUp]
+        [OneTimeSetUp]
         public void SwitchToSearchTab()
         {
             MainWindowWrapper mainWindowWrapper = new MainWindowWrapper(Program.MainWindow);
