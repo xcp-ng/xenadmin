@@ -59,6 +59,8 @@ namespace XenAdmin.Core
         
         public const string GuiTempObjectPrefix = "__gui__";
 
+        public const string PRODUCT_BRAND_XCP_NG = "XCP-ng";
+
         public static NumberFormatInfo _nfi = new CultureInfo("en-US", false).NumberFormat;
 
         public static readonly Regex SessionRefRegex = new Regex(@"OpaqueRef:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
@@ -1960,6 +1962,8 @@ namespace XenAdmin.Core
            var master = GetMaster(connection);
            if (master == null)
                return false;
+           if (master.ProductBrand() == PRODUCT_BRAND_XCP_NG)
+               return true;
            if (ElyOrGreater(connection))
                return master.AppliedUpdates().Any(update => update.Name().ToLower().StartsWith("xscontainer")); 
            return CreamOrGreater(connection) && master.SuppPacks().Any(suppPack => suppPack.Name.ToLower().StartsWith("xscontainer")); 
