@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xencenterversions>
-    <version value="7.4.2.7" name="7.4.2-RC3" latest="true" latest_cr="false" url="https://github.com/xcp-ng/xenadmin/releases/tag/v7.4.2-RC3" timestamp="2018-05-15 22:00"></version> 
+    <version value="7.4.2.7" name="XCP-ng Center 7.4.2-RC3" latest="true" latest_cr="false" url="https://github.com/xcp-ng/xenadmin/releases/tag/v7.4.2-RC3" timestamp="2018-05-15 22:00"></version> 
 </xencenterversions>
