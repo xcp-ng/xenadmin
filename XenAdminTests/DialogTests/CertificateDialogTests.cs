@@ -108,7 +108,7 @@ namespace XenAdminTests.DialogTests.boston.CertificateDialogTests
         {
             get
             {
-                string certFileName = Path.Combine(Directory.GetCurrentDirectory(), "XenAdminTests", "TestResources", "TestDevCertificate.cer");
+                string certFileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestResources", "TestDevCertificate.cer");
                 return X509Certificate.CreateFromCertFile(certFileName); 
             }
         }
