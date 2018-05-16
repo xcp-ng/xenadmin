@@ -99,14 +99,14 @@ namespace XenAdminTests.CompressionTests
         [Test]
         public void TestFailingReaderGeneration()
         {
-            
-
-            using (MemoryStream ms = new MemoryStream())
+            Assert.Throws<IOException>(() =>
             {
-                 using ( CompressionFactory.Reader(CompressionFactory.Type.Bz2, ms))
-                    Assert.That(() => { } , Throws.InvalidOperationException);
-            }
-            
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CompressionFactory.Reader(CompressionFactory.Type.Bz2, ms))
+                    { }
+                }
+            });
         }
     }
 }
