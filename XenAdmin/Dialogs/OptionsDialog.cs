@@ -88,6 +88,7 @@ namespace XenAdmin.Dialogs
             if (!Helpers.CommonCriteriaCertificationRelease)
                 UpdatesOptionsPage.Log();
             DisplayOptionsPage.Log();
+            DisplayOptions2Page.Log();
             SaveAndRestoreOptionsPage.Log();
             PluginOptionsPage.Log();
             ConfirmationOptionsPage.Log();

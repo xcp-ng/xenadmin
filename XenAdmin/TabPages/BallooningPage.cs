@@ -267,7 +267,7 @@ namespace XenAdmin.TabPages
             if (e.PropertyName == "power_state" || e.PropertyName == "VBDs" || e.PropertyName == "affinity" ||
 
             // These can change whether the VM is shown
-                e.PropertyName == "name_label" || e.PropertyName == "other_config"|| e.PropertyName=="resident_on")
+                e.PropertyName == "name_label" || e.PropertyName == "other_config" || e.PropertyName == "resident_on")
             {
                 if (xenObject is Pool)
                 {
@@ -328,7 +328,7 @@ namespace XenAdmin.TabPages
             }
 
             // Group VMs with the same settings
-            Dictionary<MemSettings, List<VM>> settingsToVMs = new Dictionary<MemSettings,List<VM>>();  // all VMs with a particular setting
+            Dictionary<MemSettings, List<VM>> settingsToVMs = new Dictionary<MemSettings, List<VM>>();  // all VMs with a particular setting
             List<MemSettings> listSettings = new List<MemSettings>();  // also make a list of MemSettings to preserve the order
 
             vms.Sort();
@@ -347,6 +347,20 @@ namespace XenAdmin.TabPages
                 settingsToVMs[settings].Add(vm);
             }
 
+            // find the host with the most memory as a reference to the max witdh; only if there are more than 1 host and no VMs
+            long maxmem = 0;
+            if (hosts.Count > 1 & vms.Count == 0 & Properties.Settings.Default.ViewMemoryRelativeToEachOther)
+            {
+                foreach (Host host in hosts)
+                {
+                    Host_metrics metrics = host.Connection.Resolve(host.metrics);
+                    if (metrics == null || !metrics.live)
+                        continue;
+                    if (metrics.memory_total > maxmem)
+                        maxmem = metrics.memory_total;
+                }
+            }
+
             // Add server rows
             int initScroll = pageContainerPanel.VerticalScroll.Value;
             int top = pageContainerPanel.Padding.Top - initScroll;
@@ -356,13 +370,21 @@ namespace XenAdmin.TabPages
                 Host_metrics metrics = host.Connection.Resolve(host.metrics);
                 if (metrics == null || !metrics.live)
                     continue;
-                AddRowToPanel(new HostMemoryRow(host), ref top);
+
+                if (Properties.Settings.Default.ViewMemoryRelativeToEachOther)
+                {
+                    AddRowToPanel(new HostMemoryRow(host, maxmem), ref top);
+                }
+                else
+                {
+                    AddRowToPanel(new HostMemoryRow(host), ref top);
+                }
             }
 
             // Add VM rows.
             // Sort the rows first by power state then by usual sort order of first VM (because of vms.Sort() above).
             // Easier to traverse listSettings five times, but more complicated sorts could be achieved by listSettings.Sort().
-            vm_power_state[] power_state_order = {vm_power_state.Running, vm_power_state.Paused, vm_power_state.Suspended, vm_power_state.Halted, vm_power_state.unknown};
+            vm_power_state[] power_state_order = { vm_power_state.Running, vm_power_state.Paused, vm_power_state.Suspended, vm_power_state.Halted, vm_power_state.unknown };
             foreach (vm_power_state ps in power_state_order)
             {
                 foreach (MemSettings settings in listSettings)
@@ -386,7 +408,7 @@ namespace XenAdmin.TabPages
                 pageContainerPanel.VerticalScroll.Value = scroll;  // Without this, the scroll bar can jump around while the page is being rebuilt
                 c.Dispose();
             }
-            _rebuilding = false;       
+            _rebuilding = false;
             pageContainerPanel.ResumeLayout();
             ReLayout();
         }

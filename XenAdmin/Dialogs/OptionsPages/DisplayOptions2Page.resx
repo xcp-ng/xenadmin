@@ -118,26 +118,32 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="pageContainerPanel.AutoScroll" type="System.Boolean, mscorlib">
+  <data name="ViewMemoryRelativeToEachOtherCheckbox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pageContainerPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 91</value>
+  <data name="ViewMemoryRelativeToEachOtherCheckbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 46</value>
   </data>
-  <data name="pageContainerPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>482, 368</value>
+  <data name="ViewMemoryRelativeToEachOtherCheckbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 17</value>
   </data>
-  <data name="&gt;&gt;pageContainerPanel.Name" xml:space="preserve">
-    <value>pageContainerPanel</value>
+  <data name="ViewMemoryRelativeToEachOtherCheckbox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;pageContainerPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="ViewMemoryRelativeToEachOtherCheckbox.Text" xml:space="preserve">
+    <value>View Memory Relative To Each Other</value>
   </data>
-  <data name="&gt;&gt;pageContainerPanel.Parent" xml:space="preserve">
+  <data name="&gt;&gt;ViewMemoryRelativeToEachOtherCheckbox.Name" xml:space="preserve">
+    <value>ViewMemoryRelativeToEachOtherCheckbox</value>
+  </data>
+  <data name="&gt;&gt;ViewMemoryRelativeToEachOtherCheckbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ViewMemoryRelativeToEachOtherCheckbox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;pageContainerPanel.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;ViewMemoryRelativeToEachOtherCheckbox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -146,10 +152,13 @@
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>96, 96</value>
   </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>408, 219</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>BallooningPage</value>
+    <value>DisplayOptions2Page</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>XenAdmin.TabPages.BaseTabPage, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

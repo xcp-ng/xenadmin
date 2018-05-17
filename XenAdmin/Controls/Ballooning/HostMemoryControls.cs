@@ -52,6 +52,15 @@ namespace XenAdmin.Controls.Ballooning
 
         private Host _host;
         private Host_metrics host_metrics;
+        private long memory_of_biggest_host;
+
+        [Browsable(false)]
+        public void SetHost(Host host, long memory_of_biggest_host)
+        {
+            this.memory_of_biggest_host = memory_of_biggest_host;
+            this.host = host;
+        }
+
         [Browsable(false)]
         public Host host
         {
@@ -98,6 +107,19 @@ namespace XenAdmin.Controls.Ballooning
             long overcommit = total > 0
                 ? (long)Math.Round((double)tot_dyn_max / (double)total * 100.0)
                 : 0;
+
+            // relative memory view
+            if (memory_of_biggest_host > 0)
+            {
+                int barMaxLength = labelTotal.Left - 70;
+                int fixedPart = 45; // to calulate just the drawn bar, not the gap's at the ends
+                int hostmem = (int)(total / 1000000000); // calculate GB
+                int hostmem_max_in_pool = (int)(memory_of_biggest_host / 1000000000); // calculate GB
+
+                // set length relative to host with the most memory
+                int barRelativeLength = (((hostmem * 1000 / hostmem_max_in_pool) * (barMaxLength - fixedPart)) / 1000) + fixedPart;              
+                hostShinyBar.Width = barRelativeLength;
+            }
 
             // Initialize the shiny bar
             hostShinyBar.Initialize(host, xen_memory, dom0);
