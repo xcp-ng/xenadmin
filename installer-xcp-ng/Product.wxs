@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="[XenCenter]" Language="1033" Version="0.0.0.0" Manufacturer="[Citrix]" UpgradeCode="47087771-7e34-407c-9d04-94a87316378f">
+    <Package InstallerVersion="300" Compressed="yes" InstallScope="perMachine" />
+    <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="A newer version of [XenCenter] is already installed." Schedule="afterInstallInitialize" RemoveFeatures="ALL" />
+    <MediaTemplate EmbedCab="yes" />
+    <Feature Id="ProductFeature" Title="[XenCenter]" Level="1">
+      <ComponentGroupRef Id="XCP-ng-Files" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+      <ComponentRef Id="ApplicationShortcut" />
+    </Feature>
+    <Icon Id="AppIcon.ico" SourceFile="AppIcon.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="AppIcon.ico" />
+    <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+  </Product>
+  <Fragment>
+    <Property Id="ROOTDRIVE">
+      <![CDATA[C:\]]>
+    </Property>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="DesktopFolder" Name="Desktop"/>
+      <Directory Id="ProgramFiles" Name="Program Files">
+        <Directory Id="INSTALLLOCATION" Name="[XenCenter]">
+          <Directory Id="ProgramMenuFolder">
+            <Directory Id="ApplicationProgramsFolder" Name="[XenCenter]" />
+          </Directory>
+          <Component Id="cmpMain" Guid="{2FC55E1C-1E54-415C-AC94-C1794388CD42}" KeyPath="yes" Feature="ProductFeature"/>
+        </Directory>
+      </Directory>
+    </Directory>
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION"></Property>
+    <UIRef Id="WixUI_Minimal"/>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="{2010795F-AB74-4166-89F0-B555B3DEB9C8}">
+        <Shortcut Id="startmenuxcpng"  Name="[XenCenter]" Target="[INSTALLLOCATION]$(var.splash.TargetFileName)" WorkingDirectory="INSTALLLOCATION" />
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\[Citrix]\[XenCenter]" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <Component Id="ApplicationShortcutDesktop" Directory="INSTALLLOCATION" Guid="*">
+      <RegistryValue Id="RegShortcutDesktop"
+              Root="HKCU"
+              Key="Software\[Citrix]\[XenCenter]"
+              Name="[XenCenter]_Shortcut"
+              Value="1"
+              Type="integer"
+              KeyPath="yes" />
+
+      <Shortcut Id="ApplicationShortcutDesktop"
+              Target="[INSTALLLOCATION]$(var.splash.TargetFileName)"
+              WorkingDirectory="INSTALLFOLDER"
+              Directory="DesktopFolder"
+              Name="[XenCenter]"
+              Advertise="no"/>
+    </Component>
+  </Fragment>
+
+</Wix>
