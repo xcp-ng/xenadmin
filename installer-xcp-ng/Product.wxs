@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="[XenCenter]" Language="1033" Version="0.0.0.0" Manufacturer="[Citrix]" UpgradeCode="47087771-7e34-407c-9d04-94a87316378f">
+  <Product Id="*" Name="[XenCenter]" Language="1033" Version="0.0.0.0" Manufacturer="XCP-ng Project" UpgradeCode="47087771-7e34-407c-9d04-94a87316378f">
     <Package InstallerVersion="300" Compressed="yes" InstallScope="perMachine" />
     <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="A newer version of [XenCenter] is already installed." Schedule="afterInstallInitialize" RemoveFeatures="ALL" />
     <MediaTemplate EmbedCab="yes" />
@@ -34,7 +34,7 @@
       <Component Id="ApplicationShortcut" Guid="{2010795F-AB74-4166-89F0-B555B3DEB9C8}">
         <Shortcut Id="startmenuxcpng"  Name="[XenCenter]" Target="[INSTALLLOCATION]$(var.splash.TargetFileName)" WorkingDirectory="INSTALLLOCATION" />
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
-        <RegistryValue Root="HKCU" Key="Software\[Citrix]\[XenCenter]" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+        <RegistryValue Root="HKCU" Key="Software\[BRANDING_COMPANY_NAME_SHORT]\[XenCenter]" Name="installed" Type="integer" Value="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>
   </Fragment>
@@ -42,7 +42,7 @@
     <Component Id="ApplicationShortcutDesktop" Directory="INSTALLLOCATION" Guid="*">
       <RegistryValue Id="RegShortcutDesktop"
               Root="HKCU"
-              Key="Software\[Citrix]\[XenCenter]"
+              Key="Software\[BRANDING_COMPANY_NAME_SHORT]\[XenCenter]"
               Name="[XenCenter]_Shortcut"
               Value="1"
               Type="integer"
