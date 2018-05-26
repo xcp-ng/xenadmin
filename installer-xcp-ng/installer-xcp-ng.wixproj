@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="EnsureWixToolsetInstalled" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>3.10</ProductVersion>
+    <ProjectGuid>e0bdd733-d6eb-4eaf-b020-ed0f1154cf80</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>installer-xcp-ng</OutputName>
+    <OutputType>Package</OutputType>
+    <Name>installer-xcp-ng</Name>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug</DefineConstants>
+    <SuppressValidation>True</SuppressValidation>
+    <LinkerAdditionalOptions>-b ..\XenAdmin\bin\Debug</LinkerAdditionalOptions>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="FilesFragment.wxs" />
+    <Compile Include="Product.wxs" />
+    <Compile Include="WixUI_CustomUI.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AppIcon.ico" />
+    <Content Include="license.rtf" />
+    <Content Include="license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\splash\splash.vcxproj">
+      <Name>splash</Name>
+      <Project>{afb19c9d-dd63-478b-a4a3-8452cbd0b9ab}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
+  <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
+    <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
+  </Target>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DefineConstants>Debug</DefineConstants>
+    <SuppressValidation>True</SuppressValidation>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>del $(SolutionDir)XenAdmin\bin\Debug\%2a.ilk
+del $(SolutionDir)XenAdmin\bin\Debug\%2a.pdb
+
+del $(SolutionDir)XenAdmin\bin\Debug\Help
+del $(SolutionDir)XenAdmin\bin\Debug\TestResources
+del $(SolutionDir)XenAdmin\bin\Debug\Schemas
+del $(SolutionDir)XenAdmin\bin\Debug\ja
+del $(SolutionDir)XenAdmin\bin\Debug\zh-CN
+
+heat.exe dir "$(SolutionDir)XenAdmin\bin\Debug" -cg XCP-ng-Files -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -out "$(ProjectDir)\FilesFragment.wxs"</PreBuildEvent>
+  </PropertyGroup>
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>
