@@ -68,16 +68,16 @@
     <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>del $(SolutionDir)XenAdmin\bin\Debug\%2a.ilk
-del $(SolutionDir)XenAdmin\bin\Debug\%2a.pdb
+    <PreBuildEvent>del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.ilk
+del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.pdb
 
-del $(SolutionDir)XenAdmin\bin\Debug\Help
-del $(SolutionDir)XenAdmin\bin\Debug\TestResources
-del $(SolutionDir)XenAdmin\bin\Debug\Schemas
-del $(SolutionDir)XenAdmin\bin\Debug\ja
-del $(SolutionDir)XenAdmin\bin\Debug\zh-CN
+del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\Help
+del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\TestResources
+del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\Schemas
+del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\ja
+del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\zh-CN
 
-heat.exe dir "$(SolutionDir)XenAdmin\bin\Debug" -cg XCP-ng-Files -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -out "$(ProjectDir)\FilesFragment.wxs"</PreBuildEvent>
+heat.exe dir "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)" -cg XCP-ng-Files -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -out "$(ProjectDir)\FilesFragment.wxs"</PreBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
