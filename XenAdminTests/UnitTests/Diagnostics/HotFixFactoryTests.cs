@@ -100,6 +100,7 @@ namespace XenAdminTests.UnitTests.Diagnostics
         }
 
         [Test]
+        [TestCase("1.8.0", Description = "Clearwater", Result = true)]
         [TestCase("2.7.0", Description = "Lima", Result = false)]
         [TestCase("2.6.0", Description = "Kolkata", Result = true)]
         [TestCase("2.5.0", Description = "Jura", Result = true)]
