@@ -42,8 +42,6 @@ REPO="$(cd -P "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SCRATCH_DIR=${ROOT}/scratch
 OUTPUT_DIR=${ROOT}/output
 
-BUILD_NUMBER=1
-
 # Create some dummy files and folders
 mkdir -p ${REPO}/Branding/Hotfixes
 
