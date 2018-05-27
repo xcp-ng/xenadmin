@@ -117,7 +117,7 @@ brand_and_version_wix()
   sed -b -i -e "s/Version=\"0\.0\.0\.0\"/Version=\"${BRANDING_XC_PRODUCT_VERSION}.${BUILD_NUMBER}\"/g" \
       -e "s/~~XenCenter~~/${BRANDING_BRAND_CONSOLE}/g" \
       $1 
-}
+}	
 
 rebranding_global()
 {
@@ -134,6 +134,7 @@ rebranding_global()
         -e "s#\[XenServer\]#${BRANDING_SERVER}#g" \
         -e "s#\[XenCenter\]#${BRANDING_BRAND_CONSOLE}#g" \
 		-e "s#\[XenAdmin\]#${BRANDING_BRAND_CONSOLE}#g" \
+		-e "s/~~XenCenter~~/${BRANDING_BRAND_CONSOLE}/g" \
         -e "s#\[xbk\]#${BRANDING_BACKUP}#g" \
         -e "s#\[BRANDING_VERSION_5_6\]#${BRANDING_XC_PRODUCT_5_6_VERSION}#g" \
         -e "s#\[BRANDING_VERSION_6_0\]#${BRANDING_XC_PRODUCT_6_0_VERSION}#g" \
