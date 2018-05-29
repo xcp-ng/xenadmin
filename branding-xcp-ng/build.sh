@@ -38,7 +38,7 @@ if [ -f ${SET_ENV_FILE} ]; then
 fi
 
 #build
-MSBUILD="MSBuild.exe /nologo /m /verbosity:minimal /p:Configuration=Release /p:TargetFrameworkVersion=v4.6 /p:VisualStudioVersion=13.0"
+MSBUILD="MSBuild.exe /nologo /m /verbosity:minimal /t:restore /p:Configuration=Release /p:TargetFrameworkVersion=v4.6 /p:VisualStudioVersion=13.0"
 
 $MSBUILD XenAdmin.sln
 $MSBUILD xe/Xe.csproj
