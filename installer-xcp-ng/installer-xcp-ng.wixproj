@@ -77,7 +77,7 @@ del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\Schemas
 del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\ja
 del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\zh-CN
 
-heat.exe dir "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)" -cg XCP-ng-Files -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -out "$(ProjectDir)\FilesFragment.wxs"</PreBuildEvent>
+heat.exe dir "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)" -cg XCPngFiles -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -out "$(ProjectDir)\FilesFragment.wxs"</PreBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.

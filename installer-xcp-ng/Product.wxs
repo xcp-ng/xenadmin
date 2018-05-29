@@ -5,7 +5,7 @@
     <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="A newer version of [XenCenter] is already installed." Schedule="afterInstallInitialize" RemoveFeatures="ALL" />
     <MediaTemplate EmbedCab="yes" />
     <Feature Id="ProductFeature" Title="[XenCenter]" Level="1">
-      <ComponentGroupRef Id="XCP-ng-Files" />
+      <ComponentGroupRef Id="XCPngFiles" />
       <ComponentRef Id="ApplicationShortcutDesktop" />
       <ComponentRef Id="ApplicationShortcut" />
     </Feature>
