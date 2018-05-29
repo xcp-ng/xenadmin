@@ -42,8 +42,12 @@ REPO="$(cd -P "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SCRATCH_DIR=${ROOT}/scratch
 OUTPUT_DIR=${ROOT}/output
 
+
+packages/nuget.exe install
+packages/nuget.exe restore
+
 #build
-MSBUILD="MSBuild.exe /nologo /m /verbosity:minimal /t:restore /p:Configuration=Release /p:TargetFrameworkVersion=v4.6 /p:VisualStudioVersion=13.0"
+MSBUILD="MSBuild.exe /nologo /m /verbosity:minimal /p:Configuration=Release /p:TargetFrameworkVersion=v4.6 /p:VisualStudioVersion=13.0"
 
 cd ${REPO}
 $MSBUILD XenAdmin.sln
