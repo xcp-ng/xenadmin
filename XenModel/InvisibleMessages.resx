@@ -118,37 +118,37 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ACTIVATION_FORM_URL" xml:space="preserve">
-    <value>https://{0}/index.html?transactionID={1}</value>
+    <value />
   </data>
   <data name="ACTIVATION_SERVER" xml:space="preserve">
-    <value>activate.vmd.citrix.com</value>
+    <value />
   </data>
   <data name="ACTIVATION_URL" xml:space="preserve">
-    <value>https://{0}/reactivation_server.php</value>
+    <value />
   </data>
   <data name="COMMUNITY_URL" xml:space="preserve">
-    <value>http://xenserver.org/</value>
+    <value>https://xcp-ng.org</value>
   </data>
   <data name="HEALTH_CHECK_PRIVACY_STATEMENT_URL" xml:space="preserve">
-    <value>https://cis.citrix.com/legal/</value>
+    <value />
   </data>
   <data name="HOMEPAGE" xml:space="preserve">
-    <value>http://www.citrix.com/xenserver</value>
+    <value>https://xcp-ng.org</value>
   </data>
   <data name="HOMEPAGE_FILENAME" xml:space="preserve">
     <value>HomePage.mht</value>
   </data>
   <data name="HTTP_LICENSES" xml:space="preserve">
-    <value>www.citrix.com/xenserverenterprise</value>
+    <value />
   </data>
   <data name="ISL_DEPRECATION_URL" xml:space="preserve">
-    <value>http://support.citrix.com/article/CTX141433</value>
+    <value />
   </data>
   <data name="LICENSE_EXPIRY_WEBPAGE" xml:space="preserve">
-    <value>http://store.citrix.com/XSInProduct</value>
+    <value />
   </data>
   <data name="LICENSE_SERVER_DOWNLOAD_LINK" xml:space="preserve">
-    <value>http://www.citrix.com/downloads/licensing/license-server</value>
+    <value />
   </data>
   <data name="LOCALE" xml:space="preserve">
     <value>en-US</value>
@@ -166,39 +166,39 @@
     <value>Home.htm</value>
   </data>
   <data name="OUT_OF_DATE_WEBSITE" xml:space="preserve">
-    <value>https://www.citrix.com/downloads/xenserver</value>
+    <value />
   </data>
   <data name="PARTNEROFFERS_URL" xml:space="preserve">
-    <value>http://www.citrix.com/buy/partnerlocator.html</value>
+    <value />
   </data>
   <data name="PLUGINS_URL" xml:space="preserve">
-    <value>https://more.citrix.com/xenserver-plugin-development</value>
+    <value>https://xcp-ng.org</value>
   </data>
   <data name="PRIVACY" xml:space="preserve">
-    <value>http://citrix.com/English/aboutCitrix/legal/privacyStatement.asp?ntref=hp_nav_US</value>
+    <value />
   </data>
   <data name="XEN_SEARCH" xml:space="preserve">
     <value>xensearch</value>
   </data>
   <data name="SUPPORT_URL" xml:space="preserve">
-    <value>http://support.citrix.com/</value>
+    <value>https://xcp-ng.com</value>
   </data>
   <data name="UPSELL_SA" xml:space="preserve">
-    <value>http://store.citrix.com/XSInProduct</value>
+    <value />
   </data>
   <data name="XENDESKTOP_URL" xml:space="preserve">
-    <value>http://www.citrix.com/TryXenDesktop</value>
+    <value />
   </data>
   <data name="XEN_UPDATE" xml:space="preserve">
     <value>xsupdate</value>
   </data>
   <data name="XENSERVER_UPDATE_URL" xml:space="preserve">
-    <value>https://updates.xensource.com/XenServer/updates.xml</value>
+    <value />
   </data>
   <data name="ISO_UPDATE" xml:space="preserve">
     <value>iso</value>
   </data>
   <data name="UPSELL_LEARNMOREURL_TRIAL" xml:space="preserve">
-    <value>https://www.citrix.com/products/xenserver/get-started.html</value>
+    <value />
   </data>
 </root>
