@@ -35,19 +35,6 @@ using XenAPI;
 
 namespace XenAdmin.Utils
 {
-    public class AsyncServerTimeEventArgs: EventArgs
-    {
-        public Host QueriedHost { get; private set; }
-        public bool Success { get; private set; }
-        public Exception Failure { get; private set; }
-        public AsyncServerTimeEventArgs(Host host, bool success, Exception failure)
-        {
-            QueriedHost = host;
-            Success = success;
-            Failure = failure;
-        }    
-    }
-
     /// <summary>
     /// Get the UTC server time in an async fashion
     /// 
@@ -57,12 +44,10 @@ namespace XenAdmin.Utils
     /// </summary>
     public class AsyncServerTime
     {
-        public delegate void ServerTimeEventHandler(object sender, AsyncServerTimeEventArgs args);
-        
         /// <summary>
         /// Event triggered when the server time is obtained
         /// </summary>
-        public event ServerTimeEventHandler ServerTimeObtained;
+        public event Action ServerTimeObtained;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
@@ -91,20 +76,18 @@ namespace XenAdmin.Utils
             ThreadPool.QueueUserWorkItem(GetServerTime, host);
         }
 
-        private void TriggerEvent(Host host, bool success, Exception failureReason)
+        private void TriggerEvent()
         {
             if (ServerTimeObtained != null)
-                ServerTimeObtained(this, new AsyncServerTimeEventArgs(host, success, failureReason));
+                ServerTimeObtained();
         }
 
         private void GetServerTime(object state)
         {
             Host host = state as Host;
-
-            if (host == null)
+            if (host == null || host.Connection == null)
             {
-                TriggerEvent(host, false, new ArgumentNullException(typeof(object).ToString()));
-                log.ErrorFormat("Failed to fetch server time for host as host could not be resolved");
+                log.ErrorFormat("Will not fetch server time: host or connection could not be resolved");
                 return;
             }
 
@@ -112,16 +95,12 @@ namespace XenAdmin.Utils
             {
                 //Note we're using the get_servertime call which returns the UTC time
                 ServerTime = Host.get_servertime(host.Connection.Session, host.opaque_ref);
+                TriggerEvent();
             }
-
-            catch(Exception e)
+            catch (Exception e)
             {
-                TriggerEvent(host, false, e);
-                log.ErrorFormat("Failed to fetch server time for host {0} because {1}", host.name_label, e.Message);
-                return;
+                log.ErrorFormat("Failed to fetch server time for host {0}: {1}", host.name_label, e);
             }
-
-            TriggerEvent(host, true, null);
         }
     }
 }

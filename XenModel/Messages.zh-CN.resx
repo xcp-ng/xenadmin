@@ -2184,6 +2184,12 @@
 
 删除此绑定将中断通过绑定上的辅助接口进行的通信，而接口将移动到绑定的第一个从属成员。</value>
   </data>
+  <data name="BOND_GONE" xml:space="preserve">
+    <value>在 [XenCenter] 的缓存中找不到绑定。</value>
+  </data>
+  <data name="BOND_MASTER_GONE" xml:space="preserve">
+    <value>在 [XenCenter] 的缓存中找不到绑定主对象。</value>
+  </data>
   <data name="BOOTORDER" xml:space="preserve">
     <value>启动顺序: {0}</value>
   </data>
@@ -2407,6 +2413,9 @@
   </data>
   <data name="CANNOT_DELETE_VD_IN_USE" xml:space="preserve">
     <value>该虚拟磁盘当前正在使用，无法删除。</value>
+  </data>
+  <data name="CANNOT_FIND_NODE" xml:space="preserve">
+    <value>找不到 XML 节点 {0}。</value>
   </data>
   <data name="CANNOT_FIND_SR_WIZARD_TYPE" xml:space="preserve">
     <value>无法使用 [XenCenter] 配置类型为“{0}”的 SR。</value>
@@ -5359,6 +5368,9 @@
   <data name="FEATURE_DISABLED_IN_REGISTER" xml:space="preserve">
     <value>功能已在注册表中禁用</value>
   </data>
+  <data name="FEATURE_EXPERIMENTAL" xml:space="preserve">
+    <value>使用前必须在池中的所有主机上启用“{0}”功能。请参阅“发行说明”。</value>
+  </data>
   <data name="FETCHED_POSSIBLE_HOSTS" xml:space="preserve">
     <value>已获取 VM {0} 的可能的主机</value>
   </data>
@@ -6632,9 +6644,6 @@
   </data>
   <data name="IMPORT_VM_CONFIGURE_STORAGE" xml:space="preserve">
     <value>为新 VM 配置存储</value>
-  </data>
-  <data name="IMPORT_VM_FILE_DISAPPEARED" xml:space="preserve">
-    <value>{0} 已消失。请选择有效文件名。</value>
   </data>
   <data name="IMPORT_VM_FROM" xml:space="preserve">
     <value>VM 导入自...</value>
@@ -8993,7 +9002,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>半</value>
   </data>
   <data name="NICS_ARE_SRIOV_ENABLED" xml:space="preserve">
-    <value>所有受支持的 NIC 都已启用 SR-IOV。</value>
+    <value>SR-IOV 已在具有 SR-IOV 功能的所有 NIC 上启用。</value>
   </data>
   <data name="NIC_HIDDEN" xml:space="preserve">
     <value>{0} (隐藏)</value>
@@ -9850,6 +9859,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="POOLCREATE_DESTROYING" xml:space="preserve">
     <value>正在将池拆分为独立服务器</value>
   </data>
+  <data name="POOLCREATE_MULTIHOST" xml:space="preserve">
+    <value>无法将包含多个主机的池转变为独立服务器。</value>
+  </data>
   <data name="POOLCREATE_REMOVED" xml:space="preserve">
     <value>已从池中删除</value>
   </data>
@@ -9881,7 +9893,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>池常规属性</value>
   </data>
   <data name="POOL_GONE" xml:space="preserve">
-    <value>池已消失!</value>
+    <value>在 [XenCenter] 的缓存中找不到池。</value>
   </data>
   <data name="POOL_HAS_MIXED_LICENSES" xml:space="preserve">
     <value>此池中包含的主机具有不同类型的许可证。</value>
@@ -9910,6 +9922,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="POOL_MASTER" xml:space="preserve">
     <value>池主服务器</value>
   </data>
+  <data name="POOL_MASTER_GONE" xml:space="preserve">
+    <value>在 [XenCenter] 的缓存中找不到池主服务器。</value>
+  </data>
   <data name="POOL_NAME_EMPTY" xml:space="preserve">
     <value>池名称不能为空</value>
   </data>
@@ -9921,6 +9936,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="POOL_PICKER_BLURB_NO_AFFINITY" xml:space="preserve">
     <value>选择要导入该 VM 的池或独立服务器。主服务器设置将从模板获得。\n\n如果该值与所选资源池中的服务器不对应，则所有资源安排决策都将忽略该值。</value>
+  </data>
+  <data name="POOL_UPDATE_GONE" xml:space="preserve">
+    <value>在 [XenCenter] 的缓存中找不到池更新。</value>
   </data>
   <data name="POOL_VERSIONS_LINK_TEXT" xml:space="preserve">
     <value>池已部分升级到 [XenServer] {0}</value>
@@ -11106,9 +11124,6 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="SRPICKER_ERROR_LOCAL_SR_MUST_BE_RESIDENT_HOSTS" xml:space="preserve">
     <value>本地存储必须属于驻留的主机</value>
-  </data>
-  <data name="SRPICKER_NETWORK_GONE" xml:space="preserve">
-    <value>VDI 已消失...</value>
   </data>
   <data name="SRPICKER_SR_FULL" xml:space="preserve">
     <value>该存储库已满</value>
@@ -12362,6 +12377,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="VAL_GIGB" xml:space="preserve">
     <value>GB</value>
   </data>
+  <data name="VAL_GIGHZ" xml:space="preserve">
+    <value>GHz</value>
+  </data>
   <data name="VAL_GIGRATE" xml:space="preserve">
     <value>GBps</value>
   </data>
@@ -12382,6 +12400,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="VAL_MEGB" xml:space="preserve">
     <value>MB</value>
+  </data>
+  <data name="VAL_MEGHZ" xml:space="preserve">
+    <value>MHz</value>
   </data>
   <data name="VAL_MEGRATE" xml:space="preserve">
     <value>MBps</value>
@@ -12902,8 +12923,8 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="VNC_FULLSCREEN_MESSAGE_F12" xml:space="preserve">
     <value>按 F12 退出全屏模式</value>
   </data>
-  <data name="VNC_HOST_GONE" xml:space="preserve">
-    <value>服务器已消失。</value>
+  <data name="HOST_GONE" xml:space="preserve">
+    <value>在 [XenCenter] 的缓存中找不到主机。</value>
   </data>
   <data name="VNC_LOOKING" xml:space="preserve">
     <value>正在查找来宾控制台...</value>
@@ -13554,6 +13575,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="WLB_RETRIEVING_CONFIGURATION" xml:space="preserve">
     <value>正在检索 WLB 配置</value>
+  </data>
+  <data name="WLB_RETRIEVING_RECOMMENDATIONS" xml:space="preserve">
+    <value>获取池 {0} 的 WLB 建议</value>
   </data>
   <data name="WLB_SAVING_SETTINGS" xml:space="preserve">
     <value>正在保存 Workload Balancing 设置</value>

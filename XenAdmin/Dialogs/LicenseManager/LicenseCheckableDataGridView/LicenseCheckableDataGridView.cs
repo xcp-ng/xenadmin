@@ -31,9 +31,9 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using XenAdmin.Core;
 using XenAdmin.Dialogs;
 using XenAdmin.Properties;
 
@@ -41,10 +41,21 @@ namespace XenAdmin.Controls
 {
     public class LicenseCheckableDataGridView : CheckableDataGridView.CheckableDataGridView, ILicenseCheckableDataGridViewView
     {
-        private const string statusColumnKey = "statusImageColumn";
-
         public delegate void RefreshAllEvent(object sender, EventArgs e);
         public event RefreshAllEvent RefreshAll;
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public DataGridViewImageColumn StatusImageColumn
+        {
+            get
+            {
+                Debug.Assert(_statusImageColumn != null);
+                return _statusImageColumn;
+            }
+            set { _statusImageColumn = value; }
+        }
+
+        private DataGridViewImageColumn _statusImageColumn;
 
         private LicenseCheckableDataGridViewController LicenseController
         {
@@ -79,48 +90,42 @@ namespace XenAdmin.Controls
         public void DrawStatusIcon(int rowIndex, LicenseDataGridViewRow.Status status)
         {
             Program.Invoke(Program.MainWindow, delegate
-                                                       {
-                                                           SuspendLayout();
-                                                           try
-                                                           {
-                                                               DataGridViewCell cell = new DataGridViewImageCell
-                                                                                           {
-                                                                                               ValueIsIcon = true,
-                                                                                               ValueType = typeof (Bitmap),
-                                                                                               Value = new Bitmap(1,1)
-                                                                                       };
-                                                                                                                      
-                                                           if (status == LicenseDataGridViewRow.Status.Information)
-                                                               cell.Value = Resources._000_Alert2_h32bit_16;
-                                                           if (status == LicenseDataGridViewRow.Status.Warning)
-                                                               cell.Value = Resources._000_error_h32bit_16;
-                                                           if (status == LicenseDataGridViewRow.Status.Ok)
-                                                               cell.Value = Resources._000_Tick_h32bit_16;
-  
-                                                           DataGridViewImageColumn col =
-                                                               Columns[statusColumnKey] as DataGridViewImageColumn;
-                                                           if (col == null)
-                                                               return;
+            {
+                SuspendLayout();
+                try
+                {
+                    if (StatusImageColumn == null)
+                        return;
 
-                                                           if (rowIndex < Rows.Count && rowIndex >= 0)
-                                                           {
-                                                               var r = Rows[rowIndex];
-                                                               if (r.Cells.Count > col.Index)
-                                                               {
-                                                                   if (r.Cells[col.Index] is DataGridViewImageCell)
-                                                                        r.Cells[col.Index] = cell;
-                                                               }
+                    if (rowIndex < 0 || rowIndex >= Rows.Count)
+                        return;
 
-                                                           }  
-                                                           }
-                                                           finally
-                                                           {
-                                                               ResumeLayout();
-                                                           }
-                                                           
-                                                       });
+                    var r = Rows[rowIndex];
+                    if (StatusImageColumn.Index >= r.Cells.Count)
+                        return;
 
+                    DataGridViewCell cell = new DataGridViewImageCell
+                    {
+                        ValueIsIcon = true,
+                        ValueType = typeof(Bitmap),
+                        Value = new Bitmap(1, 1)
+                    };
 
+                    if (status == LicenseDataGridViewRow.Status.Information)
+                        cell.Value = Resources._000_Alert2_h32bit_16;
+                    if (status == LicenseDataGridViewRow.Status.Warning)
+                        cell.Value = Resources._000_error_h32bit_16;
+                    if (status == LicenseDataGridViewRow.Status.Ok)
+                        cell.Value = Resources._000_Tick_h32bit_16;
+
+                    if (r.Cells[StatusImageColumn.Index] is DataGridViewImageCell)
+                        r.Cells[StatusImageColumn.Index] = cell;
+                }
+                finally
+                {
+                    ResumeLayout();
+                }
+            });
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]

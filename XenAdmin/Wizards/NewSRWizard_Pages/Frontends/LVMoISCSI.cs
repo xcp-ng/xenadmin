@@ -418,8 +418,6 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
 
             if (pbd.device_config.ContainsKey(SCSIID))
                 scsiID = pbd.device_config[SCSIID];
-            else if (pbd.device_config.ContainsKey("ScsiId"))
-                scsiID = pbd.device_config["ScsiId"];
             else
                 return false;
 
@@ -893,10 +891,10 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             if (srType == SR.SRTypes.gfs2)
             {
                 dconf["provider"] = "iscsi";
-                dconf["ips"] = iqn.item.IpAddress;
+                dconf["target"] = iqn.item.IpAddress;
                 dconf["port"] = iqn.item.Port.ToString();
-                dconf["iqns"] = getIscsiIQN();
-                dconf["ScsiId"] = LunMap[getIscsiLUN()].ScsiID;
+                dconf["targetIQN"] = getIscsiIQN();
+                dconf["SCSIid"] = LunMap[getIscsiLUN()].ScsiID;
                 dconf["chapuser"] = IScsiChapUserTextBox.Text;
                 dconf["chappassword"] = IScsiChapSecretTextBox.Text;
 

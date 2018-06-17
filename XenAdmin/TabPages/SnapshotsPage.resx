@@ -1515,46 +1515,46 @@
   <data name="&gt;&gt;contextMenuStrip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <metadata name="Live.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="columnType.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="Live.HeaderText" xml:space="preserve">
+  <data name="columnType.HeaderText" xml:space="preserve">
     <value>Type</value>
   </data>
-  <metadata name="Snapshot.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="columnName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="Snapshot.HeaderText" xml:space="preserve">
+  <data name="columnName.HeaderText" xml:space="preserve">
     <value>Name</value>
   </data>
-  <metadata name="Date.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="columnCreated.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="Date.HeaderText" xml:space="preserve">
+  <data name="columnCreated.HeaderText" xml:space="preserve">
     <value>Created On</value>
   </data>
-  <metadata name="size.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="columnSize.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="size.HeaderText" xml:space="preserve">
+  <data name="columnSize.HeaderText" xml:space="preserve">
     <value>Size</value>
   </data>
-  <data name="size.Visible" type="System.Boolean, mscorlib">
+  <data name="columnSize.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <metadata name="tags.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="columnTags.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="tags.HeaderText" xml:space="preserve">
+  <data name="columnTags.HeaderText" xml:space="preserve">
     <value>Tags</value>
   </data>
-  <metadata name="description.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="ColumnDescription.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="description.HeaderText" xml:space="preserve">
+  <data name="ColumnDescription.HeaderText" xml:space="preserve">
     <value>Description</value>
   </data>
-  <data name="description.MinimumWidth" type="System.Int32, mscorlib">
+  <data name="ColumnDescription.MinimumWidth" type="System.Int32, mscorlib">
     <value>94</value>
   </data>
   <data name="dataGridView.Location" type="System.Drawing.Point, System.Drawing">
@@ -1938,40 +1938,40 @@
   <data name="&gt;&gt;propertiesToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Live.Name" xml:space="preserve">
-    <value>Live</value>
+  <data name="&gt;&gt;columnType.Name" xml:space="preserve">
+    <value>columnType</value>
   </data>
-  <data name="&gt;&gt;Live.Type" xml:space="preserve">
+  <data name="&gt;&gt;columnType.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Snapshot.Name" xml:space="preserve">
-    <value>Snapshot</value>
+  <data name="&gt;&gt;columnName.Name" xml:space="preserve">
+    <value>columnName</value>
   </data>
-  <data name="&gt;&gt;Snapshot.Type" xml:space="preserve">
+  <data name="&gt;&gt;columnName.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Date.Name" xml:space="preserve">
-    <value>Date</value>
+  <data name="&gt;&gt;columnCreated.Name" xml:space="preserve">
+    <value>columnCreated</value>
   </data>
-  <data name="&gt;&gt;Date.Type" xml:space="preserve">
+  <data name="&gt;&gt;columnCreated.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;size.Name" xml:space="preserve">
-    <value>size</value>
+  <data name="&gt;&gt;columnSize.Name" xml:space="preserve">
+    <value>columnSize</value>
   </data>
-  <data name="&gt;&gt;size.Type" xml:space="preserve">
+  <data name="&gt;&gt;columnSize.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tags.Name" xml:space="preserve">
-    <value>tags</value>
+  <data name="&gt;&gt;columnTags.Name" xml:space="preserve">
+    <value>columnTags</value>
   </data>
-  <data name="&gt;&gt;tags.Type" xml:space="preserve">
+  <data name="&gt;&gt;columnTags.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;description.Name" xml:space="preserve">
-    <value>description</value>
+  <data name="&gt;&gt;ColumnDescription.Name" xml:space="preserve">
+    <value>ColumnDescription</value>
   </data>
-  <data name="&gt;&gt;description.Type" xml:space="preserve">
+  <data name="&gt;&gt;ColumnDescription.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;saveAsVMToolStripMenuItem.Name" xml:space="preserve">

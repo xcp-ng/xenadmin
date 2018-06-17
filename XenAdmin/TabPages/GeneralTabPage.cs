@@ -207,6 +207,9 @@ namespace XenAdmin.TabPages
             if (licenseStatus != null)
                 licenseStatus.ItemUpdated -= licenseStatus_ItemUpdated;
 
+            if (xenObject.Connection != null && !xenObject.Connection.IsConnected)
+                return;
+
             if (xenObject is Host || xenObject is Pool)
             {
                 licenseStatus = new LicenseStatus(xenObject);

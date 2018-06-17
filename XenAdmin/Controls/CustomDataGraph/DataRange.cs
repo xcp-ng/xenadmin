@@ -106,7 +106,9 @@ namespace XenAdmin.Controls.CustomDataGraph
                 case Unit.MilliWatt:
                     return Util.MilliWattString(constrVal);
                 case Unit.Centigrade:
-                     return string.Format("{0}\u2103", constrVal.ToString("0"));
+                    return string.Format("{0}\u2103", constrVal.ToString("0"));
+                case Unit.MegaHertz:
+                    return Util.MegaHertzString(constrVal);
                 default:
                     return constrVal.ToString();
             }
@@ -141,6 +143,9 @@ namespace XenAdmin.Controls.CustomDataGraph
                     case Unit.MilliWatt:
                         Util.MilliWattValue(Max, out unit);
                         return unit;
+                    case Unit.MegaHertz:
+                        Util.MegaHertzValue(Max, out unit);
+                        return unit;
                     default:
                         return "";
                 }
@@ -165,6 +170,8 @@ namespace XenAdmin.Controls.CustomDataGraph
                     return Util.NanoSecondsValue(constrVal, out unit);
                 case Unit.MilliWatt:
                     return Util.MilliWattValue(constrVal, out unit);
+                case Unit.MegaHertz:
+                    return Util.MegaHertzValue(constrVal, out unit);
                 case Unit.CountsPerSecond://fall through
                 default:
                     return constrVal.ToString();
@@ -199,6 +206,7 @@ namespace XenAdmin.Controls.CustomDataGraph
                 case Unit.CountsPerSecond:
                 case Unit.MilliWatt:
                 case Unit.Centigrade:
+                case Unit.MegaHertz:
                     int pow = 0;
                     max = Max;
                     if (Max > 1)
@@ -252,5 +260,5 @@ namespace XenAdmin.Controls.CustomDataGraph
 
     public enum RangeScaleMode { Fixed, Auto, Delegate }
 
-    public enum Unit { None, Percentage, BytesPerSecond, Bytes, NanoSeconds, CountsPerSecond, MilliWatt, Centigrade }
+    public enum Unit { None, Percentage, BytesPerSecond, Bytes, NanoSeconds, CountsPerSecond, MilliWatt, Centigrade, MegaHertz }
 }

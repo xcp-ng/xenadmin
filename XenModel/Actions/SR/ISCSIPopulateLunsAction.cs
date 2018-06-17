@@ -203,9 +203,9 @@ namespace XenAdmin.Actions
 
             var deviceConfig = new Dictionary<string, string>();
             deviceConfig["provider"] = "iscsi";
-            deviceConfig["ips"] = targetHost;
+            deviceConfig["target"] = targetHost;
             deviceConfig["port"] = targetPort.ToString(CultureInfo.InvariantCulture);
-            deviceConfig["iqns"] = targetIQN;
+            deviceConfig["targetIQN"] = targetIQN;
             if (!string.IsNullOrEmpty(chapUsername))
             {
                 deviceConfig["chapuser"] = chapUsername;
@@ -226,7 +226,7 @@ namespace XenAdmin.Actions
                 long size;
                 if (!probeResult.extra_info.ContainsKey("size") || !long.TryParse(probeResult.extra_info["size"], out size))
                     size = -1;
-                var scsiid = probeResult.configuration.ContainsKey("ScsiId") ? probeResult.configuration["ScsiId"] : "";
+                var scsiid = probeResult.configuration.ContainsKey("SCSIid") ? probeResult.configuration["SCSIid"] : "";
 
                 results.Add(new ISCSIInfo(scsiid, lunid, vendor, serial, size));
             }

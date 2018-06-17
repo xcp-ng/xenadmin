@@ -32,7 +32,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using XenAdmin.Core;
@@ -40,17 +39,17 @@ using XenAPI;
 
 namespace XenAdmin.Controls.CheckableDataGridView
 {
-    public class CheckableDataGridViewRowEventArgs : EventArgs
-    {
-        public int RowIndex { get; set; }
-        public bool RefreshGrid { get; set; }
-    }
-
     /// <summary>
     /// NOTE: Ensure your first column is a checkbox column
     /// </summary>
     public class CheckableDataGridView : DataGridViewEx.DataGridViewEx, ICheckableDataGridViewView
     {
+        public class CheckableDataGridViewRowEventArgs : EventArgs
+        {
+            public int RowIndex { get; set; }
+            public bool RefreshGrid { get; set; }
+        }
+
         protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private const string RowUpdatedEventKey = "CheckableDataGridViewRowUpdatedEventKey";
         private const string RowCheckedEventKey = "CheckableDataGridViewRowCheckedEventKey";

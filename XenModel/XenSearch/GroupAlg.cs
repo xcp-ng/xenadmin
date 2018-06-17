@@ -154,71 +154,105 @@ namespace XenAdmin.XenSearch
             this.search = search;
         }
 
-        protected int Compare(Object _1, Object _2)
+        protected int Compare(object one, object other)
         {
-            return Compare(_1, _2, search);
+            return Compare(one, other, search);
         }
 
-        protected int CompareGroupKeys(GroupKey _1, GroupKey _2)
+        protected int CompareGroupKeys(GroupKey one, GroupKey other)
         {
-            return Compare(_1.key, _2.key);
-        }
-
-        public static int Compare(Object _1, Object _2, Search search)
-        {
-            // 1) Non-IXMOs always come before IXMOs. This is because if they're at the
-            // same level, they represent grouped items vs ungrouped items.
-
-            IXenObject i1 = _1 as IXenObject;
-            IXenObject i2 = _2 as IXenObject;
-
-            if (i1 != null && i2 == null)
-                return 1;
-            if (i1 == null && i2 != null)
+            if (one == null && other == null)
+                return 0;
+            if (one == null)
                 return -1;
+            if (other == null)
+                return 1;
+            return Compare(one.key, other.key);
+        }
 
-            // 2) Try and separate them using the requested sorting, if any
+        /// <summary>
+        /// Rules:
+        /// - Other objects come always come before IXenObjects. This is because if they are
+        ///   at the same level, they represent grouped items vs ungrouped items.
+        /// - Then try and compare them using the requested sorting, if any.
+        /// - If that fails, sort by type. For IXenObjects try a our own sort and then the
+        ///   built-in sort for the type. The result is not always alphabetical; see CA-27829.
+        /// - If those still don't separate them, try object name.
+        /// </summary>
+        public static int Compare(object one, object other, Search search)
+        {
+            if (one == null && other == null)
+                return 0;
+            if (one == null)
+                return -1;
+            if (other == null)
+                return 1;
+
+            IXenObject oneXenObject = one as IXenObject;
+            IXenObject otherXenObject = other as IXenObject;
+
+            if (oneXenObject == null && otherXenObject == null)
+            {
+                //neither is an IXenObject => compare them as other objects
+
+                if (search != null && search.Sorting != null)
+                {
+                    foreach (Sort sort in search.Sorting)
+                    {
+                        int r = sort.Compare(one, other);
+                        if (r != 0)
+                            return r;
+                    }
+                }
+
+                if (one.GetType() == other.GetType() && one is IComparable)
+                {
+                    int r1 = Comparer.Default.Compare(one, other);
+                    if (r1 != 0)
+                        return r1;
+                }
+
+                return StringUtility.NaturalCompare(one.ToString(), other.ToString());
+            }
+
+            if (oneXenObject == null)
+                return -1;
+            if (otherXenObject == null)
+                return 1;
+
+            // both are IXenObjects, compare them as such
 
             if (search != null && search.Sorting != null)
             {
                 foreach (Sort sort in search.Sorting)
                 {
-                    int r = sort.Compare(_1, _2);
-                    if (r != 0)
-                        return r;
+                    int r2 = sort.Compare(oneXenObject, otherXenObject);
+                    if (r2 != 0)
+                        return r2;
                 }
             }
 
-            // 3) If that failed, sort by type (for IXMOs);
-            // if they're of the same type, the built-in sort for the type (not always alphabetical: see CA-27829);
-            // if those still don't separate them, object name.
-            if (i1 != null && i2 != null)
-            {
-                int r = CompareByType(i1, i2);
-                if (r != 0)
-                    return r;
-            }
+            int r3 = CompareByType(oneXenObject, otherXenObject);
+            if (r3 != 0)
+                return r3;
 
-            if (_1.GetType() == _2.GetType() && _1 is IComparable)
-            {
-                int r = Comparer.Default.Compare(_1, _2);
-                if (r != 0)
-                    return r;
-            }
+            r3 = Comparer.Default.Compare(oneXenObject, otherXenObject);
+            if (r3 != 0)
+                return r3;
 
-            string s1 = (i1 == null ? _1.ToString() : Helpers.GetName(i1));
-            string s2 = (i2 == null ? _2.ToString() : Helpers.GetName(i2));
-            return StringUtility.NaturalCompare(s1, s2);
+            return StringUtility.NaturalCompare(Helpers.GetName(oneXenObject), Helpers.GetName(otherXenObject));
         }
 
-        // Compare two IXMOs by type. I wanted to use the proper user-facing type from
-        // PropertyAccessors.properties[PropertyNames.type] but it turned out to be much
-        // too slow. Instead we use the type of the object with a few tweaks to sort
-        // important objects first.
-        private static int CompareByType(IXenObject _1, IXenObject _2)
+        /// <summary>
+        /// Compare two IXMOs by type. I wanted to use the proper user-facing type from
+        /// PropertyAccessors.properties[PropertyNames.type] but it turned out to be much
+        /// too slow. Instead we use the type of the object with a few tweaks to sort
+        /// important objects first.
+        /// </summary>
+        private static int CompareByType(IXenObject oneXenObject, IXenObject otherXenObject)
         {
-            string t1 = TypeOf(_1);
-            string t2 = TypeOf(_2);
+            string t1 = TypeOf(oneXenObject);
+            string t2 = TypeOf(otherXenObject);
             return t1.CompareTo(t2);
         }
 

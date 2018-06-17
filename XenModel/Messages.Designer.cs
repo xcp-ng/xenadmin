@@ -15289,6 +15289,15 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Feature &apos;{0}&apos; must be enabled on all hosts in the pool before use. See release notes..
+        /// </summary>
+        public static string FEATURE_EXPERIMENTAL {
+            get {
+                return ResourceManager.GetString("FEATURE_EXPERIMENTAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Next Section.
         /// </summary>
         public static string FETCH_EARLIER_DATA {
@@ -29530,15 +29539,6 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Yes ({0} VFs remaining).
-        /// </summary>
-        public static string REAMININF_VFS {
-            get {
-                return ResourceManager.GetString("REAMININF_VFS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to R&amp;eattach.
         /// </summary>
         public static string REATTACH_SR {
@@ -29591,6 +29591,15 @@ namespace XenAdmin {
         public static string REGION_LABLE {
             get {
                 return ResourceManager.GetString("REGION_LABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes ({0} VFs remaining).
+        /// </summary>
+        public static string REMAINING_VFS {
+            get {
+                return ResourceManager.GetString("REMAINING_VFS", resourceCulture);
             }
         }
         
@@ -35785,6 +35794,15 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GHz.
+        /// </summary>
+        public static string VAL_GIGHZ {
+            get {
+                return ResourceManager.GetString("VAL_GIGHZ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GBps.
         /// </summary>
         public static string VAL_GIGRATE {
@@ -35844,6 +35862,15 @@ namespace XenAdmin {
         public static string VAL_MEGB {
             get {
                 return ResourceManager.GetString("VAL_MEGB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MHz.
+        /// </summary>
+        public static string VAL_MEGHZ {
+            get {
+                return ResourceManager.GetString("VAL_MEGHZ", resourceCulture);
             }
         }
         
@@ -39233,6 +39260,15 @@ namespace XenAdmin {
         public static string WLB_RETRIEVING_RECOMMENDATIONS {
             get {
                 return ResourceManager.GetString("WLB_RETRIEVING_RECOMMENDATIONS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retrieving WLB recommendations .
+        /// </summary>
+        public static string WLB_RETRIEVING_VM_RECOMMENDATIONS {
+            get {
+                return ResourceManager.GetString("WLB_RETRIEVING_VM_RECOMMENDATIONS", resourceCulture);
             }
         }
         

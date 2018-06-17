@@ -217,7 +217,7 @@ namespace XenAdmin.Actions
                 throw new Failure(Failure.INTERNAL_ERROR, Messages.POOL_GONE);
             var deviceConfig = new Dictionary<string, string>();
             deviceConfig["provider"] = "iscsi";
-            deviceConfig["ips"] = targetHost;
+            deviceConfig["target"] = targetHost;
             deviceConfig["port"] = targetPort.ToString(CultureInfo.InvariantCulture);
             if (!string.IsNullOrEmpty(chapUsername))
             {
@@ -233,11 +233,11 @@ namespace XenAdmin.Actions
             foreach (var probeResult in probeResults)
             {
                 index++;
-                var address = probeResult.configuration.ContainsKey("ips") ? probeResult.configuration["ips"] : "";
+                var address = probeResult.configuration.ContainsKey("target") ? probeResult.configuration["target"] : "";
                 UInt16 port;
                 if (!probeResult.configuration.ContainsKey("port") || !UInt16.TryParse(probeResult.configuration["port"], out port))
                     port = Util.DEFAULT_ISCSI_PORT;
-                var targetIQN = probeResult.configuration.ContainsKey("iqns") ? probeResult.configuration["iqns"] : "";
+                var targetIQN = probeResult.configuration.ContainsKey("targetIQN") ? probeResult.configuration["targetIQN"] : "";
 
                 results.Add(new IScsiIqnInfo(index, targetIQN, address, port));
             }

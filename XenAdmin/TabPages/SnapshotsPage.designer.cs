@@ -1,8 +1,3 @@
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using XenAdmin.Controls;
-
 namespace XenAdmin.TabPages
 {
     sealed partial class SnapshotsPage
@@ -96,12 +91,12 @@ namespace XenAdmin.TabPages
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.Live = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Snapshot = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.size = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tags = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnCreated = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dateLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanelMultipleSelection = new System.Windows.Forms.TableLayoutPanel();
             this.multipleSelectionTags = new System.Windows.Forms.Label();
@@ -528,25 +523,25 @@ namespace XenAdmin.TabPages
             // 
             this.sortByNameToolStripMenuItem.Name = "sortByNameToolStripMenuItem";
             resources.ApplyResources(this.sortByNameToolStripMenuItem, "sortByNameToolStripMenuItem");
-            this.sortByNameToolStripMenuItem.Click += new System.EventHandler(this.sortByToolStripMenuItem_Click);
+            this.sortByNameToolStripMenuItem.Click += new System.EventHandler(this.sortByNameToolStripMenuItem_Click);
             // 
             // sortByCreatedOnToolStripMenuItem
             // 
             this.sortByCreatedOnToolStripMenuItem.Name = "sortByCreatedOnToolStripMenuItem";
             resources.ApplyResources(this.sortByCreatedOnToolStripMenuItem, "sortByCreatedOnToolStripMenuItem");
-            this.sortByCreatedOnToolStripMenuItem.Click += new System.EventHandler(this.sortByToolStripMenuItem_Click);
+            this.sortByCreatedOnToolStripMenuItem.Click += new System.EventHandler(this.sortByCreatedOnToolStripMenuItem_Click);
             // 
             // sortBySizeToolStripMenuItem
             // 
             this.sortBySizeToolStripMenuItem.Name = "sortBySizeToolStripMenuItem";
             resources.ApplyResources(this.sortBySizeToolStripMenuItem, "sortBySizeToolStripMenuItem");
-            this.sortBySizeToolStripMenuItem.Click += new System.EventHandler(this.sortByToolStripMenuItem_Click);
+            this.sortBySizeToolStripMenuItem.Click += new System.EventHandler(this.sortBySizeToolStripMenuItem_Click);
             // 
             // sortByTypeToolStripMenuItem
             // 
             this.sortByTypeToolStripMenuItem.Name = "sortByTypeToolStripMenuItem";
             resources.ApplyResources(this.sortByTypeToolStripMenuItem, "sortByTypeToolStripMenuItem");
-            this.sortByTypeToolStripMenuItem.Click += new System.EventHandler(this.sortByToolStripMenuItem_Click);
+            this.sortByTypeToolStripMenuItem.Click += new System.EventHandler(this.sortByTypeToolStripMenuItem_Click);
             // 
             // sortToolStripSeparator
             // 
@@ -572,6 +567,7 @@ namespace XenAdmin.TabPages
             this.dataGridView.AllowUserToOrderColumns = true;
             this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -583,12 +579,12 @@ namespace XenAdmin.TabPages
             this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Live,
-            this.Snapshot,
-            this.Date,
-            this.size,
-            this.tags,
-            this.description});
+            this.columnType,
+            this.columnName,
+            this.columnCreated,
+            this.columnSize,
+            this.columnTags,
+            this.ColumnDescription});
             resources.ApplyResources(this.dataGridView, "dataGridView");
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
@@ -597,54 +593,54 @@ namespace XenAdmin.TabPages
             this.dataGridView.SelectionChanged += new System.EventHandler(this.view_SelectionChanged);
             this.dataGridView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridView_MouseClick);
             // 
-            // Live
+            // columnType
             // 
-            this.Live.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            resources.ApplyResources(this.Live, "Live");
-            this.Live.Name = "Live";
-            this.Live.ReadOnly = true;
-            this.Live.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.columnType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            resources.ApplyResources(this.columnType, "columnType");
+            this.columnType.Name = "columnType";
+            this.columnType.ReadOnly = true;
+            this.columnType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
-            // Snapshot
+            // columnName
             // 
-            this.Snapshot.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            resources.ApplyResources(this.Snapshot, "Snapshot");
-            this.Snapshot.Name = "Snapshot";
-            this.Snapshot.ReadOnly = true;
-            this.Snapshot.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.columnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            resources.ApplyResources(this.columnName, "columnName");
+            this.columnName.Name = "columnName";
+            this.columnName.ReadOnly = true;
+            this.columnName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
-            // Date
+            // columnCreated
             // 
-            this.Date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            resources.ApplyResources(this.Date, "Date");
-            this.Date.Name = "Date";
-            this.Date.ReadOnly = true;
-            this.Date.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.columnCreated.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            resources.ApplyResources(this.columnCreated, "columnCreated");
+            this.columnCreated.Name = "columnCreated";
+            this.columnCreated.ReadOnly = true;
+            this.columnCreated.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
-            // size
+            // columnSize
             // 
-            this.size.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.columnSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.size.DefaultCellStyle = dataGridViewCellStyle2;
-            resources.ApplyResources(this.size, "size");
-            this.size.Name = "size";
-            this.size.ReadOnly = true;
+            this.columnSize.DefaultCellStyle = dataGridViewCellStyle2;
+            resources.ApplyResources(this.columnSize, "columnSize");
+            this.columnSize.Name = "columnSize";
+            this.columnSize.ReadOnly = true;
             // 
-            // tags
+            // columnTags
             // 
-            this.tags.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            resources.ApplyResources(this.tags, "tags");
-            this.tags.Name = "tags";
-            this.tags.ReadOnly = true;
-            this.tags.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.columnTags.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            resources.ApplyResources(this.columnTags, "columnTags");
+            this.columnTags.Name = "columnTags";
+            this.columnTags.ReadOnly = true;
+            this.columnTags.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // description
+            // ColumnDescription
             // 
-            this.description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            resources.ApplyResources(this.description, "description");
-            this.description.Name = "description";
-            this.description.ReadOnly = true;
-            this.description.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ColumnDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            resources.ApplyResources(this.ColumnDescription, "ColumnDescription");
+            this.ColumnDescription.Name = "ColumnDescription";
+            this.ColumnDescription.ReadOnly = true;
+            this.ColumnDescription.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // dateLabel
             // 
@@ -794,93 +790,81 @@ namespace XenAdmin.TabPages
 
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.TableLayoutPanel GeneralTableLayoutPanel;
-        private SnapshotTreeView snapshotTreeView;
-        private Panel viewPanel;
-        private GroupBox propertiesGroupBox;
-        private TableLayoutPanel propertiesTableLayoutPanel;
-        private Label folderTitleLabel;
-        private Label tagsTitleLabel;
-        private Label sizeTitleLabel;
-        private Label dateLabel;
-        private Label descriptionLabel;
-        private Label nameLabel;
-        private Label sizeLabel;
-        private Button propertiesButton;
-        private Label folderLabel;
-        private ContextMenuStrip contextMenuStrip;
-        private ToolStripMenuItem deleteToolStripMenuItem;
-        private ToolStripMenuItem revertToolStripMenuItem;
-        private ToolStripMenuItem TakeSnapshotToolStripMenuItem;
-        private ToolStripMenuItem exportToolStripMenuItem;
-        private ToolStripSeparator separatorDeleteToolStripSeparator;
-        private ToolStripMenuItem propertiesToolStripMenuItem;
-        private ToolStripSeparator saveVMToolStripSeparator;
-        private ToolStripMenuItem saveVMToolStripMenuItem;
-        private ToolStripMenuItem saveTemplateToolStripMenuItem;
-        private Label tagsLabel;
-        private ToolStripMenuItem viewToolStripMenuItem;
-        private ToolStripMenuItem sortByToolStripMenuItem;
-        private ToolStripSeparator sortToolStripSeparator;
-        private ToolStripMenuItem sortByNameToolStripMenuItem;
-        private ToolStripMenuItem sortByCreatedOnToolStripMenuItem;
-        private ToolStripMenuItem sortBySizeToolStripMenuItem;
-        private ToolStripMenuItem sortByTypeToolStripMenuItem;
-        private Label label1;
-        private PictureBox screenshotPictureBox;
-        private TableLayoutPanel tableLayoutPanelSimpleSelection;
-        private TableLayoutPanel tableLayoutPanelMultipleSelection;
-        private Label multipleSelectionTags;
-        private Label multipleSelectionTotalSize;
-        private Label label6;
-        private Label label7;
-        private ShadowPanel shadowPanel1;
-        private TableLayoutPanel contentTableLayoutPanel;
-        private NonReopeningContextMenuStrip saveMenuStrip;
-        private ToolStripMenuItem saveAsTemplateToolStripMenuItem;
-        private ToolStripMenuItem saveAsVMToolStripMenuItem;
-        private TableLayoutPanel tableLayoutPanel2;
-        private ToolStripMenuItem exportAsBackupToolStripMenuItem;
-        private Button newSnapshotButton;
-        private Button revertButton;
-        private Button saveButton;
-        private Button deleteButton;
-        private Label customFieldTitle1;
-        private Label customFieldContent1;
-        private Label customFieldTitle2;
-        private Label customFieldContent2;
-        private ToolTipContainer toolTipContainerRevertButton;
-        private Label labelModeTitle;
-        private Label labelMode;
-        private Panel panelPropertiesColumn;
-        private Panel panelVMPP;
-        private Label labelVMPPInfo;
-        private PictureBox pictureBoxVMPPInfo;
-        private LinkLabel linkLabelVMPPInfo;
-        private Button buttonView;
-        private NonReopeningContextMenuStrip contextMenuStripView;
-        private ToolStripMenuItem toolStripButtonListView;
-        private ToolStripMenuItem toolStripButtonTreeView;
-        private ToolStripSeparator toolStripSeparatorView;
-        private ToolStripMenuItem toolStripMenuItemScheduledSnapshots;
-        private ToolStripSeparator toolStripSeparator2;
-        private DataGridViewTextBoxColumn Live;
-        private DataGridViewTextBoxColumn Snapshot;
-        private DataGridViewTextBoxColumn Date;
-        private DataGridViewTextBoxColumn size;
-        private DataGridViewTextBoxColumn tags;
-        private DataGridViewTextBoxColumn description;
-        private ChevronButton chevronButton1;
-
+        private XenAdmin.Controls.SnapshotTreeView snapshotTreeView;
+        private System.Windows.Forms.Panel viewPanel;
+        private System.Windows.Forms.GroupBox propertiesGroupBox;
+        private System.Windows.Forms.TableLayoutPanel propertiesTableLayoutPanel;
+        private System.Windows.Forms.Label folderTitleLabel;
+        private System.Windows.Forms.Label tagsTitleLabel;
+        private System.Windows.Forms.Label sizeTitleLabel;
+        private System.Windows.Forms.Label dateLabel;
+        private System.Windows.Forms.Label descriptionLabel;
+        private System.Windows.Forms.Label nameLabel;
+        private System.Windows.Forms.Label sizeLabel;
+        private System.Windows.Forms.Button propertiesButton;
+        private System.Windows.Forms.Label folderLabel;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem revertToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TakeSnapshotToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator separatorDeleteToolStripSeparator;
+        private System.Windows.Forms.ToolStripMenuItem propertiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator saveVMToolStripSeparator;
+        private System.Windows.Forms.ToolStripMenuItem saveVMToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveTemplateToolStripMenuItem;
+        private System.Windows.Forms.Label tagsLabel;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sortByToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator sortToolStripSeparator;
+        private System.Windows.Forms.ToolStripMenuItem sortByNameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sortByCreatedOnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sortBySizeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sortByTypeToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox screenshotPictureBox;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelSimpleSelection;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMultipleSelection;
+        private System.Windows.Forms.Label multipleSelectionTags;
+        private System.Windows.Forms.Label multipleSelectionTotalSize;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private XenAdmin.Controls.ShadowPanel shadowPanel1;
+        private System.Windows.Forms.TableLayoutPanel contentTableLayoutPanel;
+        private XenAdmin.Controls.NonReopeningContextMenuStrip saveMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem saveAsTemplateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsVMToolStripMenuItem;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.ToolStripMenuItem exportAsBackupToolStripMenuItem;
+        private System.Windows.Forms.Button newSnapshotButton;
+        private System.Windows.Forms.Button revertButton;
+        private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.Label customFieldTitle1;
+        private System.Windows.Forms.Label customFieldContent1;
+        private System.Windows.Forms.Label customFieldTitle2;
+        private System.Windows.Forms.Label customFieldContent2;
+        private XenAdmin.Controls.ToolTipContainer toolTipContainerRevertButton;
+        private System.Windows.Forms.Label labelModeTitle;
+        private System.Windows.Forms.Label labelMode;
+        private System.Windows.Forms.Panel panelPropertiesColumn;
+        private System.Windows.Forms.Panel panelVMPP;
+        private System.Windows.Forms.Label labelVMPPInfo;
+        private System.Windows.Forms.PictureBox pictureBoxVMPPInfo;
+        private System.Windows.Forms.LinkLabel linkLabelVMPPInfo;
+        private System.Windows.Forms.Button buttonView;
+        private XenAdmin.Controls.NonReopeningContextMenuStrip contextMenuStripView;
+        private System.Windows.Forms.ToolStripMenuItem toolStripButtonListView;
+        private System.Windows.Forms.ToolStripMenuItem toolStripButtonTreeView;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorView;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemScheduledSnapshots;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private XenAdmin.Controls.ChevronButton chevronButton1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnCreated;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnTags;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDescription;
     }
-
-    internal class MySR : ToolStripSystemRenderer
-    {
-
-        public MySR() { }
-
-        protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
-        {
-            //base.OnRenderToolStripBorder(e);
-        }
-    } 
 }

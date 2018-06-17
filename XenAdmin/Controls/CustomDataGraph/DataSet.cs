@@ -229,7 +229,7 @@ namespace XenAdmin.Controls.CustomDataGraph
             }
             else if (settype.EndsWith("-avg-freq"))
             { 
-                dataSet.CustomYRange = new DataRange(1, 0, 1, Unit.None, RangeScaleMode.Auto);
+                dataSet.CustomYRange = new DataRange(1, 0, 1, Unit.MegaHertz, RangeScaleMode.Auto);
                 dataSet.Type = DataType.Cpu;
             }
             else if (settype.StartsWith("cpu") || settype == "avg_cpu" || settype.StartsWith("runstate"))

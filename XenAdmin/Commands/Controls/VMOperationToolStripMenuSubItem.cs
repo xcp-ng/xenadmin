@@ -30,11 +30,8 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using XenAdmin.Controls;
 using System.Drawing;
-using XenAPI;
 
 namespace XenAdmin.Commands
 {
@@ -74,8 +71,8 @@ namespace XenAdmin.Commands
                     SecondImage = _command.SecondImage;
                 }
 
-                //null is allowed (CA-147657)
-                ToolTipText = _command.ToolTipText;
+                //No tooltip needed as the reason is included in the menu text
+                //ToolTipText = _command.ToolTipText;
 
                 StarRating = _command.StarRating;
             }

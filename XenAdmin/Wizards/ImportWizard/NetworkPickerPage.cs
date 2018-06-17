@@ -166,19 +166,18 @@ namespace XenAdmin.Wizards.ImportWizard
 
 		private void SetNetworkList()
         {
-            DataGridViewComboBoxColumn col = (DataGridViewComboBoxColumn)m_networkGridView.Columns["NetworkNetworkColumn"];
-            col.Items.Clear();
+            NetworkNetworkColumn.Items.Clear();
 
         	var networks = m_selectedConnection.Cache.Networks.Where(ShowNetwork);
 
 			foreach (XenAPI.Network network in networks)
             {
-                col.Items.Add(new ToStringWrapper<XenAPI.Network>(network, network.Name()));
+                NetworkNetworkColumn.Items.Add(new ToStringWrapper<XenAPI.Network>(network, network.Name()));
             }
 
-            col.DisplayMember = ToStringWrapper<XenAPI.Network>.DisplayMember;
-		    col.ValueMember = ToStringWrapper<XenAPI.Network>.ValueMember;
-            col.Sorted = true;
+            NetworkNetworkColumn.DisplayMember = ToStringWrapper<XenAPI.Network>.DisplayMember;
+            NetworkNetworkColumn.ValueMember = ToStringWrapper<XenAPI.Network>.ValueMember;
+            NetworkNetworkColumn.Sorted = true;
         }
 
 		private void BuildVIFList()
@@ -231,7 +230,7 @@ namespace XenAdmin.Wizards.ImportWizard
 				        AddVIFRow(vif);
 				}
 
-                m_networkGridView.Sort(m_networkGridView.Columns[0], ListSortDirection.Ascending);
+                m_networkGridView.Sort(NameNetworkColumn, ListSortDirection.Ascending);
 			}
 			finally
 			{
@@ -312,8 +311,7 @@ namespace XenAdmin.Wizards.ImportWizard
 			if (network == null)
 				return null;
 
-			DataGridViewComboBoxColumn column = (DataGridViewComboBoxColumn)m_networkGridView.Columns["NetworkNetworkColumn"];
-            foreach (ToStringWrapper<XenAPI.Network> entry in column.Items)
+            foreach (ToStringWrapper<XenAPI.Network> entry in NetworkNetworkColumn.Items)
 			{
 				if (entry.item.uuid == network.uuid)
 					return entry;

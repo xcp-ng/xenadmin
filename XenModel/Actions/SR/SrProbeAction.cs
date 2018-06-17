@@ -73,7 +73,7 @@ namespace XenAdmin.Actions
                     target = dconf.ContainsKey("device") ? dconf["device"] : dconf["SCSIid"];
                     break;
                 case SR.SRTypes.gfs2:
-                    target = dconf.ContainsKey("ips") ? dconf["ips"] : dconf["ScsiId"];
+                    target = dconf.ContainsKey("target") ? dconf["target"] : dconf["SCSIid"];
                     break;
                 default:
                     target = Messages.REPAIRSR_SERVER;

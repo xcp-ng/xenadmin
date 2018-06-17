@@ -29,66 +29,60 @@
  * SUCH DAMAGE.
  */
 
+using System;
 using System.Collections.Generic;
-using XenAdmin.Diagnostics.Problems.HostProblem;
+using XenAdmin.Core;
+using XenAdmin.Network;
 using XenAPI;
-using XenAdmin.Diagnostics.Problems;
-using XenAdmin.Diagnostics.Problems.SRProblem;
 
-
-namespace XenAdmin.Diagnostics.Checks
+namespace XenAdmin.Actions
 {
-    public class PBDsPluggedCheck : Check
+    public class WlbRetrieveVmRecommendationsAction: PureAsyncAction
     {
-        SR srUploadedUpdates;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public PBDsPluggedCheck(Host host, SR sr = null) : base(host)
+        private readonly List<VM> vms;
+        private readonly Dictionary<VM, Dictionary<XenRef<Host>, string[]>> recommendations = new Dictionary<VM, Dictionary<XenRef<Host>, string[]>>();
+        private bool isError;
+
+        public WlbRetrieveVmRecommendationsAction(IXenConnection connection, List<VM> vms)
+            : base(connection, Messages.WLB_RETRIEVING_VM_RECOMMENDATIONS, true)
         {
-            srUploadedUpdates = sr;
+            this.vms = vms;
         }
 
-        protected override Problem RunCheck()
+        protected override void Run()
         {
-            if (!Host.IsLive())
-                return new HostNotLiveWarning(this, Host);
-
-            IEnumerable<VM> runningOrPausedVMs = GetRunningOrPausedVMs(Host);
-            IEnumerable<SR> brokenSRs = PBD.GetSRs(PBD.GetUnpluggedPBDsFor(runningOrPausedVMs));
-
-            foreach (SR sr in brokenSRs)
+            if (vms.Count == 0)
             {
-                return new BrokenSR(this, sr, Host);
+                isError = true;
+                return;
             }
 
-            if (srUploadedUpdates != null
-                && ((srUploadedUpdates.shared && !srUploadedUpdates.CanBeSeenFrom(Host))
-                 || (!srUploadedUpdates.shared && srUploadedUpdates.IsBroken())))
+            if (Helpers.WlbEnabled(vms[0].Connection))
             {
-                return new BrokenSR(this, srUploadedUpdates, Host);
-            }
-
-            return null;
-        }
-
-        private static IEnumerable<VM> GetRunningOrPausedVMs(Host host)
-        {
-            List<VM> runningOrPausedVMs = new List<VM>();
-
-
-                foreach (VM vm in host.Connection.Cache.VMs)
+                try
                 {
-                    if (vm.power_state == vm_power_state.Running || vm.power_state == vm_power_state.Paused)
-                        runningOrPausedVMs.Add(vm);
+                    foreach (var vm in vms)
+                    {
+                        recommendations[vm] = VM.retrieve_wlb_recommendations(Session, vm.opaque_ref);
+                    }
                 }
-            
-
-            return runningOrPausedVMs;
+                catch (Exception e)
+                {
+                    log.Error("Error getting WLB recommendations", e);
+                    isError = true;
+                }
+            }
+            else
+            {
+                isError = true;
+            }
         }
 
-
-        public override string Description
+        public Dictionary<VM, Dictionary<XenRef<Host>, string[]>> Recommendations
         {
-            get { return Messages.PBDS_CHECK_DESCRIPTION; }
+            get { return isError ? null : recommendations; }
         }
     }
 }

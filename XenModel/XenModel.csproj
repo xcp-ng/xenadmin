@@ -161,6 +161,7 @@
     <Compile Include="Actions\VM\VMCrossPoolMigrateAction.cs" />
     <Compile Include="Actions\VM\VMSnapshotCreateAction.cs" />
     <Compile Include="Actions\VM\VMStartAction.cs" />
+    <Compile Include="Actions\WLB\WlbRetrieveVmRecommendationsAction.cs" />
     <Compile Include="Actions\ZipStatusReportAction.cs" />
     <Compile Include="Alerts\Types\Alert.cs" />
     <Compile Include="DockerContainers.cs" />

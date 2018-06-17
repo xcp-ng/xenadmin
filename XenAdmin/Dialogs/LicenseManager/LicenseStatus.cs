@@ -150,20 +150,8 @@ namespace XenAdmin.Dialogs
             serverTime.Fetch(LicencedHost);
         }
 
-        private void ServerTimeUpdatedEventHandler(object sender, AsyncServerTimeEventArgs e)
+        private void ServerTimeUpdatedEventHandler()
         {
-            if (!e.Success)
-            {
-                if(e.QueriedHost == null)
-                {
-                    log.ErrorFormat("Couldn't get the server time because: {0}", e.Failure.Message);
-                    return;
-                }
-
-                log.ErrorFormat("Couldn't get the server time for {0} because: {1}", e.QueriedHost.name_label, e.Failure.Message);
-                return;
-            }
-
             if (LicencedHost != null)
             {
                 CalculateLicenseState();

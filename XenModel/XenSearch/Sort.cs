@@ -119,37 +119,40 @@ namespace XenAdmin.XenSearch
             return node;
         }
 
-        public int Compare(Object _1, Object _2)
+        public int Compare(object one, object other)
         {
             // Comparison for the name column. If we need any other special cases,
             // it would be better to subclass Sort, but that involved too much
             // disruption especially in serializing and deserializing for this one case.
-            bool nameSort = (column == "name");
+            bool nameSort = column == "name";
 
-            IXenObject i1 = _1 as IXenObject;
-            IXenObject i2 = _2 as IXenObject;
+            IXenObject i1 = one as IXenObject;
+            IXenObject i2 = other as IXenObject;
 
             IComparable c1, c2;
 
             if (i1 != null)
                 c1 = property(i1);
             else if (nameSort)
-                c1 = (_1 is DateTime ? ((DateTime)_1).ToString("u", CultureInfo.InvariantCulture) : _1.ToString());  // CP-2036, CA-67113
+                c1 = one is DateTime ? ((DateTime)one).ToString("u", CultureInfo.InvariantCulture) : one.ToString(); // CP-2036, CA-67113
             else
                 c1 = null;
 
             if (i2 != null)
                 c2 = property(i2);
             else if (nameSort)
-                c2 = (_2 is DateTime ? ((DateTime)_2).ToString("u", CultureInfo.InvariantCulture) : _2.ToString());
+                c2 = other is DateTime ? ((DateTime)other).ToString("u", CultureInfo.InvariantCulture) : other.ToString();
             else
                 c2 = null;
 
-            if (c1 == null || c2 == null)
-                return c1 == null && c2 == null ? 0 :
-                    c1 == null ? 1 : -1;
+            if (c1 == null && c2 == null)
+                return 0;
+            if (c1 == null)
+                return ascending ? -1 : 1;
+            if (c2 == null)
+                return ascending ? 1 : -1;
 
-            int r = (nameSort ? StringUtility.NaturalCompare(c1.ToString(), c2.ToString()) : c1.CompareTo(c2));
+            int r = nameSort ? StringUtility.NaturalCompare(c1.ToString(), c2.ToString()) : c1.CompareTo(c2);
             if (!ascending)
                 r = -r;
             return r;

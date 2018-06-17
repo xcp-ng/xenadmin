@@ -493,7 +493,7 @@
     <value>服务器无法获取其管理接口的 IP 地址，因此无法与主服务器联系。</value>
   </data>
   <data name="HOST_HAS_RESIDENT_VMS" xml:space="preserve">
-    <value>无法忘记此服务器，因为仍有一些用户 VM 在运行</value>
+    <value>无法忘记此服务器，因为仍有一些用户 VM 正在运行</value>
   </data>
   <data name="HOST_IN_EMERGENCY_MODE" xml:space="preserve">
     <value>此服务器处于紧急模式</value>

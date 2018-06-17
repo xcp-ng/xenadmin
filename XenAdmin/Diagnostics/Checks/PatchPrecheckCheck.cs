@@ -86,8 +86,12 @@ namespace XenAdmin.Diagnostics.Checks
             //
             // Check that the SR where the update was uploaded is still attached
             //
-            if (srUploadedUpdates != null && !srUploadedUpdates.CanBeSeenFrom(Host))
+            if (srUploadedUpdates != null
+                && ((srUploadedUpdates.shared && !srUploadedUpdates.CanBeSeenFrom(Host))
+                 || (!srUploadedUpdates.shared && srUploadedUpdates.IsBroken())))
+            {
                 return new BrokenSRWarning(this, Host, srUploadedUpdates);
+            }
 
             //
             // Check patch isn't already applied here

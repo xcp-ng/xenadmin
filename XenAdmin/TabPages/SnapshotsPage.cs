@@ -78,40 +78,41 @@ namespace XenAdmin.TabPages
             base.Text = Messages.SNAPSHOTS_PAGE_TITLE;
             dataGridView.TabIndex = snapshotTreeView.TabIndex;
             dataGridView.Sorted += DataGridView_Sorted;
-            dataGridView.Columns[2].DefaultCellStyle.Format = Messages.DATEFORMAT_DMY_HMS;
-            dataGridView.Columns[2].ValueType = typeof(DateTime);
+            columnCreated.DefaultCellStyle.Format = Messages.DATEFORMAT_DMY_HMS;
+            columnCreated.ValueType = typeof(DateTime);
             ConnectionsManager.History.CollectionChanged += History_CollectionChanged;
         }
 
 
         void DataGridView_Sorted(object sender, EventArgs e)
         {
-            switch (dataGridView.SortedColumn.Index)
+            if (dataGridView.SortedColumn.Index == columnType.Index)
             {
-                case 0:
-                    sortByTypeToolStripMenuItem.Checked = true;
-                    sortByNameToolStripMenuItem.Checked = false;
-                    sortByCreatedOnToolStripMenuItem.Checked = false;
-                    sortBySizeToolStripMenuItem.Checked = false;
-                    break;
-                case 1:
-                    sortByTypeToolStripMenuItem.Checked = false;
-                    sortByNameToolStripMenuItem.Checked = true;
-                    sortByCreatedOnToolStripMenuItem.Checked = false;
-                    sortBySizeToolStripMenuItem.Checked = false;
-                    break;
-                case 2:
-                    sortByTypeToolStripMenuItem.Checked = false;
-                    sortByNameToolStripMenuItem.Checked = false;
-                    sortByCreatedOnToolStripMenuItem.Checked = true;
-                    sortBySizeToolStripMenuItem.Checked = false;
-                    break;
-                case 3:
-                    sortByTypeToolStripMenuItem.Checked = false;
-                    sortByNameToolStripMenuItem.Checked = false;
-                    sortByCreatedOnToolStripMenuItem.Checked = false;
-                    sortBySizeToolStripMenuItem.Checked = true;
-                    break;
+                sortByTypeToolStripMenuItem.Checked = true;
+                sortByNameToolStripMenuItem.Checked = false;
+                sortByCreatedOnToolStripMenuItem.Checked = false;
+                sortBySizeToolStripMenuItem.Checked = false;
+            }
+            else if (dataGridView.SortedColumn.Index == columnName.Index)
+            {
+                sortByTypeToolStripMenuItem.Checked = false;
+                sortByNameToolStripMenuItem.Checked = true;
+                sortByCreatedOnToolStripMenuItem.Checked = false;
+                sortBySizeToolStripMenuItem.Checked = false;
+            }
+            else if (dataGridView.SortedColumn.Index == columnCreated.Index)
+            {
+                sortByTypeToolStripMenuItem.Checked = false;
+                sortByNameToolStripMenuItem.Checked = false;
+                sortByCreatedOnToolStripMenuItem.Checked = true;
+                sortBySizeToolStripMenuItem.Checked = false;
+            }
+            else if (dataGridView.SortedColumn.Index == columnSize.Index)
+            {
+                sortByTypeToolStripMenuItem.Checked = false;
+                sortByNameToolStripMenuItem.Checked = false;
+                sortByCreatedOnToolStripMenuItem.Checked = false;
+                sortBySizeToolStripMenuItem.Checked = true;
             }
         }
 
@@ -419,7 +420,7 @@ namespace XenAdmin.TabPages
 
             }
             if (dataGridView.SortedColumn == null)
-                dataGridView.Sort(dataGridView.Columns[1], ListSortDirection.Ascending);
+                dataGridView.Sort(columnName, ListSortDirection.Ascending);
             return roots;
         }
 
@@ -1215,31 +1216,29 @@ namespace XenAdmin.TabPages
                 revertButton_Click(sender, e);
         }
 
-
-        private void sortByToolStripMenuItem_Click(object sender, EventArgs e)
+        private void sortByTypeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            switch (item.Name)
-            {
-                case "sortByTypeToolStripMenuItem":
-                    dataGridView.Sort(dataGridView.Columns[0], ListSortDirection.Ascending);
-                    dataGridView.Columns[0].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
-                    break;
-                case "sortByNameToolStripMenuItem":
-                    dataGridView.Sort(dataGridView.Columns[1], ListSortDirection.Ascending);
-                    break;
-                case "sortByCreatedOnToolStripMenuItem":
-                    dataGridView.Sort(dataGridView.Columns[2], ListSortDirection.Ascending);
-                    break;
-                //case "sortBySizeToolStripMenuItem":
-                //    DataGridView.Sort(DataGridView.Columns[3], ListSortDirection.Ascending);
-                //    break;
-            }
-            if (item.Name != "sortByTypeToolStripMenuItem")
-                dataGridView.Columns[0].HeaderCell.SortGlyphDirection = SortOrder.None;
+            if (!sortByTypeToolStripMenuItem.Checked)
+                dataGridView.Sort(columnType, ListSortDirection.Ascending);
         }
 
+        private void sortByNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!sortByNameToolStripMenuItem.Checked)
+                dataGridView.Sort(columnName, ListSortDirection.Ascending);
+        }
 
+        private void sortByCreatedOnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!sortByCreatedOnToolStripMenuItem.Checked)
+                dataGridView.Sort(columnCreated, ListSortDirection.Ascending);
+        }
+
+        private void sortBySizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!sortBySizeToolStripMenuItem.Checked)
+                dataGridView.Sort(columnSize, ListSortDirection.Ascending);
+        }
 
         private void screenshotPictureBox_Click(object sender, EventArgs e)
         {

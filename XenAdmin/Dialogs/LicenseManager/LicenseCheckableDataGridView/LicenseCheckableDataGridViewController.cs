@@ -66,7 +66,6 @@ namespace XenAdmin.Controls
         /// <summary>
         /// Sorts and refreshes without cycling the sort mode
         /// </summary>
-        /// <param name="columnIndex"></param>
         public void SortAndRefresh(int columnIndex)
         {
             SortAndRefresh(columnIndex, false);
@@ -75,7 +74,6 @@ namespace XenAdmin.Controls
         /// <summary>
         /// Sorts and refreshes after cycling the sort mode
         /// </summary>
-        /// <param name="columnIndex"></param>
         public void SortAndRefreshOnColumnClick(int columnIndex)
         {
             SortAndRefresh(columnIndex, true);

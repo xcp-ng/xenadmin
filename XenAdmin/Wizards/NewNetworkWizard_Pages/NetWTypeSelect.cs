@@ -104,21 +104,25 @@ namespace XenAdmin.Wizards.NewNetworkWizard_Pages
             bool hasNicCanEnableSriov = pool.Connection.Cache.PIFs.Any(pif => pif.IsPhysical() && pif.SriovCapable() && !pif.IsSriovPhysicalPIF());
             bool sriovFeatureForbidden = Helpers.FeatureForbidden(connection, Host.RestrictSriovNetwork);
 
-            if( !Helpers.KolkataOrGreater(pool.Connection))
+            if (!Helpers.KolkataOrGreater(pool.Connection))
             {
                 iconWarningSriovOption.Visible = labelWarningSriovOption.Visible = false;
                 rbtnSriov.Visible = labelSriov.Visible = false;
             }
-            else if (sriovFeatureForbidden || !pool.HasSriovNic() || !hasNicCanEnableSriov)
+            else if (Helpers.FeatureForbidden(pool.Connection, Host.SriovNetworkDisabled) ||
+                sriovFeatureForbidden || !pool.HasSriovNic() || !hasNicCanEnableSriov)
             {
                 rbtnSriov.Checked = false;
                 rbtnSriov.Enabled = labelSriov.Enabled = false;
 
-                labelWarningSriovOption.Text = sriovFeatureForbidden ?
-                                                    String.Format(Messages.FEATURE_DISABLED, Messages.NETWORK_SRIOV) :
-                                                    pool.HasSriovNic() ?
-                                                        Messages.NICS_ARE_SRIOV_ENABLED :
-                                                        Messages.SRIOV_NEED_NICSUPPORT;
+                labelWarningSriovOption.Text =
+                    Helpers.FeatureForbidden(pool.Connection, Host.SriovNetworkDisabled)
+                        ? String.Format(Messages.FEATURE_EXPERIMENTAL, Messages.NETWORK_SRIOV)
+                        : sriovFeatureForbidden
+                            ? String.Format(Messages.FEATURE_DISABLED, Messages.NETWORK_SRIOV)
+                            : pool.HasSriovNic()
+                                ? Messages.NICS_ARE_SRIOV_ENABLED
+                                : Messages.SRIOV_NEED_NICSUPPORT;
 
                 iconWarningSriovOption.Visible = labelWarningSriovOption.Visible = true;
             }

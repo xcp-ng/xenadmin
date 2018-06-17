@@ -2188,6 +2188,12 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
 
 このボンディングを削除すると、ボンディング上のセカンダリ インターフェイスがボンディングの最初のスレーブに移動され、その間このインターフェイスによるトラフィックが中断されます。</value>
   </data>
+  <data name="BOND_GONE" xml:space="preserve">
+    <value>[XenCenter] のキャッシュにボンディングが見つかりません。</value>
+  </data>
+  <data name="BOND_MASTER_GONE" xml:space="preserve">
+    <value>[XenCenter] のキャッシュにボンド マスターが見つかりません。</value>
+  </data>
   <data name="BOOTORDER" xml:space="preserve">
     <value>起動順序: {0}</value>
   </data>
@@ -2411,6 +2417,9 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
   </data>
   <data name="CANNOT_DELETE_VD_IN_USE" xml:space="preserve">
     <value>この仮想ディスクは使用中であり削除できません。</value>
+  </data>
+  <data name="CANNOT_FIND_NODE" xml:space="preserve">
+    <value>XML ノード {0} が見つかりません。</value>
   </data>
   <data name="CANNOT_FIND_SR_WIZARD_TYPE" xml:space="preserve">
     <value>[XenCenter] で種類 '{0}' の SR を構成できません。</value>
@@ -5365,6 +5374,9 @@ CD をイジェクトしてから再試行してください。</value>
   <data name="FEATURE_DISABLED_IN_REGISTER" xml:space="preserve">
     <value>機能がレジストリで無効になっています。</value>
   </data>
+  <data name="FEATURE_EXPERIMENTAL" xml:space="preserve">
+    <value>機能 '{0}' は、使用前にプール内のすべてのホストで有効にする必要があります。リリースノートを参照してください。</value>
+  </data>
   <data name="FETCHED_POSSIBLE_HOSTS" xml:space="preserve">
     <value>VM {0} の使用可能なホストを取得済み</value>
   </data>
@@ -6638,9 +6650,6 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
   </data>
   <data name="IMPORT_VM_CONFIGURE_STORAGE" xml:space="preserve">
     <value>新規 VM のストレージを構成してください</value>
-  </data>
-  <data name="IMPORT_VM_FILE_DISAPPEARED" xml:space="preserve">
-    <value>{0} が見つかりません。有効なファイル名を選択してください。</value>
   </data>
   <data name="IMPORT_VM_FROM" xml:space="preserve">
     <value>VM のインポート元...</value>
@@ -8995,7 +9004,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>半</value>
   </data>
   <data name="NICS_ARE_SRIOV_ENABLED" xml:space="preserve">
-    <value>サポートされるすべての NIC で SR-IOV が有効です。</value>
+    <value>すべての SR-IOV 対応 NIC で SR-IOV が有効になっています。</value>
   </data>
   <data name="NIC_HIDDEN" xml:space="preserve">
     <value>{0} (非表示)</value>
@@ -9852,6 +9861,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="POOLCREATE_DESTROYING" xml:space="preserve">
     <value>プールをスタンドアロン サーバーに変更しています</value>
   </data>
+  <data name="POOLCREATE_MULTIHOST" xml:space="preserve">
+    <value>複数のホストがあるプールをスタンドアロン サーバーにすることはできません。</value>
+  </data>
   <data name="POOLCREATE_REMOVED" xml:space="preserve">
     <value>プールから削除されました</value>
   </data>
@@ -9883,7 +9895,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>プールの全般プロパティ</value>
   </data>
   <data name="POOL_GONE" xml:space="preserve">
-    <value>プールが消去されました。</value>
+    <value>[XenCenter] のキャッシュにプールが見つかりません。</value>
   </data>
   <data name="POOL_HAS_MIXED_LICENSES" xml:space="preserve">
     <value>このプールには、異なる種類のライセンスが適用されたホストがあります。</value>
@@ -9912,6 +9924,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="POOL_MASTER" xml:space="preserve">
     <value>プール マスター</value>
   </data>
+  <data name="POOL_MASTER_GONE" xml:space="preserve">
+    <value>[XenCenter] のキャッシュにプール マスターが見つかりません。</value>
+  </data>
   <data name="POOL_NAME_EMPTY" xml:space="preserve">
     <value>プール名を入力してください</value>
   </data>
@@ -9923,6 +9938,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="POOL_PICKER_BLURB_NO_AFFINITY" xml:space="preserve">
     <value>この VM のインポート先プールまたはサーバーを選択します。ホーム サーバーは、テンプレートで指定されているものが使用されます\n\n選択したリソース プールに該当するサーバーがない場合は無視されます。</value>
+  </data>
+  <data name="POOL_UPDATE_GONE" xml:space="preserve">
+    <value>[XenCenter] のキャッシュにプールのアップデートが見つかりません。</value>
   </data>
   <data name="POOL_VERSIONS_LINK_TEXT" xml:space="preserve">
     <value>プールの一部が [XenServer] {0} にアップグレードされました</value>
@@ -11108,9 +11126,6 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="SRPICKER_ERROR_LOCAL_SR_MUST_BE_RESIDENT_HOSTS" xml:space="preserve">
     <value>ローカル ストレージは、そのローカル ホストに所属している必要があります</value>
-  </data>
-  <data name="SRPICKER_NETWORK_GONE" xml:space="preserve">
-    <value>VDI が消去されました...</value>
   </data>
   <data name="SRPICKER_SR_FULL" xml:space="preserve">
     <value>このストレージ リポジトリはいっぱいです</value>
@@ -12364,6 +12379,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="VAL_GIGB" xml:space="preserve">
     <value>GB</value>
   </data>
+  <data name="VAL_GIGHZ" xml:space="preserve">
+    <value>GHz</value>
+  </data>
   <data name="VAL_GIGRATE" xml:space="preserve">
     <value>GBps</value>
   </data>
@@ -12384,6 +12402,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="VAL_MEGB" xml:space="preserve">
     <value>MB</value>
+  </data>
+  <data name="VAL_MEGHZ" xml:space="preserve">
+    <value>MHz</value>
   </data>
   <data name="VAL_MEGRATE" xml:space="preserve">
     <value>MBps</value>
@@ -12904,8 +12925,8 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="VNC_FULLSCREEN_MESSAGE_F12" xml:space="preserve">
     <value>全画面モードを終了するには F12 キーを押します。</value>
   </data>
-  <data name="VNC_HOST_GONE" xml:space="preserve">
-    <value>サーバーが消去されました。</value>
+  <data name="HOST_GONE" xml:space="preserve">
+    <value>[XenCenter] のキャッシュにホストが見つかりません。</value>
   </data>
   <data name="VNC_LOOKING" xml:space="preserve">
     <value>ゲスト コンソールの検索中...</value>
@@ -13556,6 +13577,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="WLB_RETRIEVING_CONFIGURATION" xml:space="preserve">
     <value>WLB 構成の取得</value>
+  </data>
+  <data name="WLB_RETRIEVING_RECOMMENDATIONS" xml:space="preserve">
+    <value>プール {0} の WLB 推奨事項を取得しています</value>
   </data>
   <data name="WLB_SAVING_SETTINGS" xml:space="preserve">
     <value>ワークロード バランス設定の保存</value>

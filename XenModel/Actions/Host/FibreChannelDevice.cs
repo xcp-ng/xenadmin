@@ -85,8 +85,8 @@ namespace XenAdmin.Actions
 
             SCSIid = dict.ContainsKey("scsiid")
                 ? dict["scsiid"]
-                : dict.ContainsKey("ScsiId")
-                    ? dict["ScsiId"] : "";
+                : dict.ContainsKey("SCSIid")
+                    ? dict["SCSIid"] : "";
 
             if (!dict.ContainsKey("size") || !TryParseSizeWithUnits(dict["size"], out Size))
                 Size = 0;

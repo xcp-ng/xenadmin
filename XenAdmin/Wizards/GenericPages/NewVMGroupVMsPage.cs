@@ -38,7 +38,6 @@ using XenAdmin.Actions;
 using XenAdmin.Commands;
 using XenAdmin.Controls;
 using XenAdmin.Core;
-using XenAdmin.SettingsPanels;
 using XenAPI;
 
 namespace XenAdmin.Wizards.GenericPages
@@ -58,7 +57,7 @@ namespace XenAdmin.Wizards.GenericPages
                     label1.Text = string.Format(Helpers.IsPool(_pool.Connection) ? Messages.VMS_IN_POOL : Messages.VMS_IN_SERVER,
                                                 _pool.Name().Ellipsise(60));
                 label2.Text = VMGroup<T>.ChooseVMsPage_Rubric;
-                dataGridView1.Columns["ColumnCurrentGroup"].HeaderText = VMGroup<T>.ChooseVMsPage_CurrentGroup;
+                ColumnCurrentGroup.HeaderText = VMGroup<T>.ChooseVMsPage_CurrentGroup;
             }
         }
 

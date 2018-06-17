@@ -5369,6 +5369,9 @@ Warning: to prevent data loss you must ensure that the LUN is not in use by any 
   <data name="FEATURE_DISABLED_IN_REGISTER" xml:space="preserve">
     <value>Feature disabled in the registry</value>
   </data>
+  <data name="FEATURE_EXPERIMENTAL" xml:space="preserve">
+    <value>Feature '{0}' must be enabled on all hosts in the pool before use. See release notes.</value>
+  </data>
   <data name="FETCHED_POSSIBLE_HOSTS" xml:space="preserve">
     <value>Fetched possible hosts of VM {0}</value>
   </data>
@@ -6270,6 +6273,9 @@ Click Configure HA to alter the settings displayed below.</value>
   </data>
   <data name="HOST_GENERAL_TAB_TITLE" xml:space="preserve">
     <value>Server General Properties</value>
+  </data>
+  <data name="HOST_GONE" xml:space="preserve">
+    <value>Could not find host in [XenCenter]'s cache.</value>
   </data>
   <data name="HOST_INTERNAL_MANAGEMENT_NETWORK" xml:space="preserve">
     <value>Host internal management network</value>
@@ -10260,9 +10266,6 @@ Disconnect from this server, or reconnect as a more privileged user.</value>
   <data name="READ_WRITE" xml:space="preserve">
     <value>Read / Write</value>
   </data>
-  <data name="REAMININF_VFS" xml:space="preserve">
-    <value>Yes ({0} VFs remaining)</value>
-  </data>
   <data name="REATTACH_SR" xml:space="preserve">
     <value>R&amp;eattach</value>
   </data>
@@ -10282,6 +10285,9 @@ To log out of this server and log in again using a different user account, enter
   </data>
   <data name="REGION_LABLE" xml:space="preserve">
     <value>&amp;Region:</value>
+  </data>
+  <data name="REMAINING_VFS" xml:space="preserve">
+    <value>Yes ({0} VFs remaining)</value>
   </data>
   <data name="REMOTE" xml:space="preserve">
     <value>Remote ({0})</value>
@@ -11865,11 +11871,11 @@ Check your settings and try again.</value>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_LICENSE_REASON" xml:space="preserve">
     <value>Cannot migrate VM '{0}' due to license restrictions.</value>
   </data>
-  <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_NO_TOOLS" xml:space="preserve">
-    <value>Cannot migrate VM '{0}', because it doesn't have up-to-date drivers installed.</value>
-  </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_NO_GPU" xml:space="preserve">
     <value>Cannot migrate VM '{0}', because it has a virtual GPU attached and there is no suitable GPU available on other servers.</value>
+  </data>
+  <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_NO_TOOLS" xml:space="preserve">
+    <value>Cannot migrate VM '{0}', because it doesn't have up-to-date drivers installed.</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_PCI_REASON" xml:space="preserve">
     <value>Cannot migrate VM '{0}', because it has one or more PCI devices attached.</value>
@@ -12375,6 +12381,9 @@ To start a [XenServer] trial, click the button below.</value>
   <data name="VAL_GIGB" xml:space="preserve">
     <value>GB</value>
   </data>
+  <data name="VAL_GIGHZ" xml:space="preserve">
+    <value>GHz</value>
+  </data>
   <data name="VAL_GIGRATE" xml:space="preserve">
     <value>GBps</value>
   </data>
@@ -12395,6 +12404,9 @@ To start a [XenServer] trial, click the button below.</value>
   </data>
   <data name="VAL_MEGB" xml:space="preserve">
     <value>MB</value>
+  </data>
+  <data name="VAL_MEGHZ" xml:space="preserve">
+    <value>MHz</value>
   </data>
   <data name="VAL_MEGRATE" xml:space="preserve">
     <value>MBps</value>
@@ -12914,9 +12926,6 @@ To start a [XenServer] trial, click the button below.</value>
   </data>
   <data name="VNC_FULLSCREEN_MESSAGE_F12" xml:space="preserve">
     <value>Press F12 to exit full screen mode</value>
-  </data>
-  <data name="HOST_GONE" xml:space="preserve">
-    <value>Could not find host in [XenCenter]'s cache.</value>
   </data>
   <data name="VNC_LOOKING" xml:space="preserve">
     <value>Looking for guest console...</value>
@@ -13570,6 +13579,9 @@ Would you like to adjust the current Optimization Mode to match the schedule?</v
   </data>
   <data name="WLB_RETRIEVING_RECOMMENDATIONS" xml:space="preserve">
     <value>Retrieving WLB recommendations for pool {0}</value>
+  </data>
+  <data name="WLB_RETRIEVING_VM_RECOMMENDATIONS" xml:space="preserve">
+    <value>Retrieving WLB recommendations </value>
   </data>
   <data name="WLB_SAVING_SETTINGS" xml:space="preserve">
     <value>Saving Workload Balancing settings</value>

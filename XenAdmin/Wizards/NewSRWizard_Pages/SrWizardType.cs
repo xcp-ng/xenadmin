@@ -100,7 +100,7 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages
             : base(device, Messages.NEWSR_LVMOHBA_DESCRIPTION)
         {
             DeviceConfig["provider"] = "hba";
-            DeviceConfig["ScsiId"] = device.SCSIid;
+            DeviceConfig["SCSIid"] = device.SCSIid;
         }
 
         public override SR.SRTypes SrType
@@ -115,7 +115,7 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages
             : base(device, Messages.NEWSR_LVMOFCOE_DESCRIPTION)
         {
             DeviceConfig["provider"] = "fcoe";
-            DeviceConfig["ScsiId"] = device.SCSIid;
+            DeviceConfig["SCSIid"] = device.SCSIid;
             DeviceConfig["path"] = device.Path;
         }
 
