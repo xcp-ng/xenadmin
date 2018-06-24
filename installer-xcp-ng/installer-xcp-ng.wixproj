@@ -68,14 +68,14 @@
     <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.ilk
-del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.pdb
+    <PreBuildEvent>del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.ilk
+del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.pdb
 
-del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\Help
-del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\TestResources
-del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\Schemas
-del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\ja
-del $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\zh-CN
+del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\Help
+del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\TestResources
+del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\Schemas
+del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\ja
+del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\zh-CN
 
 heat.exe dir "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)" -cg XCPngFiles -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -out "$(ProjectDir)\FilesFragment.wxs"</PreBuildEvent>
   </PropertyGroup>
