@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="[XenCenter]" Language="1033" Version="0.0.0.0" Manufacturer="XCP-ng Project" UpgradeCode="47087771-7e34-407c-9d04-94a87316378f">
+  <Product Id="*" Name="[XenCenter] [BRANDING_XC_PRODUCT_VERSION]" Language="1033" Version="0.0.0.0" Manufacturer="[Citrix]" UpgradeCode="47087771-7e34-407c-9d04-94a87316378f">
     <Package InstallerVersion="300" Compressed="yes" InstallScope="perMachine" />
     <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="A newer version of [XenCenter] is already installed." Schedule="afterInstallInitialize" RemoveFeatures="ALL" />
     <MediaTemplate EmbedCab="yes" />
