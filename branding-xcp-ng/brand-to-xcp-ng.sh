@@ -95,8 +95,8 @@ BRANDING_ADDITIONAL_FEATURES=""
 #######################################################################
 
 if [ -z "$BUILD_NUMBER" ]; then
-    echo "No BUILD_NUMBER set, assume developer build: set BUILD_NUMBER to 99.99.99.0"
-	BUILD_NUMBER=99.99.99.0
+    echo "No BUILD_NUMBER set, assume developer build: set BUILD_NUMBER to 99"
+	BUILD_NUMBER=99
 fi
 
 
