@@ -12,6 +12,8 @@
     <Icon Id="AppIcon.ico" SourceFile="AppIcon.ico"/>
     <Property Id="ARPPRODUCTICON" Value="AppIcon.ico" />
     <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+    <WixVariable Id="WixUIDialogBmp" Value="background.bmp" />
+    <WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
   </Product>
   <Fragment>
     <Property Id="ROOTDRIVE">
