@@ -101,15 +101,15 @@ namespace XenAdmin.TabPages
                 return;
 
             var ss = new GeneralTabLicenseStatusStringifier(licenseStatus);
-            Program.Invoke(Program.MainWindow, () =>
+            Program.Invoke(Program.MainWindow, () => 
             {
                 pdSectionLicense.UpdateEntryValueWithKey(FriendlyName("host.license_params-expiry"),
                     ss.ExpiryDate, ss.ShowExpiryDate);
 
                 pdSectionLicense.UpdateEntryValueWithKey(Messages.LICENSE_STATUS, ss.ExpiryStatus, true);
 
-                Pool p = xenObject as Pool;
-                if (p != null)
+            Pool p = xenObject as Pool;
+            if (p != null)
                 {
                     var additionalString = PoolAdditionalLicenseString();
                     pdSectionGeneral.UpdateEntryValueWithKey(
@@ -119,7 +119,7 @@ namespace XenAdmin.TabPages
                             : Helpers.GetFriendlyLicenseName(p),
                         true);
                 }
-            });
+                });
         }
 
         void s_contentReceivedFocus(PDSection s)
@@ -185,7 +185,7 @@ namespace XenAdmin.TabPages
                         pdSectionGeneral.Expand();
                     }
 
-                    ResetExpandState();
+                        ResetExpandState();
                 }
                 else
                 {
@@ -239,27 +239,27 @@ namespace XenAdmin.TabPages
 
             try
             {
-                panel2.SuspendLayout();
+            panel2.SuspendLayout();
 
-                foreach (PDSection s in sections)
-                {
+            foreach (PDSection s in sections)
+            {
                     if (expandedSections == null)
                     {
                         if (s == pdSectionGeneral)
                             s.Expand();
                         else
-                            s.Contract();
-                    }
+                s.Contract();
+            }
                     else if (expandedSections.Contains(s))
-                        s.Expand();
-                    else
-                        s.Contract();
-                }
+                    s.Expand();
+                else
+                    s.Contract();
+            }
             }
             finally
             {
-                panel2.ResumeLayout();
-            }
+            panel2.ResumeLayout();
+        }
         }
 
         private void UnregisterHandlers()
@@ -1001,13 +1001,13 @@ namespace XenAdmin.TabPages
             {
                 ToolStripMenuItem editItem = new ToolStripMenuItem(Messages.LAUNCH_LICENSE_MANAGER);
                 editItem.Click += delegate
-                {
-                    if (LicenseLauncher != null)
                     {
-                        LicenseLauncher.Parent = Program.MainWindow;
-                        LicenseLauncher.LaunchIfRequired(false, ConnectionsManager.XenConnections);
-                    }
-                };
+                        if (LicenseLauncher != null)
+                        {
+                            LicenseLauncher.Parent = Program.MainWindow;
+                            LicenseLauncher.LaunchIfRequired(false, ConnectionsManager.XenConnections);
+                        }
+                    };
 
                 if (licenseStatus != null)
                 {
@@ -1356,18 +1356,15 @@ namespace XenAdmin.TabPages
 
         private string PoolAdditionalLicenseString()
         {
-            if (licenseStatus == null)
+            if (licenseStatus.LicencedHost.edition == "xcp-ng")
                 return string.Empty;
-
-            switch (licenseStatus.CurrentState)
-            {
-                case LicenseStatus.HostState.Expired:
-                    return Messages.LICENSE_EXPIRED;
-                case LicenseStatus.HostState.Free:
-                    return Messages.LICENSE_UNLICENSED;
-                default:
-                    return string.Empty;
-            }
+            else if (licenseStatus.CurrentState == LicenseStatus.HostState.Expired)
+                return Messages.LICENSE_EXPIRED;
+            else if (licenseStatus.CurrentState == LicenseStatus.HostState.Free)
+                return Messages.LICENSE_UNLICENSED;
+            else   
+                return string.Empty;
+        }
         }
 
         private static void GenerateVirtualisationStatusForGeneralBox(PDSection s, VM vm)
@@ -1817,7 +1814,7 @@ namespace XenAdmin.TabPages
             {
                 var update = host.Connection.Resolve(updateRef);
                 if (update != null)
-                    warnings.Add(CreateWarningRow(host, update));
+                warnings.Add(CreateWarningRow(host, update));
             }
 
             // For Toolstack restart, legacy code has to be used to determine this - pool_patches are still populated for backward compatibility
