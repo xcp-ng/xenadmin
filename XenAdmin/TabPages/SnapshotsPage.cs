@@ -131,10 +131,10 @@ namespace XenAdmin.TabPages
                     //Version setup
                     toolStripMenuItemScheduledSnapshots.Available = toolStripSeparatorView.Available = !Helpers.FeatureForbidden(VM.Connection, Host.RestrictVMSnapshotSchedule);
 
-                    if (_storedViewsPerVm.ContainsKey(m_VM.opaque_ref) && _storedViewsPerVm[m_VM.opaque_ref] != SnapshotsView.ListView)
-                        TreeViewChecked();
-                    else
+                    if (_storedViewsPerVm.ContainsKey(m_VM.opaque_ref) && _storedViewsPerVm[m_VM.opaque_ref] == SnapshotsView.ListView)
                         GridViewChecked();
+                    else
+                        TreeViewChecked();
 
                     toolStripButtonTreeView.Enabled = true;
                     toolStripButtonTreeView.ToolTipText = "";
