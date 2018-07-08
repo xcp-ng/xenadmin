@@ -375,6 +375,33 @@
   <data name="&gt;&gt;m_checkedListBox.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="m_buttonConvertToPV.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="m_buttonConvertToPV.Location" type="System.Drawing.Point, System.Drawing">
+    <value>309, 61</value>
+  </data>
+  <data name="m_buttonConvertToPV.Size" type="System.Drawing.Size, System.Drawing">
+    <value>132, 23</value>
+  </data>
+  <data name="m_buttonConvertToPV.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="m_buttonConvertToPV.Text" xml:space="preserve">
+    <value>Convert to PV</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToPV.Name" xml:space="preserve">
+    <value>m_buttonConvertToPV</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToPV.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToPV.Parent" xml:space="preserve">
+    <value>m_tlpHvm</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToPV.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="m_tlpHvm.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -403,7 +430,7 @@
     <value>2</value>
   </data>
   <data name="m_tlpHvm.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="m_buttonUp" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="m_buttonDown" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="m_checkedListBox" Row="0" RowSpan="3" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Absolute,150,AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,Absolute,50,Percent,100,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="m_buttonUp" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="m_buttonDown" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="m_checkedListBox" Row="0" RowSpan="3" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="m_buttonConvertToPV" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Absolute,150,AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,Absolute,50,Percent,100,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="m_tlpNonHvm.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -474,6 +501,33 @@
   <data name="&gt;&gt;m_comboBoxBootDevice.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="m_buttonConvertToHVM.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="m_buttonConvertToHVM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>330, 76</value>
+  </data>
+  <data name="m_buttonConvertToHVM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 23</value>
+  </data>
+  <data name="m_buttonConvertToHVM.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="m_buttonConvertToHVM.Text" xml:space="preserve">
+    <value>Convert to HVM</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToHVM.Name" xml:space="preserve">
+    <value>m_buttonConvertToHVM</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToHVM.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToHVM.Parent" xml:space="preserve">
+    <value>m_tlpNonHvm</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToHVM.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="m_tlpNonHvm.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -502,7 +556,7 @@
     <value>3</value>
   </data>
   <data name="m_tlpNonHvm.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label3" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="m_textBoxOsParams" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="m_comboBoxBootDevice" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,65,Percent,35" /&gt;&lt;Rows Styles="AutoSize,0,Absolute,20,AutoSize,0,Percent,100,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label3" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="m_textBoxOsParams" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="m_comboBoxBootDevice" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="m_buttonConvertToHVM" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,65,Percent,35" /&gt;&lt;Rows Styles="AutoSize,0,Absolute,20,AutoSize,0,Percent,100,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
