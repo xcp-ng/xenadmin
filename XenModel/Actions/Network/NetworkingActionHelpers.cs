@@ -339,8 +339,7 @@ namespace XenAdmin.Actions
         private static void ClearIP(AsyncAction action, PIF pif, int hi)
         {
             // if the network is used by clustering, then we don't remove the IP address
-            var isUsedByClustering = pif.Connection.Cache.Clusters.Any(cluster => cluster.network.opaque_ref == pif.network.opaque_ref);
-            if (isUsedByClustering)
+            if (pif.IsUsedByClustering())
                 return;
 
             log.DebugFormat("Removing IP address from {0} {1}...", pif.Name(), pif.uuid);

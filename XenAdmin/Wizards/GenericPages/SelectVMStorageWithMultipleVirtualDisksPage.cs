@@ -262,7 +262,7 @@ namespace XenAdmin.Wizards.GenericPages
 					i++;
 				}
 			}
-            HelpersGUI.ResizeLastGridViewColumn(m_colStorage);//set properly the width of the last column
+            HelpersGUI.ResizeGridViewColumnToAllCells(m_colStorage);//set properly the width of the last column
 
 			m_comboBoxSr.Items.Clear();
 

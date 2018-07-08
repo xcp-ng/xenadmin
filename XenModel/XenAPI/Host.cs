@@ -1487,7 +1487,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the iscsi_iqn field of the given host.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
@@ -1501,7 +1501,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the multipathing field of the given host.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
@@ -3279,7 +3279,7 @@ namespace XenAPI
 
         /// <summary>
         /// Sets the initiator IQN for the host
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
@@ -3294,7 +3294,7 @@ namespace XenAPI
 
         /// <summary>
         /// Sets the initiator IQN for the host
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
@@ -3309,7 +3309,7 @@ namespace XenAPI
 
         /// <summary>
         /// Specifies whether multipathing is enabled
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
@@ -3324,7 +3324,7 @@ namespace XenAPI
 
         /// <summary>
         /// Specifies whether multipathing is enabled
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
@@ -4431,7 +4431,7 @@ namespace XenAPI
 
         /// <summary>
         /// The initiator IQN for the host
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         public virtual string iscsi_iqn
         {
@@ -4450,7 +4450,7 @@ namespace XenAPI
 
         /// <summary>
         /// Specifies whether multipathing is enabled
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         public virtual bool multipathing
         {

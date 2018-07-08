@@ -29,11 +29,9 @@
  * SUCH DAMAGE.
  */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using XenAdmin.Network;
-using XenAdmin.Actions;
 using XenAdmin.Core;
 using XenAPI;
 
@@ -42,14 +40,38 @@ namespace XenAdmin.Alerts
 {
     public abstract class XenServerUpdateAlert : Alert
     {
-        protected readonly List<IXenConnection> connections = new List<IXenConnection>();
+        private readonly List<IXenConnection> connections = new List<IXenConnection>();
         private readonly List<Host> hosts = new List<Host>();
 
         public XenCenterVersion RequiredXenCenterVersion;
 
+        private readonly object connectionsLock = new object();
+        private readonly object hostsLock = new object();
+        
+        protected List<IXenConnection> Connections
+        {
+            get
+            {
+                lock (connectionsLock)
+                    return connections;
+            }
+        }
+
+        protected List<Host> Hosts
+        {
+            get
+            {
+                lock (hostsLock)
+                    return hosts;
+            }
+        }
+        
         public bool CanIgnore
         {
-            get { return (connections.Count == 0 && hosts.Count == 0) || IsDismissed(); }
+            get
+            {
+                return (Connections.Count == 0 && Hosts.Count == 0) || IsDismissed();
+            }
         }
 
         public List<Host> DistinctHosts
@@ -58,34 +80,49 @@ namespace XenAdmin.Alerts
             {
                 List<Host> result = new List<Host>();
 
-                foreach (Host host in hosts)
-                    result.Add(host);
-
-                foreach (IXenConnection connection in connections)
-                    result.AddRange(connection.Cache.Hosts);
-
+                lock (hostsLock)
+                {
+                    result.AddRange(hosts);
+                }
+                lock (connectionsLock)
+                {
+                    foreach (IXenConnection connection in connections)
+                        result.AddRange(connection.Cache.Hosts);
+                }
                 return result.Distinct().ToList();
             }
         }
 
         public void IncludeConnection(IXenConnection newConnection)
         {
-            if (!connections.Contains(newConnection))
-                connections.Add(newConnection);
+            lock (connectionsLock)
+            {
+                if (!connections.Contains(newConnection))
+                    connections.Add(newConnection);
+            }
         }
 
         public void IncludeHosts(IEnumerable<Host> newHosts)
         {
-            var notContained = newHosts.Where(h => !hosts.Contains(h));
-            hosts.AddRange(notContained);
+            lock (hostsLock)
+            {
+                var notContained = newHosts.Where(h => !hosts.Contains(h));
+                hosts.AddRange(notContained);
+            }
         }
 
         public void CopyConnectionsAndHosts(XenServerUpdateAlert alert)
         {
-            connections.Clear();
-            connections.AddRange(alert.connections);
-            hosts.Clear();
-            hosts.AddRange(alert.hosts);
+            lock (connectionsLock)
+            {
+                connections.Clear();
+                connections.AddRange(alert.Connections);
+            }
+            lock (hostsLock)
+            {
+                hosts.Clear();
+                hosts.AddRange(alert.Hosts);
+            }
         }
 
         public override string AppliesTo
@@ -94,14 +131,30 @@ namespace XenAdmin.Alerts
             {
                 List<string> names = new List<string>();
 
-                foreach (Host host in hosts)
-                    names.Add(host.Name());
+                lock (hostsLock)
+                {
+                    foreach (Host host in hosts)
+                        names.Add(host.Name());
+                }
 
-                foreach (IXenConnection connection in connections)
-                    names.Add(Helpers.GetName(connection));
+                lock (connectionsLock)
+                {
+                    foreach (IXenConnection connection in connections)
+                        names.Add(Helpers.GetName(connection));
+                }
 
                 return string.Join(", ", names.ToArray());
             }
         }
+
+        public override bool IsDismissed()
+        {
+            lock (connectionsLock)
+            {
+                return connections.Any(IsDismissed);
+            }
+        }
+
+        protected abstract bool IsDismissed(IXenConnection connection);
     }
 }

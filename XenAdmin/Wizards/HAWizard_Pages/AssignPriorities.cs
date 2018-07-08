@@ -747,6 +747,8 @@ namespace XenAdmin.Wizards.HAWizard_Pages
                             return Messages.NOT_AGILE_VM_HAS_VGPU;
                         case "VM_HAS_VUSB":
                             return Messages.NOT_AGILE_VM_HAS_VUSB;
+                        case "VM_HAS_SRIOV_VIF":
+                            return Messages.NOT_AGILE_VM_HAS_SRIOV_VIF;
                         default:
                             // We shouldn't really be here unless we have not iterated all the return errors from vm.assert_agile
                             return Messages.NOT_AGILE_UNKOWN;

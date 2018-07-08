@@ -242,6 +242,11 @@ namespace XenAPI
             return master.currently_attached;
         }
 
+        public bool IsUsedByClustering()
+        {
+            return Connection.Cache.Cluster_hosts.Any(cluster => cluster.PIF.opaque_ref == opaque_ref);
+        }
+
         /// <summary>
         /// Returns the Bond of which this PIF is a slave, or null if it is not so.
         /// </summary>

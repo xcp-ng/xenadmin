@@ -40,6 +40,8 @@ namespace XenAdmin.Actions
 {
     public class CreateSriovAction : PureAsyncAction
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         XenAPI.Network newNetwork;
         private List<PIF> selectedPifs;
 
@@ -52,11 +54,12 @@ namespace XenAdmin.Actions
         }
 
         protected override void Run()
-        {
-            // Create the new network            
-            XenRef<XenAPI.Network> networkRef = XenAPI.Network.create(Session, newNetwork);
-     
+        {  
             PIF pifOnMaster =null;
+
+            if (selectedPifs.Count == 0)
+                return;
+
             foreach (PIF thePif in selectedPifs)
             {
                 Host host = thePif.Connection.Resolve<XenAPI.Host>(thePif.host);
@@ -78,21 +81,44 @@ namespace XenAdmin.Actions
                 selectedPifs.Insert(0, pifOnMaster);
             }
 
-            int inc = 100 / (selectedPifs.Count + 1);
-            int lo = inc;
+            int inc = 100 / selectedPifs.Count;
+            int lo = 0;
 
-            foreach (PIF thePif in selectedPifs)
+            // Create the new network            
+            XenRef<XenAPI.Network> networkRef = XenAPI.Network.create(Session, newNetwork);
+
+            try
             {
-                RelatedTask = Network_sriov.async_create(Session, thePif.opaque_ref, networkRef);
-                PollToCompletion(lo, lo + inc);
-                lo += inc;
+                foreach (PIF thePif in selectedPifs)
+                {
+                    RelatedTask = Network_sriov.async_create(Session, thePif.opaque_ref, networkRef);
+                    PollToCompletion(lo, lo + inc);
+                    lo += inc;
+                }
             }
-
+            catch(Exception)
+            {
+                if(lo == 0)
+                    DestroyNetwork(networkRef);
+                throw;
+            }
         }
 
         protected override void Clean()
         {
             Connection.ExpectDisruption = false;
+        }
+
+        private void DestroyNetwork(string network)
+        {
+            try
+            {
+                XenAPI.Network.destroy(Session, network);
+            }
+            catch (Exception exn)
+            {
+                log.Warn(exn, exn);
+            }
         }
 
     }

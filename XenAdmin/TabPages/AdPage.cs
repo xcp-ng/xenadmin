@@ -471,9 +471,9 @@ namespace XenAdmin.TabPages
                 if (GridViewSubjectList.SelectedRows.Count == 0)
                     GridViewSubjectList.Rows[0].Selected = true;
 
-                HelpersGUI.ResizeLastGridViewColumn(ColumnSubject);
-                HelpersGUI.ResizeLastGridViewColumn(ColumnRoles);
-                HelpersGUI.ResizeLastGridViewColumn(ColumnStatus);
+                HelpersGUI.ResizeGridViewColumnToAllCells(ColumnSubject);
+                HelpersGUI.ResizeGridViewColumnToAllCells(ColumnRoles);
+                HelpersGUI.ResizeGridViewColumnToAllCells(ColumnStatus);
             }
             finally
             {

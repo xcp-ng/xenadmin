@@ -503,7 +503,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the current_domain_type field of the given VM_metrics.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
@@ -868,7 +868,7 @@ namespace XenAPI
 
         /// <summary>
         /// The current domain type of the VM (for running,suspended, or paused VMs). The last-known domain type for halted VMs.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         [JsonConverter(typeof(domain_typeConverter))]
         public virtual domain_type current_domain_type

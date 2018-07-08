@@ -79,7 +79,7 @@ namespace XenAdminTests.WizardTests.tampa_cpm_one_and_two_host_pools
         {
             IXenConnection connection = GetAnyConnection(c => c.Name == SourcePool);
             return new CrossPoolMigrateWizard(connection,
-                new List<SelectedItem> { new SelectedItem(GetAnyVM(v => v.Name() == Vm)) }, WizardMode.Migrate);
+                new SelectedItemCollection(new SelectedItem(GetAnyVM(v => v.Name() == Vm))), null, WizardMode.Migrate);
         }
 
         protected override void TestPage(string pageName)

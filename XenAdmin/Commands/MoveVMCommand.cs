@@ -31,11 +31,9 @@
 
 using System.Linq;
 using System.Collections.Generic;
-using System.Text;
+using XenAdmin.Core;
 using XenAdmin.Wizards.CrossPoolMigrateWizard;
 using XenAPI;
-using XenAdmin.Dialogs;
-using System.Collections.ObjectModel;
 using XenAdmin.Dialogs.VMDialogs;
 
 
@@ -59,17 +57,14 @@ namespace XenAdmin.Commands
         {
         }
 
-        public MoveVMCommand(IMainWindow mainWindow, VM vm)
-            : base(mainWindow, vm)
-        {
-        }
-
         protected override void ExecuteCore(SelectedItemCollection selection)
         {
+            var cmd = new CrossPoolMoveVMCommand(MainWindowCommandInterface, selection);
+            var con = selection.GetConnectionOfFirstItem();
 
-            if (new CrossPoolMoveVMCommand(MainWindowCommandInterface, selection).CanExecute())
+            if (cmd.CanExecute() && !Helpers.FeatureForbidden(con, Host.RestrictCrossPoolMigrate))
             {
-                new CrossPoolMoveVMCommand(MainWindowCommandInterface, selection).Execute();
+                cmd.Execute();
             }
             else
             {

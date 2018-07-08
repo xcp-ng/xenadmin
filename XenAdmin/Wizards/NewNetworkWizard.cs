@@ -203,25 +203,20 @@ namespace XenAdmin.Wizards
             (new CreateChinAction(xenConnection, network, theInterface)).RunAsync();
         }
 
-
-        private DialogResult ShowSriovCreationWarning()
-        {
-            var dlg = new ThreeButtonDialog(
-                new ThreeButtonDialog.Details(
-                    SystemIcons.Warning, 
-                    Messages.SRIOV_NETWORK_CREATE_WILL_DISTURB_CONNECTION),
-                 new ThreeButtonDialog.TBDButton(Messages.SRIOV_NETWORK_CREATE, DialogResult.OK),
-                ThreeButtonDialog.ButtonCancel);
-
-            dlg.ShowDialog(this);
-            return dlg.DialogResult;
-        }
-
         private void CreateSRIOV()
         {
-            if (ShowSriovCreationWarning() != DialogResult.OK)
-                return;
-           
+            using (var dlg = new ThreeButtonDialog(
+                new ThreeButtonDialog.Details(
+                    SystemIcons.Warning,
+                    Messages.SRIOV_NETWORK_CREATE_WARNING),
+                new ThreeButtonDialog.TBDButton(Messages.SRIOV_NETWORK_CREATE, DialogResult.OK),
+                ThreeButtonDialog.ButtonCancel))
+            {
+                var result = dlg.ShowDialog(this);
+                if (result != DialogResult.OK)
+                    return;
+            }
+
             List<PIF> sriovSelectedPifs = new List<PIF>();
             Pool pool = Helpers.GetPoolOfOne(Host.Connection);
             if (pool == null)

@@ -198,7 +198,7 @@ namespace XenAdmin.TabPages
             this.dataGridViewVDIs.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridViewVDIs.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dataGridViewVDIs.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.dataGridViewVDIs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewVDIs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridViewVDIs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnName,
             this.ColumnVolume,
@@ -260,7 +260,7 @@ namespace XenAdmin.TabPages
             // 
             // ColumnCBT
             // 
-            this.ColumnCBT.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnCBT.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             resources.ApplyResources(this.ColumnCBT, "ColumnCBT");
             this.ColumnCBT.Name = "ColumnCBT";
             this.ColumnCBT.ReadOnly = true;

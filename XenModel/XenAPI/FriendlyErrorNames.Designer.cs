@@ -511,7 +511,7 @@ namespace XenAPI {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The cluster does not have only one node..
+        ///   Looks up a localized string similar to An operation failed as it expected the cluster to have only one node but found multiple cluster_hosts..
         /// </summary>
         public static string CLUSTER_DOES_NOT_HAVE_ONE_NODE {
             get {
@@ -525,6 +525,24 @@ namespace XenAPI {
         public static string CLUSTER_FORCE_DESTROY_FAILED {
             get {
                 return ResourceManager.GetString("CLUSTER_FORCE_DESTROY_FAILED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The last cluster host cannot be destroyed. Destroy the cluster instead.
+        /// </summary>
+        public static string CLUSTER_HOST_IS_LAST {
+            get {
+                return ResourceManager.GetString("CLUSTER_HOST_IS_LAST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cluster_host operation failed as the cluster_host has not joined the cluster..
+        /// </summary>
+        public static string CLUSTER_HOST_NOT_JOINED {
+            get {
+                return ResourceManager.GetString("CLUSTER_HOST_NOT_JOINED", resourceCulture);
             }
         }
         
@@ -561,15 +579,6 @@ namespace XenAPI {
         public static string CLUSTERING_ENABLED {
             get {
                 return ResourceManager.GetString("CLUSTERING_ENABLED", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The network has cluster objects attached..
-        /// </summary>
-        public static string CLUSTERING_ENABLED_ON_NETWORK {
-            get {
-                return ResourceManager.GetString("CLUSTERING_ENABLED_ON_NETWORK", resourceCulture);
             }
         }
         
@@ -1492,6 +1501,15 @@ namespace XenAPI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The cluster stack provided is not supported..
+        /// </summary>
+        public static string INVALID_CLUSTER_STACK {
+            get {
+                return ResourceManager.GetString("INVALID_CLUSTER_STACK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The device name {0} is invalid.
         /// </summary>
         public static string INVALID_DEVICE {
@@ -1996,6 +2014,15 @@ namespace XenAPI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No other cluster host was reachable when joining.
+        /// </summary>
+        public static string NO_CLUSTER_HOSTS_REACHABLE {
+            get {
+                return ResourceManager.GetString("NO_CLUSTER_HOSTS_REACHABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The host does not have a Cluster_host with a compatible cluster stack..
         /// </summary>
         public static string NO_COMPATIBLE_CLUSTER_HOST {
@@ -2473,6 +2500,15 @@ namespace XenAPI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cluster_host creation failed as the PIF provided is not attached to the host..
+        /// </summary>
+        public static string PIF_NOT_ATTACHED_TO_HOST {
+            get {
+                return ResourceManager.GetString("PIF_NOT_ATTACHED_TO_HOST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This host has no PIF on the given network..
         /// </summary>
         public static string PIF_NOT_PRESENT {
@@ -2861,6 +2897,15 @@ namespace XenAPI {
         public static string REDO_LOG_IS_ENABLED {
             get {
                 return ResourceManager.GetString("REDO_LOG_IS_ENABLED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The operation you requested cannot be performed because the specified PIF is currently unplugged..
+        /// </summary>
+        public static string REQUIRED_PIF_IS_UNPLUGGED {
+            get {
+                return ResourceManager.GetString("REQUIRED_PIF_IS_UNPLUGGED", resourceCulture);
             }
         }
         
@@ -3554,6 +3599,15 @@ namespace XenAPI {
         public static string SR_BACKEND_FAILURE_181 {
             get {
                 return ResourceManager.GetString("SR_BACKEND_FAILURE_181", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ISCSI delete failed.
+        /// </summary>
+        public static string SR_BACKEND_FAILURE_182 {
+            get {
+                return ResourceManager.GetString("SR_BACKEND_FAILURE_182", resourceCulture);
             }
         }
         
@@ -5714,6 +5768,15 @@ namespace XenAPI {
         public static string VM_HAS_PCI_ATTACHED {
             get {
                 return ResourceManager.GetString("VM_HAS_PCI_ATTACHED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This operation could not be performed, because the VM has one or more SR-IOV VIFs..
+        /// </summary>
+        public static string VM_HAS_SRIOV_VIF {
+            get {
+                return ResourceManager.GetString("VM_HAS_SRIOV_VIF", resourceCulture);
             }
         }
         

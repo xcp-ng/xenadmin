@@ -51,12 +51,14 @@ namespace XenAdmin.Controls
 
         private IXenConnection PopulateConnection { get; set; }
 
-        public void PopulateComboBox(IXenConnection connection)
+        public void PopulateComboBox(IXenConnection connection, Func<NetworkComboBoxItem, bool> matchSelectionCriteria)
         {
             PopulateConnection = connection;
             Items.Clear();
 
             var pifArray = connection.Cache.PIFs;
+
+            bool found = false;
 
             foreach (var pif in pifArray)
             {
@@ -70,42 +72,21 @@ namespace XenAdmin.Controls
                 
                 var item = CreateNewItem(pif);
 
-                AddItemToComboBox(item);
+                if (IncludeOnlyEnabledNetworksInComboBox && !item.NetworkIsConnected)
+                    continue;
+                if (IncludeOnlyNetworksWithIPAddresses && !item.HasIPAddress)
+                    continue;
 
-                if (item.IsManagement)
+                Items.Add(item);
+
+                if (!found && matchSelectionCriteria(item))
                 {
                     SelectedItem = item;
-                }
-                    
-            }
-        }
-
-        public void SelectFirstNonManagementNetwork()
-        {
-            foreach (NetworkComboBoxItem item in Items)
-            {
-                if (!item.IsManagement)
-                {
-                    SelectedItem = item;
-                    return;
+                    found = true;
                 }
             }
         }
 
-        private void AddItemToComboBox(NetworkComboBoxItem item)
-        {                
-            if( IncludeOnlyEnabledNetworksInComboBox && !item.NetworkIsConnected )
-            {
-                return;
-            }
-
-            if (IncludeOnlyNetworksWithIPAddresses && !item.HasIPAddress)
-            {
-                return;
-            }
-
-            Items.Add(item);
-        }
 
         private NetworkComboBoxItem CreateNewItem(PIF pif)
         {

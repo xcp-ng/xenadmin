@@ -57,7 +57,8 @@ namespace XenAdmin.Diagnostics.Checks
 
             foreach (SR sr in brokenSRs)
             {
-                return new BrokenSR(this, sr, Host);
+                if ((sr.shared && !sr.CanBeSeenFrom(Host)) || (!sr.shared && sr.GetStorageHost() == Host && !sr.CanBeSeenFrom(Host)))
+                    return new BrokenSR(this, sr, Host);
             }
 
             if (srUploadedUpdates != null

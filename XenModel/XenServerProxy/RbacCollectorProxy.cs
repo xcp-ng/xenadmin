@@ -85,6 +85,8 @@ namespace XenAdmin.Core
                     return new Response<string>("");
                 case "String[]":
                     return new Response<string[]>(new string[0]);
+                case "Proxy_Probe_result[]":
+                    return new Response<Proxy_Probe_result[]>(new Proxy_Probe_result[0]);
                 default:
                     System.Diagnostics.Trace.Assert(false);  // need to add more types here
                     return new Response<string>("");

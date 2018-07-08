@@ -163,7 +163,7 @@ namespace XenAPI
         }
         /// <summary>
         /// Plugin-specific configuration which describes where and how to locate the storage repository. This may include the physical block device name, a remote NFS server and path or an RBD storage pool.
-        /// Experimental. First published in Unreleased.
+        /// Experimental. First published in XenServer 7.5.
         /// </summary>
         [JsonConverter(typeof(StringStringMapConverter))]
         public virtual Dictionary<string, string> configuration
@@ -183,7 +183,7 @@ namespace XenAPI
 
         /// <summary>
         /// True if this configuration is complete and can be used to call SR.create. False if it requires further iterative calls to SR.probe, to potentially narrow down on a configuration that can be used.
-        /// Experimental. First published in Unreleased.
+        /// Experimental. First published in XenServer 7.5.
         /// </summary>
         public virtual bool complete
         {
@@ -202,7 +202,7 @@ namespace XenAPI
 
         /// <summary>
         /// Existing SR found for this configuration
-        /// Experimental. First published in Unreleased.
+        /// Experimental. First published in XenServer 7.5.
         /// </summary>
         public virtual Sr_stat sr
         {
@@ -221,7 +221,7 @@ namespace XenAPI
 
         /// <summary>
         /// Additional plugin-specific information about this configuration, that might be of use for an API user. This can for example include the LUN or the WWPN.
-        /// Experimental. First published in Unreleased.
+        /// Experimental. First published in XenServer 7.5.
         /// </summary>
         [JsonConverter(typeof(StringStringMapConverter))]
         public virtual Dictionary<string, string> extra_info

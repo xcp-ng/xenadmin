@@ -31,6 +31,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using XenAPI;
 using XenAdmin.Core;
 
@@ -250,18 +251,17 @@ namespace XenAdmin.Network
 
         public static bool ContainsPrimaryManagement(List<PIF> PIFs)
         {
-            return null != PIFs.Find((Predicate<PIF>)delegate(PIF p)
-            {
-                return p.management;
-            });
+            return PIFs.Any(p => p.management);
         }
 
         public static bool ContainsSecondaryManagement(List<PIF> PIFs)
         {
-            return null != PIFs.Find((Predicate<PIF>)delegate(PIF p)
-            {
-                return p.IsSecondaryManagementInterface(true);
-            });
+            return PIFs.Any(p => p.IsSecondaryManagementInterface(true));
+        }
+
+        public static bool ContainsClusteringPif(List<PIF> PIFs)
+        {
+            return PIFs.Any(p => p.IsUsedByClustering());
         }
        
     }

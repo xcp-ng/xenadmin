@@ -1584,11 +1584,11 @@ namespace XenAPI
         /// <summary>
         /// Get the HVM/boot_policy field of the given VM.
         /// First published in XenServer 4.0.
-        /// Deprecated since Unreleased.
+        /// Deprecated since XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
-        [Deprecated("Unreleased")]
+        [Deprecated("XenServer 7.5")]
         public static string get_HVM_boot_policy(Session session, string _vm)
         {
             if (session.JsonRpcClient != null)
@@ -2251,7 +2251,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the domain_type field of the given VM.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
@@ -5065,7 +5065,7 @@ namespace XenAPI
 
         /// <summary>
         /// Set the VM.domain_type field of the given VM, which will take effect when it is next started
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
@@ -5081,12 +5081,12 @@ namespace XenAPI
         /// <summary>
         /// Set the VM.HVM_boot_policy field of the given VM, which will take effect when it is next started
         /// First published in XenServer 4.0.
-        /// Deprecated since Unreleased.
+        /// Deprecated since XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The new HVM boot policy</param>
-        [Deprecated("Unreleased")]
+        [Deprecated("XenServer 7.5")]
         public static void set_HVM_boot_policy(Session session, string _vm, string _value)
         {
             if (session.JsonRpcClient != null)
@@ -6687,7 +6687,7 @@ namespace XenAPI
 
         /// <summary>
         /// The type of domain that will be created when the VM is started
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         [JsonConverter(typeof(domain_typeConverter))]
         public virtual domain_type domain_type

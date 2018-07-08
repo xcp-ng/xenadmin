@@ -120,7 +120,7 @@ namespace XenAdmin.Wizards.GenericPages
 			m_dataGridView.Rows.Clear();
 			SetButtonNextEnabled(true);
 			FillTableRows();
-            HelpersGUI.ResizeLastGridViewColumn(m_colTargetNet);//set properly the width of the last column
+            HelpersGUI.ResizeGridViewColumnToAllCells(m_colTargetNet);//set properly the width of the last column
 		}
 
 	    public abstract NetworkResourceContainer NetworkData(string sysId);

@@ -135,23 +135,15 @@ namespace XenAdmin.SettingsPanels
         {
             comboBoxNetwork.IncludeOnlyEnabledNetworksInComboBox = false;
             comboBoxNetwork.IncludeOnlyNetworksWithIPAddresses = true;
-            comboBoxNetwork.PopulateComboBox(pool.Connection);
+            var clusterHostOnMaster = cluster == null
+                ? null
+                : pool.Connection.ResolveAll(cluster.cluster_hosts).FirstOrDefault(c => c.host.opaque_ref == pool.master.opaque_ref);
+            
+            comboBoxNetwork.PopulateComboBox(pool.Connection, item => clusterHostOnMaster != null && item.Network.PIFs.Any(pif => pif.opaque_ref == clusterHostOnMaster.PIF.opaque_ref));
 
             if (comboBoxNetwork.Items.Count == 0)
             {
                 DisableControls(Messages.GFS2_NO_NETWORK);
-            }
-
-            if (cluster != null)
-            {
-                foreach (NetworkComboBoxItem item in comboBoxNetwork.Items.Cast<NetworkComboBoxItem>())
-                {
-                    if (item.Network.opaque_ref == cluster.network.opaque_ref)
-                    {
-                        comboBoxNetwork.SelectedItem = item;
-                        break;
-                    }
-                }
             }
 
         }

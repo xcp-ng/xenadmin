@@ -56,16 +56,6 @@ namespace XenAdmin.TabPages
             this.toolStripMenuItemProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridViewStorage = new XenAdmin.Controls.DataGridViewEx.DataGridViewEx();
-            this.ColumnDevicePosition = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnSR = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnSRVolume = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnReadOnly = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnPriority = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnActive = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnDevicePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.multipleDvdIsoList1 = new XenAdmin.Controls.MultipleDvdIsoList();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,6 +67,16 @@ namespace XenAdmin.TabPages
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnDevicePosition = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnSR = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnSRVolume = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnReadOnly = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnPriority = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnActive = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnDevicePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pageContainerPanel.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.DeactivateButtonContainer.SuspendLayout();
@@ -276,76 +276,6 @@ namespace XenAdmin.TabPages
             this.dataGridViewStorage.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dataGridViewStorage_KeyUp);
             this.dataGridViewStorage.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dataGridViewStorage_MouseUp);
             // 
-            // ColumnDevicePosition
-            // 
-            this.ColumnDevicePosition.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            resources.ApplyResources(this.ColumnDevicePosition, "ColumnDevicePosition");
-            this.ColumnDevicePosition.Name = "ColumnDevicePosition";
-            this.ColumnDevicePosition.ReadOnly = true;
-            // 
-            // ColumnName
-            // 
-            this.ColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            resources.ApplyResources(this.ColumnName, "ColumnName");
-            this.ColumnName.Name = "ColumnName";
-            this.ColumnName.ReadOnly = true;
-            // 
-            // ColumnDesc
-            // 
-            this.ColumnDesc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            resources.ApplyResources(this.ColumnDesc, "ColumnDesc");
-            this.ColumnDesc.Name = "ColumnDesc";
-            this.ColumnDesc.ReadOnly = true;
-            // 
-            // ColumnSR
-            // 
-            this.ColumnSR.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            resources.ApplyResources(this.ColumnSR, "ColumnSR");
-            this.ColumnSR.Name = "ColumnSR";
-            this.ColumnSR.ReadOnly = true;
-            // 
-            // ColumnSRVolume
-            // 
-            this.ColumnSRVolume.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            resources.ApplyResources(this.ColumnSRVolume, "ColumnSRVolume");
-            this.ColumnSRVolume.Name = "ColumnSRVolume";
-            this.ColumnSRVolume.ReadOnly = true;
-            // 
-            // ColumnSize
-            // 
-            this.ColumnSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            resources.ApplyResources(this.ColumnSize, "ColumnSize");
-            this.ColumnSize.Name = "ColumnSize";
-            this.ColumnSize.ReadOnly = true;
-            // 
-            // ColumnReadOnly
-            // 
-            this.ColumnReadOnly.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            resources.ApplyResources(this.ColumnReadOnly, "ColumnReadOnly");
-            this.ColumnReadOnly.Name = "ColumnReadOnly";
-            this.ColumnReadOnly.ReadOnly = true;
-            // 
-            // ColumnPriority
-            // 
-            this.ColumnPriority.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            resources.ApplyResources(this.ColumnPriority, "ColumnPriority");
-            this.ColumnPriority.Name = "ColumnPriority";
-            this.ColumnPriority.ReadOnly = true;
-            // 
-            // ColumnActive
-            // 
-            this.ColumnActive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            resources.ApplyResources(this.ColumnActive, "ColumnActive");
-            this.ColumnActive.Name = "ColumnActive";
-            this.ColumnActive.ReadOnly = true;
-            // 
-            // ColumnDevicePath
-            // 
-            this.ColumnDevicePath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            resources.ApplyResources(this.ColumnDevicePath, "ColumnDevicePath");
-            this.ColumnDevicePath.Name = "ColumnDevicePath";
-            this.ColumnDevicePath.ReadOnly = true;
-            // 
             // multipleDvdIsoList1
             // 
             resources.ApplyResources(this.multipleDvdIsoList1, "multipleDvdIsoList1");
@@ -425,6 +355,76 @@ namespace XenAdmin.TabPages
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.ReadOnly = true;
             // 
+            // ColumnDevicePosition
+            // 
+            this.ColumnDevicePosition.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            resources.ApplyResources(this.ColumnDevicePosition, "ColumnDevicePosition");
+            this.ColumnDevicePosition.Name = "ColumnDevicePosition";
+            this.ColumnDevicePosition.ReadOnly = true;
+            // 
+            // ColumnName
+            // 
+            this.ColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            resources.ApplyResources(this.ColumnName, "ColumnName");
+            this.ColumnName.Name = "ColumnName";
+            this.ColumnName.ReadOnly = true;
+            // 
+            // ColumnDesc
+            // 
+            this.ColumnDesc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            resources.ApplyResources(this.ColumnDesc, "ColumnDesc");
+            this.ColumnDesc.Name = "ColumnDesc";
+            this.ColumnDesc.ReadOnly = true;
+            // 
+            // ColumnSR
+            // 
+            this.ColumnSR.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            resources.ApplyResources(this.ColumnSR, "ColumnSR");
+            this.ColumnSR.Name = "ColumnSR";
+            this.ColumnSR.ReadOnly = true;
+            // 
+            // ColumnSRVolume
+            // 
+            this.ColumnSRVolume.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            resources.ApplyResources(this.ColumnSRVolume, "ColumnSRVolume");
+            this.ColumnSRVolume.Name = "ColumnSRVolume";
+            this.ColumnSRVolume.ReadOnly = true;
+            // 
+            // ColumnSize
+            // 
+            this.ColumnSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            resources.ApplyResources(this.ColumnSize, "ColumnSize");
+            this.ColumnSize.Name = "ColumnSize";
+            this.ColumnSize.ReadOnly = true;
+            // 
+            // ColumnReadOnly
+            // 
+            this.ColumnReadOnly.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            resources.ApplyResources(this.ColumnReadOnly, "ColumnReadOnly");
+            this.ColumnReadOnly.Name = "ColumnReadOnly";
+            this.ColumnReadOnly.ReadOnly = true;
+            // 
+            // ColumnPriority
+            // 
+            this.ColumnPriority.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            resources.ApplyResources(this.ColumnPriority, "ColumnPriority");
+            this.ColumnPriority.Name = "ColumnPriority";
+            this.ColumnPriority.ReadOnly = true;
+            // 
+            // ColumnActive
+            // 
+            this.ColumnActive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            resources.ApplyResources(this.ColumnActive, "ColumnActive");
+            this.ColumnActive.Name = "ColumnActive";
+            this.ColumnActive.ReadOnly = true;
+            // 
+            // ColumnDevicePath
+            // 
+            this.ColumnDevicePath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            resources.ApplyResources(this.ColumnDevicePath, "ColumnDevicePath");
+            this.ColumnDevicePath.Name = "ColumnDevicePath";
+            this.ColumnDevicePath.ReadOnly = true;
+            // 
             // VMStoragePage
             // 
             resources.ApplyResources(this, "$this");
@@ -471,16 +471,6 @@ namespace XenAdmin.TabPages
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDevicePosition;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDesc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSR;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSRVolume;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSize;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnReadOnly;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPriority;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnActive;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDevicePath;
         private XenAdmin.Controls.ToolTipContainer MoveButtonContainer;
         private System.Windows.Forms.Button MoveButton;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
@@ -493,5 +483,15 @@ namespace XenAdmin.TabPages
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDetach;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDevicePosition;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDesc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSR;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSRVolume;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnReadOnly;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPriority;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnActive;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDevicePath;
     }
 }

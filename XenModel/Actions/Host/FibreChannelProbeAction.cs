@@ -37,7 +37,7 @@ using XenAPI;
 
 namespace XenAdmin.Actions
 {
-    public class FibreChannelProbeAction : PureAsyncAction
+    public class FibreChannelProbeAction : AsyncAction
     {
         private readonly SR.SRTypes srType;
 
@@ -48,6 +48,9 @@ namespace XenAdmin.Actions
         {
             Host = master;
             this.srType = srType;
+            #region RBAC Dependencies
+            ApiMethodsToRoleCheck.Add(srType != SR.SRTypes.gfs2 ? "SR.probe" : "SR.probe_ext");
+            #endregion
         }
 
         protected override void Run()

@@ -52,4 +52,28 @@ namespace XenAdmin.Diagnostics.Problems.PoolProblem
             get { return null; }
         }
     }
+
+    class MixedPoolServerSelectionWarning : Warning
+    {
+        private readonly Pool pool;
+
+        public MixedPoolServerSelectionWarning(Check check, Pool pool)
+            : base(check)
+        {
+            this.pool = pool;
+        }
+
+        public override string Title
+        {
+            get { return Check.Description; }
+        }
+
+        public override string Description
+        {
+            get
+            {
+                return string.Format(Messages.UPDATES_WIZARD_MIXED_POOL_SERVER_SELECTION_WARNING, pool);
+            }
+        }
+    }
 }

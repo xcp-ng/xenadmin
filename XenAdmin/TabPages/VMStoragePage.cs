@@ -243,7 +243,7 @@ namespace XenAdmin.TabPages
 					//CA-47050: the dnsColumn should be autosized to Fill, but should not become smaller than a minimum
 					//width, which is chosen to be the column's contents (including header) width. To find what this is
 					//set temporarily the column's autosize mode to AllCells.
-					HelpersGUI.ResizeLastGridViewColumn(ColumnDevicePath);
+					HelpersGUI.ResizeGridViewColumnToAllCells(ColumnDevicePath);
                 }
 
 

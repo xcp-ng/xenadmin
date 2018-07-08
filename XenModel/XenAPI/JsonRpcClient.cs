@@ -9700,20 +9700,6 @@ namespace XenAPI
             Rpc("SR.set_physical_size", new JArray(session, _sr ?? "", _value), serializer);
         }
 
-        public void sr_set_virtual_allocation(string session, string _sr, long _value)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("SR.set_virtual_allocation", new JArray(session, _sr ?? "", _value), serializer);
-        }
-
-        public void sr_set_physical_utilisation(string session, string _sr, long _value)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("SR.set_physical_utilisation", new JArray(session, _sr ?? "", _value), serializer);
-        }
-
         public void sr_assert_can_host_ha_statefile(string session, string _sr)
         {
             var converters = new List<JsonConverter> {};
@@ -10309,62 +10295,6 @@ namespace XenAPI
             return Rpc<XenRef<Task>>("Async.VDI.introduce", new JArray(session, _uuid ?? "", _name_label ?? "", _name_description ?? "", _sr ?? "", _type.StringOf(), _sharable, _read_only, _other_config == null ? new JObject() : JObject.FromObject(_other_config, serializer), _location ?? "", _xenstore_data == null ? new JObject() : JObject.FromObject(_xenstore_data, serializer), _sm_config == null ? new JObject() : JObject.FromObject(_sm_config, serializer), _managed, _virtual_size, _physical_utilisation, _metadata_of_pool ?? "", _is_a_snapshot, _snapshot_time, _snapshot_of ?? ""), serializer);
         }
 
-        public XenRef<VDI> vdi_db_introduce(string session, string _uuid, string _name_label, string _name_description, string _sr, vdi_type _type, bool _sharable, bool _read_only, Dictionary<string, string> _other_config, string _location, Dictionary<string, string> _xenstore_data, Dictionary<string, string> _sm_config)
-        {
-            var converters = new List<JsonConverter> {new XenRefConverter<VDI>(), new XenRefConverter<SR>(), new vdi_typeConverter(), new StringStringMapConverter(), new StringStringMapConverter(), new StringStringMapConverter()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<XenRef<VDI>>("VDI.db_introduce", new JArray(session, _uuid ?? "", _name_label ?? "", _name_description ?? "", _sr ?? "", _type.StringOf(), _sharable, _read_only, _other_config == null ? new JObject() : JObject.FromObject(_other_config, serializer), _location ?? "", _xenstore_data == null ? new JObject() : JObject.FromObject(_xenstore_data, serializer), _sm_config == null ? new JObject() : JObject.FromObject(_sm_config, serializer)), serializer);
-        }
-
-        public XenRef<Task> async_vdi_db_introduce(string session, string _uuid, string _name_label, string _name_description, string _sr, vdi_type _type, bool _sharable, bool _read_only, Dictionary<string, string> _other_config, string _location, Dictionary<string, string> _xenstore_data, Dictionary<string, string> _sm_config)
-        {
-            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefConverter<SR>(), new vdi_typeConverter(), new StringStringMapConverter(), new StringStringMapConverter(), new StringStringMapConverter()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<XenRef<Task>>("Async.VDI.db_introduce", new JArray(session, _uuid ?? "", _name_label ?? "", _name_description ?? "", _sr ?? "", _type.StringOf(), _sharable, _read_only, _other_config == null ? new JObject() : JObject.FromObject(_other_config, serializer), _location ?? "", _xenstore_data == null ? new JObject() : JObject.FromObject(_xenstore_data, serializer), _sm_config == null ? new JObject() : JObject.FromObject(_sm_config, serializer)), serializer);
-        }
-
-        public XenRef<VDI> vdi_db_introduce(string session, string _uuid, string _name_label, string _name_description, string _sr, vdi_type _type, bool _sharable, bool _read_only, Dictionary<string, string> _other_config, string _location, Dictionary<string, string> _xenstore_data, Dictionary<string, string> _sm_config, bool _managed, long _virtual_size, long _physical_utilisation, string _metadata_of_pool, bool _is_a_snapshot, DateTime _snapshot_time, string _snapshot_of)
-        {
-            var converters = new List<JsonConverter> {new XenRefConverter<VDI>(), new XenRefConverter<SR>(), new vdi_typeConverter(), new StringStringMapConverter(), new StringStringMapConverter(), new StringStringMapConverter(), new XenRefConverter<Pool>(), new XenDateTimeConverter(), new XenRefConverter<VDI>()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<XenRef<VDI>>("VDI.db_introduce", new JArray(session, _uuid ?? "", _name_label ?? "", _name_description ?? "", _sr ?? "", _type.StringOf(), _sharable, _read_only, _other_config == null ? new JObject() : JObject.FromObject(_other_config, serializer), _location ?? "", _xenstore_data == null ? new JObject() : JObject.FromObject(_xenstore_data, serializer), _sm_config == null ? new JObject() : JObject.FromObject(_sm_config, serializer), _managed, _virtual_size, _physical_utilisation, _metadata_of_pool ?? "", _is_a_snapshot, _snapshot_time, _snapshot_of ?? ""), serializer);
-        }
-
-        public XenRef<Task> async_vdi_db_introduce(string session, string _uuid, string _name_label, string _name_description, string _sr, vdi_type _type, bool _sharable, bool _read_only, Dictionary<string, string> _other_config, string _location, Dictionary<string, string> _xenstore_data, Dictionary<string, string> _sm_config, bool _managed, long _virtual_size, long _physical_utilisation, string _metadata_of_pool, bool _is_a_snapshot, DateTime _snapshot_time, string _snapshot_of)
-        {
-            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefConverter<SR>(), new vdi_typeConverter(), new StringStringMapConverter(), new StringStringMapConverter(), new StringStringMapConverter(), new XenRefConverter<Pool>(), new XenDateTimeConverter(), new XenRefConverter<VDI>()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<XenRef<Task>>("Async.VDI.db_introduce", new JArray(session, _uuid ?? "", _name_label ?? "", _name_description ?? "", _sr ?? "", _type.StringOf(), _sharable, _read_only, _other_config == null ? new JObject() : JObject.FromObject(_other_config, serializer), _location ?? "", _xenstore_data == null ? new JObject() : JObject.FromObject(_xenstore_data, serializer), _sm_config == null ? new JObject() : JObject.FromObject(_sm_config, serializer), _managed, _virtual_size, _physical_utilisation, _metadata_of_pool ?? "", _is_a_snapshot, _snapshot_time, _snapshot_of ?? ""), serializer);
-        }
-
-        public XenRef<VDI> vdi_db_introduce(string session, string _uuid, string _name_label, string _name_description, string _sr, vdi_type _type, bool _sharable, bool _read_only, Dictionary<string, string> _other_config, string _location, Dictionary<string, string> _xenstore_data, Dictionary<string, string> _sm_config, bool _managed, long _virtual_size, long _physical_utilisation, string _metadata_of_pool, bool _is_a_snapshot, DateTime _snapshot_time, string _snapshot_of, bool _cbt_enabled)
-        {
-            var converters = new List<JsonConverter> {new XenRefConverter<VDI>(), new XenRefConverter<SR>(), new vdi_typeConverter(), new StringStringMapConverter(), new StringStringMapConverter(), new StringStringMapConverter(), new XenRefConverter<Pool>(), new XenDateTimeConverter(), new XenRefConverter<VDI>()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<XenRef<VDI>>("VDI.db_introduce", new JArray(session, _uuid ?? "", _name_label ?? "", _name_description ?? "", _sr ?? "", _type.StringOf(), _sharable, _read_only, _other_config == null ? new JObject() : JObject.FromObject(_other_config, serializer), _location ?? "", _xenstore_data == null ? new JObject() : JObject.FromObject(_xenstore_data, serializer), _sm_config == null ? new JObject() : JObject.FromObject(_sm_config, serializer), _managed, _virtual_size, _physical_utilisation, _metadata_of_pool ?? "", _is_a_snapshot, _snapshot_time, _snapshot_of ?? "", _cbt_enabled), serializer);
-        }
-
-        public XenRef<Task> async_vdi_db_introduce(string session, string _uuid, string _name_label, string _name_description, string _sr, vdi_type _type, bool _sharable, bool _read_only, Dictionary<string, string> _other_config, string _location, Dictionary<string, string> _xenstore_data, Dictionary<string, string> _sm_config, bool _managed, long _virtual_size, long _physical_utilisation, string _metadata_of_pool, bool _is_a_snapshot, DateTime _snapshot_time, string _snapshot_of, bool _cbt_enabled)
-        {
-            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefConverter<SR>(), new vdi_typeConverter(), new StringStringMapConverter(), new StringStringMapConverter(), new StringStringMapConverter(), new XenRefConverter<Pool>(), new XenDateTimeConverter(), new XenRefConverter<VDI>()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<XenRef<Task>>("Async.VDI.db_introduce", new JArray(session, _uuid ?? "", _name_label ?? "", _name_description ?? "", _sr ?? "", _type.StringOf(), _sharable, _read_only, _other_config == null ? new JObject() : JObject.FromObject(_other_config, serializer), _location ?? "", _xenstore_data == null ? new JObject() : JObject.FromObject(_xenstore_data, serializer), _sm_config == null ? new JObject() : JObject.FromObject(_sm_config, serializer), _managed, _virtual_size, _physical_utilisation, _metadata_of_pool ?? "", _is_a_snapshot, _snapshot_time, _snapshot_of ?? "", _cbt_enabled), serializer);
-        }
-
-        public void vdi_db_forget(string session, string _vdi)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("VDI.db_forget", new JArray(session, _vdi ?? ""), serializer);
-        }
-
-        public XenRef<Task> async_vdi_db_forget(string session, string _vdi)
-        {
-            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<XenRef<Task>>("Async.VDI.db_forget", new JArray(session, _vdi ?? ""), serializer);
-        }
-
         public void vdi_update(string session, string _vdi)
         {
             var converters = new List<JsonConverter> {};
@@ -10407,13 +10337,6 @@ namespace XenAPI
             return Rpc<XenRef<Task>>("Async.VDI.copy", new JArray(session, _vdi ?? "", _sr ?? "", _base_vdi ?? "", _into_vdi ?? ""), serializer);
         }
 
-        public void vdi_set_managed(string session, string _vdi, bool _value)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("VDI.set_managed", new JArray(session, _vdi ?? "", _value), serializer);
-        }
-
         public void vdi_forget(string session, string _vdi)
         {
             var converters = new List<JsonConverter> {};
@@ -10440,55 +10363,6 @@ namespace XenAPI
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             Rpc("VDI.set_read_only", new JArray(session, _vdi ?? "", _value), serializer);
-        }
-
-        public void vdi_set_missing(string session, string _vdi, bool _value)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("VDI.set_missing", new JArray(session, _vdi ?? "", _value), serializer);
-        }
-
-        public void vdi_set_virtual_size(string session, string _vdi, long _value)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("VDI.set_virtual_size", new JArray(session, _vdi ?? "", _value), serializer);
-        }
-
-        public void vdi_set_physical_utilisation(string session, string _vdi, long _value)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("VDI.set_physical_utilisation", new JArray(session, _vdi ?? "", _value), serializer);
-        }
-
-        public void vdi_set_is_a_snapshot(string session, string _vdi, bool _value)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("VDI.set_is_a_snapshot", new JArray(session, _vdi ?? "", _value), serializer);
-        }
-
-        public void vdi_set_snapshot_of(string session, string _vdi, string _value)
-        {
-            var converters = new List<JsonConverter> {new XenRefConverter<VDI>()};
-            var serializer = CreateSerializer(converters);
-            Rpc("VDI.set_snapshot_of", new JArray(session, _vdi ?? "", _value ?? ""), serializer);
-        }
-
-        public void vdi_set_snapshot_time(string session, string _vdi, DateTime _value)
-        {
-            var converters = new List<JsonConverter> {new XenDateTimeConverter()};
-            var serializer = CreateSerializer(converters);
-            Rpc("VDI.set_snapshot_time", new JArray(session, _vdi ?? "", _value), serializer);
-        }
-
-        public void vdi_set_metadata_of_pool(string session, string _vdi, string _value)
-        {
-            var converters = new List<JsonConverter> {new XenRefConverter<Pool>()};
-            var serializer = CreateSerializer(converters);
-            Rpc("VDI.set_metadata_of_pool", new JArray(session, _vdi ?? "", _value ?? ""), serializer);
         }
 
         public void vdi_set_name_label(string session, string _vdi, string _value)
@@ -14124,11 +13998,11 @@ namespace XenAPI
             return Rpc<List<XenRef<Cluster_host>>>("Cluster.get_cluster_hosts", new JArray(session, _cluster ?? ""), serializer);
         }
 
-        public XenRef<Network> cluster_get_network(string session, string _cluster)
+        public string[] cluster_get_pending_forget(string session, string _cluster)
         {
-            var converters = new List<JsonConverter> {new XenRefConverter<Network>()};
+            var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
-            return Rpc<XenRef<Network>>("Cluster.get_network", new JArray(session, _cluster ?? ""), serializer);
+            return Rpc<string[]>("Cluster.get_pending_forget", new JArray(session, _cluster ?? ""), serializer);
         }
 
         public string cluster_get_cluster_token(string session, string _cluster)
@@ -14166,18 +14040,18 @@ namespace XenAPI
             return Rpc<bool>("Cluster.get_pool_auto_join", new JArray(session, _cluster ?? ""), serializer);
         }
 
-        public long cluster_get_token_timeout(string session, string _cluster)
+        public double cluster_get_token_timeout(string session, string _cluster)
         {
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
-            return Rpc<long>("Cluster.get_token_timeout", new JArray(session, _cluster ?? ""), serializer);
+            return Rpc<double>("Cluster.get_token_timeout", new JArray(session, _cluster ?? ""), serializer);
         }
 
-        public long cluster_get_token_timeout_coefficient(string session, string _cluster)
+        public double cluster_get_token_timeout_coefficient(string session, string _cluster)
         {
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
-            return Rpc<long>("Cluster.get_token_timeout_coefficient", new JArray(session, _cluster ?? ""), serializer);
+            return Rpc<double>("Cluster.get_token_timeout_coefficient", new JArray(session, _cluster ?? ""), serializer);
         }
 
         public Dictionary<string, string> cluster_get_cluster_config(string session, string _cluster)
@@ -14215,18 +14089,18 @@ namespace XenAPI
             Rpc("Cluster.remove_from_other_config", new JArray(session, _cluster ?? "", _key ?? ""), serializer);
         }
 
-        public XenRef<Cluster> cluster_create(string session, string _network, string _cluster_stack, bool _pool_auto_join, double _token_timeout, double _token_timeout_coefficient)
+        public XenRef<Cluster> cluster_create(string session, string _pif, string _cluster_stack, bool _pool_auto_join, double _token_timeout, double _token_timeout_coefficient)
         {
-            var converters = new List<JsonConverter> {new XenRefConverter<Cluster>(), new XenRefConverter<Network>()};
+            var converters = new List<JsonConverter> {new XenRefConverter<Cluster>(), new XenRefConverter<PIF>()};
             var serializer = CreateSerializer(converters);
-            return Rpc<XenRef<Cluster>>("Cluster.create", new JArray(session, _network ?? "", _cluster_stack ?? "", _pool_auto_join, _token_timeout, _token_timeout_coefficient), serializer);
+            return Rpc<XenRef<Cluster>>("Cluster.create", new JArray(session, _pif ?? "", _cluster_stack ?? "", _pool_auto_join, _token_timeout, _token_timeout_coefficient), serializer);
         }
 
-        public XenRef<Task> async_cluster_create(string session, string _network, string _cluster_stack, bool _pool_auto_join, double _token_timeout, double _token_timeout_coefficient)
+        public XenRef<Task> async_cluster_create(string session, string _pif, string _cluster_stack, bool _pool_auto_join, double _token_timeout, double _token_timeout_coefficient)
         {
-            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefConverter<Network>()};
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefConverter<PIF>()};
             var serializer = CreateSerializer(converters);
-            return Rpc<XenRef<Task>>("Async.Cluster.create", new JArray(session, _network ?? "", _cluster_stack ?? "", _pool_auto_join, _token_timeout, _token_timeout_coefficient), serializer);
+            return Rpc<XenRef<Task>>("Async.Cluster.create", new JArray(session, _pif ?? "", _cluster_stack ?? "", _pool_auto_join, _token_timeout, _token_timeout_coefficient), serializer);
         }
 
         public void cluster_destroy(string session, string _cluster)
@@ -14241,6 +14115,20 @@ namespace XenAPI
             var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
             var serializer = CreateSerializer(converters);
             return Rpc<XenRef<Task>>("Async.Cluster.destroy", new JArray(session, _cluster ?? ""), serializer);
+        }
+
+        public XenRef<Network> cluster_get_network(string session, string _cluster)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Network>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Network>>("Cluster.get_network", new JArray(session, _cluster ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_cluster_get_network(string session, string _cluster)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.Cluster.get_network", new JArray(session, _cluster ?? ""), serializer);
         }
 
         public XenRef<Cluster> cluster_pool_create(string session, string _network, string _cluster_stack, double _token_timeout, double _token_timeout_coefficient)
@@ -14355,6 +14243,20 @@ namespace XenAPI
             return Rpc<bool>("Cluster_host.get_enabled", new JArray(session, _cluster_host ?? ""), serializer);
         }
 
+        public XenRef<PIF> cluster_host_get_pif(string session, string _cluster_host)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<PIF>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<PIF>>("Cluster_host.get_PIF", new JArray(session, _cluster_host ?? ""), serializer);
+        }
+
+        public bool cluster_host_get_joined(string session, string _cluster_host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<bool>("Cluster_host.get_joined", new JArray(session, _cluster_host ?? ""), serializer);
+        }
+
         public List<cluster_host_operation> cluster_host_get_allowed_operations(string session, string _cluster_host)
         {
             var converters = new List<JsonConverter> {};
@@ -14376,18 +14278,18 @@ namespace XenAPI
             return Rpc<Dictionary<string, string>>("Cluster_host.get_other_config", new JArray(session, _cluster_host ?? ""), serializer);
         }
 
-        public XenRef<Cluster_host> cluster_host_create(string session, string _cluster, string _host)
+        public XenRef<Cluster_host> cluster_host_create(string session, string _cluster, string _host, string _pif)
         {
-            var converters = new List<JsonConverter> {new XenRefConverter<Cluster_host>(), new XenRefConverter<Cluster>(), new XenRefConverter<Host>()};
+            var converters = new List<JsonConverter> {new XenRefConverter<Cluster_host>(), new XenRefConverter<Cluster>(), new XenRefConverter<Host>(), new XenRefConverter<PIF>()};
             var serializer = CreateSerializer(converters);
-            return Rpc<XenRef<Cluster_host>>("Cluster_host.create", new JArray(session, _cluster ?? "", _host ?? ""), serializer);
+            return Rpc<XenRef<Cluster_host>>("Cluster_host.create", new JArray(session, _cluster ?? "", _host ?? "", _pif ?? ""), serializer);
         }
 
-        public XenRef<Task> async_cluster_host_create(string session, string _cluster, string _host)
+        public XenRef<Task> async_cluster_host_create(string session, string _cluster, string _host, string _pif)
         {
-            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefConverter<Cluster>(), new XenRefConverter<Host>()};
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefConverter<Cluster>(), new XenRefConverter<Host>(), new XenRefConverter<PIF>()};
             var serializer = CreateSerializer(converters);
-            return Rpc<XenRef<Task>>("Async.Cluster_host.create", new JArray(session, _cluster ?? "", _host ?? ""), serializer);
+            return Rpc<XenRef<Task>>("Async.Cluster_host.create", new JArray(session, _cluster ?? "", _host ?? "", _pif ?? ""), serializer);
         }
 
         public void cluster_host_destroy(string session, string _cluster_host)

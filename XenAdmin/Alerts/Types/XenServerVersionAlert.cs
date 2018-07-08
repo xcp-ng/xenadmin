@@ -97,16 +97,7 @@ namespace XenAdmin.Alerts
             }
         }
 
-        public override bool IsDismissed()
-        {
-            foreach (var connection in connections)
-                if (IsDismissed(connection))
-                    return true;
-
-            return false;
-        }
-
-        private bool IsDismissed(IXenConnection connection)
+        protected override bool IsDismissed(IXenConnection connection)
         {
             Pool pool = Helpers.GetPoolOfOne(connection);
             if (pool == null)

@@ -393,7 +393,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the driver_name field of the given PCI.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pci">The opaque_ref of the given pci</param>
@@ -664,7 +664,7 @@ namespace XenAPI
 
         /// <summary>
         /// Driver name
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         public virtual string driver_name
         {

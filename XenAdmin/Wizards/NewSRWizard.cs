@@ -171,6 +171,8 @@ namespace XenAdmin.Wizards
             
 
             check.AddApiCheckRange(new RbacMethodList("SR.probe"));
+            if (Helpers.KolkataOrGreater(xenConnection) && !Helpers.FeatureForbidden(xenConnection, Host.CorosyncDisabled))
+                check.AddApiCheckRange(new RbacMethodList("SR.probe_ext"));
 
             if (_srToReattach == null)
             {

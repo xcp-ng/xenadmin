@@ -361,7 +361,7 @@ namespace XenAdmin.Controls
         public void Expand()
         {
             ValueColumn.MinimumWidth = 5;
-            HelpersGUI.ResizeLastGridViewColumn(ValueColumn);
+            HelpersGUI.ResizeGridViewColumnToAllCells(ValueColumn);
             ToggleExpandedState(true);
         }
 

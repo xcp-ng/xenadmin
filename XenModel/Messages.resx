@@ -2139,6 +2139,11 @@ To continue, either select different NICs for the bond, or disable HA, create th
 
 Both types of interface cannot be added to the same bond. Choose different bond members, or move the management interfaces before creating the bond.</value>
   </data>
+  <data name="BOND_CREATE_WILL_DISTURB_CLUSTERING" xml:space="preserve">
+    <value>Creating this bond will automatically move the clustering network on one of your selected bond members to the bond itself:
+
+- If your network configuration is incorrect then hosts may permanently lose the connection to the clustering network, which will cause undesired host fences.</value>
+  </data>
   <data name="BOND_CREATE_WILL_DISTURB_PRIMARY" xml:space="preserve">
     <value>Creating this bond will automatically move the management interface on one of your selected bond members to the bond itself:
 
@@ -3408,7 +3413,7 @@ Please reconnect the host and try again.</value>
     <value>Migrate VM to {0}</value>
   </data>
   <data name="CPM_WIZARD_VM_MISSING_ERROR" xml:space="preserve">
-    <value>The selected VMs are no longer available for migration. Please verify your selection is valid and relaunch the wizard.</value>
+    <value>The selected VMs are no longer available in [XenCenter]'s cache. Please verify your selection is valid and relaunch the wizard.</value>
   </data>
   <data name="CPM_WIZARD_VM_SELECTION_INTRODUCTION" xml:space="preserve">
     <value>&amp;Virtual network interfaces:</value>
@@ -9074,6 +9079,9 @@ It is strongly recommended that you Cancel and apply the latest version of the p
   <data name="NOT_AGILE_UNKOWN" xml:space="preserve">
     <value>The VM is not agile. Restart cannot be guaranteed.</value>
   </data>
+  <data name="NOT_AGILE_VM_HAS_SRIOV_VIF" xml:space="preserve">
+    <value>The VM has one or more SR-IOV VFs attached. Restart cannot be guaranteed.</value>
+  </data>
   <data name="NOT_AGILE_VM_HAS_VGPU" xml:space="preserve">
     <value>The VM has one or more virtual GPUs. Restart cannot be guaranteed.</value>
   </data>
@@ -11105,11 +11113,8 @@ Do you want to connect to the pool master '{1}'?</value>
   <data name="SR" xml:space="preserve">
     <value>Storage Repository</value>
   </data>
-  <data name="SRIOV_DISABLED" xml:space="preserve">
-    <value>Yes (disabled)</value>
-  </data>
-  <data name="SRIOV_ENABLE_REBOOT_WARNING" xml:space="preserve">
-    <value>These servers needs to be rebooted for this SR-IOV network to take effect:'{0}'</value>
+  <data name="SRIOV_LOGICAL_PIF_UNPLUGGED" xml:space="preserve">
+    <value>Yes (SR-IOV logical PIF is unplugged)</value>
   </data>
   <data name="SRIOV_NEED_NICSUPPORT" xml:space="preserve">
     <value>SR-IOV networks require an SR-IOV capable NIC.</value>
@@ -11117,8 +11122,13 @@ Do you want to connect to the pool master '{1}'?</value>
   <data name="SRIOV_NETWORK_CREATE" xml:space="preserve">
     <value>Create &amp;SR-IOV anyway</value>
   </data>
-  <data name="SRIOV_NETWORK_CREATE_WILL_DISTURB_CONNECTION" xml:space="preserve">
-    <value>Creating this SR-IOV network will have effects on network connection status and [XenCenter] connections to the pool will temporarily be disturbed</value>
+  <data name="SRIOV_NETWORK_CREATE_WARNING" xml:space="preserve">
+    <value>Creating this SR-IOV network will temporarily disturb [XenCenter] connections to the pool.
+
+You may need to reboot your server(s) to enable SR-IOV network.</value>
+  </data>
+  <data name="SRIOV_NETWORK_SHOULD_BE_CREATED" xml:space="preserve">
+    <value>Yes (To enable SR-IOV create an SR-IOV network on this NIC)</value>
   </data>
   <data name="SRPANEL_ACTIVE" xml:space="preserve">
     <value>Active</value>
@@ -11968,6 +11978,9 @@ Check your settings and try again.</value>
   </data>
   <data name="UPDATES_WIZARD_LOCAL_STORAGE" xml:space="preserve">
     <value>{0}: The VM '{1}' uses local storage and cannot be migrated.</value>
+  </data>
+  <data name="UPDATES_WIZARD_MIXED_POOL_SERVER_SELECTION_WARNING" xml:space="preserve">
+    <value>{0}: Check skipped because the pool is partially upgraded.</value>
   </data>
   <data name="UPDATES_WIZARD_NEWER_XENCENTER_REQUIRED" xml:space="preserve">
     <value>[XenCenter] version {0} or newer is required.</value>

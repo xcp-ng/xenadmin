@@ -107,7 +107,7 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
 				m_dataGridView.Rows.Add(row);
 			}
 
-            HelpersGUI.ResizeLastGridViewColumn(Column2);//set properly the width of the last column
+            HelpersGUI.ResizeGridViewColumnToAllCells(Column2);//set properly the width of the last column
 		}
 
         public Func<IEnumerable<SummaryDetails>> SummaryRetreiver { private get; set; }

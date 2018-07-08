@@ -230,7 +230,8 @@ namespace XenAdmin.Wizards.PatchingWizard
 
                     if (downloadUpdateRadioButton.Checked)
                     {
-                        if (SelectedUpdateAlert != null && SelectedUpdateAlert.DistinctHosts != null && SelectedUpdateAlert.DistinctHosts.Any(Helpers.ElyOrGreater)) // this is to check whether the Alert represents an ISO update (Ely or greater)
+                        var distinctHosts = SelectedUpdateAlert != null ? SelectedUpdateAlert.DistinctHosts : null;
+                        if (distinctHosts != null && distinctHosts.Any(Helpers.ElyOrGreater)) // this is to check whether the Alert represents an ISO update (Ely or greater)
                         {
                             SelectedUpdateType = UpdateType.ISO;
                         }

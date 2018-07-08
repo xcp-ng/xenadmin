@@ -217,7 +217,7 @@ namespace XenAdmin.TabPages
             resources.ApplyResources(this.ColumnDeviceName, "ColumnDeviceName");
             this.ColumnDeviceName.Name = "ColumnDeviceName";
             this.ColumnDeviceName.ReadOnly = true;
-            this.ColumnDeviceName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColumnDeviceName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // ColumnBusPath
             // 
@@ -237,6 +237,7 @@ namespace XenAdmin.TabPages
             resources.ApplyResources(this.ColumnSriovCapable, "ColumnSriovCapable");
             this.ColumnSriovCapable.Name = "ColumnSriovCapable";
             this.ColumnSriovCapable.ReadOnly = true;
+            this.ColumnSriovCapable.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // NICPage
             // 

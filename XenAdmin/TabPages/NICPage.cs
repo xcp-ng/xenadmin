@@ -158,7 +158,7 @@ namespace XenAdmin.TabPages
                 {
                     foreach (PIF PIF in host.Connection.ResolveAll(host.PIFs))
                     {
-                        if (!PIF.IsPhysical() && !PIF.IsSriovLogicalPIF())
+                        if (!PIF.IsPhysical())
                             continue;
 
                         RegisterPIFEventHandlers(PIF);
@@ -175,13 +175,8 @@ namespace XenAdmin.TabPages
                     //show the SR-IOV column for Kolkata or higher hosts only
                     ColumnSriovCapable.Visible = Helpers.KolkataOrGreater(host);
 
-                    //CA-47050: the Device column should be autosized to Fill, but should not become smaller than a minimum
-                    //width, which here is chosen to be the column header width. To find what this width is 
-                    //set temporarily the column's autosize mode to ColumnHeader.
-                    ColumnDeviceName.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
-                    int storedWidth = ColumnDeviceName.Width;
-                    ColumnDeviceName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    ColumnDeviceName.MinimumWidth = storedWidth;
+                    HelpersGUI.ResizeGridViewColumnToHeader(ColumnDeviceName);
+                    HelpersGUI.ResizeGridViewColumnToHeader(ColumnSriovCapable);
 
                     if (dataGridView1.SortedColumn != null)
                         dataGridView1.Sort(dataGridView1.SortedColumn, dataGridView1.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending);
@@ -237,16 +232,23 @@ namespace XenAdmin.TabPages
                 }
                 else if (!Pif.IsSriovPhysicalPIF())
                 {
-                    _cellSriov.Value = Messages.SRIOV_DISABLED;
+                    _cellSriov.Value = Messages.SRIOV_NETWORK_SHOULD_BE_CREATED;
                 }
                 else
                 {
                     var networkSriov = Pif.Connection.Resolve(Pif.sriov_physical_PIF_of[0]);
-                    PIF sriovLogicalPif = networkSriov != null ? Pif.Connection.Resolve(networkSriov.logical_PIF) : null;
+
+                    if(networkSriov == null || networkSriov.requires_reboot)
+                    {
+                        _cellSriov.Value = Messages.HOST_NEEDS_REBOOT_ENABLE_SRIOV;
+                        return;
+                    }
+
+                    PIF sriovLogicalPif = Pif.Connection.Resolve(networkSriov.logical_PIF);
 
                     if (sriovLogicalPif == null || !sriovLogicalPif.currently_attached)
                     {
-                        _cellSriov.Value = Messages.SRIOV_DISABLED;
+                        _cellSriov.Value = Messages.SRIOV_LOGICAL_PIF_UNPLUGGED;
                         return;
                     }
 

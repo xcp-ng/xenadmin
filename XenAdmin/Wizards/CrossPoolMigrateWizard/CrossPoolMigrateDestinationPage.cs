@@ -50,28 +50,17 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
 
 
         public CrossPoolMigrateDestinationPage()
-            : this(null, null, WizardMode.Migrate, null)
+            : this(null, WizardMode.Migrate, null)
         {
         }
 
-        public CrossPoolMigrateDestinationPage(Host preSelectedHost, List<VM> selectedVMs, WizardMode wizardMode, List<IXenConnection> ignoredConnections)
+        public CrossPoolMigrateDestinationPage(List<VM> selectedVMs, WizardMode wizardMode, List<IXenConnection> ignoredConnections)
         {
-            SetDefaultTarget(preSelectedHost);
             this.selectedVMs = selectedVMs;
             this.wizardMode = wizardMode;
             this.ignoredConnections = ignoredConnections ?? new List<IXenConnection>();
 
             InitializeText();
-        }
-
-        protected override void PageLoadedCore(PageLoadedDirection direction)
-        {
-            PopulateComboBox();
-        }
-
-        public override bool EnableNext()
-        {
-            return DestinationHasBeenSelected() && base.EnableNext();
         }
 
         protected override bool ImplementsIsDirty()
@@ -169,28 +158,22 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
             return filters;
         }
 
-        protected override void PageLeaveCore(PageLoadedDirection direction, ref bool cancel)
+        protected override bool PerformCheck()
         {
-            if (!cancel)
+            if (ChosenItem != null && (ChosenItem.Connection == null || !ChosenItem.Connection.IsConnected))
             {
-                bool targetDisconnected = cancel;
-                Program.Invoke(Program.MainWindow,
-                               delegate
-                                   {
-                                       if (Connection == null || !Connection.IsConnected)
-                                       {
-                                           CrossPoolMigrateWizard.ShowWarningMessageBox(Messages.CPM_WIZARD_ERROR_TARGET_DISCONNECTED);
-                                           targetDisconnected = true;
-                                       }
-                                   });
-                cancel = targetDisconnected;
+                CrossPoolMigrateWizard.ShowWarningMessageBox(Messages.CPM_WIZARD_ERROR_TARGET_DISCONNECTED);
+                return false;
             }
 
-            if (!cancel && !CrossPoolMigrateWizard.AllVMsAvailable(selectedVMs))
+            if (selectedVMs == null || selectedVMs.Count == 0 || Connection == null
+                || selectedVMs.Any(vm => Connection.Resolve(new XenRef<VM>(vm)) == null))
             {
-                cancel = true;
-                SetButtonNextEnabled(false);
+                CrossPoolMigrateWizard.ShowWarningMessageBox(Messages.CPM_WIZARD_VM_MISSING_ERROR);
+                return false;
             }
+
+            return true;
         }
 
         protected override string VmColumnHeaderText

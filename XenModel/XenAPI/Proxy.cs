@@ -5564,14 +5564,6 @@ namespace XenAPI
         Response<string>
         sr_set_physical_size(string session, string _sr, string _value);
 
-        [XmlRpcMethod("SR.set_virtual_allocation")]
-        Response<string>
-        sr_set_virtual_allocation(string session, string _sr, string _value);
-
-        [XmlRpcMethod("SR.set_physical_utilisation")]
-        Response<string>
-        sr_set_physical_utilisation(string session, string _sr, string _value);
-
         [XmlRpcMethod("SR.assert_can_host_ha_statefile")]
         Response<string>
         sr_assert_can_host_ha_statefile(string session, string _sr);
@@ -5912,38 +5904,6 @@ namespace XenAPI
         Response<string>
         async_vdi_introduce(string session, string _uuid, string _name_label, string _name_description, string _sr, string _type, bool _sharable, bool _read_only, Object _other_config, string _location, Object _xenstore_data, Object _sm_config, bool _managed, string _virtual_size, string _physical_utilisation, string _metadata_of_pool, bool _is_a_snapshot, DateTime _snapshot_time, string _snapshot_of);
 
-        [XmlRpcMethod("VDI.db_introduce")]
-        Response<string>
-        vdi_db_introduce(string session, string _uuid, string _name_label, string _name_description, string _sr, string _type, bool _sharable, bool _read_only, Object _other_config, string _location, Object _xenstore_data, Object _sm_config);
-
-        [XmlRpcMethod("Async.VDI.db_introduce")]
-        Response<string>
-        async_vdi_db_introduce(string session, string _uuid, string _name_label, string _name_description, string _sr, string _type, bool _sharable, bool _read_only, Object _other_config, string _location, Object _xenstore_data, Object _sm_config);
-
-        [XmlRpcMethod("VDI.db_introduce")]
-        Response<string>
-        vdi_db_introduce(string session, string _uuid, string _name_label, string _name_description, string _sr, string _type, bool _sharable, bool _read_only, Object _other_config, string _location, Object _xenstore_data, Object _sm_config, bool _managed, string _virtual_size, string _physical_utilisation, string _metadata_of_pool, bool _is_a_snapshot, DateTime _snapshot_time, string _snapshot_of);
-
-        [XmlRpcMethod("Async.VDI.db_introduce")]
-        Response<string>
-        async_vdi_db_introduce(string session, string _uuid, string _name_label, string _name_description, string _sr, string _type, bool _sharable, bool _read_only, Object _other_config, string _location, Object _xenstore_data, Object _sm_config, bool _managed, string _virtual_size, string _physical_utilisation, string _metadata_of_pool, bool _is_a_snapshot, DateTime _snapshot_time, string _snapshot_of);
-
-        [XmlRpcMethod("VDI.db_introduce")]
-        Response<string>
-        vdi_db_introduce(string session, string _uuid, string _name_label, string _name_description, string _sr, string _type, bool _sharable, bool _read_only, Object _other_config, string _location, Object _xenstore_data, Object _sm_config, bool _managed, string _virtual_size, string _physical_utilisation, string _metadata_of_pool, bool _is_a_snapshot, DateTime _snapshot_time, string _snapshot_of, bool _cbt_enabled);
-
-        [XmlRpcMethod("Async.VDI.db_introduce")]
-        Response<string>
-        async_vdi_db_introduce(string session, string _uuid, string _name_label, string _name_description, string _sr, string _type, bool _sharable, bool _read_only, Object _other_config, string _location, Object _xenstore_data, Object _sm_config, bool _managed, string _virtual_size, string _physical_utilisation, string _metadata_of_pool, bool _is_a_snapshot, DateTime _snapshot_time, string _snapshot_of, bool _cbt_enabled);
-
-        [XmlRpcMethod("VDI.db_forget")]
-        Response<string>
-        vdi_db_forget(string session, string _vdi);
-
-        [XmlRpcMethod("Async.VDI.db_forget")]
-        Response<string>
-        async_vdi_db_forget(string session, string _vdi);
-
         [XmlRpcMethod("VDI.update")]
         Response<string>
         vdi_update(string session, string _vdi);
@@ -5968,10 +5928,6 @@ namespace XenAPI
         Response<string>
         async_vdi_copy(string session, string _vdi, string _sr, string _base_vdi, string _into_vdi);
 
-        [XmlRpcMethod("VDI.set_managed")]
-        Response<string>
-        vdi_set_managed(string session, string _vdi, bool _value);
-
         [XmlRpcMethod("VDI.forget")]
         Response<string>
         vdi_forget(string session, string _vdi);
@@ -5987,34 +5943,6 @@ namespace XenAPI
         [XmlRpcMethod("VDI.set_read_only")]
         Response<string>
         vdi_set_read_only(string session, string _vdi, bool _value);
-
-        [XmlRpcMethod("VDI.set_missing")]
-        Response<string>
-        vdi_set_missing(string session, string _vdi, bool _value);
-
-        [XmlRpcMethod("VDI.set_virtual_size")]
-        Response<string>
-        vdi_set_virtual_size(string session, string _vdi, string _value);
-
-        [XmlRpcMethod("VDI.set_physical_utilisation")]
-        Response<string>
-        vdi_set_physical_utilisation(string session, string _vdi, string _value);
-
-        [XmlRpcMethod("VDI.set_is_a_snapshot")]
-        Response<string>
-        vdi_set_is_a_snapshot(string session, string _vdi, bool _value);
-
-        [XmlRpcMethod("VDI.set_snapshot_of")]
-        Response<string>
-        vdi_set_snapshot_of(string session, string _vdi, string _value);
-
-        [XmlRpcMethod("VDI.set_snapshot_time")]
-        Response<string>
-        vdi_set_snapshot_time(string session, string _vdi, DateTime _value);
-
-        [XmlRpcMethod("VDI.set_metadata_of_pool")]
-        Response<string>
-        vdi_set_metadata_of_pool(string session, string _vdi, string _value);
 
         [XmlRpcMethod("VDI.set_name_label")]
         Response<string>
@@ -8092,9 +8020,9 @@ namespace XenAPI
         Response<string []>
         cluster_get_cluster_hosts(string session, string _cluster);
 
-        [XmlRpcMethod("Cluster.get_network")]
-        Response<string>
-        cluster_get_network(string session, string _cluster);
+        [XmlRpcMethod("Cluster.get_pending_forget")]
+        Response<string []>
+        cluster_get_pending_forget(string session, string _cluster);
 
         [XmlRpcMethod("Cluster.get_cluster_token")]
         Response<string>
@@ -8117,11 +8045,11 @@ namespace XenAPI
         cluster_get_pool_auto_join(string session, string _cluster);
 
         [XmlRpcMethod("Cluster.get_token_timeout")]
-        Response<string>
+        Response<double>
         cluster_get_token_timeout(string session, string _cluster);
 
         [XmlRpcMethod("Cluster.get_token_timeout_coefficient")]
-        Response<string>
+        Response<double>
         cluster_get_token_timeout_coefficient(string session, string _cluster);
 
         [XmlRpcMethod("Cluster.get_cluster_config")]
@@ -8146,11 +8074,11 @@ namespace XenAPI
 
         [XmlRpcMethod("Cluster.create")]
         Response<string>
-        cluster_create(string session, string _network, string _cluster_stack, bool _pool_auto_join, double _token_timeout, double _token_timeout_coefficient);
+        cluster_create(string session, string _pif, string _cluster_stack, bool _pool_auto_join, double _token_timeout, double _token_timeout_coefficient);
 
         [XmlRpcMethod("Async.Cluster.create")]
         Response<string>
-        async_cluster_create(string session, string _network, string _cluster_stack, bool _pool_auto_join, double _token_timeout, double _token_timeout_coefficient);
+        async_cluster_create(string session, string _pif, string _cluster_stack, bool _pool_auto_join, double _token_timeout, double _token_timeout_coefficient);
 
         [XmlRpcMethod("Cluster.destroy")]
         Response<string>
@@ -8159,6 +8087,14 @@ namespace XenAPI
         [XmlRpcMethod("Async.Cluster.destroy")]
         Response<string>
         async_cluster_destroy(string session, string _cluster);
+
+        [XmlRpcMethod("Cluster.get_network")]
+        Response<string>
+        cluster_get_network(string session, string _cluster);
+
+        [XmlRpcMethod("Async.Cluster.get_network")]
+        Response<string>
+        async_cluster_get_network(string session, string _cluster);
 
         [XmlRpcMethod("Cluster.pool_create")]
         Response<string>
@@ -8224,6 +8160,14 @@ namespace XenAPI
         Response<bool>
         cluster_host_get_enabled(string session, string _cluster_host);
 
+        [XmlRpcMethod("Cluster_host.get_PIF")]
+        Response<string>
+        cluster_host_get_pif(string session, string _cluster_host);
+
+        [XmlRpcMethod("Cluster_host.get_joined")]
+        Response<bool>
+        cluster_host_get_joined(string session, string _cluster_host);
+
         [XmlRpcMethod("Cluster_host.get_allowed_operations")]
         Response<string []>
         cluster_host_get_allowed_operations(string session, string _cluster_host);
@@ -8238,11 +8182,11 @@ namespace XenAPI
 
         [XmlRpcMethod("Cluster_host.create")]
         Response<string>
-        cluster_host_create(string session, string _cluster, string _host);
+        cluster_host_create(string session, string _cluster, string _host, string _pif);
 
         [XmlRpcMethod("Async.Cluster_host.create")]
         Response<string>
-        async_cluster_host_create(string session, string _cluster, string _host);
+        async_cluster_host_create(string session, string _cluster, string _host, string _pif);
 
         [XmlRpcMethod("Cluster_host.destroy")]
         Response<string>
@@ -9331,14 +9275,14 @@ namespace XenAPI
     {
         public string uuid;
         public string [] cluster_hosts;
-        public string network;
+        public string [] pending_forget;
         public string cluster_token;
         public string cluster_stack;
         public string [] allowed_operations;
         public Object current_operations;
         public bool pool_auto_join;
-        public string token_timeout;
-        public string token_timeout_coefficient;
+        public double token_timeout;
+        public double token_timeout_coefficient;
         public Object cluster_config;
         public Object other_config;
     }
@@ -9350,6 +9294,8 @@ namespace XenAPI
         public string cluster;
         public string host;
         public bool enabled;
+        public string PIF;
+        public bool joined;
         public string [] allowed_operations;
         public Object current_operations;
         public Object other_config;

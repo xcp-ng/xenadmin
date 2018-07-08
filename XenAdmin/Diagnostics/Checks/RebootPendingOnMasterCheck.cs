@@ -70,7 +70,7 @@ namespace XenAdmin.Diagnostics.Checks
                     var update = Host.Connection.Resolve(updateRef);
 
                     if (string.IsNullOrEmpty(UpdateUuid) || //automated mode, any update
-                        string.Equals(update.uuid, UpdateUuid, System.StringComparison.InvariantCultureIgnoreCase)) //normal mode the given update
+                        (update != null && string.Equals(update.uuid, UpdateUuid, System.StringComparison.InvariantCultureIgnoreCase))) //normal mode the given update
                     {
                         return new MasterIsPendingRestartHostProblem(this, pool);
                     }

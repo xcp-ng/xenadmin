@@ -44,15 +44,14 @@ namespace XenAdmin.Wizards.GenericPages
 
     public class DelayLoadingOptionComboBoxItem : IEnableableXenObjectComboBoxItem
     {
-        public delegate void ReasonUpdatedEventHandler(object sender, EventArgs args);
         /// <summary>
         /// Event raised when the reason is updated
         /// </summary>
-        public event ReasonUpdatedEventHandler ReasonUpdated;
+        public event Action<DelayLoadingOptionComboBoxItem> ReasonUpdated;
         private string failureReason;
         private IXenObject xenObject;
-        private const int defaultRetries = 10;
-        private const int defaultTimeOut = 200;
+        private const int DEFAULT_RETRIES = 10;
+        private const int DEFAULT_TIMEOUT = 200;
         private readonly List<ReasoningFilter> _filters;
 
         /// <summary>
@@ -94,66 +93,57 @@ namespace XenAdmin.Wizards.GenericPages
         /// <summary>
         /// Create a thread and fetch the reason
         /// </summary>
-        public void Load()
+        public void LoadAsync()
         {
-            //Set default reason without going through setter so not to trigger the event
+            //Set default reason without going through setter so as not to trigger the event
             failureReason = Messages.DELAY_LOADING_COMBO_BOX_WAITING;
 
-            //Thread will trigger event when setting the reason
-            FetchReasonAsnyc();
-
+            ThreadPool.QueueUserWorkItem(delegate { FetchFailureReasonWithRetry(DEFAULT_RETRIES, DEFAULT_TIMEOUT); });
         }
 
-        //Fetch the reason, no thread
-        public void LoadAndWait()
+        /// <summary>
+        /// Fetch the reason on the current thread
+        /// </summary>
+        public void LoadSync()
         {
-            FetchFailureReasonWithRetry(defaultRetries, defaultTimeOut);
+            FetchFailureReasonWithRetry(DEFAULT_RETRIES, DEFAULT_TIMEOUT);
         }
  
-        private void FetchReasonAsnyc()
-        {
-            ThreadPool.QueueUserWorkItem(delegate { FetchFailureReasonWithRetry(defaultRetries, defaultTimeOut); });
-        }
-
         public void CancelFilters()
         {
             foreach (ReasoningFilter filter in _filters)
                 filter.Cancel();
         }
 
+        /// <summary>
+        /// Triggers event when setting the reason
+        /// </summary>
         private void FetchFailureReasonWithRetry(int retries, int timeOut)
         {
-            string threadFailureReason = Messages.DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_UNKOWN;
-
             do
             {
                 try
                 {
-                    threadFailureReason = FetchFailureReason();
-                    break;
+                    FailureReason = FetchFailureReason();
+                    return;
                 }
                 catch
                 {
-                    if (retries <= 0)
-                    {
-                        FailureReason = Messages.DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_UNKOWN;
-                        return;
-                    }
-                    Thread.Sleep(timeOut);
+                    if (retries > 0)
+                        Thread.Sleep(timeOut);
                 }
             } while (retries-- > 0);
 
-            FailureReason = threadFailureReason;
+            FailureReason = Messages.DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_UNKOWN;
         }
 
         /// <summary>
         /// Trigger event
         /// </summary>
-        /// <param name="e"></param>
-        private void OnReasonChanged(EventArgs e)
+        private void OnReasonChanged()
         {
             if (ReasonUpdated != null)
-                ReasonUpdated(this, e);
+                ReasonUpdated(this);
         }
 
         public bool Enabled { get; private set; }
@@ -173,7 +163,7 @@ namespace XenAdmin.Wizards.GenericPages
 
                 Enabled = String.IsNullOrEmpty(failureReason);
 
-                OnReasonChanged(new EventArgs());
+                OnReasonChanged();
             }
         }
 

@@ -41,7 +41,7 @@ namespace XenAPI
 {
     /// <summary>
     /// network-sriov which connects logical pif and physical pif
-    /// First published in Unreleased.
+    /// First published in XenServer 7.5.
     /// </summary>
     public partial class Network_sriov : XenObject<Network_sriov>
     {
@@ -172,7 +172,7 @@ namespace XenAPI
         }
         /// <summary>
         /// Get a record containing the current state of the given network_sriov.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
@@ -186,7 +186,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get a reference to the network_sriov instance with the specified UUID.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
@@ -200,7 +200,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the uuid field of the given network_sriov.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
@@ -214,7 +214,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the physical_PIF field of the given network_sriov.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
@@ -228,7 +228,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the logical_PIF field of the given network_sriov.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
@@ -242,7 +242,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the requires_reboot field of the given network_sriov.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
@@ -256,7 +256,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the configuration_mode field of the given network_sriov.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
@@ -270,7 +270,7 @@ namespace XenAPI
 
         /// <summary>
         /// Enable SR-IOV on the specific PIF. It will create a network-sriov based on the specific PIF and automatically create a logical PIF to connect the specific network.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">PIF on which to enable SR-IOV</param>
@@ -285,7 +285,7 @@ namespace XenAPI
 
         /// <summary>
         /// Enable SR-IOV on the specific PIF. It will create a network-sriov based on the specific PIF and automatically create a logical PIF to connect the specific network.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">PIF on which to enable SR-IOV</param>
@@ -300,7 +300,7 @@ namespace XenAPI
 
         /// <summary>
         /// Disable SR-IOV on the specific PIF. It will destroy the network-sriov and the logical PIF accordingly.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
@@ -314,7 +314,7 @@ namespace XenAPI
 
         /// <summary>
         /// Disable SR-IOV on the specific PIF. It will destroy the network-sriov and the logical PIF accordingly.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
@@ -328,7 +328,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the number of free SR-IOV VFs on the associated PIF
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
@@ -342,7 +342,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the number of free SR-IOV VFs on the associated PIF
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
@@ -356,7 +356,7 @@ namespace XenAPI
 
         /// <summary>
         /// Return a list of all the network_sriovs known to the system.
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         public static List<XenRef<Network_sriov>> get_all(Session session)
@@ -369,7 +369,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get all the network_sriov Records at once, in a single XML RPC call
-        /// First published in Unreleased.
+        /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
         public static Dictionary<XenRef<Network_sriov>, Network_sriov> get_all_records(Session session)

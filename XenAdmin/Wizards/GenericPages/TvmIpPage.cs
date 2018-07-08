@@ -86,8 +86,8 @@ namespace XenAdmin.Wizards.GenericPages
 		}
 
         public override void PopulatePage()
-		{
-			m_comboBoxNetwork.PopulateComboBox(Connection);
+        {
+            m_comboBoxNetwork.PopulateComboBox(Connection, item => item.IsManagement);
 			m_radioAutomatic.Checked = true;
 		}
 

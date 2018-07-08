@@ -170,8 +170,8 @@ namespace XenAdmin.Dialogs
 
             var pif = Tag as PIF;
             var existingCluster = network != null ? network.Connection.Cache.Clusters.FirstOrDefault() : null;
-
-            if (pif != null && existingCluster != null && existingCluster.network.opaque_ref == network.opaque_ref)
+            
+            if (pif != null && existingCluster != null)
             {
                 Host host = network.Connection.Resolve(pif.host);
                     

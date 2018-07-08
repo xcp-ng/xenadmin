@@ -270,9 +270,6 @@
   <data name="CLUSTERING_ENABLED" xml:space="preserve">
     <value>An operation was attempted while clustering was enabled on the cluster_host.</value>
   </data>
-  <data name="CLUSTERING_ENABLED_ON_NETWORK" xml:space="preserve">
-    <value>The network has cluster objects attached.</value>
-  </data>
   <data name="CLUSTER_ALREADY_EXISTS" xml:space="preserve">
     <value>A cluster already exists in the pool.</value>
   </data>
@@ -280,10 +277,16 @@
     <value>The operation could not be performed because cluster creation is in progress.</value>
   </data>
   <data name="CLUSTER_DOES_NOT_HAVE_ONE_NODE" xml:space="preserve">
-    <value>The cluster does not have only one node.</value>
+    <value>An operation failed as it expected the cluster to have only one node but found multiple cluster_hosts.</value>
   </data>
   <data name="CLUSTER_FORCE_DESTROY_FAILED" xml:space="preserve">
     <value>Force destroy failed on a Cluster_host while force destroying the cluster.</value>
+  </data>
+  <data name="CLUSTER_HOST_IS_LAST" xml:space="preserve">
+    <value>The last cluster host cannot be destroyed. Destroy the cluster instead</value>
+  </data>
+  <data name="CLUSTER_HOST_NOT_JOINED" xml:space="preserve">
+    <value>Cluster_host operation failed as the cluster_host has not joined the cluster.</value>
   </data>
   <data name="CLUSTER_STACK_IN_USE" xml:space="preserve">
     <value>The cluster stack is already in use.</value>
@@ -594,6 +597,9 @@
   <data name="INVALID_CIDR_ADDRESS_SPECIFIED" xml:space="preserve">
     <value>A required parameter contained an invalid CIDR address (&lt;addr&gt;/&lt;prefix length&gt;)</value>
   </data>
+  <data name="INVALID_CLUSTER_STACK" xml:space="preserve">
+    <value>The cluster stack provided is not supported.</value>
+  </data>
   <data name="INVALID_DEVICE" xml:space="preserve">
     <value>The device name {0} is invalid</value>
   </data>
@@ -777,6 +783,9 @@
   <data name="NOT_SYSTEM_DOMAIN" xml:space="preserve">
     <value>The given VM is not registered as a system domain. This operation can only be performed on a registered system domain.</value>
   </data>
+  <data name="NO_CLUSTER_HOSTS_REACHABLE" xml:space="preserve">
+    <value>No other cluster host was reachable when joining</value>
+  </data>
   <data name="NO_COMPATIBLE_CLUSTER_HOST" xml:space="preserve">
     <value>The host does not have a Cluster_host with a compatible cluster stack.</value>
   </data>
@@ -921,6 +930,9 @@
   <data name="PIF_IS_VLAN" xml:space="preserve">
     <value>You tried to create a VLAN on top of another VLAN - use the underlying physical PIF/bond instead</value>
   </data>
+  <data name="PIF_NOT_ATTACHED_TO_HOST" xml:space="preserve">
+    <value>Cluster_host creation failed as the PIF provided is not attached to the host.</value>
+  </data>
   <data name="PIF_NOT_PRESENT" xml:space="preserve">
     <value>This host has no PIF on the given network.</value>
   </data>
@@ -1054,6 +1066,9 @@ Authorized Roles: {1}</value>
   </data>
   <data name="REDO_LOG_IS_ENABLED" xml:space="preserve">
     <value>The operation could not be performed because a redo log is enabled on the Pool.</value>
+  </data>
+  <data name="REQUIRED_PIF_IS_UNPLUGGED" xml:space="preserve">
+    <value>The operation you requested cannot be performed because the specified PIF is currently unplugged.</value>
   </data>
   <data name="RESTORE_INCOMPATIBLE_VERSION" xml:space="preserve">
     <value>Cannot restore on this server because it was saved on an incompatible version</value>
@@ -1285,6 +1300,9 @@ Authorized Roles: {1}</value>
   </data>
   <data name="SR_BACKEND_FAILURE_181" xml:space="preserve">
     <value>Error in Metadata volume operation for SR.</value>
+  </data>
+  <data name="SR_BACKEND_FAILURE_182" xml:space="preserve">
+    <value>ISCSI delete failed</value>
   </data>
   <data name="SR_BACKEND_FAILURE_19" xml:space="preserve">
     <value>No such device</value>
@@ -2017,6 +2035,9 @@ Authorized Roles: {1}</value>
   </data>
   <data name="VM_HAS_PCI_ATTACHED" xml:space="preserve">
     <value>This operation could not be performed because the VM has one or more PCI devices passed through.</value>
+  </data>
+  <data name="VM_HAS_SRIOV_VIF" xml:space="preserve">
+    <value>This operation could not be performed, because the VM has one or more SR-IOV VIFs.</value>
   </data>
   <data name="VM_HAS_TOO_MANY_SNAPSHOTS" xml:space="preserve">
     <value>You attempted to migrate a VM with more than one snapshot.</value>

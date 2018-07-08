@@ -61,6 +61,9 @@ namespace XenAdmin.Diagnostics.Checks
             if (update == null || !update.EnforceHomogeneity()) 
                 return null;
 
+            if (!pool.IsPoolFullyUpgraded())
+                return new MixedPoolServerSelectionWarning(this, pool);
+            
             if (pool.Connection.Cache.Hosts.Any(h => !update.AppliedOn(h) && !selectedServers.Contains(h)))
                 return new ServerSelectionProblem(this, pool);
 

@@ -236,7 +236,9 @@ namespace XenAdmin.Controls
 
             bool will_disturb_primary = NetworkingHelper.ContainsPrimaryManagement(pifs);
             bool will_disturb_secondary = NetworkingHelper.ContainsSecondaryManagement(pifs);
+            bool will_disturb_clustering = NetworkingHelper.ContainsClusteringPif(pifs);
 
+            // It is not allowed to bond primary and secondary interfaces together.
             if (will_disturb_primary && will_disturb_secondary)
             {
                 using (var dlg = new ThreeButtonDialog(
@@ -251,6 +253,8 @@ namespace XenAdmin.Controls
                 return DialogResult.Cancel;
             }
 
+            // Only primary management interface.
+            // In this case, clustering interface warning is hidden if it happens to be the management interface.
             if (will_disturb_primary)
             {
                 Pool pool = Helpers.GetPool(Connection);
@@ -280,19 +284,39 @@ namespace XenAdmin.Controls
                 return dialogResult;
             }
             
+            // Only secondary interface.
+            // If there is clustering interface, shows clustering warning. Otherwise, shows secondary interface warning.
             if (will_disturb_secondary)
             {
                 DialogResult dialogResult;
-                using (var dlg = new ThreeButtonDialog(
-                    new ThreeButtonDialog.Details(
-                        SystemIcons.Warning,
-                        Messages.BOND_CREATE_WILL_DISTURB_SECONDARY,
-                        Messages.BOND_CREATE),
-                    ThreeButtonDialog.ButtonOK,
-                    ThreeButtonDialog.ButtonCancel))
+                if (will_disturb_clustering)
                 {
-                    dialogResult = dlg.ShowDialog(this);
+                    using (var dlg = new ThreeButtonDialog(
+                        new ThreeButtonDialog.Details(
+                            SystemIcons.Warning,
+                            Messages.BOND_CREATE_WILL_DISTURB_CLUSTERING,
+                            Messages.BOND_CREATE),
+                        ThreeButtonDialog.ButtonOK,
+                        ThreeButtonDialog.ButtonCancel))
+                    {
+                        dialogResult = dlg.ShowDialog(this);
+                    }
                 }
+
+                else
+                {
+                    using (var dlg = new ThreeButtonDialog(
+                        new ThreeButtonDialog.Details(
+                            SystemIcons.Warning,
+                            Messages.BOND_CREATE_WILL_DISTURB_SECONDARY,
+                            Messages.BOND_CREATE),
+                        ThreeButtonDialog.ButtonOK,
+                        ThreeButtonDialog.ButtonCancel))
+                    {
+                        dialogResult = dlg.ShowDialog(this);
+                    }
+                }
+                
                 return dialogResult;
             }
             

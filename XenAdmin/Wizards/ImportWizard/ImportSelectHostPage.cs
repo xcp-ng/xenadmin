@@ -48,12 +48,17 @@ namespace XenAdmin.Wizards.ImportWizard
 {
     class ImportSelectHostPage : SelectMultipleVMDestinationPage
     {
-        public EnvelopeType SelectedOvfEnvelope { private get; set; }
+        private EnvelopeType _selectedOvfEnvelope;
         private List<Xen_ConfigurationSettingData_Type> vgpuSettings = new List<Xen_ConfigurationSettingData_Type>();
         private List<Xen_ConfigurationSettingData_Type> hardwarePlatformSettings = new List<Xen_ConfigurationSettingData_Type>();
         private List<Xen_ConfigurationSettingData_Type> vendorDeviceSettings = new List<Xen_ConfigurationSettingData_Type>();
 
         public event Action<IXenConnection> ConnectionSelectionChanged;
+
+        public ImportSelectHostPage()
+        {
+            ShowWarning(null);
+        }
 
         #region XenTabPage overrides
 
@@ -72,42 +77,44 @@ namespace XenAdmin.Wizards.ImportWizard
             return true;
         }
 
-        protected override void PageLoadedCore(PageLoadedDirection direction)
-        {
-            if (direction == PageLoadedDirection.Forward)
-            {
-                ShowWarning(null);
+        #endregion
 
+        public EnvelopeType SelectedOvfEnvelope
+        {
+            private get
+            {
+                return _selectedOvfEnvelope;
+            }
+            set
+            {
+                _selectedOvfEnvelope = value;
+                
                 vgpuSettings.Clear();
                 hardwarePlatformSettings.Clear();
                 vendorDeviceSettings.Clear();
 
-                if (SelectedOvfEnvelope != null)
+                if (_selectedOvfEnvelope == null)
+                    return;
+                
+                foreach (var vsType in ((VirtualSystemCollection_Type)SelectedOvfEnvelope.Item).Content)
                 {
-                    foreach (var vsType in ((VirtualSystemCollection_Type)SelectedOvfEnvelope.Item).Content)
-                    {
-                        var vhs = OVF.FindVirtualHardwareSectionByAffinity(SelectedOvfEnvelope, vsType.id, "xen");
-                        var data = vhs.VirtualSystemOtherConfigurationData;
-                        if (data == null)
-                            continue;
+                    var vhs = OVF.FindVirtualHardwareSectionByAffinity(SelectedOvfEnvelope, vsType.id, "xen");
+                    var data = vhs.VirtualSystemOtherConfigurationData;
+                    if (data == null)
+                        continue;
 
-                        foreach (var s in data)
-                        {
-                            if (s.Name == "vgpu")
-                                vgpuSettings.Add(s);
-                            else if (s.Name == "hardware_platform_version")
-                                hardwarePlatformSettings.Add(s);
-                            else if (s.Name == "VM_has_vendor_device")
-                                vendorDeviceSettings.Add(s);
-                        }
+                    foreach (var s in data)
+                    {
+                        if (s.Name == "vgpu")
+                            vgpuSettings.Add(s);
+                        else if (s.Name == "hardware_platform_version")
+                            hardwarePlatformSettings.Add(s);
+                        else if (s.Name == "VM_has_vendor_device")
+                            vendorDeviceSettings.Add(s);
                     }
                 }
             }
-
-            PopulateComboBox();
         }
-
-        #endregion
 
         protected override string InstructionText { get { return Messages.IMPORT_WIZARD_DESTINATION_INSTRUCTIONS; } }
 

@@ -107,6 +107,7 @@ namespace XenAdmin.TabPages
             this.columnSize,
             this.columnVirtAlloc});
             resources.ApplyResources(this.dataGridViewSr, "dataGridViewSr");
+            this.dataGridViewSr.MultiSelect = true;
             this.dataGridViewSr.Name = "dataGridViewSr";
             this.dataGridViewSr.SelectionChanged += new System.EventHandler(this.dataGridViewSrs_SelectedIndexChanged);
             this.dataGridViewSr.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dataGridViewSr_SortCompare);

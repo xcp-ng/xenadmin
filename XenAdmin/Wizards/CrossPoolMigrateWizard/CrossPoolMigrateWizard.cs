@@ -72,24 +72,15 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
 	    private bool _resumeAfterMigrate;
 
         // Note that resumeAfter is currently only implemented for Migrate mode, used for resume on server functionality
-        public CrossPoolMigrateWizard(IXenConnection con, IEnumerable<SelectedItem> selection, Host targetHostPreSelection, WizardMode mode, bool resumeAfterMigrate=false)
-            : base(con)
-        {
+	    public CrossPoolMigrateWizard(IXenConnection con, SelectedItemCollection selection, Host targetHostPreSelection, WizardMode mode, bool resumeAfterMigrate = false)
+	        : base(con)
+	    {
             InitializeComponent();
             hostPreSelection = targetHostPreSelection;
-            wizardMode = mode;
-            InitialiseWizard(selection);
-            _resumeAfterMigrate = resumeAfterMigrate;
-        }
-
-
-        public CrossPoolMigrateWizard(IXenConnection con, IEnumerable<SelectedItem> selection, WizardMode mode)
-			: base(con)
-        {
-            InitializeComponent();
-            wizardMode = mode;
-            InitialiseWizard(selection);
-        }
+	        wizardMode = mode;
+	        InitialiseWizard(selection);
+	        _resumeAfterMigrate = resumeAfterMigrate;
+	    }
 
         private bool HasTemplatesOnly { get; set; }
 
@@ -157,15 +148,31 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
         }
 
 
-        protected void InitialiseWizard(IEnumerable<SelectedItem> selection)
+        private void InitialiseWizard(SelectedItemCollection selection)
         {
-            var vmsFromSelection = VmsFromSelection(selection);
+            var vmsFromSelection = new List<VM>();
 
-            CreateMappingsFromSelection(selection);
-            HasTemplatesOnly = vmsFromSelection != null && vmsFromSelection.All(vm => vm.is_a_template);
+            foreach (var item in selection)
+            {
+                var vm = item.XenObject as VM;
+                if (vm == null)
+                    continue;
+
+                vmsFromSelection.Add(vm);
+                m_vmMappings.Add(item.XenObject.opaque_ref, new VmMapping { VmNameLabel = item.XenObject.Name() });
+            }
+
+            HasTemplatesOnly = vmsFromSelection.Count > 0 && vmsFromSelection.All(vm => vm.is_a_template);
 
             UpdateWindowTitle();
-            m_pageDestination = CreateCrossPoolMigrateDestinationPage(selection);
+
+            m_pageDestination = new CrossPoolMigrateDestinationPage(vmsFromSelection, 
+                    wizardMode, GetSourceConnectionsForSelection(selection))
+            {
+                VmMappings = m_vmMappings,
+                Connection = selection.GetConnectionOfFirstItem()
+            };
+            m_pageDestination.SetDefaultTarget(hostPreSelection);
 
             m_pageStorage = new CrossPoolMigrateStoragePage(wizardMode);
             m_pageNetwork = new CrossPoolMigrateNetworkingPage(HasTemplatesOnly, wizardMode);
@@ -182,16 +189,7 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
                 AddPages(m_pageDestination, m_pageStorage, m_pageFinish);
         }
 
-        private CrossPoolMigrateDestinationPage CreateCrossPoolMigrateDestinationPage(IEnumerable<SelectedItem> selection)
-        {
-            return
-                new CrossPoolMigrateDestinationPage(hostPreSelection, VmsFromSelection(selection), wizardMode, GetSourceConnectionsForSelection(selection))
-                {
-                    VmMappings = m_vmMappings,
-                };
-        }
-
-        public override sealed string Text
+        public sealed override string Text
         {
             get { return base.Text; }
             set { base.Text = value; }
@@ -283,30 +281,12 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
             }
         }
 
-        private void CreateMappingsFromSelection(IEnumerable<SelectedItem> selection)
-        {
-            foreach (SelectedItem item in selection)
-            {
-                VmMapping mapping = new VmMapping
-                                        {
-                                            VmNameLabel = item.XenObject.Name()
-                                        };
-                
-                m_vmMappings.Add(item.XenObject.opaque_ref, mapping);
-            }
-        }
-
-        private List<IXenConnection> GetSourceConnectionsForSelection(IEnumerable<SelectedItem> selection)
+	    private List<IXenConnection> GetSourceConnectionsForSelection(IEnumerable<SelectedItem> selection)
         {
             return 
                 wizardMode == WizardMode.Copy 
                     ?   selection.Select(item => item.Connection).Where(conn => conn != null).Distinct().ToList()
                     :   new List<IXenConnection>();
-        }
-
-        private List<VM> VmsFromSelection(IEnumerable<SelectedItem> selection)
-        {
-            return selection.Select(item => item.XenObject).OfType<VM>().ToList();
         }
 
         private void UpdateWindowTitle()
@@ -339,7 +319,7 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
                 RemovePage(m_pageTransferNetwork);
                 RemovePage(m_pageTargetRbac);
                 m_vmMappings = m_pageDestination.VmMappings;
-                TargetConnection = m_pageDestination.Connection;
+                TargetConnection = m_pageDestination.ChosenItem == null ? null : m_pageDestination.ChosenItem.Connection;
                 m_pageStorage.TargetConnection = TargetConnection;
                 m_pageNetwork.TargetConnection = TargetConnection;
                 ConfigureRbacPage();
@@ -358,7 +338,6 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
                 //with the same names together - ideal for intra-pool
                 ClearAllNetworkMappings();
                 m_pageStorage.VmMappings = m_vmMappings;
-                m_pageDestination.SetDefaultTarget(m_pageDestination.ChosenItem);
             }
             else if (type == typeof(CrossPoolMigrateStoragePage))
             {

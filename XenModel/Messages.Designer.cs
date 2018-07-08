@@ -5875,6 +5875,17 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Creating this bond will automatically move the clustering network on one of your selected bond members to the bond itself:
+        ///
+        ///- If your network configuration is incorrect then hosts may permanently lose the connection to the clustering network, which will cause undesired host fences..
+        /// </summary>
+        public static string BOND_CREATE_WILL_DISTURB_CLUSTERING {
+            get {
+                return ResourceManager.GetString("BOND_CREATE_WILL_DISTURB_CLUSTERING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creating this bond will automatically move the management interface on one of your selected bond members to the bond itself:
         ///
         ///- [XenCenter] connections to the pool will temporarily be disturbed
@@ -9457,7 +9468,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The selected VMs are no longer available for migration. Please verify your selection is valid and relaunch the wizard..
+        ///   Looks up a localized string similar to The selected VMs are no longer available in [XenCenter]&apos;s cache. Please verify your selection is valid and relaunch the wizard..
         /// </summary>
         public static string CPM_WIZARD_VM_MISSING_ERROR {
             get {
@@ -26135,6 +26146,15 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The VM has one or more SR-IOV VFs attached. Restart cannot be guaranteed..
+        /// </summary>
+        public static string NOT_AGILE_VM_HAS_SRIOV_VIF {
+            get {
+                return ResourceManager.GetString("NOT_AGILE_VM_HAS_SRIOV_VIF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The VM has one or more virtual GPUs. Restart cannot be guaranteed..
         /// </summary>
         public static string NOT_AGILE_VM_HAS_VGPU {
@@ -32265,20 +32285,11 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Yes (disabled).
+        ///   Looks up a localized string similar to Yes (SR-IOV logical PIF is unplugged).
         /// </summary>
-        public static string SRIOV_DISABLED {
+        public static string SRIOV_LOGICAL_PIF_UNPLUGGED {
             get {
-                return ResourceManager.GetString("SRIOV_DISABLED", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to These servers needs to be rebooted for this SR-IOV network to take effect:&apos;{0}&apos;.
-        /// </summary>
-        public static string SRIOV_ENABLE_REBOOT_WARNING {
-            get {
-                return ResourceManager.GetString("SRIOV_ENABLE_REBOOT_WARNING", resourceCulture);
+                return ResourceManager.GetString("SRIOV_LOGICAL_PIF_UNPLUGGED", resourceCulture);
             }
         }
         
@@ -32301,11 +32312,22 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Creating this SR-IOV network will have effects on network connection status and [XenCenter] connections to the pool will temporarily be disturbed.
+        ///   Looks up a localized string similar to Creating this SR-IOV network will temporarily disturb [XenCenter] connections to the pool.
+        ///
+        ///You may need to reboot your server(s) to enable SR-IOV network..
         /// </summary>
-        public static string SRIOV_NETWORK_CREATE_WILL_DISTURB_CONNECTION {
+        public static string SRIOV_NETWORK_CREATE_WARNING {
             get {
-                return ResourceManager.GetString("SRIOV_NETWORK_CREATE_WILL_DISTURB_CONNECTION", resourceCulture);
+                return ResourceManager.GetString("SRIOV_NETWORK_CREATE_WARNING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes (To enable SR-IOV create an SR-IOV network on this NIC).
+        /// </summary>
+        public static string SRIOV_NETWORK_SHOULD_BE_CREATED {
+            get {
+                return ResourceManager.GetString("SRIOV_NETWORK_SHOULD_BE_CREATED", resourceCulture);
             }
         }
         
@@ -34706,6 +34728,15 @@ namespace XenAdmin {
         public static string UPDATES_WIZARD_LOCAL_STORAGE {
             get {
                 return ResourceManager.GetString("UPDATES_WIZARD_LOCAL_STORAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}: Check skipped because the pool is partially upgraded..
+        /// </summary>
+        public static string UPDATES_WIZARD_MIXED_POOL_SERVER_SELECTION_WARNING {
+            get {
+                return ResourceManager.GetString("UPDATES_WIZARD_MIXED_POOL_SERVER_SELECTION_WARNING", resourceCulture);
             }
         }
         
