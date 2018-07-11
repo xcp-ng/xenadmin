@@ -101,6 +101,7 @@ namespace XenAdmin.Actions.VMActions
                 PercentComplete = 5;
                 LiveMigrateOptionsVmMapping options = new LiveMigrateOptionsVmMapping(mapping, VM);
                 var _options = new Dictionary<string, string>(options.Options);
+                _options.Add("force", "true");
                 if (copy)
                     _options.Add("copy", "true");
                 RelatedTask = VM.async_migrate_send(Session, VM.opaque_ref, sendData, 
