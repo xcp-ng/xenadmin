@@ -153,7 +153,8 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard.Filters
                                                   true,
                                                   GetVdiMap(vm, targetSrs),
                                                   vm.Connection == host.Connection ? new Dictionary<XenRef<VIF>, XenRef<XenAPI.Network>>() : GetVifMap(vm, targetNetwork),
-                                                  new Dictionary<string, string>());
+                                                  //TODO: Implement force=true as general option
+                                                  new Dictionary<string, string>(){{ "force", "true" }});
                             lock (cacheLock)
                             {
                                 vmCache.Add(host.opaque_ref, string.Empty);
