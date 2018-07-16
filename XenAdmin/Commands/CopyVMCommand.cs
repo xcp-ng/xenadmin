@@ -66,7 +66,7 @@ namespace XenAdmin.Commands
         {
             VM vm = (VM)selection[0].XenObject;
 
-            if (CrossPoolCopyVMCommand.CanExecute(vm, null))
+            if (CrossPoolCopyVMCommand.CanExecute(vm, null, false))
                 new CrossPoolCopyVMCommand(MainWindowCommandInterface, selection).Execute();
             else
                 MainWindowCommandInterface.ShowPerXenModelObjectWizard(vm, new CopyVMDialog(vm));
@@ -79,7 +79,7 @@ namespace XenAdmin.Commands
 
         private static bool CanExecute(VM vm)
         {
-            return vm != null && (CrossPoolCopyVMCommand.CanExecute(vm, null) || vm.CanBeCopied());
+            return vm != null && (CrossPoolCopyVMCommand.CanExecute(vm, null, false) || vm.CanBeCopied());
         }
 
         public override string MenuText

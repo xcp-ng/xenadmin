@@ -299,8 +299,8 @@ namespace XenAdmin.Commands
                 else
                 {
                     var cpmCmd = isHomeServer
-                        ? new CrossPoolMigrateToHomeCommand(menu.Command.MainWindowCommandInterface, selection, host)
-                        : new CrossPoolMigrateCommand(menu.Command.MainWindowCommandInterface, selection, host, menu._resumeAfter);
+                        ? new CrossPoolMigrateToHomeCommand(menu.Command.MainWindowCommandInterface, selection, host, false)
+                        : new CrossPoolMigrateCommand(menu.Command.MainWindowCommandInterface, selection, host, false, menu._resumeAfter);
 
                     var crossPoolMigrateCmdCanRun = cpmCmd.CanExecute();
                     if (Stopped)

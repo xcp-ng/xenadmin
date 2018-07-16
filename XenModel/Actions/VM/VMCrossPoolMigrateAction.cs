@@ -52,7 +52,7 @@ namespace XenAdmin.Actions.VMActions
         /// <param name="mapping">the storage and networking mappings</param>
         /// <param name="copy">weather this should be a cross-pool copy (true) or migrate (false) operation</param>
         /// <param name="force">weather this should be forced</param>
-        public VMCrossPoolMigrateAction(VM vm, Host destinationHost, XenAPI.Network transferNetwork, VmMapping mapping, bool copy, bool force=true)
+        public VMCrossPoolMigrateAction(VM vm, Host destinationHost, XenAPI.Network transferNetwork, VmMapping mapping, bool copy, bool force)
             : base(vm.Connection, GetTitle(vm, destinationHost, copy))
         {
             Session = vm.Connection.Session;

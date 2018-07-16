@@ -40,11 +40,11 @@ namespace XenAdmin.Commands
     internal class CrossPoolCopyVMCommand : CrossPoolMigrateCommand
     {
         public CrossPoolCopyVMCommand(IMainWindow mainWindow, IEnumerable<SelectedItem> selection)
-            : this(mainWindow, selection, null)
+            : this(mainWindow, selection, null, false)
         { }
 
-        public CrossPoolCopyVMCommand(IMainWindow mainWindow, IEnumerable<SelectedItem> selection, Host preSelectedHost)
-            : base(mainWindow, selection, preSelectedHost)
+        public CrossPoolCopyVMCommand(IMainWindow mainWindow, IEnumerable<SelectedItem> selection, Host preSelectedHost, bool force)
+            : base(mainWindow, selection, preSelectedHost, force)
         {
         }
 
@@ -58,31 +58,31 @@ namespace XenAdmin.Commands
             var con = selection.GetConnectionOfFirstItem();
 
             MainWindowCommandInterface.ShowPerConnectionWizard(con,
-                new CrossPoolMigrateWizard(con, selection, preSelectedHost, WizardMode.Copy));
+                new CrossPoolMigrateWizard(con, selection, preSelectedHost, WizardMode.Copy, false));
         }
 
         protected override bool CanExecute(VM vm)
         {
-            return CanExecute(vm, preSelectedHost);
+            return CanExecute(vm, preSelectedHost, _force);
         }
 
-        public static bool CanExecute(VM vm, Host preSelectedHost)
+        public static bool CanExecute(VM vm, Host preSelectedHost, bool force)
         {
             if (vm == null || vm.is_a_template || vm.Locked || vm.power_state != vm_power_state.Halted)
                 return false;
 
-            return CrossPoolMigrateCommand.CanExecute(vm, preSelectedHost);
+            return CrossPoolMigrateCommand.CanExecute(vm, preSelectedHost, force);
         }
     }
 
     internal class CrossPoolCopyTemplateCommand : CrossPoolCopyVMCommand
     {
         public CrossPoolCopyTemplateCommand(IMainWindow mainWindow, IEnumerable<SelectedItem> selection)
-            : this(mainWindow, selection, null)
+            : this(mainWindow, selection, null, false)
         { }
 
-        public CrossPoolCopyTemplateCommand(IMainWindow mainWindow, IEnumerable<SelectedItem> selection, Host preSelectedHost)
-            : base(mainWindow, selection, preSelectedHost)
+        public CrossPoolCopyTemplateCommand(IMainWindow mainWindow, IEnumerable<SelectedItem> selection, Host preSelectedHost, bool force)
+            : base(mainWindow, selection, preSelectedHost, force)
         {
         }
 
@@ -91,12 +91,12 @@ namespace XenAdmin.Commands
             get { return Messages.MAINWINDOW_COPY_TEMPLATE; }
         }
 
-        public new static bool CanExecute(VM vm, Host preSelectedHost)
+        public new static bool CanExecute(VM vm, Host preSelectedHost, bool force)
         {
             if (vm == null || !vm.is_a_template || vm.DefaultTemplate() || vm.Locked)
                 return false;
 
-            return CrossPoolMigrateCommand.CanExecute(vm, preSelectedHost);
+            return CrossPoolMigrateCommand.CanExecute(vm, preSelectedHost, force);
         }
     }
 }
