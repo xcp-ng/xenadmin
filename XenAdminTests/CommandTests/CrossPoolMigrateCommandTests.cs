@@ -73,7 +73,7 @@ namespace XenAdminTests.CommandTests
 
             IMainWindow mw = new MockMainWindow();
 
-            var cmd = new CrossPoolMigrateCommand(mw, new List<SelectedItem> { new SelectedItem(vm.Object)}, null);
+            var cmd = new CrossPoolMigrateCommand(mw, new List<SelectedItem> { new SelectedItem(vm.Object)}, null, false);
             return cmd.CanExecute();
         }
 
@@ -91,7 +91,7 @@ namespace XenAdminTests.CommandTests
             pool.Setup(p => p.wlb_url).Returns("wlburl"); //Configured == true
             
             IMainWindow mw = new MockMainWindow();
-            var cmd = new CrossPoolMigrateCommand(mw, new List<SelectedItem> { new SelectedItem(vm.Object) }, null);
+            var cmd = new CrossPoolMigrateCommand(mw, new List<SelectedItem> { new SelectedItem(vm.Object) }, null, false);
             bool canExecute = cmd.CanExecute();
             pool.Verify(p=>p.wlb_enabled, Times.AtLeastOnce());
             return canExecute;
@@ -123,7 +123,7 @@ namespace XenAdminTests.CommandTests
 
             //Command
             IMainWindow mw = new MockMainWindow();
-            var cmd = new CrossPoolMigrateCommand(mw, new List<SelectedItem> { new SelectedItem(vm.Object) }, null);
+            var cmd = new CrossPoolMigrateCommand(mw, new List<SelectedItem> { new SelectedItem(vm.Object) }, null, false);
             bool canExecute = cmd.CanExecute();
 
             //As the command is launching the wizard it should only need to 
