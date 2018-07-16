@@ -194,7 +194,7 @@ namespace XenAdminTests.WizardTests
         {
             foreach (TestData data in TestCasesMigrationAllowed)
             {
-                var filter = new CrossPoolMigrateCanMigrateFilter(data.Item1, data.Item2, WizardMode.Migrate);
+                var filter = new CrossPoolMigrateCanMigrateFilter(data.Item1, data.Item2, WizardMode.Migrate, false);
                 Assert.False(filter.FailureFound, "Did not expect to find failure");
                 Assert.That(filter.Reason, Is.Null.Or.Empty); //Did not expect failure reason
             }
@@ -205,7 +205,7 @@ namespace XenAdminTests.WizardTests
         {
             foreach (TestData data in TestCasesArgumentException)
             {
-                Assert.Throws<ArgumentException>(() => { var filter = new CrossPoolMigrateCanMigrateFilter(data.Item1, data.Item2, WizardMode.Migrate); });
+                Assert.Throws<ArgumentException>(() => { var filter = new CrossPoolMigrateCanMigrateFilter(data.Item1, data.Item2, WizardMode.Migrate, false); });
             }
         }
 
@@ -214,7 +214,7 @@ namespace XenAdminTests.WizardTests
         {
             foreach (TestData data in TestCasesArgumentNullException)
             {
-                Assert.Throws<ArgumentNullException>(() => { var filter = new CrossPoolMigrateCanMigrateFilter(data.Item1, data.Item2, WizardMode.Migrate); });
+                Assert.Throws<ArgumentNullException>(() => { var filter = new CrossPoolMigrateCanMigrateFilter(data.Item1, data.Item2, WizardMode.Migrate, false); });
             }
         }
 
@@ -223,7 +223,7 @@ namespace XenAdminTests.WizardTests
         {
             foreach (TestData data in TestCasesMigrationNotAllowedCurrentServer)
             {
-                var filter = new CrossPoolMigrateCanMigrateFilter(data.Item1, data.Item2, WizardMode.Migrate);
+                var filter = new CrossPoolMigrateCanMigrateFilter(data.Item1, data.Item2, WizardMode.Migrate, false);
                 Assert.True(filter.FailureFound, "Expected to find failure");
                 Assert.That(filter.Reason, Is.Null.Or.Empty); //Did not expect failure reason
             }
