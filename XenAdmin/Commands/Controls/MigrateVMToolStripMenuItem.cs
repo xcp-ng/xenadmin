@@ -59,10 +59,15 @@ namespace XenAdmin.Commands
         {
             if (selection.ToList().All(item => !Helpers.CrossPoolMigrationRestrictedWithWlb(item.Connection)))
             {
-                VMOperationCommand cmd = new CrossPoolMigrateCommand(Command.MainWindowCommandInterface, selection);
                 DropDownItems.Add(new ToolStripSeparator());
+
+                VMOperationCommand cmd = new CrossPoolMigrateCommand(Command.MainWindowCommandInterface, selection, false);
                 VMOperationToolStripMenuSubItem lastItem = new VMOperationToolStripMenuSubItem(cmd);
-                DropDownItems.Add(lastItem); 
+                DropDownItems.Add(lastItem);
+
+                VMOperationCommand cmdForce = new CrossPoolMigrateCommand(Command.MainWindowCommandInterface, selection, true);
+                VMOperationToolStripMenuSubItem lastItemForce = new VMOperationToolStripMenuSubItem(cmdForce);
+                DropDownItems.Add(lastItemForce);
             }            
         }
 

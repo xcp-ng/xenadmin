@@ -69,15 +69,17 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
 
         private WizardMode wizardMode;
 
+        private bool _force;
 	    private bool _resumeAfterMigrate;
 
         // Note that resumeAfter is currently only implemented for Migrate mode, used for resume on server functionality
-	    public CrossPoolMigrateWizard(IXenConnection con, SelectedItemCollection selection, Host targetHostPreSelection, WizardMode mode, bool resumeAfterMigrate = false)
+	    public CrossPoolMigrateWizard(IXenConnection con, SelectedItemCollection selection, Host targetHostPreSelection, WizardMode mode, bool force, bool resumeAfterMigrate = false)
 	        : base(con)
 	    {
             InitializeComponent();
             hostPreSelection = targetHostPreSelection;
 	        wizardMode = mode;
+            _force = force;
 	        InitialiseWizard(selection);
 	        _resumeAfterMigrate = resumeAfterMigrate;
 	    }
@@ -167,7 +169,7 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
             UpdateWindowTitle();
 
             m_pageDestination = new CrossPoolMigrateDestinationPage(vmsFromSelection, 
-                    wizardMode, GetSourceConnectionsForSelection(selection))
+                    wizardMode, GetSourceConnectionsForSelection(selection), _force)
             {
                 VmMappings = m_vmMappings,
                 Connection = selection.GetConnectionOfFirstItem()
@@ -246,7 +248,7 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
                 {
                     var isCopy = wizardMode == WizardMode.Copy;
                     var migrateAction = 
-                        new VMCrossPoolMigrateAction(vm, target, SelectedTransferNetwork, pair.Value, isCopy);
+                        new VMCrossPoolMigrateAction(vm, target, SelectedTransferNetwork, pair.Value, isCopy, _force);
 
                     if (_resumeAfterMigrate)
                     {
@@ -306,6 +308,11 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
                     : wizardMode == WizardMode.Move 
                         ? Messages.MOVE_VM_WIZARD_TITLE 
                         : IsCopyTemplate() ? Messages.COPY_TEMPLATE_WIZARD_TITLE : Messages.COPY_VM_WIZARD_TITLE;
+
+            if (_force)
+            {
+                Text = "Force " + Text;
+            }
         }
 
         protected override void UpdateWizardContent(XenTabPage page)
