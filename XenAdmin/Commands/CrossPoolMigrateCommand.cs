@@ -48,17 +48,21 @@ namespace XenAdmin.Commands
     internal class CrossPoolMigrateCommand : VMOperationCommand
     {
         private bool _resumeAfter;
+        internal bool _force = false;
 
-        public CrossPoolMigrateCommand(IMainWindow mainWindow, IEnumerable<SelectedItem> selection)
+        public CrossPoolMigrateCommand(IMainWindow mainWindow, IEnumerable<SelectedItem> selection, bool force)
             : base(mainWindow, selection)
-        { }
+        {
+            _force = force;
+        }
 
         protected Host preSelectedHost = null;
-        public CrossPoolMigrateCommand(IMainWindow mainWindow, IEnumerable<SelectedItem> selection, Host preSelectedHost, bool resumeAfter=false)
+        public CrossPoolMigrateCommand(IMainWindow mainWindow, IEnumerable<SelectedItem> selection, Host preSelectedHost, bool force, bool resumeAfter=false)
             : base(mainWindow, selection)
         {
             this.preSelectedHost = preSelectedHost;
             _resumeAfter = resumeAfter;
+            _force = force;
         }
 
         public override string MenuText
@@ -66,7 +70,11 @@ namespace XenAdmin.Commands
             get
             {
                 if (preSelectedHost == null)
+                {
+                    if (_force)
+                        return "Force " + Messages.HOST_MENU_CPM_TEXT;
                     return Messages.HOST_MENU_CPM_TEXT;
+                }
 
                 var cantExecuteReason = CantExecuteReason;
                 return string.IsNullOrEmpty(cantExecuteReason)
@@ -92,7 +100,7 @@ namespace XenAdmin.Commands
             }
             else
             {
-                var wizard = new CrossPoolMigrateWizard(con, selection, preSelectedHost, WizardMode.Migrate, _resumeAfter);
+                var wizard = new CrossPoolMigrateWizard(con, selection, preSelectedHost, WizardMode.Migrate, _force, _resumeAfter);
                 MainWindowCommandInterface.ShowPerConnectionWizard(con, wizard); 
             }
         }
@@ -114,10 +122,10 @@ namespace XenAdmin.Commands
         protected override bool CanExecute(VM vm)
         {
             if (preSelectedHost == null)
-                return CanExecute(vm, preSelectedHost);
+                return CanExecute(vm, preSelectedHost, _force);
 
-            var filter = new CrossPoolMigrateCanMigrateFilter(preSelectedHost, new List<VM> {vm}, WizardMode.Migrate);
-            var canExecute = CanExecute(vm, preSelectedHost, filter);
+            var filter = new CrossPoolMigrateCanMigrateFilter(preSelectedHost, new List<VM> {vm}, WizardMode.Migrate, _force);
+            var canExecute = CanExecute(vm, preSelectedHost, _force, filter);
             if (string.IsNullOrEmpty(filter.Reason))
                 cantExecuteReasons.Remove(vm);
             else
@@ -125,14 +133,14 @@ namespace XenAdmin.Commands
             return canExecute;
         }
 
-        public static bool CanExecute(VM vm, Host preselectedHost, CrossPoolMigrateCanMigrateFilter filter = null)
+        public static bool CanExecute(VM vm, Host preselectedHost, bool force, CrossPoolMigrateCanMigrateFilter filter = null)
         {
             bool failureFound = false;
 
             if (preselectedHost != null)
             {
                 failureFound = filter == null 
-                    ? new CrossPoolMigrateCanMigrateFilter(preselectedHost, new List<VM> {vm}, WizardMode.Migrate).FailureFound
+                    ? new CrossPoolMigrateCanMigrateFilter(preselectedHost, new List<VM> {vm}, WizardMode.Migrate, force).FailureFound
                     : filter.FailureFound;
             }
 

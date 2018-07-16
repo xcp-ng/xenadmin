@@ -48,9 +48,10 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard.Filters
         private readonly List<VM> preSelectedVMs;
         private IDictionary<string, IDictionary<string, string>> cache;
         private bool canceled = false;
+        private readonly bool force = false;
         private static readonly Object cacheLock = new Object();
 
-        public CrossPoolMigrateCanMigrateFilter(IXenObject itemAddedToComboBox, List<VM> preSelectedVMs, WizardMode wizardMode, IDictionary<string, IDictionary<string, string>> cache = null)
+        public CrossPoolMigrateCanMigrateFilter(IXenObject itemAddedToComboBox, List<VM> preSelectedVMs, WizardMode wizardMode, bool force, IDictionary<string, IDictionary<string, string>> cache = null)
             : base(itemAddedToComboBox)
         {
             _wizardMode = wizardMode;
@@ -58,6 +59,8 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard.Filters
                 this.cache = new Dictionary<string, IDictionary<string, string>>();
             else
                 this.cache = cache;
+
+            this.force = force;
 
             if (preSelectedVMs == null)
                 throw new ArgumentNullException("Pre-selected VMs are null");
@@ -147,14 +150,16 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard.Filters
 
                             Session session = host.Connection.DuplicateSession();
                             Dictionary<string, string> receiveMapping = Host.migrate_receive(session, host.opaque_ref, network.opaque_ref, new Dictionary<string, string>());
+                            Dictionary<string, string> options = new Dictionary<string, string>();
+                            if (force)
+                                options.Add("force", "true");
                             VM.assert_can_migrate(vm.Connection.Session,
                                                   vm.opaque_ref,
                                                   receiveMapping,
                                                   true,
                                                   GetVdiMap(vm, targetSrs),
                                                   vm.Connection == host.Connection ? new Dictionary<XenRef<VIF>, XenRef<XenAPI.Network>>() : GetVifMap(vm, targetNetwork),
-                                                  //TODO: Implement force=true as general option
-                                                  new Dictionary<string, string>(){{ "force", "true" }});
+                                                  options);
                             lock (cacheLock)
                             {
                                 vmCache.Add(host.opaque_ref, string.Empty);
