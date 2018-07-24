@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xencenterversions>
     <version value="7.4.2.7" name="XCP-ng Center 7.4.2-RC3" latest_cr="false" url="https://github.com/xcp-ng/xenadmin/releases/tag/v7.4.2-RC3" timestamp="2018-05-15 22:00"></version> 
-    <version value="7.4.2.9" name="XCP-ng Center 7.4.2" latest="true" latest_cr="false" url="https://github.com/xcp-ng/xenadmin/releases/tag/v.7.4.2" timestamp="2018-06-17 20:48"></version> 
+    <version value="7.4.2.9" name="XCP-ng Center 7.4.2" latest_cr="false" url="https://github.com/xcp-ng/xenadmin/releases/tag/v.7.4.2" timestamp="2018-06-17 20:48"></version>
+    <version value="7.5.0.8" name="XCP-ng Center 7.5.0" latest="true" latest_cr="false" url="https://github.com/xcp-ng/xenadmin/releases/tag/v7.5.0" timestamp="2018-07-24 21:40"></version>
 </xencenterversions>
