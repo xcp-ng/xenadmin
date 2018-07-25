@@ -744,6 +744,9 @@
   <data name="Label-performance.cpu" xml:space="preserve">
     <value>CPU {0}</value>
   </data>
+  <data name="Label-performance.cpu-avg-freq" xml:space="preserve">
+    <value>CPU {0} の平均周波数</value>
+  </data>
   <data name="Label-performance.lo_rx" xml:space="preserve">
     <value>ループバック受信</value>
   </data>
@@ -969,6 +972,12 @@
   <data name="Message.body-alarm" xml:space="preserve">
     <value>アラート '{0}' を認識できませんでした。</value>
   </data>
+  <data name="Message.body-cluster_host_enable_failed" xml:space="preserve">
+    <value>サーバー '{0}' はクラスターに参加できませんでした。</value>
+  </data>
+  <data name="Message.body-cluster_host_fencing" xml:space="preserve">
+    <value> サーバー '{0}' が隔離されました。</value>
+  </data>
   <data name="Message.body-extauth_in_pool_is_non_homogeneous" xml:space="preserve">
     <value>'{0}' 内で使用されている外部認証サービスが矛盾しています。</value>
   </data>
@@ -1192,6 +1201,12 @@
   </data>
   <data name="Message.name-bond_status_changed" xml:space="preserve">
     <value>ボンディングの状態が変更されました</value>
+  </data>
+  <data name="Message.name-cluster_host_enable_failed" xml:space="preserve">
+    <value>サーバーはクラスターに参加できませんでした</value>
+  </data>
+  <data name="Message.name-cluster_host_fencing" xml:space="preserve">
+    <value>サーバーが隔離されました</value>
   </data>
   <data name="Message.name-extauth_in_pool_is_non_homogeneous" xml:space="preserve">
     <value>プール内で使用される認証方法が矛盾しています</value>

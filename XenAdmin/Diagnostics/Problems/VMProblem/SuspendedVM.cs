@@ -54,7 +54,7 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
             return new VMResumeAction(VM, VMOperationCommand.WarningDialogHAInvalidConfig, VMOperationCommand.StartDiagnosisForm);
         }
 
-        public override AsyncAction UnwindChanges()
+        public override AsyncAction CreateUnwindChangesAction()
         {
             return new VMSuspendAction(VM);
         }

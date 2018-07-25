@@ -35,10 +35,10 @@ using XenAdmin.Diagnostics.Problems.HostProblem;
 
 namespace XenAdmin.Diagnostics.Checks
 {
-    class HostLivenessCheck : Check
+    class HostLivenessCheck : HostCheck
     {
-
-        public HostLivenessCheck(Host host):base(host)
+        public HostLivenessCheck(Host host)
+            :base(host)
         {
         }
 
@@ -58,5 +58,23 @@ namespace XenAdmin.Diagnostics.Checks
                 return Messages.HOST_LIVENESS_CHECK_DESCRIPTION;
             }
         }
+    }
+
+    abstract class HostPostLivenessCheck : HostCheck
+    {
+        protected HostPostLivenessCheck(Host host)
+            : base(host)
+        {
+        }
+
+        protected sealed override Problem RunCheck()
+        {
+            if (!Host.IsLive())
+                return new HostNotLiveWarning(this, Host);
+
+            return RunHostCheck();
+        }
+
+        protected abstract Problem RunHostCheck();
     }
 }

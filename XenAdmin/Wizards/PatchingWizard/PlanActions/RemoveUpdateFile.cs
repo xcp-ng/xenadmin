@@ -35,19 +35,20 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
 {
     class RemoveUpdateFile : PlanActionWithSession
     {
-        private readonly XenRef<Pool_patch> _patchRef;
+        private readonly Pool _pool;
+        private readonly Pool_patch _patch;
 
         public RemoveUpdateFile(Pool pool, Pool_patch patch)
-            : base(pool.Connection, string.Format(Messages.UPDATES_WIZARD_REMOVING_UPDATE, patch.Name(), pool.Name()))
+            : base(pool.Connection)
         {
-            this._patchRef = new XenRef<Pool_patch>(patch);
+            _pool = pool;
+            _patch = patch;
         }
 
         protected override void RunWithSession(ref Session session)
         {
-
-            XenRef<Task> task = Pool_patch.async_pool_clean(session, _patchRef.opaque_ref);
-
+            AddProgressStep(string.Format(Messages.UPDATES_WIZARD_REMOVING_UPDATE, _patch.Name(), _pool.Name()));
+            XenRef<Task> task = Pool_patch.async_pool_clean(session, _patch.opaque_ref);
             PollTaskForResultAndDestroy(Connection, ref session, task);
         }
     }

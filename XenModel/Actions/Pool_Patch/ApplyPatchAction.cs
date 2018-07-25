@@ -112,9 +112,7 @@ namespace XenAdmin.Actions
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly Pool_patch patch;
-        private readonly Host host; 
-
-        private string output = "";
+        private readonly Host host;
 
         public ApplyPatchAction(Pool_patch patch, Host host)
             : base(host.Connection, string.Format(Messages.UPDATES_WIZARD_APPLYING_UPDATE, patch.Name(), host.Name()))
@@ -127,33 +125,18 @@ namespace XenAdmin.Actions
         {
             SafeToExit = false;
 
-            if (patch.AppliedOn(host) == DateTime.MaxValue)
-                ApplyPatch();
-        }
+            if (patch.AppliedOn(host) != DateTime.MaxValue)
+                return;
 
-        private void ApplyPatch()
-        {
             XenRef<Pool_patch> patchRef = BringPatchToPoolForHost(host, patch);
 
-            try
-            {
-                this.Description = String.Format(Messages.APPLYING_PATCH, patch.Name(), host.Name());
+            Description = string.Format(Messages.APPLYING_PATCH, patch.Name(), host.Name());
+            log.Debug(Description);
 
-                output += String.Format(Messages.APPLY_PATCH_LOG_MESSAGE, patch.Name(), host.Name());
-                output += Pool_patch.apply(Session, patchRef, host.opaque_ref);
+            var result = Pool_patch.apply(Session, patchRef, host.opaque_ref);
 
-                this.Description = String.Format(Messages.PATCH_APPLIED, patch.Name(), host.Name());
-            }
-            catch (Failure f)
-            {
-                if (f.ErrorDescription.Count > 1 && f.ErrorDescription[0] == XenAPI.Failure.PATCH_APPLY_FAILED)
-                {
-                    output += Messages.APPLY_PATCH_FAILED_LOG_MESSAGE;
-                    output += f.ErrorDescription[1];
-                }
-                    
-                throw;
-            }
+            log.DebugFormat(Messages.APPLY_PATCH_LOG_MESSAGE, patch.Name(), host.Name(), result);
+            Description = string.Format(Messages.PATCH_APPLIED, patch.Name(), host.Name());
         }
     }
 

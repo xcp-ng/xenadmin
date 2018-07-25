@@ -29,7 +29,6 @@
  * SUCH DAMAGE.
  */
 
-using XenAdmin.Diagnostics.Problems.HostProblem;
 using XenAPI;
 using XenAdmin.Diagnostics.Problems;
 using XenAdmin.Core;
@@ -38,27 +37,23 @@ using XenAdmin.Diagnostics.Problems.PoolProblem;
 
 namespace XenAdmin.Diagnostics.Checks
 {
-    public class HAOffCheck : Check
+    class HAOffCheck : HostPostLivenessCheck
     {
-
         public HAOffCheck(Host host)
             : base(host)
         {
         }
 
-        protected override Problem RunCheck()
+        protected override Problem RunHostCheck()
         {
-            if (!Host.IsLive())
-                return new HostNotLiveWarning(this, Host);
-
             Pool pool = Helpers.GetPoolOfOne(Host.Connection);
             if (pool == null)
                 return null;
 
             if (pool.ha_enabled)
-                return new HAEnabledProblem(this, Helpers.GetPoolOfOne(Host.Connection));
+                return new HAEnabledProblem(this, pool);
             if (Helpers.WlbEnabled(pool.Connection))
-                return new WLBEnabledProblem(this, Helpers.GetPoolOfOne(Host.Connection));
+                return new WLBEnabledProblem(this, pool);
             return null;
         }
 

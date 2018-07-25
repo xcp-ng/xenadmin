@@ -1884,9 +1884,6 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
   <data name="ALL_UPDATES_APPLIED" xml:space="preserve">
     <value>すべてのアップデートが適用されました</value>
   </data>
-  <data name="ALL_UPDATES_UPLOADED" xml:space="preserve">
-    <value>すべてのアップデートがアップロードされました</value>
-  </data>
   <data name="ALREADY_ATTACHED_ELSEWHERE" xml:space="preserve">
     <value>現在、SR '{0}' はほかに接続されています。この SR を '{1}' に接続しますか? 
 
@@ -1934,17 +1931,8 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
   <data name="APPLY_HOTFIX" xml:space="preserve">
     <value>Hotfix の適用</value>
   </data>
-  <data name="APPLY_PATCH_FAILED_LOG_MESSAGE" xml:space="preserve">
-    <value>このアップデートの適用に失敗しました。ログ:
-
-</value>
-  </data>
   <data name="APPLY_PATCH_LOG_MESSAGE" xml:space="preserve">
-    <value>
-
-アップデート '{0}' をサーバー '{1}' に適用...
-
-</value>
+    <value>アップデート '{0}' をサーバー '{1}' に適用しました。結果: {2}。</value>
   </data>
   <data name="ARE_EMPTY" xml:space="preserve">
     <value>なし</value>
@@ -2023,6 +2011,18 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
   </data>
   <data name="AUTHORIZING_USER" xml:space="preserve">
     <value>ユーザーの認証</value>
+  </data>
+  <data name="AUTOMATED_UPDATES_LICENSE_CHECK_DESCRIPTION" xml:space="preserve">
+    <value>自動アップデートのライセンスの状態</value>
+  </data>
+  <data name="AUTOMATED_UPDATES_UNLICENSED_WARNING_MORE_INFO" xml:space="preserve">
+    <value>この警告にはさまざまな原因が考えられます。以下のいずれかのソリューションを検討してから再試行してください。
+
+- プールのライセンス対象外ホストにライセンス付与する。
+
+- 自動アップデートがプールのすべてのホストに適用されることを確認する。
+
+- 前のページのアップデートの適用チェックボックスを解除する。[XenCenter] はアップデートを適用することなく選択したサーバーを新しいバージョンへアップグレードします。</value>
   </data>
   <data name="AUTOSTART" xml:space="preserve">
     <value>サーバー起動時に自動的に起動する</value>
@@ -2142,6 +2142,11 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>選択した NIC に管理インターフェイスおよびセカンダリ インターフェイスが含まれているため、ボンディングを作成できません。
 
 これらのインターフェイスを同一ボンディング上に設定することはできません。ほかの NIC を選択するか、これらのインターフェイスを移動してからボンディングを作成してください。</value>
+  </data>
+  <data name="BOND_CREATE_WILL_DISTURB_CLUSTERING" xml:space="preserve">
+    <value>このボンディングを作成すると、選択したいずれかの NIC 上のクラスタ ネットワークがボンディングに移動されます。
+
+- ネットワーク構成に問題があると、 ホストとクラスタ ネットワークとの接続が完全に切断され、意図しないホスト フェンスが発生する可能性があります。</value>
   </data>
   <data name="BOND_CREATE_WILL_DISTURB_PRIMARY" xml:space="preserve">
     <value>このボンディングを作成すると、選択したいずれかの NIC 上の管理インターフェイスがボンディングに移動されます。
@@ -2470,6 +2475,9 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
   <data name="CD_DRIVE" xml:space="preserve">
     <value>{0} の DVD ドライブ</value>
   </data>
+  <data name="CFU_STATUS_CHECK_DESCRIPTION" xml:space="preserve">
+    <value>アップデートをダウンロードする機能</value>
+  </data>
   <data name="CHANGE" xml:space="preserve">
     <value>変更...</value>
   </data>
@@ -2523,8 +2531,14 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     
 この VM にスケジュール '{2}' を割り当て直しますか?</value>
   </data>
+  <data name="CHECKING_AUTOMATED_UPDATES_POSSIBLE" xml:space="preserve">
+    <value>自動アップデートが適用されるかを確認しています</value>
+  </data>
   <data name="CHECKING_CANEVACUATE_STATUS" xml:space="preserve">
     <value>VM 移行状態のチェック</value>
+  </data>
+  <data name="CHECKING_CLUSTERING_STATUS" xml:space="preserve">
+    <value>クラスタリングの状態を確認しています</value>
   </data>
   <data name="CHECKING_FOR_PENDING_RESTART" xml:space="preserve">
     <value>保留中の再起動を確認しています</value>
@@ -2540,6 +2554,9 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
   </data>
   <data name="CHECKING_SAFE_TO_UPGRADE" xml:space="preserve">
     <value>パーティション レイアウトをチェックしています</value>
+  </data>
+  <data name="CHECKING_SAFE_TO_UPGRADE_DESCRIPTION" xml:space="preserve">
+    <value>ホストのパーティション レイアウトの確認</value>
   </data>
   <data name="CHECKING_SERVER_NEEDS_REBOOT" xml:space="preserve">
     <value>再起動の確認が必要です</value>
@@ -2606,6 +2623,9 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
   </data>
   <data name="CLUSTERING" xml:space="preserve">
     <value>クラスタリング</value>
+  </data>
+  <data name="CLUSTERING_STATUS_CHECK" xml:space="preserve">
+    <value>クラスタリングの状態の確認</value>
   </data>
   <data name="COLLAPSE_CHILDREN" xml:space="preserve">
     <value>子ノードを閉じる(&amp;C)</value>
@@ -3413,7 +3433,7 @@ VM {2} をエクスポートしてもよろしいですか?</value>
     <value>VM の {0} への移行</value>
   </data>
   <data name="CPM_WIZARD_VM_MISSING_ERROR" xml:space="preserve">
-    <value>選択した VM は移行できなくなっています。選択項目を確認して、このウィザードを再度実行してください。</value>
+    <value>選択した VM は [XenCenter] のキャッシュで使用できなくなりました。選択項目を確認して、このウィザードを再度実行してください。</value>
   </data>
   <data name="CPM_WIZARD_VM_SELECTION_INTRODUCTION" xml:space="preserve">
     <value>仮想ネットワーク インターフェイス(&amp;V):</value>
@@ -4281,9 +4301,6 @@ VM 移行処理のパフォーマンスや信頼性を向上させるため、�
   <data name="DOES_NOT_USE" xml:space="preserve">
     <value>以下を使用しない</value>
   </data>
-  <data name="DONE" xml:space="preserve">
-    <value>完了しました。</value>
-  </data>
   <data name="DONT_SELECT_TARGET_SERVER" xml:space="preserve">
     <value>ターゲット サーバーを選択しない</value>
   </data>
@@ -4297,7 +4314,7 @@ VM 移行処理のパフォーマンスや信頼性を向上させるため、�
     <value>アップデート {0} をダウンロードしています</value>
   </data>
   <data name="DOWNLOAD_AND_EXTRACT_ACTION_DOWNLOADING_DETAILS_DESC" xml:space="preserve">
-    <value>{0} をダウンロードしています ({1}/{2})</value>
+    <value>{0} をダウンロードしています ({1}/{2})...</value>
   </data>
   <data name="DOWNLOAD_AND_EXTRACT_ACTION_DOWNLOAD_CANCELLED_DESC" xml:space="preserve">
     <value>ダウンロードがキャンセルされました</value>
@@ -5188,9 +5205,6 @@ CD をイジェクトしてから再試行してください。</value>
     <value>以下の仮想マシンについて、このサーバーでの自動移行、自動再開、または自動起動を設定しますか?
 {0}</value>
   </data>
-  <data name="EXIT_SERVER_FROM_MAINTENANCE_MODE" xml:space="preserve">
-    <value>{0} の保守モードの終了</value>
-  </data>
   <data name="EXPAND_ALL" xml:space="preserve">
     <value>すべて開く(&amp;X)</value>
   </data>
@@ -5697,6 +5711,15 @@ CD をイジェクトしてから再試行してください。</value>
   </data>
   <data name="GFS2_SR_ATTACHED" xml:space="preserve">
     <value>このプールにシンプロビジョニングされた (GFS2) ストレージ リポジトリが接続されているため、クラスタリングを無効にできません。</value>
+  </data>
+  <data name="GFS2_UPDATE_UPGRADE_CLUSTER_ERROR" xml:space="preserve">
+    <value>プール {0} のクラスタリングを有効にできません。</value>
+  </data>
+  <data name="GFS2_UPDATE_UPGRADE_CLUSTER_SR_ERROR" xml:space="preserve">
+    <value>プール {0} は、クラスタリングを有効にできないか、仮想プロビジョニング済み (GFS2) SRを接続できません。</value>
+  </data>
+  <data name="GFS2_UPDATE_UPGRADE_SR_ERROR" xml:space="preserve">
+    <value>プール {0} は、仮想プロビジョニング済み (GFS2) SRを接続できません。</value>
   </data>
   <data name="GPU" xml:space="preserve">
     <value>GPU</value>
@@ -6279,6 +6302,9 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
   <data name="HOST_GENERAL_TAB_TITLE" xml:space="preserve">
     <value>サーバーの全般プロパティ</value>
   </data>
+  <data name="HOST_GONE" xml:space="preserve">
+    <value>[XenCenter] のキャッシュにホストが見つかりません。</value>
+  </data>
   <data name="HOST_INTERNAL_MANAGEMENT_NETWORK" xml:space="preserve">
     <value>ホスト内部管理ネットワーク</value>
   </data>
@@ -6383,6 +6409,9 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
   </data>
   <data name="HOST_SHUTDOWN" xml:space="preserve">
     <value>サーバーのシャットダウン</value>
+  </data>
+  <data name="HOST_UNLICENSED_FOR_AUTOMATED_UPDATES_WARNING" xml:space="preserve">
+    <value>{0}: プールの 1 つまたは複数のサーバーが自動アップデートのライセンス対象ではありません</value>
   </data>
   <data name="HOST_X" xml:space="preserve">
     <value>ホスト '{0}':</value>
@@ -7909,9 +7938,6 @@ SCSI ID: {2}
   <data name="MIGRATE_VDI_UPSELL_BLURB" xml:space="preserve">
     <value>VDI ライブ マイグレーション機能を使用するには、[XenServer] ライセンスをアップグレードしてください。この機能により、実行中の複数の VDI を、同一プールの SR 間で移行できます。VM のダウンタイムは発生しません。 </value>
   </data>
-  <data name="MIGRATE_VMS_OFF_SERVER" xml:space="preserve">
-    <value>サーバー '{0}' からの VM の移行</value>
-  </data>
   <data name="MIGRATION_NOT_ALLOWED" xml:space="preserve">
     <value>現在、この VM を移行することはできません</value>
   </data>
@@ -8226,6 +8252,12 @@ SCSI ID: {2}
   </data>
   <data name="NEWPOOL_HAS_SHARED_STORAGE" xml:space="preserve">
     <value>このサーバーには共有ストレージがあります</value>
+  </data>
+  <data name="NEWPOOL_IP_COUNT_BOND" xml:space="preserve">
+    <value>このサーバーには、ボンディングされたクラスター ネットワークのインターフェイスのうちの 1 つのみに割り当てられた IP アドレスが必要です。</value>
+  </data>
+  <data name="NEWPOOL_IP_COUNT_CLUSTER" xml:space="preserve">
+    <value>このサーバーには、クラスタリングに使用されるネットワーク上で 1 つの IP アドレスのみが必要です。</value>
   </data>
   <data name="NEWPOOL_IS_A_POOL" xml:space="preserve">
     <value>このサーバーは既存のプールのマスターとして動作しています</value>
@@ -9072,6 +9104,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="NOT_AGILE_UNKOWN" xml:space="preserve">
     <value>この VM はアジャイルではありません。再起動は保証されません。</value>
   </data>
+  <data name="NOT_AGILE_VM_HAS_SRIOV_VIF" xml:space="preserve">
+    <value>この VM には 1 つまたは複数の SR-IOV VF が接続されています。再起動は保証されません。</value>
+  </data>
   <data name="NOT_AGILE_VM_HAS_VGPU" xml:space="preserve">
     <value>この VM には仮想 GPU があります。再起動は保証されません。</value>
   </data>
@@ -9095,6 +9130,15 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="NOT_ENOUGH_SPACE_MESSAGE_AUTO_UPDATE" xml:space="preserve">
     <value>自動アップデートで '{0}' をアップデートするための十分な容量がありません。</value>
+  </data>
+  <data name="NOT_ENOUGH_SPACE_MESSAGE_AUTO_UPDATE_UPLOAD" xml:space="preserve">
+    <value>必要なアップデートを '{0}' にアップロードするために十分な容量がありません。</value>
+  </data>
+  <data name="NOT_ENOUGH_SPACE_MESSAGE_AUTO_UPDATE_UPLOAD_ALL" xml:space="preserve">
+    <value>自動アップデートで必要なすべてのアップデート ファイルをアップロードするために十分な容量が '{0}' の SR にありません。</value>
+  </data>
+  <data name="NOT_ENOUGH_SPACE_MESSAGE_AUTO_UPDATE_UPLOAD_ONE" xml:space="preserve">
+    <value>自動アップデートで必要なアップデート ファイルをアップロードするために十分な容量が '{0}' の SR にありません。</value>
   </data>
   <data name="NOT_ENOUGH_SPACE_MESSAGE_AVAILABLE_SPACE" xml:space="preserve">
     <value>使用可能な領域: {0}</value>
@@ -9335,20 +9379,26 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="PASTE" xml:space="preserve">
     <value>貼り付け</value>
   </data>
-  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_ERROR" xml:space="preserve">
-    <value>自動アップデート プロセスに失敗しました。</value>
+  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_CANCELLATION" xml:space="preserve">
+    <value>アップデート プロセスはキャンセルされました。</value>
   </data>
-  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_ERRORS_OCCURRED" xml:space="preserve">
+  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_ERROR_MANY" xml:space="preserve">
+    <value>1 つまたは複数の自動アップデート プロセスが正常に完了しませんでした。アップデート プロセスは一時停止しました。[再試行] を選択して再開してください。</value>
+  </data>
+  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_ERROR_ONE" xml:space="preserve">
+    <value>1 つまたは複数の自動アップデート プロセスが正常に完了しませんでした。アップデート プロセスは一時停止しました。[再試行] を選択して再開してください。</value>
+  </data>
+  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_ERROR_POOL_MANY" xml:space="preserve">
     <value>自動アップデートの進行中に次のエラーが発生しました。</value>
   </data>
-  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_ERROR_OCCURRED" xml:space="preserve">
+  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_ERROR_POOL_ONE" xml:space="preserve">
     <value>自動アップデートの進行中に次のエラーが発生しました。</value>
   </data>
-  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_FAILED" xml:space="preserve">
-    <value>アップデートに失敗しました</value>
+  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_SUCCESS_MANY" xml:space="preserve">
+    <value>すべての自動アップデート プロセスが正常に完了しました。</value>
   </data>
-  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_IN_PROGRESS_DOTDOTDOT" xml:space="preserve">
-    <value>{0}...</value>
+  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_SUCCESS_ONE" xml:space="preserve">
+    <value>自動アップデート プロセスは正常に完了しました。</value>
   </data>
   <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_TEXT" xml:space="preserve">
     <value>アップロードしてインストール</value>
@@ -9358,9 +9408,6 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="PATCHINGWIZARD_CLEANUP" xml:space="preserve">
     <value>クリーン アップ...</value>
-  </data>
-  <data name="PATCHINGWIZARD_DOWNLOADUPDATE_ACTION_TITLE_DOWNLOADING" xml:space="preserve">
-    <value>アップデート {0} をダウンロード中...</value>
   </data>
   <data name="PATCHINGWIZARD_DOWNLOADUPDATE_ACTION_TITLE_SKIPPING" xml:space="preserve">
     <value>ダウンロードをスキップします。アップデート {0} はダウンロード済みです...</value>
@@ -9378,7 +9425,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>再起動する VM:</value>
   </data>
   <data name="PATCHINGWIZARD_MODEPAGE_RESTARTXAPI" xml:space="preserve">
-    <value>XAPI エージェントの再起動順序 (マスターは常に最初):</value>
+    <value>ツールスタックの再起動順序 (マスターは常に最初):</value>
   </data>
   <data name="PATCHINGWIZARD_MODEPAGE_TEXT" xml:space="preserve">
     <value>アップデート モード</value>
@@ -9415,9 +9462,6 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="PATCHINGWIZARD_PATCHINGPAGE_PRECHECK_REVERTED" xml:space="preserve">
     <value>解決された事前チェックを元に戻しました</value>
-  </data>
-  <data name="PATCHINGWIZARD_PATCHINGPAGE_PRECHECK_REVERTING" xml:space="preserve">
-    <value>解決された事前チェックを元に戻しています...</value>
   </data>
   <data name="PATCHINGWIZARD_PATCHINGPAGE_SERVER_RESOLVE" xml:space="preserve">
     <value>サーバーの問題の解決</value>
@@ -9492,10 +9536,10 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>[XenServer] アップデートおよびサプリメンタル パック (*.{0}, *.iso,*.zip)|*.{0};*.iso;*.zip</value>
   </data>
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_APPLY_UPDATES" xml:space="preserve">
-    <value>新しいバージョンですべてのリリース済みアップデートも適用</value>
+    <value>新しいバージョンですべてのリリース済みアップデートも適用(&amp;U)</value>
   </data>
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_APPLY_UPDATES_MIXED" xml:space="preserve">
-    <value>新しいバージョンですべてのリリース済みアップデートも適用 (自動アップデートが使用できるプールでのみ)</value>
+    <value>新しいバージョンですべてのリリース済みアップデートも適用 (自動アップデートが使用できるプールでのみ)(&amp;U)</value>
   </data>
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_AUTOMATED_UPDATES_NOT_SUPPORTED_HOST_VERSION" xml:space="preserve">
     <value>この [XenServer] バージョンで自動アップデートはサポートされていません</value>
@@ -9506,17 +9550,20 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_CANNOT_INSTALL_SUPP_PACKS" xml:space="preserve">
     <value>この [XenServer] のバージョンにはサプリメンタル パックをインストールできません</value>
   </data>
+  <data name="PATCHINGWIZARD_SELECTSERVERPAGE_CANNOT_INSTALL_UPDATE_MASTER_POST_7_0" xml:space="preserve">
+    <value>マスターが [BRANDING_VERSION_7_0] より新しいバージョンを実行しているため、このホストにアップデートをインストールできません。</value>
+  </data>
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_HOST_UNLICENSED" xml:space="preserve">
     <value>Subscription Advantage が必要です</value>
   </data>
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_HOST_UNLICENSED_FOR_AUTOMATED_UPDATES" xml:space="preserve">
-    <value>このサーバーでは、自動アップデートのライセンスが有効ではありません</value>
+    <value>プールの 1 つまたは複数のサーバーが自動アップデートのライセンス対象ではありません</value>
   </data>
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_HOST_UNREACHABLE" xml:space="preserve">
     <value>サーバーに到達できません</value>
   </data>
-  <data name="PATCHINGWIZARD_SELECTSERVERPAGE_MIXED_VERSIONS" xml:space="preserve">
-    <value>[XenServer] の {0} および {1} バージョンに同じアップデートを適用することはできません</value>
+  <data name="PATCHINGWIZARD_SELECTSERVERPAGE_NEW_VERSION_UPGRADE_SLAVES_FIRST" xml:space="preserve">
+    <value>[XenCenter] が選択した新しいバージョンを適用する前に、プールの 1 つまたは複数のサーバーをアップグレードする必要があります。</value>
   </data>
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_PATCH_ALREADY_APPLIED" xml:space="preserve">
     <value>アップデート適用済み</value>
@@ -9552,12 +9599,6 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_TITLE" xml:space="preserve">
     <value>アップデートするサーバーを選択します</value>
   </data>
-  <data name="PATCHINGWIZARD_UPDATES_DONE_AUTOMATED_NEW_VERSION_MODE" xml:space="preserve">
-    <value>新しいバージョンがインストールされています。</value>
-  </data>
-  <data name="PATCHINGWIZARD_UPDATES_DONE_AUTOMATED_UPDATES_MODE" xml:space="preserve">
-    <value>自動アップデートが完了しました。</value>
-  </data>
   <data name="PATCHINGWIZARD_UPLOADPAGE_MESSAGE_DOWNLOAD_AND_UPLOAD" xml:space="preserve">
     <value>[XenCenter] は、前の手順で指定したサーバーにアップデートをダウンロードしてから、そのサーバーにアップロードしています。
 操作が完了するまで待ってから [次へ] をクリックしインストールを続行してください。</value>
@@ -9576,10 +9617,10 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>サーバーへの選択したファイルのアップロード</value>
   </data>
   <data name="PATCHINGWIZARD_UPLOAD_AND_INSTALL_TITLE_AUTOMATED_MODE" xml:space="preserve">
-    <value>アップデートのインストール中:</value>
+    <value>[XenCenter] はシステムにアップデートをインストール中です。</value>
   </data>
   <data name="PATCHINGWIZARD_UPLOAD_AND_INSTALL_TITLE_NEW_VERSION_AUTOMATED_MODE" xml:space="preserve">
-    <value>新しいバージョンのインストール中：</value>
+    <value>[XenCenter] はシステムに新しいバージョンをインストール中です。</value>
   </data>
   <data name="PATCHING_EJECT_CDS" xml:space="preserve">
     <value>VM から仮想 CD をイジェクトしてください</value>
@@ -9620,6 +9661,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="PATCH_APPLIED" xml:space="preserve">
     <value>アップデート '{0}' がサーバー '{1}' に適用されました</value>
+  </data>
+  <data name="PATCH_APPLIED_ALREADY" xml:space="preserve">
+    <value>アップデート '{0}' は既にサーバー '{1}' に適用されています</value>
   </data>
   <data name="PATCH_DESCRIPTION_AND_INSTALLATION_SIZE" xml:space="preserve">
     <value>{0} 
@@ -9740,7 +9784,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>サーバーから VM が移行されました</value>
   </data>
   <data name="PLANACTION_VMS_MIGRATING" xml:space="preserve">
-    <value>サーバー '{0}' から VM を移行しています... </value>
+    <value>サーバー '{0}' から VM を移行しています...</value>
   </data>
   <data name="PLANACTION_VMS_REBOOT" xml:space="preserve">
     <value>指定した VM の再起動</value>
@@ -9749,28 +9793,25 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>指定した VM が再起動されました</value>
   </data>
   <data name="PLANACTION_VMS_REBOOTING" xml:space="preserve">
-    <value>指定した VM を再起動しています... </value>
+    <value>VM {0} を再起動しています...</value>
   </data>
-  <data name="PLAN_ACTION_STATUS_DISABLING_HOST_SERVER" xml:space="preserve">
-    <value>ホスト サーバーを無効にしています</value>
+  <data name="PLAN_ACTION_CANCELLED_BY_USER" xml:space="preserve">
+    <value> ユーザーによりキャンセルされました。</value>
   </data>
-  <data name="PLAN_ACTION_STATUS_HOST_UPGRADED" xml:space="preserve">
-    <value>ホストがアップグレードされました</value>
+  <data name="PLAN_ACTION_DONE" xml:space="preserve">
+    <value> 完了しました。</value>
+  </data>
+  <data name="PLAN_ACTION_ERROR" xml:space="preserve">
+    <value> エラー。</value>
   </data>
   <data name="PLAN_ACTION_STATUS_INSTALLING_XENSERVER" xml:space="preserve">
-    <value>[XenServer] をインストールしています</value>
-  </data>
-  <data name="PLAN_ACTION_STATUS_MIGRATING_VMS_FROM_HOST" xml:space="preserve">
-    <value>ホストから VM を移行しています</value>
-  </data>
-  <data name="PLAN_ACTION_STATUS_MIGRATING_VM_X_OF_Y" xml:space="preserve">
-    <value>{1} の VM {0} をホストに戻しています★</value>
+    <value>'{0}' に [XenServer] をインストールしています...</value>
   </data>
   <data name="PLAN_ACTION_STATUS_RECONNECTING_STORAGE" xml:space="preserve">
-    <value>ストレージを再接続しています</value>
+    <value>ストレージを再接続しています...</value>
   </data>
-  <data name="PLAN_ACTION_STATUS_REENABLING_HOST" xml:space="preserve">
-    <value>ホストを有効にしています</value>
+  <data name="PLAN_ACTION_STATUS_REPATRIATING_VMS" xml:space="preserve">
+    <value>サーバー {0} に VM を移行し直しています...</value>
   </data>
   <data name="PLEASE_RECONNECT_HOST" xml:space="preserve">
     <value>{0}
@@ -10186,7 +10227,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>チェックが完了しました。このウィザードのすべての機能を使用できます。</value>
   </data>
   <data name="RBAC_UPDATES_WIZARD" xml:space="preserve">
-    <value>ユーザー {0} には {1} にソフトウェア アップデートを適用するための権限がありません。必要な権限を持つユーザーでログインし直すか、このサーバーの選択を解除して続行してください。</value>
+    <value>ユーザー {0} に、ソフトウェア アップデートを {1} に適用する権限がありません。
+
+ {1} にソフトウェア アップデートを提供するには、最初にプール オペレーター権限のアカウントで接続する必要があります。</value>
   </data>
   <data name="RBAC_UPGRADE_WIZARD_MESSAGE" xml:space="preserve">
     <value>ユーザー {0} には、{1} でプールのローリング アップグレードを実行するための権限がありません。 
@@ -10264,9 +10307,6 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="READ_WRITE" xml:space="preserve">
     <value>読み取り/書き込み</value>
   </data>
-  <data name="REAMININF_VFS" xml:space="preserve">
-    <value>はい (残り {0} VF)</value>
-  </data>
   <data name="REATTACH_SR" xml:space="preserve">
     <value>再接続(&amp;E)</value>
   </data>
@@ -10286,6 +10326,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="REGION_LABLE" xml:space="preserve">
     <value>リージョン(&amp;R):</value>
+  </data>
+  <data name="REMAINING_VFS" xml:space="preserve">
+    <value>はい (残り {0} VF)</value>
   </data>
   <data name="REMOTE" xml:space="preserve">
     <value>リモート ({0})</value>
@@ -10513,7 +10556,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>{0} の電源状態を元に戻しています</value>
   </data>
   <data name="REVERTING_RESOLVED_PRECHECKS" xml:space="preserve">
-    <value>解決された事前チェックを元に戻しています</value>
+    <value>解決された事前チェックを元に戻しています...</value>
   </data>
   <data name="REVERTING_RESOLVED_PRECHECKS_POOL" xml:space="preserve">
     <value>{0} の解決された事前チェックを元に戻しています...</value>
@@ -10554,11 +10597,26 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="ROLLING_UPGRADE_BUTTON_LABEL_TEST" xml:space="preserve">
     <value>テスト(&amp;T)</value>
   </data>
+  <data name="ROLLING_UPGRADE_CANCELLATION" xml:space="preserve">
+    <value>プールのローリングアップグレード プロセスがキャンセルされました</value>
+  </data>
   <data name="ROLLING_UPGRADE_CAN_RESUME_UPGRADE" xml:space="preserve">
     <value>このアップグレードを再開するには、プールのローリング アップグレード ウィザードを再度実行してください。</value>
   </data>
   <data name="ROLLING_UPGRADE_DISCONNECTED_SERVER" xml:space="preserve">
     <value>{0} から切断されています。選択項目を確認して再試行してください。</value>
+  </data>
+  <data name="ROLLING_UPGRADE_ERROR_MANY" xml:space="preserve">
+    <value>1 つまたは複数のプールのローリングアップグレード プロセスが正常に完了しませんでした。アップデート プロセスは一時停止しました。[再試行] を選択して再開してください。</value>
+  </data>
+  <data name="ROLLING_UPGRADE_ERROR_ONE" xml:space="preserve">
+    <value>1 つまたは複数のプールのローリングアップグレード プロセスが正常に完了しませんでした。アップグレード プロセスは一時停止しました。[再試行] を選択して再開してください。</value>
+  </data>
+  <data name="ROLLING_UPGRADE_ERROR_POOL_MANY" xml:space="preserve">
+    <value>プールのローリングアップグレードの進行中に次のエラーが発生しました。</value>
+  </data>
+  <data name="ROLLING_UPGRADE_ERROR_POOL_ONE" xml:space="preserve">
+    <value>プールのローリングアップグレードの進行中に次のエラーが発生しました。</value>
   </data>
   <data name="ROLLING_UPGRADE_METHOD_PAGE_TEXT" xml:space="preserve">
     <value>ネットワーク上のインストール ファイルの指定 (自動モード)</value>
@@ -10583,8 +10641,18 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
 最初にプール マスターがアップグレードされます。このため、マスターをスキップすると、このプールのローリング アップグレードがキャンセルされます。
 </value>
   </data>
+  <data name="ROLLING_UPGRADE_SUCCESS_MANY" xml:space="preserve">
+    <value>すべてのプールのローリングアップグレード プロセスが正常に完了しました。</value>
+  </data>
+  <data name="ROLLING_UPGRADE_SUCCESS_ONE" xml:space="preserve">
+    <value>プールのローリングアップグレード プロセスは正常に完了しました。</value>
+  </data>
   <data name="ROLLING_UPGRADE_TIMEOUT" xml:space="preserve">
-    <value>アップグレードの完了を待機しています。\nサーバーのコンソール画面で問題が発生していないことを確認してください。\n\nアップグレードが続行されている場合は [このまま待機] をクリックします。エラーが発生した場合は [キャンセル] をクリックします。</value>
+    <value>まだアップグレードの完了を待機中です。
+
+サーバー コンソールでエラーが発生していないかを確認してください。
+    
+アップグレードが進行中であった場合は [このまま待機] を、エラーが発生していた場合は [キャンセル] を選択してください。</value>
   </data>
   <data name="ROLLING_UPGRADE_TITLE_MODE" xml:space="preserve">
     <value>アップグレード モード</value>
@@ -10597,6 +10665,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="ROLLING_UPGRADE_UPGRADE_COMPLETED" xml:space="preserve">
     <value>プールのローリング アップグレードが完了しました。</value>
+  </data>
+  <data name="ROLLING_UPGRADE_UPGRADE_IN_PROGRESS" xml:space="preserve">
+    <value>プールのローリング アップグレード中です。しばらくお待ちください。</value>
   </data>
   <data name="ROLLING_UPGRADE_UPGRADE_NOT_COMPLETED" xml:space="preserve">
     <value>プールのローリング アップグレードが完了しませんでした。</value>
@@ -11103,11 +11174,8 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="SR" xml:space="preserve">
     <value>ストレージ リポジトリ</value>
   </data>
-  <data name="SRIOV_DISABLED" xml:space="preserve">
-    <value>はい (無効)</value>
-  </data>
-  <data name="SRIOV_ENABLE_REBOOT_WARNING" xml:space="preserve">
-    <value>この SR-IOV ネットワークを有効にするには、これらのサーバーを再起動する必要があります: '{0}'</value>
+  <data name="SRIOV_LOGICAL_PIF_UNPLUGGED" xml:space="preserve">
+    <value>はい (SR-IOV 論理 PIF がアンプラグされました)</value>
   </data>
   <data name="SRIOV_NEED_NICSUPPORT" xml:space="preserve">
     <value>SR-IOV ネットワークには、SR-IOV 対応 NIC が必要です。</value>
@@ -11115,8 +11183,13 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="SRIOV_NETWORK_CREATE" xml:space="preserve">
     <value>SR-IOV を作成する(&amp;S)</value>
   </data>
-  <data name="SRIOV_NETWORK_CREATE_WILL_DISTURB_CONNECTION" xml:space="preserve">
-    <value>この SR-IOV ネットワークを作成するとネットワーク接続の状態に影響を与え、[XenCenter] とプール間の接続が一時的に切断されます</value>
+  <data name="SRIOV_NETWORK_CREATE_WARNING" xml:space="preserve">
+    <value>この SR-IOV ネットワークを作成すると一時的に [XenCenter] からプールへの接続が切断されます。
+
+SR-IOV ネットワークを有効にするには、サーバーの再起動が必要な場合があります。</value>
+  </data>
+  <data name="SRIOV_NETWORK_SHOULD_BE_CREATED" xml:space="preserve">
+    <value>はい (SR-IOV を有効にするには、この NIC に SR-IOV ネットワークを作成します)</value>
   </data>
   <data name="SRPANEL_ACTIVE" xml:space="preserve">
     <value>アクティブ</value>
@@ -11436,7 +11509,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>ファイルのアップロード</value>
   </data>
   <data name="SUPP_PACK_UPLOADING_TO" xml:space="preserve">
-    <value>'{0}' にアップロードしています</value>
+    <value>アップデート '{0}' を '{1}' にアップロードしています</value>
   </data>
   <data name="SUPP_PACK_VERSIONS_DIFFER" xml:space="preserve">
     <value>{0} (異なるバージョンのホストがあります)</value>
@@ -11771,7 +11844,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>パフォーマンスの監視構成が更新されました</value>
   </data>
   <data name="UPDATED_PROPERTIES" xml:space="preserve">
-    <value>アップデートされました。</value>
+    <value>{0} のプロパティが保存されました。</value>
   </data>
   <data name="UPDATES" xml:space="preserve">
     <value>アップデート</value>
@@ -11869,11 +11942,14 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_LICENSE_REASON" xml:space="preserve">
     <value>ライセンスによる制限のため仮想マシン '{0}' を移行できません。</value>
   </data>
+  <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_NO_GPU" xml:space="preserve">
+    <value>VM '{0}' は仮想 GPU を使用し他のサーバーには適切な GPU がないため、VM '{0}' を移行できません。</value>
+  </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_NO_TOOLS" xml:space="preserve">
     <value>仮想マシン '{0}' を移行できません。最新のドライバーがインストールされていません。</value>
   </data>
-  <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_NO_GPU" xml:space="preserve">
-    <value>VM '{0}' は仮想 GPU を使用し他のサーバーには適切な GPU がないため、VM '{0}' を移行できません。</value>
+  <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_OPERATION_IN_PROGRESS" xml:space="preserve">
+    <value>現在進行中の別の操作によって VM '{0}' を移行できません。</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_PCI_REASON" xml:space="preserve">
     <value>1 つまたは複数の PCI デバイスが接続されているため VM '{0}' を移行できません。</value>
@@ -11905,23 +11981,11 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="UPDATES_WIZARD_EJECT_CD" xml:space="preserve">
     <value>CD をイジェクトするにはここをクリックしてください</value>
   </data>
-  <data name="UPDATES_WIZARD_ENTERED_MAINTENANCE_MODE" xml:space="preserve">
-    <value>保守モードに切り替わりました</value>
-  </data>
   <data name="UPDATES_WIZARD_ENTERING_MAINTENANCE_MODE" xml:space="preserve">
-    <value>保守モードに切り替えています...</value>
-  </data>
-  <data name="UPDATES_WIZARD_ENTER_MAINTENANCE_MODE" xml:space="preserve">
-    <value>保守モードへの切り替え</value>
-  </data>
-  <data name="UPDATES_WIZARD_EXITED_MAINTENANCE_MODE" xml:space="preserve">
-    <value>保守モードから切り替わりました</value>
+    <value>'{0}' を保守モードに切り替えています...</value>
   </data>
   <data name="UPDATES_WIZARD_EXITING_MAINTENANCE_MODE" xml:space="preserve">
-    <value>{0} を保守モードから切り替えています... </value>
-  </data>
-  <data name="UPDATES_WIZARD_EXIT_MAINTENANCE_MODE" xml:space="preserve">
-    <value>保守モードからの切り替え</value>
+    <value>'{0}' は保守モードを終了しています...</value>
   </data>
   <data name="UPDATES_WIZARD_EXTRACT_ACTION_TITLE" xml:space="preserve">
     <value>{0} を抽出</value>
@@ -11944,7 +12008,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>保守モードから切り替えるにはここをクリックしてください</value>
   </data>
   <data name="UPDATES_WIZARD_HOST_MAINTENANCE_MODE" xml:space="preserve">
-    <value>必要に応じて、サーバー {0} を保守モードに切り替える必要があります。すべてのサーバーを有効にして開始してください。</value>
+    <value>必要に応じて、サーバー {0} を保守モードに切り替えます。すべてのサーバーを有効にして開始してください。</value>
   </data>
   <data name="UPDATES_WIZARD_HOST_MAINTENANCE_MODE_TITLE" xml:space="preserve">
     <value>サーバー '{0}'</value>
@@ -11966,6 +12030,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="UPDATES_WIZARD_LOCAL_STORAGE" xml:space="preserve">
     <value>{0}: VM '{1}' はローカル ストレージを使用しているため移行できません。</value>
+  </data>
+  <data name="UPDATES_WIZARD_MIXED_POOL_SERVER_SELECTION_WARNING" xml:space="preserve">
+    <value>{0}: プールが部分的にアップグレードされたため、チェックがスキップされました。</value>
   </data>
   <data name="UPDATES_WIZARD_NEWER_XENCENTER_REQUIRED" xml:space="preserve">
     <value>[XenCenter] バージョン {0} 以降が必要です。</value>
@@ -12049,7 +12116,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>再起動しました</value>
   </data>
   <data name="UPDATES_WIZARD_REBOOTING" xml:space="preserve">
-    <value>{0} を再起動しています... </value>
+    <value>{0} を再起動しています...</value>
   </data>
   <data name="UPDATES_WIZARD_REBOOT_NEEDED" xml:space="preserve">
     <value>{0}: アップデートが適用された後、このサーバーを再起動する必要があります。</value>
@@ -12058,19 +12125,19 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>{1} からアップデートのインストール ファイル {0} を削除しています... </value>
   </data>
   <data name="UPDATES_WIZARD_REMOVING_UPDATES_FROM_POOL" xml:space="preserve">
-    <value>{0} からアップデート ファイルを削除しています...</value>
+    <value>{1} からアップデート ファイル {0} を削除しています...</value>
   </data>
   <data name="UPDATES_WIZARD_REPAIR_SR" xml:space="preserve">
     <value>修復するにはここをクリックしてください</value>
   </data>
   <data name="UPDATES_WIZARD_RESTARTED_AGENT" xml:space="preserve">
-    <value>エージェントが再起動しました</value>
+    <value>ツールスタックを再起動しました</value>
   </data>
   <data name="UPDATES_WIZARD_RESTARTING_AGENT" xml:space="preserve">
-    <value>{0} のエージェントを再起動しています... </value>
+    <value>ツールスタックを {0} で再起動しています... </value>
   </data>
   <data name="UPDATES_WIZARD_RESTART_AGENT" xml:space="preserve">
-    <value>エージェントの再起動</value>
+    <value>ツールスタックの再起動</value>
   </data>
   <data name="UPDATES_WIZARD_RESTART_SERVERS" xml:space="preserve">
     <value>これらのサーバーを再起動:
@@ -12088,6 +12155,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="UPDATES_WIZARD_SERVER_SELECTION_PROBLEM" xml:space="preserve">
     <value>{0}: プール内のすべてのサーバーに更新を適用する必要があります。</value>
+  </data>
+  <data name="UPDATES_WIZARD_SKIPPING_UPDATE" xml:space="preserve">
+    <value>アップデート {0} をスキップしています。{1} に適用済みです... </value>
   </data>
   <data name="UPDATES_WIZARD_SR_TITLE" xml:space="preserve">
     <value>ストレージ リポジトリ '{0}'</value>
@@ -12141,7 +12211,10 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>パフォーマンスの監視構成を更新します</value>
   </data>
   <data name="UPDATE_PROPERTIES" xml:space="preserve">
-    <value>'{0}' のアップデート</value>
+    <value>{0} のプロパティを保存</value>
+  </data>
+  <data name="UPDATE_SERVER_NOT_REACHABLE" xml:space="preserve">
+    <value>サーバーにアクセスできないかネットワークの接続エラーです。前のページでアップデートの適用チェックボックスを解除して再試行してください。</value>
   </data>
   <data name="UPDATE_TEMP_VDI_DESCRIPTION" xml:space="preserve">
     <value>アップデートのインストールに使用される一時仮想ディスク</value>
@@ -12156,7 +12229,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>パフォーマンスの監視構成の更新</value>
   </data>
   <data name="UPDATING_PROPERTIES" xml:space="preserve">
-    <value>アップデートしています...</value>
+    <value>プロパティを保存しています...</value>
   </data>
   <data name="UPGRADEWIZARD_PATCHING_TEXT" xml:space="preserve">
     <value>アップグレードの適用</value>
@@ -12169,6 +12242,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="UPGRADEWIZARD_PRECHECK_TITLE" xml:space="preserve">
     <value>アップグレードの事前チェック実行時に問題が発生しました。</value>
+  </data>
+  <data name="UPGRADEWIZARD_PROBLEM_CFU_STATUS" xml:space="preserve">
+    <value>アップデートのダウンロード機能を確認中にエラーが発生しました。</value>
   </data>
   <data name="UPGRADEWIZARD_PROBLEM_INCOMPATIBLE_CPUS" xml:space="preserve">
     <value>プール '{0}' のホストに互換性のない CPU があります</value>
@@ -12221,12 +12297,6 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="UPGRADE_SLAVE" xml:space="preserve">
     <value>'{0}' のアップグレード</value>
   </data>
-  <data name="UPGRADING" xml:space="preserve">
-    <value>アップグレードしています</value>
-  </data>
-  <data name="UPGRADING_SERVER" xml:space="preserve">
-    <value>サーバー '{0}' をアップグレードしています...</value>
-  </data>
   <data name="UPLOADING_PATCH" xml:space="preserve">
     <value>アップデートをアップロードしています...</value>
   </data>
@@ -12248,8 +12318,17 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   <data name="UPLOAD_PATCH_TITLE" xml:space="preserve">
     <value>アップロード</value>
   </data>
-  <data name="UPLOAD_PATCH_UPLOADED" xml:space="preserve">
-    <value>アップロード済み</value>
+  <data name="UPLOAD_PATCH_UPLOADED_DESCRIPTION" xml:space="preserve">
+    <value>完了</value>
+  </data>
+  <data name="UPLOAD_PATCH_UPLOADING_DESCRIPTION" xml:space="preserve">
+    <value>アップデート {0} をアップロードしています...</value>
+  </data>
+  <data name="UPLOAD_PATCH_UPLOADING_PROGRESS_DESCRIPTION" xml:space="preserve">
+    <value>アップデート {0} をダウンロードしています ({1}/{2})...</value>
+  </data>
+  <data name="UPLOAD_PATCH_UPLOADING_TO_SR_PROGRESS_DESCRIPTION" xml:space="preserve">
+    <value>アップデート '{0}' を '{1}' にアップロードしています ({2}/{3})...</value>
   </data>
   <data name="UPSELL_BLURB_AD" xml:space="preserve">
     <value>Active Directory を有効にするには、[XenServer] ライセンスをアップグレードします。 Active Directory で指定ユーザー アカウントを追加することで、 [XenServer] のアクセス制御を構成できます。</value>
@@ -12614,7 +12693,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>{0}。{1}: {2}</value>
   </data>
   <data name="VMSS_CONTEXT_MENU" xml:space="preserve">
-    <value>スナップショット スケジュール(&amp;U)...</value>
+    <value>スナップショット スケジュール(&amp;O)...</value>
   </data>
   <data name="VMSS_EMAIL_CHECKBOX_TEXT" xml:space="preserve">
     <value>スナップショット スケジュール ジョブのアラートをメールで送信する(&amp;E)</value>
@@ -12635,7 +12714,7 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
     <value>プール マスターに到達できません</value>
   </data>
   <data name="VMSS_MAIN_MENU" xml:space="preserve">
-    <value>VM のスナップショット スケジュール(&amp;H)...</value>
+    <value>VM スナップショット スケジュール(&amp;O)...</value>
   </data>
   <data name="VMSS_NAME" xml:space="preserve">
     <value>スケジュール名</value>
@@ -12924,9 +13003,6 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="VNC_FULLSCREEN_MESSAGE_F12" xml:space="preserve">
     <value>全画面モードを終了するには F12 キーを押します。</value>
-  </data>
-  <data name="HOST_GONE" xml:space="preserve">
-    <value>[XenCenter] のキャッシュにホストが見つかりません。</value>
   </data>
   <data name="VNC_LOOKING" xml:space="preserve">
     <value>ゲスト コンソールの検索中...</value>
@@ -13580,6 +13656,9 @@ VM が再起動したら、[[XenServer product] Tools のインストール] を
   </data>
   <data name="WLB_RETRIEVING_RECOMMENDATIONS" xml:space="preserve">
     <value>プール {0} の WLB 推奨事項を取得しています</value>
+  </data>
+  <data name="WLB_RETRIEVING_VM_RECOMMENDATIONS" xml:space="preserve">
+    <value>WLB 推奨事項を取得しています </value>
   </data>
   <data name="WLB_SAVING_SETTINGS" xml:space="preserve">
     <value>ワークロード バランス設定の保存</value>

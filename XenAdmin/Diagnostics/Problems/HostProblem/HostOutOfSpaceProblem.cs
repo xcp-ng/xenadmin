@@ -30,16 +30,11 @@
  */
 
 using System.Windows.Forms;
-using XenAdmin.Commands;
 using XenAdmin.Diagnostics.Checks;
 using XenAPI;
-using XenAdmin.Dialogs.VMDialogs;
 using XenAdmin.Actions;
-using XenAdmin.Actions.VMActions;
-using System.Collections.Generic;
 using XenAdmin.Dialogs;
 using System.Drawing;
-using System;
 using System.Diagnostics;
 
 
@@ -96,6 +91,10 @@ namespace XenAdmin.Diagnostics.Problems.HostProblem
                     
                     case DiskSpaceRequirements.OperationTypes.automatedUpdates :
                         return string.Format(Messages.NOT_ENOUGH_SPACE_MESSAGE_AUTO_UPDATE, ServerName);
+
+                    case DiskSpaceRequirements.OperationTypes.automatedUpdatesUploadOne:
+                    case DiskSpaceRequirements.OperationTypes.automatedUpdatesUploadAll:
+                        return string.Format(Messages.NOT_ENOUGH_SPACE_MESSAGE_AUTO_UPDATE_UPLOAD, ServerName);
 
                     default:
                         Debug.Assert(false);

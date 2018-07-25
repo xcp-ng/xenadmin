@@ -50,6 +50,14 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages
         public string Description { get; set; }
         public string Name { get; set; }
         public string UUID { get; set; }
+
+        public void UpdateDeviceConfig(Dictionary<string, string> configuration)
+        {
+            if (configuration == null)
+                return;
+            foreach (var c in configuration)
+                DeviceConfig[c.Key] = c.Value;
+        }
     }
 
     public abstract class FibreChannelDescriptor : SrDescriptor

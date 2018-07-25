@@ -56,6 +56,7 @@ namespace XenAdmin.Wizards.PatchingWizard
         private bool CheckForUpdatesInProgress;
         public XenServerPatchAlert SelectedUpdateAlert;
         public XenServerPatchAlert FileFromDiskAlert;
+        public bool FileFromDiskHasUpdateXml { get; private set; }
         private bool firstLoad = true;
         private string unzippedUpdateFilePath;
 
@@ -224,9 +225,11 @@ namespace XenAdmin.Wizards.PatchingWizard
                              ? ((PatchGridViewRow)dataGridViewPatches.SelectedRows[0]).UpdateAlert
                              : null;
 
-                    FileFromDiskAlert = selectFromDiskRadioButton.Checked
-                                                 ? GetAlertFromFile(fileName)
-                                                 : null;
+                    bool hasUpdateXml = false;
+                    FileFromDiskAlert = selectFromDiskRadioButton.Checked 
+                        ? GetAlertFromFile(fileName, out hasUpdateXml)
+                        : null;
+                    FileFromDiskHasUpdateXml = hasUpdateXml;
 
                     if (downloadUpdateRadioButton.Checked)
                     {
@@ -281,9 +284,9 @@ namespace XenAdmin.Wizards.PatchingWizard
             }
         }
 
-        private XenServerPatchAlert GetAlertFromFile(string fileName)
+        private XenServerPatchAlert GetAlertFromFile(string fileName, out bool hasUpdateXml)
         {
-            var alertFromIso = GetAlertFromIsoFile(fileName);
+            var alertFromIso = GetAlertFromIsoFile(fileName, out hasUpdateXml);
             if (alertFromIso != null)
                 return alertFromIso;
 
@@ -291,8 +294,10 @@ namespace XenAdmin.Wizards.PatchingWizard
             return Updates.FindPatchAlertByName(Path.GetFileNameWithoutExtension(fileName));
         }
 
-        private XenServerPatchAlert GetAlertFromIsoFile(string fileName)
+        private XenServerPatchAlert GetAlertFromIsoFile(string fileName, out bool hasUpdateXml)
         {
+            hasUpdateXml = false;
+
             if (!fileName.EndsWith(Branding.UpdateIso))
                 return null;
 
@@ -308,6 +313,7 @@ namespace XenAdmin.Wizards.PatchingWizard
                         using (var fileStream = cd.OpenFile("Update.xml", FileMode.Open))
                         {
                             xmlDoc.Load(fileStream);
+                            hasUpdateXml = true;
                         }
                     }
                 }

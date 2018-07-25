@@ -37,7 +37,7 @@ using XenAPI;
 
 namespace XenAdmin.Actions
 {
-    public class WlbRetrieveVmRecommendationsAction: PureAsyncAction
+    public class WlbRetrieveVmRecommendationsAction: AsyncAction
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -49,6 +49,7 @@ namespace XenAdmin.Actions
             : base(connection, Messages.WLB_RETRIEVING_VM_RECOMMENDATIONS, true)
         {
             this.vms = vms;
+            ApiMethodsToRoleCheck.Add("vm.retrieve_wlb_recommendations");
         }
 
         protected override void Run()

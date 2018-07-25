@@ -41,7 +41,8 @@ namespace XenAdmin.Actions
             string.Format(Messages.DISABLING_CLUSTERING_ON_POOL, pool.Name()), true)
         {
             #region RBAC Dependencies
-            //ApiMethodsToRoleCheck.Add("pif.set_disallow_unplug");
+            ApiMethodsToRoleCheck.Add("cluster.pool_destroy");
+            ApiMethodsToRoleCheck.Add("pif.set_disallow_unplug");
             #endregion
         }
 

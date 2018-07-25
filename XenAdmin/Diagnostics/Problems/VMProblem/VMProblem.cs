@@ -107,7 +107,7 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
             return ShutdownVM();
         }
 
-        public override AsyncAction UnwindChanges()
+        public override AsyncAction CreateUnwindChangesAction()
         {
             if (_vm.Connection.Resolve(new XenRef<VM>(_vm.opaque_ref)) == null) // check if the vm is still in the cache
                 return null;

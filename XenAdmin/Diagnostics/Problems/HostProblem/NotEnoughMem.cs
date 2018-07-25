@@ -80,7 +80,7 @@ namespace XenAdmin.Diagnostics.Problems.HostProblem
             get { return Messages.SUSPEND_VMS; }
         }
 
-        public override AsyncAction UnwindChanges()
+        public override AsyncAction CreateUnwindChangesAction()
         {
             return new ResumeAndStartVMsAction(Server.Connection, Server, VmsToSuspend, VmsToShutdown,VMOperationCommand.WarningDialogHAInvalidConfig,VMOperationCommand.StartDiagnosisForm);
         }

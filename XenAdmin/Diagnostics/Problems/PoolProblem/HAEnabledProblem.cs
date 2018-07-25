@@ -56,7 +56,7 @@ namespace XenAdmin.Diagnostics.Problems.PoolProblem
             return new DisableHAAction(Pool);
         }
 
-        public override AsyncAction UnwindChanges()
+        public override AsyncAction CreateUnwindChangesAction()
         {
             return new EnableHAAction(Pool, null, HeartbeatSrs, FailuresToTolerate);
         }

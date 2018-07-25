@@ -83,7 +83,16 @@ namespace XenAPI
                 JsonRpcClient = new JsonRpcClient(session.Url)
                 {
                     JsonRpcVersion = session.JsonRpcClient.JsonRpcVersion,
-                    Timeout = timeout
+                    Timeout = timeout,
+                    ConnectionGroupName = session.JsonRpcClient.ConnectionGroupName,
+                    KeepAlive = session.JsonRpcClient.KeepAlive,
+                    UserAgent = session.JsonRpcClient.UserAgent,
+                    WebProxy = session.JsonRpcClient.WebProxy,
+                    ProtocolVersion = session.JsonRpcClient.ProtocolVersion,
+                    Expect100Continue = session.JsonRpcClient.Expect100Continue,
+                    AllowAutoRedirect = session.JsonRpcClient.AllowAutoRedirect,
+                    PreAuthenticate = session.JsonRpcClient.PreAuthenticate,
+                    Cookies = session.JsonRpcClient.Cookies
                 };
                 JsonRpcClient.RequestEvent += LogJsonRequest;
             }

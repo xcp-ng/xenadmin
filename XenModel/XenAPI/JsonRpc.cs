@@ -175,6 +175,11 @@ namespace XenAPI
         public IWebProxy WebProxy { get; set; }
         public int Timeout { get; set; }
         public string ConnectionGroupName { get; set; }
+        public Version ProtocolVersion { get; set; }
+        public bool Expect100Continue { get; set; }
+        public bool AllowAutoRedirect { get; set; }
+        public bool PreAuthenticate { get; set; }
+        public CookieContainer Cookies { get; set; }
 
         public string Url { get; private set; }
 
@@ -197,16 +202,17 @@ namespace XenAPI
             webRequest.Method = "POST";
             webRequest.ContentType = "application/json";
             webRequest.Accept = "application/json";
-            if (Timeout > 0)
-                webRequest.Timeout = Timeout;
-            if (WebProxy != null)
-                webRequest.Proxy = WebProxy;
-            if (KeepAlive)
-                webRequest.KeepAlive = KeepAlive;
-            if (!string.IsNullOrEmpty(UserAgent))
-                webRequest.UserAgent = UserAgent;
-            if (!string.IsNullOrEmpty(ConnectionGroupName))
-                webRequest.ConnectionGroupName = ConnectionGroupName;
+            webRequest.ProtocolVersion = ProtocolVersion;
+            webRequest.ServicePoint.Expect100Continue = Expect100Continue;
+            webRequest.AllowAutoRedirect = AllowAutoRedirect;
+            webRequest.PreAuthenticate = PreAuthenticate;
+            webRequest.AllowWriteStreamBuffering = true;
+            webRequest.CookieContainer = Cookies;
+            webRequest.Timeout = Timeout;
+            webRequest.Proxy = WebProxy;
+            webRequest.KeepAlive = KeepAlive;
+            webRequest.UserAgent = UserAgent;
+            webRequest.ConnectionGroupName = ConnectionGroupName;
 
             // for performance reasons it's preferable to deserialize directly
             // from the Stream rather than allocating strings inbetween

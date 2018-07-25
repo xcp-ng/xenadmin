@@ -61,7 +61,7 @@ namespace XenAdmin.Diagnostics.Problems.HostProblem
             get { return Messages.ENABLE_PLAIN; }
         }
 
-        public override AsyncAction UnwindChanges()
+        public override AsyncAction CreateUnwindChangesAction()
         {
             Program.MainWindow.CloseActiveWizards(Server.Connection);
             return new DisableHostAction(Server);

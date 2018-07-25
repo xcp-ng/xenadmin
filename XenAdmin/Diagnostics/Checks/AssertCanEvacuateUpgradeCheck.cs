@@ -29,29 +29,24 @@
  * SUCH DAMAGE.
  */
 
-using System.Collections.Generic;
 using System.Linq;
 using XenAdmin.Core;
 using XenAdmin.Diagnostics.Problems;
-using XenAdmin.Diagnostics.Problems.HostProblem;
 using XenAdmin.Diagnostics.Problems.VMProblem;
 using XenAdmin.Diagnostics.Problems.PoolProblem;
 using XenAPI;
 
 namespace XenAdmin.Diagnostics.Checks
 {
-    public class AssertCanEvacuateUpgradeCheck : AssertCanEvacuateCheck
+    class AssertCanEvacuateUpgradeCheck : AssertCanEvacuateCheck
     {
         public AssertCanEvacuateUpgradeCheck(Host host)
             : base(host)
         {
         }
 
-        protected override Problem RunCheck()
+        protected override Problem RunHostCheck()
         {
-            if (!Host.IsLive())
-                return new HostNotLiveWarning(this, Host);
-
             // check if the pool has incompatible CPUs
             Pool pool = Helpers.GetPoolOfOne(Host.Connection);
             if (pool != null && PoolHasCpuIncompatibilityProblem(pool))
@@ -68,7 +63,7 @@ namespace XenAdmin.Diagnostics.Checks
                     return new InvalidVCPUConfiguration(this, vm);
             }
 
-            return base.RunCheck();
+            return base.RunHostCheck();
         }
 
         private bool PoolHasCpuIncompatibilityProblem(Pool pool)

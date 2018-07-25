@@ -30,6 +30,7 @@
  */
 
 ﻿using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 
 
@@ -85,6 +86,25 @@ namespace XenAdmin.Core
                     a = c;
             }
             return text.Ellipsise(c);
+        }
+
+        public static StringBuilder AppendIndented(this StringBuilder builder, string value, int indent = 2)
+        {
+            var indentString = "";
+            var i = 0;
+            while (i++ < indent)
+                indentString += " ";
+            return builder.Append(string.Format("{0}{1}", indentString, value));
+        }
+
+        public static StringBuilder AppendIndented(this StringBuilder builder, StringBuilder value, int indent = 2)
+        {
+            var indentString = "";
+            var i = 0;
+            while (i++ < indent)
+                indentString += " ";
+            var newvalue = value.Replace(System.Environment.NewLine, string.Format("{0}{1}", System.Environment.NewLine, indentString));
+            return builder.Append(string.Format("{0}{1}", indentString, newvalue));
         }
 	}
 }

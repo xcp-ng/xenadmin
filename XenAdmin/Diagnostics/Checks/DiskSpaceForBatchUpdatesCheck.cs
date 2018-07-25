@@ -29,14 +29,11 @@
  * SUCH DAMAGE.
  */
 
-using System;
 using XenAPI;
 using XenAdmin.Diagnostics.Problems;
 using XenAdmin.Core;
 using System.IO;
 using XenAdmin.Diagnostics.Problems.HostProblem;
-using System.Text.RegularExpressions;
-using System.Xml;
 using System.Collections.Generic;
 using XenAdmin.Actions;
 using System.Linq;
@@ -44,43 +41,75 @@ using System.Linq;
 
 namespace XenAdmin.Diagnostics.Checks
 {
-    class DiskSpaceForAutomatedUpdatesCheck : Check
+    class DiskSpaceForAutomatedUpdatesCheck : HostPostLivenessCheck
     {
-        private readonly long size = 0;
+        private readonly Dictionary<Host, List<XenServerPatch>> updateSequence;
 
-        public DiskSpaceForAutomatedUpdatesCheck(Host host, long size)
+        public DiskSpaceForAutomatedUpdatesCheck(Host host, Dictionary<Host, List<XenServerPatch>> updateSequence)
             : base(host)
         {
-            this.size = size;
+            this.updateSequence = updateSequence;
         }
 
-        protected override Problem RunCheck()
+        protected override Problem RunHostCheck()
         {
-            if (!Host.IsLive())
-                return new HostNotLiveWarning(this, Host);
-
             if (!Host.Connection.IsConnected)
                 throw new EndOfStreamException(Helpers.GetName(Host.Connection));
 
-            if (Helpers.CreamOrGreater(Host.Connection))
+            if (!Helpers.CreamOrGreater(Host.Connection))
+                return null;
+
+            var elyOrGreater = Helpers.ElyOrGreater(Host.Connection);
+
+            // check the disk space on host
+            var requiredDiskSpace = elyOrGreater
+                ? updateSequence[Host].Sum(p => p.InstallationSize) // all updates on this host (for installation)
+                : Host.IsMaster()
+                    ? updateSequence[Host].Sum(p => p.InstallationSize) + updateSequence.Values.SelectMany(p => p).Distinct().Sum(p => p.InstallationSize) // master: all updates on master (for installation) + all updates in pool (for upload)
+                    : updateSequence[Host].Sum(p => p.InstallationSize) * 2; // non-master: all updates on this host x 2 (for installation + upload)
+
+            var action = new GetDiskSpaceRequirementsAction(Host, requiredDiskSpace, true, DiskSpaceRequirements.OperationTypes.automatedUpdates);
+
+            try
             {
-                var action = new GetDiskSpaceRequirementsAction(Host, size, true, DiskSpaceRequirements.OperationTypes.automatedUpdates);
+                action.RunExternal(action.Session);
+            }
+            catch
+            {
+                log.WarnFormat("Could not get disk space requirements");
+            }
 
-                try
+            if (action.Succeeded && action.DiskSpaceRequirements.AvailableDiskSpace < requiredDiskSpace)
+                return new HostOutOfSpaceProblem(this, Host, action.DiskSpaceRequirements);
+
+            // check the disk space for uploading the update files to the pool's SRs (only needs to be done once, so only run this on master)
+            if (elyOrGreater && Host.IsMaster())
+            {
+                var allPatches = updateSequence.Values.SelectMany(p => p).Distinct().ToList();
+                var maxFileSize = allPatches.Max(p => p.DownloadSize);
+
+                var availableSRs = Host.Connection.Cache.SRs.Where(sr => sr.SupportsVdiCreate() && !sr.IsDetached()).ToList();
+                var maxSrSize = availableSRs.Max(sr => sr.FreeSpace());
+
+                // can accomodate the largest file?
+                if (maxSrSize < maxFileSize)
                 {
-                    action.RunExternal(action.Session);
-                }
-                catch
-                {
-                    log.WarnFormat("Could not get disk space requirements");
+                    return new HostOutOfSpaceProblem(this, Host,
+                        new DiskSpaceRequirements(DiskSpaceRequirements.OperationTypes.automatedUpdatesUploadOne, Host, null, maxFileSize, maxSrSize, 0));
                 }
 
-                if (action.Succeeded && action.DiskSpaceRequirements.AvailableDiskSpace < size)
-                    return new HostOutOfSpaceProblem(this, Host, action.DiskSpaceRequirements);
+                // can accomodate all files?
+                var totalFileSize = allPatches.Sum(p => p.DownloadSize);
+                var totalAvailableSpace = availableSRs.Sum(sr => sr.FreeSpace());
+
+                if (totalAvailableSpace < totalFileSize)
+                {
+                    return new HostOutOfSpaceProblem(this, Host,
+                        new DiskSpaceRequirements(DiskSpaceRequirements.OperationTypes.automatedUpdatesUploadAll, Host, null, totalFileSize, totalAvailableSpace, 0));
+                }
             }
 
             return null;
-            
         }
 
         public override string Description

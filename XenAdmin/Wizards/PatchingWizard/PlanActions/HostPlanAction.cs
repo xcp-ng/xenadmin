@@ -44,14 +44,14 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
         private readonly Host _currentHost;
         protected readonly XenRef<Host> HostXenRef;
 
-        protected HostPlanAction(Host host, string description)
-            : base(host.Connection, description)
+        protected HostPlanAction(Host host)
+            : base(host.Connection)
         {
             _currentHost = host;
             HostXenRef = new XenRef<Host>(host);
         }
 
-        protected override Host CurrentHost
+        protected internal Host CurrentHost
         {
             get { return _currentHost; }
         }
@@ -65,38 +65,33 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
         {
             var hostObj = GetResolvedHost();
 
-            Title = string.Format(Messages.PLANACTION_VMS_MIGRATING, hostObj.Name());
-            PBD.CheckAndPlugPBDsFor(Connection.ResolveAll(hostObj.resident_VMs));
-
+            var vms = hostObj.GetRunningVMs();
+            AddProgressStep(string.Format(Messages.UPDATES_WIZARD_ENTERING_MAINTENANCE_MODE, hostObj.Name()));
             log.DebugFormat("Disabling host {0}", hostObj.Name());
             Host.disable(session, HostXenRef.opaque_ref);
 
-            Status = Messages.PLAN_ACTION_STATUS_MIGRATING_VMS_FROM_HOST;
-            log.DebugFormat("Migrating VMs from host {0}", hostObj.Name());
-            XenRef<Task> task = Host.async_evacuate(session, HostXenRef.opaque_ref);
-
-            PollTaskForResultAndDestroy(Connection, ref session, task);
+            if (vms.Count > 0)
+            {
+                PBD.CheckPlugPBDsForVMs(Connection, vms);
+                AddProgressStep(string.Format(Messages.PLANACTION_VMS_MIGRATING, hostObj.Name()));
+                log.DebugFormat("Migrating VMs from host {0}", hostObj.Name());
+                XenRef<Task> task = Host.async_evacuate(session, HostXenRef.opaque_ref);
+                PollTaskForResultAndDestroy(Connection, ref session, task);
+            }
         }
 
         protected void BringBabiesBack(ref Session session, List<XenRef<VM>> vmrefs, bool enableOnly)
         {
-            Status = Messages.PLAN_ACTION_STATUS_RECONNECTING_STORAGE;
-            PBD.CheckAndBestEffortPlugPBDsFor(Connection, vmrefs);
-
-            //
             // CA-17428: Apply hotfixes to a pool of hosts through XenCenter fails.
-            //
             // Hosts do reenable themselves anyway, so just wait 1 min for that,  
             // occasionally poking it.
-            //
-
-            Status = Messages.PLAN_ACTION_STATUS_REENABLING_HOST;
+            var hostObj = GetResolvedHost();
+            AddProgressStep(string.Format(Messages.UPDATES_WIZARD_EXITING_MAINTENANCE_MODE, hostObj.Name()));
 
             int retries = 0;
             while (!Host.get_enabled(session, HostXenRef.opaque_ref))
             {
                 retries++;
-
                 Thread.Sleep(5000);
 
                 try
@@ -112,16 +107,22 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
                 }
             }
 
-            if (enableOnly)
+            if (enableOnly || vmrefs.Count == 0)
                 return;
 
             int vmCount = vmrefs.Count;
             int vmNumber = 0;
             
-            var hostObj = GetResolvedHost();
+            hostObj = GetResolvedHost();
+            AddProgressStep(string.Format(Messages.PLAN_ACTION_STATUS_REPATRIATING_VMS, hostObj.Name()));
+            PBD.CheckPlugPBDsForVMs(Connection, vmrefs, true);
 
-            foreach (VM vm in Connection.ResolveAll(vmrefs))
+            foreach (var vmRef in vmrefs)
             {
+                var vm = Connection.Resolve(vmRef);
+                if (vm == null)
+                    continue;
+
                 int tries = 0;
 
                 if (vm.power_state != vm_power_state.Running)
@@ -133,8 +134,6 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
 
                     try
                     {
-                        Status = string.Format(Messages.PLAN_ACTION_STATUS_MIGRATING_VM_X_OF_Y, vmNumber + 1, vmCount);
-
                         log.DebugFormat("Migrating VM '{0}' back to Host '{1}'", vm.Name(), hostObj.Name());
 
                         PollTaskForResultAndDestroy(Connection, ref session,

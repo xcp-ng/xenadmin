@@ -218,6 +218,9 @@
   <data name="ColumnSriovCapable.HeaderText" xml:space="preserve">
     <value>SR-IOV 対応</value>
   </data>
+  <data name="ColumnSriovCapable.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
   <data name="ColumnSriovCapable.Width" type="System.Int32, mscorlib">
     <value>113</value>
   </data>

@@ -30,18 +30,13 @@
  */
 
 using System.Collections.Generic;
-using XenAPI;
 using XenAdmin.Diagnostics.Problems;
+using XenAPI;
 
 namespace XenAdmin.Diagnostics.Checks
 {
     public abstract class Check
     {
-        protected Check(Host host)
-        {
-            _host = host;
-        }
-
         protected abstract Problem RunCheck();
 
         // By default, most Checks return zero or one Problems: but a
@@ -55,19 +50,17 @@ namespace XenAdmin.Diagnostics.Checks
             return list;
         }
 
-        public abstract string Description{ get;}
+        public abstract string Description { get; }
+        public abstract IXenObject XenObject { get; }
 
-        public virtual string SuccessfulCheckDescription 
+        public virtual string SuccessfulCheckDescription
         {
-            get { return string.Empty; }
+            get
+            {
+                return string.IsNullOrEmpty(Description)
+                    ? string.Empty
+                    : string.Format(Messages.PATCHING_WIZARD_CHECK_OK, Description);
+            }
         }
-
-        private readonly Host _host = null;
-        public Host Host
-        {
-            get{ return _host;}
-        }
-
     }
-
 }

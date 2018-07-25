@@ -59,89 +59,37 @@ namespace XenAPI
             return false;
         }
 
-        public static List<PBD> GetPBDsFor(IEnumerable<VM> vms)
+        public static void CheckPlugPBDsForVMs(IXenConnection connection, List<XenRef<VM>> vmRefs, bool ignoreFailure = false)
         {
-            List<PBD> pbds = new List<PBD>();
+            var pbds = new List<PBD>();
 
-            // Find all the PBDs this vm relies on
-
-            foreach (VM vm in vms)
+            foreach (XenRef<VM> vmRef in vmRefs)
             {
-                foreach (VBD vbd in vm.Connection.ResolveAll<VBD>(vm.VBDs))
+                VM vm = connection.TryResolveWithTimeout(vmRef);
+                
+                foreach (var vbdRef in vm.VBDs)
                 {
-                    VDI vdi = vbd.Connection.Resolve<VDI>(vbd.VDI);
+                    var vbd = connection.Resolve(vbdRef);
+                    if (vbd == null)
+                        continue;
+
+                    VDI vdi = connection.Resolve(vbd.VDI);
                     if (vdi == null)
                         continue;
 
-                    SR sr = vdi.Connection.Resolve<SR>(vdi.SR);
+                    SR sr = connection.Resolve(vdi.SR);
                     if (sr == null)
                         continue;
 
-                    foreach (PBD pbd in vm.Connection.ResolveAll<PBD>(sr.PBDs))
+                    foreach (var pbdRef in sr.PBDs)
                     {
-                        if (!pbds.Contains(pbd))
+                        var pbd = connection.Resolve(pbdRef);
+                        if (pbd != null && !pbds.Contains(pbd))
                             pbds.Add(pbd);
                     }
                 }
             }
 
-            return pbds;
-        }
-
-        private enum PlugMode
-        {
-            NORMAL,     //Exception raised in the plug are propagated
-            NONCHALANT  //Exceptions raised in the plug are masked
-        }
-
-        public static void CheckAndPlugPBDsFor(IXenConnection connection, List<XenRef<VM>> vmRefs)
-        {
-            CheckAndPlugPBDsFor(connection, vmRefs, PlugMode.NORMAL);
-        }
-
-        public static void CheckAndBestEffortPlugPBDsFor(IXenConnection connection, List<XenRef<VM>> vmRefs)
-        {
-            CheckAndPlugPBDsFor(connection, vmRefs, PlugMode.NONCHALANT);
-        }
-
-        private static void CheckAndPlugPBDsFor(IXenConnection connection, List<XenRef<VM>> vmRefs, PlugMode plugMode)
-        {
-            //Program.AssertOffEventThread();
-
-            List<VM> vms = new List<VM>();
-
-            foreach (XenRef<VM> vmRef in vmRefs)
-            {
-                VM vm = null;
-                while ((vm = connection.Resolve<VM>(vmRef)) == null)
-                    Thread.Sleep(100);
-
-                vms.Add(vm);
-            }
-            
-            CheckAndPlugPBDsFor(vms, plugMode);
-        }
-
-        public static void CheckAndPlugPBDsFor(List<VM> vms)
-        {
-            CheckAndPlugPBDsFor( vms, PlugMode.NORMAL );
-        }
-
-        private static void CheckAndPlugPBDsFor(List<VM> vms, PlugMode plugMode)
-        {
-            List<PBD> pbds = PBD.GetPBDsFor(vms);
-
-            // Now lets see if they're all plugged
-            CheckAndPlugPBDs(pbds, plugMode);
-        }
-
-        public static void CheckAndPlugPBDs(IList<PBD> pbds)
-        {
-            CheckAndPlugPBDs(pbds, PlugMode.NORMAL);
-        }
-
-        private static void CheckAndPlugPBDs(IList<PBD> pbds, PlugMode plugMode)
-        {
             foreach (PBD pbd in pbds)
             {
                 Session session = pbd.Connection.DuplicateSession();
@@ -151,7 +99,7 @@ namespace XenAPI
                 if (WaitForPlug(session, pbd.opaque_ref))
                     continue;
 
-                // If we still havent plugged, then try and plug it - this will probably
+                // if it's still unplugged, try plugging it - this will probably
                 // fail, but at least we'll get a better error message.
                 try
                 {
@@ -162,35 +110,10 @@ namespace XenAPI
                 {
                     log.Debug(string.Format("Error plugging PBD {0}", pbd.Name()), e);
 
-                    if (plugMode != PlugMode.NONCHALANT)
+                    if (!ignoreFailure)
                         throw;
                 }
             }
-        }
-
-        public static List<PBD> GetUnpluggedPBDsFor(IEnumerable<VM> vms)
-        {
-            List<PBD> unpluggedPBDs = new List<PBD>();
-
-            foreach (PBD pbd in PBD.GetPBDsFor(vms))
-            {
-                if (!pbd.currently_attached)
-                    unpluggedPBDs.Add(pbd);
-            }
-
-            return unpluggedPBDs;
-        }
-
-        public static IEnumerable<SR> GetSRs(IEnumerable<PBD> pbds)
-        {
-            List<SR> result = new List<SR>();
-            foreach (PBD pbd in pbds)
-            {
-                SR sr = pbd.Connection.Resolve(pbd.SR);
-                if (sr != null)
-                    result.Add(sr);
-            }
-            return result;
         }
 
         public bool MultipathActive()

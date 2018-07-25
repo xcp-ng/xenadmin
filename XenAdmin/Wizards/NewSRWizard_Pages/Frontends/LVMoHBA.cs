@@ -131,6 +131,8 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
                 }
 
                 currentSrDescriptor.UUID = srs.Select(sr => sr.UUID).FirstOrDefault();
+                if (srs.Count > 0)
+                    currentSrDescriptor.UpdateDeviceConfig(srs[0].Configuration);
 
                 if (!string.IsNullOrEmpty(SrWizardType.UUID))
                 {

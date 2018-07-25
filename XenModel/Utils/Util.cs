@@ -138,16 +138,16 @@ namespace XenAdmin
             return string.Format(Messages.VAL_FORMAT, value, unit);
         }       
 	
-		public static string DiskSizeString(long bytes)
+        public static string DiskSizeString(long bytes, string format = null)
         {
-            return DiskSizeString(bytes, 1);
+            return DiskSizeString(bytes, 1, format);
         }
 
-		public static string DiskSizeString(long bytes, int dp)
+        public static string DiskSizeString(long bytes, int dp, string format = null)
 		{
 			ulong abs = (ulong)Math.Abs(bytes);
             string unit;
-            string value = ByteSizeString(abs, dp, false, out unit);
+            string value = ByteSizeString(abs, dp, false, out unit, format);
             return string.Format(Messages.VAL_FORMAT, value, unit);
 		}
 
@@ -169,24 +169,27 @@ namespace XenAdmin
             return ByteSizeString(bytes, 0, false, out unit);
         }
 
-        private static string ByteSizeString(double bytes, int decPlaces, bool isRate, out string unit)
+        private static string ByteSizeString(double bytes, int decPlaces, bool isRate, out string unit, string format = null)
         {
             if (bytes >= BINARY_GIGA)
             {
                 unit = isRate ? Messages.VAL_GIGRATE : Messages.VAL_GIGB;
-                return Math.Round(bytes / BINARY_GIGA, decPlaces).ToString();
+                var result = Math.Round(bytes / BINARY_GIGA, decPlaces);
+                return string.IsNullOrEmpty(format) ? result.ToString() : result.ToString(format);
             }
 
             if (bytes >= BINARY_MEGA)
             {
                 unit = isRate ? Messages.VAL_MEGRATE : Messages.VAL_MEGB;
-                return Math.Round(bytes / BINARY_MEGA, decPlaces).ToString();
+                var result = Math.Round(bytes / BINARY_MEGA, decPlaces);
+                return string.IsNullOrEmpty(format) ? result.ToString() : result.ToString(format);
             }
 
             if (bytes >= BINARY_KILO)
             {
                 unit = isRate ? Messages.VAL_KILRATE : Messages.VAL_KILB;
-                return Math.Round(bytes / BINARY_KILO, decPlaces).ToString();
+                var result = Math.Round(bytes / BINARY_KILO, decPlaces);
+                return string.IsNullOrEmpty(format) ? result.ToString() : result.ToString(format);
             }
 
             unit = isRate ? Messages.VAL_RATE : Messages.VAL_BYTE;

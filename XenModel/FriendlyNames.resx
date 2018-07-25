@@ -975,6 +975,12 @@
   <data name="Message.body-alarm" xml:space="preserve">
     <value>Alarm '{0}' was not recognised.</value>
   </data>
+  <data name="Message.body-cluster_host_enable_failed" xml:space="preserve">
+    <value>Server '{0}' failed to join the cluster.</value>
+  </data>
+  <data name="Message.body-cluster_host_fencing" xml:space="preserve">
+    <value> Server '{0}' has been fenced.</value>
+  </data>
   <data name="Message.body-extauth_in_pool_is_non_homogeneous" xml:space="preserve">
     <value>The external authentication service used within '{0}' is not consistent.</value>
   </data>
@@ -1198,6 +1204,12 @@
   </data>
   <data name="Message.name-bond_status_changed" xml:space="preserve">
     <value>Bond status has changed</value>
+  </data>
+  <data name="Message.name-cluster_host_enable_failed" xml:space="preserve">
+    <value>Server failed to join the cluster</value>
+  </data>
+  <data name="Message.name-cluster_host_fencing" xml:space="preserve">
+    <value>Server has been fenced</value>
   </data>
   <data name="Message.name-extauth_in_pool_is_non_homogeneous" xml:space="preserve">
     <value>Authentication method is not consistent across the Pool</value>

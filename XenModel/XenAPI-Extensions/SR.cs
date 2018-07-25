@@ -487,7 +487,7 @@ namespace XenAPI
                 string name_description = probeResult.sr.name_description;
                 bool pool_metadata_detected = false;
 
-                results.Add(new SRInfo(uuid, size, aggr, name_label, name_description, pool_metadata_detected));
+                results.Add(new SRInfo(uuid, size, aggr, name_label, name_description, pool_metadata_detected, probeResult.configuration));
             }
             return results;
         }
@@ -807,6 +807,7 @@ namespace XenAPI
             public string Name;
             public string Description;
             public readonly bool PoolMetadataDetected;
+            public Dictionary<string, string> Configuration;
 
             public SRInfo(string uuid)
                 : this(uuid, 0, "", "", "", false)
@@ -823,7 +824,7 @@ namespace XenAPI
             {
             }
 
-            public SRInfo(string uuid, long size, string aggr, string name, string description, bool poolMetadataDetected)
+            public SRInfo(string uuid, long size, string aggr, string name, string description, bool poolMetadataDetected, Dictionary<string,string> configuration = null)
             {
                 UUID = uuid;
                 Size = size;
@@ -831,6 +832,7 @@ namespace XenAPI
                 Name = name;
                 Description = description;
                 PoolMetadataDetected = poolMetadataDetected;
+                Configuration = configuration;
             }
 
             public int CompareTo(SRInfo other)

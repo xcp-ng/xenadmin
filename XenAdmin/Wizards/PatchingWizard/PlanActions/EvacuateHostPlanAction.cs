@@ -38,15 +38,12 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
     public class EvacuateHostPlanAction : HostPlanAction
     {     
         public EvacuateHostPlanAction(Host host)
-            : base(host, string.Format(Messages.PLANACTION_VMS_MIGRATING, host.Name()))
+            : base(host)
         {
-            TitlePlan = string.Format(Messages.MIGRATE_VMS_OFF_SERVER, host.Name());
-            Visible = false;
         }
 
         protected override void RunWithSession(ref Session session)
         {
-            Visible = true;
             EvacuateHost(ref session);
         }
     }

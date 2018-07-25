@@ -297,25 +297,38 @@ namespace XenAdmin.Actions
             get { return _percentComplete; }
             set
             {
-                System.Diagnostics.Trace.Assert(value >= 0);
-                _percentComplete = value > 0 ? Math.Min(value, 100) : 0;
-                OnChanged();
+                if (_percentComplete != value)
+                {
+                    System.Diagnostics.Debug.Assert(0 <= value && value <= 100, string.Format("value percent is {0}", value));
+
+                    var percent = value;
+                    if (percent < 0)
+                        percent = 0;
+                    else if (percent > 100)
+                        percent = 100;
+
+                    _percentComplete = percent;
+                    OnChanged();
+                }
             }
         }
 
         public bool SuppressProgressReport { get; set; }
+
         public void Tick(int percent, string description)
         {
-            _description = description;
+            if (_percentComplete != percent || _description != description)
+            {
+                _description = description;
 
-            //System.Diagnostics.Trace.Assert(percent >= 0);
-            if (percent < 0)
-                percent = 0;
-            if (percent > 100)
-                percent = 100;
-            PercentComplete = percent;
+                if (percent < 0)
+                    percent = 0;
+                else if (percent > 100)
+                    percent = 100;
+                _percentComplete = percent;
 
-            OnChanged();
+                OnChanged();
+            }
         }
 
         public bool Succeeded

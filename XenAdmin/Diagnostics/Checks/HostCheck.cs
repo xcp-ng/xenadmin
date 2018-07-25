@@ -29,24 +29,39 @@
  * SUCH DAMAGE.
  */
 
-using System.Collections.Generic;
+using System.Diagnostics;
 using XenAPI;
 
-
-namespace XenAdmin.Wizards.PatchingWizard.PlanActions
+namespace XenAdmin.Diagnostics.Checks
 {
-    public class RebootHostPlanAction : RebootPlanAction
+    public abstract class HostCheck : Check
     {
-        public RebootHostPlanAction(Host host)
-            : base(host, string.Format(Messages.UPDATES_WIZARD_REBOOTING, host))
+        private readonly Host _host;
+
+        protected HostCheck(Host host)
         {
-            Visible = false;
+            Debug.Assert(host != null);
+            _host = host;
         }
 
-        protected override void RunWithSession(ref Session session)
+        protected Host Host
         {
-            Visible = true;
-            RebootHost(ref session);
+            get { return _host; }
+        }
+
+        public sealed override IXenObject XenObject
+        {
+            get { return _host; }
+        }
+
+        public override string SuccessfulCheckDescription 
+        {
+            get
+            {
+                return string.IsNullOrEmpty(Description)
+                    ? string.Empty
+                    : string.Format(Messages.PATCHING_WIZARD_HOST_CHECK_OK, Host.Name(), Description);
+            }
         }
     }
 }

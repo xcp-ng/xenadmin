@@ -270,9 +270,6 @@
   <data name="CLUSTERING_ENABLED" xml:space="preserve">
     <value>cluster_host でクラスタリングが有効になっている間に、操作が試行されました。</value>
   </data>
-  <data name="CLUSTERING_ENABLED_ON_NETWORK" xml:space="preserve">
-    <value>ネットワークにクラスター オブジェクトが接続されています。</value>
-  </data>
   <data name="CLUSTER_ALREADY_EXISTS" xml:space="preserve">
     <value>クラスターは既にプールに存在します。</value>
   </data>
@@ -280,10 +277,16 @@
     <value>クラスターの作成が進行中であるため、この操作を実行できませんでした。</value>
   </data>
   <data name="CLUSTER_DOES_NOT_HAVE_ONE_NODE" xml:space="preserve">
-    <value>クラスターにノードが 1 つしかありません。</value>
+    <value>クラスターに 1 つのノードのみではなく複数の cluster_host が存在したため、操作は失敗しました。</value>
   </data>
   <data name="CLUSTER_FORCE_DESTROY_FAILED" xml:space="preserve">
     <value>クラスターの強制破棄中、Cluster_host での強制破棄に失敗しました。</value>
+  </data>
+  <data name="CLUSTER_HOST_IS_LAST" xml:space="preserve">
+    <value>最後のクラスター ホストは破棄できません。代わりにクラスターを破棄してください</value>
+  </data>
+  <data name="CLUSTER_HOST_NOT_JOINED" xml:space="preserve">
+    <value>cluster_host がクラスターに参加していないため、cluster_host 操作は失敗しました。</value>
   </data>
   <data name="CLUSTER_STACK_IN_USE" xml:space="preserve">
     <value>クラスター スタックは既に使用されています。</value>
@@ -594,6 +597,9 @@
   <data name="INVALID_CIDR_ADDRESS_SPECIFIED" xml:space="preserve">
     <value>必要なパラメーターに無効な CIDR アドレスが含まれています (&lt;アドレス&gt;/&lt;プレフィックスの長さ&gt;)</value>
   </data>
+  <data name="INVALID_CLUSTER_STACK" xml:space="preserve">
+    <value>指定されたクラスター スタックはサポートされていません。</value>
+  </data>
   <data name="INVALID_DEVICE" xml:space="preserve">
     <value>デバイス名 {0} が無効です。</value>
   </data>
@@ -777,6 +783,9 @@
   <data name="NOT_SYSTEM_DOMAIN" xml:space="preserve">
     <value>この VM はシステム ドメインとして登録されていません。この処理は、登録済みのシステム ドメインにのみ実行できます。</value>
   </data>
+  <data name="NO_CLUSTER_HOSTS_REACHABLE" xml:space="preserve">
+    <value>参加時にアクセスできる他のクラスター ホストがありません</value>
+  </data>
   <data name="NO_COMPATIBLE_CLUSTER_HOST" xml:space="preserve">
     <value>ホストに、互換性のあるクラスター スタックを持つ Cluster_host がありません。</value>
   </data>
@@ -921,6 +930,9 @@
   <data name="PIF_IS_VLAN" xml:space="preserve">
     <value>VLAN 上に VLAN を作成することはできません。物理 PIF/ボンディングを使用してください。</value>
   </data>
+  <data name="PIF_NOT_ATTACHED_TO_HOST" xml:space="preserve">
+    <value>指定された PIF がホストに接続されていないため、Cluster_host の作成に失敗しました。</value>
+  </data>
   <data name="PIF_NOT_PRESENT" xml:space="preserve">
     <value>このホストには指定されたネットワークの PIF がありません。</value>
   </data>
@@ -1054,6 +1066,9 @@
   </data>
   <data name="REDO_LOG_IS_ENABLED" xml:space="preserve">
     <value>プールのやり直しログが有効になっているため、この処理は実行できません。</value>
+  </data>
+  <data name="REQUIRED_PIF_IS_UNPLUGGED" xml:space="preserve">
+    <value>指定された PIF が現在アンプラグされているため、要求された処理を実行できません。</value>
   </data>
   <data name="RESTORE_INCOMPATIBLE_VERSION" xml:space="preserve">
     <value>互換性のないバージョンで保存されたため、このサーバー上に復元できません。</value>
@@ -1285,6 +1300,9 @@
   </data>
   <data name="SR_BACKEND_FAILURE_181" xml:space="preserve">
     <value>SR に対するメタデータ ボリューム処理でエラーが発生しました。</value>
+  </data>
+  <data name="SR_BACKEND_FAILURE_182" xml:space="preserve">
+    <value>ISCSI の削除に失敗しました</value>
   </data>
   <data name="SR_BACKEND_FAILURE_19" xml:space="preserve">
     <value>そのようなデバイスはありません。</value>
@@ -2017,6 +2035,9 @@
   </data>
   <data name="VM_HAS_PCI_ATTACHED" xml:space="preserve">
     <value>VM で PCI デバイスのパススルーが設定されているため、この処理を実行できません。</value>
+  </data>
+  <data name="VM_HAS_SRIOV_VIF" xml:space="preserve">
+    <value>VM に 1 つまたは複数の SR-IOV VIF が割り当てられているため、この処理を実行できません。</value>
   </data>
   <data name="VM_HAS_TOO_MANY_SNAPSHOTS" xml:space="preserve">
     <value>複数のスナップショットを持つ VM を移行しようとしました。</value>

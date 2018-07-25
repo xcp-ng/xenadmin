@@ -33,12 +33,11 @@ using System.Linq;
 using XenAdmin.Diagnostics.Problems.SRProblem;
 using XenAPI;
 using XenAdmin.Diagnostics.Problems;
-using XenAdmin.Diagnostics.Problems.HostProblem;
-using XenAdmin.Core;
+
 
 namespace XenAdmin.Diagnostics.Checks
 {
-    class HostHasUnsupportedStorageLinkSRCheck : Check
+    class HostHasUnsupportedStorageLinkSRCheck : HostPostLivenessCheck
     {
 
         public HostHasUnsupportedStorageLinkSRCheck(Host host)
@@ -46,11 +45,8 @@ namespace XenAdmin.Diagnostics.Checks
         {
         }
 
-        protected override Problem RunCheck()
+        protected override Problem RunHostCheck()
         {
-            if (!Host.IsLive())
-                return new HostNotLiveWarning(this, Host);
-
             foreach (var sr in Host.Connection.Cache.SRs.Where(sr => sr.GetSRType(true) == SR.SRTypes.cslg))
             {
                 return new UnsupportedStorageLinkSrIsPresentProblem(this);

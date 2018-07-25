@@ -390,17 +390,26 @@
   <data name="ColumnName.HeaderText" xml:space="preserve">
     <value>名前</value>
   </data>
+  <data name="ColumnName.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
   <metadata name="ColumnVolume.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="ColumnVolume.HeaderText" xml:space="preserve">
     <value>ストレージ ボリューム</value>
   </data>
+  <data name="ColumnVolume.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
   <metadata name="ColumnDesc.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="ColumnDesc.HeaderText" xml:space="preserve">
     <value>説明</value>
+  </data>
+  <data name="ColumnDesc.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
   <metadata name="ColumnSize.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -416,6 +425,9 @@
   </metadata>
   <data name="ColumnVM.HeaderText" xml:space="preserve">
     <value>仮想マシン</value>
+  </data>
+  <data name="ColumnVM.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
   <metadata name="ColumnCBT.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

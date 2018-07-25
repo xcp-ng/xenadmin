@@ -40,7 +40,7 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
     {
         private readonly CannotMigrateVMReason reason;
 
-        public enum CannotMigrateVMReason { Unknown, LicenseRestriction, CannotMigrateVm, CannotMigrateVmNoTools, CannotMigrateVmNoGpu, LacksFeatureSuspend, HasPCIAttached }
+        public enum CannotMigrateVMReason { Unknown, LicenseRestriction, CannotMigrateVm, CannotMigrateVmNoTools, CannotMigrateVmNoGpu, LacksFeatureSuspend, HasPCIAttached, OperationInProgress }
 
         public CannotMigrateVM(Check check, VM vm, CannotMigrateVMReason licenseRestriction = CannotMigrateVMReason.Unknown)
             : base(check, vm) 
@@ -78,6 +78,10 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
 
                     case CannotMigrateVMReason.HasPCIAttached:
                         descriptionFormat = Messages.UPDATES_WIZARD_CANNOT_MIGRATE_VM_PCI_REASON;
+                        break;
+
+                    case CannotMigrateVMReason.OperationInProgress:
+                        descriptionFormat = Messages.UPDATES_WIZARD_CANNOT_MIGRATE_VM_OPERATION_IN_PROGRESS;
                         break;
 
                     default:

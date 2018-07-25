@@ -121,7 +121,6 @@ namespace XenAdmin.Controls.MainWindowControls
                                  e.Bounds.Left + IMG_LEFT_MARGIN,
                                  e.Bounds.Top + (itemHeight - imgHeight) / 2);
 
-
             FontStyle style = item.SubMode == NotificationsSubMode.Events && item.UnreadEntries > 0
                                   ? FontStyle.Bold
                                   : FontStyle.Regular;
@@ -133,7 +132,7 @@ namespace XenAdmin.Controls.MainWindowControls
                 var textRec = new Rectangle(textLeft, e.Bounds.Top,
                                             e.Bounds.Right - textLeft, itemHeight);
 
-                Drawing.DrawText(e.Graphics, item.Text, font, textRec, ForeColor,
+                Drawing.DrawText(e.Graphics, item.Text, font, textRec, e.ForeColor,
                     TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.EndEllipsis);
             }
         }

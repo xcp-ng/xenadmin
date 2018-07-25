@@ -29,18 +29,15 @@
  * SUCH DAMAGE.
  */
 
-using System.Collections.Generic;
 using System.Linq;
 using XenAdmin.Core;
-using XenAdmin.Diagnostics.Hotfixing;
 using XenAdmin.Diagnostics.Problems;
-using XenAdmin.Diagnostics.Problems.HostProblem;
 using XenAdmin.Diagnostics.Problems.PoolProblem;
 using XenAPI;
 
 namespace XenAdmin.Diagnostics.Checks
 {
-    class RestartHostOrToolstackPendingOnMasterCheck : Check
+    class RestartHostOrToolstackPendingOnMasterCheck : HostPostLivenessCheck
     {
         public string UpdateUuid { get; private set; }
         private readonly Pool pool;
@@ -52,11 +49,8 @@ namespace XenAdmin.Diagnostics.Checks
             this.UpdateUuid = updateUuid;
         }
 
-        protected override Problem RunCheck()
-        {
-            if (!Host.IsLive())
-                return new HostNotLiveWarning(this, Host);
-            
+        protected override Problem RunHostCheck()
+        {           
             var elyOrGreater = Helpers.ElyOrGreater(Host);
 
             double bootTime = Host.BootTime();

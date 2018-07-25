@@ -29,7 +29,6 @@
  * SUCH DAMAGE.
  */
 
-using System.Collections.Generic;
 using XenAdmin.Diagnostics.Problems.HostProblem;
 using XenAPI;
 using XenAdmin.Diagnostics.Problems;
@@ -38,7 +37,7 @@ using XenAdmin.Diagnostics.Problems.SRProblem;
 
 namespace XenAdmin.Diagnostics.Checks
 {
-    public class PBDsPluggedCheck : Check
+    class PBDsPluggedCheck : HostPostLivenessCheck
     {
         SR srUploadedUpdates;
 
@@ -47,45 +46,42 @@ namespace XenAdmin.Diagnostics.Checks
             srUploadedUpdates = sr;
         }
 
-        protected override Problem RunCheck()
+        protected override Problem RunHostCheck()
         {
-            if (!Host.IsLive())
-                return new HostNotLiveWarning(this, Host);
-
-            IEnumerable<VM> runningOrPausedVMs = GetRunningOrPausedVMs(Host);
-            IEnumerable<SR> brokenSRs = PBD.GetSRs(PBD.GetUnpluggedPBDsFor(runningOrPausedVMs));
-
-            foreach (SR sr in brokenSRs)
+            foreach (VM vm in Host.Connection.Cache.VMs)
             {
-                if ((sr.shared && !sr.CanBeSeenFrom(Host)) || (!sr.shared && sr.GetStorageHost() == Host && !sr.CanBeSeenFrom(Host)))
-                    return new BrokenSR(this, sr, Host);
+                if (vm.power_state != vm_power_state.Running && vm.power_state != vm_power_state.Paused)
+                    continue;
+
+                foreach (var vbdRef in vm.VBDs)
+                {
+                    var vbd = Host.Connection.Resolve(vbdRef);
+                    if (vbd == null)
+                        continue;
+
+                    VDI vdi = Host.Connection.Resolve(vbd.VDI);
+                    if (vdi == null)
+                        continue;
+
+                    SR sr = Host.Connection.Resolve(vdi.SR);
+                    if (sr == null)
+                        continue;
+
+                    if ((sr.shared && !sr.CanBeSeenFrom(Host)) ||
+                        (!sr.shared && sr.GetStorageHost().Equals(Host) && !sr.CanBeSeenFrom(Host)))
+                        return new BrokenSR(this, sr, Host);
+                }
             }
 
             if (srUploadedUpdates != null
                 && ((srUploadedUpdates.shared && !srUploadedUpdates.CanBeSeenFrom(Host))
-                 || (!srUploadedUpdates.shared && srUploadedUpdates.IsBroken())))
+                    || (!srUploadedUpdates.shared && srUploadedUpdates.IsBroken())))
             {
                 return new BrokenSR(this, srUploadedUpdates, Host);
             }
 
             return null;
         }
-
-        private static IEnumerable<VM> GetRunningOrPausedVMs(Host host)
-        {
-            List<VM> runningOrPausedVMs = new List<VM>();
-
-
-                foreach (VM vm in host.Connection.Cache.VMs)
-                {
-                    if (vm.power_state == vm_power_state.Running || vm.power_state == vm_power_state.Paused)
-                        runningOrPausedVMs.Add(vm);
-                }
-            
-
-            return runningOrPausedVMs;
-        }
-
 
         public override string Description
         {

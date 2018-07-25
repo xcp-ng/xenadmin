@@ -30,15 +30,16 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using XenAdmin.Diagnostics.Problems;
 using XenAdmin.Diagnostics.Problems.HostProblem;
 using XenAPI;
-using System.Collections.Generic;
+
 
 namespace XenAdmin.Diagnostics.Checks
 {
-    public class SafeToUpgradeCheck : Check
+    class SafeToUpgradeCheck : HostPostLivenessCheck
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -47,12 +48,12 @@ namespace XenAdmin.Diagnostics.Checks
         {
         }
 
-        protected override Problem RunCheck()
+        protected override Problem RunHostCheck()
         {
             try
             {
                 var config = new Dictionary<string, string>();
-                var result = XenAPI.Host.call_plugin(Host.Connection.Session, Host.opaque_ref, "prepare_host_upgrade.py", "testSafe2Upgrade", config);
+                var result = Host.call_plugin(Host.Connection.Session, Host.opaque_ref, "prepare_host_upgrade.py", "testSafe2Upgrade", config);
 
                 switch (result.ToLowerInvariant())
                 {
@@ -77,7 +78,7 @@ namespace XenAdmin.Diagnostics.Checks
 
         public override string Description
         {
-            get { return string.Empty; }
+            get { return Messages.CHECKING_SAFE_TO_UPGRADE_DESCRIPTION; }
         }
     }
 }

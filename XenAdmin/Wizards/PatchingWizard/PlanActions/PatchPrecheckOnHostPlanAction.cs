@@ -31,28 +31,25 @@
 
 using System;
 using System.Collections.Generic;
-using XenAdmin.Actions;
 using XenAdmin.Core;
 using XenAPI;
-using System.Linq;
-using System.IO;
 using XenAdmin.Network;
 using XenAdmin.Diagnostics.Checks;
-using System.Diagnostics;
+
 
 namespace XenAdmin.Wizards.PatchingWizard.PlanActions
 {
-    class PatchPrechecksOnMultipleHostsInAPoolPlanAction : PlanActionWithSession
+    class PatchPrecheckOnHostPlanAction : PlanActionWithSession
     {
         private readonly XenServerPatch patch;
         private readonly List<PoolPatchMapping> mappings;
-        private List<Host> hosts = null;
+        private readonly Host host;
 
-        public PatchPrechecksOnMultipleHostsInAPoolPlanAction(IXenConnection connection, XenServerPatch patch, List<Host> hosts, List<PoolPatchMapping> mappings)
-            : base(connection, string.Format(Messages.UPDATES_WIZARD_RUNNING_PRECHECK, patch.Name, connection.Name))
+        public PatchPrecheckOnHostPlanAction(IXenConnection connection, XenServerPatch patch, Host host, List<PoolPatchMapping> mappings)
+            : base(connection)
         {
             this.patch = patch;
-            this.hosts = hosts;
+            this.host = host;
             this.mappings = mappings;
         }
 
@@ -63,46 +60,33 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
 
             if (mapping != null && (mapping.Pool_patch != null || mapping.Pool_update != null))
             {
-                foreach (var host in hosts)
+                if (Cancelling)
+                    throw new CancelledException();
+
+                try
                 {
-                    if (Cancelling)
-                    {
-                        throw new CancelledException();
-                    }
+                    AddProgressStep(string.Format(Messages.UPDATES_WIZARD_RUNNING_PRECHECK, patch.Name, host.Name()));
 
-                    try
-                    {
-                        PatchPrecheckCheck check = null;
+                    PatchPrecheckCheck check = mapping.Pool_patch == null
+                        ? new PatchPrecheckCheck(host, mapping.Pool_update)
+                        : new PatchPrecheckCheck(host, mapping.Pool_patch);
 
-                        if (mapping.Pool_patch != null)
-                        {
-                            check = new PatchPrecheckCheck(host, mapping.Pool_patch);
-                        }
-                        else
-                        {
-                            check = new PatchPrecheckCheck(host, mapping.Pool_update);
-                        }
+                    var problems = check.RunAllChecks();
 
-                        var problems = check.RunAllChecks();
+                    Diagnostics.Problems.Problem problem = null;
 
-                        Diagnostics.Problems.Problem problem = null;
+                    if (problems != null && problems.Count > 0)
+                        problem = problems[0];
 
-                        if (problems != null && problems.Count > 0)
-                            problem = problems[0];
-
-                        if (problem != null)
-                        {
-                            throw new Exception(string.Format("{0}: {1}. {2}", host, problem.Title, problem.Description));
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(string.Format("Precheck failed on host {0}", host.Name()), ex);
-                        throw ex;
-                    }
+                    if (problem != null)
+                        throw new Exception(string.Format("{0}: {1}. {2}", host, problem.Title, problem.Description));
+                }
+                catch (Exception ex)
+                {
+                    log.Error(string.Format("Precheck failed on host {0}", host.Name()), ex);
+                    throw;
                 }
             }
-
         }
     }
 }

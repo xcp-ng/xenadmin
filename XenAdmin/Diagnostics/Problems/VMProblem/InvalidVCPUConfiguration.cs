@@ -82,7 +82,7 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
             return action;
         }
 
-        public override AsyncAction UnwindChanges()
+        public override AsyncAction CreateUnwindChangesAction()
         {
             return null;
         }

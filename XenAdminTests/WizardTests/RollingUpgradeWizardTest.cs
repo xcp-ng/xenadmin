@@ -32,6 +32,9 @@
 using System.Threading;
 using System.Windows.Forms;
 using NUnit.Framework;
+using XenAdmin;
+using XenAdmin.Dialogs;
+using XenAdmin.Wizards.PatchingWizard;
 using XenAdmin.Wizards.RollingUpgradeWizard;
 
 namespace XenAdminTests.WizardTests.state5_xml
@@ -60,29 +63,32 @@ namespace XenAdminTests.WizardTests.state5_xml
             {
                 while (!btnNext.Enabled)
                 {
-                    Assert.IsFalse(TestUtils.GetButton(wizard, "RollingUpgradeWizardPrecheckPage.buttonResolveAll").Enabled, "Upgrade prechecks failed.");
+                    var btnResolveAll = TestUtils.GetButton(wizard, "RollingUpgradeWizardPrecheckPage.buttonResolveAll");
+                    if (btnResolveAll.Enabled)
+                    {
+                        MW(btnResolveAll.PerformClick);
+                        Thread.Sleep(1000);
+                    }
+                    Assert.IsFalse(btnResolveAll.Enabled, "Upgrade prechecks failed.");
                     Thread.Sleep(1000);
                 }
                 Thread.Sleep(1000);
                 
             }
-            else if (pageName == "Apply Upgrade")
-            {
-                //It needs work
-                var page = TestUtils.GetXenTabPage(wizard, "RollingUpgradeUpgradePage") as RollingUpgradeUpgradePage;
-                while (page.Dialog == null)
-                {
-                    Thread.Sleep(500);
-                }
-                MW(page.Dialog.CancelButton.PerformClick);
-                while (page.EnableNext() == false)
-                {
-                    Thread.Sleep(500);
-                }
-            }
             else if (pageName == "Upgrade Mode")
             {
                 MW(TestUtils.GetRadioButton(wizard, "RollingUpgradeWizardUpgradeModePage.radioButtonManual").PerformClick);
+            }
+            else if (pageName == "Apply Upgrade")
+            {
+                var window = WaitForWindowToAppear(Messages.ROLLING_POOL_UPGRADE,
+                    w => Control.FromHandle(w.Handle) is NonModalThreeButtonDialog);
+                MW(() =>
+                {
+                    var dialog = Control.FromHandle(window.Handle) as Form;
+                    if (dialog != null)
+                        dialog.CancelButton.PerformClick();
+                });
             }
         }
 
@@ -91,7 +97,7 @@ namespace XenAdminTests.WizardTests.state5_xml
             get
             {
                 var page = TestUtils.GetXenTabPage(wizard, "RollingUpgradeUpgradePage") as RollingUpgradeUpgradePage;
-                return page.UpgradeStatus == RollingUpgradeStatus.NotStarted || page.UpgradeStatus == RollingUpgradeStatus.Started;
+                return page.Status == Status.NotStarted || page.Status == Status.Started;
             }
         }
     }

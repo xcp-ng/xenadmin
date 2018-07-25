@@ -270,9 +270,6 @@
   <data name="CLUSTERING_ENABLED" xml:space="preserve">
     <value>在 cluster_host 上启用了群集时已尝试执行操作。</value>
   </data>
-  <data name="CLUSTERING_ENABLED_ON_NETWORK" xml:space="preserve">
-    <value>网络连接了群集对象。</value>
-  </data>
   <data name="CLUSTER_ALREADY_EXISTS" xml:space="preserve">
     <value>池中已存在群集。</value>
   </data>
@@ -280,10 +277,16 @@
     <value>无法执行此操作，因为正在创建群集。</value>
   </data>
   <data name="CLUSTER_DOES_NOT_HAVE_ONE_NODE" xml:space="preserve">
-    <value>群集不只有一个节点。</value>
+    <value>操作失败，因为该操作期望群集只有一个节点，但找到多个 cluster_host。</value>
   </data>
   <data name="CLUSTER_FORCE_DESTROY_FAILED" xml:space="preserve">
     <value>强制销毁群集时在 Cluster_host 上执行强制销毁失败。</value>
+  </data>
+  <data name="CLUSTER_HOST_IS_LAST" xml:space="preserve">
+    <value>无法销毁最后一个群集主机。请改为破坏该集群</value>
+  </data>
+  <data name="CLUSTER_HOST_NOT_JOINED" xml:space="preserve">
+    <value>cluster_host 操作失败，因为 cluster_host 尚未加入群集。</value>
   </data>
   <data name="CLUSTER_STACK_IN_USE" xml:space="preserve">
     <value>群集堆栈已在使用中。</value>
@@ -594,6 +597,9 @@
   <data name="INVALID_CIDR_ADDRESS_SPECIFIED" xml:space="preserve">
     <value>必需参数包含无效 CIDR 地址(&lt;地址&gt;/&lt;前缀长度&gt;)</value>
   </data>
+  <data name="INVALID_CLUSTER_STACK" xml:space="preserve">
+    <value>提供的群集堆栈不受支持。</value>
+  </data>
   <data name="INVALID_DEVICE" xml:space="preserve">
     <value>设备名称 {0} 无效</value>
   </data>
@@ -777,6 +783,9 @@
   <data name="NOT_SYSTEM_DOMAIN" xml:space="preserve">
     <value>未将指定的 VM 注册为系统域。只能在注册的系统域中执行此操作。</value>
   </data>
+  <data name="NO_CLUSTER_HOSTS_REACHABLE" xml:space="preserve">
+    <value>加入时无法访问任何其他群集主机</value>
+  </data>
   <data name="NO_COMPATIBLE_CLUSTER_HOST" xml:space="preserve">
     <value>主机没有具有兼容群集堆栈的 Cluster_host。</value>
   </data>
@@ -921,6 +930,9 @@
   <data name="PIF_IS_VLAN" xml:space="preserve">
     <value>您尝试在另一个 VLAN 之上创建 VLAN - 请改用基础物理 PIF/绑定</value>
   </data>
+  <data name="PIF_NOT_ATTACHED_TO_HOST" xml:space="preserve">
+    <value>Cluster_host 创建失败，因为提供的 PIF 未附加到该主机。</value>
+  </data>
   <data name="PIF_NOT_PRESENT" xml:space="preserve">
     <value>此主机在给定的网络中没有 PIF。</value>
   </data>
@@ -1054,6 +1066,9 @@
   </data>
   <data name="REDO_LOG_IS_ENABLED" xml:space="preserve">
     <value>无法执行该操作，因为对池启用了恢复日志。</value>
+  </data>
+  <data name="REQUIRED_PIF_IS_UNPLUGGED" xml:space="preserve">
+    <value>由于指定的 PIF 当前已拔出，因此无法执行请求的操作。</value>
   </data>
   <data name="RESTORE_INCOMPATIBLE_VERSION" xml:space="preserve">
     <value>无法在此服务器上还原，因为它是在不兼容版本中保存的。</value>
@@ -1285,6 +1300,9 @@
   </data>
   <data name="SR_BACKEND_FAILURE_181" xml:space="preserve">
     <value>SR 的元数据卷操作出错。</value>
+  </data>
+  <data name="SR_BACKEND_FAILURE_182" xml:space="preserve">
+    <value>ISCSI 删除失败。</value>
   </data>
   <data name="SR_BACKEND_FAILURE_19" xml:space="preserve">
     <value>没有此类设备</value>
@@ -2017,6 +2035,9 @@
   </data>
   <data name="VM_HAS_PCI_ATTACHED" xml:space="preserve">
     <value>无法执行该操作，因为 VM 传递了一个或多个 PCI 设备。</value>
+  </data>
+  <data name="VM_HAS_SRIOV_VIF" xml:space="preserve">
+    <value>无法执行此操作，因为 VM 具有一个或多个 SR-IOV VIF。</value>
   </data>
   <data name="VM_HAS_TOO_MANY_SNAPSHOTS" xml:space="preserve">
     <value>您尝试迁移的 VM 具有多个快照。</value>

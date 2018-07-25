@@ -33,13 +33,12 @@ using System.Collections.Generic;
 using System.Linq;
 using XenAdmin.Core;
 using XenAdmin.Diagnostics.Problems;
-using XenAdmin.Diagnostics.Problems.HostProblem;
 using XenAdmin.Diagnostics.Problems.PoolProblem;
 using XenAPI;
 
 namespace XenAdmin.Diagnostics.Checks
 {
-    class ServerSelectionCheck : Check
+    class ServerSelectionCheck : HostPostLivenessCheck
     {
         private readonly Pool_update update;
         private readonly Pool pool;
@@ -53,14 +52,12 @@ namespace XenAdmin.Diagnostics.Checks
             this.selectedServers = selectedServers;
         }
 
-        protected override Problem RunCheck()
+        protected override Problem RunHostCheck()
         {
-            if (!Host.IsLive())
-                return new HostNotLiveWarning(this, Host);
-
             if (update == null || !update.EnforceHomogeneity()) 
                 return null;
 
+            //If mixed pool, skip the precheck and issue warning, because the update may not be compatible to all servers.
             if (!pool.IsPoolFullyUpgraded())
                 return new MixedPoolServerSelectionWarning(this, pool);
             
@@ -76,4 +73,3 @@ namespace XenAdmin.Diagnostics.Checks
         }
     }
 }
-

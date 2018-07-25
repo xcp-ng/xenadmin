@@ -40,11 +40,10 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
     {
         protected readonly IXenConnection Connection;
 
-        protected PlanActionWithSession(IXenConnection connection, string description)
-            : base(description)
+        protected PlanActionWithSession(IXenConnection connection)
         {
-            if(connection==null)
-                throw new ArgumentException(this.GetType().Name+" connection null");
+            if (connection == null)
+                throw new ArgumentException(string.Format("{0} connection null", GetType().Name));
             Connection = connection;
         }
 

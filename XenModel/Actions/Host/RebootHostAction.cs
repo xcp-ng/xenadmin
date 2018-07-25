@@ -47,11 +47,6 @@ namespace XenAdmin.Actions
         /// and call Program.MainWindow.UpdateToolbars() after starting the action. This ensures the toolbar
         /// buttons are disabled while the action is in progress.
         /// </summary>
-        /// <param name="connection"></param>
-        /// <param name="kind"></param>
-        /// <param name="host">Must not be null.</param>
-        /// <param name="rebootAndWait"></param>
-        /// <param name="acceptNTolChanges"></param>
         public RebootHostAction(Host host, Func<HostAbstractAction, Pool, long, long, bool> acceptNTolChanges)
             : base(host.Connection, Messages.HOST_REBOOTING, Messages.WAITING, acceptNTolChanges, null)
         {
@@ -70,21 +65,17 @@ namespace XenAdmin.Actions
 
         }
 
-
-
         protected override void Run()
         {
-
             bool wasEnabled = Host.enabled;
             this.Description = string.Format(Messages.ACTION_HOST_REBOOTING, Helpers.GetName(Host));
 
             MaybeReduceNtolBeforeOp(HostActionKind.Reboot);
             ShutdownVMs(true);
 
-
             try
             {
-                RelatedTask = XenAPI.Host.async_reboot(Session, Host.opaque_ref);
+                RelatedTask = Host.async_reboot(Session, Host.opaque_ref);
                 PollToCompletion(95, 100);
             }
             catch (Exception e)
@@ -94,11 +85,23 @@ namespace XenAdmin.Actions
                 {
                     // Try to re-enable the host
                     if (wasEnabled)
-                        XenAPI.Host.enable(Session, Host.opaque_ref);
+                        Host.enable(Session, Host.opaque_ref);
                 }
                 catch (Exception e2)
                 {
                     log.Error("Exception trying to re-enable host after error rebooting Host", e2);
+                }
+
+                var f = e as Failure;
+                if (f != null && f.ErrorDescription != null && f.ErrorDescription.Count > 1 &&
+                    f.ErrorDescription[0] == Failure.VM_FAILED_SHUTDOWN_ACKNOWLEDGMENT)
+                {
+                    var vm = Connection.Resolve(new XenRef<VM>(f.ErrorDescription[1]));
+                    if (vm != null)
+                    {
+                        log.ErrorFormat("VM {0} (uuid {1}) did not acknowledge the need to shut down", vm.Name(), vm.uuid);
+                        throw new Failure(string.Format(Messages.ACTION_REBOOT_HOST_VM_SHUTDOWN_ACK, vm.Name()));
+                    }
                 }
                 throw;
             }
@@ -109,9 +112,7 @@ namespace XenAdmin.Actions
                 Host.Connection.Interrupt();
             }
 
-
             this.Description = string.Format(Messages.ACTION_HOST_REBOOTED, Helpers.GetName(Host));
-
         }
 
     }

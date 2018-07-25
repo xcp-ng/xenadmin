@@ -38,13 +38,11 @@ namespace XenAdmin.Diagnostics.Problems.HostProblem
     public class PrecheckFailed : HostProblem
     {
         private readonly Failure Failure;
-        private readonly Host _host;
 
         public PrecheckFailed(Check check, Host host, Failure failure)
             : base(check,  host)
         {
             Failure = failure;
-            _host = host;
         }
 
         public override string Description

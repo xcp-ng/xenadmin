@@ -31,25 +31,25 @@
 
 using XenAdmin.Diagnostics.Checks;
 using XenAPI;
-using System.Collections.Generic;
+
 
 namespace XenAdmin.Diagnostics.Problems.HostProblem
 {
     public class ConflictingUpdatePresent : HostProblem
     {
-        private readonly string confilctedUpdates;
+        private readonly string conflictingUpdates;
 
-        public ConflictingUpdatePresent(Check check, string confilctedUpdates, Host host)
+        public ConflictingUpdatePresent(Check check, string conflictingUpdates, Host host)
             : base(check, host)
         {
-            this.confilctedUpdates = confilctedUpdates;
+            this.conflictingUpdates = conflictingUpdates;
         }
 
         public override string Description
         {
             get 
             {
-                return string.Format(Messages.UPDATES_WIZARD_PRECHECK_FAILED_CONFLICTING_UPDATE, ServerName, confilctedUpdates);
+                return string.Format(Messages.UPDATES_WIZARD_PRECHECK_FAILED_CONFLICTING_UPDATE, ServerName, conflictingUpdates);
             }
         }
 

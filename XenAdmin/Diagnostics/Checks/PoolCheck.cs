@@ -30,23 +30,38 @@
  */
 
 using XenAdmin.Core;
-using XenAdmin.Diagnostics.Problems;
 using XenAPI;
+
 
 namespace XenAdmin.Diagnostics.Checks
 {
     public abstract class PoolCheck : Check
     {
+        private readonly Pool _pool;
+
         protected PoolCheck(Pool pool)
-            : base(Helpers.GetMaster(pool.Connection))
         {
             _pool = pool;
         }
 
-        private readonly Pool _pool;
-        public Pool Pool
+        protected Pool Pool
         {
             get { return _pool; }
+        }
+
+        public sealed override IXenObject XenObject
+        {
+            get { return _pool; }
+        }
+
+        public override string SuccessfulCheckDescription
+        {
+            get
+            {
+                return string.IsNullOrEmpty(Description)
+                    ? string.Empty
+                    : string.Format(Messages.PATCHING_WIZARD_HOST_CHECK_OK, Helpers.GetPoolOfOne(_pool.Connection), Description);
+            }
         }
     }
 }

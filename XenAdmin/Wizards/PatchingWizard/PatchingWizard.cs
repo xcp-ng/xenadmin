@@ -45,11 +45,11 @@ namespace XenAdmin.Wizards.PatchingWizard
     public enum WizardMode { SingleUpdate, AutomatedUpdates, NewVersion }
     
     /// <summary>
-    /// Remember that equals for patches dont work across connections because 
-    /// we are not allow to override equals. YOU SHOULD NOT USE ANY OPERATION THAT IMPLIES CALL EQUALS OF Pool_path or Host_patch
+    /// Remember that equals for patches don't work across connections because 
+    /// we are not allow to override equals. YOU SHOULD NOT USE ANY OPERATION THAT IMPLIES CALL EQUALS OF Pool_patch or Host_patch
     /// You should do it manually or use delegates.
     /// </summary>
-    public partial class PatchingWizard : XenWizardBase
+    public partial class PatchingWizard : UpdateUpgradeWizard
     {
         private readonly PatchingWizard_PatchingPage PatchingWizard_PatchingPage;
         private readonly PatchingWizard_SelectPatchPage PatchingWizard_SelectPatchPage;
@@ -116,12 +116,14 @@ namespace XenAdmin.Wizards.PatchingWizard
                 var existPatch = wizardIsInAutomatedUpdatesMode ? null : PatchingWizard_SelectPatchPage.SelectedExistingPatch;
                 var alertPatch = wizardIsInAutomatedUpdatesMode ? null : PatchingWizard_SelectPatchPage.SelectedUpdateAlert;
                 var fileFromDiskAlertPatch = wizardIsInAutomatedUpdatesMode ? null : PatchingWizard_SelectPatchPage.FileFromDiskAlert;
+                var fileFromDiskHasUpdateXml = !wizardIsInAutomatedUpdatesMode && PatchingWizard_SelectPatchPage.FileFromDiskHasUpdateXml;
 
                 PatchingWizard_SelectServers.WizardMode = wizardMode;
                 PatchingWizard_SelectServers.SelectedUpdateType = updateType;
                 PatchingWizard_SelectServers.Patch = existPatch;
                 PatchingWizard_SelectServers.SelectedUpdateAlert = alertPatch;
                 PatchingWizard_SelectServers.FileFromDiskAlert = fileFromDiskAlertPatch;
+                PatchingWizard_SelectServers.FileFromDiskHasUpdateXml = fileFromDiskHasUpdateXml;
 
                 RemovePage(PatchingWizard_UploadPage);
                 RemovePage(PatchingWizard_ModePage);
@@ -212,45 +214,17 @@ namespace XenAdmin.Wizards.PatchingWizard
             }
             else if (prevPageType == typeof(PatchingWizard_PrecheckPage))
             {
-                PatchingWizard_PatchingPage.ProblemsResolvedPreCheck = PatchingWizard_PrecheckPage.ProblemsResolvedPreCheck;
+                PatchingWizard_PatchingPage.PrecheckProblemsActuallyResolved = PatchingWizard_PrecheckPage.PrecheckProblemsActuallyResolved;
                 PatchingWizard_PatchingPage.LivePatchCodesByHost = PatchingWizard_PrecheckPage.LivePatchCodesByHost;
                 PatchingWizard_ModePage.LivePatchCodesByHost = PatchingWizard_PrecheckPage.LivePatchCodesByHost;
-                PatchingWizard_AutomatedUpdatesPage.ProblemsResolvedPreCheck = PatchingWizard_PrecheckPage.ProblemsResolvedPreCheck;
+                PatchingWizard_AutomatedUpdatesPage.PrecheckProblemsActuallyResolved = PatchingWizard_PrecheckPage.PrecheckProblemsActuallyResolved;
             }
-        }
-
-        private delegate List<AsyncAction> GetActionsDelegate();
-
-        private List<AsyncAction> BuildSubActions(params GetActionsDelegate[] getActionsDelegate)
-        {
-            List<AsyncAction> result = new List<AsyncAction>();
-            foreach (GetActionsDelegate getActionDelegate in getActionsDelegate)
-            {
-                var list = getActionDelegate();
-                if (list != null && list.Count > 0)
-                    result.AddRange(list);
-            }
-            return result;
-        }
-
-        private List<AsyncAction> GetUnwindChangesActions()
-        {
-            if (PatchingWizard_PrecheckPage.ProblemsResolvedPreCheck == null)
-                return null;
-
-            var actionList = (from problem in PatchingWizard_PrecheckPage.ProblemsResolvedPreCheck
-                              where problem.SolutionActionCompleted
-                              select problem.UnwindChanges());
-
-            return actionList.Where(action => action != null &&
-                                              action.Connection != null &&
-                                              action.Connection.IsConnected).ToList();
         }
 
         private List<AsyncAction> GetRemovePatchActions(List<Pool_patch> patchesToRemove)
         {
             if (patchesToRemove == null || patchesToRemove.Count == 0)
-                return null;
+                return new List<AsyncAction>();
 
             List<AsyncAction> list = new List<AsyncAction>();
             foreach (Pool_patch patch in patchesToRemove)
@@ -278,7 +252,7 @@ namespace XenAdmin.Wizards.PatchingWizard
         private List<AsyncAction> GetRemoveVdiActions(List<VDI> vdisToRemove)
         {
             if (vdisToRemove == null || vdisToRemove.Count == 0)
-                return null;
+                return new List<AsyncAction>();
 
             var list = (from vdi in vdisToRemove
                         where vdi.Connection != null && vdi.Connection.IsConnected
@@ -310,7 +284,12 @@ namespace XenAdmin.Wizards.PatchingWizard
         {
             base.OnCancel();
 
-            List<AsyncAction> subActions = BuildSubActions(GetUnwindChangesActions, GetRemovePatchActions, GetRemoveVdiActions, GetCleanUpPoolUpdateActions);
+            var subActions = new List<AsyncAction>();
+            subActions.AddRange(GetUnwindChangesActions(PatchingWizard_PrecheckPage.PrecheckProblemsActuallyResolved) ?? new List<AsyncAction>());
+            subActions.AddRange(GetRemovePatchActions() ?? new List<AsyncAction>());
+            subActions.AddRange(GetRemoveVdiActions() ?? new List<AsyncAction>());
+            subActions.AddRange(GetCleanUpPoolUpdateActions() ?? new List<AsyncAction>());
+
             RunMultipleActions(Messages.REVERT_WIZARD_CHANGES, Messages.REVERTING_WIZARD_CHANGES,
                                Messages.REVERTED_WIZARD_CHANGES, subActions);
 

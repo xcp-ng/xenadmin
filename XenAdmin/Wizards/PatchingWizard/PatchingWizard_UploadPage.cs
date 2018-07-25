@@ -309,7 +309,7 @@ namespace XenAdmin.Wizards.PatchingWizard
                 {
                     action.Changed += delegate
                     {
-                        Program.Invoke(Program.MainWindow, () => UpdateActionDescription(action));
+                        Program.Invoke(this, () => UpdateActionDescription(action));
                     };
                     diskSpaceActions.Add(action);
                 }
@@ -325,7 +325,7 @@ namespace XenAdmin.Wizards.PatchingWizard
             {
                 multipleAction.Completed += delegate
                 {
-                    Program.Invoke(Program.MainWindow, () =>
+                    Program.Invoke(this, () =>
                     {
                         if (multipleAction.Exception is NotEnoughSpaceException)
                         {
@@ -376,7 +376,9 @@ namespace XenAdmin.Wizards.PatchingWizard
             if (actions.Count == 0) 
                 return;
 
-            using (var multipleAction = new MultipleAction(Connection, Messages.UPLOAD_PATCH_TITLE, Messages.UPLOAD_PATCH_DESCRIPTION, Messages.UPLOAD_PATCH_END_DESCRIPTION, actions, true, true, true))
+            using (var multipleAction = new MultipleAction(Connection, Messages.UPLOAD_PATCH_TITLE,
+                Messages.UPLOAD_PATCH_DESCRIPTION, Messages.UPLOAD_PATCH_END_DESCRIPTION,
+                actions, true, true, true))
             {
                 multipleAction.Completed += multipleAction_Completed;
                 multipleAction.RunAsync();
@@ -465,9 +467,10 @@ namespace XenAdmin.Wizards.PatchingWizard
                 {
                     Host master = Helpers.GetMaster(action.Connection);
 
-                    if (action is UploadPatchAction)
+                    var uploadAction = action as UploadPatchAction;
+                    if (uploadAction != null)
                     {
-                        _patch = (action as UploadPatchAction).PatchRefs[master];
+                        _patch = uploadAction.Patch;
                         _poolUpdate = null;
                         AddToUploadedUpdates(SelectedNewPatchPath, master);
                     }
@@ -542,18 +545,6 @@ namespace XenAdmin.Wizards.PatchingWizard
             });
         }
 
-        private bool AllServersElyOrGreater()
-        {
-            foreach (var server in SelectedServers)
-            {
-                if (!Helpers.ElyOrGreater(server.Connection))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
         private void multipleAction_Completed(object sender)
         {
             var action = sender as AsyncAction;
@@ -579,8 +570,8 @@ namespace XenAdmin.Wizards.PatchingWizard
                 DownloadAndUnzipXenServerPatchAction downAction = (DownloadAndUnzipXenServerPatchAction)flickerFreeListBox1.Items[e.Index];
                 drawActionText(Properties.Resources._000_Patch_h32bit_16, 
                                downAction.Title, 
-                               GetActionDescription(downAction).Ellipsise(EllipsiseValueDownDescription), 
-                               GetTextColor(downAction), 
+                               GetActionDescription(downAction).Ellipsise(EllipsiseValueDownDescription),
+                               flickerFreeListBox1.ForeColor, 
                                e);
                 return;
             }
@@ -599,7 +590,7 @@ namespace XenAdmin.Wizards.PatchingWizard
             var poolOrHost = Helpers.GetPool(host.Connection) ?? (IXenObject)host;
 
             string text = action == null ? Messages.UPLOAD_PATCH_ALREADY_UPLOADED : GetActionDescription(action).Ellipsise(EllipsiseValueDownDescription);
-            drawActionText(Images.GetImage16For(poolOrHost),poolOrHost.Name(), text, GetTextColor(action), e);
+            drawActionText(Images.GetImage16For(poolOrHost), poolOrHost.Name(), text, flickerFreeListBox1.ForeColor, e);
         }
 
         private void drawActionText(Image icon, string actionTitle, string actionDescription, Color textColor,DrawItemEventArgs e)
@@ -613,17 +604,6 @@ namespace XenAdmin.Wizards.PatchingWizard
             Drawing.DrawText(e.Graphics, actionDescription, flickerFreeListBox1.Font,
                              new Rectangle(e.Bounds.Right - width, e.Bounds.Top, width, e.Bounds.Height),
                              textColor, flickerFreeListBox1.BackColor);
-        }
-
-        private Color GetTextColor(AsyncAction action)
-        {
-            Color textColor;
-            if (action == null || !action.StartedRunning) // not started yet
-                textColor = flickerFreeListBox1.ForeColor;
-            else if (!action.IsCompleted) // in progress
-                textColor = Color.Blue;
-            else textColor = action.Succeeded ? Color.Green : Color.Red; // completed
-            return textColor;
         }
 
         private void errorLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -660,7 +640,7 @@ namespace XenAdmin.Wizards.PatchingWizard
                         {
                             if (action.Succeeded)
                             {
-                                Program.Invoke(Program.MainWindow, TryUploading);
+                                Program.Invoke(this, TryUploading);
                             }
                         };
                         action.RunAsync();

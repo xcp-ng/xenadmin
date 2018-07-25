@@ -19,7 +19,7 @@ namespace XenAdmin {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class FriendlyNames {
@@ -1596,6 +1596,15 @@ namespace XenAdmin {
         public static string Label_performance_cpu_avg {
             get {
                 return ResourceManager.GetString("Label-performance.cpu_avg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CPU {0} Average Frequency.
+        /// </summary>
+        public static string Label_performance_cpu_avg_freq {
+            get {
+                return ResourceManager.GetString("Label-performance.cpu-avg-freq", resourceCulture);
             }
         }
         
@@ -3481,6 +3490,24 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Server &apos;{0}&apos; failed to join the cluster..
+        /// </summary>
+        public static string Message_body_cluster_host_enable_failed {
+            get {
+                return ResourceManager.GetString("Message.body-cluster_host_enable_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Server &apos;{0}&apos; has been fenced..
+        /// </summary>
+        public static string Message_body_cluster_host_fencing {
+            get {
+                return ResourceManager.GetString("Message.body-cluster_host_fencing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The external authentication service used within &apos;{0}&apos; is not consistent..
         /// </summary>
         public static string Message_body_extauth_in_pool_is_non_homogeneous {
@@ -4271,6 +4298,24 @@ namespace XenAdmin {
         public static string Message_name_bond_status_changed {
             get {
                 return ResourceManager.GetString("Message.name-bond_status_changed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server failed to join the cluster.
+        /// </summary>
+        public static string Message_name_cluster_host_enable_failed {
+            get {
+                return ResourceManager.GetString("Message.name-cluster_host_enable_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server has been fenced.
+        /// </summary>
+        public static string Message_name_cluster_host_fencing {
+            get {
+                return ResourceManager.GetString("Message.name-cluster_host_fencing", resourceCulture);
             }
         }
         

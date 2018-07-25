@@ -40,37 +40,30 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
     {
         private readonly List<XenRef<VM>> _vms;
 
-        protected VMsPlanAction(List<XenRef<VM>> vms, IXenConnection connection, String description)
-            : base(connection, description)
+        protected VMsPlanAction(List<XenRef<VM>> vms, IXenConnection connection)
+            : base(connection)
         {
             this._vms = vms;
         }
 
-        protected abstract XenRef<Task> DoPerVM(Session session, VM vm);
+        protected abstract XenRef<Task> DoPerVM(Session session, XenRef<VM> vmRef);
 
         protected override void RunWithSession(ref Session session)
         {
-            List<VM> vmObjs = new List<VM>();
-            foreach (XenRef<VM> vm in _vms)
-                vmObjs.Add(Connection.TryResolveWithTimeout(vm));
-
-            PBD.CheckAndPlugPBDsFor(vmObjs);
+            PBD.CheckPlugPBDsForVMs(Connection, _vms);
 
             int vmCount = _vms.Count;
-            int i = 0;
 
-            foreach (VM vm in vmObjs)
+            for (int i = 0; i < _vms.Count; i++)
             {
-                XenRef<Task> task = DoPerVM(session, vm);
+                var vmRef = _vms[i];
+                XenRef<Task> task = DoPerVM(session, vmRef);
 
                 try
                 {
-                    PollTaskForResult(Connection, ref session, task, delegate(int progress)
-                                                                                                 {
-                                                                                                     PercentComplete = (progress / vmCount) + ((100 * i) / vmCount);
-                                                                                                 });
-
-                    i++;
+                    var j = i;
+                    PollTaskForResult(Connection, ref session, task,
+                        progress => PercentComplete = (progress + 100 * j) / vmCount);
                 }
                 finally
                 {

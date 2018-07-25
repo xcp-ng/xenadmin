@@ -40,6 +40,7 @@ using XenAdmin.Network;
 using System.Configuration;
 using XenCenterLib;
 using System.Drawing;
+using System.Linq;
 
 
 namespace XenAdmin
@@ -501,22 +502,10 @@ namespace XenAdmin
 
         public static AutoCompleteStringCollection GetServerHistory()
         {
-            AutoCompleteStringCollection history = null;
-            try
-            {
-                history = Properties.Settings.Default.ServerHistory;
-            }
-            catch
-            {
-                Properties.Settings.Default.Reset();
-            }
+            if (Properties.Settings.Default.ServerHistory == null)
+                Properties.Settings.Default.ServerHistory = new AutoCompleteStringCollection();
 
-            if (history == null)
-            {
-                history = Properties.Settings.Default.ServerHistory = new AutoCompleteStringCollection();
-            }
-
-            return history;
+            return Properties.Settings.Default.ServerHistory;
         }
 
         public static void UpdateServerHistory(string hostnameWithPort)
@@ -588,27 +577,29 @@ namespace XenAdmin
         {
             get
             {
-                Dictionary<string, string> known = new Dictionary<string, string>();
-                foreach (string known_host in XenAdmin.Properties.Settings.Default.KnownServers ?? new string[0])
-                {
-                    string[] host_cert = known_host.Split(' ');
-                    if (host_cert.Length != 2)
-                        continue; // dont mess with the file!!
+                var known = new Dictionary<string, string>();
 
-                    known.Add(host_cert[0], host_cert[1]);
+                var knownServers = Properties.Settings.Default.KnownServers;
+                if (knownServers == null)
+                    return known;
+                
+                foreach (string knownHost in knownServers)
+                {
+                    string[] hostCert = knownHost.Split(' ');
+                    if (hostCert.Length != 2)
+                        continue;
+
+                    known.Add(hostCert[0], hostCert[1]);
                 }
                 return known;
             }
             set
             {
-                List<string> known_servers = new List<string>();
-                foreach (KeyValuePair<string, string> kvp in value)
-                {
-                    known_servers.Add(string.Format("{0} {1}", kvp.Key, kvp.Value));
-                }
-                Properties.Settings.Default.KnownServers = known_servers.ToArray();
-                TrySaveSettings();
+                Properties.Settings.Default.KnownServers = value == null
+                    ? new string[0]
+                    : value.Select(kvp => string.Format("{0} {1}", kvp.Key, kvp.Value)).ToArray();
 
+                TrySaveSettings();
             }
         }
 

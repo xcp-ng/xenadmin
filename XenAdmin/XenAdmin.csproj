@@ -210,7 +210,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\Tags\TagsEditor.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\UpsellPage.cs">
       <SubType>UserControl</SubType>
@@ -223,7 +223,10 @@
     <Compile Include="Core\Metadata.cs" />
     <Compile Include="Diagnostics\Checks\AssertCanEvacuateCheck.cs" />
     <Compile Include="Diagnostics\Checks\AssertCanEvacuateUpgradeCheck.cs" />
+    <Compile Include="Diagnostics\Checks\CfuAvailabilityCheck.cs" />
+    <Compile Include="Diagnostics\Checks\AutomatedUpdatesLicenseCheck.cs" />
     <Compile Include="Diagnostics\Checks\DiskSpaceForBatchUpdatesCheck.cs" />
+    <Compile Include="Diagnostics\Checks\HostCheck.cs" />
     <Compile Include="Diagnostics\Checks\RebootPendingOnMasterCheck.cs" />
     <Compile Include="Diagnostics\Checks\HostNeedsRebootCheck.cs" />
     <Compile Include="Diagnostics\Checks\SafeToUpgradeCheck.cs" />
@@ -239,9 +242,11 @@
     <Compile Include="Diagnostics\Problems\HostProblem\ConflictingUpdatePresent.cs" />
     <Compile Include="Diagnostics\Problems\Information.cs" />
     <Compile Include="Diagnostics\Problems\PoolProblem\CPUIncompatibilityProblem.cs" />
+    <Compile Include="Diagnostics\Problems\PoolProblem\NotLicensedForAutomatedUpdatesWarning.cs" />
     <Compile Include="Diagnostics\Problems\PoolProblem\ServerSelectionProblem.cs" />
     <Compile Include="Diagnostics\Problems\ProblemWithInformationUrl.cs" />
     <Compile Include="Diagnostics\Problems\SRProblem\UnsupportedStorageLinkSrIsPresentProblem.cs" />
+    <Compile Include="Diagnostics\Problems\UtilityProblem\CfuNotAvailableProblem.cs" />
     <Compile Include="Diagnostics\Problems\VMProblem\InvalidVCPUConfiguration.cs" />
     <Compile Include="Dialogs\AttachUsbDialog.cs">
       <SubType>Form</SubType>
@@ -441,7 +446,7 @@
       <DependentUpon>DockerDetailsPage.cs</DependentUpon>
     </Compile>
     <Compile Include="TabPages\HomePage.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TabPages\HomePage.Designer.cs">
       <DependentUpon>HomePage.cs</DependentUpon>
@@ -544,13 +549,13 @@
       <DependentUpon>PerfmonAlertOptionsPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\BlueBorderPanel.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\CustomDataGraph\ArchiveMaintainer.cs">
     </Compile>
     <Compile Include="Controls\CustomDataGraph\DataArchive.cs" />
     <Compile Include="Controls\CustomDataGraph\GraphList.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\CustomDataGraph\GraphList.Designer.cs">
       <DependentUpon>GraphList.cs</DependentUpon>
@@ -564,7 +569,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\DoubleBufferedPanel.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\DoubleBufferedPanel.Designer.cs">
       <DependentUpon>DoubleBufferedPanel.cs</DependentUpon>
@@ -708,6 +713,7 @@
     <Compile Include="TabPages\UsbPage.Designer.cs">
       <DependentUpon>UsbPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Diagnostics\Problems\PoolProblem\PoolHasGFS2SRProblem.cs" />
     <Compile Include="Wizards\BallooningWizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -915,13 +921,13 @@
       <DependentUpon>DataKey.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\CustomDataGraph\DataPlot.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\CustomDataGraph\DataPlot.designer.cs">
       <DependentUpon>DataPlot.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\CustomDataGraph\DataPlotNav.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\CustomDataGraph\DataPlotNav.designer.cs">
       <DependentUpon>DataPlotNav.cs</DependentUpon>
@@ -967,6 +973,12 @@
       <DependentUpon>HAPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Alerts\Types\XenCenterUpdateAlert.cs" />
+    <Compile Include="Wizards\PatchingWizard\AutomatedUpdatesBasePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizards\PatchingWizard\AutomatedUpdatesBasePage.designer.cs">
+      <DependentUpon>AutomatedUpdatesBasePage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Wizards\PatchingWizard\PatchingWizard_AutomatedUpdatesPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -982,7 +994,7 @@
     <Compile Include="Wizards\PatchingWizard\PlanActions\ApplyPoolUpdatePlanAction.cs" />
     <Compile Include="Wizards\PatchingWizard\PlanActions\ApplyXenServerPatchPlanAction.cs" />
     <Compile Include="Wizards\PatchingWizard\PlanActions\HostPlanAction.cs" />
-    <Compile Include="Wizards\PatchingWizard\PlanActions\PatchPrechecksOnMultipleHostsAction.cs" />
+    <Compile Include="Wizards\PatchingWizard\PlanActions\PatchPrecheckOnHostPlanAction.cs" />
     <Compile Include="Wizards\PatchingWizard\PlanActions\DownloadPatchPlanAction.cs" />
     <Compile Include="Wizards\PatchingWizard\PlanActions\RestartHostPlanAction.cs" />
     <Compile Include="Wizards\PatchingWizard\PlanActions\UploadPatchToMasterPlanAction.cs" />
@@ -994,6 +1006,16 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Wizards\PatchingWizard\UpgradeProgressDescriptor.cs" />
+    <Compile Include="Wizards\RollingUpgradeWizard\RollingUpgradeUpgradePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizards\RollingUpgradeWizard\RollingUpgradeUpgradePage.Designer.cs">
+      <DependentUpon>RollingUpgradeUpgradePage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizards\UpdateUpgradeWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Diagnostics\Checks\PoolHasGFS2SR.cs" />
     <Compile Include="XenSearch\TreeNodeGroupAcceptor.cs">
     </Compile>
     <Compile Include="Dialogs\FolderChangeDialog.cs">
@@ -1003,7 +1025,7 @@
       <DependentUpon>FolderChangeDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Folders\FolderEditor.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\Folders\FolderListItem.cs" />
     <Compile Include="Dialogs\NewTagDialog.cs">
@@ -2327,15 +2349,15 @@
       <SubType>Designer</SubType>
       <DependentUpon>PatchingWizard_ModePage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizards\PatchingWizard\PatchingWizard_AutomatedUpdatesPage.ja.resx">
-      <DependentUpon>PatchingWizard_AutomatedUpdatesPage.cs</DependentUpon>
+    <EmbeddedResource Include="Wizards\PatchingWizard\AutomatedUpdatesBasePage.ja.resx">
+      <DependentUpon>AutomatedUpdatesBasePage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizards\PatchingWizard\PatchingWizard_AutomatedUpdatesPage.resx">
-      <DependentUpon>PatchingWizard_AutomatedUpdatesPage.cs</DependentUpon>
+    <EmbeddedResource Include="Wizards\PatchingWizard\AutomatedUpdatesBasePage.resx">
+      <DependentUpon>AutomatedUpdatesBasePage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizards\PatchingWizard\PatchingWizard_AutomatedUpdatesPage.zh-CN.resx">
-      <DependentUpon>PatchingWizard_AutomatedUpdatesPage.cs</DependentUpon>
+    <EmbeddedResource Include="Wizards\PatchingWizard\AutomatedUpdatesBasePage.zh-CN.resx">
+      <DependentUpon>AutomatedUpdatesBasePage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizards\PatchingWizard\PatchingWizard_PatchingPage.resx">
       <SubType>Designer</SubType>
@@ -3683,9 +3705,7 @@
     <Compile Include="Wizards\DRWizards\DRFailoverWizardWelcomePage.Designer.cs">
       <DependentUpon>DRFailoverWizardWelcomePage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DataGridViewEnableableComboBoxCell.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Controls\DataGridViewEnableableComboBoxCell.cs" />
     <Compile Include="Wizards\GenericPages\DelayLoadingOptionComboBoxItem.cs" />
     <Compile Include="Wizards\GenericPages\LunPerVdiMappingPage.cs">
       <SubType>UserControl</SubType>
@@ -3923,7 +3943,6 @@
       <DependentUpon>TvmIpPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizards\PatchingWizard\PatchingWizardModeGuidanceBuilder.cs" />
-    <Compile Include="Wizards\RollingUpgradeWizard\PlanActions\BackgroundThreadBase.cs" />
     <Compile Include="Wizards\RollingUpgradeWizard\RollingUpgradeReadyToUpgradePage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -3936,7 +3955,6 @@
     <Compile Include="Wizards\RollingUpgradeWizard\RollingUpgradeWizard_UpgradeMode.Designer.cs">
       <DependentUpon>RollingUpgradeWizard_UpgradeMode.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizards\RollingUpgradeWizard\PlanActions\AutomaticBackgroundThread.cs" />
     <Compile Include="Wizards\RollingUpgradeWizard\PlanActions\UpgradeHostPlanAction.cs" />
     <Compile Include="Wizards\RollingUpgradeWizard\PlanActions\UpgradeManualHostPlanAction.cs" />
     <Compile Include="Wizards\ExportWizard\ExportAppliancePage.cs">
@@ -4085,8 +4103,6 @@
     <Compile Include="UpdateManager.DelayCalculator.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Wizards\RollingUpgradeWizard\PlanActions\SemiAutomaticBackgroundThread.cs">
-    </Compile>
     <Compile Include="Wizards\RollingUpgradeWizard\RollingUpgradeWizard_SelectInstallMethod.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -4104,12 +4120,6 @@
     </Compile>
     <Compile Include="Wizards\RollingUpgradeWizard\RollingUpgradeWizard_FirstPage.Designer.cs">
       <DependentUpon>RollingUpgradeWizard_FirstPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizards\RollingUpgradeWizard\RollingUpgradeUpgradePage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizards\RollingUpgradeWizard\RollingUpgradeUpgradePage.designer.cs">
-      <DependentUpon>RollingUpgradeUpgradePage.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizards\RollingUpgradeWizard\RollingUpgradeWizardPrecheckPage.cs">
       <SubType>UserControl</SubType>
@@ -4183,7 +4193,6 @@
     <Compile Include="Wizards\PatchingWizard\PlanActions\EvacuateHostPlanAction.cs" />
     <Compile Include="Wizards\PatchingWizard\PlanActions\PlanAction.cs" />
     <Compile Include="Wizards\PatchingWizard\PlanActions\PlanActionWithSession.cs" />
-    <Compile Include="Wizards\PatchingWizard\PlanActions\RebootHostPlanAction.cs" />
     <Compile Include="Wizards\PatchingWizard\PlanActions\RebootPlanAction.cs" />
     <Compile Include="Wizards\PatchingWizard\PlanActions\RebootVMsPlanAction.cs" />
     <Compile Include="Wizards\PatchingWizard\PlanActions\RestartAgentPlanAction.cs" />
@@ -6828,12 +6837,6 @@
     <EmbeddedResource Include="Wizards\RollingUpgradeWizard\RollingUpgradeReadyToUpgradePage.zh-CN.resx">
       <DependentUpon>RollingUpgradeReadyToUpgradePage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizards\RollingUpgradeWizard\RollingUpgradeUpgradePage.ja.resx">
-      <DependentUpon>RollingUpgradeUpgradePage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizards\RollingUpgradeWizard\RollingUpgradeUpgradePage.zh-CN.resx">
-      <DependentUpon>RollingUpgradeUpgradePage.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Wizards\RollingUpgradeWizard\RollingUpgradeWizard.ja.resx">
       <DependentUpon>RollingUpgradeWizard.cs</DependentUpon>
     </EmbeddedResource>
@@ -6868,9 +6871,6 @@
     <EmbeddedResource Include="Wizards\RollingUpgradeWizard\RollingUpgradeWizard_SelectInstallMethod.resx">
       <DependentUpon>RollingUpgradeWizard_SelectInstallMethod.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizards\RollingUpgradeWizard\RollingUpgradeUpgradePage.resx">
-      <DependentUpon>RollingUpgradeUpgradePage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizards\RollingUpgradeWizard\RollingUpgradeWizard.resx">
       <DependentUpon>RollingUpgradeWizard.cs</DependentUpon>

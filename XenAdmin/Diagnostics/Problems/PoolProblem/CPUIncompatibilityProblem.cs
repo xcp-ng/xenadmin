@@ -73,7 +73,7 @@ namespace XenAdmin.Diagnostics.Problems.PoolProblem
             return null;
         }
 
-        public override AsyncAction UnwindChanges()
+        public override AsyncAction CreateUnwindChangesAction()
         {
 
             var actions = new List<AsyncAction>();

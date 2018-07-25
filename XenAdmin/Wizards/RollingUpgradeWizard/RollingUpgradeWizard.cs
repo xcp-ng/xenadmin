@@ -38,12 +38,12 @@ using XenAdmin.Controls;
 using XenAdmin.Core;
 using XenAdmin.Dialogs;
 using System.Windows.Forms;
+using XenAdmin.Wizards.PatchingWizard;
+using XenAPI;
 
 namespace XenAdmin.Wizards.RollingUpgradeWizard
 {
-    public enum RollingUpgradeStatus { NotStarted, Started, Cancelled, Completed }
-
-    public partial class RollingUpgradeWizard : XenWizardBase
+    public partial class RollingUpgradeWizard : UpdateUpgradeWizard
     {
         private readonly RollingUpgradeUpgradePage RollingUpgradeUpgradePage;
         private readonly RollingUpgradeWizardSelectPool RollingUpgradeWizardSelectPool;
@@ -97,10 +97,20 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard
             if (prevPageType == typeof(RollingUpgradeWizardSelectPool))
             {
                 var selectedMasters = RollingUpgradeWizardSelectPool.SelectedMasters;
+                RollingUpgradeWizardUpgradeModePage.SelectedMasters = selectedMasters;
                 RollingUpgradeWizardPrecheckPage.SelectedMasters = selectedMasters;
                 RollingUpgradeWizardInstallMethodPage.SelectedMasters = selectedMasters;
                 RollingUpgradeReadyToUpgradePage.SelectedMasters = selectedMasters;
-                RollingUpgradeUpgradePage.SelectedMasters = selectedMasters;
+
+                var selectedPools = new List<Pool>();
+                foreach (var master in selectedMasters)
+                {
+                    var pool = Helpers.GetPoolOfOne(master.Connection);
+                    if (pool != null && !selectedPools.Contains(pool))
+                        selectedPools.Add(pool);
+                }
+
+                RollingUpgradeUpgradePage.SelectedPools = selectedPools;
             }
             else if (prevPageType == typeof(RollingUpgradeWizardUpgradeModePage))
             {
@@ -112,13 +122,17 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard
                 else
                     AddPage(RollingUpgradeWizardInstallMethodPage, 4);
 
-                RollingUpgradeWizardPrecheckPage.ManualModeSelected = manualModeSelected;
+                RollingUpgradeWizardPrecheckPage.ManualUpgrade = manualModeSelected;
                 RollingUpgradeUpgradePage.ManualModeSelected = manualModeSelected;
+
+                var applyUpdatesToNewVersion = RollingUpgradeWizardUpgradeModePage.ApplyUpdatesToNewVersion;
+                RollingUpgradeWizardPrecheckPage.ApplyUpdatesToNewVersion = applyUpdatesToNewVersion;
+                RollingUpgradeUpgradePage.ApplyUpdatesToNewVersion = applyUpdatesToNewVersion;
             }
             else if (prevPageType == typeof(RollingUpgradeWizardInstallMethodPage))
                 RollingUpgradeUpgradePage.InstallMethodConfig = RollingUpgradeWizardInstallMethodPage.InstallMethodConfig;
             else if (prevPageType == typeof(RollingUpgradeWizardPrecheckPage))
-                RollingUpgradeUpgradePage.ProblemsResolvedPreCheck = RollingUpgradeWizardPrecheckPage.ProblemsResolvedPreCheck;
+                RollingUpgradeUpgradePage.PrecheckProblemsActuallyResolved = RollingUpgradeWizardPrecheckPage.PrecheckProblemsActuallyResolved;
         }
 
         protected override void OnShown(System.EventArgs e)
@@ -129,23 +143,9 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard
                 NextStep();
         }
 
-        private List<AsyncAction> GetUnwindChangesActions()
-        {
-            if (RollingUpgradeWizardPrecheckPage.ProblemsResolvedPreCheck == null)
-                return null;
-
-            var actionList = (from problem in RollingUpgradeWizardPrecheckPage.ProblemsResolvedPreCheck
-                              where problem.SolutionActionCompleted
-                              select problem.UnwindChanges());
-
-            return actionList.Where(action => action != null &&
-                                              action.Connection != null &&
-                                              action.Connection.IsConnected).ToList();
-        }
-
         private void RevertResolvedPreChecks()
         {
-            List<AsyncAction> subActions = GetUnwindChangesActions();
+            var subActions = GetUnwindChangesActions(RollingUpgradeWizardPrecheckPage.PrecheckProblemsActuallyResolved);
             if (subActions.Count > 0)
             {
                 using (MultipleAction multipleAction = new MultipleAction(xenConnection, Messages.REVERT_WIZARD_CHANGES,
@@ -161,7 +161,7 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard
 
         protected override void OnCancel()
         {
-            if (RollingUpgradeUpgradePage.UpgradeStatus == RollingUpgradeStatus.NotStarted)
+            if (RollingUpgradeUpgradePage.Status == Status.NotStarted)
                 RevertResolvedPreChecks();
 
             base.OnCancel();
@@ -181,7 +181,7 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard
         {
             base.OnClosed(e);
 
-            if (RollingUpgradeUpgradePage.UpgradeStatus == RollingUpgradeStatus.Cancelled)
+            if (RollingUpgradeUpgradePage.Status == Status.Cancelled)
                 ThreadPool.QueueUserWorkItem(o => Program.Invoke(Program.MainWindow, ShowCanBeResumedInfo));
         }
     }

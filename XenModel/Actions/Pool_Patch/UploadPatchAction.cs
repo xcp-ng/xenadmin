@@ -40,24 +40,17 @@ using XenAPI;
 
 namespace XenAdmin.Actions
 {
-    public class UploadPatchAction : AsyncAction
+    public class UploadPatchAction : AsyncAction, IByteProgressAction
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private Dictionary<Host, Pool_patch> patches = new Dictionary<Host, Pool_patch>();
+        private Pool_patch _patch;
 
-        private readonly IList<Host> retailHosts;
         private readonly string retailPatchPath;
+        private readonly string _patchName;
         private readonly bool deleteFileOnCancel;
+        private readonly long _totalPatchSize;
 
-        /// <summary>
-        /// This constructor is used to upload a single 'normal' patch
-        /// </summary>
-        /// <param name="connection"></param>
-        /// <param name="path"></param>
-        public UploadPatchAction(IXenConnection connection, string path)
-            : this(connection, path, false, false)
-        {}
 
         public UploadPatchAction(IXenConnection connection, string path, bool suppressHistory, bool deleteFileOnCancel)
             : base(connection, null, Messages.UPLOADING_PATCH, suppressHistory)
@@ -70,59 +63,44 @@ namespace XenAdmin.Actions
             ApiMethodsToRoleCheck.Add("pool.sync_database");
             ApiMethodsToRoleCheck.Add("http/put_pool_patch_upload");
 
-            retailHosts = new List<Host>(new Host[] { master });
             retailPatchPath = path;
-
+            _patchName = Path.GetFileNameWithoutExtension(retailPatchPath);
+            _totalPatchSize = (new FileInfo(path)).Length;
             Host = master;
         }
 
-        public Dictionary<Host, Pool_patch> PatchRefs
-        {
-            get
-            {
-                return patches;
-            }
-        }
+        public string ByteProgressDescription { get; set; }
 
-        private static long FileSize(string path)
+        public Pool_patch Patch
         {
-            FileInfo fileInfo = new FileInfo(path);
-            return fileInfo.Length;
+            get { return _patch; }
         }
-
-        private long TotalSize = 0;
-        private long TotalUploaded = 0;
 
         protected override void Run()
         {
             SafeToExit = false;
-            TotalSize = retailHosts.Count * FileSize(retailPatchPath);
 
-            foreach (Host host in retailHosts)
+            try
             {
-                try
-                {
-                    patches[host] = UploadRetailPatch(host);
-                }
-                catch (Failure f)
-                {
-                    // Need to check if the patch already exists.  
-                    // If it does then we use it and ignore the PATCH_ALREADY_EXISTS error (CA-110209).
-                    if (f.ErrorDescription != null
-                        && f.ErrorDescription.Count > 1
-                        && f.ErrorDescription[0] == XenAPI.Failure.PATCH_ALREADY_EXISTS)
-                    {
-                        string uuid = f.ErrorDescription[1];
-                        Session session = host.Connection.DuplicateSession();
-                        patches[host] = Connection.Resolve(Pool_patch.get_by_uuid(session, uuid));
-                    }
-                    else
-                        throw;
-                }
+                _patch = UploadRetailPatch();
+                log.InfoFormat("File '{0}' uploaded to server '{1}'", _patchName, Host.Name());
+                Tick(100, string.Format(Messages.UPLOAD_PATCH_UPLOADED_DESCRIPTION, _patchName));
             }
-
-            if (retailHosts.Count > 1)
-                this.Description = Messages.ALL_UPDATES_UPLOADED;
+            catch (Failure f)
+            {
+                // Need to check if the patch already exists.  
+                // If it does then we use it and ignore the PATCH_ALREADY_EXISTS error (CA-110209).
+                if (f.ErrorDescription != null
+                    && f.ErrorDescription.Count > 1
+                    && f.ErrorDescription[0] == Failure.PATCH_ALREADY_EXISTS)
+                {
+                    string uuid = f.ErrorDescription[1];
+                    Session session = Host.Connection.DuplicateSession();
+                    _patch = Connection.Resolve(Pool_patch.get_by_uuid(session, uuid));
+                }
+                else
+                    throw;
+            }
         }
 
         public override void RecomputeCanCancel()
@@ -130,64 +108,58 @@ namespace XenAdmin.Actions
             CanCancel = !Cancelling;
         }
 
-        private Pool_patch UploadRetailPatch(Host host)
+        private Pool_patch UploadRetailPatch()
         {
-            log.InfoFormat("Uploading file '{0}' to server '{1}'", Path.GetFileName(retailPatchPath), host.Name());
-            this.Description = Messages.UPLOAD_PATCH_DESCRIPTION;
-
-            long size = FileSize(retailPatchPath);
-
             Session session = NewSession();
+
+            Host master = Helpers.GetMaster(Connection);
+
+            log.InfoFormat("Uploading file '{0}' to server '{1}'", _patchName, master.Name());
+            this.Description = string.Format(Messages.UPLOAD_PATCH_UPLOADING_DESCRIPTION, _patchName);
+
+            RelatedTask = Task.create(session, "uploadTask", retailPatchPath);
 
             try
             {
-                Host h = Helpers.GetMaster(Connection);
+                var result = HTTPHelper.Put(UpdateProgress, GetCancelling, true, Connection, RelatedTask, ref session, retailPatchPath,
+                    master.address, (HTTP_actions.put_ss)HTTP_actions.put_pool_patch_upload, session.opaque_ref);
 
-                HTTP.UpdateProgressDelegate progressDelegate = delegate(int percent)
-                    {
-                        int actionPercent = (int)(((TotalUploaded * 90) + (size * percent)) / TotalSize);
-                        this.Tick(actionPercent, this.Description);
-                    };
-
-                RelatedTask = XenAPI.Task.create(session, "uploadTask", retailPatchPath);
-
-                String result;
-
-                try
-                {
-                    result = HTTPHelper.Put(progressDelegate, GetCancelling, true, Connection, RelatedTask, ref session, retailPatchPath,
-                        h.address, (HTTP_actions.put_ss)HTTP_actions.put_pool_patch_upload, session.opaque_ref);
-                }
-                catch(CancelledException)
-                {
-                     if(deleteFileOnCancel && File.Exists(retailPatchPath))
-                     {
-                        File.Delete(retailPatchPath);
-                     }
-                     throw;
-                }
-                catch (TargetInvocationException ex)
-                {
-                    if (ex.InnerException != null)
-                        throw ex.InnerException;
-                    else
-                        throw;
-                }
-
-                finally
-                {
-                    Task.destroy(session, RelatedTask);
-                    RelatedTask = null;
-                }
-
-                TotalUploaded += size;
                 return Connection.WaitForCache(new XenRef<Pool_patch>(result));
+            }
+            catch (CancelledException)
+            {
+                if (deleteFileOnCancel && File.Exists(retailPatchPath))
+                {
+                    File.Delete(retailPatchPath);
+                }
+                throw;
+            }
+            catch (TargetInvocationException ex)
+            {
+                if (ex.InnerException != null)
+                    throw ex.InnerException;
+                else
+                    throw;
             }
             finally
             {
-                log.InfoFormat("File '{0}' uploaded to server '{1}'", Path.GetFileName(retailPatchPath), host.Name());
-                Description = Messages.UPLOAD_PATCH_UPLOADED;
+                Task.destroy(session, RelatedTask);
+                RelatedTask = null;
             }
         }
+
+        private void UpdateProgress(int percent)
+        {
+            var descr = string.Format(Messages.UPLOAD_PATCH_UPLOADING_PROGRESS_DESCRIPTION, _patchName,
+                Util.DiskSizeString(percent * _totalPatchSize / 100, "F1"), Util.DiskSizeString(_totalPatchSize));
+
+            ByteProgressDescription = descr;
+            Tick(percent, descr);
+        }
+    }
+
+    public interface IByteProgressAction
+    {
+        string ByteProgressDescription { get; set; }
     }
 }

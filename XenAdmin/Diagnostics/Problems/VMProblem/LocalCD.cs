@@ -62,7 +62,7 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
             return new ChangeVMISOAction(VM.Connection, VM, null, cddrive);
         }
 
-        public override AsyncAction UnwindChanges()
+        public override AsyncAction CreateUnwindChangesAction()
         {
             return null;
 

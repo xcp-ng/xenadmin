@@ -89,6 +89,10 @@ namespace XenAPI
         public const string VM_LACKS_FEATURE = "VM_LACKS_FEATURE";
         public const string VM_LACKS_FEATURE_SUSPEND = "VM_LACKS_FEATURE_SUSPEND";
         public const string VM_FAILED_SHUTDOWN_ACKNOWLEDGMENT = "VM_FAILED_SHUTDOWN_ACKNOWLEDGMENT";
+        public const string OTHER_OPERATION_IN_PROGRESS = "OTHER_OPERATION_IN_PROGRESS";
+        public const string PATCH_ALREADY_APPLIED = "PATCH_ALREADY_APPLIED";
+        public const string UPDATE_ALREADY_APPLIED = "UPDATE_ALREADY_APPLIED";
+        public const string UPDATE_ALREADY_EXISTS = "UPDATE_ALREADY_EXISTS";
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 

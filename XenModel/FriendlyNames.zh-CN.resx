@@ -744,6 +744,9 @@
   <data name="Label-performance.cpu" xml:space="preserve">
     <value>CPU {0}</value>
   </data>
+  <data name="Label-performance.cpu-avg-freq" xml:space="preserve">
+    <value>CPU {0} 平均频率</value>
+  </data>
   <data name="Label-performance.lo_rx" xml:space="preserve">
     <value>环回接收</value>
   </data>
@@ -969,6 +972,12 @@
   <data name="Message.body-alarm" xml:space="preserve">
     <value>无法识别警报“{0}”。</value>
   </data>
+  <data name="Message.body-cluster_host_enable_failed" xml:space="preserve">
+    <value>服务器“{0}”无法加入群集。</value>
+  </data>
+  <data name="Message.body-cluster_host_fencing" xml:space="preserve">
+    <value> 服务器“{0}”已实施防护。</value>
+  </data>
   <data name="Message.body-extauth_in_pool_is_non_homogeneous" xml:space="preserve">
     <value>在“{0}”中使用的外部身份验证服务不一致。</value>
   </data>
@@ -1192,6 +1201,12 @@
   </data>
   <data name="Message.name-bond_status_changed" xml:space="preserve">
     <value>已更改绑定状态</value>
+  </data>
+  <data name="Message.name-cluster_host_enable_failed" xml:space="preserve">
+    <value>服务器无法加入群集</value>
+  </data>
+  <data name="Message.name-cluster_host_fencing" xml:space="preserve">
+    <value>服务器已实施防护</value>
   </data>
   <data name="Message.name-extauth_in_pool_is_non_homogeneous" xml:space="preserve">
     <value>池中的身份验证方法不一致</value>

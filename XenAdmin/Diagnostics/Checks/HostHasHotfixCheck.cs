@@ -29,8 +29,6 @@
  * SUCH DAMAGE.
  */
 
-using System.Linq;
-using XenAdmin.Core;
 using XenAdmin.Diagnostics.Hotfixing;
 using XenAdmin.Diagnostics.Problems;
 using XenAdmin.Diagnostics.Problems.HostProblem;
@@ -39,7 +37,7 @@ using XenAPI;
 
 namespace XenAdmin.Diagnostics.Checks
 {
-    class HostHasHotfixCheck : Check
+    class HostHasHotfixCheck : HostPostLivenessCheck
     {
         private readonly HotfixFactory hotfixFactory = new HotfixFactory();
         public HostHasHotfixCheck(Host host)
@@ -47,11 +45,8 @@ namespace XenAdmin.Diagnostics.Checks
         {
         }
 
-        protected override Problem RunCheck()
+        protected override Problem RunHostCheck()
         {
-            if (!Host.IsLive())
-                return new HostNotLiveWarning(this, Host);
-
             var hotfix = hotfixFactory.Hotfix(Host);
             if (hotfix != null && hotfix.ShouldBeAppliedTo(Host))
                 return new HostDoesNotHaveHotfix(this, Host);

@@ -31,28 +31,54 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
+using XenAdmin.Core;
 using XenAPI;
+
 
 namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
 {
-    class UpgradeHostPlanAction : UpgradeManualHostPlanAction
+    public class UpgradeAutomatedHostPlanAction : UpgradeHostPlanAction
     {
-        private readonly Dictionary<string, string> _arguments = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _arguments;
 
-        public UpgradeHostPlanAction(Host host, Dictionary<string, string> arguments)
-            : base(host)
+        public UpgradeAutomatedHostPlanAction(Host host, Control invokingControl, Dictionary<string, string> arguments)
+            : base(host, invokingControl)
         {
-            _arguments = arguments;
+            _arguments = arguments ?? new Dictionary<string, string>();
         }
-
 
         protected override void RunWithSession(ref Session session)
         {
+            string hostVersionBefore = CurrentHost.LongProductVersion();
+            log.InfoFormat("Host '{0}' upgrading from version '{1}'", CurrentHost.Name(), hostVersionBefore);
+
             string value = Host.call_plugin(session, HostXenRef.opaque_ref, "prepare_host_upgrade.py", "main", _arguments);
             if (value.ToLower() == "true")
-                base.RunWithSession(ref session);
+                Upgrade(ref session);
             else
                 throw new Exception(value);
+
+            Host hostAfterReboot = GetResolvedHost();
+            if (hostAfterReboot == null)
+            {
+                log.InfoFormat("Cannot check host's version after reboot because the host '{0}' cannot be resolved", CurrentHost.Name());
+            }
+            else
+            {
+                if (Helpers.SameServerVersion(hostAfterReboot, hostVersionBefore))
+                {
+                    log.ErrorFormat("Host '{0}' rebooted with the same version '{1}'", hostAfterReboot.Name(), hostAfterReboot.LongProductVersion());
+                    var error = new Exception(Messages.REBOOT_WITH_SAME_VERSION);
+                    //when the slave reboots with the same version do not interrupt the process,
+                    //so set the error without throwing it
+                    if (hostAfterReboot.IsMaster())
+                        throw error;
+                    Error = error;
+                }
+
+                log.InfoFormat("Host '{0}' upgraded with version '{1}'", hostAfterReboot.Name(), hostAfterReboot.LongProductVersion());
+            }
         }
     }
 }

@@ -890,6 +890,9 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
 
             if (srType == SR.SRTypes.gfs2)
             {
+                if (_srToIntroduce != null && _srToIntroduce.Configuration != null)
+                    dconf = _srToIntroduce.Configuration;
+
                 dconf["provider"] = "iscsi";
                 dconf["target"] = iqn.item.IpAddress;
                 dconf["port"] = iqn.item.Port.ToString();

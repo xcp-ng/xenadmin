@@ -49,7 +49,7 @@ namespace XenAdminTests.WizardTests
             string msg;
             Mock<Host> host;
             Mock<Pool_patch> patch = SetupBuilder(after_apply_guidance.restartXAPI, out msg, out host);
-            Assert.That(msg, Is.EqualTo("Restart XAPI agent in this order (master always first):\r\n\tMyHost (Master)\r\n"));
+            Assert.That(msg, Is.EqualTo("Restart toolstack in this order (master always first):\r\n\tMyHost (Master)\r\n"));
             patch.VerifyAll();
             host.VerifyAll();
         }

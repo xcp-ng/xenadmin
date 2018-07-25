@@ -29,7 +29,6 @@
  * SUCH DAMAGE.
  */
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -38,38 +37,228 @@ using XenAPI;
 
 namespace XenAdmin.Wizards.PatchingWizard
 {
-    class UpdateProgressBackgroundWorker : BackgroundWorker
+    public class UpdateProgressBackgroundWorker : BackgroundWorker
     {
-        private readonly int _actionsCount;
-
-        public List<PlanAction> PlanActions { get; private set; }
-        public Dictionary<Host, List<PlanAction>> DelayedActionsByHost {get; private set; }
+        public List<HostPlan> HostPlans { get; private set; }
         public List<PlanAction> FinalActions { get; private set; }
+        public List<PlanAction> CleanupActions { get; private set; }
+        public readonly List<PlanAction> DoneActions = new List<PlanAction>();
+        public readonly List<PlanAction> InProgressActions = new List<PlanAction>();
+        public string Name { get; set; }
+        
+        private double _percentComplete;
+        private readonly object _percentLock = new object();
 
-        public UpdateProgressBackgroundWorker(List<PlanAction> planActions,
-            Dictionary<Host, List<PlanAction>> delayedActionsByHost, List<PlanAction> finalActions)
+        public double PercentComplete
         {
-            PlanActions = planActions;
-            DelayedActionsByHost = delayedActionsByHost;
-            FinalActions = finalActions;
-            _actionsCount = PlanActions.Count + DelayedActionsByHost.Sum(kvp => kvp.Value.Count) + FinalActions.Count;
+            get
+            {
+                lock (_percentLock)
+                    return _percentComplete;
+            }
+            set
+            {
+                lock (_percentLock)
+                    _percentComplete = value;
+            }
         }
 
-        public int ActionsCount
+        public double ProgressIncrement { get; set; }
+
+        public UpdateProgressBackgroundWorker(List<HostPlan> planActions, List<PlanAction> finalActions)
         {
-            get { return _actionsCount; }
+            HostPlans = planActions ?? new List<HostPlan>();
+            FinalActions = finalActions ?? new List<PlanAction>();
+            CleanupActions = FinalActions.Where(a => a is RemoveUpdateFileFromMasterPlanAction).ToList();
+        }
+
+        public void RunPlanAction(PlanAction action, ref DoWorkEventArgs e, bool skip = false)
+        {
+            if (CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            // if this action is completed successfully, do not run it again
+            if (DoneActions.Contains(action) && action.Error == null)
+                return;
+
+            // if we retry a failed action, we need to firstly remove it from DoneActions and reset its Error
+            DoneActions.Remove(action);
+            action.Error = null;
+
+            if (skip)
+            {
+                //skip running it, but still need to report progress, mainly for the progress bar
+                PercentComplete += ProgressIncrement * 100;
+                ReportProgress((int)PercentComplete, action);
+            }
+            else
+            {
+                action.OnProgressChange += action_OnProgressChange;
+                action.Run();
+                action.OnProgressChange -= action_OnProgressChange;
+            }
+        }
+
+        private void action_OnProgressChange(PlanAction planAction)
+        {
+            PercentComplete += planAction.IsComplete ? ProgressIncrement * 100 : 0;
+            ReportProgress((int)PercentComplete, planAction);
         }
 
         public new void CancelAsync()
         {
-            if (PlanActions != null)
-                PlanActions.ForEach(pa => 
+            if (HostPlans != null)
+                HostPlans.ForEach(ha =>
                 {
-                    if (!pa.IsComplete)
-                        pa.Cancel();
+                    var cur = ha;
+                    cur.InitialPlanActions.ForEach(pa =>
+                    {
+                        if (!pa.IsComplete)
+                            pa.Cancel();
+                    });
+
+                    cur.UpdatesPlanActions.ForEach(pa =>
+                    {
+                        if (!pa.IsComplete)
+                            pa.Cancel();
+                    });
                 });
 
             base.CancelAsync();
+        }
+
+        private double FinalActionsPercentage
+        {
+            get
+            {
+                if (FinalActions == null || FinalActions.Count < 1)
+                    return 0;
+                return 0.4;
+            }
+        }
+
+        private double HostPlansPercentage
+        {
+            get
+            {
+                if (HostPlans == null || HostPlans.Count < 1)
+                    return 0;
+                return 1 - FinalActionsPercentage;
+            }
+        }
+
+        public double FinalActionsIncrement
+        {
+            get
+            {
+                if (FinalActions == null || FinalActions.Count < 1)
+                    return 0;
+                return FinalActionsPercentage / FinalActions.Count;
+            }
+        }
+
+        public double HostPlansIncrement
+        {
+            get
+            {
+                if (HostPlans == null || HostPlans.Count < 1)
+                    return 0;
+                return HostPlansPercentage / HostPlans.Count;
+            }
+        }
+
+        public double InitialActionsIncrement(HostPlan hp)
+        {
+            return hp.InitialActionsIncrement * HostPlansIncrement;
+        }
+
+        public double UpdatesActionsIncrement(HostPlan hp)
+        {
+            return hp.UpdatesActionsIncrement * HostPlansIncrement;
+        }
+
+        public double DelayedActionsIncrement(HostPlan hp)
+        {
+            return hp.DelayedActionsIncrement * HostPlansIncrement;
+        }
+    }
+
+    public class HostPlan
+    {
+        public Host Host;
+        public readonly List<PlanAction> InitialPlanActions;
+        public readonly List<PlanAction> UpdatesPlanActions;
+        public readonly List<PlanAction> DelayedPlanActions;
+
+        public HostPlan(Host host, List<PlanAction> initialActions, List<PlanAction> updateActions, List<PlanAction> delayedActions)
+        {
+            Host = host;
+            InitialPlanActions = initialActions ?? new List<PlanAction>();
+            UpdatesPlanActions = updateActions ?? new List<PlanAction>();
+            DelayedPlanActions = delayedActions ?? new List<PlanAction>();
+        }
+
+        private double InitialActionsPercentage
+        {
+            get
+            {
+                if (InitialPlanActions == null || InitialPlanActions.Count < 1)
+                    return 0;
+                return 0.3;
+            }
+        }
+
+        private double UpdatesActionsPercentage
+        {
+            get
+            {
+                if (UpdatesPlanActions == null || UpdatesPlanActions.Count < 1)
+                    return 0;
+                return 0.9 - InitialActionsPercentage;
+            }
+        }
+
+        private double DelayedActionsPercentage
+        {
+            get
+            {
+                if (DelayedPlanActions == null || DelayedPlanActions.Count < 1)
+                    return 0;
+                return 1 - InitialActionsPercentage - UpdatesActionsPercentage;
+            }
+        }
+
+        public double InitialActionsIncrement
+        {
+            get
+            {
+                if (InitialPlanActions == null || InitialPlanActions.Count < 1)
+                    return 0;
+                return InitialActionsPercentage / InitialPlanActions.Count;
+            }
+        }
+
+        public double UpdatesActionsIncrement
+        {
+            get
+            {
+                if (UpdatesPlanActions == null || UpdatesPlanActions.Count < 1)
+                    return 0;
+                return UpdatesActionsPercentage / UpdatesPlanActions.Count;
+            }
+        }
+
+        public double DelayedActionsIncrement
+        {
+            get
+            {
+                if (DelayedPlanActions == null || DelayedPlanActions.Count < 1)
+                    return 0;
+                return DelayedActionsPercentage / DelayedPlanActions.Count;
+            }
         }
     }
 }

@@ -417,7 +417,12 @@ namespace XenAPI
                     Timeout = session.proxy.Timeout,
                     KeepAlive = session.proxy.KeepAlive,
                     UserAgent = session.proxy.UserAgent,
-                    WebProxy = session.proxy.Proxy
+                    WebProxy = session.proxy.Proxy,
+                    ProtocolVersion = session.proxy.ProtocolVersion,
+                    Expect100Continue = session.proxy.Expect100Continue,
+                    AllowAutoRedirect = session.proxy.AllowAutoRedirect,
+                    PreAuthenticate = session.proxy.PreAuthenticate,
+                    Cookies = session.proxy.CookieContainer
                 };
 
                 if (isInvernessOrAbove)

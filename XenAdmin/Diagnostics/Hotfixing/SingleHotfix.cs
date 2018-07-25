@@ -34,12 +34,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using XenAdmin.Actions;
 using XenAdmin.Core;
 using XenAPI;
 
+
 namespace XenAdmin.Diagnostics.Hotfixing
 {
-
     internal class SingleHotfix : Hotfix
     {
         public override string UUID { get; set; }
@@ -73,11 +74,11 @@ namespace XenAdmin.Diagnostics.Hotfixing
             {
                 var master = Helpers.GetMaster(host.Connection);
                 var filePath = Path.Combine(Program.AssemblyDir, String.Format("{0}.{1}", Filename, Branding.Update));
-                var action = new Actions.UploadPatchAction(master.Connection, filePath);
+                var action = new UploadPatchAction(master.Connection, filePath, false, false);
                 action.RunExternal(session);
-                patch = action.PatchRefs[master];
+                patch = action.Patch;
             }
-            Pool_patch.apply(session, patch.opaque_ref, host.opaque_ref);
+            new ApplyPatchAction(patch, host).RunExternal(session);
         }
 
         private void UploadAndApplyUpdate(Host host, Session session)
@@ -87,11 +88,11 @@ namespace XenAdmin.Diagnostics.Hotfixing
             {
                 var master = Helpers.GetMaster(host.Connection);
                 var filePath = Path.Combine(Program.AssemblyDir, String.Format("{0}.{1}", Filename, Branding.UpdateIso));
-                var action = new Actions.UploadSupplementalPackAction(master.Connection, new List<Host>() { master }, filePath, true);
+                var action = new UploadSupplementalPackAction(master.Connection, new List<Host> { master }, filePath, false);
                 action.RunExternal(session);
                 update = action.PoolUpdate;
             }
-            Pool_update.apply(session, update.opaque_ref, host.opaque_ref);
+            new ApplyUpdateAction(update, host).RunExternal(session);
         }
         
         public override bool ShouldBeAppliedTo(Host host)

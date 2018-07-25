@@ -1887,7 +1887,7 @@ namespace XenAdmin.Network
                     return obj;
 
                 Thread.Sleep(1000);
-                timeout = timeout - 1;
+                timeout--;
             }
 
             if (typeof(T) == typeof(Host))

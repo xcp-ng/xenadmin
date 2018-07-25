@@ -313,11 +313,12 @@ namespace XenAdmin.Dialogs
             if (actions.Count == 0) 
                 return;
 
+            var objName = Helpers.GetName(connection).Ellipsise(50);
             var multipleAction = new MultipleAction(
                 connection,
-                string.Format(Messages.UPDATE_PROPERTIES, Helpers.GetName(connection).Ellipsise(50)),
+                string.Format(Messages.UPDATE_PROPERTIES, objName),
                 Messages.UPDATING_PROPERTIES,
-                Messages.UPDATED_PROPERTIES,
+                 string.Format(Messages.UPDATED_PROPERTIES, objName),
                 actions, true);
             
             multipleAction.RunAsync();

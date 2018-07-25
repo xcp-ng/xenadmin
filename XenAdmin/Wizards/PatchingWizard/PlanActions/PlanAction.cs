@@ -30,6 +30,8 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using log4net;
@@ -39,35 +41,19 @@ using XenAPI;
 
 namespace XenAdmin.Wizards.PatchingWizard.PlanActions
 {
-    public abstract class PlanAction
+    public abstract class PlanAction : IEquatable<PlanAction>
     {
         protected static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private int _percentComplete;
-        public event EventHandler OnProgressChange;
-        public event EventHandler OnActionError;
-        public event Action<PlanAction, Host> StatusChanged;
+        public event Action<PlanAction> OnProgressChange;
         public Exception Error;
-        protected bool Cancelling = false;
+        protected bool Cancelling;
+        private bool _running;
+        private readonly Guid _actionId;
 
-        public bool Visible { get; set; }
-        
-        private string status;
-        public string Status
-        {
-            get { return status; }
-            protected set
-            {
-                if(value != status)
-                {
-                    status = value;
-                    if (StatusChanged != null)
-                        StatusChanged(this, CurrentHost);
-                }
-            }
-        }
-
-        protected virtual Host CurrentHost { get { return null; } }
+        private readonly object historyLock = new object();
+        private readonly Stack<string> _progressHistory = new Stack<string>();
 
         public int PercentComplete
         {
@@ -75,69 +61,112 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
             {
                 return _percentComplete;
             }
-
             protected set
             {
                 _percentComplete = value;
                 if (OnProgressChange != null)
-                    OnProgressChange(this, new EventArgs());
+                    OnProgressChange(this);
             }
         }
 
-        public string Title { get; protected set; }
-
-        public string TitlePlan { get; set; }
-
-        protected PlanAction(string title)
+        public List<string> ProgressHistory
         {
-            Visible = true;
+            get
+            {
+                lock (historyLock)
+                    return _progressHistory.Reverse().ToList();
+            }
+        }
+
+        protected PlanAction()
+        {
             _percentComplete = 0;
-            Title = title;
+            _actionId = Guid.NewGuid();
         }
 
         protected abstract void _Run();
 
-        private bool _running = false;
-
         public virtual void Run()
         {
-            _running = true;
-
             try
             {
+                lock (historyLock)
+                    _progressHistory.Clear();
+                _running = true;
+                PercentComplete = 0;
                 _Run();
+                AddProgressStep(null);
+            }
+            catch (CancelledException e)
+            {
+                ReplaceProgressStep(CurrentProgressStep + Messages.PLAN_ACTION_CANCELLED_BY_USER);
+                Error = e;
+                throw;
             }
             catch (Exception e)
             {
                 Failure f = e as Failure;
                 if (f != null && f.ErrorDescription != null && f.ErrorDescription.Count > 1 && f.ErrorDescription[1].Contains(FriendlyErrorNames.SR_BACKEND_FAILURE_432))
                 {
-                    // ignore this exception (CA-62989) in order to allow the Upgrade wizard to continue upgrading all the hosts in a pool. The detached SRs will be reported on Finish
-                    /*var dialog = new ThreeButtonDialog(new ThreeButtonDialog.Details(SystemIcons.Exclamation, Messages.STORAGELINK_SR_NEEDS_REATTACH));
-                    Program.Invoke(Program.MainWindow, () => dialog.ShowDialog(Program.MainWindow));
-                    throw new Exception(Messages.STORAGELINK_SR_NEEDS_REATTACH);*/
+                    // ignore this exception (CA-62989) in order to allow the Upgrade wizard to continue
+                    // upgrading all the hosts in a pool. The detached SRs will be reported on Finish
                     log.Warn(Messages.STORAGELINK_SR_NEEDS_REATTACH, f);
                 }
                 else
                 {
+                    var curStep = CurrentProgressStep;
+                    if (!string.IsNullOrEmpty(curStep))
+                        ReplaceProgressStep(CurrentProgressStep + Messages.PLAN_ACTION_ERROR);
                     Error = e;
-                    if (OnActionError != null)
-                        OnActionError(this, new EventArgs());
                     throw;
                 }
             }
             finally
             {
                 _running = false;
+                PercentComplete = 100;
             }
-
-            PercentComplete = 100;
         }
 
-
-        private void UpdateProgress(int progress)
+        public string CurrentProgressStep
         {
-            this.PercentComplete = progress;
+            get
+            {
+                lock (historyLock)
+                    return _progressHistory.Count > 0 ? _progressHistory.Peek() : string.Empty;
+            }
+        }
+
+        protected void AddProgressStep(string step)
+        {
+            lock (historyLock)
+            {
+                if (_progressHistory.Count > 0)
+                {
+                    var popped = _progressHistory.Pop();
+                    _progressHistory.Push(popped + Messages.PLAN_ACTION_DONE);
+                }
+
+                if (step != null)
+                    _progressHistory.Push(step);
+
+                if (OnProgressChange != null)
+                    OnProgressChange(this);
+            }
+        }
+
+        protected void ReplaceProgressStep(string step)
+        {
+            lock (historyLock)
+            {
+                if (_progressHistory.Count > 0)
+                    _progressHistory.Pop();
+
+                _progressHistory.Push(step);
+
+                if (OnProgressChange != null)
+                    OnProgressChange(this);
+            }
         }
 
         protected string PollTaskForResultAndDestroy(IXenConnection connection, ref Session session, XenRef<Task> task)
@@ -149,7 +178,8 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
         {
             try
             {
-                return PollTaskForResult(connection, ref session, task, UpdateProgress, min, max);
+                return PollTaskForResult(connection, ref session, task,
+                    progress => PercentComplete = progress, min, max);
             }
             finally
             {
@@ -202,35 +232,18 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
             }
         }
 
-        public override string ToString()
+        public bool Equals(PlanAction other)
         {
-            return this.Title;
+            if (other == null)
+                return false;
+
+            return string.Equals(_actionId.ToString(), other._actionId.ToString(), StringComparison.OrdinalIgnoreCase);
         }
 
         public virtual void Cancel()
         {
             Cancelling = true;
         }
-
-
-        string _progressDescription;
-
-        public string ProgressDescription
-        {
-            get
-            {
-                return _progressDescription;
-            }
-
-            protected set
-            {
-                _progressDescription = value;
-
-                if (OnProgressChange != null)
-                    OnProgressChange(this, new EventArgs());
-            }
-        }
-
     }
 }
 

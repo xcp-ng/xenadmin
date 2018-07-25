@@ -259,7 +259,7 @@
     <value>6</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>プールをローリング アップグレードする前に、pool-dump-database コマンド (『[XenServer product] 管理者ガイド』参照) を使って現在のプールの状態をバックアップしておくことを強く推奨します。これにより、ローリング アップグレード中に問題が発生した場合でも、VM データを失うことなくプールを元の状態に戻すことができます。</value>
+    <value>プールのローリング アップグレード前に、pool-dump-database コマンド (『[XenServer product] 管理者ガイド』参照) を使って現在のプールの状態をバックアップしておくことを強く推奨します。これにより、ローリング アップグレード中に問題が発生した場合でも、VM データを失うことなくプールを元の状態に戻すことができます。</value>
   </data>
   <data name="&gt;&gt;label7.Name" xml:space="preserve">
     <value>label7</value>

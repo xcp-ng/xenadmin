@@ -100,7 +100,7 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard
                         {
                             dlg.ShowDialog(this);
                         }
-                        DeselectMaster(selectedMaster);
+
                         cancel = true;
                         return;
                     }
@@ -135,21 +135,6 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard
                 return false;
             }
             return true;
-        }
-
-        private void DeselectMaster(Host master)
-        {
-            foreach (UpgradeDataGridViewRow row in dataGridView1.Rows)
-            {
-                if (row.Tag is Host && row.Tag == master)
-                {
-                    row.Checked = CheckState.Unchecked;
-                }
-                else if (row.Tag is Pool && ((Pool)(row.Tag)).master.opaque_ref == master.opaque_ref)
-                {
-                    row.Checked = CheckState.Unchecked;
-                }
-            }
         }
 
         public IList<Host> SelectedMasters

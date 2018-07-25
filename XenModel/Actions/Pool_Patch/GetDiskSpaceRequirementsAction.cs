@@ -173,7 +173,7 @@ namespace XenAdmin.Actions
         public readonly long AvailableDiskSpace;
         public readonly long ReclaimableDiskSpace;
 
-        public enum OperationTypes { install, upload, automatedUpdates }
+        public enum OperationTypes { install, upload, automatedUpdates, automatedUpdatesUploadOne, automatedUpdatesUploadAll }
       
         public DiskSpaceRequirements(OperationTypes operation, Host host, string updateName, long requiredDiskSpace, long availableDiskSpace, long reclaimableDiskSpace)
         {
@@ -193,6 +193,7 @@ namespace XenAdmin.Actions
         public string GetSpaceRequirementsMessage()
         {
             StringBuilder sbMessage = new StringBuilder();
+            var pool = Helpers.GetPool(Host.Connection);
 
             switch (Operation)
             {
@@ -204,6 +205,12 @@ namespace XenAdmin.Actions
                     break;
                 case OperationTypes.automatedUpdates :
                     sbMessage.AppendFormat(Messages.NOT_ENOUGH_SPACE_MESSAGE_AUTO_UPDATE, Host.Name());
+                    break;
+                case OperationTypes.automatedUpdatesUploadOne:
+                    sbMessage.AppendFormat(Messages.NOT_ENOUGH_SPACE_MESSAGE_AUTO_UPDATE_UPLOAD_ONE, pool != null ? pool.Name() : Host.Name());
+                    break;
+                case OperationTypes.automatedUpdatesUploadAll:
+                    sbMessage.AppendFormat(Messages.NOT_ENOUGH_SPACE_MESSAGE_AUTO_UPDATE_UPLOAD_ALL, pool != null ? pool.Name() : Host.Name());
                     break;
             }
 

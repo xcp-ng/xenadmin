@@ -29,11 +29,10 @@
  * SUCH DAMAGE.
  */
 
-using System.Collections.Generic;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using XenAdmin.Actions;
 using XenAdmin.Controls;
 using XenAdmin.Core;
@@ -45,11 +44,20 @@ namespace XenAdmin.SettingsPanels
     {
         private Pool pool;
         private bool clusteringEnabled;
+        private XenRef<XenAPI.Network> commonNetwork;
+        private readonly ToolTip SelectNetworkToolTip;
 
         public ClusteringEditPage()
         {
             InitializeComponent();
             Text = Messages.CLUSTERING;
+            tableLayoutPanelNetworkWarning.Visible = false;
+            SelectNetworkToolTip = new ToolTip
+                {
+                    IsBalloon = true,
+                    ToolTipIcon = ToolTipIcon.Warning,
+                    ToolTipTitle = Messages.MUST_SELECT_NETWORK
+                };
         }
 
         public string SubText
@@ -82,39 +90,27 @@ namespace XenAdmin.SettingsPanels
         public void SetXenObjects(IXenObject orig, IXenObject clone)
         {
             pool = Helpers.GetPoolOfOne(clone.Connection);
-            labelWarning.Visible = false;
-            pictureBoxInfo1.Visible = false;
-
             var existingCluster = pool.Connection.Cache.Clusters.FirstOrDefault();
             clusteringEnabled = existingCluster != null;
-            CheckBoxEnableClustering.Checked = clusteringEnabled;
+            labelWarning.Visible = pictureBoxInfo1.Visible = false;
             LoadNetworks(existingCluster);
-
-            if (clusteringEnabled)
-            {
-                comboBoxNetwork.Enabled = labelNetwork.Enabled = false;
-            }
-
-            var gfs2Attached = clone.Connection.Cache.SRs.Any(sr => sr.GetSRType(true) == SR.SRTypes.gfs2 && !sr.IsDetached());
-
-            if (clusteringEnabled && gfs2Attached)
-            {
-                DisableControls(Messages.GFS2_SR_ATTACHED);
-            }
-
-            if (!clusteringEnabled && pool.ha_enabled)
-            {
-                DisableControls(Messages.GFS2_HA_ENABLED);
-            }
-
-            labelHostCountWarning.Visible = clone.Connection.Cache.HostCount < 3;
+            SetPage();
         }
 
-        public bool ValidToSave { get { return true; }}
+        public bool ValidToSave
+        {
+            get
+            {
+                return clusteringEnabled || comboBoxNetwork.SelectedItem != null || !CheckBoxEnableClustering.Checked;
+            }
+        }
 
         public void ShowLocalValidationMessages()
         {
-           
+            if (!ValidToSave)
+            {
+                HelpersGUI.ShowBalloonMessage(comboBoxNetwork, SelectNetworkToolTip);
+            }
         }
 
         public void Cleanup()
@@ -135,17 +131,58 @@ namespace XenAdmin.SettingsPanels
         {
             comboBoxNetwork.IncludeOnlyEnabledNetworksInComboBox = false;
             comboBoxNetwork.IncludeOnlyNetworksWithIPAddresses = true;
-            var clusterHostOnMaster = cluster == null
-                ? null
-                : pool.Connection.ResolveAll(cluster.cluster_hosts).FirstOrDefault(c => c.host.opaque_ref == pool.master.opaque_ref);
-            
-            comboBoxNetwork.PopulateComboBox(pool.Connection, item => clusterHostOnMaster != null && item.Network.PIFs.Any(pif => pif.opaque_ref == clusterHostOnMaster.PIF.opaque_ref));
 
-            if (comboBoxNetwork.Items.Count == 0)
+            if (cluster == null)
             {
-                DisableControls(Messages.GFS2_NO_NETWORK);
+                comboBoxNetwork.PopulateComboBox(pool.Connection, item => false);
+                if (comboBoxNetwork.Items.Count == 0)
+                    DisableControls(Messages.GFS2_NO_NETWORK);
             }
+            else
+            {
+                DelegatedAsyncAction action = new DelegatedAsyncAction(pool.Connection,
+                    string.Empty, string.Empty, string.Empty,
+                    delegate(Session session)
+                    {
+                        commonNetwork = Cluster.get_network(session, cluster.opaque_ref);
+                    },
+                    true);
 
+                action.Completed += action_Completed;
+
+                action.RunAsync();
+            }
+        }
+
+        private void action_Completed(ActionBase sender)
+        {
+            var action = (AsyncAction) sender;
+            if (!action.Succeeded)
+                commonNetwork = null;
+
+            Program.Invoke(ParentForm, delegate
+            {
+                comboBoxNetwork.PopulateComboBox(pool.Connection, item => commonNetwork != null && item.Network.opaque_ref.Equals(commonNetwork.opaque_ref));
+                tableLayoutPanelNetworkWarning.Visible = commonNetwork == null || comboBoxNetwork.SelectedItem == null;
+            });
+        }
+
+        private void SetPage()
+        {
+            CheckBoxEnableClustering.Checked = clusteringEnabled;
+
+            if (clusteringEnabled)
+            {
+                var gfs2Attached = pool.Connection.Cache.SRs.Any(sr => sr.GetSRType(true) == SR.SRTypes.gfs2 && !sr.IsDetached());
+                if (gfs2Attached)
+                    DisableControls(Messages.GFS2_SR_ATTACHED);
+                else
+                    comboBoxNetwork.Enabled = labelNetwork.Enabled = false;
+            }
+            else if (pool.ha_enabled)
+                DisableControls(Messages.GFS2_HA_ENABLED);
+
+            labelHostCountWarning.Visible = pool.Connection.Cache.HostCount < 3;
         }
 
         private void DisableControls(string message)
@@ -156,5 +193,11 @@ namespace XenAdmin.SettingsPanels
         }
 
         #endregion 
+
+        private void comboBoxNetwork_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            if (!clusteringEnabled)
+                CheckBoxEnableClustering.Checked = comboBoxNetwork.SelectedItem != null;
+        }
     }
 }

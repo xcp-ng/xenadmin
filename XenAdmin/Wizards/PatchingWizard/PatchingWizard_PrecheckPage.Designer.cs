@@ -46,6 +46,7 @@ namespace XenAdmin.Wizards.PatchingWizard
             this.checkBoxViewPrecheckFailuresOnly = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.labelProgress = new System.Windows.Forms.Label();
+            this._worker = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIssues)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -176,6 +177,14 @@ namespace XenAdmin.Wizards.PatchingWizard
             resources.ApplyResources(this.labelProgress, "labelProgress");
             this.labelProgress.Name = "labelProgress";
             // 
+            // _worker
+            // 
+            this._worker.WorkerReportsProgress = true;
+            this._worker.WorkerSupportsCancellation = true;
+            this._worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.worker_DoWork);
+            this._worker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.worker_ProgressChanged);
+            this._worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this._worker_RunWorkerCompleted);
+            // 
             // PatchingWizard_PrecheckPage
             // 
             this.Controls.Add(this.tableLayoutPanel1);
@@ -204,6 +213,7 @@ namespace XenAdmin.Wizards.PatchingWizard
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSolution;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label labelProgress;
+        private System.ComponentModel.BackgroundWorker _worker;
 
     }
 }

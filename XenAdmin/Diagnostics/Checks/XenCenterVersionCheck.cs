@@ -29,12 +29,9 @@
  * SUCH DAMAGE.
  */
 
-using XenAPI;
 using XenAdmin.Diagnostics.Problems;
 using XenAdmin.Core;
-using XenAdmin.Diagnostics.Problems.PoolProblem;
-using XenAdmin.Alerts;
-
+using XenAPI;
 
 namespace XenAdmin.Diagnostics.Checks
 {
@@ -43,7 +40,6 @@ namespace XenAdmin.Diagnostics.Checks
         private XenServerVersion _newServerVersion;
 
         public XenCenterVersionCheck(XenServerVersion newServerVersion)
-            : base(null)
         {
             _newServerVersion = newServerVersion;
         }
@@ -62,6 +58,11 @@ namespace XenAdmin.Diagnostics.Checks
         public override string Description
         {
             get { return Messages.XENCENTER_VERSION_CHECK_DESCRIPTION; }
+        }
+
+        public override IXenObject XenObject
+        {
+            get { return null; }
         }
     }
 }

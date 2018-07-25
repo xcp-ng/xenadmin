@@ -30,6 +30,7 @@
  */
 
 using System.Collections.Generic;
+using XenAdmin.Core;
 using XenAPI;
 
 
@@ -65,7 +66,7 @@ namespace XenAdmin.Actions
                 PollToCompletion(50, 100);
             }
             PercentComplete = 100;
-            Description = Messages.UPDATED_PROPERTIES;
+            Description = string.Format(Messages.UPDATED_PROPERTIES, Helpers.GetName(Host).Ellipsise(50));
         }
     }
 }

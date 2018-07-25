@@ -75,7 +75,7 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
             return new VMHardShutdown(VM);
         }
 
-        public override AsyncAction UnwindChanges()
+        public override AsyncAction CreateUnwindChangesAction()
         {
             return null;
         }

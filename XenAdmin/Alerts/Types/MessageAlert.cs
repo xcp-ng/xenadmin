@@ -106,7 +106,7 @@ namespace XenAdmin.Alerts
                 switch (typ)
                 {
                     case XenAPI.Message.MessageType.HA_POOL_DROP_IN_PLAN_EXISTS_FOR:
-                    case XenAPI.Message.MessageType.HA_POOL_OVERCOMMITTED:
+                    case Message.MessageType.HA_POOL_OVERCOMMITTED:
                         int pef;
                         if (XenObject != null && int.TryParse(Message.body, out pef))
                         {
@@ -116,47 +116,48 @@ namespace XenAdmin.Alerts
                         break;
 
                     // applies to is hosts, vms and pools where only the name is required
-                    case XenAPI.Message.MessageType.HA_HEARTBEAT_APPROACHING_TIMEOUT:
-                    case XenAPI.Message.MessageType.HA_HOST_FAILED:
-                    case XenAPI.Message.MessageType.HA_HOST_WAS_FENCED:
-                    case XenAPI.Message.MessageType.HA_PROTECTED_VM_RESTART_FAILED:
-                    case XenAPI.Message.MessageType.HA_STATEFILE_APPROACHING_TIMEOUT:
-                    case XenAPI.Message.MessageType.HA_STATEFILE_LOST:
-                    case XenAPI.Message.MessageType.HA_XAPI_HEALTHCHECK_APPROACHING_TIMEOUT:
-                    //case XenAPI.Message.MessageType.HOST_SYNC_DATA_FAILED:
-                    case XenAPI.Message.MessageType.LICENSE_DOES_NOT_SUPPORT_POOLING:
-                    case XenAPI.Message.MessageType.PBD_PLUG_FAILED_ON_SERVER_START:
-                    case XenAPI.Message.MessageType.VM_CLONED:
-                    case XenAPI.Message.MessageType.VM_CRASHED:
-                    case XenAPI.Message.MessageType.VM_REBOOTED:
-                    case XenAPI.Message.MessageType.VM_RESUMED:
-                    case XenAPI.Message.MessageType.VM_SHUTDOWN:
-                    case XenAPI.Message.MessageType.VM_STARTED:
-                    case XenAPI.Message.MessageType.VM_SUSPENDED:
-                    case XenAPI.Message.MessageType.METADATA_LUN_BROKEN:
-                    case XenAPI.Message.MessageType.METADATA_LUN_HEALTHY:
-                    case XenAPI.Message.MessageType.LICENSE_SERVER_UNREACHABLE:
-                    case XenAPI.Message.MessageType.LICENSE_SERVER_VERSION_OBSOLETE:
-                    case XenAPI.Message.MessageType.GRACE_LICENSE:
-                    case XenAPI.Message.MessageType.LICENSE_NOT_AVAILABLE:
-                    case XenAPI.Message.MessageType.LICENSE_EXPIRED:
-                    case XenAPI.Message.MessageType.LICENSE_SERVER_CONNECTED:
-                    case XenAPI.Message.MessageType.LICENSE_SERVER_UNAVAILABLE:
-                    case XenAPI.Message.MessageType.HOST_CLOCK_WENT_BACKWARDS:
-                    case XenAPI.Message.MessageType.POOL_CPU_FEATURES_UP:
-                    case XenAPI.Message.MessageType.POOL_CPU_FEATURES_DOWN:
-                    case XenAPI.Message.MessageType.HOST_CPU_FEATURES_UP:
-                    case XenAPI.Message.MessageType.HOST_CPU_FEATURES_DOWN:
-                    case XenAPI.Message.MessageType.VDI_CBT_RESIZE_FAILED:
-                    case XenAPI.Message.MessageType.VDI_CBT_SNAPSHOT_FAILED:
-                    case XenAPI.Message.MessageType.VDI_CBT_METADATA_INCONSISTENT:
+                    case Message.MessageType.HA_HEARTBEAT_APPROACHING_TIMEOUT:
+                    case Message.MessageType.HA_HOST_FAILED:
+                    case Message.MessageType.HA_HOST_WAS_FENCED:
+                    case Message.MessageType.HA_PROTECTED_VM_RESTART_FAILED:
+                    case Message.MessageType.HA_STATEFILE_APPROACHING_TIMEOUT:
+                    case Message.MessageType.HA_STATEFILE_LOST:
+                    case Message.MessageType.HA_XAPI_HEALTHCHECK_APPROACHING_TIMEOUT:
+                    case Message.MessageType.LICENSE_DOES_NOT_SUPPORT_POOLING:
+                    case Message.MessageType.PBD_PLUG_FAILED_ON_SERVER_START:
+                    case Message.MessageType.VM_CLONED:
+                    case Message.MessageType.VM_CRASHED:
+                    case Message.MessageType.VM_REBOOTED:
+                    case Message.MessageType.VM_RESUMED:
+                    case Message.MessageType.VM_SHUTDOWN:
+                    case Message.MessageType.VM_STARTED:
+                    case Message.MessageType.VM_SUSPENDED:
+                    case Message.MessageType.METADATA_LUN_BROKEN:
+                    case Message.MessageType.METADATA_LUN_HEALTHY:
+                    case Message.MessageType.LICENSE_SERVER_UNREACHABLE:
+                    case Message.MessageType.LICENSE_SERVER_VERSION_OBSOLETE:
+                    case Message.MessageType.GRACE_LICENSE:
+                    case Message.MessageType.LICENSE_NOT_AVAILABLE:
+                    case Message.MessageType.LICENSE_EXPIRED:
+                    case Message.MessageType.LICENSE_SERVER_CONNECTED:
+                    case Message.MessageType.LICENSE_SERVER_UNAVAILABLE:
+                    case Message.MessageType.HOST_CLOCK_WENT_BACKWARDS:
+                    case Message.MessageType.POOL_CPU_FEATURES_UP:
+                    case Message.MessageType.POOL_CPU_FEATURES_DOWN:
+                    case Message.MessageType.HOST_CPU_FEATURES_UP:
+                    case Message.MessageType.HOST_CPU_FEATURES_DOWN:
+                    case Message.MessageType.VDI_CBT_RESIZE_FAILED:
+                    case Message.MessageType.VDI_CBT_SNAPSHOT_FAILED:
+                    case Message.MessageType.VDI_CBT_METADATA_INCONSISTENT:
+                    case Message.MessageType.CLUSTER_HOST_FENCING:
+                    case Message.MessageType.CLUSTER_HOST_ENABLE_FAILED:
                         if (XenObject != null)
                             return string.Format(FriendlyFormat(), Helpers.GetName(XenObject));
                         break;
 
                     // object then pool
-                    case XenAPI.Message.MessageType.HOST_CLOCK_SKEW_DETECTED:
-                    case XenAPI.Message.MessageType.POOL_MASTER_TRANSITION:
+                    case Message.MessageType.HOST_CLOCK_SKEW_DETECTED:
+                    case Message.MessageType.POOL_MASTER_TRANSITION:
                         if (XenObject != null)
                         {
                             Pool pool = Helpers.GetPoolOfOne(XenObject.Connection);
@@ -165,12 +166,12 @@ namespace XenAdmin.Alerts
                         }
                         break;
                     
-                    case XenAPI.Message.MessageType.HA_NETWORK_BONDING_ERROR:
+                    case Message.MessageType.HA_NETWORK_BONDING_ERROR:
                         if (XenObject != null)
                             return string.Format(FriendlyFormat(), GetManagementBondName(), Helpers.GetName(XenObject));
                         break;
 
-                    case XenAPI.Message.MessageType.LICENSE_EXPIRES_SOON:
+                    case Message.MessageType.LICENSE_EXPIRES_SOON:
                         if (XenObject != null)
                         {
                             Host host = XenObject as Host ?? Helpers.GetMaster(Connection);
@@ -178,14 +179,14 @@ namespace XenAdmin.Alerts
                         }
                         break;
 
-                    case XenAPI.Message.MessageType.VBD_QOS_FAILED:
-                    case XenAPI.Message.MessageType.VCPU_QOS_FAILED:
-                    case XenAPI.Message.MessageType.VIF_QOS_FAILED:
+                    case Message.MessageType.VBD_QOS_FAILED:
+                    case Message.MessageType.VCPU_QOS_FAILED:
+                    case Message.MessageType.VIF_QOS_FAILED:
                         if (XenObject != null)
                             return string.Format(FriendlyFormat(), "", Helpers.GetName(XenObject));
                         break;
                     
-                    case XenAPI.Message.MessageType.EXTAUTH_INIT_IN_HOST_FAILED:
+                    case Message.MessageType.EXTAUTH_INIT_IN_HOST_FAILED:
                         if (XenObject != null)
                         {
                             Match m = extAuthRegex.Match(Message.body);
@@ -193,12 +194,12 @@ namespace XenAdmin.Alerts
                         }
                         break;
 
-                    case XenAPI.Message.MessageType.EXTAUTH_IN_POOL_IS_NON_HOMOGENEOUS:
+                    case Message.MessageType.EXTAUTH_IN_POOL_IS_NON_HOMOGENEOUS:
                         if (XenObject != null)
                             return string.Format(FriendlyFormat(), Helpers.GetName(Helpers.GetPoolOfOne(XenObject.Connection)));
                         break;
 
-                    case XenAPI.Message.MessageType.MULTIPATH_PERIODIC_ALERT:
+                    case Message.MessageType.MULTIPATH_PERIODIC_ALERT:
                         if (XenObject != null)
                         {
                             log.InfoFormat("{0} - {1}", Title, Message.body);
@@ -206,7 +207,7 @@ namespace XenAdmin.Alerts
                         }
                         break;
 
-                    case XenAPI.Message.MessageType.WLB_CONSULTATION_FAILED:
+                    case Message.MessageType.WLB_CONSULTATION_FAILED:
                         if (XenObject != null)
                         {
                             Pool p = Helpers.GetPoolOfOne(XenObject.Connection);
@@ -214,7 +215,7 @@ namespace XenAdmin.Alerts
                         }
                         break;
 
-                    case XenAPI.Message.MessageType.WLB_OPTIMIZATION_ALERT:
+                    case Message.MessageType.WLB_OPTIMIZATION_ALERT:
                         if (XenObject != null)
                         {
                             Match match = wlbOptAlertRegex.Match(Message.body);
@@ -225,7 +226,7 @@ namespace XenAdmin.Alerts
                         }
                         break;
 
-                    case XenAPI.Message.MessageType.PVS_PROXY_NO_CACHE_SR_AVAILABLE:
+                    case Message.MessageType.PVS_PROXY_NO_CACHE_SR_AVAILABLE:
                         var proxy = XenObject as PVS_proxy;
                         if (proxy != null)
                         {
@@ -250,7 +251,7 @@ namespace XenAdmin.Alerts
 
         private string FriendlyFormat()
         {
-            return XenAPI.Message.FriendlyBody(Message.MessageTypeString());
+            return Message.FriendlyBody(Message.MessageTypeString());
         }
 
         private static readonly Regex extAuthRegex = new Regex(@"error=(.*)");
@@ -277,12 +278,12 @@ namespace XenAdmin.Alerts
                 // current state is healthy, past errors have been resolved.
                 if (Helpers.IsPool(Message.Connection))
                 {
-                    return string.Format(XenAdmin.Core.PropertyManager.GetFriendlyName("Message.body-multipath_periodic_alert_healthy"),
+                    return string.Format(PropertyManager.GetFriendlyName("Message.body-multipath_periodic_alert_healthy"),
                         Helpers.GetName(XenObject));
                 }
                 else
                 {
-                    return string.Format(XenAdmin.Core.PropertyManager.GetFriendlyName("Message.body-multipath_periodic_alert_healthy_standalone"),
+                    return string.Format(PropertyManager.GetFriendlyName("Message.body-multipath_periodic_alert_healthy_standalone"),
                         Helpers.GetName(XenObject));
                 }
             }
@@ -318,7 +319,7 @@ namespace XenAdmin.Alerts
                         output = string.Format("{0}, '{1}'", output, Message.Connection.Cache.Find_By_Uuid<Host>(m.Groups[1].Value));
                     }
                 }
-                return string.Format(XenAdmin.Core.PropertyManager.GetFriendlyName("Message.body-multipath_periodic_alert_summary"),
+                return string.Format(PropertyManager.GetFriendlyName("Message.body-multipath_periodic_alert_summary"),
                     Helpers.GetName(XenObject),
                     output);
             }
@@ -340,30 +341,30 @@ namespace XenAdmin.Alerts
 			    var typ = Message.Type;
 				switch (typ)
 				{
-					case XenAPI.Message.MessageType.HA_HEARTBEAT_APPROACHING_TIMEOUT:
-					case XenAPI.Message.MessageType.HA_HOST_FAILED:
-					case XenAPI.Message.MessageType.HA_HOST_WAS_FENCED:
-					case XenAPI.Message.MessageType.HA_NETWORK_BONDING_ERROR:
-					case XenAPI.Message.MessageType.HA_POOL_DROP_IN_PLAN_EXISTS_FOR:
-					case XenAPI.Message.MessageType.HA_POOL_OVERCOMMITTED:
-					case XenAPI.Message.MessageType.HA_PROTECTED_VM_RESTART_FAILED:
-					case XenAPI.Message.MessageType.HA_STATEFILE_APPROACHING_TIMEOUT:
-					case XenAPI.Message.MessageType.HA_STATEFILE_LOST:
-					case XenAPI.Message.MessageType.HA_XAPI_HEALTHCHECK_APPROACHING_TIMEOUT:
+					case Message.MessageType.HA_HEARTBEAT_APPROACHING_TIMEOUT:
+					case Message.MessageType.HA_HOST_FAILED:
+					case Message.MessageType.HA_HOST_WAS_FENCED:
+					case Message.MessageType.HA_NETWORK_BONDING_ERROR:
+					case Message.MessageType.HA_POOL_DROP_IN_PLAN_EXISTS_FOR:
+					case Message.MessageType.HA_POOL_OVERCOMMITTED:
+					case Message.MessageType.HA_PROTECTED_VM_RESTART_FAILED:
+					case Message.MessageType.HA_STATEFILE_APPROACHING_TIMEOUT:
+					case Message.MessageType.HA_STATEFILE_LOST:
+					case Message.MessageType.HA_XAPI_HEALTHCHECK_APPROACHING_TIMEOUT:
 						return () => new HACommand(Program.MainWindow, XenObject.Connection).Execute();
 
-					case XenAPI.Message.MessageType.LICENSE_EXPIRES_SOON:
-					case XenAPI.Message.MessageType.LICENSE_DOES_NOT_SUPPORT_POOLING:
+					case Message.MessageType.LICENSE_EXPIRES_SOON:
+					case Message.MessageType.LICENSE_DOES_NOT_SUPPORT_POOLING:
                         return () => Program.OpenURL(HiddenFeatures.LinkLabelHidden ? null : InvisibleMessages.LICENSE_EXPIRY_WEBPAGE);
-					case XenAPI.Message.MessageType.VBD_QOS_FAILED:
-					case XenAPI.Message.MessageType.VCPU_QOS_FAILED:
-					case XenAPI.Message.MessageType.VIF_QOS_FAILED:
+					case Message.MessageType.VBD_QOS_FAILED:
+					case Message.MessageType.VCPU_QOS_FAILED:
+					case Message.MessageType.VIF_QOS_FAILED:
 						return () => Program.MainWindow.LaunchLicensePicker("");
 
-					case XenAPI.Message.MessageType.MULTIPATH_PERIODIC_ALERT:
+					case Message.MessageType.MULTIPATH_PERIODIC_ALERT:
 						return Program.ViewLogFiles;
 
-					case XenAPI.Message.MessageType.PBD_PLUG_FAILED_ON_SERVER_START:
+					case Message.MessageType.PBD_PLUG_FAILED_ON_SERVER_START:
 						var repairSrCommand = new RepairSRCommand(Program.MainWindow, XenObject.Connection.Cache.SRs);
 						if (repairSrCommand.CanExecute())
 							return () => repairSrCommand.Execute();
@@ -400,7 +401,7 @@ namespace XenAdmin.Alerts
         {
             get
             {
-                return XenAPI.Message.FriendlyHelp(Message.MessageTypeString());
+                return Message.FriendlyHelp(Message.MessageTypeString());
             }
         }
 
@@ -408,7 +409,7 @@ namespace XenAdmin.Alerts
         {
             get
             {
-                string title = XenAPI.Message.FriendlyName(Message.MessageTypeString());
+                string title = Message.FriendlyName(Message.MessageTypeString());
                 if (string.IsNullOrEmpty(title))
                     title = Message.name;
 
@@ -440,7 +441,7 @@ namespace XenAdmin.Alerts
 
         public override void DismissSingle(Session s)
         {
-            XenAPI.Message.destroy(s, Message.opaque_ref);
+            Message.destroy(s, Message.opaque_ref);
             base.Dismiss();
         }
 
@@ -448,14 +449,14 @@ namespace XenAdmin.Alerts
         /// Find the MessageAlert corresponding to the given Message, or null if none exists.
         /// </summary>
         /// <param name="m"></param>
-        public static Alert FindAlert(XenAPI.Message m)
+        public static Alert FindAlert(Message m)
         {
             return FindAlert(a => a is MessageAlert &&
                                   ((MessageAlert)a).Message.opaque_ref == m.opaque_ref &&
                                   m.Connection == a.Connection);
         }
 
-        public static void RemoveAlert(XenAPI.Message m)
+        public static void RemoveAlert(Message m)
         {
             Alert a = FindAlert(m);
             if (a != null)
@@ -467,7 +468,7 @@ namespace XenAdmin.Alerts
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public static Alert ParseMessage(XenAPI.Message msg)
+        public static Alert ParseMessage(Message msg)
         {
             if (msg.IsPerfmonAlarm())
             {

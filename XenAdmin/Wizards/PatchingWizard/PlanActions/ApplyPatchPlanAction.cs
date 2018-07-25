@@ -36,21 +36,20 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
 {
     public class ApplyPatchPlanAction : PlanActionWithSession
     {
-        private readonly XenRef<Host> _host;
-        private readonly XenRef<Pool_patch> _patchRef;
+        private readonly Host _host;
+        private readonly Pool_patch _patch;
 
         public ApplyPatchPlanAction(Host host, Pool_patch patch)
-            : base(host.Connection, string.Format(Messages.UPDATES_WIZARD_APPLYING_UPDATE, patch.Name(), host.Name()))
+            : base(host.Connection)
         {
-            this._host = new XenRef<Host>(host);
-            this._patchRef = new XenRef<Pool_patch>(patch);
+            _host = host;
+            _patch = patch;
         }
 
         protected override void RunWithSession(ref Session session)
         {
-
-            XenRef<Task> task = Pool_patch.async_apply(session, _patchRef.opaque_ref, _host.opaque_ref);
-
+            AddProgressStep(string.Format(Messages.UPDATES_WIZARD_APPLYING_UPDATE, _patch.Name(), _host.Name()));
+            XenRef<Task> task = Pool_patch.async_apply(session, _patch.opaque_ref, _host.opaque_ref);
             PollTaskForResultAndDestroy(Connection, ref session, task);
         }
     }

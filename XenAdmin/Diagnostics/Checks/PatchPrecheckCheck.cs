@@ -40,12 +40,10 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Collections.Generic;
 using XenAdmin.Actions;
-using XenAdmin.Wizards.PatchingWizard;
-
 
 namespace XenAdmin.Diagnostics.Checks
 {
-    class PatchPrecheckCheck : Check
+    class PatchPrecheckCheck : HostCheck
     {
         private readonly Pool_patch _patch;
         private readonly Pool_update _update;

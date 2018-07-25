@@ -78,7 +78,7 @@ namespace XenAdmin.Actions
         private readonly string _userAgent;
         private readonly string _userAgentId;
 
-        public DownloadUpdatesXmlAction(bool checkForXenCenter, bool checkForServerVersion, bool checkForPatches, string userAgent, string userAgentId, string checkForUpdatesUrl = null)
+        public DownloadUpdatesXmlAction(bool checkForXenCenter, bool checkForServerVersion, bool checkForPatches, string userAgent, string userAgentId, string checkForUpdatesUrl)
             : base(null, "_get_updates", "_get_updates", true)
         {
             Debug.Assert(checkForUpdatesUrl != null, "Parameter checkForUpdatesUrl should not be null. This class does not default its value anymore.");
@@ -165,6 +165,7 @@ namespace XenAdmin.Actions
                     string timestamp = "";
                     string priority = "";
                     string installationSize = "";
+                    string downloadSize = "";
 
                     foreach (XmlAttribute attrib in version.Attributes)
                     {
@@ -190,13 +191,15 @@ namespace XenAdmin.Actions
                             priority = attrib.Value;
                         else if (attrib.Name == "installation-size")
                             installationSize = attrib.Value;
+                        else if (attrib.Name == "download-size")
+                            downloadSize = attrib.Value;
                     }
 
                     var conflictingPatches = GetPatchDependencies(version, ConflictingPatchesNode, ConflictingPatchNode);
                     var requiredPatches = GetPatchDependencies(version, RequiredPatchesNode, RequiredPatchNode);
 
 					XenServerPatches.Add(new XenServerPatch(uuid, name, description, guidance, guidance_mandatory, patchVersion, url,
-                                                            patchUrl, timestamp, priority, installationSize, conflictingPatches, requiredPatches));
+                                                            patchUrl, timestamp, priority, installationSize, downloadSize, conflictingPatches, requiredPatches));
                 }
             }
         }

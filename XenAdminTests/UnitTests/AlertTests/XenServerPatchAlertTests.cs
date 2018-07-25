@@ -55,7 +55,7 @@ namespace XenAdminTests.UnitTests.AlertTests
         [Test]
         public void TestAlertWithConnectionAndHosts()
         {
-            XenServerPatch p = new XenServerPatch("uuid", "name", "My description", "guidance", string.Empty, "6.0.1", "http://url", "http://patchUrl", new DateTime(2011, 4, 1).ToString(), "", "");
+            XenServerPatch p = new XenServerPatch("uuid", "name", "My description", "guidance", string.Empty, "6.0.1", "http://url", "http://patchUrl", new DateTime(2011, 4, 1).ToString(), "", "", "");
             XenServerPatchAlert alert = new XenServerPatchAlert(p);
             alert.IncludeConnection(connA.Object);
             alert.IncludeConnection(connB.Object);
@@ -83,7 +83,7 @@ namespace XenAdminTests.UnitTests.AlertTests
         [Test]
         public void TestAlertWithHostsAndNoConnection()
         {
-            XenServerPatch p = new XenServerPatch("uuid", "name", "My description", "guidance", string.Empty, "6.0.1", "http://url", "http://patchUrl", new DateTime(2011, 4, 1).ToString(), "1", "");
+            XenServerPatch p = new XenServerPatch("uuid", "name", "My description", "guidance", string.Empty, "6.0.1", "http://url", "http://patchUrl", new DateTime(2011, 4, 1).ToString(), "1", "", "");
             XenServerPatchAlert alert = new XenServerPatchAlert(p);
             alert.IncludeHosts(new List<Host>() { hostA.Object, hostB.Object });
 
@@ -109,7 +109,7 @@ namespace XenAdminTests.UnitTests.AlertTests
         [Test]
         public void TestAlertWithConnectionAndNoHosts()
         {
-            XenServerPatch p = new XenServerPatch("uuid", "name", "My description", "guidance", string.Empty, "6.0.1", "http://url", "http://patchUrl", new DateTime(2011, 4, 1).ToString(), "0", "");
+            XenServerPatch p = new XenServerPatch("uuid", "name", "My description", "guidance", string.Empty, "6.0.1", "http://url", "http://patchUrl", new DateTime(2011, 4, 1).ToString(), "0", "", "");
             XenServerPatchAlert alert = new XenServerPatchAlert(p);
             alert.IncludeConnection(connA.Object);
             alert.IncludeConnection(connB.Object);
@@ -136,7 +136,7 @@ namespace XenAdminTests.UnitTests.AlertTests
         [Test]
         public void TestAlertWithNoConnectionAndNoHosts()
         {
-            XenServerPatch p = new XenServerPatch("uuid", "name", "My description", "guidance", string.Empty, "6.0.1", "http://url", "http://patchUrl", new DateTime(2011, 4, 1).ToString(), "5", "");
+            XenServerPatch p = new XenServerPatch("uuid", "name", "My description", "guidance", string.Empty, "6.0.1", "http://url", "http://patchUrl", new DateTime(2011, 4, 1).ToString(), "5", "", "");
             XenServerPatchAlert alert = new XenServerPatchAlert(p);
 
             IUnitTestVerifier validator = new VerifyGetters(alert);

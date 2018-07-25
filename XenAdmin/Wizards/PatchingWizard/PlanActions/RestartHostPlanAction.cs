@@ -40,15 +40,14 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
     public class RestartHostPlanAction : RebootPlanAction
     {
         private readonly List<XenRef<VM>> _vms;
-        private readonly bool _enableOnly;
+        public bool EnableOnly { get; set; }
         private readonly bool _restartAgentFallback;
 
         public RestartHostPlanAction(Host host, List<XenRef<VM>> vms, bool enableOnly = false, bool restartAgentFallback = false)
-            : base(host, string.Empty)
+            : base(host)
         {
             _vms = vms;
-            Visible = false;
-            _enableOnly = enableOnly;
+            EnableOnly = enableOnly;
             _restartAgentFallback = restartAgentFallback;
         }
 
@@ -69,9 +68,7 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
                 else if (_restartAgentFallback)
                 {
                     log.Debug("Live patching succeeded. Restarting agent.");
-                    Visible = true;
-                    Title = ProgressDescription = string.Format(Messages.UPDATES_WIZARD_RESTARTING_AGENT, hostObj.Name());
-                    WaitForReboot(ref session, Host.AgentStartTime, s => Host.async_restart_agent(s, HostXenRef.opaque_ref));
+                    RestartAgent(ref session);
                     return;
                 }
                 else
@@ -81,25 +78,10 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
                     return;
                 }
             }
-            Visible = true;
-            var sb = new StringBuilder();
-
-            sb.Append(string.Format(Messages.PLANACTION_VMS_MIGRATING, hostObj.Name()));
-            ProgressDescription = sb.ToString();
-
+           
             EvacuateHost(ref session);
-
-            sb.AppendLine(Messages.DONE);
-            sb.Append(string.Format(Messages.UPDATES_WIZARD_REBOOTING, hostObj.Name()));
-            ProgressDescription = sb.ToString();
-
             RebootHost(ref session);
-
-            sb.AppendLine(Messages.DONE);
-            sb.Append(string.Format(Messages.UPDATES_WIZARD_EXITING_MAINTENANCE_MODE, hostObj.Name()));
-            ProgressDescription = sb.ToString();
-
-            BringBabiesBack(ref session, _vms, _enableOnly);
+            BringBabiesBack(ref session, _vms, EnableOnly);
         }
     }
 }

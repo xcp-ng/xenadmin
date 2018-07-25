@@ -35,18 +35,24 @@ using XenAdmin.Diagnostics.Problems.HostProblem;
 
 namespace XenAdmin.Diagnostics.Checks
 {
-    class HostMaintenanceModeCheck : Check
+    class HostMaintenanceModeCheck : HostLivenessCheck
     {
-        public HostMaintenanceModeCheck(Host host) : base(host)
+        private readonly bool checkHostLivenessOnly;
+
+        public HostMaintenanceModeCheck(Host host, bool checkHostLivenessOnly = false)
+            : base(host)
         {
+            this.checkHostLivenessOnly = checkHostLivenessOnly;
         }
-        
+
         protected override Problem RunCheck()
         {
-            if (!Host.IsLive())
-            {
-                return new HostNotLive(this, Host);
-            }
+            var problem = base.RunCheck();
+            if (problem != null)
+                return problem;
+
+            if (checkHostLivenessOnly)
+                return null;
 
             // Check the host is not in Maintenance Mode (or disabled)
             if (Host.MaintenanceMode() || !Host.enabled)
@@ -54,14 +60,6 @@ namespace XenAdmin.Diagnostics.Checks
                 return new HostMaintenanceMode(this, Host);
             }
             return null;
-        }
-
-        public override string Description
-        {
-            get
-            {
-                return Messages.HOST_LIVENESS_CHECK_DESCRIPTION;
-            }
         }
     }
 }

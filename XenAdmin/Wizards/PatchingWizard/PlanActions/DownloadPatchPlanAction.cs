@@ -48,7 +48,7 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
         private string tempFileName = null;
 
         public DownloadPatchPlanAction(IXenConnection connection, XenServerPatch patch, Dictionary<XenServerPatch, string> allDownloadedPatches, KeyValuePair<XenServerPatch, string> patchFromDisk)
-            : base(connection, string.Format(Messages.PATCHINGWIZARD_DOWNLOADUPDATE_ACTION_TITLE_WAITING, patch.Name))
+            : base(connection)
         {
             this.patch = patch;
             this.AllDownloadedPatches = allDownloadedPatches;
@@ -57,13 +57,12 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
 
         protected override void RunWithSession(ref Session session)
         {
-            this.Visible = false;
+            AddProgressStep(string.Format(Messages.PATCHINGWIZARD_DOWNLOADUPDATE_ACTION_TITLE_WAITING, patch.Name));
 
+            //if we are updating multiple pools at the same time, we only need to download the patch for
+            // the first pool, hence we lock it to prevent the plan action of the other pools to run
             lock (patch)
             {
-                this.Visible = true;
-                Title = string.Format(Messages.PATCHINGWIZARD_DOWNLOADUPDATE_ACTION_TITLE_DOWNLOADING, patch.Name);
-
                 if (Cancelling)
                     return;
 
@@ -71,15 +70,13 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
                 if ((AllDownloadedPatches.ContainsKey(patch) && File.Exists(AllDownloadedPatches[patch])) 
                     || (patchFromDisk.Key == patch && File.Exists(patchFromDisk.Value)))
                 {
-                    this.Visible = false;
-                    Title = string.Format(Messages.PATCHINGWIZARD_DOWNLOADUPDATE_ACTION_TITLE_SKIPPING, patch.Name);
+                    ReplaceProgressStep(string.Format(Messages.PATCHINGWIZARD_DOWNLOADUPDATE_ACTION_TITLE_SKIPPING, patch.Name));
                 }
                 else
                 {
                     DownloadFile(ref session);
                 }
             }
-
         }
 
         private void DownloadFile(ref Session session)
@@ -91,39 +88,35 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
             Uri address = new Uri(patchUri);
             tempFileName = Path.GetTempFileName();
 
-            var downloadAction = new DownloadAndUnzipXenServerPatchAction(patch.Name, address, tempFileName, false, Helpers.ElyOrGreater(Connection) ? Branding.UpdateIso : Branding.Update);
+            var exts = Helpers.ElyOrGreater(Connection) ? Branding.UpdateIso : Branding.Update;
+            var downloadAction = new DownloadAndUnzipXenServerPatchAction(patch.Name, address, tempFileName, true, exts);
 
-            if (downloadAction != null)
-            {
-                downloadAction.Changed += downloadAndUnzipXenServerPatchAction_Changed;
-                downloadAction.Completed += downloadAndUnzipXenServerPatchAction_Completed;
-            }
+            downloadAction.Changed += downloadAndUnzipXenServerPatchAction_Changed;
+            downloadAction.Completed += downloadAndUnzipXenServerPatchAction_Completed;
 
             downloadAction.RunExternal(session);
         }
 
-        private void downloadAndUnzipXenServerPatchAction_Changed(object sender)
+        private void downloadAndUnzipXenServerPatchAction_Changed(ActionBase action)
         {
-            var downloadAction = sender as DownloadAndUnzipXenServerPatchAction;
-            if (downloadAction == null)
+            if (action == null)
                 return;
 
             if (Cancelling)
-                downloadAction.Cancel();
+                action.Cancel();
 
-            Program.Invoke(Program.MainWindow, () =>
-            {
-                if (!string.IsNullOrEmpty(downloadAction.DownloadProgressDescription))
-                    ProgressDescription = string.Format(Messages.PATCHINGWIZARD_AUTOUPDATINGPAGE_IN_PROGRESS_DOTDOTDOT, downloadAction.DownloadProgressDescription);
-            });
+            var bpAction = action as IByteProgressAction;
+            if (bpAction == null)
+                return;
+
+            if (!string.IsNullOrEmpty(bpAction.ByteProgressDescription))
+                ReplaceProgressStep(bpAction.ByteProgressDescription);
         }
 
 
         private void downloadAndUnzipXenServerPatchAction_Completed(ActionBase sender)
         {
-            ProgressDescription = null;
-
-            var action = sender as AsyncAction;
+            var action = sender as DownloadAndUnzipXenServerPatchAction;
             if (action == null)
                 return;
 
@@ -131,15 +124,7 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
             action.Completed -= downloadAndUnzipXenServerPatchAction_Completed;
 
             if (action.Succeeded)
-            {
-                if (action is DownloadAndUnzipXenServerPatchAction)
-                {
-                    Host master = Helpers.GetMaster(action.Connection);
-
-                    AllDownloadedPatches[patch] = (action as DownloadAndUnzipXenServerPatchAction).PatchPath;
-                }
-            }
-           
+                AllDownloadedPatches[patch] = action.PatchPath;
         }
     }
 }

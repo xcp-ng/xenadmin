@@ -180,9 +180,7 @@ namespace XenAdmin.Controls.DataGridViewEx
             _expansionCell = new DataGridViewImageCell();
             _nameCell = new DataGridViewNameCell();
 
-            Cells.Add(_expansionCell);
-            Cells.Add(_poolCheckBoxCell);
-            Cells.Add(_nameCell);
+            Cells.AddRange(_expansionCell, _poolCheckBoxCell, _nameCell);
 
             SetupAdditionalDetailsColumns();
 

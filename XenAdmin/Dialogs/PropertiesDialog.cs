@@ -363,12 +363,13 @@ namespace XenAdmin.Dialogs
             {
                 actions.Insert(0, new SaveChangesAction(xenObjectCopy, xenObjectBefore, true)); 
             }
-                
+
+            var objName = Helpers.GetName(xenObject).Ellipsise(50);
             _action = new MultipleAction(
                 connection,
-                string.Format(Messages.UPDATE_PROPERTIES, Helpers.GetName(xenObject).Ellipsise(50)),
+                string.Format(Messages.UPDATE_PROPERTIES, objName),
                 Messages.UPDATING_PROPERTIES,
-                Messages.UPDATED_PROPERTIES,
+                string.Format(Messages.UPDATED_PROPERTIES, objName),
                 actions);
 
             _action.SetObject(xenObjectCopy);

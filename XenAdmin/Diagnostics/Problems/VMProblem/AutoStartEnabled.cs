@@ -105,7 +105,7 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
                        };
         }
 
-        public override AsyncAction UnwindChanges()
+        public override AsyncAction CreateUnwindChangesAction()
         {
             return new DelegatedAsyncAction(
                _connection,

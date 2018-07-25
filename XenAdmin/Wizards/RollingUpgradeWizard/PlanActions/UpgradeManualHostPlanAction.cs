@@ -31,40 +31,50 @@
 
 using XenAPI;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Timers;
+using System.Windows.Forms;
+using XenAdmin.Core;
+using XenAdmin.Dialogs;
 using XenAdmin.Wizards.PatchingWizard.PlanActions;
 using Timer = System.Timers.Timer;
 
 
 namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
 {
-    public class UpgradeManualHostPlanAction : RebootPlanAction
+    public abstract class UpgradeHostPlanAction : RebootPlanAction
     {
-        public Timer timer = new Timer();
-
-        public UpgradeManualHostPlanAction(Host host)
-            : base(host, string.Format(Messages.UPGRADING_SERVER, host))
+        protected bool rebooting;
+        private readonly Timer timer;
+        protected readonly Control invokingControl;
+        
+        protected UpgradeHostPlanAction(Host host, Control invokingControl)
+            : base(host)
         {
-            TitlePlan = Messages.UPGRADING;
-            timer.Interval = 20 * 60000;
-            timer.AutoReset = true;
+            timer = new Timer { Interval = 20 * 60000, AutoReset = true };
             timer.Elapsed += timer_Elapsed;
+            this.invokingControl = invokingControl;
         }
 
-        void timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (rebooting && Timeout != null)
+            if (!rebooting)
+                return;
+
+            Program.Invoke(invokingControl, () =>
             {
-                Timeout(this, null);
-            }
+                using (var dialog = new NonModalThreeButtonDialog(SystemIcons.Exclamation,
+                    Messages.ROLLING_UPGRADE_TIMEOUT, Messages.ROLLING_POOL_UPGRADE,
+                    Messages.KEEP_WAITING_BUTTON_LABEL, Messages.CANCEL))
+                {
+                    if (dialog.ShowDialog(invokingControl) != DialogResult.OK)
+                        Cancel();
+                }
+            });
         }
 
-        public event EventHandler Timeout;
-
-        private bool rebooting = false;
-
-
-        protected override void RunWithSession(ref Session session)
+        protected void Upgrade(ref Session session)
         {
             try
             {
@@ -72,8 +82,8 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
 
                 if (hostObj.enabled)
                 {
-                    Status = Messages.PLAN_ACTION_STATUS_DISABLING_HOST_SERVER;
                     log.DebugFormat("Disabling host {0}", hostObj.Name());
+                    AddProgressStep(string.Format(Messages.UPDATES_WIZARD_ENTERING_MAINTENANCE_MODE, hostObj.Name()));
                     Host.disable(session, HostXenRef.opaque_ref);
                 }
 
@@ -81,26 +91,99 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
                 rebooting = true;
 
                 log.DebugFormat("Upgrading host {0}", hostObj.Name());
-                Status = Messages.PLAN_ACTION_STATUS_INSTALLING_XENSERVER;
+                AddProgressStep(string.Format(Messages.PLAN_ACTION_STATUS_INSTALLING_XENSERVER, hostObj.Name()));
 
                 log.DebugFormat("Waiting for host {0} to reboot", hostObj.Name());
                 WaitForReboot(ref session, Host.BootTime, s => Host.async_reboot(s, HostXenRef.opaque_ref));
 
-                Status = Messages.PLAN_ACTION_STATUS_RECONNECTING_STORAGE;
+                AddProgressStep(Messages.PLAN_ACTION_STATUS_RECONNECTING_STORAGE);
                 foreach (var host in Connection.Cache.Hosts)
-                    host.CheckAndPlugPBDs();  // Wait for PBDs to become plugged on all hosts
-                
+                    host.CheckAndPlugPBDs(); // Wait for PBDs to become plugged on all hosts
+
                 rebooting = false;
                 log.DebugFormat("Host {0} rebooted", hostObj.Name());
-                
-                Status = Messages.PLAN_ACTION_STATUS_HOST_UPGRADED;
-                log.DebugFormat("Upgraded host {0}", hostObj.Name());
             }
             finally
             {
                 Connection.ExpectDisruption = false;
                 timer.Stop();
             }
+        }
+    }
+
+    public class UpgradeManualHostPlanAction : UpgradeHostPlanAction
+    {
+        public UpgradeManualHostPlanAction(Host host, Control invokingControl)
+            : base(host, invokingControl)
+        {
+        }
+
+        protected override void RunWithSession(ref Session session)
+        {
+            //Show dialog prepare host boot from CD or PXE boot and click OK to reboot
+
+            Program.Invoke(invokingControl, () =>
+            {
+                using (var dialog = new NonModalThreeButtonDialog(SystemIcons.Information,
+                    string.Format(Messages.ROLLING_UPGRADE_REBOOT_MESSAGE, GetResolvedHost().Name()),
+                    Messages.ROLLING_POOL_UPGRADE, Messages.REBOOT, Messages.SKIP_SERVER))
+                {
+                    if (dialog.ShowDialog(invokingControl) != DialogResult.OK) // Cancel or Unknown
+                    {
+                        if (GetResolvedHost().IsMaster())
+                        {
+                            Error = new ApplicationException(Messages.EXCEPTION_USER_CANCELLED_MASTER);
+                            throw Error;
+                        }
+
+                        Error = new CancelledException();
+                    }
+                }
+            });
+
+            if (Error != null)
+                return;
+
+            var hostObj = GetResolvedHost();
+            string beforeRebootProductVersion = hostObj.LongProductVersion();
+            string hostName = hostObj.Name();
+
+            do
+            {
+                if (Cancelling)
+                    break;
+
+                Upgrade(ref session);
+
+                hostObj = GetResolvedHost();
+                if (Helpers.SameServerVersion(hostObj, beforeRebootProductVersion))
+                {
+                    var obj = hostObj;
+                    Program.Invoke(invokingControl, () =>
+                    {
+                        using (var dialog = new NonModalThreeButtonDialog(SystemIcons.Exclamation,
+                            string.Format(Messages.ROLLING_UPGRADE_REBOOT_AGAIN_MESSAGE, hostName),
+                            Messages.ROLLING_POOL_UPGRADE,
+                            Messages.REBOOT_AGAIN_BUTTON_LABEL, Messages.SKIP_SERVER))
+                        {
+                            if (dialog.ShowDialog(invokingControl) == DialogResult.OK)
+                                return;
+                            
+                            if (obj.IsMaster())
+                            {
+                                Error = new Exception(Messages.HOST_REBOOTED_SAME_VERSION);
+                                throw Error;
+                            }
+                            Error = new CancelledException();
+                            Cancel();
+                        }
+                    });
+                }
+                else
+                {
+                    break;
+                }
+            } while (true);
         }
     }
 }

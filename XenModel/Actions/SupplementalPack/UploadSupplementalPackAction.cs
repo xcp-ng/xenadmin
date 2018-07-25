@@ -34,6 +34,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using XenAdmin.Network;
 using XenAdmin.Core;
 using XenAPI;
@@ -41,17 +42,16 @@ using XenAPI;
 
 namespace XenAdmin.Actions
 {
-    public class UploadSupplementalPackAction : AsyncAction
+    public class UploadSupplementalPackAction : AsyncAction, IByteProgressAction
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private List<SR> srList = new List<SR>();
-
         private readonly string suppPackFilePath;
-        private readonly long diskSize;
+        private readonly long _totalUpdateSize;
         private readonly List<Host> servers;
 
-        private Pool_update poolUpdate = null;
+        private Pool_update poolUpdate;
+        private readonly string _updateName;
 
         public Dictionary<Host, SR> SrUploadedUpdates = new Dictionary<Host, SR>();
 
@@ -61,9 +61,6 @@ namespace XenAdmin.Actions
         }
 
 
-        /// <summary>
-        /// This constructor is used to upload a single supplemental pack file
-        /// </summary>
         public UploadSupplementalPackAction(IXenConnection connection, List<Host> selectedServers, string path, bool suppressHistory)
             : base(connection, null, Messages.SUPP_PACK_UPLOADING, suppressHistory)
         {
@@ -78,26 +75,23 @@ namespace XenAdmin.Actions
             
             Host = master;
             suppPackFilePath = path;
-            diskSize = FileSize(suppPackFilePath);
+            _updateName = Path.GetFileNameWithoutExtension(suppPackFilePath);
+            _totalUpdateSize = (new FileInfo(path)).Length;
             servers = selectedServers;
         }
 
         public readonly Dictionary<Host, XenRef<VDI>> VdiRefsToCleanUp = new Dictionary<Host, XenRef<VDI>>();
 
-        private static long FileSize(string path)
-        {
-            FileInfo fileInfo = new FileInfo(path);
-            return fileInfo.Length;
-        }
+        public string ByteProgressDescription { get; set; }
 
         protected override void Run()
         {
             SafeToExit = false;
 
-            SelectTargetSr();
+            var srList = SelectTargetSr();
 
             if (srList.Count == 0)
-                throw new Failure(Failure.OUT_OF_SPACE);
+                throw new Exception(Messages.HOTFIX_APPLY_ERROR_NO_SR);
 
             totalCount = srList.Count;
             foreach (var sr in srList)
@@ -116,24 +110,11 @@ namespace XenAdmin.Actions
 
         private string UploadSupplementalPack(SR sr)
         {
-            this.Description = String.Format(Messages.SUPP_PACK_UPLOADING_TO, sr.Name());
-
-            String result;
-            log.DebugFormat("Creating vdi of size {0} bytes on SR '{1}'", diskSize, sr.Name());
+            this.Description = String.Format(Messages.SUPP_PACK_UPLOADING_TO, _updateName, sr.Name());
+            log.DebugFormat("Creating vdi of size {0} bytes on SR '{1}'", _totalUpdateSize, sr.Name());
 
             VDI vdi = NewVDI(sr);
-            XenRef<VDI> vdiRef = null;
-            try
-            {
-                vdiRef = VDI.create(Session, vdi);
-            }
-            catch (Exception ex)
-            {
-                log.ErrorFormat("{0} {1}", "Failed to create VDI", ex.Message);
-                throw;
-            }
-
-            log.DebugFormat("Uploading file '{0}' to VDI '{1}' on SR '{2}'", suppPackFilePath, vdi.Name(), sr.Name());
+            var vdiRef = VDI.create(Session, vdi);
 
             Host localStorageHost = sr.GetStorageHost();
 
@@ -151,12 +132,20 @@ namespace XenAdmin.Actions
 
             log.DebugFormat("Using {0} for import", hostUrl);
 
+            string result;
             try
             {
+                log.DebugFormat("Uploading file '{0}' to VDI '{1}' on SR '{2}'", suppPackFilePath, vdi.Name(), sr.Name());
+
                 HTTP.UpdateProgressDelegate progressDelegate = delegate(int percent)
                 {
-                    var actionPercent = (int)(((totalUploaded * 100) + percent) / totalCount);
-                    Tick(actionPercent, Description);
+                    var sr1 = sr;
+                    var descr = string.Format(Messages.UPLOAD_PATCH_UPLOADING_TO_SR_PROGRESS_DESCRIPTION, _updateName, sr1.Name(),
+                        Util.DiskSizeString(percent * _totalUpdateSize / 100, "F1"), Util.DiskSizeString(_totalUpdateSize));
+
+                    var actionPercent = (int)((totalUploaded * 100 + percent) / totalCount);
+                    ByteProgressDescription = descr;
+                    Tick(actionPercent, descr);
                 };
 
                 Session session = NewSession();
@@ -168,20 +157,19 @@ namespace XenAdmin.Actions
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("{0} {1}", "Failed to import a virtual disk over HTTP.", ex.Message);
+                log.Error("Failed to import a virtual disk over HTTP", ex);
 
                 if (vdiRef != null)
                 {
-                    log.DebugFormat("Removing the VDI on a best effort basis.");
-
                     try
                     {
-                        RemoveVDI(Session, vdiRef);
+                        log.ErrorFormat("Deleting VDI '{0}' on a best effort basis.", vdiRef.opaque_ref);
+                        Thread.Sleep(1000);
+                        VDI.destroy(Session, vdiRef);
                     }
                     catch (Exception removeEx)
                     {
-                        //best effort
-                        log.Error("Failed to remove the VDI.", removeEx);
+                        log.Error("Failed to remove VDI.", removeEx);
                     }
                 }
 
@@ -189,19 +177,13 @@ namespace XenAdmin.Actions
                 if (ex is TargetInvocationException && ex.InnerException != null)
                     throw ex.InnerException;
                 else
-                    throw ex; 
+                    throw; 
             }
             finally
             {
                 Task.destroy(Session, RelatedTask);
                 RelatedTask = null;
             }
-
-            if (localStorageHost != null)
-                VdiRefsToCleanUp.Add(localStorageHost, vdiRef);
-            else // shared SR
-                foreach (var server in servers)
-                    VdiRefsToCleanUp.Add(server, vdiRef);
 
             //introduce ISO for Ely and higher
             if (Helpers.ElyOrGreater(Connection))
@@ -213,49 +195,44 @@ namespace XenAdmin.Actions
 
                     if (poolUpdate == null)
                         throw new Exception(Messages.UPDATE_ERROR_INTRODUCE); // This should not happen, because such case will result in a XAPI Failure. But this code has to be protected at this point.
-
-                    VdiRefsToCleanUp.Clear();
-                }
-                catch (Failure ex)
-                {
-                    if (ex.ErrorDescription != null && ex.ErrorDescription.Count > 1 && string.Equals("UPDATE_ALREADY_EXISTS", ex.ErrorDescription[0], StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        string uuidFound = ex.ErrorDescription[1];
-
-                        poolUpdate = Connection.Cache.Pool_updates.FirstOrDefault(pu => string.Equals(pu.uuid, uuidFound, System.StringComparison.InvariantCultureIgnoreCase));
-
-                        //clean-up the VDI we've just created
-                        try
-                        {
-                            RemoveVDI(Session, vdiRef);
-
-                            //remove the vdi that have just been cleaned up
-                            var remaining = VdiRefsToCleanUp.Where(kvp => kvp.Value != null && kvp.Value.opaque_ref != vdiRef.opaque_ref).ToList();
-                            VdiRefsToCleanUp.Clear();
-                            remaining.ForEach(rem => VdiRefsToCleanUp.Add(rem.Key, rem.Value));
-                        }
-                        catch
-                        { 
-                            //best effort cleanup
-                        }
-
-                    }
-                    else
-                    {
-                        throw;
-                    }
                 }
                 catch (Exception ex)
                 {
-                    log.ErrorFormat("Upload failed when introducing update from VDI {0} on {1}: {2}", vdi.opaque_ref, Connection, ex.Message);
-                    poolUpdate = null;
+                    //clean-up the VDI we've just created
+                    try
+                    {
+                        log.ErrorFormat("Deleting VDI '{0}' on a best effor basis.", vdiRef);
+                        VDI.destroy(Session, vdiRef);
+                    }
+                    catch (Exception removeEx)
+                    {
+                        log.Error("Failed to remove VDI", removeEx);
+                    }
+                    
+                    var failure = ex as Failure;
+                    if (failure != null && failure.ErrorDescription != null && failure.ErrorDescription.Count > 1 && failure.ErrorDescription[0] == Failure.UPDATE_ALREADY_EXISTS)
+                    {
+                        string uuidFound = failure.ErrorDescription[1];
 
-                    throw;
+                        poolUpdate = Connection.Cache.Pool_updates.FirstOrDefault(pu => string.Equals(pu.uuid, uuidFound, StringComparison.InvariantCultureIgnoreCase));
+                    }
+                    else
+                    {
+                        log.Error("Failed to introduce the update", ex);
+                        poolUpdate = null;
+                        throw;
+                    }
                 }
             }
             else
             {
                 poolUpdate = null;
+
+                if (localStorageHost != null)
+                    VdiRefsToCleanUp.Add(localStorageHost, vdiRef);
+                else // shared SR
+                    foreach (var server in servers)
+                        VdiRefsToCleanUp.Add(server, vdiRef);
             }
 
             totalUploaded++;
@@ -273,7 +250,7 @@ namespace XenAdmin.Actions
             vdi.Connection = Connection;
             vdi.read_only = false;
             vdi.SR = new XenRef<SR>(sr);
-            vdi.virtual_size = diskSize;
+            vdi.virtual_size = _totalUpdateSize;
             vdi.name_label = new FileInfo(suppPackFilePath).Name;
             vdi.name_description = Helpers.ElyOrGreater(Connection) ? Messages.UPDATE_TEMP_VDI_DESCRIPTION : Messages.SUPP_PACK_TEMP_VDI_DESCRIPTION;
             vdi.sharable = false;
@@ -284,85 +261,68 @@ namespace XenAdmin.Actions
             return vdi;
         }
 
-        private void RemoveVDI(Session session, XenRef<VDI> vdi)
+        private List<SR> SelectTargetSr()
         {
-            try
-            {
-                log.ErrorFormat("Deleting VDI '{0}'", vdi.opaque_ref);
-                VDI.destroy(session, vdi.opaque_ref);
-            }
-            catch (Exception ex)
-            {
-                log.ErrorFormat("{0}, {1}", "Failed to remove a vdi", ex.Message);
-                throw;
-            }
-            return;
-        }
+            /* For ely or greater (update ISOs) we need an SR that can be seen from master;
+             * that would be a shared SR or the master's local SR.
+             * 
+             * For earlier (supplemental packs) we need an SR that can be seen from all hosts;
+             * that would be a shared SR, otherwise we have to upload to each hosts's local SR
+             * 
+             * The selection priority is default SRs over non-default and shared over local.
+             */
 
-        private void SelectTargetSr()
-        {
             SR defaultSr = Pool != null ? Pool.Connection.Resolve(Pool.default_SR) : null;
-            if ((defaultSr != null && defaultSr.shared) && CanCreateVdi(defaultSr))
-            {
-                srList.Add(defaultSr);
-                return;
-            }
             
-            // no default shared SR where we can upload the file -> find another shared SR
-            
-            var sharedSr = Connection.Cache.SRs.FirstOrDefault(sr => sr.shared && CanCreateVdi(sr));
-            if (sharedSr != null)
-            {
-                srList.Add(sharedSr);
-                return;
-            }
+            var serversToConsider = Helpers.ElyOrGreater(Connection)
+                ? new List<Host> {Helpers.GetMaster(Connection)}
+                : new List<Host>(servers);
 
-            // no shared SR where we can upload the file -> will have to upload on the local SRs
-                
-            //For Ely or greater, the ISO has to be uploaded to exactly one SR, even if it's not a shared one
-            if (Helpers.ElyOrGreater(Connection))
+            var srList = new List<SR>();
+
+            foreach (var host in serversToConsider)
             {
-                if (defaultSr != null && CanCreateVdi(defaultSr))
+                var visibleSRs = Connection.Cache.SRs.Where(sr => CanStoreUpdateForHost(sr, host)).ToList();
+
+                if (defaultSr != null && visibleSRs.Contains(defaultSr) && !srList.Contains(defaultSr))
                 {
                     srList.Add(defaultSr);
+                    continue;
                 }
-                else
+
+                var sharedSr = visibleSRs.FirstOrDefault(sr => sr.shared);
+                if (sharedSr != null && !srList.Contains(sharedSr))
                 {
-                    var firstSrCanCreateVdi = Connection.Cache.SRs.First(sr => CanCreateVdi(sr));
-                    if (firstSrCanCreateVdi != null)
-                        srList.Add(firstSrCanCreateVdi);
+                    srList.Add(sharedSr);
+                    continue;
+                }
+
+                if (visibleSRs.Count > 0)
+                    srList.Add(visibleSRs[0]);
+            }
+
+            return srList;
+        }
+
+        private bool CanStoreUpdateForHost(SR sr, Host host)
+        {
+            if (!sr.SupportsVdiCreate())
+                return false;
+
+            if (sr.FreeSpace() < _totalUpdateSize)
+                return false;
+
+            var canBeSeen = false;
+            foreach (var pbdRef in sr.PBDs)
+            {
+                var pbd = Connection.Resolve(pbdRef);
+                if (pbd != null && pbd.currently_attached && pbd.host.opaque_ref == host.opaque_ref)
+                {
+                    canBeSeen = true;
+                    break;
                 }
             }
-            else //legacy case (supplemental packs)
-            {
-                SelectLocalSrs();
-            }
-        }
-
-        private void SelectLocalSrs()
-        {
-            foreach (var host in servers)
-            {
-                // get the list of local SRs where we can create the vdi
-                var localSrs = Connection.Cache.SRs.Where(sr => host.Equals(sr.GetStorageHost()) && CanCreateVdi(sr)).ToList();
-
-                // if the default SR is in this list, then select it, otherwise select first SR from the list
-                var defaultSr = Host.Connection.Resolve(Pool.default_SR);
-                if (localSrs.Contains(defaultSr))
-                    srList.Add(defaultSr);
-                else if (localSrs.Count > 0)
-                    srList.Add(localSrs[0]);
-            }
-        }
-
-        private bool CanCreateVdi(SR sr)
-        {
-            return sr.SupportsVdiCreate() && !sr.IsDetached() && SrHasEnoughFreeSpace(sr); 
-        }
-
-        private bool SrHasEnoughFreeSpace(SR sr)
-        {
-            return sr.FreeSpace() >= diskSize; 
+            return canBeSeen;
         }
     }
 }

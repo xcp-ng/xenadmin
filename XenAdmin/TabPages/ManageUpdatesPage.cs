@@ -453,8 +453,9 @@ namespace XenAdmin.TabPages
         {
             List<string> result = new List<string>();
 
-            foreach (Pool_patch patch in host.AppliedPatches())
-                result.Add(patch.Name());
+            result.AddRange(Helpers.ElyOrGreater(host)
+                ? host.AppliedUpdates().Select(u => u.Name())
+                : host.AppliedPatches().Select(p => p.Name()));
 
             result.Sort(StringUtility.NaturalCompare);
             return string.Join(", ", result.ToArray());
@@ -463,6 +464,11 @@ namespace XenAdmin.TabPages
         private bool VersionFoundInUpdatesXml(IXenConnection connection)
         {
             return connection.Cache.Hosts.All(h => Updates.GetServerVersions(h, Updates.XenServerVersions).Count > 0);
+        }
+
+        private bool VersionFoundInUpdatesXml(Host host)
+        {
+            return Updates.GetServerVersions(host, Updates.XenServerVersions).Count > 0;
         }
 
         private void RebuildHostView()
@@ -500,11 +506,10 @@ namespace XenAdmin.TabPages
                 foreach (IXenConnection c in xenConnections)
                 {
                     Pool pool = Helpers.GetPool(c);
-                    var versionIsFound = VersionFoundInUpdatesXml(c);
 
                     if (pool != null)          // pool row
                     {
-                        UpdatePageDataGridViewRow row = new UpdatePageDataGridViewRow(pool, CheckForUpdateSucceeded && versionIsFound);
+                        UpdatePageDataGridViewRow row = new UpdatePageDataGridViewRow(pool, CheckForUpdateSucceeded && VersionFoundInUpdatesXml(c));
                         var hostUuidList = new List<string>();
 
                         foreach (Host h in c.Cache.Hosts)
@@ -519,7 +524,7 @@ namespace XenAdmin.TabPages
                     Array.Sort(hosts);
                     foreach (Host h in hosts)       // host row
                     {
-                        UpdatePageDataGridViewRow row = new UpdatePageDataGridViewRow(h, pool != null, CheckForUpdateSucceeded && versionIsFound);
+                        UpdatePageDataGridViewRow row = new UpdatePageDataGridViewRow(h, pool != null, CheckForUpdateSucceeded && VersionFoundInUpdatesXml(h));
 
                         // add row based on server filter status
                         if (!toolStripDropDownButtonServerFilter.HideByLocation(h.uuid))
@@ -1405,7 +1410,7 @@ namespace XenAdmin.TabPages
             string patchingStatus = String.Empty;
             string requiredUpdates = String.Empty;
             string installedUpdates = String.Empty;
-            var versionIsFound = VersionFoundInUpdatesXml(xenConnection);
+            var versionIsFound = VersionFoundInUpdatesXml(host);
 
             pool = hasPool ? Helpers.GetPool(xenConnection).Name() : String.Empty;
             requiredUpdates = CheckForUpdateSucceeded && versionIsFound ? RequiredUpdatesForHost(host) : String.Empty;

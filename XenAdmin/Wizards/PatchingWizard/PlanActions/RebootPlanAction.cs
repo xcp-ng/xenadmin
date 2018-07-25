@@ -41,8 +41,8 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
     {
         private bool _cancelled = false;
 
-        protected RebootPlanAction(Host host, string title)
-            : base(host, title)
+        protected RebootPlanAction(Host host)
+            : base(host)
         {
         }
 
@@ -67,14 +67,22 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
             Connection.ConnectionLost -= connection_ConnectionLost;
         }
 
+        protected void RestartAgent(ref Session session)
+        {
+            var hostObj = GetResolvedHost();
+            AddProgressStep(string.Format(Messages.UPDATES_WIZARD_RESTARTING_AGENT, hostObj.Name()));
+            WaitForReboot(ref session, Host.AgentStartTime, s => Host.async_restart_agent(s, HostXenRef.opaque_ref));
+        }
+
         protected void RebootHost(ref Session session)
         {
             var hostObj = GetResolvedHost();
-            Title = string.Format(Messages.UPDATES_WIZARD_REBOOTING, hostObj.Name());
+            AddProgressStep(string.Format(Messages.UPDATES_WIZARD_REBOOTING, hostObj.Name()));
             Connection.ExpectDisruption = true;
             try
             {
                 WaitForReboot(ref session, Host.BootTime, s => Host.async_reboot(s, HostXenRef.opaque_ref));
+                AddProgressStep(Messages.PLAN_ACTION_STATUS_RECONNECTING_STORAGE);
                 foreach (var host in Connection.Cache.Hosts)
                     host.CheckAndPlugPBDs();  // Wait for PBDs to become plugged on all hosts
             }

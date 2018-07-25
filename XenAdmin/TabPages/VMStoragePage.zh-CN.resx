@@ -477,9 +477,6 @@
   <data name="ColumnDevicePosition.HeaderText" xml:space="preserve">
     <value>位置</value>
   </data>
-  <data name="ColumnDevicePosition.MinimumWidth" type="System.Int32, mscorlib">
-    <value>74</value>
-  </data>
   <data name="ColumnDevicePosition.Width" type="System.Int32, mscorlib">
     <value>74</value>
   </data>
@@ -488,6 +485,9 @@
   </metadata>
   <data name="ColumnName.HeaderText" xml:space="preserve">
     <value>名称</value>
+  </data>
+  <data name="ColumnName.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
   <data name="ColumnName.Width" type="System.Int32, mscorlib">
     <value>61</value>
@@ -498,11 +498,17 @@
   <data name="ColumnDesc.HeaderText" xml:space="preserve">
     <value>说明</value>
   </data>
+  <data name="ColumnDesc.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
   <metadata name="ColumnSR.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="ColumnSR.HeaderText" xml:space="preserve">
     <value>SR</value>
+  </data>
+  <data name="ColumnSR.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
   <data name="ColumnSR.Width" type="System.Int32, mscorlib">
     <value>45</value>
@@ -512,6 +518,9 @@
   </metadata>
   <data name="ColumnSRVolume.HeaderText" xml:space="preserve">
     <value>卷</value>
+  </data>
+  <data name="ColumnSRVolume.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
   <data name="ColumnSRVolume.Width" type="System.Int32, mscorlib">
     <value>71</value>
@@ -643,7 +652,7 @@
     <value>pageContainerPanel</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="flowLayoutPanel1" Row="2" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="dataGridViewStorage" Row="1" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="multipleDvdIsoList1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" />&lt;/Controls>&lt;Columns Styles="Percent,100" />&lt;Rows Styles="AutoSize,0,Percent,75,Percent,25" />&lt;/TableLayoutSettings></value>

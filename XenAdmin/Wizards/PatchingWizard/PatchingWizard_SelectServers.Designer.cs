@@ -131,6 +131,7 @@ namespace XenAdmin.Wizards.PatchingWizard
             this.tableLayoutPanel1.SetColumnSpan(this.applyUpdatesCheckBox, 2);
             this.applyUpdatesCheckBox.Name = "applyUpdatesCheckBox";
             this.applyUpdatesCheckBox.UseVisualStyleBackColor = true;
+            this.applyUpdatesCheckBox.CheckedChanged += new System.EventHandler(this.applyUpdatesCheckBox_CheckedChanged);
             // 
             // buttonSelectAll
             // 

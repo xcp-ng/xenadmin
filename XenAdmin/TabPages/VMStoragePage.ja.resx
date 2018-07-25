@@ -477,9 +477,6 @@
   <data name="ColumnDevicePosition.HeaderText" xml:space="preserve">
     <value>場所</value>
   </data>
-  <data name="ColumnDevicePosition.MinimumWidth" type="System.Int32, mscorlib">
-    <value>74</value>
-  </data>
   <data name="ColumnDevicePosition.Width" type="System.Int32, mscorlib">
     <value>74</value>
   </data>
@@ -488,6 +485,9 @@
   </metadata>
   <data name="ColumnName.HeaderText" xml:space="preserve">
     <value>名前</value>
+  </data>
+  <data name="ColumnName.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
   <data name="ColumnName.Width" type="System.Int32, mscorlib">
     <value>61</value>
@@ -498,11 +498,17 @@
   <data name="ColumnDesc.HeaderText" xml:space="preserve">
     <value>説明</value>
   </data>
+  <data name="ColumnDesc.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
   <metadata name="ColumnSR.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="ColumnSR.HeaderText" xml:space="preserve">
     <value>SR</value>
+  </data>
+  <data name="ColumnSR.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
   <data name="ColumnSR.Width" type="System.Int32, mscorlib">
     <value>45</value>
@@ -512,6 +518,9 @@
   </metadata>
   <data name="ColumnSRVolume.HeaderText" xml:space="preserve">
     <value>ボリューム</value>
+  </data>
+  <data name="ColumnSRVolume.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
   <data name="ColumnSRVolume.Width" type="System.Int32, mscorlib">
     <value>71</value>

@@ -166,10 +166,7 @@
     <value>NoControl</value>
   </data>
   <data name="CheckBoxEnableClustering.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 75</value>
-  </data>
-  <data name="CheckBoxEnableClustering.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>7, 3, 3, 3</value>
+    <value>3, 75</value>
   </data>
   <data name="CheckBoxEnableClustering.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 17</value>
@@ -202,10 +199,10 @@
     <value>NoControl</value>
   </data>
   <data name="labelNetwork.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 102</value>
+    <value>20, 102</value>
   </data>
   <data name="labelNetwork.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>22, 0, 3, 0</value>
+    <value>20, 3, 3, 3</value>
   </data>
   <data name="labelNetwork.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 13</value>
@@ -229,7 +226,7 @@
     <value>2</value>
   </data>
   <data name="comboBoxNetwork.Location" type="System.Drawing.Point, System.Drawing">
-    <value>78, 98</value>
+    <value>76, 98</value>
   </data>
   <data name="comboBoxNetwork.Size" type="System.Drawing.Size, System.Drawing">
     <value>223, 21</value>
@@ -249,6 +246,9 @@
   <data name="&gt;&gt;comboBoxNetwork.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="tableLayoutInfo.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="tableLayoutInfo.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
@@ -259,16 +259,10 @@
     <value>NoControl</value>
   </data>
   <data name="pictureBoxInfo2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 51</value>
-  </data>
-  <data name="pictureBoxInfo2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 6, 3, 0</value>
+    <value>3, 42</value>
   </data>
   <data name="pictureBoxInfo2.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
-  </data>
-  <data name="pictureBoxInfo2.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>AutoSize</value>
   </data>
   <data name="pictureBoxInfo2.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -292,19 +286,19 @@
     <value>NoControl</value>
   </data>
   <data name="pictureBoxInfo1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 6</value>
+    <value>3, 3</value>
   </data>
   <data name="pictureBoxInfo1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 6, 3, 3</value>
+    <value>3, 3, 3, 20</value>
   </data>
   <data name="pictureBoxInfo1.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
   </data>
-  <data name="pictureBoxInfo1.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>AutoSize</value>
-  </data>
   <data name="pictureBoxInfo1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
+  </data>
+  <data name="pictureBoxInfo1.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;pictureBoxInfo1.Name" xml:space="preserve">
     <value>pictureBoxInfo1</value>
@@ -328,13 +322,13 @@
     <value>NoControl</value>
   </data>
   <data name="labelWarning.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 6</value>
+    <value>25, 3</value>
   </data>
   <data name="labelWarning.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 6, 3, 0</value>
+    <value>3, 3, 3, 20</value>
   </data>
   <data name="labelWarning.Size" type="System.Drawing.Size, System.Drawing">
-    <value>459, 19</value>
+    <value>456, 16</value>
   </data>
   <data name="labelWarning.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -364,13 +358,13 @@
     <value>NoControl</value>
   </data>
   <data name="labelInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 51</value>
+    <value>25, 42</value>
   </data>
   <data name="labelInfo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 6, 3, 0</value>
+    <value>3, 3, 3, 3</value>
   </data>
   <data name="labelInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>459, 26</value>
+    <value>456, 26</value>
   </data>
   <data name="labelInfo.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -393,20 +387,17 @@
   <data name="labelHostCountWarning.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="labelHostCountWarning.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
   <data name="labelHostCountWarning.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="labelHostCountWarning.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 83</value>
+    <value>25, 74</value>
   </data>
   <data name="labelHostCountWarning.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 6, 3, 0</value>
+    <value>3, 3, 3, 3</value>
   </data>
   <data name="labelHostCountWarning.Size" type="System.Drawing.Size, System.Drawing">
-    <value>459, 107</value>
+    <value>307, 13</value>
   </data>
   <data name="labelHostCountWarning.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -430,13 +421,13 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 125</value>
+    <value>3, 175</value>
   </data>
   <data name="tableLayoutInfo.RowCount" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="tableLayoutInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>484, 190</value>
+    <value>484, 140</value>
   </data>
   <data name="tableLayoutInfo.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -454,7 +445,106 @@
     <value>4</value>
   </data>
   <data name="tableLayoutInfo.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pictureBoxInfo2" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="pictureBoxInfo1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelWarning" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="labelInfo" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="labelHostCountWarning" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,Absolute,20,AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pictureBoxInfo2" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="pictureBoxInfo1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelWarning" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="labelInfo" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="labelHostCountWarning" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,Percent,100,Absolute,20,Absolute,20,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tableLayoutPanelNetworkWarning.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanelNetworkWarning.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tableLayoutPanelNetworkWarning.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="pictureBox1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="pictureBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 16</value>
+  </data>
+  <data name="pictureBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;pictureBox1.Name" xml:space="preserve">
+    <value>pictureBox1</value>
+  </data>
+  <data name="&gt;&gt;pictureBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pictureBox1.Parent" xml:space="preserve">
+    <value>tableLayoutPanelNetworkWarning</value>
+  </data>
+  <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="labelInconsistentNetwork.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelInconsistentNetwork.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="labelInconsistentNetwork.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="labelInconsistentNetwork.Location" type="System.Drawing.Point, System.Drawing">
+    <value>25, 3</value>
+  </data>
+  <data name="labelInconsistentNetwork.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="labelInconsistentNetwork.Size" type="System.Drawing.Size, System.Drawing">
+    <value>383, 38</value>
+  </data>
+  <data name="labelInconsistentNetwork.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="labelInconsistentNetwork.Text" xml:space="preserve">
+    <value>Inconsistent cluster network. This is normal during creation or deletion of bond.</value>
+  </data>
+  <data name="&gt;&gt;labelInconsistentNetwork.Name" xml:space="preserve">
+    <value>labelInconsistentNetwork</value>
+  </data>
+  <data name="&gt;&gt;labelInconsistentNetwork.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelInconsistentNetwork.Parent" xml:space="preserve">
+    <value>tableLayoutPanelNetworkWarning</value>
+  </data>
+  <data name="&gt;&gt;labelInconsistentNetwork.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanelNetworkWarning.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayoutPanelNetworkWarning.Location" type="System.Drawing.Point, System.Drawing">
+    <value>76, 125</value>
+  </data>
+  <data name="tableLayoutPanelNetworkWarning.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanelNetworkWarning.Size" type="System.Drawing.Size, System.Drawing">
+    <value>411, 44</value>
+  </data>
+  <data name="tableLayoutPanelNetworkWarning.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanelNetworkWarning.Name" xml:space="preserve">
+    <value>tableLayoutPanelNetworkWarning</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanelNetworkWarning.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanelNetworkWarning.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanelNetworkWarning.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="tableLayoutPanelNetworkWarning.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pictureBox1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelInconsistentNetwork" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -463,7 +553,7 @@
     <value>0, 0</value>
   </data>
   <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>490, 318</value>
@@ -484,7 +574,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="labelTitle" Row="0" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="CheckBoxEnableClustering" Row="1" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="labelNetwork" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="comboBoxNetwork" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutInfo" Row="3" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="labelTitle" Row="0" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="CheckBoxEnableClustering" Row="1" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="labelNetwork" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="comboBoxNetwork" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutInfo" Row="4" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="tableLayoutPanelNetworkWarning" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,Absolute,50,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
