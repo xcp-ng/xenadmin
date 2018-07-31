@@ -14,6 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xva_verify", "xva_verify\xv
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "splash", "splash\splash.vcxproj", "{AFB19C9D-DD63-478B-A4A3-8452CBD0B9AB}"
 	ProjectSection(ProjectDependencies) = postProject
+		{727E885D-14BE-40F0-9D0B-3853D44D3984} = {727E885D-14BE-40F0-9D0B-3853D44D3984}
 		{70BDA4BC-F062-4302-8ACD-A15D8BF31D65} = {70BDA4BC-F062-4302-8ACD-A15D8BF31D65}
 	EndProjectSection
 EndProject
