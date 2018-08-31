@@ -249,11 +249,11 @@ namespace XenAdmin
             this.bugToolToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
             this.healthCheckToolStripMenuItem1 = new XenAdmin.Commands.CommandToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-            this.LicenseManagerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-            this.installNewUpdateToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
-            this.rollingUpgradeToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            //this.LicenseManagerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            //this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            //this.installNewUpdateToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
+            //this.rollingUpgradeToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
+            //this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.pluginItemsPlaceHolderToolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1670,11 +1670,11 @@ namespace XenAdmin
             this.bugToolToolStripMenuItem,
             this.healthCheckToolStripMenuItem1,
             this.toolStripSeparator14,
-            this.LicenseManagerMenuItem,
-            this.toolStripSeparator13,
-            this.installNewUpdateToolStripMenuItem,
-            this.rollingUpgradeToolStripMenuItem,
-            this.toolStripSeparator6,
+            //this.LicenseManagerMenuItem,
+            //this.toolStripSeparator13,
+            //this.installNewUpdateToolStripMenuItem,
+            //this.rollingUpgradeToolStripMenuItem,
+            //this.toolStripSeparator6,
             this.pluginItemsPlaceHolderToolStripMenuItem7,
             this.preferencesToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
@@ -1699,31 +1699,31 @@ namespace XenAdmin
             // 
             // LicenseManagerMenuItem
             // 
-            this.LicenseManagerMenuItem.Name = "LicenseManagerMenuItem";
-            resources.ApplyResources(this.LicenseManagerMenuItem, "LicenseManagerMenuItem");
-            this.LicenseManagerMenuItem.Click += new System.EventHandler(this.LicenseManagerMenuItem_Click);
+            //this.LicenseManagerMenuItem.Name = "LicenseManagerMenuItem";
+            //resources.ApplyResources(this.LicenseManagerMenuItem, "LicenseManagerMenuItem");
+            //this.LicenseManagerMenuItem.Click += new System.EventHandler(this.LicenseManagerMenuItem_Click);
             // 
             // toolStripSeparator13
             // 
-            this.toolStripSeparator13.Name = "toolStripSeparator13";
-            resources.ApplyResources(this.toolStripSeparator13, "toolStripSeparator13");
+            //this.toolStripSeparator13.Name = "toolStripSeparator13";
+            //resources.ApplyResources(this.toolStripSeparator13, "toolStripSeparator13");
             // 
             // installNewUpdateToolStripMenuItem
             // 
-            this.installNewUpdateToolStripMenuItem.Command = new XenAdmin.Commands.InstallNewUpdateCommand();
-            this.installNewUpdateToolStripMenuItem.Name = "installNewUpdateToolStripMenuItem";
-            resources.ApplyResources(this.installNewUpdateToolStripMenuItem, "installNewUpdateToolStripMenuItem");
+            //this.installNewUpdateToolStripMenuItem.Command = new XenAdmin.Commands.InstallNewUpdateCommand();
+            //this.installNewUpdateToolStripMenuItem.Name = "installNewUpdateToolStripMenuItem";
+            //resources.ApplyResources(this.installNewUpdateToolStripMenuItem, "installNewUpdateToolStripMenuItem");
             // 
             // rollingUpgradeToolStripMenuItem
             // 
-            this.rollingUpgradeToolStripMenuItem.Command = new XenAdmin.Commands.RollingUpgradeCommand();
-            this.rollingUpgradeToolStripMenuItem.Name = "rollingUpgradeToolStripMenuItem";
-            resources.ApplyResources(this.rollingUpgradeToolStripMenuItem, "rollingUpgradeToolStripMenuItem");
+            //this.rollingUpgradeToolStripMenuItem.Command = new XenAdmin.Commands.RollingUpgradeCommand();
+            //this.rollingUpgradeToolStripMenuItem.Name = "rollingUpgradeToolStripMenuItem";
+            //resources.ApplyResources(this.rollingUpgradeToolStripMenuItem, "rollingUpgradeToolStripMenuItem");
             // 
             // toolStripSeparator6
             // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
+            //this.toolStripSeparator6.Name = "toolStripSeparator6";
+            //resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
             // 
             // pluginItemsPlaceHolderToolStripMenuItem7
             // 
@@ -2019,9 +2019,9 @@ namespace XenAdmin
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private XenAdmin.Commands.CommandToolStripMenuItem bugToolToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
-        private System.Windows.Forms.ToolStripMenuItem LicenseManagerMenuItem;
-        private XenAdmin.Commands.CommandToolStripMenuItem installNewUpdateToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        //private System.Windows.Forms.ToolStripMenuItem LicenseManagerMenuItem;
+        //private CommandToolStripMenuItem installNewUpdateToolStripMenuItem;
+        //private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
@@ -2035,7 +2035,7 @@ namespace XenAdmin
         private System.Windows.Forms.ToolStripMenuItem aboutXenSourceAdminToolStripMenuItem;
         private XenAdmin.Controls.MenuStripEx MainMenuBar;
         private System.Windows.Forms.Panel MenuPanel;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+        //private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
         private System.Windows.Forms.ToolStripMenuItem toolbarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ShowHiddenObjectsToolStripMenuItem;
@@ -2086,47 +2086,48 @@ namespace XenAdmin
         private XenAdmin.Commands.CommandToolStripMenuItem poolReconnectAsToolStripMenuItem;
         internal System.Windows.Forms.TabPage TabPageAD;
         private System.Windows.Forms.TabPage TabPageGPU;
-        private XenAdmin.Commands.CommandToolStripMenuItem powerOnToolStripMenuItem;
-        private XenAdmin.Commands.CommandToolStripButton shutDownToolStripButton;
-        private XenAdmin.Commands.CommandToolStripButton startVMToolStripButton;
-        private XenAdmin.Commands.CommandToolStripButton powerOnHostToolStripButton;
-        private XenAdmin.Commands.CommandToolStripButton resumeToolStripButton;
-        private XenAdmin.Commands.MigrateVMToolStripMenuItem relocateToolStripMenuItem;
-        private XenAdmin.Commands.StartVMOnHostToolStripMenuItem startOnHostToolStripMenuItem;
-        private XenAdmin.Commands.ResumeVMOnHostToolStripMenuItem resumeOnToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem6;
-        private System.Windows.Forms.ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem7;
-        private System.Windows.Forms.ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem9;
-        private System.Windows.Forms.ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem8;
-        private System.Windows.Forms.ToolStripMenuItem xenCenterPluginsOnlineToolStripMenuItem;
-        private XenAdmin.Commands.CommandToolStripMenuItem MoveVMToolStripMenuItem;
-        private XenAdmin.Commands.CommandToolStripMenuItem rollingUpgradeToolStripMenuItem;
-        private XenAdmin.Commands.CommandToolStripMenuItem changePoolPasswordToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
-        private XenAdmin.Commands.CommandToolStripMenuItem virtualAppliancesToolStripMenuItem;
-        private XenAdmin.Commands.AssignGroupToolStripMenuItemVM_appliance assignToVirtualApplianceToolStripMenuItem;
-        private XenAdmin.Commands.CommandToolStripMenuItem disasterRecoveryToolStripMenuItem;
-        private XenAdmin.Commands.CommandToolStripMenuItem DrWizardToolStripMenuItem;
-        private XenAdmin.Commands.CommandToolStripMenuItem drConfigureToolStripMenuItem;
-        private XenAdmin.Commands.CommandToolStripMenuItem securityGroupsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private XenAdmin.Commands.CommandToolStripMenuItem HostPasswordToolStripMenuItem;
-        private XenAdmin.Commands.CommandToolStripMenuItem ChangeRootPasswordToolStripMenuItem;
-        private XenAdmin.Commands.CommandToolStripMenuItem forgetSavedPasswordToolStripMenuItem;
-        private XenAdmin.Commands.CommandToolStripMenuItem CreateVmFromTemplateToolStripMenuItem;
-        private XenAdmin.Commands.CommandToolStripMenuItem newVMFromTemplateToolStripMenuItem;
-        private XenAdmin.Commands.CommandToolStripMenuItem InstantVmToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem importSettingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportSettingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator31;
-        private XenAdmin.Commands.CommandToolStripMenuItem destroyServerToolStripMenuItem;
-        private XenAdmin.Commands.CommandToolStripMenuItem restartToolstackToolStripMenuItem;
+        private CommandToolStripMenuItem powerOnToolStripMenuItem;
+        private CommandToolStripButton shutDownToolStripButton;
+        private CommandToolStripButton startVMToolStripButton;
+        private CommandToolStripButton powerOnHostToolStripButton;
+        private CommandToolStripButton resumeToolStripButton;
+        private MigrateVMToolStripMenuItem relocateToolStripMenuItem;
+        private StartVMOnHostToolStripMenuItem startOnHostToolStripMenuItem;
+        private ResumeVMOnHostToolStripMenuItem resumeOnToolStripMenuItem;
+        private ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem1;
+        private ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem;
+        private ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem2;
+        private ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem3;
+        private ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem4;
+        private ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem5;
+        private ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem6;
+        private ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem7;
+        private ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem9;
+        private ToolStripMenuItem pluginItemsPlaceHolderToolStripMenuItem8;
+        private TabPage TabPageBallooningUpsell;
+        private ToolStripMenuItem xenCenterPluginsOnlineToolStripMenuItem;
+        private CommandToolStripMenuItem MoveVMToolStripMenuItem;
+        //private CommandToolStripMenuItem rollingUpgradeToolStripMenuItem;
+        private CommandToolStripMenuItem changePoolPasswordToolStripMenuItem;
+		private ToolStripSeparator toolStripSeparator30;
+		private CommandToolStripMenuItem virtualAppliancesToolStripMenuItem;
+        private AssignGroupToolStripMenuItemVM_appliance assignToVirtualApplianceToolStripMenuItem;
+		private CommandToolStripMenuItem disasterRecoveryToolStripMenuItem;
+		private CommandToolStripMenuItem DrWizardToolStripMenuItem;
+		private CommandToolStripMenuItem drConfigureToolStripMenuItem;
+        private CommandToolStripMenuItem securityGroupsToolStripMenuItem;
+        private ToolStripSeparator toolStripMenuItem1;
+        private CommandToolStripMenuItem HostPasswordToolStripMenuItem;
+        private CommandToolStripMenuItem ChangeRootPasswordToolStripMenuItem;
+        private CommandToolStripMenuItem forgetSavedPasswordToolStripMenuItem;
+        private CommandToolStripMenuItem CreateVmFromTemplateToolStripMenuItem;
+        private CommandToolStripMenuItem newVMFromTemplateToolStripMenuItem;
+        private CommandToolStripMenuItem InstantVmToolStripMenuItem;
+        private ToolStripMenuItem importSettingsToolStripMenuItem;
+        private ToolStripMenuItem exportSettingsToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator31;
+        private CommandToolStripMenuItem destroyServerToolStripMenuItem;
+        private CommandToolStripMenuItem restartToolstackToolStripMenuItem;
         private XenAdmin.Controls.MainWindowControls.NavigationPane navigationPane;
         private XenAdmin.TabPages.AlertSummaryPage alertPage;
         private XenAdmin.TabPages.ManageUpdatesPage updatesPage;
