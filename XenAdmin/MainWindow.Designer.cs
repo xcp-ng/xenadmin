@@ -260,11 +260,11 @@ namespace XenAdmin
             this.bugToolToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
             this.healthCheckToolStripMenuItem1 = new XenAdmin.Commands.CommandToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-            this.LicenseManagerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-            this.installNewUpdateToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
-            this.rollingUpgradeToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            //this.LicenseManagerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            //this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            //this.installNewUpdateToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
+            //this.rollingUpgradeToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
+            //this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.pluginItemsPlaceHolderToolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1687,11 +1687,11 @@ namespace XenAdmin
             this.bugToolToolStripMenuItem,
             this.healthCheckToolStripMenuItem1,
             this.toolStripSeparator14,
-            this.LicenseManagerMenuItem,
-            this.toolStripSeparator13,
-            this.installNewUpdateToolStripMenuItem,
-            this.rollingUpgradeToolStripMenuItem,
-            this.toolStripSeparator6,
+            //this.LicenseManagerMenuItem,
+            //this.toolStripSeparator13,
+            //this.installNewUpdateToolStripMenuItem,
+            //this.rollingUpgradeToolStripMenuItem,
+            //this.toolStripSeparator6,
             this.pluginItemsPlaceHolderToolStripMenuItem7,
             this.preferencesToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
@@ -1716,31 +1716,31 @@ namespace XenAdmin
             // 
             // LicenseManagerMenuItem
             // 
-            this.LicenseManagerMenuItem.Name = "LicenseManagerMenuItem";
-            resources.ApplyResources(this.LicenseManagerMenuItem, "LicenseManagerMenuItem");
-            this.LicenseManagerMenuItem.Click += new System.EventHandler(this.LicenseManagerMenuItem_Click);
+            //this.LicenseManagerMenuItem.Name = "LicenseManagerMenuItem";
+            //resources.ApplyResources(this.LicenseManagerMenuItem, "LicenseManagerMenuItem");
+            //this.LicenseManagerMenuItem.Click += new System.EventHandler(this.LicenseManagerMenuItem_Click);
             // 
             // toolStripSeparator13
             // 
-            this.toolStripSeparator13.Name = "toolStripSeparator13";
-            resources.ApplyResources(this.toolStripSeparator13, "toolStripSeparator13");
+            //this.toolStripSeparator13.Name = "toolStripSeparator13";
+            //resources.ApplyResources(this.toolStripSeparator13, "toolStripSeparator13");
             // 
             // installNewUpdateToolStripMenuItem
             // 
-            this.installNewUpdateToolStripMenuItem.Command = new XenAdmin.Commands.InstallNewUpdateCommand();
-            this.installNewUpdateToolStripMenuItem.Name = "installNewUpdateToolStripMenuItem";
-            resources.ApplyResources(this.installNewUpdateToolStripMenuItem, "installNewUpdateToolStripMenuItem");
+            //this.installNewUpdateToolStripMenuItem.Command = new XenAdmin.Commands.InstallNewUpdateCommand();
+            //this.installNewUpdateToolStripMenuItem.Name = "installNewUpdateToolStripMenuItem";
+            //resources.ApplyResources(this.installNewUpdateToolStripMenuItem, "installNewUpdateToolStripMenuItem");
             // 
             // rollingUpgradeToolStripMenuItem
             // 
-            this.rollingUpgradeToolStripMenuItem.Command = new XenAdmin.Commands.RollingUpgradeCommand();
-            this.rollingUpgradeToolStripMenuItem.Name = "rollingUpgradeToolStripMenuItem";
-            resources.ApplyResources(this.rollingUpgradeToolStripMenuItem, "rollingUpgradeToolStripMenuItem");
+            //this.rollingUpgradeToolStripMenuItem.Command = new XenAdmin.Commands.RollingUpgradeCommand();
+            //this.rollingUpgradeToolStripMenuItem.Name = "rollingUpgradeToolStripMenuItem";
+            //resources.ApplyResources(this.rollingUpgradeToolStripMenuItem, "rollingUpgradeToolStripMenuItem");
             // 
             // toolStripSeparator6
             // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
+            //this.toolStripSeparator6.Name = "toolStripSeparator6";
+            //resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
             // 
             // pluginItemsPlaceHolderToolStripMenuItem7
             // 
@@ -2036,9 +2036,9 @@ namespace XenAdmin
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private CommandToolStripMenuItem bugToolToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
-        private System.Windows.Forms.ToolStripMenuItem LicenseManagerMenuItem;
-        private CommandToolStripMenuItem installNewUpdateToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        //private System.Windows.Forms.ToolStripMenuItem LicenseManagerMenuItem;
+        //private CommandToolStripMenuItem installNewUpdateToolStripMenuItem;
+        //private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
@@ -2052,7 +2052,7 @@ namespace XenAdmin
         private System.Windows.Forms.ToolStripMenuItem aboutXenSourceAdminToolStripMenuItem;
         private XenAdmin.Controls.MenuStripEx MainMenuBar;
         private System.Windows.Forms.Panel MenuPanel;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+        //private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
         private System.Windows.Forms.ToolStripMenuItem toolbarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ShowHiddenObjectsToolStripMenuItem;
@@ -2124,7 +2124,7 @@ namespace XenAdmin
         private TabPage TabPageBallooningUpsell;
         private ToolStripMenuItem xenCenterPluginsOnlineToolStripMenuItem;
         private CommandToolStripMenuItem MoveVMToolStripMenuItem;
-        private CommandToolStripMenuItem rollingUpgradeToolStripMenuItem;
+        //private CommandToolStripMenuItem rollingUpgradeToolStripMenuItem;
         private CommandToolStripMenuItem changePoolPasswordToolStripMenuItem;
 		private ToolStripSeparator toolStripSeparator30;
 		private CommandToolStripMenuItem virtualAppliancesToolStripMenuItem;
