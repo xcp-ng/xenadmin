@@ -75,14 +75,14 @@ namespace XenAdminTests
 
         }
 
-        public void ShowForm(Type type)
+        public Form ShowForm(Type type)
         {
-            
+            return null;
         }
 
-        public void ShowForm(Type type, object[] args)
+        public Form ShowForm(Type type, object[] args)
         {
-            
+            return null;
         }
 
         public void CloseActiveWizards(IXenConnection connection)

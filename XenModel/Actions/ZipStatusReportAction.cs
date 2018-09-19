@@ -62,8 +62,14 @@ namespace XenAdmin.Actions
 
         private long bytesToCompress = 1;
 
-        public ZipStatusReportAction(string tempFolder, string destFile)
-            : base(null, Messages.BUGTOOL_SAVING, Messages.BUGTOOL_SAVING, true)
+        /// <summary>
+        ///  Constructor to zip downloaded file action
+        /// </summary>
+        /// <param name="tempFolder">Temporary folder to store the downloaded logs</param>
+        /// <param name="destFile">The target file to store the compressed result</param>
+        /// <param name="suppressHistory">Whether to suppress history in the event tab</param>
+        public ZipStatusReportAction(string tempFolder, string destFile, bool suppressHistory=true)
+            : base(null, Messages.BUGTOOL_SAVING, Messages.BUGTOOL_SAVING, suppressHistory)
         {
             _inputTempFolder = tempFolder;
             _destFile = destFile;

@@ -61,21 +61,16 @@ namespace XenAdmin.Core
     /// </summary>
     public class WebBrowser2 : WebBrowser
     {
-        /// <summary>
-        /// A list of <see cref="WebClient"/>s used to determine whether URLS are valid before Navigations.
-        /// </summary>
-        private readonly List<WebClient> _webClients = new List<WebClient>();
         private AxHost.ConnectionPointCookie cookie;
         private WebBrowser2EventHelper helper;
 
-
-        public event WebBrowserNavigateErrorEventHandler NavigateError;
+        public event Action<WebBrowser2, NavigateErrorEventArgs> NavigateError;
 
         public event EventHandler WindowClosed;
 
-        public event WebBrowserAuthenticationPromptEventHandler AuthenticationPrompt;
+        public event Action<WebBrowser2, AuthenticationPromptEventArgs> AuthenticationPrompt;
 
-        protected bool Authenticate(out string username, out string password)
+        private bool Authenticate(out string username, out string password)
         {
             if (AuthenticationPrompt == null)
             {
@@ -85,7 +80,7 @@ namespace XenAdmin.Core
             }
             else
             {
-                WebBrowserAuthenticationPromptEventArgs args = new WebBrowserAuthenticationPromptEventArgs();
+                var args = new AuthenticationPromptEventArgs();
                 AuthenticationPrompt(this, args);
                 username = args.Username;
                 password = args.Password;
@@ -93,7 +88,7 @@ namespace XenAdmin.Core
             }
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name="FullTrust")]
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         protected override void CreateSink()
         {
             base.CreateSink();
@@ -101,11 +96,10 @@ namespace XenAdmin.Core
             // Create an instance of the client that will handle the event
             // and associate it with the underlying ActiveX control.
             helper = new WebBrowser2EventHelper(this);
-            cookie = new AxHost.ConnectionPointCookie(
-                this.ActiveXInstance, helper, typeof(DWebBrowserEvents2));
+            cookie = new AxHost.ConnectionPointCookie(ActiveXInstance, helper, typeof(DWebBrowserEvents2));
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name="FullTrust")]
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         protected override void DetachSink()
         {
             // Disconnect the client that handles the event
@@ -123,7 +117,7 @@ namespace XenAdmin.Core
             return new WebBrowserSite2(this);
         }
 
-        protected virtual void OnNavigateError(WebBrowserNavigateErrorEventArgs e)
+        protected virtual void OnNavigateError(NavigateErrorEventArgs e)
         {
             if (NavigateError != null)
                 NavigateError(this, e);
@@ -147,95 +141,16 @@ namespace XenAdmin.Core
             }
         }
 
-        protected override void OnNavigating(WebBrowserNavigatingEventArgs e)
-        {
-            Program.AssertOnEventThread();
-
-            // clear the _webClients so that an existing multiple-url Navigation is cancelled.
-            _webClients.Clear();
-            base.OnNavigating(e);
-        }
-
-        /// <summary>
-        /// Navigates to the specified URI.
-        /// </summary>
-        public new void Navigate(Uri uri)
-        {
-            Program.AssertOnEventThread();
-            Navigate(uri, null, null, "X-XenCenter: " + Program.ClientVersion());
-        }
-
-        /// <summary>
-        /// Navigates to the first valid URI in the specified list.
-        /// </summary>
-        public void Navigate(IEnumerable<Uri> uris)
-        {
-            Program.AssertOnEventThread();
-            Util.ThrowIfEnumerableParameterNullOrEmpty(uris, "uris");
-            List<Uri> uriList = new List<Uri>(uris);
-
-            if (uriList.Count == 1)
-            {
-                Navigate(uriList[0]);
-                return;
-            }
-
-            // test each url with a WebClient to see if it works.
-            _webClients.Clear();
-            var proxy = XenAdminConfigManager.Provider.GetProxyFromSettings(null, false);
-            _webClients.AddRange(uriList.ConvertAll(u => new WebClient() { Proxy = proxy }));
-
-            // start all urls downloading in parallel.
-            for (int i = 0; i < _webClients.Count; i++)
-            {
-                _webClients[i].DownloadDataCompleted += webClient_DownloadDataCompleted;
-
-                try
-                {
-                    _webClients[i].DownloadDataAsync(uriList[i], uriList[i]);
-                }
-                catch (WebException)
-                {
-                    // we are expecting some urls to fail: do nothing.
-                }
-                catch (SocketException)
-                {
-                    // we are expecting some urls to fail: do nothing.
-                }
-            }
-        }
-
-        private void webClient_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
-        {
-            Program.AssertOnEventThread();
-
-            WebClient webClient = (WebClient)sender;
-            if (_webClients.Contains(webClient))
-            {
-                _webClients.Remove(webClient);
-
-                if (e.Error == null || (e.Error != null && _webClients.Count == 0))
-                {
-                    // either one has finished successfully...or...they've all failed.                          
-                    // navigate the browser to this url and leave other requests (if any) to timeout.
-                    _webClients.Clear();
-                    Navigate((Uri)e.UserState);
-                }
-            }
-            else
-            {
-                // either a valid url has been found...or another Navigate has started: do nothing.
-            }
-        }
+        #region Nested classes
 
         private class WebBrowserSite2 : WebBrowserSite, Win32.IAuthenticate, Win32.IServiceProvider
         {
-            private WebBrowser2 Browser;
+            private readonly WebBrowser2 Browser;
 
-            public WebBrowserSite2(WebBrowser2 Browser)
-                : base(Browser)
+            public WebBrowserSite2(WebBrowser2 browser)
+                : base(browser)
             {
-                this.Browser = Browser;
+                Browser = browser;
             }
 
             #region IAuthenticate Members
@@ -279,10 +194,11 @@ namespace XenAdmin.Core
             #endregion
         }
 
-        // Handles the NavigateError event from the underlying ActiveX 
-        // control by raising the NavigateError event defined in this class.
-        private class WebBrowser2EventHelper : 
-            StandardOleMarshalObject, DWebBrowserEvents2
+        /// <summary>
+        /// Handles the NavigateError event from the underlying ActiveX 
+        /// control by raising the NavigateError event defined in this class.
+        /// </summary>
+        private class WebBrowser2EventHelper : StandardOleMarshalObject, DWebBrowserEvents2
         {
             private WebBrowser2 parent;
 
@@ -291,52 +207,47 @@ namespace XenAdmin.Core
                 this.parent = parent;
             }
 
-            public void NavigateError(object pDisp, ref object url, 
-                ref object frame, ref object statusCode, ref bool cancel)
+            public void NavigateError(object pDisp, ref object url, ref object frame, ref object statusCode, ref bool cancel)
             {
-                parent.OnNavigateError(
-                    new WebBrowserNavigateErrorEventArgs(
-                    (string)url, (string)frame, (Int32)statusCode, cancel));
+                parent.OnNavigateError(new NavigateErrorEventArgs((string)url, (string)frame, (Int32)statusCode, cancel));
             }
         }
-    }
 
-    public delegate void WebBrowserNavigateErrorEventHandler(object sender, WebBrowserNavigateErrorEventArgs e);
-
-    public class WebBrowserNavigateErrorEventArgs : EventArgs
-    {
-        public string Url;
-        public string Frame;
-        public Int32 StatusCode;
-        public bool Cancel;
-
-        public WebBrowserNavigateErrorEventArgs(string url, string frame, Int32 statusCode, bool cancel)
+        public class NavigateErrorEventArgs : EventArgs
         {
-            Url = url;
-            Frame = frame;
-            StatusCode = statusCode;
-            Cancel = cancel;
+            public string Url;
+            public string Frame;
+            public Int32 StatusCode;
+            public bool Cancel;
+
+            public NavigateErrorEventArgs(string url, string frame, Int32 statusCode, bool cancel)
+            {
+                Url = url;
+                Frame = frame;
+                StatusCode = statusCode;
+                Cancel = cancel;
+            }
         }
-    }
 
-    public delegate void WebBrowserAuthenticationPromptEventHandler(WebBrowser2 sender, WebBrowserAuthenticationPromptEventArgs e);
+        public class AuthenticationPromptEventArgs : EventArgs
+        {
+            /// <summary>
+            /// Set to true by the event handler if the user clicked OK on the authentication prompt.
+            /// </summary>
+            public bool Success;
 
-    public class WebBrowserAuthenticationPromptEventArgs
-    {
-        /// <summary>
-        /// Set to true by the event handler if the user clicked OK on the authentication prompt.
-        /// </summary>
-        public bool Success;
+            /// <summary>
+            /// Set by the event handler, iff Success is true.
+            /// </summary>
+            public string Username;
 
-        /// <summary>
-        /// Set by the event handler, iff Success is true.
-        /// </summary>
-        public string Username;
+            /// <summary>
+            /// Set by the event handler, iff Success is true.
+            /// </summary>
+            public string Password;
+        }
 
-        /// <summary>
-        /// Set by the event handler, iff Success is true.
-        /// </summary>
-        public string Password;
+        #endregion
     }
 
     [ComImport, Guid("34A715A0-6587-11D0-924A-0020AFC7AC4D"),

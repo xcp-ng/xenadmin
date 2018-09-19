@@ -630,12 +630,10 @@ namespace XenAdmin.Core
         /// <summary>
         /// Gets an upgrade sequence that contains a version upgrade, optionally followed by the minimal patches for the new version
         /// </summary>
-        /// <param name="conn">Connection for the pool</param>
         /// <param name="alert">The alert that refers the version-update</param>
         /// <param name="updateTheNewVersion">Also add the minimum patches for the new version (true) or not (false).</param>
-        public static List<XenServerPatch> GetMinimalPatches(IXenConnection conn, XenServerPatchAlert alert, bool updateTheNewVersion)
+        public static List<XenServerPatch> GetMinimalPatches(XenServerPatchAlert alert, bool updateTheNewVersion)
         {
-            Debug.Assert(conn != null);
             Debug.Assert(alert != null);
 
             var minimalPatches = new List<XenServerPatch> {alert.Patch};
@@ -649,6 +647,67 @@ namespace XenAdmin.Core
             return minimalPatches;
         }
 
+        /// <summary>
+        /// Gets all the patches for the given connection
+        /// </summary>
+        public static List<XenServerPatch> GetAllPatches(IXenConnection conn)
+        {
+            var version = GetCommonServerVersionOfHostsInAConnection(conn, XenServerVersions);
+            return GetAllPatches(version);
+        }
+
+        /// <summary>
+        /// Gets an upgrade sequence that contains a version upgrade, optionally followed by all the patches for the new version
+        /// </summary>
+        public static List<XenServerPatch> GetAllPatches(XenServerPatchAlert alert, bool updateTheNewVersion)
+        {
+            Debug.Assert(alert != null);
+
+            var allPatches = new List<XenServerPatch> { alert.Patch };
+
+            // if it's a version updgrade the update sequence will be this patch (the upgrade) and the patches for the new version
+            if (updateTheNewVersion && alert.NewServerVersion != null)
+            {
+                var newVersionPatches = GetAllPatches(alert.NewServerVersion);
+                if (newVersionPatches != null)
+                    allPatches.AddRange(newVersionPatches);
+            }
+
+            return allPatches;
+        }
+
+        /// <summary>
+        /// Gets all the patches for the given server version, including the cumulative updates and the patches on those
+        /// </summary>
+        private static List<XenServerPatch> GetAllPatches(XenServerVersion version)
+        {
+            if (version == null || version.Patches == null)
+                return null;
+
+            // exclude patches that are new versions (we will include the cumulative updates later)
+            var excludedUuids = XenServerVersions.Where(v => v.IsVersionAvailableAsAnUpdate).Select(v => v.PatchUuid);
+
+            var allPatches = new List<XenServerPatch>(version.Patches.Where(p => !excludedUuids.Contains(p.Uuid)));
+            
+            // if there is a "new version" update in the minimal patches (e.g. a cumulative update), also add this new version update and all the patches on it
+            if (version.MinimalPatches != null && version.MinimalPatches.Count > 0)
+            {
+                // assuming that the new version update (if there is one) is the last one in the minimal patches list
+                var lastUpdate = version.MinimalPatches[version.MinimalPatches.Count - 1];
+
+                var newServerVersion = XenServerVersions.FirstOrDefault(
+                    v => v.IsVersionAvailableAsAnUpdate && v.PatchUuid.Equals(lastUpdate.Uuid, StringComparison.OrdinalIgnoreCase));
+
+                if (newServerVersion != null)
+                {
+                    allPatches.Add(lastUpdate);
+                    if (newServerVersion.Patches != null)
+                        allPatches.AddRange(newServerVersion.Patches);
+                }
+            }
+
+            return allPatches;
+        }
 
         /// <summary>
         /// Returns a XenServerVersion if all hosts of the pool have the same version

@@ -30,6 +30,7 @@
  */
 
 using System;
+using XenAdmin.Actions;
 using XenAdmin.Core;
 using XenAdmin.Diagnostics.Checks;
 using XenAPI;
@@ -37,23 +38,15 @@ using XenAPI;
 
 namespace XenAdmin.Diagnostics.Problems.VMProblem
 {
-    public class NoPVDrivers:Problem
+    public class NoPVDrivers: VMProblem
     {
-        protected readonly VM _vm;
-
-        public NoPVDrivers(Check check, VM vm):base(check)
-        {
-            _vm = vm;
-        }
-
-        public override string Title
-        {
-            get { return string.Format(Messages.PROBLEM_VMPROBLEM_TITLE, Helpers.GetName(_vm).Ellipsise(30)); }
-        }
+        public NoPVDrivers(Check check, VM vm)
+            : base(check, vm)
+        { }
 
         public override string Description
         {
-            get { return String.Format(Messages.UPDATES_WIZARD_NO_TOOLS,_vm.Name()); }
+            get { return String.Format(Messages.UPDATES_WIZARD_NO_TOOLS, ServerName, VM.Name()); }
         }
 
         public override string HelpMessage
@@ -62,6 +55,16 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
             {
                 return Messages.INSTALL_XENSERVER_TOOLS;
             }
+        }
+        protected override AsyncAction CreateAction(out bool cancelled)
+        {
+            cancelled = false;
+            return null;
+        }
+
+        public override AsyncAction CreateUnwindChangesAction()
+        {
+            return null;
         }
     }
 }

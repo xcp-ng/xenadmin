@@ -30,7 +30,6 @@
  */
 
 using XenAdmin.Diagnostics.Checks;
-using XenAdmin.Network;
 using XenAPI;
 
 
@@ -45,9 +44,7 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
 
         public override string Description
         {
-            get { return string.Format(Messages.UPDATES_WIZARD_NO_HOSTS,VM); }
+            get { return string.Format(Messages.UPDATES_WIZARD_NO_HOSTS, ServerName, VM.Name().Ellipsise(15)); }
         }
-
-       
     }
 }

@@ -109,9 +109,9 @@ namespace XenAdmin.Dialogs
             this.gridRoles.RowHeadersVisible = false;
             this.gridRoles.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.gridRoles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridRoles.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.gridRoles_KeyPress);
-            this.gridRoles.SelectionChanged += new System.EventHandler(this.gridRoles_SelectionChanged);
             this.gridRoles.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridRoles_CellContentClick);
+            this.gridRoles.SelectionChanged += new System.EventHandler(this.gridRoles_SelectionChanged);
+            this.gridRoles.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.gridRoles_KeyPress);
             // 
             // ColumnRolesCheckBox
             // 
@@ -135,7 +135,6 @@ namespace XenAdmin.Dialogs
             // pictureBoxSubjectType
             // 
             resources.ApplyResources(this.pictureBoxSubjectType, "pictureBoxSubjectType");
-            this.pictureBoxSubjectType.Image = global::XenAdmin.Properties.Resources._000_UserAndGroup_h32bit_32;
             this.pictureBoxSubjectType.Name = "pictureBoxSubjectType";
             this.pictureBoxSubjectType.TabStop = false;
             // 

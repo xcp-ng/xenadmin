@@ -33,7 +33,7 @@ using System;
 using System.Collections.Generic;
 
 using XenAdmin.Core;
-using XenAPI;
+using XenAdmin.Network;
 
 
 namespace XenAdmin.Actions
@@ -45,30 +45,27 @@ namespace XenAdmin.Actions
         private Dictionary<string, string> creds;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public DisableAdAction(Pool pool, Dictionary<string, string> creds)
-            : base(pool.Connection, string.Format(Messages.DISABLING_AD_ON, Helpers.GetName(pool).Ellipsise(50)), Messages.DISABLING_AD, false)
+        public DisableAdAction(IXenConnection connection, Dictionary<string, string> creds)
+            : base(connection, string.Format(Messages.DISABLING_AD_ON, Helpers.GetName(connection).Ellipsise(50)), Messages.DISABLING_AD, false)
         {
-            if (pool == null)
-                throw new ArgumentNullException("pool");
-
             this.creds = creds;
-            this.Pool = pool;
+
+            var pool = Helpers.GetPool(Connection);
+            if (pool != null)
+                Pool = Helpers.GetPool(Connection);
+            else
+                Host = Helpers.GetMaster(Connection);
         }
 
         protected override void Run()
         {
-            
-            if (!creds.ContainsKey(KEY_USER))
-            {
-                log.DebugFormat("Disabling AD on pool '{0}' without disabling machine account in AD.", Helpers.GetName(Pool).Ellipsise(50));
-            }
+            if (creds.ContainsKey(KEY_USER))
+                log.DebugFormat("Disabling AD on connection '{0}' and disabling machine account in AD", Helpers.GetName(Connection));
             else
-            {
-                log.DebugFormat("Disabling AD on pool '{0}' and disabling machine account in AD", Helpers.GetName(Pool).Ellipsise(50));
-            }
-            XenAPI.Pool.disable_external_auth(Session, Pool.opaque_ref, creds);
+                log.DebugFormat("Disabling AD on connection '{0}' without disabling machine account in AD.", Helpers.GetName(Connection));
 
-           
+            var pool = Helpers.GetPoolOfOne(Connection); // let if fail if null
+            XenAPI.Pool.disable_external_auth(Session, pool.opaque_ref, creds);
             Description = Messages.COMPLETED;
         }
     }

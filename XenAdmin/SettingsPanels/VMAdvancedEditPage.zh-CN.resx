@@ -337,7 +337,7 @@
     <value>3</value>
   </data>
   <data name="labelShadowMultiplier.Text" xml:space="preserve">
-    <value>重影内存系数(&amp;M):</value>
+    <value>阴影内存乘数(&amp;M):</value>
   </data>
   <data name="&gt;&gt;labelShadowMultiplier.Name" xml:space="preserve">
     <value>labelShadowMultiplier</value>

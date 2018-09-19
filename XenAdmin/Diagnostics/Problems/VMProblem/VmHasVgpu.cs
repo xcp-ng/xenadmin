@@ -41,7 +41,7 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
 
         public override string Description
         {
-            get { return string.Format(Messages.UPDATES_WIZARD_VM_HAS_VGPU, VM.Name()); }
+            get { return string.Format(Messages.UPDATES_WIZARD_VM_HAS_VGPU, ServerName, VM.Name()); }
         }
     }
 }

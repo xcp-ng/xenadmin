@@ -77,7 +77,7 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard
             return multiplePools ? Messages.ROLLING_UPGRADE_ERROR_MANY : Messages.ROLLING_UPGRADE_ERROR_ONE;
         }
 
-        protected override string SuccessMessagePerPool()
+        protected override string SuccessMessagePerPool(Pool pool)
         {
             return Messages.ROLLING_UPGRADE_SUCCESS_ONE;
         }

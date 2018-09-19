@@ -30,14 +30,10 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using XenAPI;
 using XenAdmin.Commands;
+using XenAdmin.Properties;
 
 
 namespace XenAdmin.Controls.Ballooning
@@ -60,28 +56,24 @@ namespace XenAdmin.Controls.Ballooning
             if (!firstPaint)
                 return;
 
-            // Layout because of different fonts. I tried putting this in the constructor but it didn't take effect that early.
-            memorySpinnerFixed.Left = radioOff.Right + radioOff.Margin.Right;
-
             // Calculate the maximum legal value of dynamic minimum
             CalcMaxDynMin();
 
-            // Shiny bar
-            vmShinyBar.Initialize(vm0, vms.Count > 1, CalcMemoryUsed(), true);
+            vmShinyBar.Populate(vms, true);
 
             // Radio buttons and "DMC Unavailable" warning
             if (ballooning)
             {
                 if (vm0.memory_dynamic_min == vm0.memory_static_max)
-                    radioOff.Checked = true;
+                    radioFixed.Checked = true;
                 else
-                    radioOn.Checked = true;
+                    radioDynamic.Checked = true;
                 iconDMCUnavailable.Visible = labelDMCUnavailable.Visible = linkInstallTools.Visible = false;
             }
             else
             {
-                radioOff.Checked = true;
-                radioOn.Enabled = false;
+                radioFixed.Checked = true;
+                radioDynamic.Enabled = false;
                 groupBoxOn.Enabled = false;
 
                 if (vms.Count > 1)
@@ -104,7 +96,9 @@ namespace XenAdmin.Controls.Ballooning
                         if (status.HasFlag(VM.VirtualisationStatus.IO_DRIVERS_INSTALLED))
                             labelDMCUnavailable.Text = Messages.DMC_UNAVAILABLE_NOTSUPPORTED_PLURAL;
                         else if (!status.HasFlag(VM.VirtualisationStatus.IO_DRIVERS_INSTALLED))
-                            labelDMCUnavailable.Text = vm0.HasNewVirtualisationStates() ? Messages.DMC_UNAVAILABLE_NO_IO_NO_MGMNT_PLURAL : Messages.DMC_UNAVAILABLE_NOTOOLS_PLURAL;
+                            labelDMCUnavailable.Text = vm0.HasNewVirtualisationStates()
+                                ? Messages.DMC_UNAVAILABLE_NO_IO_NO_MGMNT_PLURAL
+                                : Messages.DMC_UNAVAILABLE_NOTOOLS_PLURAL;
                         else if (status.HasFlag(VM.VirtualisationStatus.PV_DRIVERS_OUT_OF_DATE))
                             labelDMCUnavailable.Text = Messages.DMC_UNAVAILABLE_OLDTOOLS_PLURAL;
                         else
@@ -126,7 +120,9 @@ namespace XenAdmin.Controls.Ballooning
                     if (status.HasFlag(VM.VirtualisationStatus.IO_DRIVERS_INSTALLED))
                             labelDMCUnavailable.Text = Messages.DMC_UNAVAILABLE_NOTSUPPORTED;
                     else if (!status.HasFlag(VM.VirtualisationStatus.IO_DRIVERS_INSTALLED))
-                        labelDMCUnavailable.Text = vm0.HasNewVirtualisationStates() ? Messages.DMC_UNAVAILABLE_NO_IO_NO_MGMNT : Messages.DMC_UNAVAILABLE_NOTOOLS;
+                        labelDMCUnavailable.Text = vm0.HasNewVirtualisationStates()
+                            ? Messages.DMC_UNAVAILABLE_NO_IO_NO_MGMNT
+                            : Messages.DMC_UNAVAILABLE_NOTOOLS;
                     else if (status.HasFlag(VM.VirtualisationStatus.PV_DRIVERS_OUT_OF_DATE))
                             labelDMCUnavailable.Text = Messages.DMC_UNAVAILABLE_OLDTOOLS;
                     else
@@ -139,8 +135,8 @@ namespace XenAdmin.Controls.Ballooning
             // Spinners
             FreeSpinnerRanges();
             static_min = vm0.memory_static_min;
-            memorySpinnerDynMin.Initialize(Messages.DYNAMIC_MIN_AMP, ballooning ? XenAdmin.Properties.Resources.memory_dynmin_slider_small : null, vm0.memory_dynamic_min, vm0.memory_static_max);
-            memorySpinnerDynMax.Initialize(Messages.DYNAMIC_MAX_AMP, ballooning ? XenAdmin.Properties.Resources.memory_dynmax_slider_small : null, vm0.memory_dynamic_max, vm0.memory_static_max);
+            memorySpinnerDynMin.Initialize(Messages.DYNAMIC_MIN_AMP, ballooning ? Resources.memory_dynmin_slider_small : null, vm0.memory_dynamic_min, vm0.memory_static_max);
+            memorySpinnerDynMax.Initialize(Messages.DYNAMIC_MAX_AMP, ballooning ? Resources.memory_dynmax_slider_small : null, vm0.memory_dynamic_max, vm0.memory_static_max);
             memorySpinnerFixed.Initialize("", null, vm0.memory_static_max, vm0.memory_static_max);
             SetIncrements();
             SetSpinnerRanges();
@@ -152,7 +148,7 @@ namespace XenAdmin.Controls.Ballooning
             get
             {
                 System.Diagnostics.Trace.Assert(ballooning);
-                return (radioOn.Checked ? memorySpinnerDynMin.Value : memorySpinnerFixed.Value);
+                return (radioDynamic.Checked ? memorySpinnerDynMin.Value : memorySpinnerFixed.Value);
             }
         }
 
@@ -161,7 +157,7 @@ namespace XenAdmin.Controls.Ballooning
             get
             {
                 System.Diagnostics.Trace.Assert(ballooning);
-                return (radioOn.Checked ? memorySpinnerDynMax.Value : memorySpinnerFixed.Value);
+                return (radioDynamic.Checked ? memorySpinnerDynMax.Value : memorySpinnerFixed.Value);
             }
         }
 
@@ -169,7 +165,7 @@ namespace XenAdmin.Controls.Ballooning
         {
             get
             {
-                return (radioOn.Checked ? memorySpinnerDynMax.Value : memorySpinnerFixed.Value);
+                return (radioDynamic.Checked ? memorySpinnerDynMax.Value : memorySpinnerFixed.Value);
             }
         }
 
@@ -182,14 +178,14 @@ namespace XenAdmin.Controls.Ballooning
         {
             if (firstPaint)  // still initialising
                 return;
-            radioOn.Checked = true;
+            radioDynamic.Checked = true;
             if (sender == memorySpinnerDynMax)
             {
                 // Force supported envelope
                 FreeSpinnerRanges();
-                long min = (long)((double)static_max * GetMemoryRatio());
+                long min = (long)(static_max * GetMemoryRatio());
                 if (memorySpinnerDynMin.Value < min)
-                    memorySpinnerDynMin.Initialize(Messages.DYNAMIC_MIN_AMP, XenAdmin.Properties.Resources.memory_dynmin_slider_small, min, RoundingBehaviour.Up);
+                    memorySpinnerDynMin.Initialize(Messages.DYNAMIC_MIN_AMP, Resources.memory_dynmin_slider_small, min, RoundingBehaviour.Up);
             }
             SetIncrements();
             SetSpinnerRanges();
@@ -201,7 +197,7 @@ namespace XenAdmin.Controls.Ballooning
         {
             if (firstPaint)  // still initialising
                 return;
-            radioOff.Checked = true;
+            radioFixed.Checked = true;
             SetIncrements();
         }
 

@@ -132,7 +132,7 @@
     <value>1</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>欢迎使用池滚动升级向导。</value>
+    <value>欢迎使用滚动池升级向导。</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -259,7 +259,7 @@
     <value>6</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>开始执行池滚动升级前，[Citrix] 强烈建议您使用 pool-dump-database CLI 命令备份现有池的状态(请参阅《[XenServer product] 管理员指南》)。这样可确保您能够将部分完成的滚动升级还原回其原始状态，而不会丢失任何 VM 数据。</value>
+    <value>开始执行滚动池升级前，[Citrix] 强烈建议您使用 pool-dump-database CLI 命令备份现有池的状态(请参阅《[XenServer product] 管理员指南》)。这样可确保您能够将部分完成的滚动升级还原回其原始状态，而不会丢失任何 VM 数据。</value>
   </data>
   <data name="&gt;&gt;label7.Name" xml:space="preserve">
     <value>label7</value>

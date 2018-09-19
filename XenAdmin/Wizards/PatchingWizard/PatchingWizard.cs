@@ -172,9 +172,9 @@ namespace XenAdmin.Wizards.PatchingWizard
                 PatchingWizard_PrecheckPage.SelectedServers = selectedServers;
                 PatchingWizard_PrecheckPage.ApplyUpdatesToNewVersion = applyUpdatesToNewVersion;
 
+                PatchingWizard_ModePage.SelectedPools = selectedPools;
                 PatchingWizard_ModePage.SelectedServers = selectedServers;
 
-                PatchingWizard_PatchingPage.SelectedMasters = selectedMasters;
                 PatchingWizard_PatchingPage.SelectedServers = selectedServers;
                 PatchingWizard_PatchingPage.SelectedPools = selectedPools;
 

@@ -58,6 +58,7 @@ namespace XenAdmin.Wizards.PatchingWizard
         public List<Host> SelectedServers = new List<Host>();
         private readonly List<Problem> ProblemsResolvedPreCheck = new List<Problem>();
         private AsyncAction resolvePrechecksAction;
+        private List<DataGridViewRow> allRows = new List<DataGridViewRow>();
 
         private bool _isRecheckQueued;
         public Dictionary<Pool_update, Dictionary<Host, SR>> SrUploadedUpdates = new Dictionary<Pool_update, Dictionary<Host, SR>>();
@@ -197,6 +198,8 @@ namespace XenAdmin.Wizards.PatchingWizard
                 PreCheckHostRow rowHost = e.UserState as PreCheckHostRow;
                 if (rowHost != null)
                 {
+                    allRows.Add(rowHost);
+
                     if (checkBoxViewPrecheckFailuresOnly.Checked && rowHost.Problem != null || !checkBoxViewPrecheckFailuresOnly.Checked)
                         AddRowToGridView(rowHost);
                 }
@@ -205,6 +208,7 @@ namespace XenAdmin.Wizards.PatchingWizard
                     var row = e.UserState as DataGridViewRow;
                     if (row != null && !dataGridView1.Rows.Contains(row))
                     {
+                        allRows.Add(row);
                         AddRowToGridView(row);
                     }
                 }
@@ -287,6 +291,8 @@ namespace XenAdmin.Wizards.PatchingWizard
 
                 int totalChecks = groups.Sum(c => c.Value == null ? 0 : c.Value.Count);
                 int doneCheckIndex = 0;
+
+                allRows.Clear();
 
                 foreach (var group in groups)
                 {
@@ -386,10 +392,12 @@ namespace XenAdmin.Wizards.PatchingWizard
 
             groups.Add(new CheckGroup(Messages.CHECKING_STORAGE_CONNECTIONS_STATUS, pbdChecks));
 
-            //Disk space check for automated updates
+            //Disk space, reboot required and can evacuate host checks for automated and version updates
             if (WizardMode != WizardMode.SingleUpdate)
             {
                 var diskChecks = new List<Check>();
+                var rebootChecks = new List<Check>();
+                var evacuateChecks = new List<Check>();
 
                 foreach (Pool pool in SelectedPools)
                 {
@@ -397,7 +405,7 @@ namespace XenAdmin.Wizards.PatchingWizard
                     bool automatedUpdatesRestricted = pool.Connection.Cache.Hosts.Any(Host.RestrictBatchHotfixApply);
 
                     var minimalPatches = WizardMode == WizardMode.NewVersion
-                        ? Updates.GetMinimalPatches(pool.Connection, UpdateAlert, ApplyUpdatesToNewVersion && !automatedUpdatesRestricted)
+                        ? Updates.GetMinimalPatches(UpdateAlert, ApplyUpdatesToNewVersion && !automatedUpdatesRestricted)
                         : Updates.GetMinimalPatches(pool.Connection);
 
                     if (minimalPatches == null)
@@ -405,6 +413,7 @@ namespace XenAdmin.Wizards.PatchingWizard
 
                     var us = new Dictionary<Host, List<XenServerPatch>>();
                     var hosts = pool.Connection.Cache.Hosts;
+                    Array.Sort(hosts);
 
                     foreach (var h in hosts)
                     {
@@ -415,31 +424,37 @@ namespace XenAdmin.Wizards.PatchingWizard
 
                     log.InfoFormat("Minimal patches for {0}: {1}", pool.Name(), string.Join(",", minimalPatches.Select(p => p.Name)));
 
+                    // we check the contains-livepatch property of all the applicable patches to determine if a host will need to be rebooted after patch installation, 
+                    // because the minimal patches might roll-up patches that are not live-patchable
+                    var allPatches = WizardMode == WizardMode.NewVersion
+                        ? Updates.GetAllPatches(UpdateAlert, ApplyUpdatesToNewVersion && !automatedUpdatesRestricted)
+                        : Updates.GetAllPatches(pool.Connection);
+
                     foreach (Host host in us.Keys)
                     {
                         diskChecks.Add(new DiskSpaceForAutomatedUpdatesCheck(host, us));
+
+                        if (us[host] != null && us[host].Count > 0)
+                        {
+                            var allApplicablePatches = Updates.GetPatchSequenceForHost(host, allPatches);
+                            var restartHostPatches = allApplicablePatches != null 
+                                ? allApplicablePatches.Where(p => p.after_apply_guidance == after_apply_guidance.restartHost).ToList()
+                                : new List<XenServerPatch>();
+
+                            rebootChecks.Add(new HostNeedsRebootCheck(host, restartHostPatches));
+                            if (restartHostPatches.Any(p => !p.ContainsLivepatch))
+                                evacuateChecks.Add(new AssertCanEvacuateCheck(host));
+                        }
                     }
                 }
                 groups.Add(new CheckGroup(Messages.PATCHINGWIZARD_PRECHECKPAGE_CHECKING_DISK_SPACE, diskChecks));
+                if (rebootChecks.Count > 0)
+                    groups.Add(new CheckGroup(Messages.CHECKING_SERVER_NEEDS_REBOOT, rebootChecks));
+                if (evacuateChecks.Count > 0)
+                    groups.Add(new CheckGroup(Messages.CHECKING_CANEVACUATE_STATUS, evacuateChecks));
             }
 
-            //Checking reboot required and can evacuate host for version updates
-            if (WizardMode == WizardMode.NewVersion && UpdateAlert != null && UpdateAlert.Patch != null &&  UpdateAlert.Patch.after_apply_guidance == after_apply_guidance.restartHost)
-            {
-                var guidance = new List<after_apply_guidance> {UpdateAlert.Patch.after_apply_guidance};
-
-                var rebootChecks = new List<Check>();
-                foreach (var host in SelectedServers)
-                    rebootChecks.Add(new HostNeedsRebootCheck(host, guidance, LivePatchCodesByHost));
-                groups.Add(new CheckGroup(Messages.CHECKING_SERVER_NEEDS_REBOOT, rebootChecks));
-
-                var evacuateChecks = new List<Check>();
-                foreach (Host host in SelectedServers)
-                    evacuateChecks.Add(new AssertCanEvacuateCheck(host, LivePatchCodesByHost));
-
-                groups.Add(new CheckGroup(Messages.CHECKING_CANEVACUATE_STATUS, evacuateChecks));
-            }
-
+            //GFS2 check for version updates
             if (WizardMode == WizardMode.NewVersion)
             {
                 var gfs2Checks = new List<Check>();
@@ -497,7 +512,7 @@ namespace XenAdmin.Wizards.PatchingWizard
             //Checking can evacuate host
             //CA-97061 - evacuate host -> suspended VMs. This is only needed for restartHost
             //Also include this check for the supplemental packs (patch == null), as their guidance is restartHost
-            if (WizardMode != WizardMode.NewVersion && (patch == null || patch.after_apply_guidance.Contains(after_apply_guidance.restartHost)))
+            if (WizardMode == WizardMode.SingleUpdate && (patch == null || patch.after_apply_guidance.Contains(after_apply_guidance.restartHost)))
             {
                 var evacuateChecks = new List<Check>();
                 foreach (Host host in applicableServers)
@@ -562,7 +577,7 @@ namespace XenAdmin.Wizards.PatchingWizard
             }
 
             //Checking can evacuate host
-            if (update == null || update.after_apply_guidance.Contains(update_after_apply_guidance.restartHost))
+            if (WizardMode == WizardMode.SingleUpdate && (update == null || update.after_apply_guidance.Contains(update_after_apply_guidance.restartHost)))
             {
                 var evacuateChecks = new List<Check>();
                 foreach (Host host in applicableServers)
@@ -949,7 +964,31 @@ namespace XenAdmin.Wizards.PatchingWizard
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            RefreshRechecks();
+            RefreshDataGridViewList();
+        }
+
+        private void RefreshDataGridViewList()
+        {
+            lock (_update_grid_lock)
+            {
+                dataGridView1.Rows.Clear();
+
+                foreach (var row in allRows)
+                {
+                    var hostRow = row as PreCheckHostRow;
+                    if (hostRow != null)
+                    {
+                        if (hostRow.Problem != null || !checkBoxViewPrecheckFailuresOnly.Checked)
+                        {
+                            AddRowToGridView(hostRow);
+                        }
+                    }
+                    else
+                    {
+                        AddRowToGridView(row);
+                    }
+                }
+            }
         }
 
         private void dataGridView1_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)

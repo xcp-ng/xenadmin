@@ -42,7 +42,6 @@ using XenAdmin.Core;
 using XenAdmin.Network;
 using XenAdmin.Properties;
 using XenAPI;
-using XenCenterLib;
 
 
 namespace XenAdmin.Wizards.HAWizard_Pages
@@ -53,13 +52,14 @@ namespace XenAdmin.Wizards.HAWizard_Pages
         private IXenConnection connection;
 
         private readonly CollectionChangeEventHandler VM_CollectionChangedWithInvoke;
-        private readonly QueuedBackgroundWorker m_worker;
+        private readonly List<VM> _vmsQueuedForUpdate = new List<VM>();
 
         /// <summary>
         /// May not be set to null.
         /// </summary>
         public new IXenConnection Connection
         {
+            private get { return connection; }
             set
             {
                 if (value == null)
@@ -68,16 +68,20 @@ namespace XenAdmin.Wizards.HAWizard_Pages
                 if (connection != null)
                     DeregisterEvents();
 
-                this.connection = value;
-
+                connection = value;
                 RegisterEvents();
-
-                UpdateMenuItems();
-                PopulateVMs();
-
-                haNtolIndicator.Connection = value;
-                haNtolIndicator.Settings = getCurrentSettings();
             }
+        }
+
+        internal void PopulatePageControls()
+        {
+            Debug.Assert(connection != null, "Connection is null; set it to non-null before calling this method.");
+
+            UpdateMenuItems();
+            PopulateVMs();
+            haNtolIndicator.Connection = Connection;
+            haNtolIndicator.Settings = getCurrentSettings();
+            StartNtolUpdate();
         }
 
         private void UpdateMenuItems()
@@ -104,14 +108,16 @@ namespace XenAdmin.Wizards.HAWizard_Pages
         {
             Program.AssertOnEventThread();
 
-            VM vm = (VM)e.Element;
+            var vm = e.Element as VM;
+            if (vm == null)
+                return;
+
             switch (e.Action)
             {
                 case CollectionChangeAction.Add:
                     vm.PropertyChanged -= vm_PropertyChanged;
                     vm.PropertyChanged += vm_PropertyChanged;
                     AddVmRow(vm);
-                    UpdateVMsAgility(new List<VM> {vm});
                     break;
                 case CollectionChangeAction.Remove:
                     vm.PropertyChanged -= vm_PropertyChanged;
@@ -153,8 +159,6 @@ namespace XenAdmin.Wizards.HAWizard_Pages
 
             nudStartDelay.Maximum = long.MaxValue;
             nudOrder.Maximum = long.MaxValue;
-
-            m_worker = new QueuedBackgroundWorker();
         }
 
         /// <summary> 
@@ -203,7 +207,7 @@ namespace XenAdmin.Wizards.HAWizard_Pages
         /// </summary>
         internal bool ProtectVmsByDefault { get; set; }
 
-        internal void StartNtolUpdate()
+        private void StartNtolUpdate()
         {
             haNtolIndicator.StartNtolUpdate();
         }
@@ -249,7 +253,7 @@ namespace XenAdmin.Wizards.HAWizard_Pages
 
                 dataGridViewVms.Rows.AddRange(newRows.ToArray());
                 var addedVms = from row in dataGridViewVms.Rows.Cast<VmWithSettingsRow>() select row.Vm;
-                UpdateVMsAgility(addedVms);
+                UpdateVMsAgility(addedVms.ToList());
             }
             finally
             {
@@ -260,17 +264,26 @@ namespace XenAdmin.Wizards.HAWizard_Pages
         /// <summary>
         /// Starts a new background thread that updates the displayed agility status for each VM.
         /// </summary>
-        private void UpdateVMsAgility(IEnumerable<VM> vms)
+        private void UpdateVMsAgility(List<VM> vms)
         {
-            Debug.Assert(connection != null, "Connection property must have been set to non-null before calling this function");
+            if (bgWorker.IsBusy)
+            {
+                foreach (var vm in vms)
+                {
+                    if (!_vmsQueuedForUpdate.Contains(vm))
+                        _vmsQueuedForUpdate.Add(vm);
+                }
+                return;
+            }
 
-            //worker starts on UI (main) thread
-            m_worker.RunWorkerAsync((sender, arg) => worker_DoWork(null, vms), worker_RunWorkerCompleted);
+            Debug.Assert(connection != null, "Connection is null; set it to non-null before calling this method.");
+            if (vms.Count > 0)
+                bgWorker.RunWorkerAsync(vms);
         }
 
-        private object worker_DoWork(object sender, object arg)
+        private void bgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            var vms = arg as IEnumerable<VM>;
+            var vms = e.Argument as IEnumerable<VM>;
             Debug.Assert(vms != null);
 
             Session session = connection.DuplicateSession();
@@ -289,10 +302,10 @@ namespace XenAdmin.Wizards.HAWizard_Pages
                 }
             }
 
-            return results;
+            e.Result = results;
         }
 
-        private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void bgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Error != null)
             {
@@ -339,6 +352,13 @@ namespace XenAdmin.Wizards.HAWizard_Pages
                 row.FriendlyNonAgileReason = nonAgileReason;
             }
             updateButtons();
+
+            if (_vmsQueuedForUpdate.Count > 0)
+            {
+                var vms = new List<VM>(_vmsQueuedForUpdate);
+                _vmsQueuedForUpdate.Clear();
+                UpdateVMsAgility(vms);
+            }
         }
         
         private bool IsHaActivatedFirstTime(IEnumerable<VM> vms)
@@ -360,6 +380,7 @@ namespace XenAdmin.Wizards.HAWizard_Pages
             VM.HA_Restart_Priority? priority = firstTime ? (VM.HA_Restart_Priority?)null : vm.HARestartPriority();
             var row = new VmWithSettingsRow(vm, priority);
             dataGridViewVms.Rows.Add(row);
+            UpdateVMsAgility(new List<VM> {vm});
         }
 
         private void RemoveVmRow(VM vm)
@@ -383,34 +404,32 @@ namespace XenAdmin.Wizards.HAWizard_Pages
 
         private void vm_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            var vm = sender as VM;
+            if (vm == null)
+                return;
+
             Program.Invoke(this, () =>
+            {
+                var row = findItemFromVM(vm);
+
+                try
                 {
-                    VM vm = (VM)sender;
-                    if (vm == null)
-                        return;
+                    dataGridViewVms.SuspendLayout();
 
-                    // Find row for VM
-                    var row = findItemFromVM(vm);
-
-                    try
+                    if (row == null)
+                        AddVmRow(vm);
+                    else
                     {
-                        dataGridViewVms.SuspendLayout();
-
-                        if (row == null)
-                            AddVmRow(vm);
-                        else
-                        {
-                            row.UpdateVm(vm);
-                            row.SetAgileCalculating();
-                        }
-
+                        row.UpdateVm(vm);
+                        row.SetAgileCalculating();
                         UpdateVMsAgility(new List<VM> {vm});
                     }
-                    finally
-                    {
-                        dataGridViewVms.ResumeLayout();
-                    }
-                });
+                }
+                finally
+                {
+                    dataGridViewVms.ResumeLayout();
+                }
+            });
         }
 
         private void haNtolIndicator_UpdateInProgressChanged(object sender, EventArgs e)
@@ -511,12 +530,12 @@ namespace XenAdmin.Wizards.HAWizard_Pages
 
         private void m_dropDownButtonRestartPriority_Click(object sender, EventArgs e)
         {
-            var selectedRows = dataGridViewVms.SelectedRows.Cast<VmWithSettingsRow>();
+            var selectedRows = dataGridViewVms.SelectedRows.Cast<VmWithSettingsRow>().ToList();
 
             foreach (ToolStripMenuItem item in contextMenuStrip.Items)
             {
                 var itemRestartPriority = ((VM.HA_Restart_Priority)item.Tag);
-                item.Checked = selectedRows.Count() > 0 && selectedRows.All(s => s.RestartPriority == itemRestartPriority);
+                item.Checked = selectedRows.Count > 0 && selectedRows.All(s => s.RestartPriority == itemRestartPriority);
             }
         }
 
@@ -524,7 +543,7 @@ namespace XenAdmin.Wizards.HAWizard_Pages
         {
             Program.AssertOnEventThread();
 
-            var selectedRows = dataGridViewVms.SelectedRows.Cast<VmWithSettingsRow>();
+            var selectedRows = dataGridViewVms.SelectedRows.Cast<VmWithSettingsRow>().ToList();
 
             if (dataGridViewVms.SelectedRows.Count == 0)
             {
@@ -572,11 +591,11 @@ namespace XenAdmin.Wizards.HAWizard_Pages
             // set the order and delay NUDs 
             nudOrder.Enabled = nudStartDelay.Enabled = true;
 
-            var orderDistList = (from row in selectedRows select row.StartOrder).Distinct();
-            nudOrder.Text = orderDistList.Count() == 1 ? orderDistList.ElementAt(0).ToString() : "";
+            var orderDistList = (from row in selectedRows select row.StartOrder).Distinct().ToList();
+            nudOrder.Text = orderDistList.Count == 1 ? orderDistList.ElementAt(0).ToString() : "";
 
-            var delayDistList = (from row in selectedRows select row.StartDelay).Distinct();
-            nudStartDelay.Text = delayDistList.Count() == 1 ? delayDistList.ElementAt(0).ToString() : "";
+            var delayDistList = (from row in selectedRows select row.StartDelay).Distinct().ToList();
+            nudStartDelay.Text = delayDistList.Count == 1 ? delayDistList.ElementAt(0).ToString() : "";
 
             // check that all the VMs selected in the list are agile and make sure the protect button is disabled with the relevant reason
             VmWithSettingsRow nonAgileRow = selectedRows.FirstOrDefault(r => !r.IsAgile);
@@ -693,7 +712,7 @@ namespace XenAdmin.Wizards.HAWizard_Pages
 
         protected override void PageLoadedCore(PageLoadedDirection direction)
         {
-            StartNtolUpdate();
+            PopulatePageControls();
         }
 
         public override void SelectDefaultControl()
@@ -718,7 +737,7 @@ namespace XenAdmin.Wizards.HAWizard_Pages
             private readonly DataGridViewTextBoxCell cellStartOrder;
             private readonly DataGridViewTextBoxCell cellDelay;
             private readonly DataGridViewTextBoxCell cellAgile;
-            private string _nonAgileReason;
+            private string _nonAgileReason = string.Empty;
 
             public VM Vm { get; private set; }
             public long StartDelay { get; private set; }
@@ -733,30 +752,37 @@ namespace XenAdmin.Wizards.HAWizard_Pages
             /// </summary>
             public string FriendlyNonAgileReason
             {
-                get
-                {
-                    switch (_nonAgileReason)
-                    {
-                        case null:
-                            return "";
-                        case "HA_CONSTRAINT_VIOLATION_SR_NOT_SHARED":
-                            return Messages.NOT_AGILE_SR_NOT_SHARED;
-                        case "HA_CONSTRAINT_VIOLATION_NETWORK_NOT_SHARED":
-                            return Messages.NOT_AGILE_NETWORK_NOT_SHARED;
-                        case "VM_HAS_VGPU":
-                            return Messages.NOT_AGILE_VM_HAS_VGPU;
-                        case "VM_HAS_VUSB":
-                            return Messages.NOT_AGILE_VM_HAS_VUSB;
-                        case "VM_HAS_SRIOV_VIF":
-                            return Messages.NOT_AGILE_VM_HAS_SRIOV_VIF;
-                        default:
-                            // We shouldn't really be here unless we have not iterated all the return errors from vm.assert_agile
-                            return Messages.NOT_AGILE_UNKOWN;
-                    }
-                }
+                get { return _nonAgileReason; }
                 set
                 {
-                    _nonAgileReason = value;
+                    var msg = string.Empty;
+                    switch (value)
+                    {
+                        case null:
+                            break;
+                        case "HA_CONSTRAINT_VIOLATION_SR_NOT_SHARED":
+                            msg = Messages.NOT_AGILE_SR_NOT_SHARED;
+                            break;
+                        case "HA_CONSTRAINT_VIOLATION_NETWORK_NOT_SHARED":
+                            msg = Messages.NOT_AGILE_NETWORK_NOT_SHARED;
+                            break;
+                        case "VM_HAS_VGPU":
+                            msg = Messages.NOT_AGILE_VM_HAS_VGPU;
+                            break;
+                        case "VM_HAS_VUSB":
+                            msg = Messages.NOT_AGILE_VM_HAS_VUSB;
+                            break;
+                        case "VM_HAS_SRIOV_VIF":
+                            msg = Messages.NOT_AGILE_VM_HAS_SRIOV_VIF;
+                            break;
+                        default:
+                            // We shouldn't really be here unless we have not iterated through all the return errors from vm.assert_agile
+                            msg = Messages.NOT_AGILE_UNKOWN;
+                            break;
+                    }
+
+                    _nonAgileReason = msg;
+                    cellAgile.ToolTipText = msg;
                 }
             }
 

@@ -353,6 +353,11 @@ namespace XenAdmin.Wizards
             wizardProgress.PreviousStep();
         }
 
+        public bool IsFirstPage()
+        {
+            return wizardProgress.IsFirstStep;
+        }
+
         protected void RefreshProgress()
         {
             wizardProgress.Refresh();

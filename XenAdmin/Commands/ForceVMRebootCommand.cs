@@ -72,7 +72,7 @@ namespace XenAdmin.Commands
         protected override void Execute(List<VM> vms)
         {
             CancelAllTasks(vms);
-            RunAction(vms, Messages.ACTION_VM_REBOOTING, Messages.ACTION_VM_REBOOTING, Messages.ACTION_VM_REBOOTED, null);
+            RunAction(vms, Messages.ACTION_VMS_REBOOTING_TITLE, Messages.ACTION_VMS_REBOOTING_TITLE, Messages.ACTION_VM_REBOOTED, null);
         }
 
 

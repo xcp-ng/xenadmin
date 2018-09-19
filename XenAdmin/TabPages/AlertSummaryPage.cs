@@ -49,7 +49,7 @@ using System.IO;
 
 namespace XenAdmin.TabPages
 {
-    public partial class AlertSummaryPage : UserControl
+    public partial class AlertSummaryPage : NotificationsBasePage
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -69,18 +69,29 @@ namespace XenAdmin.TabPages
             UpdateActionEnablement();
 
             m_alertCollectionChangedWithInvoke = Program.ProgramInvokeHandler(AlertsCollectionChanged);
-            Alert.RegisterAlertCollectionChanged(m_alertCollectionChangedWithInvoke);
 
             toolStripSplitButtonDismiss.DefaultItem = tsmiDismissAll;
             toolStripSplitButtonDismiss.Text = tsmiDismissAll.Text;
         }
 
-        public void RefreshAlertList()
+        #region NotificationPage overrides
+        protected override void RefreshPage()
         {
             toolStripDropDownButtonServerFilter.InitializeHostList();
             toolStripDropDownButtonServerFilter.BuildFilterList();
             Rebuild();
         }
+
+        protected override void RegisterEventHandlers()
+        {
+            Alert.RegisterAlertCollectionChanged(m_alertCollectionChangedWithInvoke);
+        }
+
+        protected override void DeregisterEventHandlers()
+        {
+            Alert.DeregisterAlertCollectionChanged(m_alertCollectionChangedWithInvoke);
+        }
+        #endregion
         
         private void SetFilterLabel()
         {

@@ -44,7 +44,8 @@ namespace XenAdmin.Wizards.PatchingWizard
         public List<PlanAction> CleanupActions { get; private set; }
         public readonly List<PlanAction> DoneActions = new List<PlanAction>();
         public readonly List<PlanAction> InProgressActions = new List<PlanAction>();
-        public string Name { get; set; }
+        public Pool Pool { get; private set; }
+        public string Name { get; private set; }
         
         private double _percentComplete;
         private readonly object _percentLock = new object();
@@ -65,8 +66,10 @@ namespace XenAdmin.Wizards.PatchingWizard
 
         public double ProgressIncrement { get; set; }
 
-        public UpdateProgressBackgroundWorker(List<HostPlan> planActions, List<PlanAction> finalActions)
+        public UpdateProgressBackgroundWorker(Pool pool, List<HostPlan> planActions, List<PlanAction> finalActions)
         {
+            Pool = pool;
+            Name = pool.Name();
             HostPlans = planActions ?? new List<HostPlan>();
             FinalActions = finalActions ?? new List<PlanAction>();
             CleanupActions = FinalActions.Where(a => a is RemoveUpdateFileFromMasterPlanAction).ToList();

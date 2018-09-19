@@ -50,7 +50,7 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
 
         public override string Description
         {
-            get { return String.Format(Messages.UPDATES_WIZARD_CANNOT_SEE_NETWORK, VM.Name(), Network.Name()); }
+            get { return String.Format(Messages.UPDATES_WIZARD_CANNOT_SEE_NETWORK, ServerName, VM.Name(), Network.Name()); }
         }
     }
 }

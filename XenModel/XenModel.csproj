@@ -101,6 +101,7 @@
     <Compile Include="Actions\MultipleAction.cs" />
     <Compile Include="Actions\MultipleActionLauncher.cs" />
     <Compile Include="Actions\Network\CreateSriovAction.cs" />
+    <Compile Include="Actions\Network\SetSecondaryManagementPurposeAction.cs" />
     <Compile Include="Actions\ParallelAction.cs" />
     <Compile Include="Actions\Pool\AddHostToPoolAction.cs" />
     <Compile Include="Actions\Pool\CreatePoolAction.cs" />

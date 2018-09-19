@@ -31,12 +31,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-
 using XenAdmin.Core;
 using XenAdmin.Network;
 using XenAPI;
-using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -48,18 +45,13 @@ namespace XenAdmin.Actions
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        // A common error code returned by likewise from WinError.h
-        private const string BAD_DNS_PACKET_CODE = "251E";
-
         private readonly string domain;
         private readonly string user;
         private readonly string password;
 
-        public EnableAdAction(Pool pool, string domain, string user, string password, bool hideFromHistory)
-            : base(pool.Connection, string.Format(Messages.ENABLING_AD_ON, Helpers.GetName(pool).Ellipsise(50)), Messages.ENABLING_AD, hideFromHistory)
+        public EnableAdAction(IXenConnection connection, string domain, string user, string password)
+            : base(connection, string.Format(Messages.ENABLING_AD_ON, Helpers.GetName(connection).Ellipsise(50)), Messages.ENABLING_AD, false)
         {
-            if (pool == null)
-                throw new ArgumentNullException("pool");
             if (string.IsNullOrEmpty(domain))
                 throw new ArgumentException("domain");
             if (string.IsNullOrEmpty(user))
@@ -67,23 +59,22 @@ namespace XenAdmin.Actions
             if (password == null)
                 throw new ArgumentNullException("password");
 
-            this.Pool = pool;
+            var pool = Helpers.GetPool(connection);
+            if (pool != null)
+                Pool = pool;
+            else
+                Host = Helpers.GetMaster(connection);
+
             this.domain = domain;
             this.user = user;
             this.password = password;
-        }
-
-        public EnableAdAction(Pool pool, string domain, string user, string password)
-            : this(pool, domain, user, password, false)
-        {
-            // (Don't hide from history)
         }
 
         private static Regex AuthFailedReg = new Regex(@"^([1-9]+) \(0x.*\).*");
 
         protected override void Run()
         {
-            log.DebugFormat("Enabling AD on pool '{0}'", Helpers.GetName(Pool).Ellipsise(50));
+            log.DebugFormat("Enabling AD on pool '{0}'", Helpers.GetName(Connection).Ellipsise(50));
 
             Dictionary<string, string> config = new Dictionary<string, string>();
             config["domain"] = domain; // NB this line is now redundant, it is here to support the old now-superseded way of passing in the domain
@@ -91,17 +82,18 @@ namespace XenAdmin.Actions
             config["pass"] = password;
             try
             {
+                var pool = Helpers.GetPoolOfOne(Connection);
                 try
                 {
                     //CA-48122: Call disable just in case it was not disabled properly
-                    Pool.disable_external_auth(Session, Pool.opaque_ref, new Dictionary<string, string>());
+                    Pool.disable_external_auth(Session, pool.opaque_ref, new Dictionary<string, string>());
                 }
                 catch (Exception ex)
                 {
                     log.Debug("Tried to disable AD before enabling it, but it has failed. Ignoring it, because in this case we are executing disable on best effort basis only.", ex);
                 }
-                
-                XenAPI.Pool.enable_external_auth(Session, Pool.opaque_ref, config, domain, Auth.AUTH_TYPE_AD);
+
+                Pool.enable_external_auth(Session, pool.opaque_ref, config, domain, Auth.AUTH_TYPE_AD);
             }
             catch (Failure f)
             {
@@ -126,11 +118,11 @@ namespace XenAdmin.Actions
                 XenRef<Host> hostref = new XenRef<Host>(f.ErrorDescription[1]);
                 Host host = Connection.Resolve(hostref);
                 if (host == null)
-                    throw f;
-                else if (f.ErrorDescription[0] == Failure.POOL_AUTH_ENABLE_FAILED_WRONG_CREDENTIALS)
+                    throw;
+                if (f.ErrorDescription[0] == Failure.POOL_AUTH_ENABLE_FAILED_WRONG_CREDENTIALS)
                     throw new CredentialsFailure(f.ErrorDescription);
-                else
-                    throw new Exception(string.Format(Messages.AD_FAILURE_WITH_HOST, f.Message, host.Name()));
+                
+                throw new Exception(string.Format(Messages.AD_FAILURE_WITH_HOST, f.Message, host.Name()));
             }
             Description = Messages.COMPLETED;
         }

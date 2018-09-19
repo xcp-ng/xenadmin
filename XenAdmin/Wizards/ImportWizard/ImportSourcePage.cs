@@ -31,7 +31,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
@@ -40,6 +43,7 @@ using DiscUtils;
 using DiscUtils.Wim;
 using XenAdmin.Controls;
 using XenCenterLib;
+using XenCenterLib.Compression;
 using XenAdmin.Dialogs;
 using XenAdmin.Controls.Common;
 using XenCenterLib.Archive;
@@ -55,9 +59,9 @@ namespace XenAdmin.Wizards.ImportWizard
 	{
 		#region Private fields
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-		private readonly string[] m_supportedImageTypes = new[] { ".vhd", ".vmdk" };//CA-61385: remove ".vdi", ".wim" support for Boston
-		private readonly string[] m_supportedApplianceTypes = new[] { ".ovf", ".ova", ".ova.gz" };
-		private readonly string[] m_supportedXvaTypes = new[] {".xva", "ova.xml"};
+        private readonly string[] m_supportedImageTypes = { ".vhd", ".vmdk" };//CA-61385: remove ".vdi", ".wim" support for Boston
+        private readonly string[] m_supportedApplianceTypes = { ".ovf", ".ova", ".ova.gz" };
+        private readonly string[] m_supportedXvaTypes = {".xva", "ova.xml"};
 
 		/// <summary>
 		/// Stores the last valid selected appliance
@@ -66,6 +70,16 @@ namespace XenAdmin.Wizards.ImportWizard
 		
 		private EnvelopeType m_selectedOvfEnvelope;
         private bool m_buttonNextEnabled;
+
+        private string _unzipFileIn;
+        private string _unzipFileOut;
+
+        private Uri _uri;
+        private string _downloadFolder;
+        private WebClient _webClient;
+        private Queue<ApplianceFile> _filesToDownload;
+
+	    private bool longProcessInProgress;
 		#endregion
 
 		public ImportSourcePage()
@@ -73,6 +87,9 @@ namespace XenAdmin.Wizards.ImportWizard
 			InitializeComponent();
             m_ctrlError.HideError();
 			m_tlpEncryption.Visible = false;
+            m_tlpError.Visible = false;
+            progressBar1.Visible = false;
+            labelProgress.Visible = false;
 		}
 
 		#region Base class (XenTabPage) overrides
@@ -101,11 +118,11 @@ namespace XenAdmin.Wizards.ImportWizard
 		{
 			if (direction == PageLoadedDirection.Forward && IsDirty)
 			{
-				if (IsUri() && !PerformCheck(CheckDownloadFromUri))
-				{
-					cancel = true;
-					return;
-				}
+                if (IsUri() && !Download())
+                {
+                    cancel = true;
+                    return;
+                }
 
                 if (!PerformCheck(CheckIsSupportedType, CheckPathExists))
 				{
@@ -113,27 +130,32 @@ namespace XenAdmin.Wizards.ImportWizard
 					return;
 				}
 
-                if (!PerformCheck(CheckIsCompressed))
-				{
-					cancel = true;
-					return;
-				}
+                string extension = Path.GetExtension(FilePath).ToLower();
 
-				var checks = new List<CheckDelegate>();
+                if (extension == ".gz")
+                {
+                    if (!PerformCheck(CheckSourceIsWritable) || !Uncompress())
+                    {
+                        cancel = true;
+                        return;
+                    }
+                }
+
+                CheckDelegate check = null;
 				switch (TypeOfImport)
 				{
 					case ImportWizard.ImportType.Xva:
-						checks.Add(GetDiskCapacityXva);
+                        check = GetDiskCapacityXva;
 						break;
 					case ImportWizard.ImportType.Ovf:
-						checks.Add(LoadAppliance);
+                        check = LoadAppliance;
 						break;
 					case ImportWizard.ImportType.Vhd:
-						checks.Add(GetDiskCapacityImage);
+                        check = GetDiskCapacityImage;
 						break;
 				}
 
-				if (!PerformCheck(checks.ToArray()))
+                if (!PerformCheck(check))
 				{
 					cancel = true;
 					return;
@@ -148,6 +170,15 @@ namespace XenAdmin.Wizards.ImportWizard
 				}
 			}
 		}
+
+        public override void PageCancelled()
+        {
+            if (_webClient != null && _webClient.IsBusy)
+                _webClient.CancelAsync();
+
+            if (_unzipWorker.IsBusy)
+                _unzipWorker.CancelAsync();
+        }
 
         public override void PopulatePage()
 		{
@@ -436,9 +467,8 @@ namespace XenAdmin.Wizards.ImportWizard
             if (String.IsNullOrEmpty(FilePath))
 				return false;
 
-			//if it's URI ignore
-			if (IsUri())
-				return true;
+            if (IsUri())
+                return CheckDownloadFromUri(out error);
 
             if (!PathValidator.IsPathValid(FilePath))
 			{
@@ -548,42 +578,13 @@ namespace XenAdmin.Wizards.ImportWizard
             }
         }
 
-		/// <summary>
-		/// Check when we leave the page
-		/// </summary>
-		private bool CheckIsCompressed(out string error)
-		{
-		    error = string.Empty;
-            string fileName = FilePath;
-			string extension = Path.GetExtension(fileName).ToLower();
-
-			if (extension == ".gz")
-			{
-                if (!CheckSourceIsWritable(out error))
-                    return false;
-
-				string outfile = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName));
-
-				using (var dlog = new DecompressApplianceDialog(fileName, outfile))
-				{
-					if (dlog.ShowDialog(ParentForm) == DialogResult.Yes)
-					{
-						m_textBoxFile.Text = outfile;
-						return true;
-					}
-					return false; //user cancelled or error
-				}
-			}
-			return true;//it's not compressed, ok to continue
-		}
-
-		private bool CheckDownloadFromUri(out string error)
-		{
-		    error = string.Empty;
-		    Uri uri;
+        private bool CheckDownloadFromUri(out string error)
+        {
+            error = string.Empty;
             try
             {
-                uri = new Uri(FilePath);
+                _uri = new Uri(FilePath);
+                return true;
             }
             catch (ArgumentNullException)
             {
@@ -595,46 +596,299 @@ namespace XenAdmin.Wizards.ImportWizard
                 error = Messages.IMPORT_SELECT_APPLIANCE_PAGE_ERROR_INVALID_URI;
                 return false;
             }
+        }
 
-			using (var dlog = new DownloadApplianceDialog(uri))
-			{
-				if (dlog.ShowDialog(ParentForm) == DialogResult.Yes && !string.IsNullOrEmpty(dlog.DownloadedPath))
-				{
-					m_textBoxFile.Text = dlog.DownloadedPath;
-					return true;
-				}
-				return false; //an error happened during download or the user cancelled
-			}
-		}
-		
-		#endregion
+        #endregion
 
-		#region Control event handlers
+        #region Download and Uncompression
 
-		private void m_buttonBrowse_Click(object sender, EventArgs e)
-		{
-			using (FileDialog ofd = new OpenFileDialog
-			                        	{
-			                        		CheckFileExists = true,
-			                        		CheckPathExists = true,
-			                        		DereferenceLinks = true,
-											Filter = OvfModeOnly ? Messages.IMPORT_SOURCE_PAGE_FILETYPES_OVF_ONLY : Messages.IMPORT_SOURCE_PAGE_FILETYPES,
-			                        		RestoreDirectory = true,
-			                        		Multiselect = false,
-			                        	})
-			{
-				if (ofd.ShowDialog() == DialogResult.OK)
-					m_textBoxFile.Text = ofd.FileName;
-			}
-		}
+        private bool Download()
+        {
+            using (var dlog = new FolderBrowserDialog { Description = Messages.FOLDER_BROWSER_DOWNLOAD_APPLIANCE })
+            {
+                if (dlog.ShowDialog() == DialogResult.OK)
+                {
+                    if (_webClient == null)
+                    {
+                        _webClient = new WebClient { Proxy = XenAdminConfigManager.Provider.GetProxyFromSettings(null, false) };
+                        _webClient.DownloadFileCompleted += webclient_DownloadFileCompleted;
+                        _webClient.DownloadProgressChanged += webclient_DownloadProgressChanged;
+                    }
+
+                    _downloadFolder = dlog.SelectedPath;
+                    var downloadedPath = Path.Combine(_downloadFolder, Path.GetFileName(_uri.AbsolutePath));
+                    if (string.IsNullOrEmpty(Path.GetExtension(downloadedPath))) //CA-41747
+                        downloadedPath += ".ovf";
+
+                    var file = new ApplianceFile(_uri, downloadedPath);
+                    _filesToDownload = new Queue<ApplianceFile>();
+                    _filesToDownload.Enqueue(file);
+
+                    LongProcessWrapper(() => _webClient.DownloadFileAsync(_uri, downloadedPath, file),
+                        string.Format(Messages.IMPORT_WIZARD_DOWNLOADING, Path.GetFileName(downloadedPath).Ellipsise(50)));
+                    return m_textBoxFile.Text == downloadedPath;
+                }
+                return false;
+            }
+        }
+
+        private bool Uncompress()
+        {
+            _unzipFileIn = FilePath;
+            if (string.IsNullOrEmpty(_unzipFileIn))
+                return false;
+
+            _unzipFileOut = Path.Combine(Path.GetDirectoryName(_unzipFileIn), Path.GetFileNameWithoutExtension(_unzipFileIn));
+
+            var msg = string.Format(Messages.UNCOMPRESS_APPLIANCE_DESCRIPTION,
+                Path.GetFileName(_unzipFileOut), Path.GetFileName(_unzipFileIn));
+
+            using (var dlog = new ThreeButtonDialog(new ThreeButtonDialog.Details(SystemIcons.Exclamation, msg, Messages.XENCENTER),
+                new ThreeButtonDialog.TBDButton(Messages.YES, DialogResult.Yes),
+                new ThreeButtonDialog.TBDButton(Messages.NO, DialogResult.No)))
+            {
+                if (dlog.ShowDialog(this) == DialogResult.Yes)
+                {
+                    LongProcessWrapper(() => _unzipWorker.RunWorkerAsync(),
+                        string.Format(Messages.IMPORT_WIZARD_UNCOMPRESSING, Path.GetFileName(_unzipFileIn).Ellipsise(50)));
+                    return m_textBoxFile.Text == _unzipFileOut;
+                }
+
+                return false;
+            }
+        }
+
+        private void LongProcessWrapper(Action process, string processMessage)
+        {
+            m_textBoxFile.Enabled = false;
+            m_buttonBrowse.Enabled = false;
+            m_buttonNextEnabled = false;
+            OnPageUpdated();
+
+            m_tlpError.Visible = false;
+            labelProgress.Text = processMessage;
+            labelProgress.Visible = true;
+            progressBar1.Visible = true;
+            progressBar1.Value = 0;
+
+            longProcessInProgress = true;
+            process.Invoke();
+            while (longProcessInProgress)
+                Application.DoEvents();
+
+            m_textBoxFile.Enabled = true;
+            m_buttonBrowse.Enabled = true;
+        }
+
+        #endregion
+
+        #region Event handlers
+
+        private void m_buttonBrowse_Click(object sender, EventArgs e)
+        {
+            using (FileDialog ofd = new OpenFileDialog
+            {
+                CheckFileExists = true,
+                CheckPathExists = true,
+                DereferenceLinks = true,
+                Filter = OvfModeOnly ? Messages.IMPORT_SOURCE_PAGE_FILETYPES_OVF_ONLY : Messages.IMPORT_SOURCE_PAGE_FILETYPES,
+                RestoreDirectory = true,
+                Multiselect = false,
+            })
+            {
+                if (ofd.ShowDialog() == DialogResult.OK)
+                    m_textBoxFile.Text = ofd.FileName;
+            }
+        }
 
 		private void m_textBoxImage_TextChanged(object sender, EventArgs e)
 		{
 			m_tlpEncryption.Visible = false;
+            m_tlpError.Visible = false;
 			PerformCheck(CheckPathValid);
 			IsDirty = true;
 		}
 
-		#endregion
+
+        private void _unzipWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            FileInfo info = new FileInfo(_unzipFileIn);
+            long length = info.Length;
+
+            using (Stream inStream = File.Open(_unzipFileIn, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+            using (Stream outStream = File.Open(_unzipFileOut, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
+            {
+                try
+                {
+                    using (CompressionStream bzis = CompressionFactory.Reader(CompressionFactory.Type.Gz, inStream))
+                    {
+                        byte[] buffer = new byte[4 * 1024];
+
+                        int bytesRead;
+                        while ((bytesRead = bzis.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            outStream.Write(buffer, 0, bytesRead);
+
+                            int percentage = (int)Math.Floor((double)bzis.Position * 100 / length);
+
+                            if (percentage < 0)
+                                _unzipWorker.ReportProgress(0);
+                            else if (percentage > 100)
+                                _unzipWorker.ReportProgress(100);
+                            else
+                                _unzipWorker.ReportProgress(percentage);
+
+                            if (_unzipWorker.CancellationPending)
+                            {
+                                e.Cancel = true;
+                                return;
+                            }
+                        }
+                    }
+
+                    e.Result = _unzipFileOut;
+                }
+                catch (Exception ex)
+                {
+                    log.Error(string.Format("Error while uncompressing {0} to {1}", _unzipFileIn, _unzipFileOut), ex);
+                    throw;
+                }
+                finally
+                {
+                    outStream.Flush();
+                }
+            }
+        }
+
+        private void _unzipWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+        }
+
+        private void _unzipWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            progressBar1.Visible = false;
+            labelProgress.Visible = false;
+
+            if (e.Cancelled || e.Error != null)
+            {
+                if (e.Error != null)
+                {
+                    _labelError.Text = string.Format(Messages.IMPORT_WIZARD_FAILED_UNCOMPRESS,
+                        Path.GetFileName(_unzipFileIn).Ellipsise(50));
+                    m_tlpError.Visible = true;
+                }
+
+                try
+                {
+                    File.Delete(_unzipFileOut);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(string.Format("Failed to delete uncompressed file {0}.", _unzipFileOut), ex);
+                }
+
+                longProcessInProgress = false;
+                return;
+            }
+
+            var uncompressedFile = e.Result as string;
+            progressBar1.Value = 100;
+            m_textBoxFile.Text = uncompressedFile;
+
+            try
+            {
+                File.Delete(_unzipFileIn);
+            }
+            catch (Exception ex)
+            {
+                log.Error(string.Format("Failed to delete compressed file {0}.", _unzipFileIn), ex);
+            }
+            longProcessInProgress = false;
+        }
+
+
+        private void webclient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            Program.Invoke(this, () => progressBar1.Value = e.ProgressPercentage);
+        }
+
+        private void webclient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            Program.Invoke(this, () =>
+            {
+                var appfile = (ApplianceFile)e.UserState;
+
+                if (e.Cancelled)
+                {
+                    longProcessInProgress = false;
+                }
+                else if (e.Error != null) // failure
+                {
+                    progressBar1.Visible = false;
+                    labelProgress.Visible = false;
+                    _labelError.Text = string.Format(Messages.IMPORT_WIZARD_FAILED_DOWNLOAD,
+                        Path.GetFileName(appfile.LocalPath));
+                    m_tlpError.Visible = true;
+                    log.Error(string.Format("Failed to download file {0}.", appfile), e.Error);
+                    longProcessInProgress = false;
+                }
+                else // success
+                {
+                    if (_filesToDownload.Peek() == appfile)
+                        _filesToDownload.Dequeue();
+
+                    if (appfile.LocalPath.ToLower().EndsWith(".ovf"))
+                    {
+                        var envType = OVF.Load(appfile.LocalPath);
+
+                        if (envType != null)
+                        {
+                            int index = _uri.OriginalString.LastIndexOf('/') + 1;
+                            var remoteDir = _uri.OriginalString.Substring(0, index);
+
+                            foreach (var file in envType.References.File)
+                            {
+                                var remoteUri = new Uri(remoteDir + file.href);
+                                var localPath = Path.Combine(_downloadFolder, file.href);
+                                _filesToDownload.Enqueue(new ApplianceFile(remoteUri, localPath));
+                            }
+                        }
+                    }
+
+                    if (_filesToDownload.Count == 0)
+                    {
+                        progressBar1.Value = 100;
+                        progressBar1.Visible = false;
+                        labelProgress.Visible = false;
+                        m_textBoxFile.Text = Path.Combine(_downloadFolder, Path.GetFileName(_uri.AbsolutePath));
+                        longProcessInProgress = false;
+                    }
+                    else
+                    {
+                        progressBar1.Value = 0;
+                        var file = _filesToDownload.Peek();
+                        labelProgress.Text = string.Format(Messages.IMPORT_WIZARD_DOWNLOADING,
+                            Path.GetFileName(file.LocalPath).Ellipsise(50));
+                        _webClient.DownloadFileAsync(file.RemoteUri, file.LocalPath, file);
+                    }
+                }
+            });
+        }
+
+        #endregion
+
+        private class ApplianceFile
+        {
+            public ApplianceFile(Uri remoteUri, string localPath)
+            {
+                RemoteUri = remoteUri;
+                LocalPath = localPath;
+            }
+
+            public Uri RemoteUri { get; private set; }
+
+            public string LocalPath { get; private set; }
+        }
     }
 }

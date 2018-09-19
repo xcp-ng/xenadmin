@@ -94,7 +94,8 @@ namespace XenAdmin.Core
             var i = 0;
             while (i++ < indent)
                 indentString += " ";
-            return builder.Append(string.Format("{0}{1}", indentString, value));
+            var newvalue = value.Replace(System.Environment.NewLine, string.Format("{0}{1}", System.Environment.NewLine, indentString));
+            return builder.Append(string.Format("{0}{1}", indentString, newvalue));
         }
 
         public static StringBuilder AppendIndented(this StringBuilder builder, StringBuilder value, int indent = 2)

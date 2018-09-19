@@ -150,7 +150,6 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
             labelRubric.Text = TheVM.is_a_template
                                    ? Messages.COPY_TEMPLATE_INTRA_POOL_RUBRIC
                                    : Messages.COPY_VM_INTRA_POOL_RUBRIC;
-            base.PopulatePage();
         }
 
         public override bool EnableNext()

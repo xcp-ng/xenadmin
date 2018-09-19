@@ -207,9 +207,6 @@
   <data name="labelBlurb.Location" type="System.Drawing.Point, System.Drawing">
     <value>48, 3</value>
   </data>
-  <data name="labelBlurb.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 0</value>
-  </data>
   <data name="labelBlurb.Size" type="System.Drawing.Size, System.Drawing">
     <value>543, 41</value>
   </data>
@@ -249,8 +246,8 @@
   <data name="labelDescription.Location" type="System.Drawing.Point, System.Drawing">
     <value>197, 0</value>
   </data>
-  <data name="labelDescription.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 3, 0, 0</value>
+  <data name="labelDescription.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 3, 3, 3</value>
   </data>
   <data name="labelDescription.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 18</value>
@@ -291,6 +288,9 @@
   <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
     <value>角色</value>
   </data>
+  <data name="gridRoles.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
   <data name="gridRoles.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
@@ -321,6 +321,9 @@
   <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 66</value>
   </data>
+  <data name="tableLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 10, 3, 3</value>
+  </data>
   <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -343,7 +346,10 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="labelDescription" Row="0" RowSpan="1" Column="1" ColumnSpan="1" />&lt;Control Name="gridRoles" Row="0" RowSpan="1" Column="0" ColumnSpan="1" />&lt;/Controls>&lt;Columns Styles="Percent,32.68073,Percent,67.31927" />&lt;Rows Styles="AutoSize,0,Absolute,20" />&lt;/TableLayoutSettings></value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="labelDescription" Row="0" RowSpan="1" Column="1" ColumnSpan="1" />&lt;Control Name="gridRoles" Row="0" RowSpan="1" Column="0" ColumnSpan="1" />&lt;/Controls>&lt;Columns Styles="Percent,33,Percent,67" />&lt;Rows Styles="AutoSize,0" />&lt;/TableLayoutSettings></value>
+  </data>
+  <data name="pictureBoxSubjectType.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
   </data>
   <data name="pictureBoxSubjectType.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
@@ -356,6 +362,9 @@
   </data>
   <data name="pictureBoxSubjectType.Size" type="System.Drawing.Size, System.Drawing">
     <value>39, 38</value>
+  </data>
+  <data name="pictureBoxSubjectType.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>AutoSize</value>
   </data>
   <data name="pictureBoxSubjectType.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -428,6 +437,9 @@
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>选择角色</value>

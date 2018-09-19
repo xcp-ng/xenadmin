@@ -41,18 +41,14 @@ namespace XenAdmin.Dialogs
 
         public string Domain
         {
-            get
-            {
-                return textBoxDomain.Text;
-            }
+            get { return textBoxDomain.Text.Trim(); }
+            set { textBoxDomain.Text = value ?? string.Empty; }
         }
 
         public string Username
         {
-            get
-            {
-                return textBoxUsername.Text.Trim();
-            }
+            get { return textBoxUsername.Text.Trim(); }
+            set { textBoxUsername.Text = value ?? string.Empty; }
         }
 
         public string Password
@@ -72,7 +68,7 @@ namespace XenAdmin.Dialogs
         /// the AD server, giving options 'Disable', 'Ignore' and 'Cancel'.</param>
         /// <param name="currentDomainName">The current domain name to populate the dialog with. Maybe null or empty if
         /// joining an unknown domain. Should not be null or empty when leaving a domain.</param>
-        public AdPasswordPrompt(bool join, string currentDomainName)
+        public AdPasswordPrompt(bool join, string currentDomainName = null)
         {
             InitializeComponent();
 
@@ -142,11 +138,6 @@ namespace XenAdmin.Dialogs
             buttonOk.Enabled = textBoxDomain.Visible
                                    ? textBoxDomain.Text.Trim().Length > 0 && textBoxUsername.Text.Trim().Length > 0 && textBoxPassword.Text.Trim().Length > 0
                                    : textBoxUsername.Text.Trim().Length > 0;
-        }
-
-        public void ClearPassword()
-        {
-            textBoxPassword.Text = "";
         }
 
         internal override string HelpName

@@ -771,6 +771,12 @@
   <data name="ACTION_SCANNING_SR_FROM" xml:space="preserve">
     <value>Performing SR scan from '{0}'</value>
   </data>
+  <data name="ACTION_SET_SECONDARY_MANAGEMENT_PURPOSE_TITLE" xml:space="preserve">
+    <value>Renaming server network interface</value>
+  </data>
+  <data name="ACTION_SET_SECONDARY_MANAGEMENT_PURPOSE_DONE" xml:space="preserve">
+    <value>Renamed server network interface</value>
+  </data>
   <data name="ACTION_SET_VM_OTHER_CONFIG_TITLE" xml:space="preserve">
     <value>Saving VM Configuration</value>
   </data>
@@ -1107,6 +1113,9 @@
   <data name="ACTION_VMS_MIGRATING_TITLE" xml:space="preserve">
     <value>Migrating VMs</value>
   </data>
+  <data name="ACTION_VMS_REBOOTING_TITLE" xml:space="preserve">
+    <value>Rebooting VMs</value>
+  </data>
   <data name="ACTION_VMS_RESUMING_ON_TITLE" xml:space="preserve">
     <value>Resuming VMs</value>
   </data>
@@ -1115,6 +1124,9 @@
   </data>
   <data name="ACTION_VMS_STARTING_ON_TITLE" xml:space="preserve">
     <value>Starting VMs</value>
+  </data>
+  <data name="ACTION_VMS_SUSPENDING_TITLE" xml:space="preserve">
+    <value>Suspending VMs</value>
   </data>
   <data name="ACTION_VM_COPIED" xml:space="preserve">
     <value>Copied</value>
@@ -1586,7 +1598,7 @@ Host: {1}</value>
     <value>AD Authentication</value>
   </data>
   <data name="AD_JOIN_DOMAIN" xml:space="preserve">
-    <value>&amp;Join Domain</value>
+    <value>&amp;Join Domain...</value>
   </data>
   <data name="AD_JOIN_DOMAIN_BLURB" xml:space="preserve">
     <value>Pool '{0}' has Active Directory authentication enabled. In order for '{1}' to join the pool, it must share the same AD configuration.
@@ -1607,7 +1619,7 @@ You must use a user account with sufficient privileges.</value>
 Do you want to continue?</value>
   </data>
   <data name="AD_LEAVE_DOMAIN" xml:space="preserve">
-    <value>L&amp;eave Domain</value>
+    <value>L&amp;eave Domain...</value>
   </data>
   <data name="AD_LEAVE_WARNING" xml:space="preserve">
     <value>You are currently connected to pool '{0}' using Active Directory authentication.
@@ -1678,11 +1690,17 @@ Do you want to continue?</value>
   <data name="AD_SELECT_ROLE_GROUP" xml:space="preserve">
     <value>Select the role you want to assign to group '{0}'. Each role inherits all the privileges of the subordinate role below it in the list.</value>
   </data>
+  <data name="AD_SELECT_ROLE_GROUP_MANY" xml:space="preserve">
+    <value>Select the role you want to assign to these groups. Each role inherits all the privileges of the subordinate role below it in the list.</value>
+  </data>
   <data name="AD_SELECT_ROLE_MIXED" xml:space="preserve">
     <value>Select the role you want to assign to these users and groups. Each role inherits all the privileges of the subordinate role below it in the list.</value>
   </data>
   <data name="AD_SELECT_ROLE_USER" xml:space="preserve">
     <value>Select the role you want to assign to user '{0}'. Each role inherits all the privileges of the subordinate role below it in the list.</value>
+  </data>
+  <data name="AD_SELECT_ROLE_USER_MANY" xml:space="preserve">
+    <value>Select the role you want to assign to these users. Each role inherits all the privileges of the subordinate role below it in the list.</value>
   </data>
   <data name="AD_SELECT_SINGLE_SUBJECT" xml:space="preserve">
     <value>Select a single subject to change their role</value>
@@ -2027,7 +2045,7 @@ Warning: you must ensure that the SR is not in use by any server not connected t
     <value>Auto-start on server boot</value>
   </data>
   <data name="AUTOSTART_ENABLED_CHECK_DESCRIPTION" xml:space="preserve">
-    <value>VM {0} has autostart enabled</value>
+    <value>{0}: VM {1} has autostart enabled</value>
   </data>
   <data name="AVAILABLE" xml:space="preserve">
     <value>available</value>
@@ -6495,9 +6513,6 @@ Click Configure HA to alter the settings displayed below.</value>
   <data name="IMPORT_DISK_IMAGE" xml:space="preserve">
     <value>Import VM '{0}' from Disk Image to '{1}'</value>
   </data>
-  <data name="IMPORT_DOWNLOAD_ERROR" xml:space="preserve">
-    <value>Error downloading file '{0}'. {1}</value>
-  </data>
   <data name="IMPORT_EULA_PAGE_MAX_TABS" xml:space="preserve">
     <value>Too many EULAs to display, cannot continue.</value>
   </data>
@@ -6723,6 +6738,15 @@ Click Configure HA to alter the settings displayed below.</value>
   <data name="IMPORT_WIZARD_DESTINATION_TABLE_INTRO" xml:space="preserve">
     <value>&amp;Assign imported VM(s) to a home server:</value>
   </data>
+  <data name="IMPORT_WIZARD_DOWNLOADING" xml:space="preserve">
+    <value>Downloading file {0}, please wait...</value>
+  </data>
+  <data name="IMPORT_WIZARD_FAILED_DOWNLOAD" xml:space="preserve">
+    <value>Failed to download file {0}. Please see the logs for more information.</value>
+  </data>
+  <data name="IMPORT_WIZARD_FAILED_UNCOMPRESS" xml:space="preserve">
+    <value>Failed to uncompress file {0}. Please see the logs for more information.</value>
+  </data>
   <data name="IMPORT_WIZARD_NETWORKING_INTRO" xml:space="preserve">
     <value>Map the virtual network interfaces in the VMs you are importing to networks in the destination pool or standalone server.</value>
   </data>
@@ -6734,6 +6758,9 @@ Click Configure HA to alter the settings displayed below.</value>
   </data>
   <data name="IMPORT_WIZARD_TEMPLATE_SR_HINT_TEXT" xml:space="preserve">
     <value>Select the storage repository for the imported template.</value>
+  </data>
+  <data name="IMPORT_WIZARD_UNCOMPRESSING" xml:space="preserve">
+    <value>Uncompressing file {0}, please wait...</value>
   </data>
   <data name="IMPORT_WIZARD_VM_SELECTION_INTRODUCTION" xml:space="preserve">
     <value>&amp;Virtual network interfaces in imported VMs:</value>
@@ -7190,20 +7217,18 @@ Standard features only</value>
   <data name="LINK_STATUS" xml:space="preserve">
     <value>Link Status</value>
   </data>
-  <data name="LIST_SEPARATOR" xml:space="preserve">
-    <value>, </value>
-  </data>
   <data name="LIVE_PATCHING" xml:space="preserve">
     <value>Live Patching</value>
   </data>
   <data name="LIVE_PATCHING_FAILED_MULTI_HOST" xml:space="preserve">
-    <value>Live patching failed for servers {0}. To apply the patch, please put the servers into maintenance mode and reboot them.</value>
+    <value>Live patching failed for the following servers:
+
+{0}
+
+To complete the patch installation, please put the servers into maintenance mode and reboot them.</value>
   </data>
   <data name="LIVE_PATCHING_FAILED_ONE_HOST" xml:space="preserve">
-    <value>Live patching failed for server ‘{0}’. To apply the patch, please put the server into maintenance mode and reboot it.</value>
-  </data>
-  <data name="LOADING" xml:space="preserve">
-    <value>Loading '{0}'...</value>
+    <value>Live patching failed for server ‘{0}’. To complete the patch installation, please put the server into maintenance mode and reboot it.</value>
   </data>
   <data name="LOCAL" xml:space="preserve">
     <value>Local</value>
@@ -9433,16 +9458,13 @@ However, there is not enough space to perform the repartitioning, so the current
     <value>Restart these VMs:</value>
   </data>
   <data name="PATCHINGWIZARD_MODEPAGE_RESTARTXAPI" xml:space="preserve">
-    <value>Restart toolstack in this order (master always first):</value>
+    <value>Restart toolstack on these servers in this order (master always first):</value>
   </data>
   <data name="PATCHINGWIZARD_MODEPAGE_TEXT" xml:space="preserve">
     <value>Update Mode</value>
   </data>
   <data name="PATCHINGWIZARD_MODEPAGE_TITLE" xml:space="preserve">
     <value>Select the update mode</value>
-  </data>
-  <data name="PATCHINGWIZARD_MODEPAGE_UNKNOWNACTION" xml:space="preserve">
-    <value>Unknown</value>
   </data>
   <data name="PATCHINGWIZARD_MORE_INFO" xml:space="preserve">
     <value>More info...</value>
@@ -9607,6 +9629,27 @@ Servers where this update cannot be applied appear disabled in this list.</value
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_TITLE" xml:space="preserve">
     <value>Select the servers you want to update</value>
   </data>
+  <data name="PATCHINGWIZARD_SINGLEUPDATE_FAILURE_MANY" xml:space="preserve">
+    <value>The installation of update {0} was not completed successfully on all selected servers. The update process has been paused. Press Retry to resume it.</value>
+  </data>
+  <data name="PATCHINGWIZARD_SINGLEUPDATE_FAILURE_ONE" xml:space="preserve">
+    <value>The installation of update {0} was not completed successfully.</value>
+  </data>
+  <data name="PATCHINGWIZARD_SINGLEUPDATE_FAILURE_PER_POOL_MANY" xml:space="preserve">
+    <value>The following errors occurred while the installation of update {0} was in progress:</value>
+  </data>
+  <data name="PATCHINGWIZARD_SINGLEUPDATE_FAILURE_PER_POOL_ONE" xml:space="preserve">
+    <value>The following error occurred while the installation of update {0} was in progress:</value>
+  </data>
+  <data name="PATCHINGWIZARD_SINGLEUPDATE_SUCCESS_MANY" xml:space="preserve">
+    <value>The installation of update {0} on all selected servers was completed successfully.</value>
+  </data>
+  <data name="PATCHINGWIZARD_SINGLEUPDATE_SUCCESS_ONE" xml:space="preserve">
+    <value>The installation of update {0} was completed successfully.</value>
+  </data>
+  <data name="PATCHINGWIZARD_SINGLEUPDATE_TITLE" xml:space="preserve">
+    <value>[XenCenter] is now installing update {0} on your system.</value>
+  </data>
   <data name="PATCHINGWIZARD_UPLOADPAGE_MESSAGE_DOWNLOAD_AND_UPLOAD" xml:space="preserve">
     <value>[XenCenter] is now downloading your update and uploading it to the servers specified in the previous step.
 Please wait for these operations to complete, then click Next to continue with the installation.</value>
@@ -9644,9 +9687,6 @@ Please wait for this operation to complete, then click Next to continue with the
   </data>
   <data name="PATCHING_WIZARD_DESC_CELL_INDENT" xml:space="preserve">
     <value>{0,4}{1}</value>
-  </data>
-  <data name="PATCHING_WIZARD_ERROR" xml:space="preserve">
-    <value>{0} error.</value>
   </data>
   <data name="PATCHING_WIZARD_HOST_CHECK_OK" xml:space="preserve">
     <value>{0}: {1} ok.</value>
@@ -9924,6 +9964,12 @@ Please reconnect the host and try again</value>
   </data>
   <data name="POOL_COLON" xml:space="preserve">
     <value>Pool:</value>
+  </data>
+  <data name="POOL_DELETE_HA_ENABLED" xml:space="preserve">
+    <value>Pool '{0}' has HA enabled. You must disable HA before making the pool into a standalone server.</value>
+  </data>
+  <data name="POOL_DELETE_HA_ENABLING" xml:space="preserve">
+    <value>HA is currently being enabled on pool '{0}'. You must disable HA before making the pool into a standalone server.</value>
   </data>
   <data name="POOL_EDIT_IN_PROGRESS" xml:space="preserve">
     <value>The configuration for this pool is currently being modified</value>
@@ -10351,7 +10397,7 @@ To log out of this server and log in again using a different user account, enter
     <value>Removed from folder</value>
   </data>
   <data name="REMOVED_UPDATE" xml:space="preserve">
-    <value>Removed Update '{0}'</value>
+    <value>Removed update '{0}'</value>
   </data>
   <data name="REMOVED_VMS_FROM_APPLIANCE" xml:space="preserve">
     <value>Removed from vApp </value>
@@ -10550,9 +10596,6 @@ Click Server Status Report to open the Compile Server Status Report Wizard or cl
   </data>
   <data name="RETRIEVING_WLB_DEFAULT_CONFIGURATION" xml:space="preserve">
     <value>Retrieving WLB default configuration</value>
-  </data>
-  <data name="RETRY" xml:space="preserve">
-    <value>&amp;Retry</value>
   </data>
   <data name="RETRY_BUTTON_LABEL" xml:space="preserve">
     <value>&amp;Retry</value>
@@ -11497,10 +11540,7 @@ The upper limit: SR size / {2}</value>
     <value>{0} (version {1})</value>
   </data>
   <data name="SUPP_PACK_INSTALL_FAILED" xml:space="preserve">
-    <value>Failed to install supplemental pack '{0}' on '{1}'.</value>
-  </data>
-  <data name="SUPP_PACK_INSTALL_FAILED_MORE_INFO" xml:space="preserve">
-    <value>{0}
+    <value>Failed to install supplemental pack '{0}' on '{1}'.
 
 Refer to the "[XenServer product] Administrator's Guide" for instructions on how to manually install a supplemental pack on a server.</value>
   </data>
@@ -11524,12 +11564,6 @@ Refer to the "[XenServer product] Administrator's Guide" for instructions on how
   </data>
   <data name="SUSPEND" xml:space="preserve">
     <value>Suspend</value>
-  </data>
-  <data name="SUSPENDED_SPECIFIED_VMS" xml:space="preserve">
-    <value>Suspended specified VMs</value>
-  </data>
-  <data name="SUSPENDING_SPECIFIED_VMS" xml:space="preserve">
-    <value>Suspending specified VMs</value>
   </data>
   <data name="SUSPENDING_VM_OUT_OF" xml:space="preserve">
     <value>Suspending VM {0} out of {1}</value>
@@ -11945,40 +11979,31 @@ Verify that the file is a valid {1} export.</value>
 Check your settings and try again.</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM" xml:space="preserve">
-    <value>Cannot migrate VM '{0}'</value>
+    <value>{0}: Cannot migrate VM '{1}'</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_LICENSE_REASON" xml:space="preserve">
-    <value>Cannot migrate VM '{0}' due to license restrictions.</value>
+    <value>{0}: Cannot migrate VM '{1}' due to license restrictions.</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_NO_GPU" xml:space="preserve">
-    <value>Cannot migrate VM '{0}', because it has a virtual GPU attached and there is no suitable GPU available on other servers.</value>
+    <value>{0}: Cannot migrate VM '{1}', because it has a virtual GPU attached and there is no suitable GPU available on other servers.</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_NO_TOOLS" xml:space="preserve">
-    <value>Cannot migrate VM '{0}', because it doesn't have up-to-date drivers installed.</value>
+    <value>{0}: Cannot migrate VM '{1}', because it doesn't have up-to-date drivers installed.</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_OPERATION_IN_PROGRESS" xml:space="preserve">
-    <value>Cannot migrate VM '{0}', because it is involved in another operation currently in progress.</value>
+    <value>{0}: Cannot migrate VM '{1}', because it is involved in another operation currently in progress.</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_PCI_REASON" xml:space="preserve">
-    <value>Cannot migrate VM '{0}', because it has one or more PCI devices attached.</value>
+    <value>{0}: Cannot migrate VM '{1}', because it has one or more PCI devices attached.</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_SUSPEND_REASON" xml:space="preserve">
-    <value>Cannot migrate VM '{0}', because it cannot be suspended.</value>
+    <value>{0}: Cannot migrate VM '{1}', because it cannot be suspended.</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_UNKNOWN_REASON" xml:space="preserve">
-    <value>Cannot migrate VM '{0}' for an unknown reason. See application logs for more details.</value>
+    <value>{0}: Cannot migrate VM '{1}' for an unknown reason. See application logs for more details.</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_SEE_NETWORK" xml:space="preserve">
-    <value>The VM '{0}' uses the network '{1}', which cannot be seen from all servers.</value>
-  </data>
-  <data name="UPDATES_WIZARD_CANNOT_SUSPEND_VM" xml:space="preserve">
-    <value>This VM cannot be suspended and will be shut down.</value>
-  </data>
-  <data name="UPDATES_WIZARD_CANNOT_SUSPEND_VM_TITLE" xml:space="preserve">
-    <value>Cannot suspend VM '{0}'</value>
-  </data>
-  <data name="UPDATES_WIZARD_CANNOT_UPGRADE_WITH_VM" xml:space="preserve">
-    <value>Cannot upgrade with VM '{0}'</value>
+    <value>{0}: The VM '{1}' uses the network '{2}', which cannot be seen from all servers.</value>
   </data>
   <data name="UPDATES_WIZARD_CONNECTION_LOST" xml:space="preserve">
     <value>The connections to your selected servers have been lost.  Select alternate servers or reconnect to your selected servers.</value>
@@ -12030,11 +12055,8 @@ Check your settings and try again.</value>
   <data name="UPDATES_WIZARD_HOST_NOT_LIVE_WARNING" xml:space="preserve">
     <value>{0}: Check skipped because the server is unreachable.</value>
   </data>
-  <data name="UPDATES_WIZARD_INSTALL_TOOLS" xml:space="preserve">
-    <value>Click here to install tools</value>
-  </data>
   <data name="UPDATES_WIZARD_LOCAL_CD" xml:space="preserve">
-    <value>VM '{0}' has a local CD/DVD in its drive.</value>
+    <value>{0}: VM '{1}' has a local CD/DVD in its drive.</value>
   </data>
   <data name="UPDATES_WIZARD_LOCAL_STORAGE" xml:space="preserve">
     <value>{0}: The VM '{1}' uses local storage and cannot be migrated.</value>
@@ -12054,23 +12076,11 @@ Check your settings and try again.</value>
   <data name="UPDATES_WIZARD_NOTVALID_ZIPFILE" xml:space="preserve">
     <value>No valid update file found in {0}</value>
   </data>
-  <data name="UPDATES_WIZARD_NOT_ENOUGH_SPACE" xml:space="preserve">
-    <value>This storage repository does not have enough space to suspend the required VMs.</value>
-  </data>
-  <data name="UPDATES_WIZARD_NOT_ENOUGH_SPACE_TITLE" xml:space="preserve">
-    <value>Not enough space on default SR '{0}'</value>
-  </data>
   <data name="UPDATES_WIZARD_NO_ACTION" xml:space="preserve">
     <value>No further action is required for this update.</value>
   </data>
-  <data name="UPDATES_WIZARD_NO_DEFAULT_SR" xml:space="preserve">
-    <value>There is no default SR on this pool to suspend VMs to.</value>
-  </data>
-  <data name="UPDATES_WIZARD_NO_DEFAULT_SR_TITLE" xml:space="preserve">
-    <value>No Default SR on Pool '{0}'</value>
-  </data>
   <data name="UPDATES_WIZARD_NO_HOSTS" xml:space="preserve">
-    <value>There are no servers available to migrate the VM {0} to.</value>
+    <value>{0}: There are no servers available to migrate the VM '{1}' to.</value>
   </data>
   <data name="UPDATES_WIZARD_NO_MEMORY" xml:space="preserve">
     <value>{0}: There is not enough memory available on other servers to migrate all the VMs off this server.</value>
@@ -12082,10 +12092,10 @@ Check your settings and try again.</value>
     <value>{0}: This server does not need to be rebooted because live patching is used.</value>
   </data>
   <data name="UPDATES_WIZARD_NO_TOOLS" xml:space="preserve">
-    <value>The VM {0} does not have [XenServer product] Tools installed.</value>
+    <value>{0}: The VM {1} does not have [XenServer product] Tools installed.</value>
   </data>
   <data name="UPDATES_WIZARD_OUT_OF_DATE_TOOLS" xml:space="preserve">
-    <value>The VM {0} cannot be suspended until it has up to date [XenServer product] Tools.</value>
+    <value>{0}: The VM {1} cannot be suspended until it has up to date [XenServer product] Tools.</value>
   </data>
   <data name="UPDATES_WIZARD_PAGE1_TOPTEXT" xml:space="preserve">
     <value>Select the checkboxes for each server you want to update. Select a pool checkbox to select all the available servers in the pool.</value>
@@ -12107,9 +12117,6 @@ Check your settings and try again.</value>
   </data>
   <data name="UPDATES_WIZARD_PRECHECK_FAILED_CONFLICTING_UPDATE" xml:space="preserve">
     <value>{0}: Conflicting update(s) are present: {1}</value>
-  </data>
-  <data name="UPDATES_WIZARD_PRECHECK_FAILED_ON_ALL_SERVERS" xml:space="preserve">
-    <value>Pre-update checks failed on the selected servers.  The update will not be applied.</value>
   </data>
   <data name="UPDATES_WIZARD_PRECHECK_FAILED_REQUIRED_UPDATE_MISSING" xml:space="preserve">
     <value>{0}: Prerequisite update(s) are missing: {1}</value>
@@ -12170,17 +12177,14 @@ Check your settings and try again.</value>
   <data name="UPDATES_WIZARD_SR_TITLE" xml:space="preserve">
     <value>Storage repository '{0}'</value>
   </data>
-  <data name="UPDATES_WIZARD_SUSPENDED_VM" xml:space="preserve">
-    <value>The VM {0} is suspended with a local or Tools CD</value>
-  </data>
   <data name="UPDATES_WIZARD_TOOLS_CD" xml:space="preserve">
-    <value>VM '{0}' has the tools CD in its drive.</value>
+    <value>{0}: VM '{1}' has the tools CD in its drive.</value>
   </data>
   <data name="UPDATES_WIZARD_UPLOADING_UPDATE" xml:space="preserve">
     <value>Uploading update {0} to {1}...</value>
   </data>
   <data name="UPDATES_WIZARD_VM_HAS_VGPU" xml:space="preserve">
-    <value>The VM '{0}' has one or more virtual GPUs.</value>
+    <value>{0}: The VM '{1}' has one or more virtual GPUs.</value>
   </data>
   <data name="UPDATES_WIZARD_WLB_ON_WARNING" xml:space="preserve">
     <value>{0}: Check skipped because WLB is enabled on pool {1}.</value>
@@ -12227,9 +12231,6 @@ Note that if RBAC is enabled, only updates which you have privileges to dismiss 
   <data name="UPDATE_TEMP_VDI_DESCRIPTION" xml:space="preserve">
     <value>Temporary virtual disk used for the installation of an update</value>
   </data>
-  <data name="UPDATE_WAS_NOT_COMPLETED" xml:space="preserve">
-    <value>The installation of update {0} was not completed successfully</value>
-  </data>
   <data name="UPDATE_WAS_SUCCESSFULLY_INSTALLED" xml:space="preserve">
     <value>Update {0} was successfully installed</value>
   </data>
@@ -12261,7 +12262,7 @@ Note that if RBAC is enabled, only updates which you have privileges to dismiss 
     <value>Shut down all VMs</value>
   </data>
   <data name="UPGRADEWIZARD_PROBLEM_INVALID_VCPU_SETTINGS" xml:space="preserve">
-    <value>VM '{0}' has invalid vCPU settings.</value>
+    <value>{0}: VM '{1}' has invalid vCPU settings.</value>
   </data>
   <data name="UPGRADEWIZARD_PROBLEM_INVALID_VCPU_SETTINGS_HELPMESSAGE" xml:space="preserve">
     <value>Fix vCPU configuration</value>
@@ -12742,9 +12743,6 @@ To start a [XenServer] trial, click the button below.</value>
   <data name="VMSS_SUCCEEDED" xml:space="preserve">
     <value>Succeeded</value>
   </data>
-  <data name="VMSS_TYPE" xml:space="preserve">
-    <value>schedule</value>
-  </data>
   <data name="VMSS_VMS" xml:space="preserve">
     <value>Virtual Machines</value>
   </data>
@@ -13071,6 +13069,21 @@ To start a [XenServer] trial, click the button below.</value>
   </data>
   <data name="WARNING_DELETE_VD_MULTIPLE" xml:space="preserve">
     <value>This will delete these virtual disks permanently, destroying any data on them.</value>
+  </data>
+  <data name="WEB_BROWSER_FAILED" xml:space="preserve">
+    <value>Cannot find '{0}'.</value>
+  </data>
+  <data name="WEB_BROWSER_FAILED_RETRYING" xml:space="preserve">
+    <value>Cannot find '{0}'. Waiting for '{1}'...</value>
+  </data>
+  <data name="WEB_BROWSER_LOADING" xml:space="preserve">
+    <value>Loading '{0}'...</value>
+  </data>
+  <data name="WEB_BROWSER_LOADING_PERCENT" xml:space="preserve">
+    <value>Loading '{0}' ({1}%)...</value>
+  </data>
+  <data name="WEB_BROWSER_WAITING" xml:space="preserve">
+    <value>Waiting for '{0}'...</value>
   </data>
   <data name="WEB_PAGE" xml:space="preserve">
     <value>Web Page</value>

@@ -1683,7 +1683,7 @@
     <value>FCoE</value>
   </data>
   <data name="Label-SR.provisioning" xml:space="preserve">
-    <value>置备</value>
+    <value>预配</value>
   </data>
   <data name="Label-SR.disk-space-allocations" xml:space="preserve">
     <value>磁盘空间分配</value>

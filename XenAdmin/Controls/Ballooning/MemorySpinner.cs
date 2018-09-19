@@ -227,8 +227,9 @@ namespace XenAdmin.Controls.Ballooning
 
         private void Spinner_Leave(object sender, EventArgs e)
         {
-            if (sender is NumericUpDown)
-                ((Control)sender).Text = ((NumericUpDown)sender).Value.ToString();
+            var num = sender as NumericUpDown;
+            if (num != null)
+                num.Text = num.Value.ToString();
         }
 
         private void ChangeSpinnerSettings()

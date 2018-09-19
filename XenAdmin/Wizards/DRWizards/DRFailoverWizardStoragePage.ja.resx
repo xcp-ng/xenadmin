@@ -427,13 +427,13 @@
     <value>199, 22</value>
   </data>
   <data name="iscsiToolStripMenuItem.Text" xml:space="preserve">
-    <value>ソフトウェア iSCSI SR の検出</value>
+    <value>ソフトウェア iSCSI SR の検出(&amp;I)...</value>
   </data>
   <data name="fcToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>199, 22</value>
   </data>
   <data name="fcToolStripMenuItem.Text" xml:space="preserve">
-    <value>ハードウェア HBA SR の検出</value>
+    <value>ハードウェア HBA SR の検出(&amp;H)...</value>
   </data>
   <data name="FindSrsOptionsMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
     <value>200, 48</value>

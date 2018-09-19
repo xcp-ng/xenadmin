@@ -35,6 +35,7 @@ using XenAPI;
 using XenAdmin.Network;
 using XenAdmin.Dialogs;
 using System.Drawing;
+using System.Linq;
 
 
 namespace XenAdmin.Commands
@@ -67,6 +68,22 @@ namespace XenAdmin.Commands
             IXenConnection conn = selection[0].Connection;
 
             Pool pool = selection[0].PoolAncestor;
+
+            string msg = null;
+            if (pool.current_operations.Values.Contains(pool_allowed_operations.ha_enable))
+                msg = Messages.POOL_DELETE_HA_ENABLING;
+            else if (pool.ha_enabled)
+                msg = Messages.POOL_DELETE_HA_ENABLED;
+
+            if (msg != null)
+            {
+                using (var dlg = new ThreeButtonDialog(new ThreeButtonDialog.Details(SystemIcons.Exclamation,
+                    string.Format(msg, pool.Name()), Messages.XENCENTER)))
+                {
+                    dlg.ShowDialog(Program.MainWindow);
+                }
+                return;
+            }
 
             if (conn.Cache.HostCount > 1)
             {

@@ -86,7 +86,6 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
         public override void PopulatePage()
         {
             SetButtonsEnabled(true);
-            base.PopulatePage();
         }
 
         public bool IntraPoolCopySelected

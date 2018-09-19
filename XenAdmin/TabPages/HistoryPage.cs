@@ -34,7 +34,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using XenAdmin.Actions;
@@ -46,7 +45,7 @@ using XenAPI;
 
 namespace XenAdmin.TabPages
 {
-    public partial class HistoryPage : UserControl
+    public partial class HistoryPage : NotificationsBasePage
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -63,16 +62,30 @@ namespace XenAdmin.TabPages
             toolStripSplitButtonDismiss.DefaultItem = tsmiDismissAll;
             toolStripSplitButtonDismiss.Text = tsmiDismissAll.Text;
             UpdateButtons();
-            ConnectionsManager.History.CollectionChanged += History_CollectionChanged;
+            
             ActionBase.NewAction += Action_NewAction;
         }
 
-        public void RefreshDisplayedEvents()
+        #region NotificationPage overrides
+        protected override void RefreshPage()
         {
             toolStripDdbFilterLocation.InitializeHostList();
             toolStripDdbFilterLocation.BuildFilterList();
             BuildRowList();
         }
+
+        protected override void RegisterEventHandlers()
+        {
+            ConnectionsManager.History.CollectionChanged += History_CollectionChanged;
+        }
+
+        protected override void DeregisterEventHandlers()
+        {
+            ConnectionsManager.History.CollectionChanged -= History_CollectionChanged;
+            foreach (var action in ConnectionsManager.History)
+                DeregisterActionEvents(action);
+        }
+        #endregion
 
         private void Action_NewAction(ActionBase action)
         {
@@ -260,16 +273,20 @@ namespace XenAdmin.TabPages
 
         private void RegisterActionEvents(ActionBase action)
         {
-            action.Changed -= action_Changed;
-            action.Completed -= action_Changed;
+            DeregisterActionEvents(action);
             action.Changed += action_Changed;
             action.Completed += action_Changed;
         }
 
-        private void RemoveActionRow(ActionBase action)
+        private void DeregisterActionEvents(ActionBase action)
         {
             action.Changed -= action_Changed;
             action.Completed -= action_Changed;
+        }
+
+        private void RemoveActionRow(ActionBase action)
+        {
+            DeregisterActionEvents(action);
 
             var row = FindRowFromAction(action);
             if (row != null)
@@ -376,6 +393,15 @@ namespace XenAdmin.TabPages
                 return;
 
             ToggleExpandedState(e.RowIndex);
+        }
+
+        private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex < 0 || e.RowIndex < 0)
+                return;
+
+            if (e.ColumnIndex != columnActions.Index)
+                ToggleExpandedState(e.RowIndex);
         }
 
         private void dataGridView_SelectionChanged(object sender, EventArgs e)

@@ -33,6 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using XenAPI;
 using XenAdmin.Dialogs;
@@ -40,6 +41,7 @@ using System.Threading;
 using XenAdmin.Controls.DataGridViewEx;
 using XenAdmin.Core;
 using XenAdmin.Actions;
+using XenAdmin.Network;
 using XenAdmin.Properties;
 using XenCenterLib;
 
@@ -55,15 +57,14 @@ namespace XenAdmin.TabPages
         /// </summary>
         private Pool pool;
         private Host master;
-        private ActionProgressDialog removeUserDialog;
-        private ResolvingSubjectsDialog resolvingSubjectsDialog;
-        private Thread _loggedInStatusUpdater;
-        /// <summary>
-        /// We keep a reference to this prompt to make repeated attempts to enable AD more user friendly (remembering the previously tried creds)
-        /// </summary>
-        private AdPasswordPrompt joinPrompt;
+        private IXenConnection _connection;
 
-        private IXenObject _xenObject;
+        private Thread _loggedInStatusUpdater;
+        private bool _updateInProgress;
+
+        private string _storedDomain;
+        private string _storedUsername;
+
         private readonly CollectionChangeEventHandler Pool_CollectionChangedWithInvoke;
         public IXenObject XenObject
         {
@@ -71,27 +72,21 @@ namespace XenAdmin.TabPages
             {
                 Program.AssertOnEventThread();
 
-                if (_xenObject != null)
-                {
-                    ClearHandles();
-                }
+                ClearHandles();
 
-                _xenObject = value;
-
-                if (_xenObject == null)
+                _connection = value == null ? null : value.Connection;
+                if (_connection == null)
                     return;
 
-                pool = Helpers.GetPoolOfOne(_xenObject.Connection);
-                if (pool == null)
-                {
-                    // Cache not populated
-                    _xenObject.Connection.Cache.RegisterCollectionChanged<Pool>(Pool_CollectionChangedWithInvoke);
-                    return;
-                }
+                pool = Helpers.GetPoolOfOne(_connection);
+                if (pool == null) // Cache not populated
+                    _connection.Cache.RegisterCollectionChanged<Pool>(Pool_CollectionChangedWithInvoke);
+                else
+                    pool.PropertyChanged += pool_PropertyChanged;
 
-                pool.PropertyChanged += new PropertyChangedEventHandler(pool_PropertyChanged);
-                pool.Connection.Session.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Session_PropertyChanged);
-                RefreshMaster();
+                if (_connection.Session != null)
+                    _connection.Session.PropertyChanged += Session_PropertyChanged;
+                checkAdType();
 
                 if (_loggedInStatusUpdater == null)
                 {
@@ -110,9 +105,8 @@ namespace XenAdmin.TabPages
             ColumnSubject.CellTemplate = new KeyValuePairCell();
             tTipLogoutButton.SetToolTip(Messages.AD_CANNOT_MODIFY_ROOT);
             tTipRemoveButton.SetToolTip(Messages.AD_CANNOT_MODIFY_ROOT);
-            ConnectionsManager.History.CollectionChanged += new CollectionChangeEventHandler(History_CollectionChanged);
+            ConnectionsManager.History.CollectionChanged += History_CollectionChanged;
             Text = Messages.ACTIVE_DIRECTORY_TAB_TITLE;
-            joinPrompt = new AdPasswordPrompt(true, null);
         }
 
         /// <summary>
@@ -124,27 +118,24 @@ namespace XenAdmin.TabPages
         /// <param name="e"></param>
         void Pool_CollectionChanged(object sender, CollectionChangeEventArgs e)
         {
-            pool = Helpers.GetPoolOfOne(_xenObject.Connection);
-
-            if (pool != null)
-                _xenObject.Connection.Cache.DeregisterCollectionChanged<Pool>(Pool_CollectionChangedWithInvoke);
-            else
+            pool = Helpers.GetPoolOfOne(_connection);
+            if (pool == null) // Cache not populated
                 return;
 
-            pool.PropertyChanged += new PropertyChangedEventHandler(pool_PropertyChanged);
-            pool.Connection.Session.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Session_PropertyChanged);
-            RefreshMaster();
+            _connection.Cache.DeregisterCollectionChanged<Pool>(Pool_CollectionChangedWithInvoke);
+            pool.PropertyChanged += pool_PropertyChanged;
+
+            Program.Invoke(this, checkAdType);
         }
 
-        /// <summary>
-        /// Sets the references to the pool master and updates the tab with the correct configuration. Remember to de-reference events
-        /// on the old master before running this method.
-        /// </summary>
         private void RefreshMaster()
         {
-            master = _xenObject.Connection.Resolve(pool.master);
-            master.PropertyChanged += new PropertyChangedEventHandler(master_PropertyChanged);
-            Program.BeginInvoke(this,checkAdType);
+            if (master != null)
+                master.PropertyChanged -= master_PropertyChanged;
+
+            master = Helpers.GetMaster(_connection);
+            if (master != null)
+                master.PropertyChanged += master_PropertyChanged;
         }
 
         /// <summary>
@@ -152,19 +143,18 @@ namespace XenAdmin.TabPages
         /// </summary>
         private void ClearHandles()
         {
-            pool.Connection.Cache.DeregisterBatchCollectionChanged<Subject>(SubjectCollectionChanged);
-            pool.PropertyChanged -= new PropertyChangedEventHandler(pool_PropertyChanged);
+            if (pool != null)
+                pool.PropertyChanged -= pool_PropertyChanged;
+
             if (master != null)
-                master.PropertyChanged -= new PropertyChangedEventHandler(master_PropertyChanged);
+                master.PropertyChanged -= master_PropertyChanged;
 
-            if (removeUserDialog != null)
-                removeUserDialog.Dispose();
-
-            if (resolvingSubjectsDialog != null)
-                resolvingSubjectsDialog.Dispose();
-
-            if (pool.Connection.Session != null)
-                pool.Connection.Session.PropertyChanged -= new System.ComponentModel.PropertyChangedEventHandler(Session_PropertyChanged);
+            if (_connection != null)
+            {
+                _connection.Cache.DeregisterBatchCollectionChanged<Subject>(SubjectCollectionChanged);
+                if (_connection.Session != null)
+                    _connection.Session.PropertyChanged -= Session_PropertyChanged;
+            }
         }
 
         public override void PageHidden()
@@ -173,42 +163,33 @@ namespace XenAdmin.TabPages
         }
 
         /// <summary>
-        /// We keep track of the actions in currently running so we can disable the tab if we are in the middle of configuring AD.
+        /// We keep track of the actions currently running so we can disable the tab if we are in the middle of configuring AD.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         void History_CollectionChanged(object sender, CollectionChangeEventArgs e)
         {
-            //Program.AssertOnEventThread();
-            Program.BeginInvoke(Program.MainWindow, () =>
-                                                        {
-                                                            if (e.Action == CollectionChangeAction.Add &&
-                                                                (e.Element is EnableAdAction ||
-                                                                 e.Element is DisableAdAction))
-                                                            {
-                                                                AsyncAction action = (AsyncAction) e.Element;
-                                                                action.Completed += action_Completed;
+            if (e.Action == CollectionChangeAction.Add &&
+                (e.Element is EnableAdAction || e.Element is DisableAdAction))
+            {
+                AsyncAction action = (AsyncAction)e.Element;
+                action.Completed += action_Completed;
 
-                                                                if (_xenObject != null &&
-                                                                    _xenObject.Connection == action.Connection)
-                                                                    checkAdType();
-                                                            }
-                                                        });
+                if (_connection != null && _connection == action.Connection)
+                    Program.Invoke(this, checkAdType);
+            }
         }
-
 
         void action_Completed(ActionBase sender)
         {
             AsyncAction action = (AsyncAction)sender;
             action.Completed -= action_Completed;
 
-            if (_xenObject != null && _xenObject.Connection == action.Connection)
+            if (_connection != null && _connection == action.Connection)
                 Program.Invoke(this, checkAdType);
         }
 
-        void Session_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        void Session_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            Program.BeginInvoke(this,RepopulateListBox);
+            Program.BeginInvoke(this, RepopulateListBox);
         }
 
         /// <summary>
@@ -217,119 +198,96 @@ namespace XenAdmin.TabPages
         /// </summary>
         /// <param name="sender1"></param>
         /// <param name="e"></param>
-        void master_PropertyChanged(object sender1, System.ComponentModel.PropertyChangedEventArgs e)
+        void master_PropertyChanged(object sender1, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "external_auth_type" || e.PropertyName == "name_label")
-            {
                 Program.Invoke(this, checkAdType);
-            }
         }
 
         /// <summary>
-        /// various labels display the name of the pool and should also be updated if that changes. Additionally if the pool master changes
-        /// we need to update our event handles. There is a sanity check in the checkAdType() method in case this event is stuck in a queue.
+        /// Various labels display the name of the pool and should also be updated if that changes.
+        /// Additionally if the pool master changes we need to update our event handles.
+        /// There is a sanity check in the checkAdType() method in case this event is stuck in a queue.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void pool_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        void pool_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "name_label")
-            {
+            if (e.PropertyName == "name_label" || e.PropertyName == "master")
                 Program.Invoke(this, checkAdType);
-            }
-            else if (e.PropertyName == "master")
-            {
-                if (master != null)
-                    master.PropertyChanged -= new PropertyChangedEventHandler(master_PropertyChanged);
-
-                Program.Invoke(this, RefreshMaster);
-            }
         }
 
         private void SetSubjectListEnable(bool enable)
         {
             Program.AssertOnEventThread();
             GridViewSubjectList.Enabled = enable;
-            if (enable)
+            if (GridViewSubjectList.Enabled)
             {
-                // Grid views do a bad job of looking disabled - give it a hand
-                //GridViewSubjectList.ColumnHeadersVisible = true;
                 LabelGridViewDisabled.Visible = false;
                 RepopulateListBox();
-                // Expand admin row
+
                 foreach (AdSubjectRow r in GridViewSubjectList.Rows)
                 {
                     if (r.IsLocalRootRow)
                     {
-                        r.toggleExpandedState();
+                        r.ToggleExpandedState();
                         break;
                     }
                 }
             }
             else
             {
-                // Grid views do a bad job of looking disabled - give it a hand
-                //GridViewSubjectList.ColumnHeadersVisible = false;
-                LabelGridViewDisabled.Visible = true;
+                foreach (AdSubjectRow row in GridViewSubjectList.Rows)
+                {
+                    if (row.IsLocalRootRow)
+                        continue;
+                    row.subject.PropertyChanged -= subject_PropertyChanged;
+                }
                 GridViewSubjectList.Rows.Clear();
+                LabelGridViewDisabled.Visible = true;
             }
         }
 
         private void checkAdType()
         {
             Program.AssertOnEventThread();
+            //refresh the master in case the cache is slow
+            RefreshMaster();
+
             if (master == null)
             {
-                log.WarnFormat("Could not resolve pool master for connection '{0}' in constructor; disabling.",
-                    Helpers.GetName(pool.Connection).Ellipsise(100));
+                log.WarnFormat("Could not resolve pool master for connection '{0}'; disabling.", Helpers.GetName(_connection));
                 OnMasterUnavailable();
                 return;
             }
-            // Sanity check in case the master change events are queued up
-            if (pool.master.opaque_ref != master.opaque_ref)
-            {
-                master.PropertyChanged -= new PropertyChangedEventHandler(master_PropertyChanged);
-                RefreshMaster();
-            }
-            AsyncAction a = HelpersGUI.FindActiveAdAction(master.Connection);
-            if (a != null)
+
+            var action = (from ActionBase act in ConnectionsManager.History
+                let async = act as AsyncAction
+                where async != null && !async.IsCompleted && !async.Cancelled && async.Connection == _connection
+                      && (async is EnableAdAction || async is DisableAdAction)
+                select async).FirstOrDefault();
+
+            if (action != null)
             {
                 OnAdConfiguring();
             }
-            else if (master.external_auth_type == Auth.AUTH_TYPE_NONE)
+            else if (master.external_auth_type == Auth.AUTH_TYPE_NONE) // AD is not yet configured
             {
-                // AD is not yet configured.
                 OnAdDisabled();
             }
-            else
+            else // AD is already configured
             {
                 if (master.external_auth_type != Auth.AUTH_TYPE_AD)
                 {
-                    log.WarnFormat("Unrecognised value '{0}' for external_auth_type on pool master '{1}' for pool '{2}' in constructor; assuming AD enabled on pool.",
-                        master.external_auth_type, Helpers.GetName(master).Ellipsise(100), Helpers.GetName(pool).Ellipsise(100));
+                    log.WarnFormat("Unrecognised value '{0}' for external_auth_type on pool master '{1}' for pool '{2}'; assuming AD enabled on pool.",
+                        master.external_auth_type, Helpers.GetName(master), Helpers.GetName(_connection));
                 }
-                // AD is already configured.
+
                 OnAdEnabled();
             }
         }
 
-        internal void SubjectCollectionChanged(object sender, EventArgs e)
+        private void SubjectCollectionChanged(object sender, EventArgs e)
         {
-            Program.BeginInvoke(this, () =>
-                                          {
-
-                                              if (!GridViewSubjectList.Enabled)
-                                                  return;
-
-                                              foreach (AdSubjectRow row in GridViewSubjectList.Rows)
-                                              {
-                                                  if (row.IsLocalRootRow)
-                                                      continue;
-                                                  row.subject.PropertyChanged -=
-                                                      new PropertyChangedEventHandler(subject_PropertyChanged);
-                                              }
-                                              RepopulateListBox();
-                                          });
+            Program.BeginInvoke(this, RepopulateListBox);
         }
 
         private string Domain
@@ -338,20 +296,14 @@ namespace XenAdmin.TabPages
             {
                 Program.AssertOnEventThread();
 
-                if (pool == null)
-                    return "";
-                // Resolve master
-                Host master = Helpers.GetMaster(pool.Connection);
+                Host master = Helpers.GetMaster(_connection);
                 if (master == null)
                 {
-                    log.WarnFormat("Could not resolve pool master for connection '{0}'; disabling.",
-                        Helpers.GetName(pool.Connection).Ellipsise(50));
+                    log.WarnFormat("Could not resolve pool master for connection '{0}'; disabling.", Helpers.GetName(_connection));
                     return Messages.UNKNOWN;
                 }
 
-                // Determine AD domain from master
-                string domain = master.external_auth_service_name;
-                return domain.Ellipsise(30);
+                return master.external_auth_service_name;
             }
         }
 
@@ -363,8 +315,8 @@ namespace XenAdmin.TabPages
             SetSubjectListEnable(true);
             buttonJoinLeave.Text = Messages.AD_LEAVE_DOMAIN;
             buttonJoinLeave.Enabled = true;
-            labelBlurb.Text = string.Format(pool.name_label.Length > 0 ? Messages.AD_CONFIGURED_BLURB : Messages.AD_CONFIGURED_BLURB_HOST, Helpers.GetName(pool).Ellipsise(70), Domain);
-            pool.Connection.Cache.RegisterBatchCollectionChanged<Subject>(SubjectCollectionChanged);
+            labelBlurb.Text = string.Format(Helpers.GetPool(_connection) != null ? Messages.AD_CONFIGURED_BLURB : Messages.AD_CONFIGURED_BLURB_HOST, Helpers.GetName(_connection).Ellipsise(70), Domain.Ellipsise(30));
+            _connection.Cache.RegisterBatchCollectionChanged<Subject>(SubjectCollectionChanged);
         }
 
         private void OnAdDisabled()
@@ -375,9 +327,9 @@ namespace XenAdmin.TabPages
             SetSubjectListEnable(false);
             buttonJoinLeave.Text = Messages.AD_JOIN_DOMAIN;
             buttonJoinLeave.Enabled = true;
-            labelBlurb.Text = string.Format(pool.name_label.Length > 0 ? Messages.AD_NOT_CONFIGURED_BLURB : Messages.AD_NOT_CONFIGURED_BLURB_HOST,
-                Helpers.GetName(pool).Ellipsise(70));
-            pool.Connection.Cache.DeregisterBatchCollectionChanged<Subject>(SubjectCollectionChanged);
+            labelBlurb.Text = string.Format(Helpers.GetPool(_connection) != null ? Messages.AD_NOT_CONFIGURED_BLURB : Messages.AD_NOT_CONFIGURED_BLURB_HOST,
+                Helpers.GetName(_connection).Ellipsise(70));
+            _connection.Cache.DeregisterBatchCollectionChanged<Subject>(SubjectCollectionChanged);
         }
 
         private void OnAdConfiguring()
@@ -387,8 +339,8 @@ namespace XenAdmin.TabPages
             flowLayoutPanel1.Enabled = false;
             SetSubjectListEnable(false);
             buttonJoinLeave.Enabled = false;
-            labelBlurb.Text = string.Format(pool.name_label.Length > 0 ? Messages.AD_CONFIGURING_BLURB : Messages.AD_CONFIGURING_BLURB_HOST,
-                Helpers.GetName(pool).Ellipsise(70));
+            labelBlurb.Text = string.Format(Helpers.GetPool(_connection) != null ? Messages.AD_CONFIGURING_BLURB : Messages.AD_CONFIGURING_BLURB_HOST,
+                Helpers.GetName(_connection).Ellipsise(70));
         }
 
         private void OnMasterUnavailable()
@@ -405,6 +357,9 @@ namespace XenAdmin.TabPages
         {
             Program.AssertOnEventThread();
 
+            if (!GridViewSubjectList.Enabled)
+                return;
+
             Dictionary<string, bool> selectedSubjectUuids = new Dictionary<string, bool>();
             Dictionary<string, bool> expandedSubjectUuids = new Dictionary<string, bool>();
             bool rootExpanded = false;
@@ -412,7 +367,7 @@ namespace XenAdmin.TabPages
             if (GridViewSubjectList.FirstDisplayedScrollingRowIndex > 0)
             {
                 AdSubjectRow topRow = GridViewSubjectList.Rows[GridViewSubjectList.FirstDisplayedScrollingRowIndex] as AdSubjectRow;
-                if (topRow.subject != null)
+                if (topRow != null && topRow.subject != null)
                     topSubject = topRow.subject.uuid;
             }
 
@@ -435,37 +390,37 @@ namespace XenAdmin.TabPages
 
             try
             {
+                _updateInProgress = true;
                 GridViewSubjectList.SuspendLayout();
-                // Populate list of authenticated users
+
+                foreach (AdSubjectRow row in GridViewSubjectList.Rows)
+                {
+                    if (row.IsLocalRootRow)
+                        continue;
+                    row.subject.PropertyChanged -= subject_PropertyChanged;
+                }
+
                 GridViewSubjectList.Rows.Clear();
 
-                // Add local root account, a null value for the subject shows this
-                AdSubjectRow adminRow = new AdSubjectRow(null);
-                GridViewSubjectList.Rows.Add(adminRow);
+                var rows = new List<DataGridViewRow> {new AdSubjectRow(null)}; //local root account
 
-                List<DataGridViewRow> rows = new List<DataGridViewRow>();
-                Session session = pool.Connection.Session;
-                // Add all other Subjects in the server list
-                foreach (Subject subject in pool.Connection.Cache.Subjects)
+                foreach (Subject subject in _connection.Cache.Subjects) //all other subjects in the pool
                 {
-                    subject.PropertyChanged += new PropertyChangedEventHandler(subject_PropertyChanged);
-                    AdSubjectRow r = new AdSubjectRow(subject);
-                    // we show them as unknown logged in status until the background thread updates them
-                    r.showStatusLost();
-                    rows.Add(r);
+                    subject.PropertyChanged += subject_PropertyChanged;
+                    rows.Add(new AdSubjectRow(subject));
                 }
                 GridViewSubjectList.Rows.AddRange(rows.ToArray());
-                GridViewSubjectList.Sort(GridViewSubjectList.SortedColumn ?? GridViewSubjectList.Columns[2],
-                                         GridViewSubjectList.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending);
+
+                GridViewSubjectList.Sort(GridViewSubjectList.SortedColumn ?? ColumnSubject,
+                    GridViewSubjectList.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending);
 
                 // restore old selection, old expansion state and top row
                 foreach (AdSubjectRow r in GridViewSubjectList.Rows)
                 {
-                    r.Selected = r.subject != null && selectedSubjectUuids.ContainsKey(r.subject.uuid);
-                    r.Expanded = r.subject != null && expandedSubjectUuids.ContainsKey(r.subject.uuid);
-                    if (r.subject == null && rootExpanded)
-                        r.Expanded = true;
-                    if (r.subject != null && topSubject == r.subject.uuid)
+                    r.Selected = !r.IsLocalRootRow && selectedSubjectUuids.ContainsKey(r.subject.uuid);
+                    r.Expanded = r.IsLocalRootRow ? rootExpanded : expandedSubjectUuids.ContainsKey(r.subject.uuid);
+
+                    if (!r.IsLocalRootRow && topSubject == r.subject.uuid)
                         GridViewSubjectList.FirstDisplayedScrollingRowIndex = r.Index;
                 }
                 if (GridViewSubjectList.SelectedRows.Count == 0)
@@ -478,26 +433,45 @@ namespace XenAdmin.TabPages
             finally
             {
                 GridViewSubjectList.ResumeLayout();
+                _updateInProgress = false;
+                EnableButtons();
             }
         }
 
-        void subject_PropertyChanged(object sender1, PropertyChangedEventArgs e)
+        private void subject_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            Program.BeginInvoke(this, () =>
-                                          {
+            if (e.PropertyName != "roles")
+                return;
 
-                                              if (!GridViewSubjectList.Enabled || e.PropertyName != "roles")
-                                                  return;
+            var subject = sender as Subject;
+            if (subject == null)
+                return;
 
-                                              foreach (AdSubjectRow row in GridViewSubjectList.Rows)
-                                              {
-                                                  if (row.IsLocalRootRow)
-                                                      continue;
-                                                  row.subject.PropertyChanged -=
-                                                      new PropertyChangedEventHandler(subject_PropertyChanged);
-                                              }
-                                              RepopulateListBox();
-                                          });
+            Program.Invoke(this, () =>
+            {
+                if (!GridViewSubjectList.Enabled)
+                    return;
+
+                var found = (from DataGridViewRow row in GridViewSubjectList.Rows
+                    let adRow = row as AdSubjectRow
+                    where adRow != null && adRow.subject != null && adRow.subject.opaque_ref == subject.opaque_ref
+                    select adRow).FirstOrDefault();
+
+                try
+                {
+                    GridViewSubjectList.SuspendLayout();
+
+                    if (found == null)
+                        GridViewSubjectList.Rows.Add(new AdSubjectRow(subject));
+                    else
+                        found.RefreshCellContent(subject);
+                }
+                finally
+                {
+                    GridViewSubjectList.ResumeLayout();
+                    EnableButtons();
+                }
+            });
         }
 
 
@@ -509,7 +483,7 @@ namespace XenAdmin.TabPages
         {
             // This could get a bit spammy with a repeated exception, consider a back off or summary approach if it becomes an issue
             Program.AssertOffEventThread();
-            Pool p;
+
             while (!Disposing && !IsDisposed)
             {
                 try
@@ -523,9 +497,7 @@ namespace XenAdmin.TabPages
                     });
                     if (showing)
                     {
-                        // In case the value gets altered underneath us
-                        p = pool;
-                        String[] loggedInSids = p.Connection.Session.get_all_subject_identifiers();
+                        String[] loggedInSids = _connection.Session.get_all_subject_identifiers();
                         // Want fast access time for when we take the lock and switch off the background thread
                         Dictionary<string, bool> loggedSids = new Dictionary<string, bool>();
                         foreach (string s in loggedInSids)
@@ -540,8 +512,7 @@ namespace XenAdmin.TabPages
 
                                 r.LoggedIn = loggedSids.ContainsKey(r.subject.subject_identifier);
                             }
-                            // This will update the enablement of the buttons - more specifically the log out one
-                            GridViewSubjectList_SelectionChanged(this, null);
+                            EnableButtons();
                         });
                     }
                     lock (statusUpdaterLock)
@@ -553,7 +524,7 @@ namespace XenAdmin.TabPages
                 {
                     showLoggedInStatusError();
                     log.Error(e);
-                    System.Threading.Thread.Sleep(5000);
+                    Thread.Sleep(5000);
                 }
             }
         }
@@ -567,7 +538,7 @@ namespace XenAdmin.TabPages
                     if (r.IsLocalRootRow)
                         continue;
 
-                    r.showStatusLost();
+                    r.SetStatusLost();
                 }
             });
         }
@@ -578,12 +549,21 @@ namespace XenAdmin.TabPages
         /// Used in the DataGridView on the ConfigureAdDialog. Stores information about the subject and the different text to show if the 
         /// row is expanded or not.
         /// </summary>
-        internal class AdSubjectRow : DataGridViewRow
+        private class AdSubjectRow : DataGridViewRow
         {
-            internal Subject subject;
-            private bool expanded = false;
-            private bool loggedIn = false;
-            private bool statusLost = false;
+            private readonly DataGridViewImageCell _cellExpander = new DataGridViewImageCell();
+            private readonly DataGridViewImageCell _cellGroupOrUser = new DataGridViewImageCell();
+            private readonly KeyValuePairCell _cellSubjectInfo = new KeyValuePairCell();
+            private readonly DataGridViewTextBoxCell _cellRoles = new DataGridViewTextBoxCell();
+            private readonly DataGridViewTextBoxCell _cellLoggedIn = new DataGridViewTextBoxCell();
+
+            internal Subject subject { get; private set; }
+            private bool expanded;
+            private bool loggedIn;
+            /// <summary>
+            /// The row is created with unknown status until it's updated from outside the class
+            /// </summary>
+            private bool statusLost = true;
 
             public bool LoggedIn
             {
@@ -595,8 +575,7 @@ namespace XenAdmin.TabPages
                 {
                     loggedIn = value;
                     statusLost = false;
-                    Cells[4].Value = IsLocalRootRow || subject.IsGroup ? "-"
-                       : loggedIn ? Messages.YES : Messages.NO;
+                    RefreshCellContent();
                 }
             }
 
@@ -605,25 +584,32 @@ namespace XenAdmin.TabPages
                 get { return subject == null; }
             }
 
-            // Each entry can show a summary of roles or a full list depending on whether it is expanded or contracted
-            private string expandedRoles, contractedRoles;
-            // Expanded subject info is the key pair mapping detailed in the subjects other config along with their display name
-            // The contracted version is just their display name
-            private List<KeyValuePair<string, string>> expandedSubjectInfo, contractedSubjectInfo;
+            /// <summary>
+            /// The full list of the subject's roles
+            /// </summary>
+            private readonly string expandedRoles = string.Empty;
+            /// <summary>
+            /// Topmost of the subject's roles
+            /// </summary>
+            private readonly string contractedRoles = string.Empty;
+            /// <summary>
+            /// The detailed info from the subject's other_config along with their display name
+            /// </summary>
+            private readonly List<KeyValuePair<string, string>> expandedSubjectInfo = new List<KeyValuePair<String, String>>();
+            /// <summary>
+            /// The subject's display name
+            /// </summary>
+            private readonly List<KeyValuePair<string, string>> contractedSubjectInfo = new List<KeyValuePair<String, String>>();
 
             /// <summary>
-            /// A DataGridViewRow that corresponds to a subject and shows their relevant information in expanded and collapsed states
+            /// A DataGridViewRow that corresponds to a subject and shows their
+            /// information in expanded and collapsed states
             /// </summary>
-            /// <param name="subject">If set to null this is assumed to be a root account that does not have a subject</param>
+            /// <param name="subject">If null, if it is a root account (no subject)</param>
             internal AdSubjectRow(Subject subject)
-                : base()
             {
-                this.subject = subject;
-                if (IsLocalRootRow)
+                if (subject == null) //root account
                 {
-                    contractedRoles = expandedRoles = "";
-                    expandedSubjectInfo = new List<KeyValuePair<String, String>>();
-                    contractedSubjectInfo = new List<KeyValuePair<String, String>>();
                     expandedSubjectInfo.Add(new KeyValuePair<string, string>(Messages.AD_LOCAL_ROOT_ACCOUNT, ""));
                     expandedSubjectInfo.Add(new KeyValuePair<string, string>("", ""));
                     expandedSubjectInfo.Add(new KeyValuePair<string, string>(Messages.AD_ALWAYS_GRANTED_ACCESS, ""));
@@ -631,49 +617,43 @@ namespace XenAdmin.TabPages
                 }
                 else
                 {
-                    //Generate the role list
-                    string s = "";
-                    List<Role> roles = subject.Connection.ResolveAll<Role>(subject.roles);
+                    this.subject = subject;
+                    var roles = subject.Connection.ResolveAll(subject.roles);
                     roles.Sort();
                     roles.Reverse();
-                    foreach (Role r in roles)
-                    {
-                        s = String.Format("{0}\n{1}", s, r.FriendlyName());
-                    }
-                    expandedRoles = s;
+                    if (roles.Count > 0)
+                        expandedRoles = roles.Select(r => r.FriendlyName()).Aggregate((acc, s) => acc + "\n" + s);
+
                     contractedRoles = roles.Count > 0
                         ? roles.Count > 1 ? roles[0].FriendlyName().AddEllipsis() : roles[0].FriendlyName()
                         : "";
 
-                    contractedSubjectInfo = new List<KeyValuePair<String, String>>();
                     contractedSubjectInfo.Add(new KeyValuePair<string, string>(subject.DisplayName ?? subject.SubjectName ?? "", ""));
                     expandedSubjectInfo = Subject.ExtractKvpInfo(subject);
                 }
-                Cells.Add(new DataGridViewImageCell()); // Expander image cell
-                Cells.Add(new DataGridViewImageCell()); // Group/user image cell
-                Cells.Add(new KeyValuePairCell()); // Subject info cell
-                Cells.Add(new DataGridViewTextBoxCell()); // Roles cell
-                Cells.Add(new DataGridViewTextBoxCell()); // logged in cell
 
-                refreshCellContent();
+                Cells.AddRange(_cellExpander, _cellGroupOrUser, _cellSubjectInfo, _cellRoles, _cellLoggedIn);
+                RefreshCellContent();
             }
 
-            public void refreshCellContent()
+            public void RefreshCellContent(Subject subj = null)
             {
-                Cells[0].Value = expanded ? Resources.expanded_triangle : Resources.contracted_triangle;
-                Cells[1].Value = IsLocalRootRow || !subject.IsGroup ?
-                    Resources._000_User_h32bit_16 : Resources._000_UserAndGroup_h32bit_32;
-                Cells[2].Value = expanded ? expandedSubjectInfo : contractedSubjectInfo;
-                Cells[3].Value = expanded ? expandedRoles : contractedRoles;
-                Cells[4].Value = IsLocalRootRow || subject.IsGroup || statusLost ? "-"
-                       : loggedIn ? Messages.YES : Messages.NO;
+                if (subj != null)
+                    subject = subj;
 
+                _cellExpander.Value = expanded ? Resources.expanded_triangle : Resources.contracted_triangle;
+                _cellGroupOrUser.Value = IsLocalRootRow || !subject.IsGroup ? Resources._000_User_h32bit_16 : Resources._000_UserAndGroup_h32bit_32;
+                _cellSubjectInfo.Value = expanded ? expandedSubjectInfo : contractedSubjectInfo;
+                _cellRoles.Value = expanded ? expandedRoles : contractedRoles;
+                _cellLoggedIn.Value = IsLocalRootRow || subject.IsGroup || statusLost
+                    ? "-"
+                    : loggedIn ? Messages.YES : Messages.NO;
             }
 
-            public void toggleExpandedState()
+            public void ToggleExpandedState()
             {
                 expanded = !expanded;
-                refreshCellContent();
+                RefreshCellContent();
             }
 
             public bool Expanded
@@ -684,17 +664,24 @@ namespace XenAdmin.TabPages
                 }
                 set
                 {
-                    expanded = value;
-                    refreshCellContent();
+                    if (expanded != value)
+                    {
+                        expanded = value;
+                        RefreshCellContent();
+                    }
                 }
             }
 
-            public void showStatusLost()
+            public void SetStatusLost()
             {
+                if (statusLost)
+                    return;
+
                 statusLost = true;
-                Cells[4].Value = "-";
+                RefreshCellContent();
             }
         }
+
         #endregion
 
         private void buttonJoinLeave_Click(object sender, EventArgs e)
@@ -703,33 +690,28 @@ namespace XenAdmin.TabPages
             if (buttonJoinLeave.Text == Messages.AD_JOIN_DOMAIN)
             {
                 // We're enabling AD            
-                // Obtain domain, username and password
+                // Obtain domain, username and password; store the domain and username
+                // so the user won't have to retype it for future join attempts
 
-                joinPrompt.ShowDialog(this);
-                // Blocking for a long time, check we haven't had the dialog disposed under us
-                if (Disposing || IsDisposed)
-                    return;
-
-                if (joinPrompt.DialogResult == DialogResult.Cancel)
+                using (var joinPrompt = new AdPasswordPrompt(true)
+                    {Domain = _storedDomain, Username = _storedUsername})
                 {
-                    joinPrompt.ClearPassword();
-                    return;
-                }
+                    var result = joinPrompt.ShowDialog(this);
+                    _storedDomain = joinPrompt.Domain;
+                    _storedUsername = joinPrompt.Username;
 
-                EnableAdAction action = new EnableAdAction(pool, joinPrompt.Domain, joinPrompt.Username, joinPrompt.Password);
-                if (pool.name_label.Length > 0)
-                    action.Pool = pool;
-                else
-                    action.Host = Helpers.GetMaster(pool.Connection);
-                action.RunAsync();
-                joinPrompt.ClearPassword();
+                    if (result == DialogResult.Cancel)
+                        return;
+
+                    new EnableAdAction(_connection, joinPrompt.Domain, joinPrompt.Username, joinPrompt.Password).RunAsync();
+                }
             }
             else
             {
                 // We're disabling AD
 
                 // Warn if the user will boot himself out by disabling AD
-                Session session = pool.Connection.Session;
+                Session session = _connection.Session;
                 if (session == null)
                     return;
 
@@ -737,14 +719,11 @@ namespace XenAdmin.TabPages
                 {
                     // User is authenticated using local root account. Confirm anyway.
                     string msg = string.Format(Messages.AD_LEAVE_CONFIRM,
-                                Helpers.GetName(pool).Ellipsise(50).EscapeAmpersands(), Domain);
+                                Helpers.GetName(_connection).Ellipsise(50).EscapeAmpersands(), Domain.Ellipsise(30));
 
                     DialogResult r;
                     using (var dlg = new ThreeButtonDialog(
-                        new ThreeButtonDialog.Details(
-                            null,
-                            msg,
-                            Messages.AD_FEATURE_NAME),
+                        new ThreeButtonDialog.Details(null, msg, Messages.AD_FEATURE_NAME),
                         ThreeButtonDialog.ButtonYes,
                         new ThreeButtonDialog.TBDButton(Messages.NO_BUTTON_CAPTION, DialogResult.No, ThreeButtonDialog.ButtonType.CANCEL, true)))
                     {
@@ -759,8 +738,8 @@ namespace XenAdmin.TabPages
                 else
                 {
                     // Warn user will be booted out.
-                    string msg = string.Format(pool.name_label.Length > 0 ? Messages.AD_LEAVE_WARNING : Messages.AD_LEAVE_WARNING_HOST,
-                                Helpers.GetName(pool).Ellipsise(50), Domain);
+                    string msg = string.Format(Helpers.GetPool(_connection) != null ? Messages.AD_LEAVE_WARNING : Messages.AD_LEAVE_WARNING_HOST,
+                                Helpers.GetName(_connection).Ellipsise(50), Domain.Ellipsise(30));
 
                     DialogResult r;
                     using (var dlg = new ThreeButtonDialog(
@@ -777,31 +756,29 @@ namespace XenAdmin.TabPages
                         return;
                 }
 
-
-                Host master = Helpers.GetMaster(pool.Connection);
+                Host master = Helpers.GetMaster(_connection);
                 if (master == null)
                 {
                     // Really shouldn't happen unless we have been very slow with the cache
                     log.Error("Could not retrieve master when trying to look up domain..");
                     throw new Exception(Messages.CONNECTION_IO_EXCEPTION);
                 }
-                AdPasswordPrompt passPrompt = new AdPasswordPrompt(false, master.external_auth_service_name);
-                DialogResult result = passPrompt.ShowDialog(Program.MainWindow);
-                if (result == DialogResult.Cancel)
-                    return;
 
-                Dictionary<string, string> creds = new Dictionary<string, string>();
-                if (result != DialogResult.Ignore)
+                using (var passPrompt = new AdPasswordPrompt(false, master.external_auth_service_name))
                 {
-                    creds.Add(DisableAdAction.KEY_USER, passPrompt.Username);
-                    creds.Add(DisableAdAction.KEY_PASSWORD, passPrompt.Password);
+                    var result = passPrompt.ShowDialog(this);
+                    if (result == DialogResult.Cancel)
+                        return;
+
+                    var creds = new Dictionary<string, string>();
+                    if (result != DialogResult.Ignore)
+                    {
+                        creds.Add(DisableAdAction.KEY_USER, passPrompt.Username);
+                        creds.Add(DisableAdAction.KEY_PASSWORD, passPrompt.Password);
+                    }
+
+                    new DisableAdAction(_connection, creds).RunAsync();
                 }
-                DisableAdAction action = new DisableAdAction(pool, creds);
-                if (pool.name_label.Length > 0)
-                    action.Pool = pool;
-                else
-                    action.Host = Helpers.GetMaster(pool.Connection);
-                action.RunAsync();
             }
         }
 
@@ -810,23 +787,9 @@ namespace XenAdmin.TabPages
             Program.AssertOnEventThread();
             if (!buttonAdd.Enabled)
                 return;
-            resolvingSubjectsDialog = new ResolvingSubjectsDialog(pool);
-            resolvingSubjectsDialog.ShowDialog();
-        }
 
-
-
-        private void GridViewSubjectList_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            Program.AssertOnEventThread();
-            if (e.Button != MouseButtons.Left)
-                return;
-
-            if (e.RowIndex < 0)
-                // The click is on a column header
-                return;
-            AdSubjectRow row = GridViewSubjectList.Rows[e.RowIndex] as AdSubjectRow;
-            row.toggleExpandedState();
+            using (var dlog = new ResolvingSubjectsDialog(_connection))
+                dlog.ShowDialog(this);
         }
 
         private void ButtonRemove_Click(object sender, EventArgs e)
@@ -863,7 +826,7 @@ namespace XenAdmin.TabPages
                 return;
 
             // Warn if user is revoking his currently-in-use credentials
-            Session session = pool.Connection.Session;
+            Session session = _connection.Session;
             if (session != null && session.Subject != null)
             {
                 foreach (Subject entry in subjectsToRemove)
@@ -880,7 +843,7 @@ namespace XenAdmin.TabPages
                             subjectName = subjectName.Ellipsise(256);
                         }
                         string msg = string.Format(entry.IsGroup ? Messages.AD_CONFIRM_SUICIDE_GROUP : Messages.AD_CONFIRM_SUICIDE,
-                                    subjectName, Helpers.GetName(pool).Ellipsise(50));
+                                    subjectName, Helpers.GetName(_connection).Ellipsise(50));
 
                         DialogResult r;
                         using (var dlg = new ThreeButtonDialog(
@@ -903,19 +866,25 @@ namespace XenAdmin.TabPages
                     }
                 }
             }
-            removeUserDialog = new ActionProgressDialog(
-                new AddRemoveSubjectsAction(pool, new List<string>(), subjectsToRemove), ProgressBarStyle.Continuous);
-            removeUserDialog.ShowDialog();
+
+            var action = new AddRemoveSubjectsAction(_connection, new List<string>(), subjectsToRemove);
+            using (var dlog = new ActionProgressDialog(action, ProgressBarStyle.Continuous))
+                dlog.ShowDialog(this);
         }
 
         private void GridViewSubjectList_SelectionChanged(object sender, EventArgs e)
+        {
+            if (!_updateInProgress)
+                EnableButtons();
+        }
+
+        private void EnableButtons()
         {
             Program.AssertOnEventThread();
             if (GridViewSubjectList.SelectedRows.Count < 1)
                 return;
 
             bool adminSelected = GridViewSubjectList.Rows[0].Selected;
-            bool multipleSelected = GridViewSubjectList.SelectedRows.Count > 1;
 
             tTipChangeRole.SuppressTooltip = ButtonChangeRoles.Enabled = !adminSelected;
             tTipChangeRole.SetToolTip(Messages.AD_CANNOT_MODIFY_ROOT);
@@ -928,6 +897,26 @@ namespace XenAdmin.TabPages
             toolStripMenuItemChangeRoles.Enabled = ButtonChangeRoles.Enabled;
             toolStripMenuItemLogout.Enabled = ButtonLogout.Enabled;
             toolStripMenuItemRemove.Enabled = ButtonRemove.Enabled;
+        }
+
+        private void GridViewSubjectList_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex < 0 || e.RowIndex < 0 || e.ColumnIndex != ColumnExpand.Index)
+                return;
+
+            var row = GridViewSubjectList.Rows[e.RowIndex] as AdSubjectRow;
+            if (row != null)
+                row.ToggleExpandedState();
+        }
+
+        private void GridViewSubjectList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex < 0 || e.RowIndex < 0)
+                return;
+
+            var row = GridViewSubjectList.Rows[e.RowIndex] as AdSubjectRow;
+            if (row != null)
+                row.ToggleExpandedState();
         }
 
         private bool AllSelectedRowsLoggedIn()
@@ -979,8 +968,8 @@ namespace XenAdmin.TabPages
 
         private int RoleCompare(Subject s1, Subject s2)
         {
-            List<Role> s1Roles = pool.Connection.ResolveAll(s1.roles);
-            List<Role> s2Roles = pool.Connection.ResolveAll(s2.roles);
+            List<Role> s1Roles = _connection.ResolveAll(s1.roles);
+            List<Role> s2Roles = _connection.ResolveAll(s2.roles);
             s1Roles.Sort();
             s2Roles.Sort();
             // If one subject doesn't have any roles, but it below the one with roles
@@ -1038,11 +1027,11 @@ namespace XenAdmin.TabPages
         private void ButtonChangeRoles_Click(object sender, EventArgs e)
         {
             Program.AssertOnEventThread();
-            if (Helpers.FeatureForbidden(pool.Connection, Host.RestrictRBAC))
+            if (Helpers.FeatureForbidden(_connection, Host.RestrictRBAC))
             {
                 // Show upsell dialog
                 using (var dlg = new UpsellDialog(HiddenFeatures.LinkLabelHidden ? Messages.UPSELL_BLURB_RBAC : Messages.UPSELL_BLURB_RBAC + Messages.UPSELL_BLURB_TRIAL,
-                                                    InvisibleMessages.UPSELL_LEARNMOREURL_TRIAL))
+                    InvisibleMessages.UPSELL_LEARNMOREURL_TRIAL))
                     dlg.ShowDialog(this);
                 return;
 
@@ -1063,7 +1052,7 @@ namespace XenAdmin.TabPages
                 selectedSubjects.Add(selectedRow.subject);
             }
 
-            using (var dialog = new RoleSelectionDialog(selectedSubjects.ToArray(), pool))
+            using (var dialog = new RoleSelectionDialog(_connection, selectedSubjects.ToArray()))
                 dialog.ShowDialog(this);
         }
 
@@ -1074,7 +1063,7 @@ namespace XenAdmin.TabPages
             if (!ButtonLogout.Enabled)
                 return;
 
-            Session session = pool.Connection.Session;
+            Session session = _connection.Session;
             if (session == null)
                 return;
 
@@ -1093,7 +1082,7 @@ namespace XenAdmin.TabPages
             if (session.Subject != null)//have already checked session not null
             {
                 var warnMsg = string.Format(subjectsToLogout.Count > 1 ? Messages.AD_LOGOUT_SUICIDE_MANY : Messages.AD_LOGOUT_SUICIDE_ONE,
-                                            Helpers.GetName(pool).Ellipsise(50));
+                                            Helpers.GetName(_connection).Ellipsise(50));
 
                 foreach (Subject entry in subjectsToLogout)
                 {
@@ -1153,12 +1142,11 @@ namespace XenAdmin.TabPages
                 if (r.IsLocalRootRow || !r.LoggedIn)
                     continue;
 
-                // we suicide last
                 if (session.UserSid == r.subject.subject_identifier)
                 {
                     continue;
                 }
-                DelegatedAsyncAction logoutAction = new DelegatedAsyncAction(pool.Connection, Messages.TERMINATING_SESSIONS, Messages.IN_PROGRESS, Messages.COMPLETED, delegate(Session s)
+                DelegatedAsyncAction logoutAction = new DelegatedAsyncAction(_connection, Messages.TERMINATING_SESSIONS, Messages.IN_PROGRESS, Messages.COMPLETED, delegate(Session s)
                     {
                         Session.logout_subject_identifier(s, r.subject.subject_identifier);
                     }, "session.logout_subject_identifier");
@@ -1166,11 +1154,10 @@ namespace XenAdmin.TabPages
             }
             if (suicide)
             {
-                //bye bye
-                DelegatedAsyncAction logoutAction = new DelegatedAsyncAction(pool.Connection, Messages.TERMINATING_SESSIONS, Messages.IN_PROGRESS, Messages.COMPLETED, delegate(Session s)
+                DelegatedAsyncAction logoutAction = new DelegatedAsyncAction(_connection, Messages.TERMINATING_SESSIONS, Messages.IN_PROGRESS, Messages.COMPLETED, delegate(Session s)
                     {
                         Session.logout_subject_identifier(s, session.UserSid);
-                        pool.Connection.Logout();
+                        _connection.Logout();
                     }, "session.logout_subject_identifier");
                 logoutAction.RunAsync();
             }
@@ -1180,19 +1167,6 @@ namespace XenAdmin.TabPages
                 lock (statusUpdaterLock)
                     Monitor.Pulse(statusUpdaterLock);
             }
-        }
-
-        private void GridViewSubjectList_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button != MouseButtons.Right)
-                return;
-
-            DataGridView.HitTestInfo i = GridViewSubjectList.HitTest(e.X, e.Y);
-            if (i.RowIndex < 0 || GridViewSubjectList.Rows[i.RowIndex].Selected)
-                return;
-
-            GridViewSubjectList.ClearSelection();
-            GridViewSubjectList.Rows[i.RowIndex].Selected = true;
         }
     }
 }

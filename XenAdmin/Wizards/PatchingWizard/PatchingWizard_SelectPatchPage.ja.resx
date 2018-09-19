@@ -247,7 +247,8 @@
     <value>3</value>
   </data>
   <data name="automatedUpdatesOptionLabel.Text" xml:space="preserve">
-    <value>[XenCenter] では、最新バージョンのすべてのリリース済みアップデートが [Citrix] からダウンロードされてインストールされます。通常は終了後に 1 回のみ再起動します。</value>
+    <value>[XenCenter] では、最新バージョンのすべてのリリース済みアップデートが [Citrix] からダウンロードされてインストールされます。通常は終了後に 1 回のみ再起動します。
+</value>
   </data>
   <data name="&gt;&gt;automatedUpdatesOptionLabel.Name" xml:space="preserve">
     <value>automatedUpdatesOptionLabel</value>

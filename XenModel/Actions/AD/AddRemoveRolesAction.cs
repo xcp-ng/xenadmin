@@ -31,6 +31,7 @@
 
 using System.Collections.Generic;
 using XenAdmin.Core;
+using XenAdmin.Network;
 using XenAPI;
 
 
@@ -44,18 +45,17 @@ namespace XenAdmin.Actions
         private readonly List<Role> toRemove;
         private readonly Subject subject;
 
-        public AddRemoveRolesAction(
-            Pool pool, 
-            Subject subject, 
-            List<Role> toAdd, 
-            List<Role> toRemove)
-        : base(
-            pool.Connection, 
-            string.Format(Messages.AD_ADDING_REMOVING_ROLES_ON, (subject.DisplayName ?? subject.SubjectName ?? subject.subject_identifier).Ellipsise(50)), 
-            Messages.AD_ADDING_REMOVING_ROLES, 
-            false)
+        public AddRemoveRolesAction(IXenConnection connection, Subject subject, List<Role> toAdd, List<Role> toRemove)
+            : base(connection,
+                string.Format(Messages.AD_ADDING_REMOVING_ROLES_ON, (subject.DisplayName ?? subject.SubjectName ?? subject.subject_identifier).Ellipsise(50)),
+                Messages.AD_ADDING_REMOVING_ROLES,
+                false)
         {
-            this.Pool = pool;
+            var pool = Helpers.GetPool(connection);
+            if (pool != null)
+                Pool = pool;
+            else
+                Host = Helpers.GetMaster(connection);
             this.toAdd = toAdd;
             this.toRemove = toRemove;
             this.subject = subject;

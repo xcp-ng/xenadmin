@@ -44,8 +44,6 @@ namespace XenAdminTests.XenModelTests.ActionTests.AD
 
         protected override AddRemoveRolesAction NewAction()
         {
-
-            Mock<Pool> pool = ObjectManager.NewXenObject<Pool>(id);
             Mock<Subject> subject = ObjectManager.NewXenObject<Subject>(id);
 
             List<Role> rolesToAdd = new List<Role>
@@ -64,7 +62,7 @@ namespace XenAdminTests.XenModelTests.ActionTests.AD
             ObjectManager.MockProxyFor(id).Setup(
                 x => x.subject_remove_from_roles(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(ValidResponse);
 
-            return new AddRemoveRolesAction(pool.Object, subject.Object, rolesToAdd, rolesToRemove);
+            return new AddRemoveRolesAction(ObjectManager.MockConnectionFor(id).Object, subject.Object, rolesToAdd, rolesToRemove);
         }
 
         protected override bool VerifyResult(AddRemoveRolesAction action)

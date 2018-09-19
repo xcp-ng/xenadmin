@@ -44,8 +44,8 @@ namespace XenAdmin.Actions
         private readonly Pool_update update;
         private readonly Host host;
 
-        public ApplyUpdateAction(Pool_update update, Host host)
-            : base(host.Connection, string.Format(Messages.UPDATES_WIZARD_APPLYING_UPDATE, update.Name(), host.Name()))
+        public ApplyUpdateAction(Pool_update update, Host host, bool suppressHistory)
+            : base(host.Connection, string.Format(Messages.UPDATES_WIZARD_APPLYING_UPDATE, update.Name(), host.Name()), suppressHistory)
         {
             this.update = update;
             this.host = host;

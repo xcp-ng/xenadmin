@@ -34,40 +34,26 @@ using System.Threading;
 using XenAdmin.Actions;
 using XenAdmin.Core;
 using XenAdmin.Diagnostics.Checks;
-using XenAdmin.Network;
 using XenAPI;
 
 
 namespace XenAdmin.Diagnostics.Problems.VMProblem
 {
-    public class AutoStartEnabled : Problem
+    public class AutoStartEnabled : VMProblem
     {
-        private XenRef<VM> _VMref;
-        private IXenConnection _connection;
         public AutoStartEnabled(Check check, VM vm)
-            : base(check)
-        {
-            _VMref = new XenRef<VM>(vm);
-            _connection = vm.Connection;
-        }
+            : base(check, vm)
+        { }
 
         public override string Description
         {
-            get { return string.Format(Messages.AUTOSTART_ENABLED_CHECK_DESCRIPTION, Helpers.GetName(VM).Ellipsise(30)); }
+            get { return string.Format(Messages.AUTOSTART_ENABLED_CHECK_DESCRIPTION, ServerName, Helpers.GetName(VM).Ellipsise(30)); }
         }
 
         protected override AsyncAction CreateAction(out bool cancelled)
         {
             cancelled = false;
-            return new DelegatedAsyncAction(_connection, Messages.ACTION_DISABLE_AUTOSTART_ON_VM, string.Format(Messages.ACTION_DISABLING_AUTOSTART_ON_VM, Helpers.GetName(VM)), null, ActionDelegate(false));
-        }
-
-        private VM VM
-        {
-            get
-            {
-                return _connection.Resolve(_VMref);
-            }
+            return new DelegatedAsyncAction(VM.Connection, Messages.ACTION_DISABLE_AUTOSTART_ON_VM, string.Format(Messages.ACTION_DISABLING_AUTOSTART_ON_VM, Helpers.GetName(VM)), null, ActionDelegate(false));
         }
 
         public override string HelpMessage
@@ -75,18 +61,12 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
             get { return Messages.DISABLE_NOAMP; }
         }
 
-        public sealed override string Title
-        {
-            get { return string.Format(Messages.PROBLEM_VMPROBLEM_TITLE, Helpers.GetName(VM).Ellipsise(30)); }
-        }
-
         private Action<Session> ActionDelegate(bool autostartValue)
         {
             return delegate(Session session)
                        {
-                           var vm = _connection.Resolve(_VMref);
-                           var vmclone = (VM)vm.Clone();
-                           vm.Locked = true;
+                           var vmclone = (VM)VM.Clone();
+                           VM.Locked = true;
                            vmclone.SetAutoPowerOn(autostartValue);
                            try
                            {
@@ -94,10 +74,10 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
                            }
                            finally
                            {
-                               vm.Locked = false;
+                               VM.Locked = false;
                            }
                            int wait = 5000; // wait up to 5 seconds for the cache to be updated
-                           while (wait > 0 && vm.GetAutoPowerOn() != autostartValue)
+                           while (wait > 0 && VM.GetAutoPowerOn() != autostartValue)
                            {
                                Thread.Sleep(100);
                                wait -= 100;
@@ -108,7 +88,7 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
         public override AsyncAction CreateUnwindChangesAction()
         {
             return new DelegatedAsyncAction(
-               _connection,
+               VM.Connection,
                Messages.ACTION_ENABLE_AUTOSTART_ON_VM,
                string.Format(Messages.ACTION_ENABLING_AUTOSTART_ON_VM, Helpers.GetName(VM)),
                null,

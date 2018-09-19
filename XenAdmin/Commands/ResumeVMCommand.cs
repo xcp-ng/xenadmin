@@ -75,7 +75,7 @@ namespace XenAdmin.Commands
 
         protected override void Execute(List<VM> vms)
         {
-            RunAction(vms, Messages.ACTION_VM_RESUMING, Messages.ACTION_VM_RESUMING, Messages.ACTION_VM_RESUMED, null);
+            RunAction(vms, Messages.ACTION_VMS_RESUMING_ON_TITLE, Messages.ACTION_VMS_RESUMING_ON_TITLE, Messages.ACTION_VM_RESUMED, null);
         }
 
         protected override bool CanExecute(VM vm)

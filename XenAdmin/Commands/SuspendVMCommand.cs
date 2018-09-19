@@ -80,7 +80,7 @@ namespace XenAdmin.Commands
 
         protected override void Execute(List<VM> vms)
         {
-            RunAction(vms, Messages.ACTION_VM_SUSPENDING, Messages.ACTION_VM_SUSPENDING, Messages.ACTION_VM_SUSPENDED, null);
+            RunAction(vms, Messages.ACTION_VMS_SUSPENDING_TITLE, Messages.ACTION_VMS_SUSPENDING_TITLE, Messages.ACTION_VM_SUSPENDED, null);
         }
 
         public override string MenuText

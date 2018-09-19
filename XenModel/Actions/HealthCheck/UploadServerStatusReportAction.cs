@@ -78,7 +78,10 @@ namespace XenAdmin.Actions
             }
 
             if (Cancelling || Cancelled)
+            {
                 throw new CancelledException();
+            }
+              
             else if (string.IsNullOrEmpty(uploadUuid))
             {
                 // Fail to upload the zip to CIS server.

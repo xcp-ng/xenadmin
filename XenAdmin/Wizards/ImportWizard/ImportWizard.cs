@@ -77,6 +77,7 @@ namespace XenAdmin.Wizards.ImportWizard
 		private ImportType? m_typeOfImport;
 		private bool m_ignoreAffinitySet;
 		private EnvelopeType m_envelopeFromVhd;
+        private IXenConnection TargetConnection { get; set; }
 		#endregion
 
 		public ImportWizard(IXenConnection con, IXenObject xenObject, string filename, bool ovfModeOnly)
@@ -127,7 +128,7 @@ namespace XenAdmin.Wizards.ImportWizard
 						m_pageXvaStorage.ImportXvaAction.EndWizard(m_pageFinish.StartVmsAutomatically, m_pageXvaNetwork.VIFs);
 					break;
 				case ImportType.Ovf:
-					(new ImportApplianceAction(m_pageHost.Connection,
+					(new ImportApplianceAction(TargetConnection,
 											   m_pageImportSource.SelectedOvfEnvelope,
 											   m_pageImportSource.SelectedOvfPackage,
 					                           m_vmMappings,
@@ -143,7 +144,7 @@ namespace XenAdmin.Wizards.ImportWizard
 					                           m_pageTvmIp.TvmGateway)).RunAsync();
 					break;
 				case ImportType.Vhd:
-					(new ImportImageAction(m_pageHost.Connection,
+                    (new ImportImageAction(TargetConnection,
 										   m_envelopeFromVhd,
 										   Path.GetDirectoryName(m_pageImportSource.FilePath),
 					                       m_vmMappings,
@@ -257,14 +258,15 @@ namespace XenAdmin.Wizards.ImportWizard
 			}
 			else if (type == typeof(ImportSelectHostPage))
 			{
+			    TargetConnection = m_pageHost.ChosenItem == null ? null : m_pageHost.ChosenItem.Connection;
                 RemovePage(m_pageRbac);
-				ConfigureRbacPage(m_pageHost.Connection);
+                ConfigureRbacPage(TargetConnection);
 				m_vmMappings = m_pageHost.VmMappings;
 				m_pageStorage.VmMappings = m_vmMappings;
-				m_pageStorage.Connection = m_pageHost.Connection;
-				m_pageNetwork.Connection = m_pageHost.Connection;
-				m_pageOptions.Connection = m_pageHost.Connection;
-				m_pageTvmIp.Connection = m_pageHost.Connection;
+                m_pageStorage.Connection = TargetConnection;
+                m_pageNetwork.Connection = TargetConnection;
+                m_pageOptions.Connection = TargetConnection;
+                m_pageTvmIp.Connection = TargetConnection;
 				NotifyNextPagesOfChange(m_pageStorage, m_pageNetwork, m_pageOptions, m_pageTvmIp);
 			}
 			else if (type == typeof(ImportSelectStoragePage))
@@ -400,9 +402,10 @@ namespace XenAdmin.Wizards.ImportWizard
 		#region Private methods
 
         private void ConfigureRbacPage(IXenConnection selectedConnection)
-		{
-			if (selectedConnection == null || selectedConnection.Session.IsLocalSuperuser || Helpers.GetMaster(selectedConnection).external_auth_type == Auth.AUTH_TYPE_NONE)
-				return;
+        {
+            if (selectedConnection == null || selectedConnection.Session == null || selectedConnection.Session.IsLocalSuperuser ||
+                Helpers.GetMaster(selectedConnection).external_auth_type == Auth.AUTH_TYPE_NONE)
+                return;
 
 			m_pageRbac.ClearPermissionChecks();
 			m_ignoreAffinitySet = false;

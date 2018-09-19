@@ -129,8 +129,6 @@ namespace XenAdmin.Dialogs.OptionsPages
             Refresh();
 
             _pluginManager.ReloadPlugins();
-            Program.MainWindow.UpdateToolbarsCore();
-
             m_tlpScanning.Visible = false;
             LoadPluginList();
             refreshButton.Enabled = true;
@@ -288,7 +286,6 @@ namespace XenAdmin.Dialogs.OptionsPages
             }
 
             Settings.UpdateDisabledPluginsList(disabled);
-            Program.MainWindow.UpdateToolbarsCore();
             _pluginManager.OnPluginsChanged();
         }
 

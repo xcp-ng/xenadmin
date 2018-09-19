@@ -145,7 +145,7 @@
     <value>1, 1, 1, 1</value>
   </data>
   <data name="pdSectionReadCaching.SectionTitle" xml:space="preserve">
-    <value>读缓存</value>
+    <value>读取缓存</value>
   </data>
   <data name="pdSectionReadCaching.Size" type="System.Drawing.Size, System.Drawing">
     <value>712, 34</value>

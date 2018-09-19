@@ -34,6 +34,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using XenAdmin.Core;
@@ -60,13 +61,8 @@ namespace XenAdmin.Controls.Ballooning
         private bool multiple;
 
         // The increment in which the user can move the draggers, in bytes
-        double increment;
-
-        public double Increment
-        {
-            get { return increment; }
-            set { increment = value; }
-        }
+        [Browsable(false)]
+        public double Increment { get; set; }
 
         public double Dynamic_min
         {
@@ -136,16 +132,39 @@ namespace XenAdmin.Controls.Ballooning
         private bool mouseIsDown = false;
         private double BytesPerPixel;
 
-        public void Initialize(VM vm, bool multiple, long memoryUsed, bool allowEdit)
+        public void Populate(List<VM> vms, bool allowMemEdit)
         {
-            this.multiple = multiple;
-            this.memoryUsed = memoryUsed;
-            this.static_min = vm.memory_static_min;
-            this.static_max = vm.memory_static_max;
-            this.dynamic_min = dynamic_min_orig = Util.CorrectRoundingErrors(vm.memory_dynamic_min);
-            this.dynamic_max = dynamic_max_orig = Util.CorrectRoundingErrors(vm.memory_dynamic_max);
-            this.has_ballooning = vm.has_ballooning();
-            this.allowEdit = allowEdit;
+            var vm = vms[0];
+            multiple = vms.Count > 1;
+            memoryUsed = CalcMemoryUsed(vms);
+            static_min = vm.memory_static_min;
+            static_max = vm.memory_static_max;
+            dynamic_min = dynamic_min_orig = Util.CorrectRoundingErrors(vm.memory_dynamic_min);
+            dynamic_max = dynamic_max_orig = Util.CorrectRoundingErrors(vm.memory_dynamic_max);
+            has_ballooning = vm.has_ballooning();
+            allowEdit = allowMemEdit;
+        }
+
+        private static long CalcMemoryUsed(List<VM> vms)
+        {
+            var memories = (from VM vm in vms
+                            where vm != null && vm.metrics != null &&
+                                  (vm.power_state == vm_power_state.Running || vm.power_state == vm_power_state.Paused)
+                            let metrics = vm.Connection.Resolve(vm.metrics)
+                            where metrics != null
+                            select metrics.memory_actual).ToList();
+
+            if (memories.Count > 0)
+                try
+                {
+                    return Convert.ToInt64(memories.Average());
+                }
+                catch
+                {
+                    // ignore; we'll return 0
+                }
+
+            return 0;
         }
 
         public void ChangeSettings(double static_min, double dynamic_min, double dynamic_max, double static_max)

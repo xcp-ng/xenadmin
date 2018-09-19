@@ -31,12 +31,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using XenAdmin.Core;
 using System.IO;
-using System.Threading;
-using System.Net;
+
 
 namespace XenAdminTests.MiscTests
 {
@@ -79,7 +77,7 @@ namespace XenAdminTests.MiscTests
                 string file = Path.GetTempFileName();
                 File.Move(file, file + ".html");
                 file += ".html";
-                File.WriteAllText(file, "<html>hello</html>");
+                File.WriteAllText(file, "<html><body>hello</body></html>");
                 _testUris.Add(new Uri("file://" + file));
             }
         }
@@ -87,36 +85,40 @@ namespace XenAdminTests.MiscTests
         [Test]
         public void TestMultipleUrisWithOneValid()
         {
-            Uri uri = _testUris[0];
+            Uri uri1 = _testUris[0];
             Uri uri2 = new Uri("http://fgdfgd.dfgdfgd.dfg");
             bool navigating = false;
             bool navigated = false;
 
             _wb.Navigating += (s, e) =>
             {
-                Assert.AreEqual(uri, e.Url, "Incorrect Uri in Navigation");
+                Assert.AreEqual(uri1, e.Url, "Incorrect Uri in Navigation");
                 Assert.IsFalse(navigating);
                 navigating = true;
             };
 
             _wb.Navigated += (s, e) =>
             {
-                Assert.AreEqual(uri, e.Url, "Incorrect Uri in Navigation");
+                Assert.AreEqual(uri1, e.Url, "Incorrect Uri in Navigation");
                 Assert.IsFalse(navigated);
                 navigated = true;
             };
 
             _wb.NavigateError += (s, e) => Assert.Fail("Navigation failed.");
 
-            MW(() => _wb.Navigate(new[] { uri, uri2 }));
-
-            MWWaitFor(() => navigating && navigated, "Navigation didn't take place.");
+            var uris = new[] {uri1, uri2};
+            foreach (var uri in uris)
+            {
+                var curUri = uri;
+                MW(() => _wb.Navigate(curUri));
+                MWWaitFor(() => navigating && navigated, "Navigation didn't take place.");
+            }
         }
 
         [Test]
         public void TestMultipleUrisWithNoneValid()
         {
-            Uri uri = new Uri("http://fgdfffgd.dfgdfgd.dfg");
+            Uri uri1 = new Uri("http://fgdfffgd.dfgdfgd.dfg");
             Uri uri2 = new Uri("http://fgdfgd.dfgdfgd.dfg");
             Uri navCancelUri = new Uri("res://ieframe.dll/navcancl.htm#http://fgdfgd.dfgdfgd.dfg/");
             bool navigating = false;
@@ -155,9 +157,13 @@ namespace XenAdminTests.MiscTests
                 navError = true;
             };
 
-            MW(() => _wb.Navigate(new[] { uri, uri2 }));
-
-            MWWaitFor(() => navigating && navigated && navError, "Navigation didn't take place.");
+            var uris = new[] { uri1, uri2 };
+            foreach (var uri in uris)
+            {
+                var curUri = uri;
+                MW(() => _wb.Navigate(curUri));
+                MWWaitFor(() => navigating && navigated && navError, "Navigation didn't take place.");
+            } 
         }
 
         [Test]
@@ -180,9 +186,12 @@ namespace XenAdminTests.MiscTests
 
             _wb.NavigateError += (s, e) => Assert.Fail("Navigation failed.");
 
-            MW(() => _wb.Navigate(_testUris));
-
-            MWWaitFor(() => navigating && navigated, "Navigation didn't take place.");
+            foreach (var uri in _testUris)
+            {
+                var curUri = uri;
+                MW(() => _wb.Navigate(curUri));
+                MWWaitFor(() => navigating && navigated, "Navigation didn't take place.");
+            }
         }
     }
 }

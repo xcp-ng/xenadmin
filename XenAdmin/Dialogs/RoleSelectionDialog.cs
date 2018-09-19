@@ -31,13 +31,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 using XenAPI;
-using XenAdmin.Core;
+using XenAdmin.Actions;
+using XenAdmin.Network;
 
 
 namespace XenAdmin.Dialogs
@@ -45,44 +43,49 @@ namespace XenAdmin.Dialogs
     public partial class RoleSelectionDialog : XenDialogBase
     {
         private Subject[] subjects;
-        private Pool pool;
+
         private Dictionary<Role, List<Subject>> roleAssignment;
         // Used to stop 'changes made' checks during a batch select
-        bool batchChange = false;
+        private bool batchChange;
+        private IXenConnection _connection;
 
         public RoleSelectionDialog()
         {
             InitializeComponent();
         }
 
-        public RoleSelectionDialog(Subject[] subjects, Pool pool) : this()
+        public RoleSelectionDialog(IXenConnection connection, Subject[] subjects)
         {
+            InitializeComponent();
+
+            _connection = connection;
+
             this.subjects = subjects;
-            this.pool = pool;
             roleAssignment = new Dictionary<Role,List<Subject>>();
+
+            var allAreGroups = subjects.Length > 0 && subjects.All(s => s.IsGroup);
+            var allAreUsers = subjects.Length > 0 && subjects.All(s => !s.IsGroup);
+
+            pictureBoxSubjectType.Image = allAreUsers ? Properties.Resources._000_User_h32bit_16 : Properties.Resources._000_UserAndGroup_h32bit_32;
+
             if (subjects.Length == 1)
             {
                 Subject subject = subjects[0];
                 string sName = (subject.DisplayName ?? subject.SubjectName ?? Messages.UNKNOWN_AD_USER).Ellipsise(30);
-                if (subject.IsGroup)
-                {
-                    labelBlurb.Text = String.Format(Messages.AD_SELECT_ROLE_GROUP, sName);
-                    pictureBoxSubjectType.Image = XenAdmin.Properties.Resources._000_UserAndGroup_h32bit_32;
-                }
-                else
-                {
-                    labelBlurb.Text = String.Format(Messages.AD_SELECT_ROLE_USER, sName);
-                    pictureBoxSubjectType.Image = XenAdmin.Properties.Resources._000_User_h32bit_16;
-                }
+                labelBlurb.Text = string.Format(allAreGroups ? Messages.AD_SELECT_ROLE_GROUP : Messages.AD_SELECT_ROLE_USER, sName);
             }
             else
             {
-                labelBlurb.Text = Messages.AD_SELECT_ROLE_MIXED;
-                pictureBoxSubjectType.Image = XenAdmin.Properties.Resources._000_User_h32bit_16;
+                if (allAreGroups)
+                    labelBlurb.Text = Messages.AD_SELECT_ROLE_GROUP_MANY;
+                else if (allAreUsers)
+                    labelBlurb.Text = Messages.AD_SELECT_ROLE_USER_MANY;
+                else
+                    labelBlurb.Text = Messages.AD_SELECT_ROLE_MIXED;
             }
 
             // Get the list of roles off the server and arrange them into rank
-            List<Role> serverRoles = new List<Role>(pool.Connection.Cache.Roles);
+            List<Role> serverRoles = new List<Role>(_connection.Cache.Roles);
             //hide basic permissions, we only want the roles.
             serverRoles.RemoveAll(delegate(Role r){return r.subroles.Count < 1;});
             serverRoles.Sort();
@@ -93,7 +96,7 @@ namespace XenAdmin.Dialogs
             }
             foreach (Subject s in subjects)
             {
-                List<Role> subjectRoles = (List<Role>)pool.Connection.ResolveAll<Role>(s.roles);
+                List<Role> subjectRoles = _connection.ResolveAll(s.roles);
                 foreach (Role r in subjectRoles)
                 {
                     roleAssignment[r].Add(s);
@@ -156,8 +159,7 @@ namespace XenAdmin.Dialogs
                         rolesToRemove.Add(role);
                 }
 
-                XenAdmin.Actions.AddRemoveRolesAction a = new XenAdmin.Actions.AddRemoveRolesAction(pool, s, rolesToAdd, rolesToRemove);
-                a.RunAsync();
+                new AddRemoveRolesAction(_connection, s, rolesToAdd, rolesToRemove).RunAsync();
             }
             Close();
         }

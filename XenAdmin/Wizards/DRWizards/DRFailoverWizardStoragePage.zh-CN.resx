@@ -313,7 +313,7 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="dataGridViewSRs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 57</value>
+    <value>0, 0</value>
   </data>
   <data name="dataGridViewSRs.Size" type="System.Drawing.Size, System.Drawing">
     <value>557, 309</value>
@@ -427,13 +427,13 @@
     <value>199, 22</value>
   </data>
   <data name="iscsiToolStripMenuItem.Text" xml:space="preserve">
-    <value>查找软件 iSCSI SR</value>
+    <value>查找软件 iSCSI SR(&amp;I)...</value>
   </data>
   <data name="fcToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>199, 22</value>
   </data>
   <data name="fcToolStripMenuItem.Text" xml:space="preserve">
-    <value>查找硬件 HBA SR</value>
+    <value>查找软件 HBA SR(&amp;H)...</value>
   </data>
   <data name="FindSrsOptionsMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
     <value>200, 48</value>

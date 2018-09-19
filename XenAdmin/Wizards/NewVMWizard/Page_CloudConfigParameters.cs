@@ -54,6 +54,7 @@ namespace XenAdmin.Wizards.NewVMWizard
         public Page_CloudConfigParameters()
         {
             InitializeComponent();
+            warningsTable.Visible = false;
         }
 
         void ConfigDriveTemplateTextBox_TextChanged(object sender, EventArgs e)
@@ -171,7 +172,7 @@ namespace XenAdmin.Wizards.NewVMWizard
             GetCloudConfigParameters(null);
         }
 
-        public void ShowHideButtonsAndWarnings(bool inNewVmWizard)
+        private void ShowHideButtonsAndWarnings(bool inNewVmWizard)
         {
             // IncludeConfigDriveCheckBox and reloadDefaults only visible in the New VM Wizard
             IncludeConfigDriveCheckBox.Visible = reloadDefaults.Visible = inNewVmWizard;

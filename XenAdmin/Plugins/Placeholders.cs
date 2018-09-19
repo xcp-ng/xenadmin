@@ -130,10 +130,7 @@ namespace XenAdmin.Plugins
         /// <returns>The processed text.</returns>
         private static string Substitute(string text, IXenObject obj, Predicate<string> match)
         {
-            return Substitute(
-                text, 
-                obj == null ? null : new List<IXenObject>(new IXenObject[] { obj }), 
-                match);
+            return Substitute(text, obj == null ? null : new List<IXenObject> { obj }, match);
         }
 
         /// <summary>
@@ -145,8 +142,6 @@ namespace XenAdmin.Plugins
         /// <returns>The processed text.</returns>
         public static string Substitute(string text, IList<IXenObject> objs)
         {
-            Util.ThrowIfParameterNull(text, "text");
-
             return Substitute(text, objs, s => true);
         }
 
@@ -158,10 +153,7 @@ namespace XenAdmin.Plugins
         /// <returns>The processed text.</returns>
         public static string Substitute(string text, IXenObject obj)
         {
-            return Substitute(
-                text, 
-                obj == null ? null : new List<IXenObject>(new IXenObject[] { obj }), 
-                s => true);
+            return Substitute(text, obj, s => true);
         }
 
         /// <summary>
@@ -180,17 +172,16 @@ namespace XenAdmin.Plugins
             try
             {
                 if (!uri.Contains(string.Format(PlaceholderFormat, ipAddressName)))
-                {
                     return new List<Uri> { new Uri(Substitute(uri, obj)) };
-                }
                 
-                string u = Substitute(uri, obj, s => s != ipAddressName);
                 var ips = (List<ComparableAddress>)PropertyAccessors.Get(PropertyNames.ip_address)(obj);
-
                 if (ips == null || ips.Count == 0)
                 {
-                    return new List<Uri> { new Uri(u) };
+                    log.DebugFormat("Object {0} (opaque_ref {1}) has no IPs.", obj.Name(), obj.opaque_ref);
+                    return new List<Uri> { new Uri("about:blank") };
                 }
+
+                string u = Substitute(uri, obj, s => s != ipAddressName);
 
                 return ips.ConvertAll(ip =>
                 {

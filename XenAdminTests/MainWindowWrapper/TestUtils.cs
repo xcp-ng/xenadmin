@@ -176,6 +176,11 @@ namespace XenAdminTests
             return GetFieldDeep<ToolStripItem>(o, name);
         }
 
+        public static ToolStripButton GetToolStripButton(object o, string name)
+        {
+            return GetFieldDeep<ToolStripButton>(o, name);
+        }
+
         public static ToolStripMenuItem GetToolStripMenuItem(object o, string name)
         {
             return GetFieldDeep<ToolStripMenuItem>(o, name);

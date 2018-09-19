@@ -518,9 +518,9 @@ namespace XenAdmin.Wizards.PatchingWizard
 
                     if (WizardMode != WizardMode.SingleUpdate)   
                         //prechecks will fail in automated updates mode if one of the hosts is unreachable
-                        return SelectedPools.SelectMany(p => p.Connection.Cache.Hosts.Where(host => enabledHosts.Contains(host))).ToList();
+                        return SelectedPools.SelectMany(p => p.Connection.Cache.Hosts.Where(host => enabledHosts.Contains(host)).OrderBy(host => host)).ToList();
                     //prechecks will issue warning but allow updates to be installed on the reachable hosts only
-                    return SelectedPools.SelectMany(p => p.Connection.Cache.Hosts.Where(host => host.IsLive() && enabledHosts.Contains(host))).ToList();
+                    return SelectedPools.SelectMany(p => p.Connection.Cache.Hosts.Where(host => host.IsLive() && enabledHosts.Contains(host)).OrderBy(host => host)).ToList();
                 }
                 else
                 {

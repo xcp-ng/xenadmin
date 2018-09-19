@@ -424,19 +424,19 @@
     <value>17, 11</value>
   </metadata>
   <data name="iscsiToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 22</value>
+    <value>208, 22</value>
   </data>
   <data name="iscsiToolStripMenuItem.Text" xml:space="preserve">
-    <value>Find Software iSCSI SRs</value>
+    <value>Find Software &amp;iSCSI SRs...</value>
   </data>
   <data name="fcToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 22</value>
+    <value>208, 22</value>
   </data>
   <data name="fcToolStripMenuItem.Text" xml:space="preserve">
-    <value>Find Hardware HBA SRs</value>
+    <value>Find Hardware &amp;HBA SRs...</value>
   </data>
   <data name="FindSrsOptionsMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 48</value>
+    <value>209, 48</value>
   </data>
   <data name="&gt;&gt;FindSrsOptionsMenuStrip.Name" xml:space="preserve">
     <value>FindSrsOptionsMenuStrip</value>

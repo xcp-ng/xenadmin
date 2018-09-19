@@ -118,7 +118,7 @@ namespace XenAdmin.Commands
             AssertOperationAllowsExecution();
 
             string title = Messages.ACTION_VMS_RESUMING_ON_TITLE;
-            string startDescription = Messages.ACTION_VM_RESUMING;
+            string startDescription = Messages.ACTION_VMS_RESUMING_ON_TITLE;
             string endDescription = Messages.ACTION_VM_RESUMED;
 
             List<AsyncAction> actions = new List<AsyncAction>();
@@ -126,7 +126,7 @@ namespace XenAdmin.Commands
             {
                 
                 title = Messages.ACTION_VMS_MIGRATING_TITLE;
-                startDescription = Messages.ACTION_VM_MIGRATING;
+                startDescription = Messages.ACTION_VMS_MIGRATING_TITLE;
                 endDescription = Messages.ACTION_VM_MIGRATED;
                 foreach (VM vm in selection.AsXenObjects<VM>(CanExecute))
                 {
@@ -138,7 +138,7 @@ namespace XenAdmin.Commands
             else if (_operation == vm_operations.start_on)
             {
                 title = Messages.ACTION_VMS_STARTING_ON_TITLE;
-                startDescription = Messages.ACTION_VM_STARTING;
+                startDescription = Messages.ACTION_VMS_STARTING_ON_TITLE;
                 endDescription = Messages.ACTION_VM_STARTED;
                 foreach (VM vm in selection.AsXenObjects<VM>(CanExecute))
                 {
@@ -149,7 +149,7 @@ namespace XenAdmin.Commands
             else if (_operation == vm_operations.resume_on)
             {
                 title = Messages.ACTION_VMS_RESUMING_ON_TITLE;
-                startDescription = Messages.ACTION_VM_RESUMING;
+                startDescription = Messages.ACTION_VMS_RESUMING_ON_TITLE;
                 endDescription = Messages.ACTION_VM_RESUMED;
                 foreach (VM vm in selection.AsXenObjects<VM>(CanExecute))
                 {

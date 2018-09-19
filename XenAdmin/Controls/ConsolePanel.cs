@@ -188,7 +188,7 @@ namespace XenAdmin.Controls
             }
             
             var session = source.Connection.Session;
-            if (session != null && session.IsLocalSuperuser)
+            if (session == null || session.IsLocalSuperuser)
             {
                 allowedRoles = null;
                 return false;
@@ -197,7 +197,7 @@ namespace XenAdmin.Controls
             string roleList = source.IsControlDomainZero() ? "http/connect_console/host_console" : "http/connect_console";
             List<Role> validRoles = Role.ValidRoleList(roleList, source.Connection);
             allowedRoles = validRoles;
-            return source.Connection.Session.Roles.Find(r => validRoles.Contains(r)) == null;
+            return session.Roles.Find(r => validRoles.Contains(r)) == null;
         }
 
         internal Image Snapshot(VM vm, string elevatedUsername, string elevatedPassword)

@@ -99,21 +99,5 @@ namespace XenAdmin
         {
             return s == null ? null : s.Replace("\"", "\"\"");
         }
-
-        /// <summary>
-        /// Surround a string with a given character
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="c"></param>
-        /// <returns></returns>
-        public static string SurroundWith(this string s, char c)
-        {
-            if (s == null)
-            {
-                return null;
-            }
-
-            return c + s + c;
-        }
     }
 }

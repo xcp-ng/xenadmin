@@ -19,7 +19,7 @@ namespace XenAdmin {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Messages {
@@ -2023,6 +2023,24 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Renamed server network interface.
+        /// </summary>
+        public static string ACTION_SET_SECONDARY_MANAGEMENT_PURPOSE_DONE {
+            get {
+                return ResourceManager.GetString("ACTION_SET_SECONDARY_MANAGEMENT_PURPOSE_DONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Renaming server network interface.
+        /// </summary>
+        public static string ACTION_SET_SECONDARY_MANAGEMENT_PURPOSE_TITLE {
+            get {
+                return ResourceManager.GetString("ACTION_SET_SECONDARY_MANAGEMENT_PURPOSE_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saving VM Configuration.
         /// </summary>
         public static string ACTION_SET_VM_OTHER_CONFIG_TITLE {
@@ -3445,6 +3463,15 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rebooting VMs.
+        /// </summary>
+        public static string ACTION_VMS_REBOOTING_TITLE {
+            get {
+                return ResourceManager.GetString("ACTION_VMS_REBOOTING_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resuming VMs.
         /// </summary>
         public static string ACTION_VMS_RESUMING_ON_TITLE {
@@ -3468,6 +3495,15 @@ namespace XenAdmin {
         public static string ACTION_VMS_STARTING_ON_TITLE {
             get {
                 return ResourceManager.GetString("ACTION_VMS_STARTING_ON_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suspending VMs.
+        /// </summary>
+        public static string ACTION_VMS_SUSPENDING_TITLE {
+            get {
+                return ResourceManager.GetString("ACTION_VMS_SUSPENDING_TITLE", resourceCulture);
             }
         }
         
@@ -3869,7 +3905,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Join Domain.
+        ///   Looks up a localized string similar to &amp;Join Domain....
         /// </summary>
         public static string AD_JOIN_DOMAIN {
             get {
@@ -3920,7 +3956,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to L&amp;eave Domain.
+        ///   Looks up a localized string similar to L&amp;eave Domain....
         /// </summary>
         public static string AD_LEAVE_DOMAIN {
             get {
@@ -4112,6 +4148,15 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select the role you want to assign to these groups. Each role inherits all the privileges of the subordinate role below it in the list..
+        /// </summary>
+        public static string AD_SELECT_ROLE_GROUP_MANY {
+            get {
+                return ResourceManager.GetString("AD_SELECT_ROLE_GROUP_MANY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select the role you want to assign to these users and groups. Each role inherits all the privileges of the subordinate role below it in the list..
         /// </summary>
         public static string AD_SELECT_ROLE_MIXED {
@@ -4126,6 +4171,15 @@ namespace XenAdmin {
         public static string AD_SELECT_ROLE_USER {
             get {
                 return ResourceManager.GetString("AD_SELECT_ROLE_USER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the role you want to assign to these users. Each role inherits all the privileges of the subordinate role below it in the list..
+        /// </summary>
+        public static string AD_SELECT_ROLE_USER_MANY {
+            get {
+                return ResourceManager.GetString("AD_SELECT_ROLE_USER_MANY", resourceCulture);
             }
         }
         
@@ -5552,7 +5606,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to VM {0} has autostart enabled.
+        ///   Looks up a localized string similar to {0}: VM {1} has autostart enabled.
         /// </summary>
         public static string AUTOSTART_ENABLED_CHECK_DESCRIPTION {
             get {
@@ -18484,15 +18538,6 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error downloading file &apos;{0}&apos;. {1}.
-        /// </summary>
-        public static string IMPORT_DOWNLOAD_ERROR {
-            get {
-                return ResourceManager.GetString("IMPORT_DOWNLOAD_ERROR", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Too many EULAs to display, cannot continue..
         /// </summary>
         public static string IMPORT_EULA_PAGE_MAX_TABS {
@@ -19162,6 +19207,33 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downloading file {0}, please wait....
+        /// </summary>
+        public static string IMPORT_WIZARD_DOWNLOADING {
+            get {
+                return ResourceManager.GetString("IMPORT_WIZARD_DOWNLOADING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to download file {0}. Please see the logs for more information..
+        /// </summary>
+        public static string IMPORT_WIZARD_FAILED_DOWNLOAD {
+            get {
+                return ResourceManager.GetString("IMPORT_WIZARD_FAILED_DOWNLOAD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to uncompress file {0}. Please see the logs for more information..
+        /// </summary>
+        public static string IMPORT_WIZARD_FAILED_UNCOMPRESS {
+            get {
+                return ResourceManager.GetString("IMPORT_WIZARD_FAILED_UNCOMPRESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map the virtual network interfaces in the VMs you are importing to networks in the destination pool or standalone server..
         /// </summary>
         public static string IMPORT_WIZARD_NETWORKING_INTRO {
@@ -19194,6 +19266,15 @@ namespace XenAdmin {
         public static string IMPORT_WIZARD_TEMPLATE_SR_HINT_TEXT {
             get {
                 return ResourceManager.GetString("IMPORT_WIZARD_TEMPLATE_SR_HINT_TEXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uncompressing file {0}, please wait....
+        /// </summary>
+        public static string IMPORT_WIZARD_UNCOMPRESSING {
+            get {
+                return ResourceManager.GetString("IMPORT_WIZARD_UNCOMPRESSING", resourceCulture);
             }
         }
         
@@ -20648,15 +20729,6 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to , .
-        /// </summary>
-        public static string LIST_SEPARATOR {
-            get {
-                return ResourceManager.GetString("LIST_SEPARATOR", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Live Patching.
         /// </summary>
         public static string LIVE_PATCHING {
@@ -20666,7 +20738,11 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Live patching failed for servers {0}. To apply the patch, please put the servers into maintenance mode and reboot them..
+        ///   Looks up a localized string similar to Live patching failed for the following servers:
+        ///
+        ///{0}
+        ///
+        ///To complete the patch installation, please put the servers into maintenance mode and reboot them..
         /// </summary>
         public static string LIVE_PATCHING_FAILED_MULTI_HOST {
             get {
@@ -20675,20 +20751,11 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Live patching failed for server ‘{0}’. To apply the patch, please put the server into maintenance mode and reboot it..
+        ///   Looks up a localized string similar to Live patching failed for server ‘{0}’. To complete the patch installation, please put the server into maintenance mode and reboot it..
         /// </summary>
         public static string LIVE_PATCHING_FAILED_ONE_HOST {
             get {
                 return ResourceManager.GetString("LIVE_PATCHING_FAILED_ONE_HOST", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Loading &apos;{0}&apos;....
-        /// </summary>
-        public static string LOADING {
-            get {
-                return ResourceManager.GetString("LOADING", resourceCulture);
             }
         }
         
@@ -27166,15 +27233,6 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} error..
-        /// </summary>
-        public static string PATCHING_WIZARD_ERROR {
-            get {
-                return ResourceManager.GetString("PATCHING_WIZARD_ERROR", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0}: {1} ok..
         /// </summary>
         public static string PATCHING_WIZARD_HOST_CHECK_OK {
@@ -27365,7 +27423,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Restart toolstack in this order (master always first):.
+        ///   Looks up a localized string similar to Restart toolstack on these servers in this order (master always first):.
         /// </summary>
         public static string PATCHINGWIZARD_MODEPAGE_RESTARTXAPI {
             get {
@@ -27388,15 +27446,6 @@ namespace XenAdmin {
         public static string PATCHINGWIZARD_MODEPAGE_TITLE {
             get {
                 return ResourceManager.GetString("PATCHINGWIZARD_MODEPAGE_TITLE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unknown.
-        /// </summary>
-        public static string PATCHINGWIZARD_MODEPAGE_UNKNOWNACTION {
-            get {
-                return ResourceManager.GetString("PATCHINGWIZARD_MODEPAGE_UNKNOWNACTION", resourceCulture);
             }
         }
         
@@ -27879,6 +27928,69 @@ namespace XenAdmin {
         public static string PATCHINGWIZARD_SELECTSERVERPAGE_TITLE {
             get {
                 return ResourceManager.GetString("PATCHINGWIZARD_SELECTSERVERPAGE_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The installation of update {0} was not completed successfully on all selected servers. The update process has been paused. Press Retry to resume it..
+        /// </summary>
+        public static string PATCHINGWIZARD_SINGLEUPDATE_FAILURE_MANY {
+            get {
+                return ResourceManager.GetString("PATCHINGWIZARD_SINGLEUPDATE_FAILURE_MANY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The installation of update {0} was not completed successfully..
+        /// </summary>
+        public static string PATCHINGWIZARD_SINGLEUPDATE_FAILURE_ONE {
+            get {
+                return ResourceManager.GetString("PATCHINGWIZARD_SINGLEUPDATE_FAILURE_ONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following errors occurred while the installation of update {0} was in progress:.
+        /// </summary>
+        public static string PATCHINGWIZARD_SINGLEUPDATE_FAILURE_PER_POOL_MANY {
+            get {
+                return ResourceManager.GetString("PATCHINGWIZARD_SINGLEUPDATE_FAILURE_PER_POOL_MANY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following error occurred while the installation of update {0} was in progress:.
+        /// </summary>
+        public static string PATCHINGWIZARD_SINGLEUPDATE_FAILURE_PER_POOL_ONE {
+            get {
+                return ResourceManager.GetString("PATCHINGWIZARD_SINGLEUPDATE_FAILURE_PER_POOL_ONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The installation of update {0} on all selected servers was completed successfully..
+        /// </summary>
+        public static string PATCHINGWIZARD_SINGLEUPDATE_SUCCESS_MANY {
+            get {
+                return ResourceManager.GetString("PATCHINGWIZARD_SINGLEUPDATE_SUCCESS_MANY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The installation of update {0} was completed successfully..
+        /// </summary>
+        public static string PATCHINGWIZARD_SINGLEUPDATE_SUCCESS_ONE {
+            get {
+                return ResourceManager.GetString("PATCHINGWIZARD_SINGLEUPDATE_SUCCESS_ONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [XenCenter] is now installing update {0} on your system..
+        /// </summary>
+        public static string PATCHINGWIZARD_SINGLEUPDATE_TITLE {
+            get {
+                return ResourceManager.GetString("PATCHINGWIZARD_SINGLEUPDATE_TITLE", resourceCulture);
             }
         }
         
@@ -28477,6 +28589,24 @@ namespace XenAdmin {
         public static string POOL_COLON {
             get {
                 return ResourceManager.GetString("POOL_COLON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pool &apos;{0}&apos; has HA enabled. You must disable HA before making the pool into a standalone server..
+        /// </summary>
+        public static string POOL_DELETE_HA_ENABLED {
+            get {
+                return ResourceManager.GetString("POOL_DELETE_HA_ENABLED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HA is currently being enabled on pool &apos;{0}&apos;. You must disable HA before making the pool into a standalone server..
+        /// </summary>
+        public static string POOL_DELETE_HA_ENABLING {
+            get {
+                return ResourceManager.GetString("POOL_DELETE_HA_ENABLING", resourceCulture);
             }
         }
         
@@ -29998,7 +30128,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Removed Update &apos;{0}&apos;.
+        ///   Looks up a localized string similar to Removed update &apos;{0}&apos;.
         /// </summary>
         public static string REMOVED_UPDATE {
             get {
@@ -30372,15 +30502,6 @@ namespace XenAdmin {
         public static string RETRIEVING_WLB_DEFAULT_CONFIGURATION {
             get {
                 return ResourceManager.GetString("RETRIEVING_WLB_DEFAULT_CONFIGURATION", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;Retry.
-        /// </summary>
-        public static string RETRY {
-            get {
-                return ResourceManager.GetString("RETRY", resourceCulture);
             }
         }
         
@@ -33166,22 +33287,13 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to install supplemental pack &apos;{0}&apos; on &apos;{1}&apos;..
+        ///   Looks up a localized string similar to Failed to install supplemental pack &apos;{0}&apos; on &apos;{1}&apos;.
+        ///
+        ///Refer to the &quot;[XenServer product] Administrator&apos;s Guide&quot; for instructions on how to manually install a supplemental pack on a server..
         /// </summary>
         public static string SUPP_PACK_INSTALL_FAILED {
             get {
                 return ResourceManager.GetString("SUPP_PACK_INSTALL_FAILED", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}
-        ///
-        ///Refer to the &quot;[XenServer product] Administrator&apos;s Guide&quot; for instructions on how to manually install a supplemental pack on a server..
-        /// </summary>
-        public static string SUPP_PACK_INSTALL_FAILED_MORE_INFO {
-            get {
-                return ResourceManager.GetString("SUPP_PACK_INSTALL_FAILED_MORE_INFO", resourceCulture);
             }
         }
         
@@ -33281,24 +33393,6 @@ namespace XenAdmin {
         public static string SUSPEND_VMS {
             get {
                 return ResourceManager.GetString("SUSPEND_VMS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Suspended specified VMs.
-        /// </summary>
-        public static string SUSPENDED_SPECIFIED_VMS {
-            get {
-                return ResourceManager.GetString("SUSPENDED_SPECIFIED_VMS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Suspending specified VMs.
-        /// </summary>
-        public static string SUSPENDING_SPECIFIED_VMS {
-            get {
-                return ResourceManager.GetString("SUSPENDING_SPECIFIED_VMS", resourceCulture);
             }
         }
         
@@ -34319,15 +34413,6 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The installation of update {0} was not completed successfully.
-        /// </summary>
-        public static string UPDATE_WAS_NOT_COMPLETED {
-            get {
-                return ResourceManager.GetString("UPDATE_WAS_NOT_COMPLETED", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Update {0} was successfully installed.
         /// </summary>
         public static string UPDATE_WAS_SUCCESSFULLY_INSTALLED {
@@ -34628,7 +34713,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot migrate VM &apos;{0}&apos;.
+        ///   Looks up a localized string similar to {0}: Cannot migrate VM &apos;{1}&apos;.
         /// </summary>
         public static string UPDATES_WIZARD_CANNOT_MIGRATE_VM {
             get {
@@ -34637,7 +34722,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot migrate VM &apos;{0}&apos; due to license restrictions..
+        ///   Looks up a localized string similar to {0}: Cannot migrate VM &apos;{1}&apos; due to license restrictions..
         /// </summary>
         public static string UPDATES_WIZARD_CANNOT_MIGRATE_VM_LICENSE_REASON {
             get {
@@ -34646,7 +34731,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot migrate VM &apos;{0}&apos;, because it has a virtual GPU attached and there is no suitable GPU available on other servers..
+        ///   Looks up a localized string similar to {0}: Cannot migrate VM &apos;{1}&apos;, because it has a virtual GPU attached and there is no suitable GPU available on other servers..
         /// </summary>
         public static string UPDATES_WIZARD_CANNOT_MIGRATE_VM_NO_GPU {
             get {
@@ -34655,7 +34740,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot migrate VM &apos;{0}&apos;, because it doesn&apos;t have up-to-date drivers installed..
+        ///   Looks up a localized string similar to {0}: Cannot migrate VM &apos;{1}&apos;, because it doesn&apos;t have up-to-date drivers installed..
         /// </summary>
         public static string UPDATES_WIZARD_CANNOT_MIGRATE_VM_NO_TOOLS {
             get {
@@ -34664,7 +34749,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot migrate VM &apos;{0}&apos;, because it is involved in another operation currently in progress..
+        ///   Looks up a localized string similar to {0}: Cannot migrate VM &apos;{1}&apos;, because it is involved in another operation currently in progress..
         /// </summary>
         public static string UPDATES_WIZARD_CANNOT_MIGRATE_VM_OPERATION_IN_PROGRESS {
             get {
@@ -34673,7 +34758,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot migrate VM &apos;{0}&apos;, because it has one or more PCI devices attached..
+        ///   Looks up a localized string similar to {0}: Cannot migrate VM &apos;{1}&apos;, because it has one or more PCI devices attached..
         /// </summary>
         public static string UPDATES_WIZARD_CANNOT_MIGRATE_VM_PCI_REASON {
             get {
@@ -34682,7 +34767,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot migrate VM &apos;{0}&apos;, because it cannot be suspended..
+        ///   Looks up a localized string similar to {0}: Cannot migrate VM &apos;{1}&apos;, because it cannot be suspended..
         /// </summary>
         public static string UPDATES_WIZARD_CANNOT_MIGRATE_VM_SUSPEND_REASON {
             get {
@@ -34691,7 +34776,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot migrate VM &apos;{0}&apos; for an unknown reason. See application logs for more details..
+        ///   Looks up a localized string similar to {0}: Cannot migrate VM &apos;{1}&apos; for an unknown reason. See application logs for more details..
         /// </summary>
         public static string UPDATES_WIZARD_CANNOT_MIGRATE_VM_UNKNOWN_REASON {
             get {
@@ -34700,38 +34785,11 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The VM &apos;{0}&apos; uses the network &apos;{1}&apos;, which cannot be seen from all servers..
+        ///   Looks up a localized string similar to {0}: The VM &apos;{1}&apos; uses the network &apos;{2}&apos;, which cannot be seen from all servers..
         /// </summary>
         public static string UPDATES_WIZARD_CANNOT_SEE_NETWORK {
             get {
                 return ResourceManager.GetString("UPDATES_WIZARD_CANNOT_SEE_NETWORK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This VM cannot be suspended and will be shut down..
-        /// </summary>
-        public static string UPDATES_WIZARD_CANNOT_SUSPEND_VM {
-            get {
-                return ResourceManager.GetString("UPDATES_WIZARD_CANNOT_SUSPEND_VM", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cannot suspend VM &apos;{0}&apos;.
-        /// </summary>
-        public static string UPDATES_WIZARD_CANNOT_SUSPEND_VM_TITLE {
-            get {
-                return ResourceManager.GetString("UPDATES_WIZARD_CANNOT_SUSPEND_VM_TITLE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cannot upgrade with VM &apos;{0}&apos;.
-        /// </summary>
-        public static string UPDATES_WIZARD_CANNOT_UPGRADE_WITH_VM {
-            get {
-                return ResourceManager.GetString("UPDATES_WIZARD_CANNOT_UPGRADE_WITH_VM", resourceCulture);
             }
         }
         
@@ -34882,16 +34940,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Click here to install tools.
-        /// </summary>
-        public static string UPDATES_WIZARD_INSTALL_TOOLS {
-            get {
-                return ResourceManager.GetString("UPDATES_WIZARD_INSTALL_TOOLS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to VM &apos;{0}&apos; has a local CD/DVD in its drive..
+        ///   Looks up a localized string similar to {0}: VM &apos;{1}&apos; has a local CD/DVD in its drive..
         /// </summary>
         public static string UPDATES_WIZARD_LOCAL_CD {
             get {
@@ -34945,25 +34994,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is no default SR on this pool to suspend VMs to..
-        /// </summary>
-        public static string UPDATES_WIZARD_NO_DEFAULT_SR {
-            get {
-                return ResourceManager.GetString("UPDATES_WIZARD_NO_DEFAULT_SR", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No Default SR on Pool &apos;{0}&apos;.
-        /// </summary>
-        public static string UPDATES_WIZARD_NO_DEFAULT_SR_TITLE {
-            get {
-                return ResourceManager.GetString("UPDATES_WIZARD_NO_DEFAULT_SR_TITLE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There are no servers available to migrate the VM {0} to..
+        ///   Looks up a localized string similar to {0}: There are no servers available to migrate the VM &apos;{1}&apos; to..
         /// </summary>
         public static string UPDATES_WIZARD_NO_HOSTS {
             get {
@@ -34999,29 +35030,11 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The VM {0} does not have [XenServer product] Tools installed..
+        ///   Looks up a localized string similar to {0}: The VM {1} does not have [XenServer product] Tools installed..
         /// </summary>
         public static string UPDATES_WIZARD_NO_TOOLS {
             get {
                 return ResourceManager.GetString("UPDATES_WIZARD_NO_TOOLS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This storage repository does not have enough space to suspend the required VMs..
-        /// </summary>
-        public static string UPDATES_WIZARD_NOT_ENOUGH_SPACE {
-            get {
-                return ResourceManager.GetString("UPDATES_WIZARD_NOT_ENOUGH_SPACE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Not enough space on default SR &apos;{0}&apos;.
-        /// </summary>
-        public static string UPDATES_WIZARD_NOT_ENOUGH_SPACE_TITLE {
-            get {
-                return ResourceManager.GetString("UPDATES_WIZARD_NOT_ENOUGH_SPACE_TITLE", resourceCulture);
             }
         }
         
@@ -35044,7 +35057,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The VM {0} cannot be suspended until it has up to date [XenServer product] Tools..
+        ///   Looks up a localized string similar to {0}: The VM {1} cannot be suspended until it has up to date [XenServer product] Tools..
         /// </summary>
         public static string UPDATES_WIZARD_OUT_OF_DATE_TOOLS {
             get {
@@ -35112,15 +35125,6 @@ namespace XenAdmin {
         public static string UPDATES_WIZARD_PRECHECK_FAILED_CONFLICTING_UPDATE {
             get {
                 return ResourceManager.GetString("UPDATES_WIZARD_PRECHECK_FAILED_CONFLICTING_UPDATE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pre-update checks failed on the selected servers.  The update will not be applied..
-        /// </summary>
-        public static string UPDATES_WIZARD_PRECHECK_FAILED_ON_ALL_SERVERS {
-            get {
-                return ResourceManager.GetString("UPDATES_WIZARD_PRECHECK_FAILED_ON_ALL_SERVERS", resourceCulture);
             }
         }
         
@@ -35298,16 +35302,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The VM {0} is suspended with a local or Tools CD.
-        /// </summary>
-        public static string UPDATES_WIZARD_SUSPENDED_VM {
-            get {
-                return ResourceManager.GetString("UPDATES_WIZARD_SUSPENDED_VM", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to VM &apos;{0}&apos; has the tools CD in its drive..
+        ///   Looks up a localized string similar to {0}: VM &apos;{1}&apos; has the tools CD in its drive..
         /// </summary>
         public static string UPDATES_WIZARD_TOOLS_CD {
             get {
@@ -35325,7 +35320,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The VM &apos;{0}&apos; has one or more virtual GPUs..
+        ///   Looks up a localized string similar to {0}: The VM &apos;{1}&apos; has one or more virtual GPUs..
         /// </summary>
         public static string UPDATES_WIZARD_VM_HAS_VGPU {
             get {
@@ -35523,7 +35518,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to VM &apos;{0}&apos; has invalid vCPU settings..
+        ///   Looks up a localized string similar to {0}: VM &apos;{1}&apos; has invalid vCPU settings..
         /// </summary>
         public static string UPGRADEWIZARD_PROBLEM_INVALID_VCPU_SETTINGS {
             get {
@@ -37523,15 +37518,6 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to schedule.
-        /// </summary>
-        public static string VMSS_TYPE {
-            get {
-                return ResourceManager.GetString("VMSS_TYPE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Virtual Machines.
         /// </summary>
         public static string VMSS_VMS {
@@ -37852,6 +37838,51 @@ namespace XenAdmin {
         public static string WARNING_DELETE_VD_MULTIPLE {
             get {
                 return ResourceManager.GetString("WARNING_DELETE_VD_MULTIPLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find &apos;{0}&apos;..
+        /// </summary>
+        public static string WEB_BROWSER_FAILED {
+            get {
+                return ResourceManager.GetString("WEB_BROWSER_FAILED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find &apos;{0}&apos;. Waiting for &apos;{1}&apos;....
+        /// </summary>
+        public static string WEB_BROWSER_FAILED_RETRYING {
+            get {
+                return ResourceManager.GetString("WEB_BROWSER_FAILED_RETRYING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading &apos;{0}&apos;....
+        /// </summary>
+        public static string WEB_BROWSER_LOADING {
+            get {
+                return ResourceManager.GetString("WEB_BROWSER_LOADING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading &apos;{0}&apos; ({1}%)....
+        /// </summary>
+        public static string WEB_BROWSER_LOADING_PERCENT {
+            get {
+                return ResourceManager.GetString("WEB_BROWSER_LOADING_PERCENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for &apos;{0}&apos;....
+        /// </summary>
+        public static string WEB_BROWSER_WAITING {
+            get {
+                return ResourceManager.GetString("WEB_BROWSER_WAITING", resourceCulture);
             }
         }
         

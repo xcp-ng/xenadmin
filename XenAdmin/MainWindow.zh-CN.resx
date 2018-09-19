@@ -2639,7 +2639,7 @@
     <value>195, 22</value>
   </data>
   <data name="rollingUpgradeToolStripMenuItem.Text" xml:space="preserve">
-    <value>池滚动升级(&amp;R)...</value>
+    <value>滚动池升级(&amp;R)...</value>
   </data>
   <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
     <value>192, 6</value>

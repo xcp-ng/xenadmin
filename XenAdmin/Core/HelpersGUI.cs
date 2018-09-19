@@ -354,32 +354,6 @@ namespace XenAdmin.Core
         }
 
         /// <summary>
-        /// Finds the EnableAdAction or DisableAdAction in progress that pertains to the given connection, or null
-        /// if there is no such action.
-        /// Must be called on the event thread.
-        /// </summary>
-        /// <param name="connection">May not be null.</param>
-        /// <returns></returns>
-        internal static AsyncAction FindActiveAdAction(IXenConnection connection)
-        {
-            Program.AssertOnEventThread();
-            foreach (ActionBase action in ConnectionsManager.History)
-            {
-                if (action.IsCompleted)
-                    continue;
-
-                EnableAdAction enableAction = action as EnableAdAction;
-                if (enableAction != null && !enableAction.Cancelled && enableAction.Connection == connection)
-                    return enableAction;
-
-                DisableAdAction disableAction = action as DisableAdAction;
-                if (disableAction != null && !disableAction.Cancelled && disableAction.Connection == connection)
-                    return disableAction;
-            }
-            return null;
-        }
-
-        /// <summary>
         /// Whether there is a HostAction in progress that pertains to the given host.
         /// Must be called on the event thread.
         /// </summary>

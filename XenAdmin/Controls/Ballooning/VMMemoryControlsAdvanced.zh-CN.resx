@@ -119,13 +119,16 @@
   </resheader>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
   <data name="spinnerPanel.ColumnCount" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>1</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
+  <data name="memorySpinnerDynMin.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
   <data name="memorySpinnerDynMin.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
   <data name="memorySpinnerDynMin.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
@@ -146,6 +149,36 @@
   </data>
   <data name="&gt;&gt;memorySpinnerDynMin.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="memorySpinnerDynMax.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="memorySpinnerDynMax.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 31</value>
+  </data>
+  <data name="memorySpinnerDynMax.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="memorySpinnerDynMax.Size" type="System.Drawing.Size, System.Drawing">
+    <value>282, 31</value>
+  </data>
+  <data name="memorySpinnerDynMax.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;memorySpinnerDynMax.Name" xml:space="preserve">
+    <value>memorySpinnerDynMax</value>
+  </data>
+  <data name="&gt;&gt;memorySpinnerDynMax.Type" xml:space="preserve">
+    <value>XenAdmin.Controls.Ballooning.MemorySpinner, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;memorySpinnerDynMax.Parent" xml:space="preserve">
+    <value>spinnerPanel</value>
+  </data>
+  <data name="&gt;&gt;memorySpinnerDynMax.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="memorySpinnerStatMax.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="memorySpinnerStatMax.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 50</value>
@@ -169,133 +202,10 @@
     <value>spinnerPanel</value>
   </data>
   <data name="&gt;&gt;memorySpinnerStatMax.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="memorySpinnerDynMax.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="memorySpinnerDynMax.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 25</value>
-  </data>
-  <data name="memorySpinnerDynMax.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="memorySpinnerDynMax.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 25</value>
-  </data>
-  <data name="memorySpinnerDynMax.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;memorySpinnerDynMax.Name" xml:space="preserve">
-    <value>memorySpinnerDynMax</value>
-  </data>
-  <data name="&gt;&gt;memorySpinnerDynMax.Type" xml:space="preserve">
-    <value>XenAdmin.Controls.Ballooning.MemorySpinner, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;memorySpinnerDynMax.Parent" xml:space="preserve">
-    <value>spinnerPanel</value>
-  </data>
-  <data name="&gt;&gt;memorySpinnerDynMax.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="unitsDynMax.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="unitsDynMax.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="unitsDynMax.Items" xml:space="preserve">
-    <value>GB</value>
-  </data>
-  <data name="unitsDynMax.Items1" xml:space="preserve">
-    <value>MB</value>
-  </data>
-  <data name="unitsDynMax.Location" type="System.Drawing.Point, System.Drawing">
-    <value>220, 31</value>
-  </data>
-  <data name="unitsDynMax.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 23</value>
-  </data>
-  <data name="unitsDynMax.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="&gt;&gt;unitsDynMax.Name" xml:space="preserve">
-    <value>unitsDynMax</value>
-  </data>
-  <data name="&gt;&gt;unitsDynMax.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;unitsDynMax.Parent" xml:space="preserve">
-    <value>spinnerPanel</value>
-  </data>
-  <data name="&gt;&gt;unitsDynMax.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="unitsDynMin.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="unitsDynMin.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="unitsDynMin.Items" xml:space="preserve">
-    <value>GB</value>
-  </data>
-  <data name="unitsDynMin.Items1" xml:space="preserve">
-    <value>MB</value>
-  </data>
-  <data name="unitsDynMin.Location" type="System.Drawing.Point, System.Drawing">
-    <value>220, 3</value>
-  </data>
-  <data name="unitsDynMin.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 23</value>
-  </data>
-  <data name="unitsDynMin.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="&gt;&gt;unitsDynMin.Name" xml:space="preserve">
-    <value>unitsDynMin</value>
-  </data>
-  <data name="&gt;&gt;unitsDynMin.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;unitsDynMin.Parent" xml:space="preserve">
-    <value>spinnerPanel</value>
-  </data>
-  <data name="&gt;&gt;unitsDynMin.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="unitsFixedMemory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="unitsFixedMemory.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="unitsFixedMemory.Items" xml:space="preserve">
-    <value>GB</value>
-  </data>
-  <data name="unitsFixedMemory.Items1" xml:space="preserve">
-    <value>MB</value>
-  </data>
-  <data name="unitsFixedMemory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>220, 59</value>
-  </data>
-  <data name="unitsFixedMemory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 23</value>
-  </data>
-  <data name="unitsFixedMemory.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="&gt;&gt;unitsFixedMemory.Name" xml:space="preserve">
-    <value>unitsFixedMemory</value>
-  </data>
-  <data name="&gt;&gt;unitsFixedMemory.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;unitsFixedMemory.Parent" xml:space="preserve">
-    <value>spinnerPanel</value>
-  </data>
-  <data name="&gt;&gt;unitsFixedMemory.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="spinnerPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="spinnerPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -325,16 +235,13 @@
     <value>0</value>
   </data>
   <data name="spinnerPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="memorySpinnerDynMin" Row="0" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="memorySpinnerStatMax" Row="2" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="memorySpinnerDynMax" Row="1" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="unitsDynMax" Row="1" RowSpan="1" Column="1" ColumnSpan="1" />&lt;Control Name="unitsDynMin" Row="0" RowSpan="1" Column="1" ColumnSpan="1" />&lt;Control Name="unitsFixedMemory" Row="2" RowSpan="1" Column="1" ColumnSpan="1" />&lt;/Controls>&lt;Columns Styles="Percent,100,Absolute,60" />&lt;Rows Styles="Percent,33.33333,Percent,33.33333,Percent,33.33333,Absolute,20,Absolute,20" />&lt;/TableLayoutSettings></value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="memorySpinnerDynMin" Row="0" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="memorySpinnerDynMax" Row="1" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="memorySpinnerStatMax" Row="2" RowSpan="1" Column="0" ColumnSpan="1" />&lt;/Controls>&lt;Columns Styles="Percent,100" />&lt;Rows Styles="Percent,33.33333,Percent,33.33333,Percent,33.33333" />&lt;/TableLayoutSettings></value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>96, 96</value>
-  </data>
-  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 75</value>

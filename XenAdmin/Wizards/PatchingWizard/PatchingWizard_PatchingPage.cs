@@ -49,18 +49,13 @@ using XenAdmin.Core;
 
 namespace XenAdmin.Wizards.PatchingWizard
 {
-    public partial class PatchingWizard_PatchingPage : XenTabPage
+    public partial class PatchingWizard_PatchingPage : AutomatedUpdatesBasePage
     {
-        protected static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         public Dictionary<string, livepatch_status> LivePatchCodesByHost
         {
             get;
             set;
         }
-
-        private bool _thisPageHasBeenCompleted = false;
-        private BackgroundWorker actionsWorker = null;
 
         public PatchingWizard_PatchingPage()
         {
@@ -68,20 +63,19 @@ namespace XenAdmin.Wizards.PatchingWizard
         }
 
         #region Accessors
-        public List<Host> SelectedMasters { private get; set; }
         public List<Host> SelectedServers { private get; set; }
-        public List<Pool> SelectedPools { private get; set; }
         public UpdateType SelectedUpdateType { private get; set; }
         public Pool_patch Patch { private get; set; }
         public Pool_update PoolUpdate { private get; set; }
 
-        public string ManualTextInstructions { private get; set; }
+        public Dictionary<Pool, StringBuilder> ManualTextInstructions { private get; set; }
         public bool IsAutomaticMode { private get; set; }
         public bool RemoveUpdateFile { private get; set; }
         public string SelectedNewPatch { private get; set; }
-        public List<Problem> PrecheckProblemsActuallyResolved { private get; set; }
         public Dictionary<Host, VDI> SuppPackVdis { private get; set; }
         #endregion
+
+        #region XenTabPage overrides
 
         public override string Text
         {
@@ -104,388 +98,237 @@ namespace XenAdmin.Wizards.PatchingWizard
             get { return "InstallUpdate"; }
         }
 
-        public override bool EnablePrevious()
+        #endregion
+
+        #region AutomatedUpdatesBesePage overrides
+
+        protected override List<HostPlan> GenerateHostPlans(Pool pool, out List<Host> applicableHosts)
         {
-            return false;
+            return IsAutomaticMode
+                ? CompileAutomaticHostPlan(pool, out applicableHosts)
+                : CompileManualHostPlan(pool, out applicableHosts);
         }
 
-        private bool _nextEnabled;
-        public override bool EnableNext()
+        protected override string BlurbText()
         {
-            return _nextEnabled;
+            return string.Format(Messages.PATCHINGWIZARD_SINGLEUPDATE_TITLE, GetUpdateName());
         }
 
-        private bool _cancelEnabled = true;
-        public override bool EnableCancel()
+        protected override string SuccessMessageOnCompletion(bool multiplePools)
         {
-            return _cancelEnabled;
+            var msg = multiplePools
+                ? Messages.PATCHINGWIZARD_SINGLEUPDATE_SUCCESS_MANY
+                : Messages.PATCHINGWIZARD_SINGLEUPDATE_SUCCESS_ONE;
+            return string.Format(msg, GetUpdateName());
         }
 
-        protected override void PageLoadedCore(PageLoadedDirection direction)
+        protected override string SuccessMessagePerPool(Pool pool)
         {
-            if (_thisPageHasBeenCompleted)
+            var sb = new StringBuilder();
+
+            sb.AppendLine(string.Format(Messages.PATCHINGWIZARD_SINGLEUPDATE_SUCCESS_ONE, GetUpdateName())).AppendLine();
+
+            if (!IsAutomaticMode && ManualTextInstructions.ContainsKey(pool))
+                sb.Append(ManualTextInstructions[pool]).AppendLine();
+
+            var poolHosts = pool.Connection.Cache.Hosts.ToList();
+
+            var livePatchingFailedHosts = new List<Host>();
+            foreach (var host in SelectedServers)
             {
-                actionsWorker = null;
-                return;
+                if (poolHosts.Contains(host) && LivePatchingAttemptedForHost(host) && HostRequiresReboot(host))
+                    livePatchingFailedHosts.Add(host);
             }
 
-            if (!IsAutomaticMode)
+            if (livePatchingFailedHosts.Count == 1)
             {
-                textBoxLog.Text = ManualTextInstructions;
-                
-                List<AsyncAction> actions = new List<AsyncAction>();
-
-                if (SelectedUpdateType == UpdateType.ISO && PoolUpdate != null)
-                {
-                    //Ely or greater: iso update format
-                    foreach (var server in SelectedServers)
-                        actions.Add(new ApplyUpdateAction(PoolUpdate, server));
-                }
-                else
-                {
-                    //legacy mode
-                    if (SelectedUpdateType != UpdateType.ISO)
-                    {
-                        foreach (var server in SelectedServers)
-                            actions.Add(new ApplyPatchAction(Patch, server));
-                    }
-                    else
-                        actions.Add(new InstallSupplementalPackAction(SuppPackVdis, false));
-                }
-
-                if (RemoveUpdateFile && SelectedUpdateType != UpdateType.ISO)
-                {
-                    foreach (Pool pool in SelectedPools)
-                    {
-                        actions.Add(new PoolPatchCleanAction(pool, Patch, false));
-                    }
-                }
-
-                using (var multipleAction = new MultipleAction(Connection, "", "", "", actions, true, true, true))
-                {
-                    multipleAction.Changed += action_Changed;
-                    multipleAction.Completed += action_Completed;
-                    multipleAction.RunAsync();
-                }
-                return;
+                sb.AppendFormat(Messages.LIVE_PATCHING_FAILED_ONE_HOST, livePatchingFailedHosts[0].Name()).AppendLine();
+            }
+            else if (livePatchingFailedHosts.Count > 1)
+            {
+                var hostnames = string.Join(", ", livePatchingFailedHosts.Select(h => string.Format("'{0}'", h.Name())));
+                sb.AppendFormat(Messages.LIVE_PATCHING_FAILED_MULTI_HOST, hostnames).AppendLine();
             }
 
-            _nextEnabled = false;
-            OnPageUpdated();
-
-            List<PlanAction> planActions = new List<PlanAction>();
-
-            foreach (Pool pool in SelectedPools)
-            {
-                var poolHosts = new List<Host>(pool.Connection.Cache.Hosts);
-                Host master = SelectedServers.Find(host => host.IsMaster() && poolHosts.Contains(host));
-
-                //For Ely or greater: ISO updates only
-                if (SelectedUpdateType == UpdateType.ISO && Helpers.ElyOrGreater(pool.Connection)) //updates for Ely (or higher) are always ISO
-                {
-                    var poolUpdates = new List<Pool_update>(pool.Connection.Cache.Pool_updates);
-                    var poolUpdate = poolUpdates.FirstOrDefault(u => u != null && string.Equals(u.uuid, PoolUpdate.uuid, StringComparison.OrdinalIgnoreCase));
-
-                    //master first
-                    if (master != null && !poolUpdate.AppliedOn(master))
-                    {
-                        planActions.AddRange(CompilePoolUpdateActionList(master, poolUpdate));
-                    }
-
-                    //other hosts
-                    foreach (var host in SelectedServers.Where(s => poolHosts.Contains(s) && !s.IsMaster() && !poolUpdate.AppliedOn(s)).ToList())
-                    {
-                        planActions.AddRange(CompilePoolUpdateActionList(host, poolUpdate));
-                    }
-                }
-                // Legacy (pre-Ely) case: either ISO for supplemental packs (Pool_patch == null) or patch (Pool_patch != null)
-                else
-                {
-                    Pool_patch poolPatch = null;
-
-                    if (SelectedUpdateType != UpdateType.ISO)
-                    {
-                        List<Pool_patch> poolPatches = new List<Pool_patch>(pool.Connection.Cache.Pool_patches);
-
-                        poolPatch = poolPatches.Find(delegate(Pool_patch otherPatch) 
-                                                        {
-                                                            if (Patch != null)
-                                                                return string.Equals(otherPatch.uuid, Patch.uuid, StringComparison.OrdinalIgnoreCase);
-                                                            return false;
-                                                        });
-                    }
-
-                    //master first
-                    if (master != null && (poolPatch == null || poolPatch.AppliedOn(master) == DateTime.MaxValue))
-                        planActions.AddRange(CompileActionList(master, poolPatch));
-
-                    foreach (Host server in SelectedServers)
-                    {
-                        if (poolHosts.Contains(server))
-                        {
-                            if (!server.IsMaster())
-                            {
-                                // check patch isn't already applied here
-                                if (poolPatch == null || poolPatch.AppliedOn(server) == DateTime.MaxValue)
-                                    planActions.AddRange(CompileActionList(server, poolPatch));
-                            }
-                        }
-                    }
-
-                    if (RemoveUpdateFile)
-                    {
-                        planActions.Add(new RemoveUpdateFile(pool, poolPatch));
-                    }
-                }
-            } //end pool in foreach
-
-            planActions.Add(new UnwindProblemsAction(PrecheckProblemsActuallyResolved));
-
-            actionsWorker = new BackgroundWorker();
-            actionsWorker.DoWork += PatchingWizardAutomaticPatchWork;
-            actionsWorker.WorkerReportsProgress = true;
-            actionsWorker.ProgressChanged += actionsWorker_ProgressChanged;
-            actionsWorker.RunWorkerCompleted += actionsWorker_RunWorkerCompleted;
-            actionsWorker.WorkerSupportsCancellation = true;
-            actionsWorker.RunWorkerAsync(planActions);
-        }
-        
-        #region manual_mode
-
-        private void action_Completed(ActionBase sender)
-        {
-            _nextEnabled = true;
-            _cancelEnabled = false;
-            
-            try
-            {
-                if (sender.Exception != null)
-                {
-                    var multipleAction = sender as MultipleAction;
-                    var actionTitle = multipleAction != null ? multipleAction.SubActionTitle : sender.Title;
-                    Program.Invoke(Program.MainWindow, () => FinishedWithErrors(actionTitle, new Exception(actionTitle, sender.Exception)));
-                }
-                else
-                    Program.Invoke(Program.MainWindow, FinishedSuccessfully);
-            }
-            catch (Exception except)
-            {
-                Program.Invoke(Program.MainWindow, () => FinishedWithErrors(string.Empty, except));
-            }
-            Program.Invoke(Program.MainWindow, OnPageUpdated);
-            _thisPageHasBeenCompleted = true;
+            return sb.ToString();
         }
 
-        private void action_Changed(ActionBase sender)
+        protected override string FailureMessageOnCompletion(bool multiplePools)
         {
-            AsyncAction action = (AsyncAction)sender;
-            Program.Invoke(Program.MainWindow, delegate { progressBar.Value = action.PercentComplete; });
+            var msg = multiplePools
+                ? Messages.PATCHINGWIZARD_SINGLEUPDATE_FAILURE_MANY
+                : Messages.PATCHINGWIZARD_SINGLEUPDATE_FAILURE_ONE;
+            return string.Format(msg, GetUpdateName());
+        }
+
+        protected override string FailureMessagePerPool(bool multipleErrors)
+        {
+            var msg = multipleErrors
+                ? Messages.PATCHINGWIZARD_SINGLEUPDATE_FAILURE_PER_POOL_MANY
+                : Messages.PATCHINGWIZARD_SINGLEUPDATE_FAILURE_PER_POOL_ONE;
+            return string.Format(msg, GetUpdateName());
+        }
+
+        protected override string UserCancellationMessage()
+        {
+            return Messages.PATCHINGWIZARD_AUTOUPDATINGPAGE_CANCELLATION;
         }
 
         #endregion
 
-        #region automatic_mode
+        #region Manual mode
 
-        private StringBuilder completedActionsLog = new StringBuilder();
-
-        private void actionsWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private List<HostPlan> CompileManualHostPlan(Pool pool, out List<Host> applicableHosts)
         {
-            if (!actionsWorker.CancellationPending)
-            {
-                PlanAction action = (PlanAction)e.UserState;
-                if (e.ProgressPercentage == 0)
-                {
-                    textBoxLog.Text = completedActionsLog.ToString();
-                    textBoxLog.Text += action.CurrentProgressStep;
-                }
-                else
-                {
-                    completedActionsLog.AppendLine(action.CurrentProgressStep);
-                    textBoxLog.Text = completedActionsLog.ToString();
-                    int newVal = progressBar.Value + e.ProgressPercentage;
-                    progressBar.Value = newVal > 100 ? 100 : newVal;
-                }
-            }
-        }      
+            var poolHosts = pool.Connection.Cache.Hosts.ToList();
+            SelectedServers.Sort(); //master first and then the slaves
+            var hostplans = new List<HostPlan>();
 
-        private void PatchingWizardAutomaticPatchWork(object obj, DoWorkEventArgs doWorkEventArgs)
-        {
-            List<PlanAction> actionList = (List<PlanAction>)doWorkEventArgs.Argument;
-            foreach (PlanAction action in actionList)
-            {
-                try
-                {
-                    if (actionsWorker.CancellationPending)
-                    {
-                        doWorkEventArgs.Cancel = true;
-                        return;
-                    }
-                    this.actionsWorker.ReportProgress(0, action);
-                    action.OnProgressChange += action_OnProgressChange;
-
-                    action.Run();
-                    Thread.Sleep(1000);
-
-                    action.OnProgressChange -= action_OnProgressChange;
-                    this.actionsWorker.ReportProgress((int)((1.0 / (double)actionList.Count) * 100), action);
-                    
-                }
-                catch (Exception e)
-                {
-                    log.ErrorFormat("Failed to carry out plan. {0} {1}", action.CurrentProgressStep, e);
-                    doWorkEventArgs.Result = new Exception(action.CurrentProgressStep, e);
-                    break;
-                }
-            }
-        }
-
-        private void action_OnProgressChange(PlanAction planAction)
-        {
-            actionsWorker.ReportProgress(0, planAction);
-        }
-
-        private void actionsWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (!e.Cancelled)
-            {
-                Exception exception = e.Result as Exception;
-                if (exception != null)
-                {
-                    FinishedWithErrors(exception.Message, exception); // here exception.Message is the Title of the action that failed (see how doWorkEventArgs.Result is assigned above) 
-                }
-                else
-                {
-                    FinishedSuccessfully();
-                }
-
-                progressBar.Value = 100;
-                _cancelEnabled = false;
-                _nextEnabled = true;
-            }
-            OnPageUpdated();
-            _thisPageHasBeenCompleted = true;
-        }
-
-        private List<PlanAction> CompileActionList(Host host, Pool_patch patch)
-        {
             if (SelectedUpdateType == UpdateType.ISO)
-                return CompileSuppPackActionList(host);
+            {
+                if (PoolUpdate != null) //ely or greater
+                {
+                    foreach (var server in SelectedServers)
+                        if (poolHosts.Contains(server))
+                        {
+                            var updateActions = new List<PlanAction> {new ApplyPoolUpdatePlanAction(server, PoolUpdate)};
+                            hostplans.Add(new HostPlan(server, null, updateActions, null));
+                        }
+                }
+                else if (SuppPackVdis != null) //supp pack
+                {
+                    foreach (var server in SelectedServers)
+                        if (SuppPackVdis.ContainsKey(server) && poolHosts.Contains(server))
+                        {
+                            var updateActions = new List<PlanAction> {new InstallSupplementalPackPlanAction(server, SuppPackVdis[server])};
+                            hostplans.Add(new HostPlan(server, null, updateActions, null));
+                        }
+                }
+            }
+            else // legacy
+            {
+                foreach (var server in SelectedServers)
+                    if (poolHosts.Contains(server))
+                    {
+                        var updateActions = new List<PlanAction> { new ApplyPatchPlanAction(server, Patch) };
+                        hostplans.Add(new HostPlan(server, null, updateActions, null));
+                    }
 
-            List<PlanAction> actions = new List<PlanAction>();
+                if (RemoveUpdateFile && hostplans.Count > 0)
+                    hostplans[hostplans.Count - 1].UpdatesPlanActions.Add(new RemoveUpdateFile(pool, Patch));
+            }
 
-            if (patch == null)
-                return actions;
+            applicableHosts = hostplans.Select(h => h.Host).ToList();
+            return hostplans;
+        }
 
-            actions.Add(new ApplyPatchPlanAction(host, patch));
+        #endregion
+
+        #region Automatic mode
+
+        private List<HostPlan> CompileAutomaticHostPlan(Pool pool, out List<Host> applicableHosts)
+        {
+            var poolHosts = pool.Connection.Cache.Hosts.ToList();
+            SelectedServers.Sort(); //master first and then the slaves
+            var hostplans = new List<HostPlan>();
+
+            if (SelectedUpdateType == UpdateType.ISO)
+            {
+                var poolUpdates = new List<Pool_update>(pool.Connection.Cache.Pool_updates);
+                var poolUpdate = poolUpdates.FirstOrDefault(u => u != null && string.Equals(u.uuid, PoolUpdate.uuid, StringComparison.OrdinalIgnoreCase));
+
+                if (poolUpdate != null) //ely or greater
+                {
+                    foreach (var server in SelectedServers)
+                        if (poolHosts.Contains(server) && !poolUpdate.AppliedOn(server))
+                            hostplans.Add(new HostPlan(server, null, CompilePoolUpdateActionList(server, poolUpdate), null));
+                }
+                else if (SuppPackVdis != null) // supp pack
+                {
+                    foreach (var server in SelectedServers)
+                        if (SuppPackVdis.ContainsKey(server) && poolHosts.Contains(server))
+                        {
+                            var updateActions = new List<PlanAction>
+                            {
+                                new InstallSupplementalPackPlanAction(server, SuppPackVdis[server]),
+                                new RestartHostPlanAction(server, server.GetRunningVMs())
+                            };
+                            hostplans.Add(new HostPlan(server, null, updateActions, null));
+                        }
+                }
+            }
+            else //legacy
+            {
+                var poolPatches = new List<Pool_patch>(pool.Connection.Cache.Pool_patches);
+                var poolPatch = poolPatches.Find(p => Patch != null && string.Equals(p.uuid, Patch.uuid, StringComparison.OrdinalIgnoreCase));
+
+                if (poolPatch != null)
+                {
+                    foreach (Host server in SelectedServers)
+                        if (poolHosts.Contains(server) && poolPatch.AppliedOn(server) == DateTime.MaxValue)
+                            hostplans.Add(new HostPlan(server, null, CompilePatchActionList(server, poolPatch), null));
+                }
+
+                if (RemoveUpdateFile && hostplans.Count > 0)
+                    hostplans[hostplans.Count - 1].UpdatesPlanActions.Add(new RemoveUpdateFile(pool, poolPatch));
+            }
+
+            applicableHosts = hostplans.Select(h => h.Host).ToList();
+            return hostplans;
+        }
+
+        private List<PlanAction> CompilePatchActionList(Host host, Pool_patch patch)
+        {
+            var actions = new List<PlanAction> {new ApplyPatchPlanAction(host, patch)};
 
             if (patch.after_apply_guidance.Contains(after_apply_guidance.restartHost)
-                && !(LivePatchCodesByHost != null && LivePatchCodesByHost.ContainsKey(host.uuid) && LivePatchCodesByHost[host.uuid] == livepatch_status.ok_livepatch_complete))
+                && !(LivePatchCodesByHost != null && LivePatchCodesByHost.ContainsKey(host.uuid)
+                     && LivePatchCodesByHost[host.uuid] == livepatch_status.ok_livepatch_complete))
             {
                 actions.Add(new RestartHostPlanAction(host, host.GetRunningVMs()));
             }
 
             if (patch.after_apply_guidance.Contains(after_apply_guidance.restartXAPI))
-            {
                 actions.Add(new RestartAgentPlanAction(host));
-            }
 
             if (patch.after_apply_guidance.Contains(after_apply_guidance.restartHVM))
-            {
                 actions.Add(new RebootVMsPlanAction(host, host.GetRunningHvmVMs()));
-            }
 
             if (patch.after_apply_guidance.Contains(after_apply_guidance.restartPV))
-            {
                 actions.Add(new RebootVMsPlanAction(host, host.GetRunningPvVMs()));
-            }
-
-            return actions;
-        }
-
-        private List<PlanAction> CompileSuppPackActionList(Host host)
-        {
-            List<PlanAction> actions = new List<PlanAction>();
-            
-            if (SelectedUpdateType != UpdateType.ISO || SuppPackVdis == null || !SuppPackVdis.ContainsKey(host))
-                return actions;
-            
-            actions.Add(new InstallSupplementalPackPlanAction(host, SuppPackVdis[host]));
-
-            // after_apply_guidance is restartHost
-            actions.Add(new RestartHostPlanAction(host, host.GetRunningVMs()));
 
             return actions;
         }
 
         private List<PlanAction> CompilePoolUpdateActionList(Host host, Pool_update poolUpdate)
         {
-            List<PlanAction> actions = new List<PlanAction>();
-
-            if (SelectedUpdateType != UpdateType.ISO || poolUpdate == null)
-                return actions;
-
-            actions.Add(new ApplyPoolUpdatePlanAction(host, poolUpdate));
+            var actions = new List<PlanAction> {new ApplyPoolUpdatePlanAction(host, poolUpdate)};
 
             if (poolUpdate.after_apply_guidance.Contains(update_after_apply_guidance.restartHost)
-                && !(LivePatchCodesByHost != null && LivePatchCodesByHost.ContainsKey(host.uuid) && LivePatchCodesByHost[host.uuid] == livepatch_status.ok_livepatch_complete))
+                && !(LivePatchCodesByHost != null && LivePatchCodesByHost.ContainsKey(host.uuid)
+                     && LivePatchCodesByHost[host.uuid] == livepatch_status.ok_livepatch_complete))
             {
                 actions.Add(new RestartHostPlanAction(host, host.GetRunningVMs()));
             }
 
             if (poolUpdate.after_apply_guidance.Contains(update_after_apply_guidance.restartXAPI))
-            {
                 actions.Add(new RestartAgentPlanAction(host));
-            }
 
             if (poolUpdate.after_apply_guidance.Contains(update_after_apply_guidance.restartHVM))
-            {
                 actions.Add(new RebootVMsPlanAction(host, host.GetRunningHvmVMs()));
-            }
 
             if (poolUpdate.after_apply_guidance.Contains(update_after_apply_guidance.restartPV))
-            {
                 actions.Add(new RebootVMsPlanAction(host, host.GetRunningPvVMs()));
-            }
-            
+
             return actions;
         }
 
-
         #endregion
 
-        private void FinishedWithErrors(string actionTitle, Exception exception)
-        {
-            labelTitle.Text = string.Format(Messages.UPDATE_WAS_NOT_COMPLETED, GetUpdateName());
-            
-            string errorMessage = null;
-
-            if (exception != null && exception.InnerException != null && exception.InnerException is Failure)
-            {
-                var innerEx = exception.InnerException as Failure;
-                errorMessage = string.Format(Messages.STRING_SPACE_STRING, actionTitle, innerEx.Message); 
-
-                if (innerEx.ErrorDescription != null && innerEx.ErrorDescription.Count > 0)
-                    log.Error(string.Concat(innerEx.ErrorDescription.ToArray()));
-            }
-            
-            labelError.Text = errorMessage ?? string.Format(Messages.PATCHING_WIZARD_ERROR, exception.Message);
-
-            log.ErrorFormat("Error message displayed: {0}", labelError.Text);
-
-            pictureBox1.Image = SystemIcons.Error.ToBitmap();
-            if (exception.InnerException is SupplementalPackInstallFailedException)
-            {
-                errorLinkLabel.Visible = true;
-                errorLinkLabel.Tag = exception.InnerException;
-            }
-            panel1.Visible = true;
-        }
-
         /// <summary>
-        /// Live patching is attempted for a host if the LivePatchCodesByHost contains the LIVEPATCH_COMPLETE value for that host
+        /// Live patching is attempted for a host if the LivePatchCodesByHost
+        /// contains the LIVEPATCH_COMPLETE value for that host
         /// </summary>
-        /// <param name="host"></param>
-        /// <returns></returns>
         private bool LivePatchingAttemptedForHost(Host host)
         {
             return LivePatchCodesByHost != null && LivePatchCodesByHost.ContainsKey(host.uuid) &&
@@ -494,66 +337,22 @@ namespace XenAdmin.Wizards.PatchingWizard
         }
 
         /// <summary>
-        /// Returns true if <paramref name="host"/> has to be rebooted for this update
+        /// Returns true if the host has to be rebooted for this update
         /// </summary>
         private bool HostRequiresReboot(Host host)
         {
-            return 
-                host.updates_requiring_reboot !=null && PoolUpdate != null
+            return host.updates_requiring_reboot != null && PoolUpdate != null
                 && host.updates_requiring_reboot.Select(uRef => host.Connection.Resolve(uRef)).Any(u => u != null && u.uuid.Equals(PoolUpdate.uuid));
-        }
-
-        private void FinishedSuccessfully()
-        {
-            labelTitle.Text = string.Format(Messages.UPDATE_WAS_SUCCESSFULLY_INSTALLED, GetUpdateName());
-            pictureBox1.Image = null;
-            labelError.Text = Messages.CLOSE_WIZARD_CLICK_FINISH;
-
-            // Live patching failed is per-host
-            var livePatchingFailedHosts = new List<Host>();
-
-            foreach (var host in SelectedMasters)
-            {
-                if (LivePatchingAttemptedForHost(host) && HostRequiresReboot(host))
-                {
-                    livePatchingFailedHosts.Add(host);
-                }
-            }
-
-            if (livePatchingFailedHosts.Count == 0)
-            {
-                return;
-            }
-
-            LivePatchingFailed(livePatchingFailedHosts);
-        }
-
-        private void LivePatchingFailed(IList<Host> hosts)
-        {
-            string dialogMessage;
-            if (hosts.Count == 1)
-            {
-                dialogMessage = string.Format(Messages.LIVE_PATCHING_FAILED_ONE_HOST, hosts[0]);
-            }
-            else
-            {
-                dialogMessage = string.Format(Messages.LIVE_PATCHING_FAILED_MULTI_HOST,
-                    string.Join(Messages.LIST_SEPARATOR, hosts.Select(s => s.ToString().SurroundWith('\''))));
-            }
-
-            using (var dlg = new ThreeButtonDialog(
-                new ThreeButtonDialog.Details(SystemIcons.Warning,
-                    dialogMessage, Messages.XENCENTER),
-                ThreeButtonDialog.ButtonOK))
-            {
-                dlg.ShowDialog(Program.MainWindow);
-            }
         }
 
         private string GetUpdateName()
         {
+            if (PoolUpdate != null)
+                return PoolUpdate.Name();
+
             if (Patch != null)
                 return Patch.Name();
+
             try
             {
                 return new FileInfo(SelectedNewPatch).Name;
@@ -561,23 +360,6 @@ namespace XenAdmin.Wizards.PatchingWizard
             catch (Exception)
             {
                 return SelectedNewPatch;
-            }
-        }
-
-        private void errorLinkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
-        {
-            if (errorLinkLabel.Tag is Exception)
-                ShowMoreInfo(errorLinkLabel.Tag as Exception);
-        }
-
-        private void ShowMoreInfo(Exception exception)
-        {
-            if (!(exception is SupplementalPackInstallFailedException)) 
-                return;
-            var msg = string.Format(Messages.SUPP_PACK_INSTALL_FAILED_MORE_INFO, exception.Message);
-            using (var dlg = new ThreeButtonDialog(new ThreeButtonDialog.Details(SystemIcons.Error, msg)))
-            {
-                dlg.ShowDialog(this);
             }
         }
     }

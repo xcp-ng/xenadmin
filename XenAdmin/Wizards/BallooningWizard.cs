@@ -88,11 +88,11 @@ namespace XenAdmin.Wizards
         protected override void FinishWizard()
         {
             xenTabPageSettings.UnfocusSpinners();
-            bool canCloseWizard = BallooningDialogBase.ConfirmAndChange(this, xenTabPageVMs.CheckedVMs,
-                                                         has_ballooning ? (long)xenTabPageSettings.dynamic_min : (long)xenTabPageSettings.static_max,
-                                                         // dynamic_min and _max should stay equal to static_max for VMs without ballooning
-                                                         has_ballooning ? (long)xenTabPageSettings.dynamic_max : (long)xenTabPageSettings.static_max,
-                                                         (long)xenTabPageSettings.static_max, origStaticMax, xenTabPageSettings.AdvancedMode);
+            bool canCloseWizard = BallooningDialog.ConfirmAndChange(this, xenTabPageVMs.CheckedVMs,
+                has_ballooning ? (long)xenTabPageSettings.dynamic_min : (long)xenTabPageSettings.static_max,
+                // dynamic_min and _max should stay equal to static_max for VMs without ballooning
+                has_ballooning ? (long)xenTabPageSettings.dynamic_max : (long)xenTabPageSettings.static_max,
+                (long)xenTabPageSettings.static_max, origStaticMax, xenTabPageSettings.AdvancedMode);
             if (canCloseWizard)
                 base.FinishWizard();
             else

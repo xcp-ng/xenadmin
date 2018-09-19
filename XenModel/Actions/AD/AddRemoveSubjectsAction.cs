@@ -32,6 +32,7 @@
 using System;
 using System.Collections.Generic;
 using XenAdmin.Core;
+using XenAdmin.Network;
 using XenAPI;
 
 
@@ -86,16 +87,18 @@ namespace XenAdmin.Actions
         public event SubjectRemovedEventHandler SubjectRemoveComplete;
 
 
-
-        public AddRemoveSubjectsAction(Pool pool, List<string> SubjectNamesToAdd, List<Subject> SubjectsToRemove)
-            : base(
-                pool.Connection, 
-                string.Format(Messages.AD_ADDING_REMOVING_ON, Helpers.GetName(pool).Ellipsise(50)), 
+        public AddRemoveSubjectsAction(IXenConnection connection, List<string> subjectNamesToAdd, List<Subject> subjectsToRemove)
+            : base(connection, 
+                string.Format(Messages.AD_ADDING_REMOVING_ON, Helpers.GetName(connection).Ellipsise(50)), 
                 Messages.AD_ADDING_REMOVING, false)
         {
-            this.Pool = pool;
-            this.subjectNamesToAdd = SubjectNamesToAdd;
-            this.subjectsToRemove = SubjectsToRemove;
+            var pool = Helpers.GetPool(connection);
+            if (pool != null)
+                Pool = pool;
+            else
+                Host = Helpers.GetMaster(connection);
+            this.subjectNamesToAdd = subjectNamesToAdd;
+            this.subjectsToRemove = subjectsToRemove;
 
 #region RBAC checks
 
@@ -139,7 +142,7 @@ namespace XenAdmin.Actions
             Description = Exception == null ? Messages.COMPLETED : Messages.COMPLETED_WITH_ERRORS;
 
             if (logoutSession)
-                Pool.Connection.Logout();
+                Connection.Logout();
         }
 
         private void resolveSubjects()
@@ -147,7 +150,7 @@ namespace XenAdmin.Actions
             Exception e = null;
             string resolvedName = "";
             string sid = "";
-            log.DebugFormat("Resolving AD entries on pool '{0}'", Helpers.GetName(Pool).Ellipsise(50));
+            log.DebugFormat("Resolving AD entries on pool '{0}'", Helpers.GetName(Connection).Ellipsise(50));
             foreach (string name in subjectNamesToAdd)
             {
                 try
@@ -163,7 +166,7 @@ namespace XenAdmin.Actions
                         Failure.ParseRBACFailure(f,Connection,Session);
 
                     Exception = f;
-                    log.Warn("Exception resolving AD user", f);
+                    log.Warn(string.Format("Exception resolving AD user {0}", name), f);
                     e = f;
                 }
                 finally
@@ -189,7 +192,7 @@ namespace XenAdmin.Actions
         {
             Exception e = null;
             Subject subject = null;
-            log.DebugFormat("Adding {0} new subjects on pool '{1}'", sidsToAdd.Count, Helpers.GetName(Pool).Ellipsise(50));
+            log.DebugFormat("Adding {0} new subjects on pool '{1}'", sidsToAdd.Count, Helpers.GetName(Connection).Ellipsise(50));
             foreach (string sid in sidsToAdd)
             {
                 try
@@ -200,7 +203,7 @@ namespace XenAdmin.Actions
                     subject.other_config = Auth.get_subject_information_from_identifier(Session, sid);
 
                     // Check that this subject doesn't already exist
-                    foreach (Subject s in Pool.Connection.Cache.Subjects)
+                    foreach (Subject s in Connection.Cache.Subjects)
                     {
                         if (s.subject_identifier == sid)
                         {
@@ -239,15 +242,17 @@ namespace XenAdmin.Actions
         private void removeSubjects()
         {
             Exception e = null;
-            log.DebugFormat("Removing {0} existing subjects on pool '{1}'", subjectsToRemove.Count, Helpers.GetName(Pool).Ellipsise(50));
-            string selfSid = Pool.Connection.Session.IsLocalSuperuser || Pool.Connection.Session.Subject == null ? "" : 
-                Pool.Connection.Resolve<Subject>(Pool.Connection.Session.Subject).subject_identifier;
+            log.DebugFormat("Removing {0} existing subjects on pool '{1}'", subjectsToRemove.Count, Helpers.GetName(Connection).Ellipsise(50));
+            string selfSid = Connection.Session.IsLocalSuperuser || Connection.Session.Subject == null
+                ? ""
+                : Connection.Resolve(Connection.Session.Subject).subject_identifier;
+
             foreach (Subject subject in subjectsToRemove)
             {
                 string sid = subject.subject_identifier;
                 try
                 {
-                    if (!Pool.Connection.Session.IsLocalSuperuser && selfSid == sid)
+                    if (!Connection.Session.IsLocalSuperuser && selfSid == sid)
                     {
                         // Committing suicide. We will log ourselves out later.
                         logoutSession = true;

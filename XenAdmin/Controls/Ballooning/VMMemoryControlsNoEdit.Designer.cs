@@ -105,7 +105,6 @@ namespace XenAdmin.Controls.Ballooning
             // vmShinyBar
             // 
             resources.ApplyResources(this.vmShinyBar, "vmShinyBar");
-            this.vmShinyBar.Increment = 0D;
             this.vmShinyBar.Name = "vmShinyBar";
             // 
             // VMMemoryControlsNoEdit

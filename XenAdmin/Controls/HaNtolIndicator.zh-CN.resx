@@ -448,7 +448,7 @@
     <value>3, 3, 6, 0</value>
   </data>
   <data name="groupBoxControls.Size" type="System.Drawing.Size, System.Drawing">
-    <value>368, 101</value>
+    <value>368, 125</value>
   </data>
   <data name="groupBoxControls.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>

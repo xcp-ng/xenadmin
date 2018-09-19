@@ -39,6 +39,7 @@ namespace XenAdmin.Wizards.HAWizard_Pages
             this.colDelay = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAgile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button1 = new System.Windows.Forms.Button();
+            this.bgWorker = new System.ComponentModel.BackgroundWorker();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudOrder)).BeginInit();
@@ -155,8 +156,8 @@ namespace XenAdmin.Wizards.HAWizard_Pages
             resources.ApplyResources(this.dataGridViewVms, "dataGridViewVms");
             this.dataGridViewVms.MultiSelect = true;
             this.dataGridViewVms.Name = "dataGridViewVms";
-            this.dataGridViewVms.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewVms_KeyDown);
             this.dataGridViewVms.SelectionChanged += new System.EventHandler(this.dataGridViewVms_SelectionChanged);
+            this.dataGridViewVms.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewVms_KeyDown);
             // 
             // colImage
             // 
@@ -200,6 +201,12 @@ namespace XenAdmin.Wizards.HAWizard_Pages
             this.button1.Name = "button1";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // bgWorker
+            // 
+            this.bgWorker.WorkerSupportsCancellation = true;
+            this.bgWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorker_DoWork);
+            this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_RunWorkerCompleted);
+            // 
             // AssignPriorities
             // 
             resources.ApplyResources(this, "$this");
@@ -239,6 +246,7 @@ namespace XenAdmin.Wizards.HAWizard_Pages
         private System.Windows.Forms.DataGridViewTextBoxColumn colStartOrder;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDelay;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAgile;
+        private System.ComponentModel.BackgroundWorker bgWorker;
 
 
     }

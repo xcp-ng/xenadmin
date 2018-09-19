@@ -32,10 +32,11 @@ namespace XenAdmin.TabPages
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdPage));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.contextMenuStripADBox = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemRemove = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,7 +49,6 @@ namespace XenAdmin.TabPages
             this.ColumnSubject = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnRoles = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnDummy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LabelGridViewDisabled = new System.Windows.Forms.Label();
             this.ButtonRemove = new System.Windows.Forms.Button();
             this.tTipRemoveButton = new XenAdmin.Controls.ToolTipContainer();
@@ -131,10 +131,9 @@ namespace XenAdmin.TabPages
             this.GridViewSubjectList.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             this.GridViewSubjectList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.GridViewSubjectList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.GridViewSubjectList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.GridViewSubjectList.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.GridViewSubjectList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.GridViewSubjectList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             resources.ApplyResources(this.GridViewSubjectList, "GridViewSubjectList");
             this.GridViewSubjectList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.GridViewSubjectList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -142,34 +141,31 @@ namespace XenAdmin.TabPages
             this.ColumnTypeImage,
             this.ColumnSubject,
             this.ColumnRoles,
-            this.ColumnStatus,
-            this.ColumnDummy});
+            this.ColumnStatus});
             this.GridViewSubjectList.ContextMenuStrip = this.contextMenuStripADBox;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 9F);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(1);
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.GridViewSubjectList.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(1);
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.GridViewSubjectList.DefaultCellStyle = dataGridViewCellStyle6;
             this.GridViewSubjectList.Name = "GridViewSubjectList";
             this.GridViewSubjectList.RowHeadersVisible = false;
             this.GridViewSubjectList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.GridViewSubjectList.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.GridViewSubjectList_CellMouseClick);
+            this.GridViewSubjectList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridViewSubjectList_CellClick);
+            this.GridViewSubjectList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridViewSubjectList_CellDoubleClick);
             this.GridViewSubjectList.SelectionChanged += new System.EventHandler(this.GridViewSubjectList_SelectionChanged);
             this.GridViewSubjectList.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.GridViewSubjectList_SortCompare);
-            this.GridViewSubjectList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GridViewSubjectList_MouseClick);
             // 
             // ColumnExpand
             // 
-            this.ColumnExpand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColumnExpand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle2.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle2.NullValue")));
             dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.ColumnExpand.DefaultCellStyle = dataGridViewCellStyle2;
-            this.ColumnExpand.FillWeight = 49.51523F;
             resources.ApplyResources(this.ColumnExpand, "ColumnExpand");
             this.ColumnExpand.Name = "ColumnExpand";
             this.ColumnExpand.ReadOnly = true;
@@ -177,7 +173,9 @@ namespace XenAdmin.TabPages
             // 
             // ColumnTypeImage
             // 
-            this.ColumnTypeImage.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColumnTypeImage.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            this.ColumnTypeImage.DefaultCellStyle = dataGridViewCellStyle3;
             resources.ApplyResources(this.ColumnTypeImage, "ColumnTypeImage");
             this.ColumnTypeImage.Name = "ColumnTypeImage";
             this.ColumnTypeImage.ReadOnly = true;
@@ -186,8 +184,9 @@ namespace XenAdmin.TabPages
             // 
             // ColumnSubject
             // 
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ColumnSubject.DefaultCellStyle = dataGridViewCellStyle3;
+            this.ColumnSubject.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ColumnSubject.DefaultCellStyle = dataGridViewCellStyle4;
             this.ColumnSubject.FillWeight = 200F;
             resources.ApplyResources(this.ColumnSubject, "ColumnSubject");
             this.ColumnSubject.Name = "ColumnSubject";
@@ -195,30 +194,21 @@ namespace XenAdmin.TabPages
             // 
             // ColumnRoles
             // 
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ColumnRoles.DefaultCellStyle = dataGridViewCellStyle4;
-            this.ColumnRoles.FillWeight = 180.9098F;
+            this.ColumnRoles.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ColumnRoles.DefaultCellStyle = dataGridViewCellStyle5;
             resources.ApplyResources(this.ColumnRoles, "ColumnRoles");
             this.ColumnRoles.Name = "ColumnRoles";
             this.ColumnRoles.ReadOnly = true;
-            this.ColumnRoles.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ColumnRoles.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // ColumnStatus
             // 
-            this.ColumnStatus.FillWeight = 65.9477F;
+            this.ColumnStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             resources.ApplyResources(this.ColumnStatus, "ColumnStatus");
             this.ColumnStatus.Name = "ColumnStatus";
             this.ColumnStatus.ReadOnly = true;
             this.ColumnStatus.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // ColumnDummy
-            // 
-            this.ColumnDummy.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            resources.ApplyResources(this.ColumnDummy, "ColumnDummy");
-            this.ColumnDummy.Name = "ColumnDummy";
-            this.ColumnDummy.ReadOnly = true;
-            this.ColumnDummy.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColumnDummy.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // LabelGridViewDisabled
             // 
@@ -380,6 +370,5 @@ namespace XenAdmin.TabPages
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSubject;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnRoles;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDummy;
     }
 }

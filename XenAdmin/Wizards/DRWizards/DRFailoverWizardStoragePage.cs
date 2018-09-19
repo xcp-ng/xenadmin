@@ -284,6 +284,11 @@ namespace XenAdmin.Wizards.DRWizards
                             if (metadataSrs != null && metadataSrs.Count > 0)
                                 srs.AddRange(metadataSrs);
                         }
+                        else
+                        {
+                            // if the user cancels the dialog there is no need to show the "no SRs found" pop-up
+                            return;
+                        }
                     }
                     AddScanResultsToDataGridView(srs, SR.SRTypes.lvmoiscsi);
                     break;

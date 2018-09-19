@@ -49,8 +49,9 @@ namespace XenAdmin.Plugins
             set { TopLabel.Text = string.Format(TopLabel.Text, value); }
         }
 
-        public bool DefaultPersist
+        public bool PersistCredentials
         {
+            get { return PersistCredentialsCheckBox.Checked; }
             set { PersistCredentialsCheckBox.Checked = value; }
         }
 
@@ -62,11 +63,6 @@ namespace XenAdmin.Plugins
         public string Password
         {
             get { return PasswordTextBox.Text; }
-        }
-
-        public bool PersistCredentials
-        {
-            get { return PersistCredentialsCheckBox.Checked; }
         }
     }
 }

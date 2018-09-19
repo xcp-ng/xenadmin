@@ -241,7 +241,7 @@
     <value>6</value>
   </data>
   <data name="checkBoxThin.Text" xml:space="preserve">
-    <value>使用 NetApp 精简置备(&amp;T)</value>
+    <value>使用 NetApp 精简预配(&amp;T)</value>
   </data>
   <data name="&gt;&gt;checkBoxThin.Name" xml:space="preserve">
     <value>checkBoxThin</value>

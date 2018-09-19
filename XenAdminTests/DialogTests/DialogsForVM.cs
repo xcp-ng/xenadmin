@@ -52,16 +52,16 @@ namespace XenAdminTests.DialogTests.state1_xml.DialogsForVM
     {
         protected override BallooningDialog NewDialog()
         {
-            return new BallooningDialog(GetAnyVM());
+            return new BallooningDialog(GetAnyVM(),false);
         }
     }
 
     [TestFixture, Category(TestCategories.UICategoryA)]
-    public class BallooningDialogAdvancedTest : DialogTest<BallooningDialogAdvanced>
+    public class BallooningDialogAdvancedTest : DialogTest<BallooningDialog>
     {
-        protected override BallooningDialogAdvanced NewDialog()
+        protected override BallooningDialog NewDialog()
         {
-            return new BallooningDialogAdvanced(GetAnyVM());
+            return new BallooningDialog(GetAnyVM(), true);
         }
     }
 
@@ -70,16 +70,16 @@ namespace XenAdminTests.DialogTests.state1_xml.DialogsForVM
     {
         protected override BallooningDialog NewDialog()
         {
-            return new BallooningDialog(GetAnyDefaultTemplate());
+            return new BallooningDialog(GetAnyDefaultTemplate(), false);
         }
     }
 
     [TestFixture, Category(TestCategories.UICategoryA)]
-    public class BallooningDialogAdvancedTest_DefaultTemplate : DialogTest<BallooningDialogAdvanced>
+    public class BallooningDialogAdvancedTest_DefaultTemplate : DialogTest<BallooningDialog>
     {
-        protected override BallooningDialogAdvanced NewDialog()
+        protected override BallooningDialog NewDialog()
         {
-            return new BallooningDialogAdvanced(GetAnyDefaultTemplate());
+            return new BallooningDialog(GetAnyDefaultTemplate(), true);
         }
     }
 
@@ -88,16 +88,16 @@ namespace XenAdminTests.DialogTests.state1_xml.DialogsForVM
     {
         protected override BallooningDialog NewDialog()
         {
-            return new BallooningDialog(GetAnyUserTemplate());
+            return new BallooningDialog(GetAnyUserTemplate(), false);
         }
     }
 
     [TestFixture, Category(TestCategories.UICategoryA)]
-    public class BallooningDialogAdvancedTest_UserTemplate : DialogTest<BallooningDialogAdvanced>
+    public class BallooningDialogAdvancedTest_UserTemplate : DialogTest<BallooningDialog>
     {
-        protected override BallooningDialogAdvanced NewDialog()
+        protected override BallooningDialog NewDialog()
         {
-            return new BallooningDialogAdvanced(GetAnyUserTemplate());
+            return new BallooningDialog(GetAnyUserTemplate(), true);
         }
     }
 

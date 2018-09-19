@@ -42,7 +42,7 @@ namespace XenAdminTests.DialogTests.state1_xml.AdPasswordPromptTests
     {
         protected override AdPasswordPrompt NewDialog()
         {
-            return new AdPasswordPrompt(true, null);
+            return new AdPasswordPrompt(true);
         }
     }
 

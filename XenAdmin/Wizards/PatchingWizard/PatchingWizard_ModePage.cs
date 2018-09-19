@@ -33,11 +33,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using XenAdmin.Controls;
 using XenAdmin.Core;
 using XenAPI;
-using XenAdmin.Alerts;
+
 
 namespace XenAdmin.Wizards.PatchingWizard
 {
@@ -75,45 +77,47 @@ namespace XenAdmin.Wizards.PatchingWizard
             return Messages.UPDATES_WIZARD_APPLY_UPDATE;
         }
 
-        public Dictionary<string, livepatch_status> LivePatchCodesByHost
-        {
-            get;
-            set;
-        }
-
-        public Pool_update PoolUpdate
-        {
-            private get;
-            set;
-        }
-
         protected override void PageLoadedCore(PageLoadedDirection direction)
         {
-            textBoxLog.Clear();
+            var anyPoolForbidsAutostart = SelectedServers.Select(s => Helpers.GetPoolOfOne(s.Connection)).Any(p => p.IsAutoUpdateRestartsForbidden());
 
-            var unknownType = false;
-
-            var someHostMayRequireRestart = false; // If a host has restartHost guidance, even if is a live patch,  we want this true (as live patch may fail)
+            // this will be true if a patch has restartHost guidance or if livepatching fails
+            bool someHostMayRequireRestart;
+            bool automaticDisabled;
 
             switch (SelectedUpdateType)
             {
                 case UpdateType.NewRetail:
                 case UpdateType.Existing:
-                    textBoxLog.Text = PatchingWizardModeGuidanceBuilder.ModeRetailPatch(SelectedServers, Patch, out someHostMayRequireRestart);
+                    ManualTextInstructions = ModePoolPatch(out someHostMayRequireRestart);
+                    automaticDisabled = anyPoolForbidsAutostart && someHostMayRequireRestart;
                     break;
                 case UpdateType.ISO:
-                    AutomaticRadioButton.Enabled = true;
-                    AutomaticRadioButton.Checked = true;
-                    textBoxLog.Text = PoolUpdate != null 
-                        ? PatchingWizardModeGuidanceBuilder.ModeRetailPatch(SelectedServers, PoolUpdate, LivePatchCodesByHost, out someHostMayRequireRestart)
-                        : PatchingWizardModeGuidanceBuilder.ModeSuppPack(SelectedServers, out someHostMayRequireRestart);
+                    ManualTextInstructions = PoolUpdate != null
+                        ? ModePoolUpdate(out someHostMayRequireRestart)
+                        : ModeSuppPack(out someHostMayRequireRestart);
+                    automaticDisabled = anyPoolForbidsAutostart && someHostMayRequireRestart;
                     break;
                 default:
-                    unknownType = true;
+                    ManualTextInstructions = null;
+                    automaticDisabled = true;
                     break;
             }
-            
-            var automaticDisabled = unknownType || (AnyPoolForbidsAutoRestart() && someHostMayRequireRestart);
+
+            if (ManualTextInstructions == null || ManualTextInstructions.Count == 0)
+            {
+                textBoxLog.Text = Messages.PATCHINGWIZARD_MODEPAGE_NOACTION;
+            }
+            else
+            {
+                var sb = new StringBuilder();
+                foreach (var kvp in ManualTextInstructions)
+                {
+                    sb.AppendFormat("{0}:", kvp.Key).AppendLine();
+                    sb.AppendIndented(kvp.Value).AppendLine();
+                }
+                textBoxLog.Text = sb.ToString();
+            }
 
             AutomaticRadioButton.Enabled = !automaticDisabled;
             AutomaticRadioButton.Checked = !automaticDisabled;
@@ -139,8 +143,6 @@ namespace XenAdmin.Wizards.PatchingWizard
         /// <summary>
         /// Display the tooltip over the automatic radio button only if it is disabled
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void tableLayoutPanel1_MouseMove(object sender, MouseEventArgs e)
         {
             var control = tableLayoutPanel1.GetChildAtPoint(e.Location);
@@ -173,31 +175,22 @@ namespace XenAdmin.Wizards.PatchingWizard
 
         #region Accessors
 
-        public string ManualTextInstructions
-        {
-            get
-            {
-                return textBoxLog.Text;
-            }
-        }
+        public Dictionary<Pool, StringBuilder> ManualTextInstructions { get; private set; }
 
         public bool IsAutomaticMode
         {
-            get
-            {
-                return AutomaticRadioButton.Checked;
-            }
+            get { return AutomaticRadioButton.Checked; }
         }
 
         public bool RemoveUpdateFile
         {
-            get
-            {
-                return removeUpdateFileCheckBox.Checked;
-            }
+            get { return removeUpdateFileCheckBox.Checked; }
         }
 
+        public List<Pool> SelectedPools { private get; set; }
         public List<Host> SelectedServers { private get; set; }
+        public Dictionary<string, livepatch_status> LivePatchCodesByHost { private get; set; }
+        public Pool_update PoolUpdate { private get; set; }
         public Pool_patch Patch { private get; set; }
         public UpdateType SelectedUpdateType { private get; set; }
 
@@ -213,31 +206,222 @@ namespace XenAdmin.Wizards.PatchingWizard
             UpdateEnablement();
         }
 
-        private bool AnyPoolForbidsAutoRestart()
-        {
-            foreach (var server in SelectedServers)
-            {
-                var pool = Helpers.GetPoolOfOne(server.Connection);
-                if (pool.IsAutoUpdateRestartsForbidden())
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-            
         private void button1_Click(object sender, EventArgs e)
         {
             string filePath = Path.GetTempFileName();
-            FileStream fileStream = File.Create(filePath);
-            StreamWriter sw = new StreamWriter(fileStream);
-            sw.Write(textBoxLog.Text);
-            sw.Close();
-            fileStream.Close();
+
+            using (var fileStream = File.Create(filePath))
+            using (var sw = new StreamWriter(fileStream))
+            {
+                sw.Write(textBoxLog.Text);
+                sw.Flush();
+            }
             Process.Start("notepad.exe", filePath);
         }
+
+        #region Guidance builder
+
+        private Dictionary<Pool, StringBuilder> ModePoolPatch(out bool someHostMayRequireRestart)
+        {
+            someHostMayRequireRestart = false;
+
+            if (Patch == null || Patch.after_apply_guidance == null || Patch.after_apply_guidance.Count == 0)
+                return null;
+
+            var applicableServers = SelectedServers.Where(h => Patch.AppliedOn(h) == DateTime.MaxValue).ToList();
+            var serversPerPool = GroupServersPerPool(SelectedPools, applicableServers);
+
+            var total = new Dictionary<Pool, StringBuilder>();
+
+            foreach (var guide in Patch.after_apply_guidance)
+            {
+                var result = GetGuidanceList(guide, serversPerPool, null, out someHostMayRequireRestart);
+                if (result == null)
+                    continue;
+                foreach (var kvp in result)
+                {
+                    if (total.ContainsKey(kvp.Key))
+                        total[kvp.Key].Append(kvp.Value).AppendLine();
+                    else
+                        total[kvp.Key] = kvp.Value;
+                }
+            }
+
+            return total;
+        }
+
+        private Dictionary<Pool, StringBuilder> ModePoolUpdate(out bool someHostMayRequireRestart)
+        {
+            someHostMayRequireRestart = false;
+
+            if (PoolUpdate == null || PoolUpdate.after_apply_guidance == null || PoolUpdate.after_apply_guidance.Count == 0)
+                return null;
+
+            var applicableServers = SelectedServers.Where(h => !PoolUpdate.AppliedOn(h)).ToList();
+            var serversPerPool = GroupServersPerPool(SelectedPools, applicableServers);
+
+            var total = new Dictionary<Pool, StringBuilder>();
+
+            foreach (var guide in PoolUpdate.after_apply_guidance)
+            {
+                var result = GetGuidanceList(guide, serversPerPool, LivePatchCodesByHost, out someHostMayRequireRestart);
+                if (result == null)
+                    continue;
+                foreach (var kvp in result)
+                {
+                    if (total.ContainsKey(kvp.Key))
+                        total[kvp.Key].Append(kvp.Value).AppendLine();
+                    else
+                        total[kvp.Key] = kvp.Value;
+                }
+            }
+
+            return total;
+        }
+
+        private Dictionary<Pool, StringBuilder> ModeSuppPack(out bool someHostMayRequireRestart)
+        {
+            var serversPerPool = GroupServersPerPool(SelectedPools, SelectedServers);
+            return GetGuidanceList(after_apply_guidance.restartHost, serversPerPool, null, out someHostMayRequireRestart);
+        }
+
+
+        private Dictionary<Pool, List<Host>> GroupServersPerPool(List<Pool> pools, List<Host> servers)
+        {
+            servers.Sort();
+            var dict = new Dictionary<Pool, List<Host>>();
+
+            foreach (var pool in pools)
+            {
+                var hosts = pool.Connection.Cache.Hosts;
+                var hostsPerPool = servers.Where(s => hosts.Contains(s)).ToList();
+                if (hostsPerPool.Count > 0)
+                    dict[pool] = hostsPerPool;
+            }
+            return dict;
+        }
+
+
+        private static Dictionary<Pool, StringBuilder> GetGuidanceList(update_after_apply_guidance guide, Dictionary<Pool, List<Host>> serversPerPool, Dictionary<string, livepatch_status> livePatchCodesByHost, out bool someHostMayRequireRestart)
+        {
+            someHostMayRequireRestart = false;
+
+            switch (guide)
+            {
+                case update_after_apply_guidance.restartHost:
+                    return GetGuidanceListRestartHost(serversPerPool, livePatchCodesByHost, out someHostMayRequireRestart);
+                case update_after_apply_guidance.restartXAPI:
+                    return GetGuidanceListRestartXapi(serversPerPool);
+                case update_after_apply_guidance.restartPV:
+                    return GetGuidanceListRestartVm(serversPerPool, vm => !vm.IsHVM());
+                case update_after_apply_guidance.restartHVM:
+                    return GetGuidanceListRestartVm(serversPerPool, vm => vm.IsHVM());
+                default:
+                    return null;
+            }
+        }
+
+        private static Dictionary<Pool, StringBuilder> GetGuidanceList(after_apply_guidance guide, Dictionary<Pool, List<Host>> serversPerPool, Dictionary<string, livepatch_status> livePatchCodesByHost, out bool someHostMayRequireRestart)
+        {
+            someHostMayRequireRestart = false;
+
+            switch (guide)
+            {
+                case after_apply_guidance.restartHost:
+                    return GetGuidanceListRestartHost(serversPerPool, livePatchCodesByHost, out someHostMayRequireRestart);
+                case after_apply_guidance.restartXAPI:
+                    return GetGuidanceListRestartXapi(serversPerPool);
+                case after_apply_guidance.restartPV:
+                    return GetGuidanceListRestartVm(serversPerPool, vm => !vm.IsHVM());
+                case after_apply_guidance.restartHVM:
+                    return GetGuidanceListRestartVm(serversPerPool, vm => vm.IsHVM());
+                default:
+                    return null;
+            }
+        }
+
+
+        private static Dictionary<Pool, StringBuilder> GetGuidanceListRestartHost(Dictionary<Pool, List<Host>> serversPerPool, Dictionary<string, livepatch_status> livePatchCodesByHost, out bool someHostMayRequireRestart)
+        {
+            someHostMayRequireRestart = false;
+            var dict = new Dictionary<Pool, StringBuilder>();
+
+            foreach (var kvp in serversPerPool)
+            {
+                var sb = new StringBuilder();
+                foreach (var server in kvp.Value)
+                {
+                    if (livePatchCodesByHost != null && livePatchCodesByHost.ContainsKey(server.uuid)
+                        && livePatchCodesByHost[server.uuid] == livepatch_status.ok_livepatch_complete)
+                        continue;
+
+                    var msg = server.IsMaster()
+                        ? string.Format("{0} ({1})", server.Name(), Messages.MASTER)
+                        : server.Name();
+                    sb.AppendIndented(msg).AppendLine();
+                }
+
+                if (sb.Length > 0)
+                {
+                    sb.Insert(0, Messages.PATCHINGWIZARD_MODEPAGE_RESTARTSERVERS + Environment.NewLine);
+                    dict[kvp.Key] = sb;
+                    someHostMayRequireRestart = true;
+                }
+            }
+            return dict;
+        }
+
+        private static Dictionary<Pool, StringBuilder> GetGuidanceListRestartXapi(Dictionary<Pool, List<Host>> serversPerPool)
+        {
+            var dict = new Dictionary<Pool, StringBuilder>();
+
+            foreach (var kvp in serversPerPool)
+            {
+                var sb = new StringBuilder();
+                foreach (var server in kvp.Value)
+                {
+                    var msg = server.IsMaster()
+                        ? string.Format("{0} ({1})", server.Name(), Messages.MASTER)
+                        : server.Name();
+                    sb.AppendIndented(msg).AppendLine();
+                }
+
+                if (sb.Length > 0)
+                {
+                    sb.Insert(0, Messages.PATCHINGWIZARD_MODEPAGE_RESTARTXAPI + Environment.NewLine);
+                    dict[kvp.Key] = sb;
+                }
+            }
+            return dict;
+        }
+
+        private static Dictionary<Pool, StringBuilder> GetGuidanceListRestartVm(Dictionary<Pool, List<Host>> serversPerPool, Func<VM, bool> predicate)
+        {
+            var dict = new Dictionary<Pool, StringBuilder>();
+
+            foreach (var kvp in serversPerPool)
+            {
+                var sb = new StringBuilder();
+                foreach (var server in kvp.Value)
+                {
+                    foreach (var vmRef in server.resident_VMs)
+                    {
+                        var vm = server.Connection.Resolve(vmRef);
+                        if (vm != null && vm.is_a_real_vm() && predicate.Invoke(vm))
+                            sb.AppendIndented(vm.Name()).AppendLine();
+                    }
+                }
+
+                if (sb.Length > 0)
+                {
+                    sb.Insert(0, Messages.PATCHINGWIZARD_MODEPAGE_RESTARTVMS + Environment.NewLine);
+                    dict[kvp.Key] = sb;
+                }
+            }
+
+            return dict;
+        }
+
+        #endregion
     }
-
-
 }

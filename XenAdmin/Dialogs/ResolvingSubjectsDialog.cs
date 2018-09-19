@@ -35,29 +35,26 @@ using System.Windows.Forms;
 using XenAdmin.Actions;
 using XenAPI;
 using XenAdmin.Core;
+using XenAdmin.Network;
 
 
 namespace XenAdmin.Dialogs
 {
     public partial class ResolvingSubjectsDialog : XenDialogBase
     {
-        private Pool pool;
         private AddRemoveSubjectsAction resolveAction;
+        private IXenConnection _connection;
 
         private ResolvingSubjectsDialog()
         {
             InitializeComponent();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pool">The pool or pool-of-one we are adding users to</param>
-        public ResolvingSubjectsDialog(Pool pool)
+        public ResolvingSubjectsDialog(IXenConnection connection)
         {
             InitializeComponent();
-            this.pool = pool;
-            labelTopBlurb.Text = string.Format(labelTopBlurb.Text, Helpers.GetName(pool).Ellipsise(80));
+            _connection = connection;
+            labelTopBlurb.Text = string.Format(labelTopBlurb.Text, Helpers.GetName(connection).Ellipsise(80));
         }
 
         private void BeginResolve()
@@ -100,10 +97,10 @@ namespace XenAdmin.Dialogs
                 ListViewItemSubjectWrapper i = new ListViewItemSubjectWrapper(name);
                 entryListView.Items.Add(i);
             }
-            resolveAction = new AddRemoveSubjectsAction(pool, nameList, new List<Subject>());
-            resolveAction.NameResolveComplete += new AddRemoveSubjectsAction.NameResolvedEventHandler(resolveAction_NameResolveComplete);
-            resolveAction.AllResolveComplete += new AddRemoveSubjectsAction.AllNamesResolvedEventHandler(resolveAction_AllResolveComplete);
-            resolveAction.SubjectAddComplete += new AddRemoveSubjectsAction.SubjectAddedEventHandler(resolveAction_SubjectAddComplete);
+            resolveAction = new AddRemoveSubjectsAction(_connection, nameList, new List<Subject>());
+            resolveAction.NameResolveComplete += resolveAction_NameResolveComplete;
+            resolveAction.AllResolveComplete += resolveAction_AllResolveComplete;
+            resolveAction.SubjectAddComplete += resolveAction_SubjectAddComplete;
             resolveAction.Completed += addAction_Completed;
             resolveAction.RunAsync();
         }

@@ -43,6 +43,7 @@ using XenAdmin.Core;
 using XenAPI;
 using XenAdmin.Wizards.BugToolWizardFiles;
 using XenAdmin.Dialogs;
+using XenAdmin.Actions;
 
 namespace XenAdmin.Wizards
 {
@@ -120,33 +121,28 @@ namespace XenAdmin.Wizards
                 return;
             }
 
-            // Proceed to finish the wizard and start the zip action
-        
-            // zip up the report files and save them to the chosen file
-            Actions.ZipStatusReportAction action =
-                new Actions.ZipStatusReportAction(bugToolPageRetrieveData.OutputFolder, bugToolPageDestination1.OutputFile);
-            using (var dialog = new ActionProgressDialog(action, ProgressBarStyle.Blocks))
-            {
-                dialog.ShowCancel = true;
-                dialog.ShowDialog();
-            }
-
-            if (!action.Succeeded)
-            {
-                // Close. We can't recover from a partially-completed ZipStatusReportAction.
-                base.FinishWizard();
-                return;
-            }
-
-            // upload the report files
+            AsyncAction action;
             if (bugToolPageDestination1.Upload)
             {
-                var uploadAction = new Actions.UploadServerStatusReportAction(bugToolPageDestination1.OutputFile,
-                                                                       bugToolPageDestination1.UploadToken, bugToolPageDestination1.CaseNumber, 
-                                                                       Registry.HealthCheckUploadDomainName, false);
-                using (var dialog = new ActionProgressDialog(uploadAction, ProgressBarStyle.Marquee) {ShowCancel = true})
-                    dialog.ShowDialog();
+                // The MultipleAction is only used as a wrapper, we will suppress its history and expose the sub-actions in the history
+                List<AsyncAction> subActions = new List<AsyncAction>();
+                ZipStatusReportAction zipAction = new ZipStatusReportAction(bugToolPageRetrieveData.OutputFolder, bugToolPageDestination1.OutputFile,false);
+                subActions.Add(zipAction);
+                UploadServerStatusReportAction uploadAction = new UploadServerStatusReportAction(bugToolPageDestination1.OutputFile,// tmp folder
+                                                                                           bugToolPageDestination1.UploadToken,// upload token
+                                                                                           bugToolPageDestination1.CaseNumber,// case id
+                                                                                           Registry.HealthCheckUploadDomainName,// domain name
+                                                                                           false); // suppressHistory
+                subActions.Add(uploadAction);
+                action = new MultipleAction(null, Messages.BUGTOOL_SAVING, Messages.BUGTOOL_SAVING, Messages.COMPLETED, subActions,true);
             }
+            else
+            {
+                action = new ZipStatusReportAction(bugToolPageRetrieveData.OutputFolder, bugToolPageDestination1.OutputFile, false);
+            }
+
+            action.RunAsync();
+
 
             // Save away the output path for next time
             XenAdmin.Properties.Settings.Default.ServerStatusPath = bugToolPageDestination1.OutputFile;
@@ -182,6 +178,7 @@ namespace XenAdmin.Wizards
                     break;
                 }
             }
+
             base.FinishWizard();
         }
 

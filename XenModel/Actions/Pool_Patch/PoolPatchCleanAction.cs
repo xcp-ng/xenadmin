@@ -46,7 +46,7 @@ namespace XenAdmin.Actions
         {
             this.patch = patch;
             if (patch == null)
-                throw new ArgumentNullException("pool_patch");
+                throw new ArgumentNullException("patch");
 
             #region RBAC Dependencies
             ApiMethodsToRoleCheck.Add("pool_patch.pool_clean");
@@ -58,10 +58,7 @@ namespace XenAdmin.Actions
         {
             this.Description = string.Format(Messages.REMOVING_UPDATE, patch.Name());
             List<Pool_patch> poolPatches = new List<Pool_patch>(Connection.Cache.Pool_patches);
-            var poolPatch = poolPatches.Find(delegate(Pool_patch otherPatch)
-            {
-                return string.Equals(otherPatch.uuid, patch.uuid, StringComparison.OrdinalIgnoreCase);
-            });
+            var poolPatch = poolPatches.Find(p => string.Equals(p.uuid, patch.uuid, StringComparison.OrdinalIgnoreCase));
 
             if (poolPatch != null)
             {

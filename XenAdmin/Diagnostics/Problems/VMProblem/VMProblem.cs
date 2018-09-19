@@ -35,28 +35,29 @@ using XenAdmin.Commands;
 using XenAdmin.Diagnostics.Checks;
 using XenAPI;
 using XenAdmin.Actions.VMActions;
+using XenAdmin.Core;
 
 
 namespace XenAdmin.Diagnostics.Problems.VMProblem
 {
     public abstract class VMProblem : Problem
     {
-        private VM _vm;
-        protected Host ResidentOn;
+        protected VM VM { get; private set; }
+        private Host residentOn;
 
         protected VMProblem(Check check, VM vm)
             : base(check)
         {
-            _vm = vm;
-
-            ResidentOn = VM.Connection.Resolve(VM.resident_on);
+            VM = vm;
+            residentOn = VM.Connection.Resolve(VM.resident_on);
         }
 
-        protected VM VM
+
+        protected string ServerName
         {
             get
             {
-                return _vm;
+                return residentOn != null ? Helpers.GetName(residentOn).Ellipsise(30) : Helpers.GetName(Helpers.GetPoolOfOne(VM.Connection)).Ellipsise(30);
             }
         }
 
@@ -99,7 +100,7 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
         protected override AsyncAction CreateAction(out bool cancelled)
         {
             cancelled = false;
-            if (_vm.Connection.Resolve(new XenRef<VM>(_vm.opaque_ref)) == null) // check if the vm is still in the cache
+            if (VM.Connection.Resolve(new XenRef<VM>(VM.opaque_ref)) == null) // check if the vm is still in the cache
                 return null;
 
             if (CanSuspendVM)
@@ -109,13 +110,13 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
 
         public override AsyncAction CreateUnwindChangesAction()
         {
-            if (_vm.Connection.Resolve(new XenRef<VM>(_vm.opaque_ref)) == null) // check if the vm is still in the cache
+            if (VM.Connection.Resolve(new XenRef<VM>(VM.opaque_ref)) == null) // check if the vm is still in the cache
                 return null;
 
             Debug.Assert(VM.power_state == vm_power_state.Halted ||
                          VM.power_state == vm_power_state.Suspended, "Expected VM to be suspended or shut down!");
             if(VM.power_state==vm_power_state.Halted)
-                return new VMStartOnAction(VM, ResidentOn, VMOperationCommand.WarningDialogHAInvalidConfig, VMOperationCommand.StartDiagnosisForm);
+                return new VMStartOnAction(VM, residentOn, VMOperationCommand.WarningDialogHAInvalidConfig, VMOperationCommand.StartDiagnosisForm);
             else
             {
                 return new VMResumeAction(VM, VMOperationCommand.WarningDialogHAInvalidConfig,

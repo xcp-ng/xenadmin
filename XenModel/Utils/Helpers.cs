@@ -354,6 +354,25 @@ namespace XenAdmin.Core
                 platform_version != null && productVersionCompare(platform_version, "2.1.1") >= 0;
         }
 
+        public static bool HavanaOrGreater(IXenConnection conn)
+        {
+            return conn == null || HavanaOrGreater(Helpers.GetMaster(conn));
+        }
+
+        /// As Havana platform version is same with Ely and Honolulu, so use product version here
+        /// <param name="host">May be null, in which case true is returned.</param>
+        public static bool HavanaOrGreater(Host host)
+        {
+            if (host == null)
+                return true;
+             string product_version = HostProductVersion(host);
+            return
+                product_version != null &&
+                ElyOrGreater(host) && 
+                !FalconOrGreater(host) && 
+                productVersionCompare(product_version, "[BRANDING_VERSION_7_1_2]") >= 0;
+        }
+
         /// <param name="conn">May be null, in which case true is returned.</param>
         public static bool FalconOrGreater(IXenConnection conn)
         {
@@ -1329,15 +1348,11 @@ namespace XenAdmin.Core
         /// <returns></returns>
         public static string FirstLine(string s)
         {
-            if (s == null)
-            {
-                return "";
-            }
-            else
-            {
-                s = s.Split(new char[] { '\n' })[0];
-                return s.Split(new char[] { '\r' })[0];
-            }
+            if (string.IsNullOrEmpty(s))
+                return string.Empty;
+
+            s = s.Split('\n')[0];
+            return s.Split('\r')[0];
         }
 
         /// <summary>
@@ -1809,16 +1824,6 @@ namespace XenAdmin.Core
             }
 
             return string.Join(", ", names.ToArray());
-        }
-
-        public static List<VM> VMsRunningOn(List<Host> hosts)
-        {
-            List<VM> vms = new List<VM>();
-            foreach (Host host in hosts)
-            {
-                vms.AddRange(host.Connection.ResolveAll(host.resident_VMs));
-            }
-            return vms;
         }
 
         public static bool CompareLists<T>(List<T> l1, List<T> l2)

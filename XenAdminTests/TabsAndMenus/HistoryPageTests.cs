@@ -44,7 +44,7 @@ using XenAPI;
 
 namespace XenAdminTests.TabsAndMenus
 {
-    public class LogsTabTests : MainWindowLauncher_TestFixture
+    public class HistoryPageTests : MainWindowLauncher_TestFixture
     {
         private List<HistoryPage.DataGridViewActionRow> GetVisibleRows()
         {
@@ -107,10 +107,12 @@ namespace XenAdminTests.TabsAndMenus
         {
             foreach (VirtualTreeNode n in GetAllTreeNodes())
             {
+                GoToInfrastructure();
                 SelectInTree(n.Tag);
                 MW(n.EnsureVisible);
 
                 //Events tab
+                GoToHistoryPage();
                 var visibleRows = GetVisibleRows();
 
                 Assert.AreEqual(1, visibleRows.Count, "No connection item found.");
@@ -126,16 +128,17 @@ namespace XenAdminTests.TabsAndMenus
             VM vm2 = GetAnyVM(v => v.name_label == "Windows Server 2003 x64 (1)");
 
             SelectInTree(vm1, vm2);
-
             new List<VirtualTreeNode>(MainWindowWrapper.TreeView.SelectedNodes).ForEach(n => MW(n.EnsureVisible));
 
             //Events tab
-
+            GoToHistoryPage();
             var rows = GetVisibleRows();
             Assert.AreEqual(1, rows.Count, "History page didn't have 1 message before VMs shut down");
 
+            GoToInfrastructure();
             MW(MainWindowWrapper.MainToolStripItems.ShutDownToolStripButton.PerformClick);
 
+            GoToHistoryPage();
             rows = GetVisibleRows();
             Assert.AreEqual(4, rows.Count, "Items weren't added when VMs shut down.");
         }
@@ -144,6 +147,7 @@ namespace XenAdminTests.TabsAndMenus
         public void TestClear()
         {
             SelectInTree(GetAnyPool());
+            GoToHistoryPage();
             
             //Events tab
             var rows = GetVisibleRows();
@@ -162,20 +166,15 @@ namespace XenAdminTests.TabsAndMenus
         public void TestHide()
         {
             SelectInTree(GetAnyPool());
+            GoToHistoryPage();
+
             //Events tab
             var showAllButton = MW(() => TestUtils.GetToolStripMenuItem(MainWindowWrapper.Item,
-                                                                        "eventsPage.toolStripDdbFilterStatus.toolStripMenuItemAll"));
+                "eventsPage.toolStripDdbFilterStatus.toolStripMenuItemAll"));
 
             var rows = GetVisibleRows();
             Assert.AreEqual(1, rows.Count, "No connection item found.");
             Assert.IsFalse(showAllButton.Enabled);
-            MW(() =>
-                {
-                    TestUtils.GetToolStripItem(MainWindowWrapper.Item,
-                        "navigationPane.buttonNotifySmall").PerformClick();
-                    TestUtils.GetNotificationsView(MainWindowWrapper.Item,
-                        "navigationPane.notificationsView").SelectNotificationsSubMode(NotificationsSubMode.Events);
-                });
 
             // this should clear all items as they are all completed.
             MW(() => TestUtils.GetToolStripMenuItem(MainWindowWrapper.Item,
@@ -217,5 +216,29 @@ namespace XenAdminTests.TabsAndMenus
                 "eventsPage.toolStripDdbFilterStatus.toolStripMenuItemAll").PerformClick());
             Assert.IsFalse(showAllButton.Enabled);
         }
+
+        #region Private methods
+
+        private void GoToHistoryPage()
+        {
+            MW(() =>
+            {
+                TestUtils.GetToolStripButton(MainWindowWrapper.Item,
+                    "navigationPane.buttonNotifyBig").PerformClick();
+                TestUtils.GetNotificationsView(MainWindowWrapper.Item,
+                    "navigationPane.notificationsView").SelectNotificationsSubMode(NotificationsSubMode.Events);
+            });
+            MWWaitFor(() => TestUtils.GetToolStripButton(MainWindowWrapper.Item,
+                "navigationPane.buttonNotifyBig").Checked);
+        }
+
+        private void GoToInfrastructure()
+        {
+            MW(() => TestUtils.GetToolStripButton(MainWindowWrapper.Item, "navigationPane.buttonInfraBig").PerformClick());
+            MWWaitFor(() => TestUtils.GetToolStripButton(MainWindowWrapper.Item,
+                "navigationPane.buttonInfraBig").Checked);
+        }
+
+        #endregion
     }
 }

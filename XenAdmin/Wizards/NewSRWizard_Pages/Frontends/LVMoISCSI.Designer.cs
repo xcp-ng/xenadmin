@@ -41,8 +41,6 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             this.errorIconAtTargetLUN = new System.Windows.Forms.PictureBox();
             this.spinnerIconAtTargetIqn = new XenAdmin.Controls.SpinnerIcon();
             this.spinnerIconAtTargetLun = new XenAdmin.Controls.SpinnerIcon();
-            this.placeHolderLabel2 = new System.Windows.Forms.Label();
-            this.placeholderLabel = new System.Windows.Forms.Label();
             this.errorLabelAtCHAPPassword = new System.Windows.Forms.Label();
             this.errorIconAtCHAPPassword = new System.Windows.Forms.PictureBox();
             this.errorIconAtHostOrIP = new System.Windows.Forms.PictureBox();
@@ -79,31 +77,29 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.iSCSITargetGroupBox, 0, 9);
-            this.tableLayoutPanel1.Controls.Add(this.placeHolderLabel2, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.placeholderLabel, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.errorLabelAtCHAPPassword, 3, 7);
-            this.tableLayoutPanel1.Controls.Add(this.errorIconAtCHAPPassword, 2, 7);
+            this.tableLayoutPanel1.Controls.Add(this.iSCSITargetGroupBox, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.errorLabelAtCHAPPassword, 3, 6);
+            this.tableLayoutPanel1.Controls.Add(this.errorIconAtCHAPPassword, 2, 6);
             this.tableLayoutPanel1.Controls.Add(this.errorIconAtHostOrIP, 2, 2);
-            this.tableLayoutPanel1.Controls.Add(this.scanTargetHostButton, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.scanTargetHostButton, 0, 7);
             this.tableLayoutPanel1.Controls.Add(this.labelIscsiTargetHost, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.textBoxIscsiHost, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.labelColon, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.textBoxIscsiPort, 4, 1);
-            this.tableLayoutPanel1.Controls.Add(this.IScsiChapUserTextBox, 2, 5);
-            this.tableLayoutPanel1.Controls.Add(this.IScsiChapSecretTextBox, 2, 6);
-            this.tableLayoutPanel1.Controls.Add(this.labelCHAPuser, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.IScsiChapSecretLabel, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.IScsiChapUserTextBox, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.IScsiChapSecretTextBox, 2, 5);
+            this.tableLayoutPanel1.Controls.Add(this.labelCHAPuser, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.IScsiChapSecretLabel, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.IscsiUseChapCheckBox, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label11, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.errorLabelAtHostname, 3, 2);
-            this.tableLayoutPanel1.Controls.Add(this.spinnerIconAtScanTargetHostButton, 2, 8);
+            this.tableLayoutPanel1.Controls.Add(this.spinnerIconAtScanTargetHostButton, 2, 7);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // iSCSITargetGroupBox
             // 
             resources.ApplyResources(this.iSCSITargetGroupBox, "iSCSITargetGroupBox");
-            this.tableLayoutPanel1.SetColumnSpan(this.iSCSITargetGroupBox, 7);
+            this.tableLayoutPanel1.SetColumnSpan(this.iSCSITargetGroupBox, 6);
             this.iSCSITargetGroupBox.Controls.Add(this.tableLayoutPanel2);
             this.iSCSITargetGroupBox.Name = "iSCSITargetGroupBox";
             this.iSCSITargetGroupBox.TabStop = false;
@@ -152,15 +148,16 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             // 
             // errorLabelAtTargetLUN
             // 
+            resources.ApplyResources(this.errorLabelAtTargetLUN, "errorLabelAtTargetLUN");
             this.errorLabelAtTargetLUN.AutoEllipsis = true;
             this.tableLayoutPanel2.SetColumnSpan(this.errorLabelAtTargetLUN, 2);
-            resources.ApplyResources(this.errorLabelAtTargetLUN, "errorLabelAtTargetLUN");
             this.errorLabelAtTargetLUN.ForeColor = System.Drawing.Color.Red;
             this.errorLabelAtTargetLUN.Name = "errorLabelAtTargetLUN";
             // 
             // errorIconAtTargetLUN
             // 
             resources.ApplyResources(this.errorIconAtTargetLUN, "errorIconAtTargetLUN");
+            this.errorIconAtTargetLUN.Image = global::XenAdmin.Properties.Resources._000_error_h32bit_16;
             this.errorIconAtTargetLUN.Name = "errorIconAtTargetLUN";
             this.errorIconAtTargetLUN.TabStop = false;
             // 
@@ -178,35 +175,25 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             this.spinnerIconAtTargetLun.SucceededImage = global::XenAdmin.Properties.Resources._000_Tick_h32bit_16;
             this.spinnerIconAtTargetLun.TabStop = false;
             // 
-            // placeHolderLabel2
-            // 
-            resources.ApplyResources(this.placeHolderLabel2, "placeHolderLabel2");
-            this.placeHolderLabel2.ForeColor = System.Drawing.Color.Red;
-            this.placeHolderLabel2.Name = "placeHolderLabel2";
-            // 
-            // placeholderLabel
-            // 
-            resources.ApplyResources(this.placeholderLabel, "placeholderLabel");
-            this.placeholderLabel.ForeColor = System.Drawing.Color.Red;
-            this.placeholderLabel.Name = "placeholderLabel";
-            // 
             // errorLabelAtCHAPPassword
             // 
-            this.errorLabelAtCHAPPassword.AutoEllipsis = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.errorLabelAtCHAPPassword, 4);
             resources.ApplyResources(this.errorLabelAtCHAPPassword, "errorLabelAtCHAPPassword");
+            this.errorLabelAtCHAPPassword.AutoEllipsis = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.errorLabelAtCHAPPassword, 3);
             this.errorLabelAtCHAPPassword.ForeColor = System.Drawing.Color.Red;
             this.errorLabelAtCHAPPassword.Name = "errorLabelAtCHAPPassword";
             // 
             // errorIconAtCHAPPassword
             // 
             resources.ApplyResources(this.errorIconAtCHAPPassword, "errorIconAtCHAPPassword");
+            this.errorIconAtCHAPPassword.Image = global::XenAdmin.Properties.Resources._000_error_h32bit_16;
             this.errorIconAtCHAPPassword.Name = "errorIconAtCHAPPassword";
             this.errorIconAtCHAPPassword.TabStop = false;
             // 
             // errorIconAtHostOrIP
             // 
             resources.ApplyResources(this.errorIconAtHostOrIP, "errorIconAtHostOrIP");
+            this.errorIconAtHostOrIP.Image = global::XenAdmin.Properties.Resources._000_error_h32bit_16;
             this.errorIconAtHostOrIP.Name = "errorIconAtHostOrIP";
             this.errorIconAtHostOrIP.TabStop = false;
             // 
@@ -226,8 +213,8 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             // 
             // textBoxIscsiHost
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.textBoxIscsiHost, 2);
             resources.ApplyResources(this.textBoxIscsiHost, "textBoxIscsiHost");
+            this.tableLayoutPanel1.SetColumnSpan(this.textBoxIscsiHost, 2);
             this.textBoxIscsiHost.Name = "textBoxIscsiHost";
             this.textBoxIscsiHost.TextChanged += new System.EventHandler(this.textBoxIscsiHost_TextChanged);
             // 
@@ -245,15 +232,15 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             // IScsiChapUserTextBox
             // 
             this.IScsiChapUserTextBox.AllowDrop = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.IScsiChapUserTextBox, 2);
             resources.ApplyResources(this.IScsiChapUserTextBox, "IScsiChapUserTextBox");
+            this.tableLayoutPanel1.SetColumnSpan(this.IScsiChapUserTextBox, 2);
             this.IScsiChapUserTextBox.Name = "IScsiChapUserTextBox";
             this.IScsiChapUserTextBox.TextChanged += new System.EventHandler(this.ChapSettings_Changed);
             // 
             // IScsiChapSecretTextBox
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.IScsiChapSecretTextBox, 2);
             resources.ApplyResources(this.IScsiChapSecretTextBox, "IScsiChapSecretTextBox");
+            this.tableLayoutPanel1.SetColumnSpan(this.IScsiChapSecretTextBox, 2);
             this.IScsiChapSecretTextBox.Name = "IScsiChapSecretTextBox";
             this.IScsiChapSecretTextBox.UseSystemPasswordChar = true;
             this.IScsiChapSecretTextBox.TextChanged += new System.EventHandler(this.ChapSettings_Changed);
@@ -273,7 +260,7 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             // IscsiUseChapCheckBox
             // 
             resources.ApplyResources(this.IscsiUseChapCheckBox, "IscsiUseChapCheckBox");
-            this.tableLayoutPanel1.SetColumnSpan(this.IscsiUseChapCheckBox, 2);
+            this.tableLayoutPanel1.SetColumnSpan(this.IscsiUseChapCheckBox, 6);
             this.IscsiUseChapCheckBox.Name = "IscsiUseChapCheckBox";
             this.IscsiUseChapCheckBox.UseVisualStyleBackColor = true;
             this.IscsiUseChapCheckBox.CheckedChanged += new System.EventHandler(this.IscsiUseChapCheckBox_CheckedChanged);
@@ -281,14 +268,14 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             // label11
             // 
             resources.ApplyResources(this.label11, "label11");
-            this.tableLayoutPanel1.SetColumnSpan(this.label11, 7);
+            this.tableLayoutPanel1.SetColumnSpan(this.label11, 6);
             this.label11.Name = "label11";
             // 
             // errorLabelAtHostname
             // 
-            this.errorLabelAtHostname.AutoEllipsis = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.errorLabelAtHostname, 4);
             resources.ApplyResources(this.errorLabelAtHostname, "errorLabelAtHostname");
+            this.errorLabelAtHostname.AutoEllipsis = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.errorLabelAtHostname, 3);
             this.errorLabelAtHostname.ForeColor = System.Drawing.Color.Red;
             this.errorLabelAtHostname.Name = "errorLabelAtHostname";
             // 
@@ -358,7 +345,5 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
         private XenAdmin.Controls.SpinnerIcon spinnerIconAtTargetIqn;
         private XenAdmin.Controls.SpinnerIcon spinnerIconAtTargetLun;
         private XenAdmin.Controls.SpinnerIcon spinnerIconAtScanTargetHostButton;
-        private System.Windows.Forms.Label placeholderLabel;
-        private System.Windows.Forms.Label placeHolderLabel2;
     }
 }

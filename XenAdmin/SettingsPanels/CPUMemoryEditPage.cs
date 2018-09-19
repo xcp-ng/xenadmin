@@ -75,7 +75,7 @@ namespace XenAdmin.SettingsPanels
                 if (HasMemoryChanged)
                 {
                     long mem = Convert.ToInt64(this.nudMemory.Value * Util.BINARY_MEGA);
-                    memoryAction = BallooningDialogBase.ConfirmAndReturnAction(Program.MainWindow, vm, mem, mem, mem, (long)vm.memory_static_max, false);
+                    memoryAction = BallooningDialog.ConfirmAndReturnAction(Program.MainWindow, vm, mem, mem, mem, (long)vm.memory_static_max, false);
                     if (memoryAction == null)
                         return false;
                 }

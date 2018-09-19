@@ -43,7 +43,7 @@ namespace XenAdmin.Core
         public readonly string Name;
         public readonly string Description;
         public readonly string Guidance;
-        public readonly string Guidance_mandatory;
+        public readonly bool GuidanceMandatory;
         public readonly Version Version;
         public readonly string Url;
         public readonly string PatchUrl;
@@ -51,6 +51,7 @@ namespace XenAdmin.Core
         public readonly int Priority;
         public readonly long InstallationSize; // installation size, in btyes
         public readonly long DownloadSize; // download size, in btyes
+        public readonly bool ContainsLivepatch;
 
         public readonly List<string> ConflictingPatches;
         public readonly List<string> RequiredPatches;
@@ -58,13 +59,13 @@ namespace XenAdmin.Core
         private const int DEFAULT_PRIORITY = 2;
 
         public XenServerPatch(string uuid, string name, string description, string guidance, string guidance_mandatory , string version, string url,
-            string patchUrl, string timestamp, string priority, string installationSize, string downloadSize)
+            string patchUrl, string timestamp, string priority, string installationSize, string downloadSize, string containsLivepatch = "false")
         {
             _uuid = uuid;
             Name = name;
             Description = description;
             Guidance = guidance;
-            Guidance_mandatory = guidance_mandatory;
+            GuidanceMandatory = !string.IsNullOrEmpty(guidance_mandatory) && guidance_mandatory.ToLowerInvariant().Contains("true");
             Version = new Version(version);
             Url = url;
             PatchUrl = patchUrl;
@@ -75,11 +76,12 @@ namespace XenAdmin.Core
                 InstallationSize = 0;
             if (!Int64.TryParse(downloadSize, out DownloadSize))
                 DownloadSize = 0;
+            ContainsLivepatch = !string.IsNullOrEmpty(containsLivepatch) && containsLivepatch.ToLowerInvariant().Contains("true");
         }
 
         public XenServerPatch(string uuid, string name, string description, string guidance, string guidance_mandatory, string version, string url,
-            string patchUrl, string timestamp, string priority, string installationSize, string downloadSize, List<string> conflictingPatches, List<string> requiredPatches)
-            : this(uuid, name, description, guidance, guidance_mandatory, version, url, patchUrl, timestamp, priority, installationSize, downloadSize)
+            string patchUrl, string timestamp, string priority, string installationSize, string downloadSize, string containsLivepatch, List<string> conflictingPatches, List<string> requiredPatches)
+            : this(uuid, name, description, guidance, guidance_mandatory, version, url, patchUrl, timestamp, priority, installationSize, downloadSize, containsLivepatch)
         {
 
             ConflictingPatches = conflictingPatches;
@@ -122,14 +124,5 @@ namespace XenAdmin.Core
                 }
             }
         }
-
-        public bool GuidanceMandatory 
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(Guidance_mandatory) && this.Guidance_mandatory.ToLowerInvariant().Contains("true");
-            }
-        }
-
     }
 }

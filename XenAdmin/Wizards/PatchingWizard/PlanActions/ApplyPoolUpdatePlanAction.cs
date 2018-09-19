@@ -29,6 +29,7 @@
  * SUCH DAMAGE.
  */
 
+using XenAdmin.Actions;
 using XenAPI;
 
 
@@ -49,8 +50,7 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
         protected override void RunWithSession(ref Session session)
         {
             AddProgressStep(string.Format(Messages.UPDATES_WIZARD_APPLYING_UPDATE, _poolUpdate.Name(), _host.Name()));
-            XenRef<Task> task = Pool_update.async_apply(session, _poolUpdate.opaque_ref, _host.opaque_ref);
-            PollTaskForResultAndDestroy(Connection, ref session, task);
+            new ApplyUpdateAction(_poolUpdate, _host, true).RunExternal(session);
         }
     }
 }

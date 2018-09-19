@@ -13,7 +13,7 @@ namespace XenAdmin.TabPages
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            ConnectionsManager.History.CollectionChanged -= History_CollectionChanged;
+            DeregisterEventHandlers();
             XenAdmin.Actions.ActionBase.NewAction -= Action_NewAction;
 
             if (disposing && (components != null))
@@ -152,6 +152,7 @@ namespace XenAdmin.TabPages
             this.dataGridView.MultiSelect = true;
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
+            this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
             this.dataGridView.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_ColumnHeaderMouseClick);
             this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
             // 

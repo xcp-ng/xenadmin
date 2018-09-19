@@ -1024,10 +1024,10 @@
     <value>加入池的主机不得具有任何绑定、VLAN 或隧道。</value>
   </data>
   <data name="PROVISION_FAILED_OUT_OF_SPACE" xml:space="preserve">
-    <value>置备调用因空间不足失败。</value>
+    <value>预配调用因空间不足失败。</value>
   </data>
   <data name="PROVISION_ONLY_ALLOWED_ON_TEMPLATE" xml:space="preserve">
-    <value>只能对模板(而非常规 VM)调用置备调用。</value>
+    <value>只能对模板(而非常规 VM)调用预配调用。</value>
   </data>
   <data name="PUSB_VDI_CONFLICT" xml:space="preserve">
     <value>与此 PUSB 对应的 VDI 具有现有的 VBD。</value>
@@ -1296,7 +1296,7 @@
     <value>CLI 命令收到无效的 EOF 响应</value>
   </data>
   <data name="SR_BACKEND_FAILURE_180" xml:space="preserve">
-    <value>卷组空间不足。SR 过度置备且空间不足。无法增大基本卷，因而无法适应磁盘的虚拟大小。</value>
+    <value>卷组空间不足。SR 过度预配且空间不足。无法增大基本卷，因而无法适应磁盘的虚拟大小。</value>
   </data>
   <data name="SR_BACKEND_FAILURE_181" xml:space="preserve">
     <value>SR 的元数据卷操作出错。</value>
@@ -2169,7 +2169,7 @@
     <value>此 VM 的关闭操作超时</value>
   </data>
   <data name="VM_SNAPSHOT_WITH_QUIESCE_FAILED" xml:space="preserve">
-    <value>静态快照操作因意外原因失败</value>
+    <value>静止快照操作因意外原因失败</value>
   </data>
   <data name="VM_SNAPSHOT_WITH_QUIESCE_NOT_SUPPORTED" xml:space="preserve">
     <value>此虚拟机上未安装 VSS 插件</value>

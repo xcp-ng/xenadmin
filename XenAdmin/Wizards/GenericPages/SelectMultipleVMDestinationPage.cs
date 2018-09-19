@@ -533,7 +533,7 @@ namespace XenAdmin.Wizards.GenericPages
 
 		private void CollectionChanged(object sender, CollectionChangeEventArgs e)
 		{
-			Program.Invoke(this, PopulateComboBox);
+			Program.BeginInvoke(this, PopulateComboBox);
 		}
 
 		private void xenConnection_CachePopulated(object sender, EventArgs e)

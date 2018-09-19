@@ -222,7 +222,6 @@
     <Compile Include="UnitTests\UnitTestHelper\MockObjectBuilders\MockVersionedHost.cs" />
     <Compile Include="WizardTests\CrossPoolMigrateWizard\Filters\WlbEnabledFilterTests.cs" />
     <Compile Include="WizardTests\ExportWizard\ApplianceExistsCheckTests.cs" />
-    <Compile Include="WizardTests\PatchingWizard\PatchingWizardModeGuidanceBuilderTests.cs" />
     <Compile Include="WizardTests\PatchingWizard\PatchingWizard_PrecheckPageTests.cs" />
     <Compile Include="XenModelTests\ActionTests\AD\AddRemoveRolesActionTest.cs" />
     <Compile Include="XenModelTests\ActionTests\ExportVMActionTest.cs" />
@@ -284,8 +283,6 @@
     <Compile Include="Diagnostics\DiagnosticsTests.cs" />
     <Compile Include="DialogTests\BostonDialogTest.cs" />
     <Compile Include="DialogTests\CertificateDialogTests.cs" />
-    <Compile Include="DialogTests\DecompressApplianceDialogTests.cs" />
-    <Compile Include="DialogTests\DownloadApplianceDialogTests.cs" />
     <Compile Include="DialogTests\IscsiDeviceConfigDialogTests.cs" />
     <Compile Include="DialogTests\MessageBoxTestTests.cs" />
     <Compile Include="DialogTests\MoveVirtualDiskDialogTests.cs" />
@@ -334,7 +331,7 @@
     <Compile Include="MiscTests\WebBrowser2Tests.cs" />
     <Compile Include="PluginTests\PlaceholdersTests.cs" />
     <Compile Include="TabsAndMenus\TabsAndMenusBoston.cs" />
-    <Compile Include="TabsAndMenus\LogsTabTests.cs">
+    <Compile Include="TabsAndMenus\HistoryPageTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MainWindowWrapper\InputPromptDialogWrapper.cs" />

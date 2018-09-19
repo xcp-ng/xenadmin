@@ -166,6 +166,7 @@ namespace XenAdmin.Actions
                     string priority = "";
                     string installationSize = "";
                     string downloadSize = "";
+                    string containsLivepatch = "";
 
                     foreach (XmlAttribute attrib in version.Attributes)
                     {
@@ -193,13 +194,15 @@ namespace XenAdmin.Actions
                             installationSize = attrib.Value;
                         else if (attrib.Name == "download-size")
                             downloadSize = attrib.Value;
+                        else if (attrib.Name == "contains-livepatch")
+                            containsLivepatch = attrib.Value;
                     }
 
                     var conflictingPatches = GetPatchDependencies(version, ConflictingPatchesNode, ConflictingPatchNode);
                     var requiredPatches = GetPatchDependencies(version, RequiredPatchesNode, RequiredPatchNode);
 
 					XenServerPatches.Add(new XenServerPatch(uuid, name, description, guidance, guidance_mandatory, patchVersion, url,
-                                                            patchUrl, timestamp, priority, installationSize, downloadSize, conflictingPatches, requiredPatches));
+                                                            patchUrl, timestamp, priority, installationSize, downloadSize, containsLivepatch, conflictingPatches, requiredPatches));
                 }
             }
         }

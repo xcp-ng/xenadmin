@@ -29,39 +29,32 @@
  * SUCH DAMAGE.
  */
 
-using XenAdmin.Commands;
-using XenAdmin.Diagnostics.Checks;
-using XenAPI;
-using XenAdmin.Actions;
-using XenAdmin.Actions.VMActions;
+using System.Windows.Forms;
 
-
-namespace XenAdmin.Diagnostics.Problems.VMProblem
+namespace XenAdmin.TabPages
 {
-    public class SuspendedVM : VMProblem
+    public class NotificationsBasePage: UserControl
     {
-        public SuspendedVM(Check check,  VM vm)
-            : base(check,  vm) { }
+        protected virtual void RefreshPage()
+        { }
 
-        public override string Description
+        protected virtual void RegisterEventHandlers()
+        { }
+
+        protected virtual void DeregisterEventHandlers()
+        { }
+
+        public void ShowPage()
         {
-            get { return string.Format(Messages.UPDATES_WIZARD_SUSPENDED_VM, VM.Name()); }
+            Visible = true;
+            RefreshPage();
+            RegisterEventHandlers();
         }
 
-        protected override AsyncAction CreateAction(out bool cancelled)
+        public void HidePage()
         {
-            cancelled = false;
-            return new VMResumeAction(VM, VMOperationCommand.WarningDialogHAInvalidConfig, VMOperationCommand.StartDiagnosisForm);
-        }
-
-        public override AsyncAction CreateUnwindChangesAction()
-        {
-            return new VMSuspendAction(VM);
-        }
-
-        public override string HelpMessage
-        {
-            get { return Messages.SUSPEND_VM; }
+            Visible = false;
+            DeregisterEventHandlers();
         }
     }
 }

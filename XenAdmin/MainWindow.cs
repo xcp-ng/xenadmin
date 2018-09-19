@@ -528,10 +528,6 @@ namespace XenAdmin
 
         public void SetStatusBar(Image image, string message)
         {
-            if ((statusLabel.Text != null && statusLabel.Text.Equals(message))
-                || (statusLabel.Image != null && statusLabel.Equals(image)))
-                return;
-
             statusLabel.Image = image;
             statusLabel.Text = Helpers.FirstLine(message);
         }
@@ -1376,19 +1372,23 @@ namespace XenAdmin
                 return;
             }
 
-            ToolStrip.SuspendLayout();
-
-            UpdateToolbarsCore();
-            MainMenuBar_MenuActivate(null, null);
-
-            ToolStrip.ResumeLayout();
+            try
+            {
+                ToolStrip.SuspendLayout();
+                UpdateToolbarsCore();
+                MainMenuBar_MenuActivate(null, null);
+            }
+            finally
+            {
+                ToolStrip.ResumeLayout();
+            }
         }
 
         private static int TOOLBAR_HEIGHT = 31;
         /// <summary>
         /// Updates the toolbar buttons. Also updates which tabs are visible.
         /// </summary>
-        public void UpdateToolbarsCore()
+        private void UpdateToolbarsCore()
         {
             // refresh the selection-manager
             SelectionManager.RefreshSelection();
@@ -1462,17 +1462,17 @@ namespace XenAdmin
             ShowTab(TabPageGPU, !multi && !SearchMode && ((isHostSelected && isHostLive) || isPoolOrLiveStandaloneHost) && Helpers.ClearwaterSp1OrGreater(selectionConnection) && !Helpers.FeatureForbidden(selectionConnection, Host.RestrictGpu));
             ShowTab(TabPageUSB, !multi && !SearchMode && (isHostSelected && isHostLive && (((Host)SelectionManager.Selection.First).PUSBs.Count > 0)) && !Helpers.FeatureForbidden(selectionConnection, Host.RestrictUsbPassthrough));
 
-            pluginManager.SetSelectedXenObject(SelectionManager.Selection.FirstAsXenObject);
+            var consoleFeatures = new List<TabPageFeature>();
+            var otherFeatures = new List<TabPageFeature>();
 
-            bool shownConsoleReplacement = false;
-            foreach (TabPageFeature f in pluginManager.GetAllFeatures<TabPageFeature>(f => f.IsConsoleReplacement && !f.IsError && !multi && f.ShowTab))
-            {
+            if (SelectionManager.Selection.Count == 1 && !SearchMode)
+                GetFeatureTabPages(SelectionManager.Selection.FirstAsXenObject, out consoleFeatures, out otherFeatures);
+
+            foreach (var f in consoleFeatures)
                 ShowTab(f.TabPage, true);
-                shownConsoleReplacement = true;
-            }
 
-            ShowTab(TabPageConsole, !shownConsoleReplacement && !multi && !SearchMode && (isRealVMSelected || (isHostSelected && isHostLive)));
-            ShowTab(TabPageCvmConsole, !shownConsoleReplacement && !multi && !SearchMode && isHostLive && hasManyControlDomains);
+            ShowTab(TabPageConsole, consoleFeatures.Count == 0 && !multi && !SearchMode && (isRealVMSelected || (isHostSelected && isHostLive)));
+            ShowTab(TabPageCvmConsole, consoleFeatures.Count == 0 && !multi && !SearchMode && isHostLive && hasManyControlDomains);
             ShowTab(TabPagePeformance, !multi && !SearchMode && (isRealVMSelected || (isHostSelected && isHostLive)));
             ShowTab(ha_upsell ? TabPageHAUpsell : TabPageHA, !multi && !SearchMode && isPoolSelected);
             ShowTab(TabPageSnapshots, !multi && !SearchMode && isRealVMSelected);
@@ -1486,7 +1486,7 @@ namespace XenAdmin
             ShowTab(TabPagePvs, !multi && !SearchMode && isPoolOrLiveStandaloneHost && !Helpers.FeatureForbidden(SelectionManager.Selection.FirstAsXenObject, Host.RestrictPvsCache)
                 && Helpers.PvsCacheCapability(selectionConnection));
 
-            foreach (TabPageFeature f in pluginManager.GetAllFeatures<TabPageFeature>(f => !f.IsConsoleReplacement && !multi && f.ShowTab))
+            foreach (var f in otherFeatures)
                 ShowTab(f.TabPage, true);
 
             ShowTab(TabPageSearch, true);
@@ -1498,6 +1498,42 @@ namespace XenAdmin
             // the tree using the keyboard.
 
             navigationPane.SaveAndRestoreTreeViewFocus(ChangeToNewTabs);
+        }
+
+        private void GetFeatureTabPages(IXenObject xenObject, out List<TabPageFeature> consoleFeatures, out List<TabPageFeature> otherFeatures)
+        {
+            consoleFeatures = new List<TabPageFeature>();
+            otherFeatures = new List<TabPageFeature>();
+
+            var plugins = pluginManager.Plugins;
+            foreach (var p in plugins)
+            {
+                var features = p.Features;
+                foreach (var feature in features)
+                {
+                    var f = feature as TabPageFeature;
+                    if (f == null)
+                        continue;
+
+                    f.SelectedXenObject = xenObject;
+                    if (!f.ShowTab)
+                        continue;
+
+                    if (f.IsConsoleReplacement)
+                    {
+                        f.SetUrl();
+                        if (!f.IsError)
+                            consoleFeatures.Add(f);
+                    }
+                    else
+                    {
+                        var page = GetLastSelectedPage(xenObject);
+                        if (page != null && page.Tag == f)
+                            f.SetUrl();
+                        otherFeatures.Add(f);
+                    }
+                }
+            }
         }
 
         private readonly TabPage[] NewTabs = new TabPage[512];
@@ -1622,10 +1658,9 @@ namespace XenAdmin
 
         private TabPage GetLastSelectedPage(object o)
         {
-            return
-                o == null ? selectedOverviewTab :
-                selectedTabs.ContainsKey(o) ? selectedTabs[o] :
-                                               null;
+            return o == null
+                ? selectedOverviewTab
+                : selectedTabs.ContainsKey(o) ? selectedTabs[o] : null;
         }
 
         private int NewTabsIndexOf(TabPage tp)
@@ -1640,6 +1675,8 @@ namespace XenAdmin
 
         private void pluginManager_PluginsChanged()
         {
+            UpdateToolbarsCore();
+
             foreach (ToolStripMenuItem menu in MainMenuBar.Items)
             {
                 //clear existing plugin items
@@ -2072,6 +2109,36 @@ namespace XenAdmin
 
             if (t != null)
                 SetLastSelectedPage(SelectionManager.Selection.First, t);
+
+            UpdateTabePageFeatures();
+        }
+
+        private void UpdateTabePageFeatures()
+        {
+            var plugins = pluginManager.Plugins;
+            foreach (var p in plugins)
+            {
+                var features = p.Features;
+                foreach (var feature in features)
+                {
+                    var f = feature as TabPageFeature;
+                    if (f == null)
+                        continue;
+
+                    if (!f.ShowTab)
+                        continue;
+
+                    if (f.IsConsoleReplacement)
+                    {
+                        f.SetUrl();
+                        continue;
+                    }
+
+                    var page = GetLastSelectedPage(f.SelectedXenObject);
+                    if (page != null && page.Tag == f)
+                        f.SetUrl();
+                }
+            }
         }
 
         private void UnpauseVNC(bool focus)
@@ -2395,9 +2462,9 @@ namespace XenAdmin
         /// it is created first and then shown.
         /// </summary>
         /// <param name="type">The type of the form to be shown.</param>
-        public void ShowForm(Type type)
+        public Form ShowForm(Type type)
         {
-            ShowForm(type, null);
+            return ShowForm(type, null);
         }
 
         /// <summary>
@@ -2406,19 +2473,20 @@ namespace XenAdmin
         /// </summary>
         /// <param name="type">The type of the form to be shown.</param>
         /// <param name="args">The arguments to pass to the form's consructor</param>
-        public void ShowForm(Type type, object[] args)
+        public Form ShowForm(Type type, object[] args)
         {
             foreach (Form form in Application.OpenForms)
             {
                 if (form.GetType() == type)
                 {
                     HelpersGUI.BringFormToFront(form);
-                    return;
+                    return form;
                 }
             }
 
             Form newForm = (Form)Activator.CreateInstance(type, args);
             newForm.Show(this);
+            return newForm;
         }
 
         public Form Form
@@ -2800,11 +2868,13 @@ namespace XenAdmin
 
         #region XenSearch
 
-        // SearchMode doesn't just mean we are looking at the Search tab.
-        // It's set when we import a search from a file; or when we double-click
-        // on a folder or tag name to search for it.
-        private bool searchMode = false;
-        public bool SearchMode
+        private bool searchMode;
+        /// <summary>
+        /// SearchMode doesn't just mean we are looking at the Search tab.
+        /// It's set when we import a search from a file; or when we double-click
+        /// on a folder or tag name to search for it.
+        /// </summary>
+        private bool SearchMode
         {
             get
             {
@@ -3029,21 +3099,32 @@ namespace XenAdmin
 
         private void navigationPane_NotificationsSubModeChanged(NotificationsSubModeItem submodeItem)
         {
-            alertPage.Visible = submodeItem.SubMode == NotificationsSubMode.Alerts;
-            updatesPage.Visible = submodeItem.SubMode == NotificationsSubMode.Updates;
-            eventsPage.Visible = submodeItem.SubMode == NotificationsSubMode.Events;
-            TheTabControl.Visible = false;
-
-            if (alertPage.Visible)
-                alertPage.RefreshAlertList();
-
-            if (updatesPage.Visible)
-                updatesPage.RefreshUpdateList();
-
-            if (eventsPage.Visible)
+            switch (submodeItem.SubMode)
             {
-                eventsPage.RefreshDisplayedEvents();
-            }
+                case NotificationsSubMode.Alerts:
+                    if (updatesPage.Visible)
+                        updatesPage.HidePage();
+                    if (eventsPage.Visible)
+                        eventsPage.HidePage();
+                    alertPage.ShowPage();
+                    break;
+                case NotificationsSubMode.Updates:
+                    if (alertPage.Visible)
+                        alertPage.HidePage();
+                    if (eventsPage.Visible)
+                        eventsPage.HidePage();
+                    updatesPage.ShowPage();
+                    break;
+                case NotificationsSubMode.Events:
+                    if (alertPage.Visible)
+                        alertPage.HidePage();
+                    if (updatesPage.Visible)
+                        updatesPage.HidePage();
+                    eventsPage.ShowPage();
+                    break;
+            } 
+
+            TheTabControl.Visible = false;
 
             loggedInLabel1.Connection = null;
             TitleLabel.Text = submodeItem.Text;
@@ -3061,7 +3142,12 @@ namespace XenAdmin
             {
                 bool tabControlWasVisible = TheTabControl.Visible;
                 TheTabControl.Visible = true;
-                alertPage.Visible = updatesPage.Visible = eventsPage.Visible = false;
+                if (alertPage.Visible)
+                    alertPage.HidePage();
+                if (updatesPage.Visible)
+                    updatesPage.HidePage();
+                if (eventsPage.Visible)
+                    eventsPage.HidePage();
 
                 // force an update of the selected tab when switching back from Notification view, 
                 // as some tabs ignore the update events when not visible (e.g. Snapshots, HA)

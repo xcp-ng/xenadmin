@@ -110,7 +110,7 @@ namespace XenAdmin.Dialogs
         {
             base.OnShown(e);
             assignPriorities.Connection = pool.Connection;
-            assignPriorities.StartNtolUpdate();
+            assignPriorities.PopulatePageControls();
         }
 
         protected override void OnClosing(CancelEventArgs e)

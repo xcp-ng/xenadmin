@@ -76,7 +76,7 @@ namespace XenAdmin.Commands
 
         protected override void Execute(List<VM> vms)
         {
-            RunAction(vms, Messages.ACTION_VM_SHUTTING_DOWN, Messages.ACTION_VM_SHUTTING_DOWN, Messages.ACTION_VM_SHUT_DOWN, null);
+            RunAction(vms, Messages.ACTION_VMS_SHUTTING_DOWN_TITLE, Messages.ACTION_VMS_SHUTTING_DOWN_TITLE, Messages.ACTION_VM_SHUT_DOWN, null);
         }
 
         public override string MenuText

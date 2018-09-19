@@ -92,7 +92,7 @@ namespace XenAdmin.Diagnostics.Hotfixing
                 action.RunExternal(session);
                 update = action.PoolUpdate;
             }
-            new ApplyUpdateAction(update, host).RunExternal(session);
+            new ApplyUpdateAction(update, host, false).RunExternal(session);
         }
         
         public override bool ShouldBeAppliedTo(Host host)

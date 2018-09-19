@@ -504,57 +504,21 @@
   <metadata name="colImage.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="colImage.HeaderText" xml:space="preserve">
-    <value />
-  </data>
-  <data name="colImage.Width" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
   <metadata name="colVm.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="colVm.HeaderText" xml:space="preserve">
-    <value>Virtual machine</value>
-  </data>
-  <data name="colVm.MinimumWidth" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
   <metadata name="colRestartPriority.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="colRestartPriority.HeaderText" xml:space="preserve">
-    <value>Restart priority</value>
-  </data>
-  <data name="colRestartPriority.MinimumWidth" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
   <metadata name="colStartOrder.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="colStartOrder.HeaderText" xml:space="preserve">
-    <value>Start order</value>
-  </data>
-  <data name="colStartOrder.MinimumWidth" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
   <metadata name="colDelay.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="colDelay.HeaderText" xml:space="preserve">
-    <value>Delay interval</value>
-  </data>
-  <data name="colDelay.MinimumWidth" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
   <metadata name="colAgile.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="colAgile.HeaderText" xml:space="preserve">
-    <value>Agile</value>
-  </data>
-  <data name="colAgile.MinimumWidth" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
   <data name="dataGridViewVms.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -615,6 +579,60 @@
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pictureBoxStatus" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelHaStatus" Row="0" RowSpan="1" Column="1" ColumnSpan="5" /&gt;&lt;Control Name="labelProtectionLevel" Row="2" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="m_dropDownButtonRestartPriority" Row="2" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;Control Name="labelStartOrder" Row="3" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="nudOrder" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="labelStartDelay" Row="4" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="nudStartDelay" Row="4" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="labelStartDelayUnits" Row="4" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="linkLabelTellMeMore" Row="5" RowSpan="1" Column="0" ColumnSpan="5" /&gt;&lt;Control Name="haNtolIndicator" Row="2" RowSpan="4" Column="5" ColumnSpan="1" /&gt;&lt;Control Name="dataGridViewVms" Row="1" RowSpan="1" Column="0" ColumnSpan="6" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,Percent,100,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
+  <metadata name="colImage.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="colImage.HeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="colImage.Width" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <metadata name="colVm.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="colVm.HeaderText" xml:space="preserve">
+    <value>Virtual machine</value>
+  </data>
+  <data name="colVm.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <metadata name="colRestartPriority.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="colRestartPriority.HeaderText" xml:space="preserve">
+    <value>Restart priority</value>
+  </data>
+  <data name="colRestartPriority.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <metadata name="colStartOrder.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="colStartOrder.HeaderText" xml:space="preserve">
+    <value>Start order</value>
+  </data>
+  <data name="colStartOrder.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <metadata name="colDelay.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="colDelay.HeaderText" xml:space="preserve">
+    <value>Delay interval</value>
+  </data>
+  <data name="colDelay.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <metadata name="colAgile.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="colAgile.HeaderText" xml:space="preserve">
+    <value>Agile</value>
+  </data>
+  <data name="colAgile.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
   <data name="button1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -636,6 +654,9 @@
   <data name="&gt;&gt;button1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <metadata name="bgWorker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>166, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -689,6 +710,12 @@
   </data>
   <data name="&gt;&gt;colAgile.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;bgWorker.Name" xml:space="preserve">
+    <value>bgWorker</value>
+  </data>
+  <data name="&gt;&gt;bgWorker.Type" xml:space="preserve">
+    <value>System.ComponentModel.BackgroundWorker, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>AssignPriorities</value>

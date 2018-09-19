@@ -70,7 +70,7 @@ namespace XenAdminTests.UnitTests.UnitTestHelper.MockObjectBuilders
         {
                 Mock<Subject> subject = ObjectManager.NewXenObject<Subject>(id);
                 subject.Setup(s => s.other_config).Returns(new Dictionary<string, string> { { Subject.SUBJECT_DISPLAYNAME_KEY, "myRole" } });
-                return new AddRemoveRolesAction(ObjectManager.NewXenObject<Pool>(id).Object, subject.Object, 
+                return new AddRemoveRolesAction(ObjectManager.MockConnectionFor(id).Object, subject.Object, 
                                                 new List<Role>{ObjectManager.NewXenObject<Role>(id).Object}, 
                                                 new List<Role>{ObjectManager.NewXenObject<Role>(id).Object});
         }

@@ -36,10 +36,8 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using XenAdmin.Actions;
-using XenAdmin.Core;
 using XenAdmin.CustomFields;
 using XenAdmin.Dialogs;
-using XenAdmin.XenSearch;
 using XenAPI;
 
 
@@ -150,7 +148,7 @@ namespace XenAdmin.SettingsPanels
                 if (fields.Count == 0)
                     return Messages.NONE;
 
-                return String.Join(Messages.LIST_SEPARATOR, fields.ToArray());
+                return string.Join(", ", fields.ToArray());
             }
         }
 

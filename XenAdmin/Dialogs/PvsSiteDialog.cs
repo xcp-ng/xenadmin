@@ -110,7 +110,7 @@ namespace XenAdmin.Dialogs
             var firstPortCell = new DataGridViewTextBoxCell();
             var lastPortCell = new DataGridViewTextBoxCell();
 
-            ipAddressesCell.Value = string.Join(Messages.LIST_SEPARATOR, pvsServer.addresses);
+            ipAddressesCell.Value = string.Join(", ", pvsServer.addresses);
             firstPortCell.Value = pvsServer.first_port;
             lastPortCell.Value = pvsServer.last_port;
 

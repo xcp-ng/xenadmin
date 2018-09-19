@@ -46,7 +46,7 @@ namespace XenAdminTests.DialogTests.state1_xml.DialogsForPool
     {
         protected override ResolvingSubjectsDialog NewDialog()
         {
-            return new ResolvingSubjectsDialog(GetAnyPool());
+            return new ResolvingSubjectsDialog(GetAnyConnection());
         }
     }
 

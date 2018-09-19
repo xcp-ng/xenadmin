@@ -161,7 +161,7 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>池滚动升级</value>
+    <value>滚动池升级</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>RollingUpgradeWizard</value>

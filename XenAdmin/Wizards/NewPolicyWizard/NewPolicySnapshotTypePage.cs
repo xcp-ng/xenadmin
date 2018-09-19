@@ -43,20 +43,13 @@ namespace XenAdmin.Wizards.NewPolicyWizard
 {
     public partial class NewPolicySnapshotTypePage : XenTabPage, IEditPage
     {
-        protected List<VM> _selectedVMs;
-        public List<VM> SelectedVMs
-        {
-            get { return _selectedVMs; }
-            set
-            {
-                _selectedVMs = value;
-            }
-        }
+        private VMSS _policy;
+
+        public List<VM> SelectedVMs { private get; set; }
         
         public NewPolicySnapshotTypePage()
         {
             InitializeComponent();
-            this.labelWarning.Text = string.Format(this.labelWarning.Text, Messages.VMSS_TYPE);
         }
 
         public string SubText
@@ -85,6 +78,7 @@ namespace XenAdmin.Wizards.NewPolicyWizard
                 return Messages.SNAPSHOT_TYPE_TITLE;
             }
         }
+
         public override string Text
         {
             get
@@ -119,35 +113,6 @@ namespace XenAdmin.Wizards.NewPolicyWizard
             radioButtonDiskOnly.Checked = true;
         }
 
-        private void checkpointInfoPictureBox_Click(object sender, System.EventArgs e)
-        {
-            toolTip.Show(Messages.FIELD_DISABLED, checkpointInfoPictureBox, 20, 0);
-        }
-
-        private void checkpointInfoPictureBox_MouseLeave(object sender, System.EventArgs e)
-        {
-            toolTip.Hide(checkpointInfoPictureBox);
-        }
-
-        private void pictureBoxVSS_Click(object sender, System.EventArgs e)
-        {
-            string tt = Messages.INFO_QUIESCE_MODE.Replace("\\n", "\n");  // This says that VSS must be enabled. This is a guess, because we can't tell whether it is or not.
-            toolTip.Show(tt, pictureBoxVSS, 20, 0);
-        }
-
-        private void pictureBoxVSS_MouseLeave(object sender, System.EventArgs e)
-        {
-            toolTip.Hide(pictureBoxVSS);
-        }
-
-        private void quiesceCheckBox_CheckedChanged(object sender, System.EventArgs e)
-        {
-            if (this.quiesceCheckBox.Checked)
-            {
-                this.radioButtonDiskOnly.Checked = true;
-            }
-        }
-
         public vmss_type BackupType
         {
             get
@@ -167,7 +132,6 @@ namespace XenAdmin.Wizards.NewPolicyWizard
 
         public void ToggleQuiesceCheckBox(List<VM> SelectedVMs)
         {
-
             switch (BackupType)
             {
                 case vmss_type.snapshot:
@@ -233,22 +197,22 @@ namespace XenAdmin.Wizards.NewPolicyWizard
         {
             radioButtonDiskAndMemory.Enabled =
                 label3.Enabled = !Helpers.FeatureForbidden(connection, Host.RestrictCheckpoint);
-            checkpointInfoPictureBox.Visible = !radioButtonDiskAndMemory.Enabled;
+            tableLayoutPanelCheckpoint.Visible = !radioButtonDiskAndMemory.Enabled;
             pictureBoxWarning.Visible = labelWarning.Visible = radioButtonDiskAndMemory.Enabled;
 
-            this.quiesceCheckBox.Enabled = true;
-            this.quiesceCheckBox.Visible = true;
-            if (this._selectedVMs != null)
+            quiesceCheckBox.Enabled = true;
+            quiesceCheckBox.Visible = true;
+            if (SelectedVMs != null)
             {
-                if (this._selectedVMs.Count > 0)
+                if (SelectedVMs.Count > 0)
                 {
-                    foreach (VM vm in this._selectedVMs)
+                    foreach (VM vm in SelectedVMs)
                     {
                         if (!vm.allowed_operations.Contains(vm_operations.snapshot_with_quiesce) ||
                             Helpers.FeatureForbidden(vm, Host.RestrictVss))
                         {
-                            this.quiesceCheckBox.Enabled = false;
-                            this.quiesceCheckBox.Checked = false;
+                            quiesceCheckBox.Enabled = false;
+                            quiesceCheckBox.Checked = false;
                             break;
                         }
                     }
@@ -256,9 +220,9 @@ namespace XenAdmin.Wizards.NewPolicyWizard
             }
             else /* we enter this block only when we are editing a policy, in that case the decision has already been taken in RefreshTab function */
             {
-                this.quiesceCheckBox.Enabled = isQuiesceEnabled;
+                quiesceCheckBox.Enabled = isQuiesceEnabled;
             }
-            this.pictureBoxVSS.Visible = !this.quiesceCheckBox.Enabled;
+            tableLayoutPanelVss.Visible = !quiesceCheckBox.Enabled;
         }
 
         public AsyncAction SaveSettings()
@@ -266,8 +230,6 @@ namespace XenAdmin.Wizards.NewPolicyWizard
             _policy.type = BackupType;
             return null;
         }
-
-        private VMSS _policy;
 
         public void SetXenObjects(IXenObject orig, IXenObject clone)
         {
@@ -284,12 +246,20 @@ namespace XenAdmin.Wizards.NewPolicyWizard
 
         }
 
+        #region Control event handlers
+
+        private void quiesceCheckBox_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (quiesceCheckBox.Checked)
+                radioButtonDiskOnly.Checked = true;
+        }
+
         private void radioButtonDiskAndMemory_CheckedChanged(object sender, System.EventArgs e)
         {
-            if (this.quiesceCheckBox.Enabled)
-            {
-                this.quiesceCheckBox.Checked = false;
-            }
+            if (radioButtonDiskAndMemory.Checked)
+                quiesceCheckBox.Checked = false;
         }
+
+        #endregion
     }
 }

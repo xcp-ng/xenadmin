@@ -41,24 +41,45 @@ using XenAPI;
 
 namespace XenAdmin.Controls.Ballooning
 {
-    public partial class VMMemoryControlsNoEdit : VMMemoryControlsBase
+    public partial class VMMemoryControlsNoEdit : UserControl
     {
+        private List<VM> vms;
+        private VM vm0;
+        private List<VM_metrics> vm_metrics;
+
+
         public VMMemoryControlsNoEdit()
         {
             InitializeComponent();
         }
 
-        public override List<VM> VMs
+        public List<VM> VMs
         {
             set
             {
-                base.VMs = value;
-                foreach (VM vm in vms)
-                    vm.PropertyChanged += vm_PropertyChanged;
-                foreach (VM_metrics metrics in vm_metrics)
+                UnregisterHandlers();
+                vms = value;
+                if (vms == null)
                 {
+                    vm_metrics = null;
+                    return;
+                }
+
+                if (vms.Count > 0)
+                    vm0 = vms[0];
+
+                vm_metrics = new List<VM_metrics>();
+
+                foreach (VM vm in vms)
+                {
+                    vm.PropertyChanged += vm_PropertyChanged;
+
+                    var metrics = vm.Connection.Resolve(vm.metrics);
                     if (metrics != null)
+                    {
+                        vm_metrics.Add(metrics);
                         metrics.PropertyChanged += vm_metrics_PropertyChanged;
+                    }
                 }
             }
         }
@@ -75,8 +96,7 @@ namespace XenAdmin.Controls.Ballooning
                 (null == vms.Find(vm => !(vm.power_state == vm_power_state.Halted ||
                     vm.power_state == vm_power_state.Running && !vm.GetVirtualisationStatus().HasFlag(XenAPI.VM.VirtualisationStatus.UNKNOWN))));
 
-            // Shiny bar
-            vmShinyBar.Initialize(vm0, vms.Count > 1, CalcMemoryUsed(), false);
+            vmShinyBar.Populate(vms, false);
 
             // Spinners
             bool ballooning = vm0.has_ballooning();
@@ -100,13 +120,13 @@ namespace XenAdmin.Controls.Ballooning
             }
         }
 
-        void vm_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void vm_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "power_state" || e.PropertyName == "virtualisation_status" || e.PropertyName == "name_label")
                 Program.Invoke(this,Refresh);
         }
 
-        void vm_metrics_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void vm_metrics_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "memory_actual")
                 Refresh();
@@ -115,26 +135,22 @@ namespace XenAdmin.Controls.Ballooning
         private void editButton_Click(object sender, EventArgs e)
         {
             if (vms.Count == 1)
-            {
-                if (vm0.advanced_ballooning())
-                    (new BallooningDialogAdvanced(vm0)).ShowDialog();
-                else
-                    (new BallooningDialog(vm0)).ShowDialog();
-            }
+                new BallooningDialog(vm0, vm0.advanced_ballooning()).ShowDialog(Program.MainWindow);
             else
                 Program.MainWindow.ShowPerConnectionWizard(vm0.Connection, new BallooningWizard(vms));
         }
-        
+
         internal void UnregisterHandlers()
         {
-            if (vms == null)
-                return;
+            if (vms != null)
+                foreach (var vm in vms)
+                    if (vm != null)
+                        vm.PropertyChanged -= vm_PropertyChanged;
 
-            foreach (var vm in vms)
-                vm.PropertyChanged -= vm_PropertyChanged;
-
-            foreach (var metrics in vm_metrics.Where(m => m != null))
-                metrics.PropertyChanged -= vm_metrics_PropertyChanged;
+            if (vm_metrics != null)
+                foreach (var metrics in vm_metrics)
+                    if (metrics != null)
+                        metrics.PropertyChanged -= vm_metrics_PropertyChanged;
         }
     }
 }

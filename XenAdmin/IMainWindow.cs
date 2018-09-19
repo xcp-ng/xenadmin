@@ -53,8 +53,8 @@ namespace XenAdmin
         void RequestRefreshTreeView();
         void ShowPerXenModelObjectWizard(IXenObject obj, Form wizard);
         void ShowPerConnectionWizard(IXenConnection connection, Form wizard);
-        void ShowForm(Type type);
-        void ShowForm(Type type, object[] args);
+        Form ShowForm(Type type);
+        Form ShowForm(Type type, object[] args);
         void CloseActiveWizards(IXenConnection connection);
         void CloseActiveWizards(IXenObject xenObject);
         Collection<IXenConnection> GetXenConnectionsCopy();

@@ -145,7 +145,7 @@
     <value>GrowAndShrink</value>
   </data>
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="iSCSITargetGroupBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -196,7 +196,7 @@
     <value>75, 3</value>
   </data>
   <data name="comboBoxIscsiIqns.Size" type="System.Drawing.Size, System.Drawing">
-    <value>412, 21</value>
+    <value>441, 21</value>
   </data>
   <data name="comboBoxIscsiIqns.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -220,7 +220,7 @@
     <value>75, 30</value>
   </data>
   <data name="comboBoxIscsiLuns.Size" type="System.Drawing.Size, System.Drawing">
-    <value>412, 21</value>
+    <value>441, 21</value>
   </data>
   <data name="comboBoxIscsiLuns.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -273,20 +273,17 @@
   <data name="&gt;&gt;targetLunLabel.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="errorLabelAtTargetLUN.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
+  <data name="errorLabelAtTargetLUN.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
   </data>
   <data name="errorLabelAtTargetLUN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="errorLabelAtTargetLUN.Location" type="System.Drawing.Point, System.Drawing">
-    <value>91, 57</value>
-  </data>
-  <data name="errorLabelAtTargetLUN.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 3, 3, 0</value>
+    <value>97, 58</value>
   </data>
   <data name="errorLabelAtTargetLUN.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 17</value>
+    <value>441, 17</value>
   </data>
   <data name="errorLabelAtTargetLUN.TabIndex" type="System.Int32, mscorlib">
     <value>114</value>
@@ -315,24 +312,6 @@
   <data name="errorIconAtTargetLUN.ErrorImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="errorIconAtTargetLUN.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAALeSURBVDhPdZJZSJRRFMfP/b5mcQPRSUVFxIUIiVxCKSPQyCB66SECaTMNS8jQsBoRwxZSnypU
-        iNQWyockiFbNNDFUfFDc1xFxHIfSEUdDG8s8/b+rQRgd+HG59zv//z3n3I82xzki02UhTtzS6yuL9foa
-        8Oy8opi3Eu3cSPl/5BDtqzIYmntMJp4ODmY7sAUGcre3Nz81GCaSiC4hzbievSkKFeXUQFiYay0+nn9G
-        R/O3oCDJvL8/OyMjeSkqiqdgeEZVXyDde121ETlC7O0ymZY4MZFXBgd5xWbjgcxMtigKz8TG8orFwotW
-        K39MSOBeg4EPKcoDyHRSnEVkqPb07PwVHs7zvr5sLShgLWbtdq5D+bN5eXJfU1HBxTCc8vDgeqNxDTM5
-        Lg0uCnGwLyCAf4SG8jzWcR8f/trQIEXjjY3sQjXDIyOchfMWIh7W63kMVaQqSjvkvnRNVW84QkJ4Ef3N
-        wMDm7s59KHvZ4ZAm31dX+UpKCldB3IsKOoXgQaylQizDIIVu6/WP5iGeg9iO6U9i4v1ItpaVSYOh3l4u
-        wB7XcTvEbaAb3AeC6CwV6nTVc+h1xs+PrShzTCsxLIxd4+PSwOVycQ2G9wEGzRB9Ah2gfN3gAqWoaoHW
-        +xfcPuHlxcOqys7aWike6ulh58ICW9rauFKnkyb1ELaA60KsooV0SkYf/drg8AKjSLClpUmxc3GRMyIi
-        uKmoSO7f5+fzQ3x/AxpgcFSIaRgk0RY84103ty4HnmcyLk6rWQrumM1s1sqOiZF7LZ4kJfFznFXBwJ9I
-        +6HwmojtQhzu0OnWbPiRXufkcFlGBucajfwOiXWYeG1qKpdnZ/PN5GSuwNkBoinIjkjxn9itKFffCrHW
-        ihtegSag9VqH9TG4B0rAfiI70nOBmxT+HZFEGaWKYmuFUHvvz6ARvAQlYBdRH9JOg3/Ff8WObUQlx4ja
-        0oksJ4lGIWyGohTf9gBVZskg+g2hAZo30J3NugAAAABJRU5ErkJggg==
-</value>
-  </data>
   <data name="errorIconAtTargetLUN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -341,9 +320,6 @@
   </data>
   <data name="errorIconAtTargetLUN.Location" type="System.Drawing.Point, System.Drawing">
     <value>75, 58</value>
-  </data>
-  <data name="errorIconAtTargetLUN.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 0, 0, 0</value>
   </data>
   <data name="errorIconAtTargetLUN.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
@@ -373,10 +349,7 @@
     <value>NoControl</value>
   </data>
   <data name="spinnerIconAtTargetIqn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>493, 5</value>
-  </data>
-  <data name="spinnerIconAtTargetIqn.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 0, 3, 0</value>
+    <value>522, 5</value>
   </data>
   <data name="spinnerIconAtTargetIqn.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
@@ -409,10 +382,7 @@
     <value>NoControl</value>
   </data>
   <data name="spinnerIconAtTargetLun.Location" type="System.Drawing.Point, System.Drawing">
-    <value>493, 32</value>
-  </data>
-  <data name="spinnerIconAtTargetLun.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 0, 3, 0</value>
+    <value>522, 32</value>
   </data>
   <data name="spinnerIconAtTargetLun.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
@@ -448,7 +418,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>512, 79</value>
+    <value>541, 79</value>
   </data>
   <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -466,19 +436,19 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="labelIscsiIQN" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="comboBoxIscsiIqns" Row="0" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="comboBoxIscsiLuns" Row="1" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="targetLunLabel" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="errorLabelAtTargetLUN" Row="2" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;Control Name="errorIconAtTargetLUN" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="spinnerIconAtTargetIqn" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="spinnerIconAtTargetLun" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,Percent,100,Absolute,22" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="labelIscsiIQN" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="comboBoxIscsiIqns" Row="0" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="comboBoxIscsiLuns" Row="1" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="targetLunLabel" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="errorLabelAtTargetLUN" Row="2" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;Control Name="errorIconAtTargetLUN" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="spinnerIconAtTargetIqn" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="spinnerIconAtTargetLun" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,Percent,100,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="iSCSITargetGroupBox.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="iSCSITargetGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 192</value>
+    <value>3, 225</value>
   </data>
   <data name="iSCSITargetGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 6, 3, 3</value>
+    <value>3, 10, 3, 3</value>
   </data>
   <data name="iSCSITargetGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 98</value>
+    <value>547, 98</value>
   </data>
   <data name="iSCSITargetGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -498,92 +468,20 @@
   <data name="&gt;&gt;iSCSITargetGroupBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="placeHolderLabel2.AutoSize" type="System.Boolean, mscorlib">
+  <data name="errorLabelAtCHAPPassword.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="errorLabelAtCHAPPassword.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="placeHolderLabel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="placeHolderLabel2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="placeHolderLabel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 144</value>
-  </data>
-  <data name="placeHolderLabel2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 0</value>
-  </data>
-  <data name="placeHolderLabel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>11, 13</value>
-  </data>
-  <data name="placeHolderLabel2.TabIndex" type="System.Int32, mscorlib">
-    <value>118</value>
-  </data>
-  <data name="placeHolderLabel2.Text" xml:space="preserve">
-    <value>  </value>
-  </data>
-  <data name="&gt;&gt;placeHolderLabel2.Name" xml:space="preserve">
-    <value>placeHolderLabel2</value>
-  </data>
-  <data name="&gt;&gt;placeHolderLabel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;placeHolderLabel2.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;placeHolderLabel2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="placeholderLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="placeholderLabel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="placeholderLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="placeholderLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 61</value>
-  </data>
-  <data name="placeholderLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 0</value>
-  </data>
-  <data name="placeholderLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>11, 13</value>
-  </data>
-  <data name="placeholderLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>117</value>
-  </data>
-  <data name="placeholderLabel.Text" xml:space="preserve">
-    <value>  </value>
-  </data>
-  <data name="&gt;&gt;placeholderLabel.Name" xml:space="preserve">
-    <value>placeholderLabel</value>
-  </data>
-  <data name="&gt;&gt;placeholderLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;placeholderLabel.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;placeholderLabel.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="errorLabelAtCHAPPassword.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
   </data>
   <data name="errorLabelAtCHAPPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="errorLabelAtCHAPPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>185, 144</value>
-  </data>
-  <data name="errorLabelAtCHAPPassword.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 3, 3, 0</value>
+    <value>179, 168</value>
   </data>
   <data name="errorLabelAtCHAPPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>336, 13</value>
+    <value>371, 13</value>
   </data>
   <data name="errorLabelAtCHAPPassword.TabIndex" type="System.Int32, mscorlib">
     <value>113</value>
@@ -604,31 +502,13 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;errorLabelAtCHAPPassword.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>1</value>
   </data>
   <data name="errorIconAtCHAPPassword.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left</value>
   </data>
   <data name="errorIconAtCHAPPassword.ErrorImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
-  </data>
-  <data name="errorIconAtCHAPPassword.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAALeSURBVDhPdZJZSJRRFMfP/b5mcQPRSUVFxIUIiVxCKSPQyCB66SECaTMNS8jQsBoRwxZSnypU
-        iNQWyockiFbNNDFUfFDc1xFxHIfSEUdDG8s8/b+rQRgd+HG59zv//z3n3I82xzki02UhTtzS6yuL9foa
-        8Oy8opi3Eu3cSPl/5BDtqzIYmntMJp4ODmY7sAUGcre3Nz81GCaSiC4hzbievSkKFeXUQFiYay0+nn9G
-        R/O3oCDJvL8/OyMjeSkqiqdgeEZVXyDde121ETlC7O0ymZY4MZFXBgd5xWbjgcxMtigKz8TG8orFwotW
-        K39MSOBeg4EPKcoDyHRSnEVkqPb07PwVHs7zvr5sLShgLWbtdq5D+bN5eXJfU1HBxTCc8vDgeqNxDTM5
-        Lg0uCnGwLyCAf4SG8jzWcR8f/trQIEXjjY3sQjXDIyOchfMWIh7W63kMVaQqSjvkvnRNVW84QkJ4Ef3N
-        wMDm7s59KHvZ4ZAm31dX+UpKCldB3IsKOoXgQaylQizDIIVu6/WP5iGeg9iO6U9i4v1ItpaVSYOh3l4u
-        wB7XcTvEbaAb3AeC6CwV6nTVc+h1xs+PrShzTCsxLIxd4+PSwOVycQ2G9wEGzRB9Ah2gfN3gAqWoaoHW
-        +xfcPuHlxcOqys7aWike6ulh58ICW9rauFKnkyb1ELaA60KsooV0SkYf/drg8AKjSLClpUmxc3GRMyIi
-        uKmoSO7f5+fzQ3x/AxpgcFSIaRgk0RY84103ty4HnmcyLk6rWQrumM1s1sqOiZF7LZ4kJfFznFXBwJ9I
-        +6HwmojtQhzu0OnWbPiRXufkcFlGBucajfwOiXWYeG1qKpdnZ/PN5GSuwNkBoinIjkjxn9itKFffCrHW
-        ihtegSag9VqH9TG4B0rAfiI70nOBmxT+HZFEGaWKYmuFUHvvz6ARvAQlYBdRH9JOg3/Ff8WObUQlx4ja
-        0oksJ4lGIWyGohTf9gBVZskg+g2hAZo30J3NugAAAABJRU5ErkJggg==
-</value>
   </data>
   <data name="errorIconAtCHAPPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -637,16 +517,10 @@
     <value />
   </data>
   <data name="errorIconAtCHAPPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>166, 141</value>
-  </data>
-  <data name="errorIconAtCHAPPassword.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 0, 0, 0</value>
+    <value>157, 167</value>
   </data>
   <data name="errorIconAtCHAPPassword.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
-  </data>
-  <data name="errorIconAtCHAPPassword.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>Zoom</value>
   </data>
   <data name="errorIconAtCHAPPassword.TabIndex" type="System.Int32, mscorlib">
     <value>111</value>
@@ -664,31 +538,13 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;errorIconAtCHAPPassword.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>2</value>
   </data>
   <data name="errorIconAtHostOrIP.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left</value>
   </data>
   <data name="errorIconAtHostOrIP.ErrorImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
-  </data>
-  <data name="errorIconAtHostOrIP.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAALeSURBVDhPdZJZSJRRFMfP/b5mcQPRSUVFxIUIiVxCKSPQyCB66SECaTMNS8jQsBoRwxZSnypU
-        iNQWyockiFbNNDFUfFDc1xFxHIfSEUdDG8s8/b+rQRgd+HG59zv//z3n3I82xzki02UhTtzS6yuL9foa
-        8Oy8opi3Eu3cSPl/5BDtqzIYmntMJp4ODmY7sAUGcre3Nz81GCaSiC4hzbievSkKFeXUQFiYay0+nn9G
-        R/O3oCDJvL8/OyMjeSkqiqdgeEZVXyDde121ETlC7O0ymZY4MZFXBgd5xWbjgcxMtigKz8TG8orFwotW
-        K39MSOBeg4EPKcoDyHRSnEVkqPb07PwVHs7zvr5sLShgLWbtdq5D+bN5eXJfU1HBxTCc8vDgeqNxDTM5
-        Lg0uCnGwLyCAf4SG8jzWcR8f/trQIEXjjY3sQjXDIyOchfMWIh7W63kMVaQqSjvkvnRNVW84QkJ4Ef3N
-        wMDm7s59KHvZ4ZAm31dX+UpKCldB3IsKOoXgQaylQizDIIVu6/WP5iGeg9iO6U9i4v1ItpaVSYOh3l4u
-        wB7XcTvEbaAb3AeC6CwV6nTVc+h1xs+PrShzTCsxLIxd4+PSwOVycQ2G9wEGzRB9Ah2gfN3gAqWoaoHW
-        +xfcPuHlxcOqys7aWike6ulh58ICW9rauFKnkyb1ELaA60KsooV0SkYf/drg8AKjSLClpUmxc3GRMyIi
-        uKmoSO7f5+fzQ3x/AxpgcFSIaRgk0RY84103ty4HnmcyLk6rWQrumM1s1sqOiZF7LZ4kJfFznFXBwJ9I
-        +6HwmojtQhzu0OnWbPiRXufkcFlGBucajfwOiXWYeG1qKpdnZ/PN5GSuwNkBoinIjkjxn9itKFffCrHW
-        ihtegSag9VqH9TG4B0rAfiI70nOBmxT+HZFEGaWKYmuFUHvvz6ARvAQlYBdRH9JOg3/Ff8WObUQlx4ja
-        0oksJ4lGIWyGohTf9gBVZskg+g2hAZo30J3NugAAAABJRU5ErkJggg==
-</value>
   </data>
   <data name="errorIconAtHostOrIP.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -697,16 +553,10 @@
     <value />
   </data>
   <data name="errorIconAtHostOrIP.Location" type="System.Drawing.Point, System.Drawing">
-    <value>166, 58</value>
-  </data>
-  <data name="errorIconAtHostOrIP.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 0, 0, 0</value>
+    <value>157, 70</value>
   </data>
   <data name="errorIconAtHostOrIP.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
-  </data>
-  <data name="errorIconAtHostOrIP.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>Zoom</value>
   </data>
   <data name="errorIconAtHostOrIP.TabIndex" type="System.Int32, mscorlib">
     <value>109</value>
@@ -724,10 +574,13 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;errorIconAtHostOrIP.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>3</value>
   </data>
   <data name="scanTargetHostButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
+    <value>Left</value>
+  </data>
+  <data name="scanTargetHostButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="scanTargetHostButton.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -736,10 +589,10 @@
     <value>NoControl</value>
   </data>
   <data name="scanTargetHostButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 160</value>
+    <value>3, 189</value>
   </data>
   <data name="scanTargetHostButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 23</value>
+    <value>148, 23</value>
   </data>
   <data name="scanTargetHostButton.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -757,25 +610,22 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;scanTargetHostButton.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>4</value>
+  </data>
+  <data name="labelIscsiTargetHost.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
   </data>
   <data name="labelIscsiTargetHost.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="labelIscsiTargetHost.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
   </data>
   <data name="labelIscsiTargetHost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="labelIscsiTargetHost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 36</value>
-  </data>
-  <data name="labelIscsiTargetHost.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 3</value>
+    <value>3, 47</value>
   </data>
   <data name="labelIscsiTargetHost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>163, 19</value>
+    <value>148, 13</value>
   </data>
   <data name="labelIscsiTargetHost.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -796,19 +646,16 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;labelIscsiTargetHost.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>5</value>
   </data>
-  <data name="textBoxIscsiHost.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="textBoxIscsiHost.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
   </data>
   <data name="textBoxIscsiHost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>163, 37</value>
-  </data>
-  <data name="textBoxIscsiHost.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 1, 0, 1</value>
+    <value>157, 44</value>
   </data>
   <data name="textBoxIscsiHost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>233, 20</value>
+    <value>275, 20</value>
   </data>
   <data name="textBoxIscsiHost.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -823,34 +670,28 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;textBoxIscsiHost.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>6</value>
+  </data>
+  <data name="labelColon.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
   </data>
   <data name="labelColon.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="labelColon.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
   </data>
   <data name="labelColon.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="labelColon.Location" type="System.Drawing.Point, System.Drawing">
-    <value>396, 36</value>
-  </data>
-  <data name="labelColon.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 3</value>
+    <value>438, 47</value>
   </data>
   <data name="labelColon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>10, 19</value>
+    <value>10, 13</value>
   </data>
   <data name="labelColon.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="labelColon.Text" xml:space="preserve">
     <value>:</value>
-  </data>
-  <data name="labelColon.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
   </data>
   <data name="&gt;&gt;labelColon.Name" xml:space="preserve">
     <value>labelColon</value>
@@ -862,16 +703,13 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;labelColon.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>7</value>
   </data>
-  <data name="textBoxIscsiPort.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="textBoxIscsiPort.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
   </data>
   <data name="textBoxIscsiPort.Location" type="System.Drawing.Point, System.Drawing">
-    <value>406, 37</value>
-  </data>
-  <data name="textBoxIscsiPort.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 1, 2, 1</value>
+    <value>454, 44</value>
   </data>
   <data name="textBoxIscsiPort.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 20</value>
@@ -892,22 +730,19 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;textBoxIscsiPort.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>8</value>
   </data>
-  <data name="IScsiChapUserTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="IScsiChapUserTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
   </data>
   <data name="IScsiChapUserTextBox.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="IScsiChapUserTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>166, 98</value>
-  </data>
-  <data name="IScsiChapUserTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 1, 3, 1</value>
+    <value>157, 115</value>
   </data>
   <data name="IScsiChapUserTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 20</value>
+    <value>275, 20</value>
   </data>
   <data name="IScsiChapUserTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -922,22 +757,19 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;IScsiChapUserTextBox.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>9</value>
   </data>
-  <data name="IScsiChapSecretTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="IScsiChapSecretTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
   </data>
   <data name="IScsiChapSecretTextBox.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="IScsiChapSecretTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>166, 120</value>
-  </data>
-  <data name="IScsiChapSecretTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 1, 3, 1</value>
+    <value>157, 141</value>
   </data>
   <data name="IScsiChapSecretTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 20</value>
+    <value>275, 20</value>
   </data>
   <data name="IScsiChapSecretTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -952,7 +784,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;IScsiChapSecretTextBox.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>10</value>
   </data>
   <data name="labelCHAPuser.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left</value>
@@ -967,7 +799,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelCHAPuser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 101</value>
+    <value>23, 118</value>
   </data>
   <data name="labelCHAPuser.Size" type="System.Drawing.Size, System.Drawing">
     <value>88, 13</value>
@@ -988,7 +820,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;labelCHAPuser.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>11</value>
   </data>
   <data name="IScsiChapSecretLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left</value>
@@ -1003,7 +835,7 @@
     <value>NoControl</value>
   </data>
   <data name="IScsiChapSecretLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 123</value>
+    <value>23, 144</value>
   </data>
   <data name="IScsiChapSecretLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 13</value>
@@ -1024,22 +856,19 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;IScsiChapSecretLabel.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>12</value>
   </data>
   <data name="IscsiUseChapCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="IscsiUseChapCheckBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
   </data>
   <data name="IscsiUseChapCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="IscsiUseChapCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 77</value>
+    <value>3, 92</value>
   </data>
   <data name="IscsiUseChapCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 17</value>
+    <value>147, 17</value>
   </data>
   <data name="IscsiUseChapCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -1057,7 +886,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;IscsiUseChapCheckBox.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>13</value>
   </data>
   <data name="label11.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -1069,13 +898,13 @@
     <value>NoControl</value>
   </data>
   <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>3, 0</value>
   </data>
   <data name="label11.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
+    <value>3, 0, 3, 5</value>
   </data>
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>524, 36</value>
+    <value>547, 36</value>
   </data>
   <data name="label11.TabIndex" type="System.Int32, mscorlib">
     <value>108</value>
@@ -1093,22 +922,22 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>14</value>
   </data>
-  <data name="errorLabelAtHostname.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
+  <data name="errorLabelAtHostname.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="errorLabelAtHostname.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="errorLabelAtHostname.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="errorLabelAtHostname.Location" type="System.Drawing.Point, System.Drawing">
-    <value>185, 61</value>
-  </data>
-  <data name="errorLabelAtHostname.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 3, 3, 0</value>
+    <value>179, 71</value>
   </data>
   <data name="errorLabelAtHostname.Size" type="System.Drawing.Size, System.Drawing">
-    <value>336, 13</value>
+    <value>371, 13</value>
   </data>
   <data name="errorLabelAtHostname.TabIndex" type="System.Int32, mscorlib">
     <value>115</value>
@@ -1129,7 +958,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;errorLabelAtHostname.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>15</value>
   </data>
   <data name="spinnerIconAtScanTargetHostButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left</value>
@@ -1138,10 +967,7 @@
     <value>NoControl</value>
   </data>
   <data name="spinnerIconAtScanTargetHostButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>166, 163</value>
-  </data>
-  <data name="spinnerIconAtScanTargetHostButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 0, 3, 0</value>
+    <value>157, 192</value>
   </data>
   <data name="spinnerIconAtScanTargetHostButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
@@ -1165,7 +991,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;spinnerIconAtScanTargetHostButton.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>16</value>
   </data>
   <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -1173,14 +999,11 @@
   <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="tableLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 12</value>
-  </data>
   <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>9</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>524, 293</value>
+    <value>553, 326</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1198,13 +1021,13 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="iSCSITargetGroupBox" Row="9" RowSpan="1" Column="0" ColumnSpan="7" /&gt;&lt;Control Name="placeHolderLabel2" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="placeholderLabel" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="errorLabelAtCHAPPassword" Row="7" RowSpan="1" Column="3" ColumnSpan="4" /&gt;&lt;Control Name="errorIconAtCHAPPassword" Row="7" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="errorIconAtHostOrIP" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="scanTargetHostButton" Row="8" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="labelIscsiTargetHost" Row="1" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="textBoxIscsiHost" Row="1" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;Control Name="labelColon" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="textBoxIscsiPort" Row="1" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="IScsiChapUserTextBox" Row="5" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;Control Name="IScsiChapSecretTextBox" Row="6" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;Control Name="labelCHAPuser" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="IScsiChapSecretLabel" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="IscsiUseChapCheckBox" Row="3" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="label11" Row="0" RowSpan="1" Column="0" ColumnSpan="7" /&gt;&lt;Control Name="errorLabelAtHostname" Row="2" RowSpan="1" Column="3" ColumnSpan="4" /&gt;&lt;Control Name="spinnerIconAtScanTargetHostButton" Row="8" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,17,Absolute,146,Absolute,22,Absolute,211,AutoSize,0,AutoSize,0,Absolute,20" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,220,AutoSize,220" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="iSCSITargetGroupBox" Row="8" RowSpan="1" Column="0" ColumnSpan="6" /&gt;&lt;Control Name="errorLabelAtCHAPPassword" Row="6" RowSpan="1" Column="3" ColumnSpan="3" /&gt;&lt;Control Name="errorIconAtCHAPPassword" Row="6" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="errorIconAtHostOrIP" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="scanTargetHostButton" Row="7" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="labelIscsiTargetHost" Row="1" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="textBoxIscsiHost" Row="1" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;Control Name="labelColon" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="textBoxIscsiPort" Row="1" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="IScsiChapUserTextBox" Row="4" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;Control Name="IScsiChapSecretTextBox" Row="5" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;Control Name="labelCHAPuser" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="IScsiChapSecretLabel" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="IscsiUseChapCheckBox" Row="3" RowSpan="1" Column="0" ColumnSpan="6" /&gt;&lt;Control Name="label11" Row="0" RowSpan="1" Column="0" ColumnSpan="6" /&gt;&lt;Control Name="errorLabelAtHostname" Row="2" RowSpan="1" Column="3" ColumnSpan="3" /&gt;&lt;Control Name="spinnerIconAtScanTargetHostButton" Row="7" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,20,AutoSize,0,AutoSize,0,Percent,100,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="toolTipContainerIQNscan.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
   <data name="toolTipContainerIQNscan.Location" type="System.Drawing.Point, System.Drawing">
-    <value>363, 246</value>
+    <value>392, 246</value>
   </data>
   <data name="toolTipContainerIQNscan.Size" type="System.Drawing.Size, System.Drawing">
     <value>115, 23</value>
@@ -1234,7 +1057,7 @@
     <value>96, 96</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>524, 353</value>
+    <value>553, 353</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>LVMoISCSI</value>

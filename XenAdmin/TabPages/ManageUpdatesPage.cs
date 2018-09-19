@@ -54,7 +54,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace XenAdmin.TabPages
 {
-    public partial class ManageUpdatesPage : UserControl
+    public partial class ManageUpdatesPage : NotificationsBasePage
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         
@@ -78,21 +78,35 @@ namespace XenAdmin.TabPages
             UpdateButtonEnablement();
             informationLabel.Click += informationLabel_Click;
             m_updateCollectionChangedWithInvoke = Program.ProgramInvokeHandler(UpdatesCollectionChanged);
-            Updates.RegisterCollectionChanged(m_updateCollectionChangedWithInvoke);
-            Updates.RestoreDismissedUpdatesStarted += Updates_RestoreDismissedUpdatesStarted;
-            Updates.CheckForUpdatesStarted += CheckForUpdates_CheckForUpdatesStarted;
-            Updates.CheckForUpdatesCompleted += CheckForUpdates_CheckForUpdatesCompleted;
             toolStripSplitButtonDismiss.DefaultItem = dismissAllToolStripMenuItem;
             toolStripSplitButtonDismiss.Text = dismissAllToolStripMenuItem.Text;
             toolStripButtonUpdate.Visible = false;
         }
 
-        public void RefreshUpdateList()
+        #region NotificationPage overrides
+        protected override void RefreshPage()
         {
             toolStripDropDownButtonServerFilter.InitializeHostList();
             toolStripDropDownButtonServerFilter.BuildFilterList();
-            Rebuild();
+            Rebuild(); 
         }
+
+        protected override void RegisterEventHandlers()
+        {
+            Updates.RegisterCollectionChanged(m_updateCollectionChangedWithInvoke);
+            Updates.RestoreDismissedUpdatesStarted += Updates_RestoreDismissedUpdatesStarted;
+            Updates.CheckForUpdatesStarted += CheckForUpdates_CheckForUpdatesStarted;
+            Updates.CheckForUpdatesCompleted += CheckForUpdates_CheckForUpdatesCompleted;
+        }
+
+        protected override void DeregisterEventHandlers()
+        {
+            Updates.DeregisterCollectionChanged(m_updateCollectionChangedWithInvoke);
+            Updates.RestoreDismissedUpdatesStarted -= Updates_RestoreDismissedUpdatesStarted;
+            Updates.CheckForUpdatesStarted -= CheckForUpdates_CheckForUpdatesStarted;
+            Updates.CheckForUpdatesCompleted -= CheckForUpdates_CheckForUpdatesCompleted;
+        }
+        #endregion
 
         private void UpdatesCollectionChanged(object sender, CollectionChangeEventArgs e)
         {
@@ -1099,8 +1113,9 @@ namespace XenAdmin.TabPages
             if (string.IsNullOrEmpty(patchUri))
                 return;
 
-            var wizard = new PatchingWizard();
-            wizard.Show();
+            PatchingWizard wizard = (PatchingWizard)Program.MainWindow.ShowForm(typeof(PatchingWizard));
+            if (!wizard.IsFirstPage())
+                return;
             wizard.NextStep();
             wizard.AddAlert(patchAlert);
             wizard.NextStep();
@@ -1531,16 +1546,9 @@ namespace XenAdmin.TabPages
 
         private void toolStripButtonUpdate_Click(object sender, EventArgs e)
         {
-            var wizard = new PatchingWizard();
-            wizard.Show();
-            wizard.NextStep();
-
-            var hostlist = new List<Host>();
-            foreach (IXenConnection c in ConnectionsManager.XenConnectionsCopy)
-                hostlist.AddRange(c.Cache.Hosts);
-
-            if (hostlist.Count > 0)
-                wizard.SelectServers(hostlist);
+            PatchingWizard wizard = (PatchingWizard)Program.MainWindow.ShowForm(typeof(PatchingWizard));
+            if (wizard.IsFirstPage())
+                wizard.NextStep();
         }
     }
 }

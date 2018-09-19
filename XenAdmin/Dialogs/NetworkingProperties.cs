@@ -438,6 +438,7 @@ namespace XenAdmin.Dialogs
         private void AcceptBtn_Click(object sender, EventArgs e)
         {
             List<PIF> newPIFs = new List<PIF>();
+            List<PIF> newNamePIFs = new List<PIF>();
             List<PIF> downPIFs = new List<PIF>();
 
             foreach (PIF pif in AllPIFs)
@@ -450,7 +451,7 @@ namespace XenAdmin.Dialogs
             {
                 try
                 {
-                    CollateChanges(page, page.Tag as PIF, newPIFs);
+                    CollateChanges(page, page.Tag as PIF, newPIFs, newNamePIFs);
                 }
                 catch (Failure)
                 {
@@ -490,11 +491,18 @@ namespace XenAdmin.Dialogs
 
             // Any PIFs that are in downPIFs but also in newPIFs need to be removed from the former.
             // downPIFs should contain all those that we no longer want to keep up.
-            downPIFs.RemoveAll(delegate(PIF p) { return PIFContains(newPIFs, p); });
+            downPIFs.RemoveAll(p => PIFContains(newPIFs, p));
 
             // Remove any PIFs that haven't changed -- there's nothing to do for these ones.  They are in this
             // list originally so that they can be used as a filter against downPIFs.
-            newPIFs.RemoveAll(delegate(PIF p) { return !p.Changed; });
+            newPIFs.RemoveAll(p => !p.Changed);
+
+            newNamePIFs.RemoveAll(p => !p.Changed);
+
+            if (newNamePIFs.Count > 0)
+            {
+                new SetSecondaryManagementPurposeAction(connection, Pool, newNamePIFs).RunAsync();
+            }
 
             if (newPIFs.Count > 0 || downPIFs.Count > 0)
             {
@@ -564,7 +572,8 @@ namespace XenAdmin.Dialogs
         /// <param name="page"></param>
         /// <param name="oldPIF"></param>
         /// <param name="newPIFs"></param>
-        private void CollateChanges(NetworkingPropertiesPage page, PIF oldPIF, List<PIF> newPIFs)
+        /// <param name="newNamePIFs"></param>
+        private void CollateChanges(NetworkingPropertiesPage page, PIF oldPIF, List<PIF> newPIFs, List<PIF> newNamePIFs)
         {
             bool changed = false;
 
@@ -597,6 +606,8 @@ namespace XenAdmin.Dialogs
 
             PIF newPIF = (PIF)oldPIF.Clone();
             newPIF.Changed = changed;
+            PIF newNamePIF = (PIF)oldPIF.Clone();
+            newNamePIF.Changed = false;
 
             if (page.DHCPIPRadioButton.Checked)
             {
@@ -619,15 +630,18 @@ namespace XenAdmin.Dialogs
                 newPIF.DNS = string.Join(",", dns.ToArray());
             }
 
+            newPIF.management = page.type != NetworkingPropertiesPage.Type.SECONDARY;
+
             if (page.type == NetworkingPropertiesPage.Type.SECONDARY)
             {
-                newPIF.SetManagementPurspose(page.PurposeTextBox.Text);
-                newPIF.management = false;
+                if (newPIF.Changed)
+                    newPIF.SetManagementPurspose(page.PurposeTextBox.Text);
+                else
+                    newNamePIF.SetManagementPurspose(page.PurposeTextBox.Text);
             }
-            else
-                newPIF.management = true;
 
             newPIFs.Add(newPIF);
+            newNamePIFs.Add(newNamePIF);
         }
 
         private PIF FindPIFForThisHost(List<XenRef<PIF>> pifs)

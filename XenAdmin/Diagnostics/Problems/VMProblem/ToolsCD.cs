@@ -44,7 +44,7 @@ namespace XenAdmin.Diagnostics.Problems.VMProblem
 
         public override string Description
         {
-            get { return string.Format(Messages.UPDATES_WIZARD_TOOLS_CD, VM.Name()); }
+            get { return string.Format(Messages.UPDATES_WIZARD_TOOLS_CD, ServerName, VM.Name()); }
         }
     }
 }

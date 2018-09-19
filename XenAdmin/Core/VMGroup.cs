@@ -131,11 +131,6 @@ namespace XenAdmin.Core
             get { return typeof(T) == typeof(VMSS) ? Messages.CURRENT_SCHEDULE : Messages.CURRENT_VAPP; }
         }
 
-        internal static string VMPolicyTypeName
-        {
-            get { return Messages.VMSS_TYPE; }
-        }
-
         internal static string ChooseVMsPage_HelpID
         {
             get { return "VMs"; } 

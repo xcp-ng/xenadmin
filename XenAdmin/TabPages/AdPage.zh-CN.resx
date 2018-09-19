@@ -124,29 +124,8 @@
   <metadata name="ColumnExpand.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
-  <data mimetype="application/x-microsoft.net.object.bytearray.base64" name="dataGridViewCellStyle2.NullValue" type="System.Drawing.Bitmap, System.Drawing">
-    <value>
-        Qk32AgAAAAAAADYAAAAoAAAADgAAABAAAAABABgAAAAAAAAAAADEDgAAxA4AAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACEgoTGw8bGw8bGw8bGw8bGw8bGw8bG
-        w8bGw8bGw8bGw8bGw8bGw8YAAAAAAISChP///////////////////////////////////////////8bD
-        xgAAAAAAhIKE////////////////////////////////////////////xsPGAAAAAACEgoT/////////
-        ///////////////////////////////////Gw8YAAAAAAISChP//////////////////////////////
-        /////////////8bDxgAAAAAAhIKE////////////AAD/AAD/////////AAD/AAD/////////xsPGAAAA
-        AACEgoT///////////////8AAP8AAP8AAP8AAP/////////////Gw8YAAAAAAISChP//////////////
-        /////wAA/wAA/////////////////8bDxgAAAAAAhIKE////////////////AAD/AAD/AAD/AAD/////
-        ////////xsPGAAAAAACEgoT///////////8AAP8AAP////////8AAP8AAP/////////Gw8YAAAAAAISC
-        hP///////////////////////////////////////////8bDxgAAAAAAhIKE////////////////////
-        ////////////////////////xsPGAAAAAACEgoT/////////////////////////////////////////
-        ///Gw8YAAAAAAISChP///////////////////////////////////////////8bDxgAAAAAAhIKEhIKE
-        hIKEhIKEhIKEhIKEhIKEhIKEhIKEhIKEhIKEhIKEhIKEhIKEAAA=
-</value>
-  </data>
   <data name="ColumnExpand.HeaderText" xml:space="preserve">
     <value/>
-  </data>
-  <data name="ColumnExpand.MinimumWidth" type="System.Int32, mscorlib">
-    <value>20</value>
   </data>
   <data name="ColumnExpand.Width" type="System.Int32, mscorlib">
     <value>20</value>
@@ -157,9 +136,6 @@
   <data name="ColumnTypeImage.HeaderText" xml:space="preserve">
     <value/>
   </data>
-  <data name="ColumnTypeImage.MinimumWidth" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
   <data name="ColumnTypeImage.Width" type="System.Int32, mscorlib">
     <value>50</value>
   </data>
@@ -169,11 +145,17 @@
   <data name="ColumnSubject.HeaderText" xml:space="preserve">
     <value>主题</value>
   </data>
+  <data name="ColumnSubject.MinimumWidth" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
   <metadata name="ColumnRoles.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="ColumnRoles.HeaderText" xml:space="preserve">
     <value>角色</value>
+  </data>
+  <data name="ColumnRoles.Width" type="System.Int32, mscorlib">
+    <value>62</value>
   </data>
   <metadata name="ColumnStatus.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -181,24 +163,13 @@
   <data name="ColumnStatus.HeaderText" xml:space="preserve">
     <value>已登录</value>
   </data>
-  <data name="ColumnStatus.MinimumWidth" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
-  <metadata name="ColumnDummy.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="ColumnDummy.HeaderText" xml:space="preserve">
-    <value>虚拟</value>
-  </data>
-  <data name="ColumnDummy.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="ColumnDummy.Width" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="ColumnStatus.Width" type="System.Int32, mscorlib">
+    <value>87</value>
   </data>
   <metadata name="contextMenuStripADBox.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
   <data name="addToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 22</value>
   </data>
@@ -707,9 +678,6 @@
   <data name="buttonJoinLeave.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 28</value>
   </data>
-  <data name="buttonJoinLeave.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 3, 3, 3</value>
-  </data>
   <data name="buttonJoinLeave.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 23</value>
   </data>
@@ -852,12 +820,6 @@
     <value>ColumnStatus</value>
   </data>
   <data name="&gt;&gt;ColumnStatus.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ColumnDummy.Name" xml:space="preserve">
-    <value>ColumnDummy</value>
-  </data>
-  <data name="&gt;&gt;ColumnDummy.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

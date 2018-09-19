@@ -29,41 +29,60 @@
  * SUCH DAMAGE.
  */
 
-using System;
+using System.Collections.Generic;
+using XenAdmin.Network;
 using XenAPI;
-
 
 namespace XenAdmin.Actions
 {
-    public class RemovePatchAction : AsyncAction
+    public class SetSecondaryManagementPurposeAction : AsyncAction
     {
+        private Pool pool;
+        private List<PIF> pifs;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly Pool_patch patch;
-
-        /// <summary>
-        /// This constructor is used to remove a single 'normal' patch
-        /// </summary>
-        public RemovePatchAction(Pool_patch patch)
-            : base(patch.Connection, Messages.REMOVE_PATCH)
+        public SetSecondaryManagementPurposeAction(IXenConnection connection, Pool pool, List<PIF> pifs)
+            : base(connection, Messages.ACTION_SET_SECONDARY_MANAGEMENT_PURPOSE_TITLE)
         {
-            this.patch = patch;
+            this.pool = pool;
+            this.pifs = pifs;
+            #region RBAC Dependencies
+            ApiMethodsToRoleCheck.Add("pif.set_other_config");
+            #endregion
         }
 
         protected override void Run()
         {
-            Description = String.Format(Messages.REMOVING_UPDATE, patch.Name());
-            try
+            foreach (PIF pif in pifs)
             {
-                RelatedTask = Pool_patch.async_destroy(Session, patch.opaque_ref);
-                PollToCompletion(0, 100);
-            }
-            catch (Failure f)
-            {
-                log.Error("Clean up failed", f);
-            }
+                XenAPI.Network network = Connection.Resolve(pif.network);
+                if (network == null)
+                {
+                    log.Warn("Network has gone away");
+                    return;
+                }
 
-            Description = String.Format(Messages.REMOVED_UPDATE, patch.Name());
+                List<PIF> allPifs = Connection.ResolveAll(network.PIFs);
+                List<PIF> toReconfigure = pool != null ? allPifs : allPifs.FindAll(
+                    p => p.host.opaque_ref == pif.host.opaque_ref);
+
+                if (toReconfigure.Count == 0)
+                    return;
+
+                foreach (PIF p in toReconfigure)
+                {
+                    p.Locked = true;
+                    try
+                    {
+                        pif.SaveChanges(Session, p.opaque_ref, p);
+                    }
+                    finally
+                    {
+                        p.Locked = false;
+                    }
+                }
+            }
+            Description = Messages.ACTION_SET_SECONDARY_MANAGEMENT_PURPOSE_DONE;
         }
     }
 }

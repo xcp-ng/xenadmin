@@ -13,9 +13,16 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing)
             {
-                components.Dispose();
+                if (_webClient != null)
+                {
+                    _webClient.DownloadFileCompleted -= webclient_DownloadFileCompleted;
+                    _webClient.DownloadProgressChanged -= webclient_DownloadProgressChanged;
+                }
+
+                if (components != null)
+                    components.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -39,18 +46,29 @@
             this.m_tlpEncryption = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.autoHeightLabel1 = new XenAdmin.Controls.Common.AutoHeightLabel();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.m_tlpError = new System.Windows.Forms.TableLayoutPanel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this._labelError = new System.Windows.Forms.Label();
+            this.labelProgress = new System.Windows.Forms.Label();
+            this._unzipWorker = new System.ComponentModel.BackgroundWorker();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.m_tlpEncryption.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.m_tlpError.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.lblIntro, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.m_tlpEncryption, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.m_tlpEncryption, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.progressBar1, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.m_tlpError, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.labelProgress, 0, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // lblIntro
@@ -109,6 +127,44 @@
             resources.ApplyResources(this.autoHeightLabel1, "autoHeightLabel1");
             this.autoHeightLabel1.Name = "autoHeightLabel1";
             // 
+            // progressBar1
+            // 
+            resources.ApplyResources(this.progressBar1, "progressBar1");
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            // 
+            // m_tlpError
+            // 
+            resources.ApplyResources(this.m_tlpError, "m_tlpError");
+            this.m_tlpError.Controls.Add(this.pictureBox2, 0, 0);
+            this.m_tlpError.Controls.Add(this._labelError, 1, 0);
+            this.m_tlpError.Name = "m_tlpError";
+            // 
+            // pictureBox2
+            // 
+            resources.ApplyResources(this.pictureBox2, "pictureBox2");
+            this.pictureBox2.Image = global::XenAdmin.Properties.Resources._000_error_h32bit_16;
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.TabStop = false;
+            // 
+            // _labelError
+            // 
+            resources.ApplyResources(this._labelError, "_labelError");
+            this._labelError.Name = "_labelError";
+            // 
+            // labelProgress
+            // 
+            resources.ApplyResources(this.labelProgress, "labelProgress");
+            this.labelProgress.Name = "labelProgress";
+            // 
+            // _unzipWorker
+            // 
+            this._unzipWorker.WorkerReportsProgress = true;
+            this._unzipWorker.WorkerSupportsCancellation = true;
+            this._unzipWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this._unzipWorker_DoWork);
+            this._unzipWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this._unzipWorker_ProgressChanged);
+            this._unzipWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this._unzipWorker_RunWorkerCompleted);
+            // 
             // ImportSourcePage
             // 
             resources.ApplyResources(this, "$this");
@@ -122,6 +178,9 @@
             this.m_tlpEncryption.ResumeLayout(false);
             this.m_tlpEncryption.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.m_tlpError.ResumeLayout(false);
+            this.m_tlpError.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -138,6 +197,12 @@
 		private System.Windows.Forms.TableLayoutPanel m_tlpEncryption;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private XenAdmin.Controls.Common.AutoHeightLabel autoHeightLabel1;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.TableLayoutPanel m_tlpError;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.ComponentModel.BackgroundWorker _unzipWorker;
+        private System.Windows.Forms.Label labelProgress;
+        private System.Windows.Forms.Label _labelError;
 
     }
 }

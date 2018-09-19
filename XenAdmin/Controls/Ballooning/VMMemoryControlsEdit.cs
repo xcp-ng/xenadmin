@@ -33,13 +33,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Text;
+using System.Windows.Forms;
 using XenAdmin.Core;
 using XenAPI;
 
 namespace XenAdmin.Controls.Ballooning
 {
-    public class VMMemoryControlsEdit : VMMemoryControlsBase
+    public class VMMemoryControlsEdit : UserControl
     {
         // Was ballooning on at the time when we entered the dialog?
         // (Like other settings on the dialog, it deliberately doesn't reflect later changes: see CA-34476).
@@ -49,12 +49,22 @@ namespace XenAdmin.Controls.Ballooning
         private long maxMemAllowed = VM.DEFAULT_MEM_ALLOWED;
 
         protected bool firstPaint = true;
-        public override List<VM> VMs
+        protected List<VM> vms;
+        protected VM vm0;
+
+        public List<VM> VMs
         {
             set
             {
-                base.VMs = value;
-                ballooning = vm0.has_ballooning();
+                vms = value;
+                if (vms == null)
+                    return;
+
+                if (vms.Count > 0)
+                {
+                    vm0 = vms[0];
+                    ballooning = vm0.has_ballooning();
+                }
                 firstPaint = true;
                 maxMemAllowed = CalcMaxMemAllowed();
             }
