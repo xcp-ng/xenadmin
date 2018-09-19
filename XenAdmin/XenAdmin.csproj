@@ -11,7 +11,7 @@
     <RootNamespace>XenAdmin</RootNamespace>
     <AssemblyName>XenCenterMain</AssemblyName>
     <ApplicationIcon>..\Branding\Images\AppIcon.ico</ApplicationIcon>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
     <ManifestCertificateThumbprint>4C1DD393E361B8BBCFA1E1D09539C446F88C0A11</ManifestCertificateThumbprint>
     <ManifestTimestampUrl>http://timestamp.verisign.com/scripts/timestamp.dll</ManifestTimestampUrl>
     <FileUpgradeFlags>
@@ -6995,8 +6995,7 @@
     <PostBuildEvent Condition=" '$(Configuration)' == 'Release' ">mt.exe -nologo -manifest "$(ProjectDir)$(ProjectName).manifest" -outputresource:"$(TargetDir)..\..\bin\$(Configuration)\$(TargetFileName)";#1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)\ReportViewer\resource_report.rdlc" "$(TargetDir)"
-
-copy "$(ProjectDir)\..\packages\putty.exe" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
