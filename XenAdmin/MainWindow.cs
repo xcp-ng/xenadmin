@@ -1005,8 +1005,10 @@ namespace XenAdmin
 
         public static bool SameProductBrand(Host host)
         {
-            var brand = host.ProductBrand();
-            return brand == Branding.PRODUCT_BRAND || Branding.PRODUCT_BRAND == "[XenServer product]";
+            // XCP-ng Console: we want to connect to any flavor of XenServer
+            return true;
+            //var brand = host.ProductBrand();
+            //return brand == Branding.PRODUCT_BRAND || Branding.PRODUCT_BRAND == "[XenServer product]";
         }
 
         /// <summary>
@@ -2916,7 +2918,7 @@ namespace XenAdmin
 
                 if (pool.Connection != null && pool.Connection.CacheIsPopulated)
                 {
-                    if (pool.IsFreeLicenseOrExpired)
+                    if (pool.IsExpired)
                     {
                         LicenseStatusTitleLabel.Text = Messages.MAINWINDOW_HEADER_UNLICENSED;
                         LicenseStatusTitleLabel.ForeColor = Color.Red;
@@ -2934,7 +2936,7 @@ namespace XenAdmin
 
                 if (host.Connection != null && host.Connection.CacheIsPopulated)
                 {
-                    if (host.IsFreeLicenseOrExpired())
+                    if (host.IsExpired())
                     {
                         LicenseStatusTitleLabel.Text = Messages.MAINWINDOW_HEADER_UNLICENSED;
                         LicenseStatusTitleLabel.ForeColor = Color.Red;

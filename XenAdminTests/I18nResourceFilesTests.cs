@@ -92,8 +92,8 @@ namespace XenAdminTests
                 }
             }
 
-            Assert.IsNullOrEmpty(missingSb.ToString(), "Missing resources detected.");
-            Assert.IsNullOrEmpty(extraSb.ToString(), "Unecessary resources detected");
+            Assert.That(missingSb.ToString(), Is.Null.Or.Empty); //Missing resources detected.
+            Assert.That(extraSb.ToString(), Is.Null.Or.Empty); //"Unecessary resources detected"
         }
 
 	    #region Auxiliary private methods

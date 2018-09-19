@@ -42,8 +42,8 @@ namespace XenAdmin.Commands
     /// </summary>
     internal class CrossPoolMigrateToHomeCommand : CrossPoolMigrateCommand
     {
-        public CrossPoolMigrateToHomeCommand(IMainWindow mainWindow, IEnumerable<SelectedItem> selection, Host preSelectedHost)
-            : base(mainWindow, selection, preSelectedHost)
+        public CrossPoolMigrateToHomeCommand(IMainWindow mainWindow, IEnumerable<SelectedItem> selection, Host preSelectedHost, bool force)
+            : base(mainWindow, selection, preSelectedHost, force)
         {
         }
 

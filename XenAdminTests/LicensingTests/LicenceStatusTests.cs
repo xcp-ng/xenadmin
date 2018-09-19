@@ -133,7 +133,7 @@ namespace XenAdminTests.LicensingTests
         }
 
         #region Private Helper Methods
-        private IEnumerable<ExipryDateTestCase> CoarseExpiryDateTestCases
+        private static IEnumerable<ExipryDateTestCase> CoarseExpiryDateTestCases
         {
             get
             {

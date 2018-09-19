@@ -44,12 +44,12 @@ namespace XenAdminTests.TabsAndMenus
         { }
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetUp()
         {
         }
 
-        [Test, Timeout(120000)]
+        [Test, MaxTime(120000)]
         [Ignore("Ignore this test, because it takes too long.")]
         public void AddALotOfVIFsThenRemoveThemShouldNotThrowAnException()
         {

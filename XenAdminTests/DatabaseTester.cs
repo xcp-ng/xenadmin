@@ -53,13 +53,13 @@ namespace XenAdminTests
             : base(databases)
         { }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             Setup();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             Dispose();

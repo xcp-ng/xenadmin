@@ -61,8 +61,8 @@ namespace XenAdminTests.CommandTests
         }
 
         [Test, Category(TestCategories.SmokeTest)]
-        [TestCase(true, Description = "Is LunPerVdi", Result = false)]
-        [TestCase(false, Description = "Is Not LunPerVdi", Result = true)]
+        [TestCase(true, Description = "Is LunPerVdi", ExpectedResult = false)]
+        [TestCase(false, Description = "Is Not LunPerVdi", ExpectedResult = true)]
         public bool VerifyLunPerVdiBehaviour(bool IsLunPerVdi)
         {
             Mock<VM> vm = ObjectFactory.BuiltObject<VM>(ObjectBuilderType.VmWithHomeServerHost, id);
@@ -73,13 +73,13 @@ namespace XenAdminTests.CommandTests
 
             IMainWindow mw = new MockMainWindow();
 
-            var cmd = new CrossPoolMigrateCommand(mw, new List<SelectedItem> { new SelectedItem(vm.Object)}, null);
+            var cmd = new CrossPoolMigrateCommand(mw, new List<SelectedItem> { new SelectedItem(vm.Object)}, null, false);
             return cmd.CanExecute();
         }
 
         [Test, Category(TestCategories.SmokeTest)]
-        [TestCase(true, Description = "Wlb enabled", Result = false)]
-        [TestCase(false, Description = "Wlb disabled", Result = true)]
+        [TestCase(true, Description = "Wlb enabled", ExpectedResult = false)]
+        [TestCase(false, Description = "Wlb disabled", ExpectedResult = true)]
         public bool IntrapoolWlbEnabledBehaviour(bool WlbEnabled)
         {
             Mock<VM> vm = ObjectFactory.BuiltObject<VM>(ObjectBuilderType.VmWithHomeServerHost, id);
@@ -91,7 +91,7 @@ namespace XenAdminTests.CommandTests
             pool.Setup(p => p.wlb_url).Returns("wlburl"); //Configured == true
             
             IMainWindow mw = new MockMainWindow();
-            var cmd = new CrossPoolMigrateCommand(mw, new List<SelectedItem> { new SelectedItem(vm.Object) }, null);
+            var cmd = new CrossPoolMigrateCommand(mw, new List<SelectedItem> { new SelectedItem(vm.Object) }, null, false);
             bool canExecute = cmd.CanExecute();
             pool.Verify(p=>p.wlb_enabled, Times.AtLeastOnce());
             return canExecute;
@@ -99,10 +99,10 @@ namespace XenAdminTests.CommandTests
 
 
         [Test, Category(TestCategories.SmokeTest)]
-        [TestCase(true, true, Description = "Wlb enabled both", Result = false)]
-        [TestCase(false, false, Description = "Wlb disabled both", Result = true)]
-        [TestCase(true, false, Description = "Wlb enabled VM", Result = false)]
-        [TestCase(false, true, Description = "Wlb enabled target", Result = true)]
+        [TestCase(true, true, Description = "Wlb enabled both", ExpectedResult = false)]
+        [TestCase(false, false, Description = "Wlb disabled both", ExpectedResult = true)]
+        [TestCase(true, false, Description = "Wlb enabled VM", ExpectedResult = false)]
+        [TestCase(false, true, Description = "Wlb enabled target", ExpectedResult = true)]
         public bool CrossPoolWlbEnabledBehaviour(bool WlbEnabledVM, bool WlbEnabledTarget)
         {
             //First connection
@@ -123,7 +123,7 @@ namespace XenAdminTests.CommandTests
 
             //Command
             IMainWindow mw = new MockMainWindow();
-            var cmd = new CrossPoolMigrateCommand(mw, new List<SelectedItem> { new SelectedItem(vm.Object) }, null);
+            var cmd = new CrossPoolMigrateCommand(mw, new List<SelectedItem> { new SelectedItem(vm.Object) }, null, false);
             bool canExecute = cmd.CanExecute();
 
             //As the command is launching the wizard it should only need to 

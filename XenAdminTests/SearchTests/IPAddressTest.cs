@@ -64,7 +64,7 @@ namespace XenAdminTests.SearchTests
 
             PropertyAccessor ipAddress = PropertyAccessors.Get(PropertyNames.ip_address);
 
-            foreach(IXenConnection connection in ConnectionsManager.XenConnectionsCopy)
+            foreach (IXenConnection connection in ConnectionsManager.XenConnectionsCopy)
             {
                 foreach (IXenObject o in connection.Cache.XenSearchableObjects)
                 {

@@ -64,7 +64,7 @@ namespace XenAdminTests.DialogTests.state1_xml.DialogsForConnection
     {
         IXenConnection connection = null;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void ChooseConnection()
         {
             connection = GetAnyConnection();

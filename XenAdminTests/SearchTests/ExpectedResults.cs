@@ -49,7 +49,7 @@ namespace XenAdminTests.SearchTests
 
         protected virtual string resultsFileName { get { return "searchresults.xml"; } }
         
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void LoadResultsFile()
         {
             //You can enable the below line to get the search results written out if new ones are required

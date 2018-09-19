@@ -1856,4 +1856,7 @@
   <data name="Label-host.edition-desktop-cloud" xml:space="preserve">
     <value>XenApp/XenDesktop [Citrix] Cloud</value>
   </data>
+  <data name="Label-host.edition-xcp-ng" xml:space="preserve">
+    <value>XCP-ng Free/Libre Edition</value>
+  </data>  
 </root>

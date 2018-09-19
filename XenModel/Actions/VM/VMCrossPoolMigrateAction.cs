@@ -41,6 +41,7 @@ namespace XenAdmin.Actions.VMActions
         private readonly VmMapping mapping;
         private readonly XenAPI.Network transferNetwork;
         private readonly bool copy;
+        private readonly bool force;
 
         /// <summary>
         /// Cross pool migration action. Can also be used to copy a VM across pools, by setting the "copy" parameter to true
@@ -50,7 +51,8 @@ namespace XenAdmin.Actions.VMActions
         /// <param name="transferNetwork">the network used for the VM migration</param>
         /// <param name="mapping">the storage and networking mappings</param>
         /// <param name="copy">weather this should be a cross-pool copy (true) or migrate (false) operation</param>
-        public VMCrossPoolMigrateAction(VM vm, Host destinationHost, XenAPI.Network transferNetwork, VmMapping mapping, bool copy)
+        /// <param name="force">weather this should be forced</param>
+        public VMCrossPoolMigrateAction(VM vm, Host destinationHost, XenAPI.Network transferNetwork, VmMapping mapping, bool copy, bool force)
             : base(vm.Connection, GetTitle(vm, destinationHost, copy))
         {
             Session = vm.Connection.Session;
@@ -61,6 +63,7 @@ namespace XenAdmin.Actions.VMActions
             this.mapping = mapping;
             this.transferNetwork = transferNetwork;
             this.copy = copy;
+            this.force = force;
         }
 
         public static RbacMethodList StaticRBACDependencies
@@ -101,6 +104,8 @@ namespace XenAdmin.Actions.VMActions
                 PercentComplete = 5;
                 LiveMigrateOptionsVmMapping options = new LiveMigrateOptionsVmMapping(mapping, VM);
                 var _options = new Dictionary<string, string>(options.Options);
+                if (force)
+                    _options.Add("force", "true");
                 if (copy)
                     _options.Add("copy", "true");
                 RelatedTask = VM.async_migrate_send(Session, VM.opaque_ref, sendData, 

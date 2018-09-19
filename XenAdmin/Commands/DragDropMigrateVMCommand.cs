@@ -230,7 +230,7 @@ namespace XenAdmin.Commands
                 {
                     List<SelectedItem> selectedItems = new List<SelectedItem>();
                     draggedVMs.ForEach(vm => selectedItems.Add(new SelectedItem(vm)));
-                    new CrossPoolMigrateCommand(MainWindowCommandInterface, selectedItems, targetHost).Execute();
+                    new CrossPoolMigrateCommand(MainWindowCommandInterface, selectedItems, targetHost, false).Execute();
                     return;
                 } 
             }

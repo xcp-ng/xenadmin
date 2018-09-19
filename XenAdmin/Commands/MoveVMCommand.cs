@@ -95,7 +95,7 @@ namespace XenAdmin.Commands
 
         private static bool CanExecute(VM vm)
         {
-            return vm != null && (CrossPoolMoveVMCommand.CanExecute(vm, null) || vm.CanBeMoved());
+            return vm != null && (CrossPoolMoveVMCommand.CanExecute(vm, null, false) || vm.CanBeMoved());
         }
 
         public override string MenuText

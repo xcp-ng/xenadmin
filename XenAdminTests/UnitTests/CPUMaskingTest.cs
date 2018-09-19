@@ -45,7 +45,7 @@ namespace XenAdminTests.UnitTests
         const string cpu3 = "040ce33d-bfebfbff-00000001-20100801";
         const string mask = "ffffff7f-ffffffff-ffffffff-ffffffff";
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupResults()
         {
             // Can always mask a CPU to itself

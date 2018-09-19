@@ -256,13 +256,13 @@
     <value>14, 3, 14, 5</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>275, 15</value>
+    <value>161, 15</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Copyright © [Citrix] Systems, Inc. All rights reserved.</value>
+    <value>Copyright © XCP-ng Project.</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -292,7 +292,7 @@
     <value>14, 23, 14, 5</value>
   </data>
   <data name="licenseDetailsLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>254, 15</value>
+    <value>175, 15</value>
   </data>
   <data name="licenseDetailsLabel.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -328,7 +328,7 @@
     <value>14, 23, 14, 5</value>
   </data>
   <data name="VersionLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>323, 15</value>
+    <value>203, 15</value>
   </data>
   <data name="VersionLabel.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -364,7 +364,7 @@
     <value>12, 6, 3, 3</value>
   </data>
   <data name="showAgainCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>321, 19</value>
+    <value>258, 19</value>
   </data>
   <data name="showAgainCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -478,6 +478,6 @@
     <value>AboutDialog</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>XenAdmin.Dialogs.XenDialogBase, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>XenAdmin.Dialogs.XenDialogBase, XenCenterMain, Version=7.4.0.2, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
