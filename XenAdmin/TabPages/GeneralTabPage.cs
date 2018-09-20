@@ -1356,13 +1356,18 @@ namespace XenAdmin.TabPages
 
         private string PoolAdditionalLicenseString()
         {
-            if (licenseStatus.LicencedHost.edition == "xcp-ng")
-                return string.Empty;
-            else if (licenseStatus.CurrentState == LicenseStatus.HostState.Expired)
-                return Messages.LICENSE_EXPIRED;
-            else if (licenseStatus.CurrentState == LicenseStatus.HostState.Free)
-                return Messages.LICENSE_UNLICENSED;
-            else   
+            if (licenseStatus != null && licenseStatus.LicencedHost != null)
+            {
+                if (licenseStatus.LicencedHost.edition == "xcp-ng")
+                    return string.Empty;
+                else if (licenseStatus.CurrentState == LicenseStatus.HostState.Expired)
+                    return Messages.LICENSE_EXPIRED;
+                else if (licenseStatus.CurrentState == LicenseStatus.HostState.Free)
+                    return Messages.LICENSE_UNLICENSED;
+                else
+                    return string.Empty;
+            }
+            else
                 return string.Empty;
         }
         }
