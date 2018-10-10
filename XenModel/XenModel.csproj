@@ -370,6 +370,7 @@
       <DependentUpon>FriendlyErrorNames.resx</DependentUpon>
     </Compile>
     <Compile Include="XenAPI\GPU_group.cs" />
+    <Compile Include="XenAPI\HelperXCP-ng.cs" />
     <Compile Include="XenAPI\host_allowed_operations.cs" />
     <Compile Include="XenAPI\host_display.cs" />
     <Compile Include="XenAPI\ipv6_configuration_mode.cs" />
