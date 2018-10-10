@@ -453,6 +453,9 @@ namespace XenAPI
 
         public static bool RestrictCorosync(Host h)
         {
+            // GFS2 and Clustering is not (yet) supported on XCP-ng
+            return true;
+
             return BoolKeyPreferTrue(h.license_params, "restrict_corosync");
         }
 
