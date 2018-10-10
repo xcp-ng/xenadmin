@@ -469,7 +469,7 @@ namespace XenAdmin.Dialogs.ScheduledSnapshots
                     for (int i = 0; i < 10 && i < messages.Count; i++)
                     {
                         var msg = messages[i];
-                        var alert = new PolicyAlert(msg.priority, msg.name, msg.timestamp, msg.body, vmss.Name());
+                        var alert = new PolicyAlert(msg.priority, msg.name, msg.TimestampLocal(), msg.body, vmss.Name());
                         dataGridViewRunHistory.Rows.Add(new HistoryRow(alert));
                     }
                 }
@@ -477,9 +477,9 @@ namespace XenAdmin.Dialogs.ScheduledSnapshots
                 {
                     foreach (var msg in messages)
                     {
-                        if (msg.timestamp >= offset)
+                        if (msg.TimestampLocal() >= offset)
                         {
-                            var alert = new PolicyAlert(msg.priority, msg.name, msg.timestamp, msg.body, vmss.Name());
+                            var alert = new PolicyAlert(msg.priority, msg.name, msg.TimestampLocal(), msg.body, vmss.Name());
                             dataGridViewRunHistory.Rows.Add(new HistoryRow(alert));
                         }
                         else
