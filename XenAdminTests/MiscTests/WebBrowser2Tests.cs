@@ -34,7 +34,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using XenAdmin.Core;
 using System.IO;
-
+using System.Threading;
 
 namespace XenAdminTests.MiscTests
 {
