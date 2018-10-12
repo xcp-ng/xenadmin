@@ -1848,7 +1848,7 @@ Note that if RBAC is enabled, only alerts which you have privileges to dismiss w
     <value>{0} is now available</value>
   </data>
   <data name="ALERT_NEW_VERSION_DETAILS" xml:space="preserve">
-    <value>{0} is now available. Klick in the action row menu at "Go to Web Page".</value>
+    <value>{0} is now available. Click in the action row menu at "Go to Web Page".</value>
   </data>
   <data name="ALERT_NEW_VERSION_DOWNLOAD" xml:space="preserve">
     <value>Go to Web Page</value>
