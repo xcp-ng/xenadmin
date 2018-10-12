@@ -2870,7 +2870,7 @@
     <value>No</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>[XenCenter]</value>
+    <value>[XenCenterTitle]</value>
   </data>
   <data name="&gt;&gt;backButton.Name" xml:space="preserve">
     <value>backButton</value>
