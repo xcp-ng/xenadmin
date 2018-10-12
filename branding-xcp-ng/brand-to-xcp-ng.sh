@@ -32,6 +32,13 @@
 
 set -ex
 
+
+if [ -z "$BUILD_NUMBER" ]; then
+    echo "No BUILD_NUMBER set, assume developer build: set BUILD_NUMBER to 99"
+	BUILD_NUMBER=99
+fi
+
+
 SET_ENV_FILE="/cygdrive/c/env.sh"
 if [ -f ${SET_ENV_FILE} ]; then
    . ${SET_ENV_FILE}
@@ -73,6 +80,7 @@ BRANDING_UPDATE=xsupdate
 BRANDING_BACKUP=xbk
 BRANDING_SERVER=${BRANDING_PRODUCT_BRAND}
 BRANDING_BRAND_CONSOLE="XCP-ng Center"
+BRANDING_BRAND_CONSOLE_TITLE=${BRANDING_BRAND_CONSOLE}." (".${BRANDING_XC_PRODUCT_VERSION}.${BUILD_NUMBER}.")"
 
 BRANDING_PERF_ALERT_MAIL_LANGUAGE_DEFAULT=en-US
 
@@ -88,16 +96,8 @@ BRANDING_HIDDEN_FEATURES=""
 BRANDING_ADDITIONAL_FEATURES=""
 
 
-#######################################################################
-#
-#		mk/re-branding.sh
-#
-#######################################################################
 
-if [ -z "$BUILD_NUMBER" ]; then
-    echo "No BUILD_NUMBER set, assume developer build: set BUILD_NUMBER to 99"
-	BUILD_NUMBER=99
-fi
+
 
 
 version_cpp()
@@ -137,6 +137,7 @@ rebranding_global()
         -e "s#\[xsupdate\]#${BRANDING_UPDATE}#g" \
         -e "s#\[XenServer\]#${BRANDING_SERVER}#g" \
         -e "s#\[XenCenter\]#${BRANDING_BRAND_CONSOLE}#g" \
+		-e "s#\[XenCenterTitle\]#${BRANDING_BRAND_CONSOLE_TITLE}#g" \
 		-e "s#\[XenAdmin\]#${BRANDING_BRAND_CONSOLE}#g" \
 		-e "s/~~XenCenter~~/${BRANDING_BRAND_CONSOLE}/g" \
         -e "s#\[xbk\]#${BRANDING_BACKUP}#g" \
