@@ -3951,7 +3951,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _license_params))
                 {
                     _license_params = value;
-                    HelperXCP_ng.RestrictLicenseToXCPng(value);
                     Changed = true;
                     NotifyPropertyChanged("license_params");
                 }
