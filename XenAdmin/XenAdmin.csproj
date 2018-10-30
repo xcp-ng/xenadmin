@@ -11,8 +11,8 @@
     <RootNamespace>XenAdmin</RootNamespace>
     <AssemblyName>XenCenterMain</AssemblyName>
     <ApplicationIcon>..\Branding\Images\AppIcon.ico</ApplicationIcon>
-    <SignManifests>true</SignManifests>
-    <ManifestCertificateThumbprint>4C1DD393E361B8BBCFA1E1D09539C446F88C0A11</ManifestCertificateThumbprint>
+    <SignManifests>false</SignManifests>
+    <ManifestCertificateThumbprint>68BA129E3A127B1142D19E58F0D429CC5411795F</ManifestCertificateThumbprint>
     <ManifestTimestampUrl>http://timestamp.verisign.com/scripts/timestamp.dll</ManifestTimestampUrl>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -63,6 +63,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DiscUtils, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
