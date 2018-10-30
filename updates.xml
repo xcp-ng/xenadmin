@@ -3,5 +3,6 @@
     <version value="7.4.2.7" name="XCP-ng Center 7.4.2-RC3" latest_cr="false" url="https://github.com/xcp-ng/xenadmin/releases/tag/v7.4.2-RC3" timestamp="2018-05-15 22:00"></version> 
     <version value="7.4.2.9" name="XCP-ng Center 7.4.2" latest_cr="false" url="https://github.com/xcp-ng/xenadmin/releases/tag/v.7.4.2" timestamp="2018-06-17 20:48"></version>
     <version value="7.5.0.8" name="XCP-ng Center 7.5.0" latest_cr="false" url="https://github.com/xcp-ng/xenadmin/releases/tag/v7.5.0" timestamp="2018-07-24 21:40"></version>
-    <version value="7.5.1.12" name="XCP-ng Center 7.5.1" latest="true" latest_cr="false" url="https://github.com/xcp-ng/xenadmin/releases/tag/v7.5.1" timestamp="2018-09-21 01:02"></version>
+    <version value="7.5.1.12" name="XCP-ng Center 7.5.1" latest_cr="false" url="https://github.com/xcp-ng/xenadmin/releases/tag/v7.5.1" timestamp="2018-09-21 01:02"></version>
+	<version value="7.6.0.9" name="XCP-ng Center 7.6.0" latest="true" latest_cr="false" url="https://github.com/xcp-ng/xenadmin/releases/tag/v7.6.0" timestamp="2018-10-30 21:20"></version>
 </xencenterversions>
