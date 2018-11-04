@@ -94,10 +94,14 @@ namespace XenAdmin
         public static Font DefaultFontItalic;
         public static Font DefaultFontHeader;
 
+        private static Color DefaultTitleBarStartColor = Color.FromArgb(242, 242, 242);
+        private static Color DefaultTitleBarEndColor = Color.FromArgb(207, 207, 207);
+
         // Also set in Main() AFTER we call EnableVisualStyles().
         // We set them here only so something decent shows up in the Designer.
-        public static Color TitleBarStartColor = ProfessionalColors.OverflowButtonGradientBegin;
-        public static Color TitleBarEndColor = ProfessionalColors.OverflowButtonGradientEnd;
+        // We must not request ProfessionalColors before we have called Application.EnableVisualStyles may prevent the program from displayed as expected.
+        public static Color TitleBarStartColor = DefaultTitleBarStartColor;
+        public static Color TitleBarEndColor = DefaultTitleBarEndColor;
         public static Color TitleBarBorderColor = TitleBarEndColor;
         public static Color TitleBarForeColor = Color.White;
 
@@ -264,8 +268,8 @@ namespace XenAdmin
                     if (Application.RenderWithVisualStyles)
                     {
                         // Vista, Win7 with styles.
-                        TitleBarStartColor = Color.FromArgb(242, 242, 242);
-                        TitleBarEndColor = Color.FromArgb(207, 207, 207);
+                        TitleBarStartColor = DefaultTitleBarStartColor;
+                        TitleBarEndColor = DefaultTitleBarEndColor;
                         TitleBarBorderColor = Color.FromArgb(160, 160, 160);
                         TitleBarForeColor = Color.FromArgb(60, 60, 60);
                         HeaderGradientForeColor = Color.White;
@@ -278,6 +282,8 @@ namespace XenAdmin
                     else
                     {
                         // 2K8, and Vista, Win7 without styles.
+                        TitleBarStartColor = ProfessionalColors.OverflowButtonGradientBegin;
+                        TitleBarEndColor = ProfessionalColors.OverflowButtonGradientEnd;
                         TitleBarForeColor = SystemColors.ControlText;
                         HeaderGradientForeColor = SystemColors.ControlText;
                         HeaderGradientFont = new Font(DefaultFont.FontFamily, DefaultFont.Size + 1f, FontStyle.Bold);
