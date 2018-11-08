@@ -50,8 +50,8 @@ namespace XenAPI
         public enum Edition
         {
             Free,
-            PerSocket,             //Added in Clearwater (PR-1589)
-            XenDesktop,            //Added in Clearwater (PR-1589) and is new form of "EnterpriseXD"
+            PerSocket,     //Added in Clearwater (PR-1589)
+            XenDesktop,    //Added in Clearwater (PR-1589) and is new form of "EnterpriseXD"
             StandardPerSocket,     // Added in Creedence (standard-per-socket)
             Desktop,               // Added in Creedence (desktop)
             Standard,              // Added in Dundee/Violet (standard)
@@ -348,8 +348,8 @@ namespace XenAPI
 
         public static bool RestrictExportResourceData(Host h)
         {
-            return BoolKeyPreferTrue(h.license_params, "restrict_export_resource_data");
-        }
+                return BoolKeyPreferTrue(h.license_params, "restrict_export_resource_data");
+            }
 
         public static bool RestrictIntraPoolMigrate(Host h)
         {
@@ -445,17 +445,17 @@ namespace XenAPI
             return BoolKeyPreferTrue(h.license_params, "restrict_corosync");
         }
 
-        #region Experimental Features
+        //#region Experimental Features
 
-        public static bool CorosyncDisabled(Host h)
-        {
-            return  RestrictCorosync(h) && FeatureDisabled(h, "corosync");
-        }
+        //public static bool CorosyncDisabled(Host h)
+        //{
+        //    return  RestrictCorosync(h) && FeatureDisabled(h, "corosync");
+        //}
 
-        public static bool SriovNetworkDisabled(Host h)
-        {
-            return RestrictSriovNetwork(h) && FeatureDisabled(h, "network_sriov");
-        }
+        //public static bool SriovNetworkDisabled(Host h)
+        //{
+        //    return RestrictSriovNetwork(h) && FeatureDisabled(h, "network_sriov");
+        //}
 
         public static bool UefiBootDisabled(Host h)
         {

@@ -154,7 +154,7 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             }
 
             var performSecondProbe = Helpers.KolkataOrGreater(Connection) &&
-                                     !Helpers.FeatureForbidden(Connection, Host.CorosyncDisabled);
+                                     !Helpers.FeatureForbidden(Connection, Host.RestrictCorosync);
             if (performSecondProbe && srs.Count == 0)
             {
                 // Start second probe
