@@ -171,7 +171,7 @@ namespace XenAdmin.Wizards
             
 
             check.AddApiCheckRange(new RbacMethodList("SR.probe"));
-            if (Helpers.KolkataOrGreater(xenConnection) && !Helpers.FeatureForbidden(xenConnection, Host.CorosyncDisabled))
+            if (Helpers.KolkataOrGreater(xenConnection) && !Helpers.FeatureForbidden(xenConnection, Host.RestrictCorosync))
                 check.AddApiCheckRange(new RbacMethodList("SR.probe_ext"));
 
             if (_srToReattach == null)
@@ -290,7 +290,7 @@ namespace XenAdmin.Wizards
                 else if (m_srWizardType is SrWizardType_Iscsi)
                 {
                     showProvisioningPage = Helpers.KolkataOrGreater(xenConnection) &&
-                                   !Helpers.FeatureForbidden(xenConnection, Host.CorosyncDisabled);
+                                   !Helpers.FeatureForbidden(xenConnection, Host.RestrictCorosync);
                     if (showProvisioningPage)
                         AddPage(xenTabPageChooseSrProv);
                     AddPage(xenTabPageLvmoIscsi);
@@ -298,7 +298,7 @@ namespace XenAdmin.Wizards
                 else if (m_srWizardType is SrWizardType_Hba)
                 {
                     showProvisioningPage = Helpers.KolkataOrGreater(xenConnection) &&
-                                   !Helpers.FeatureForbidden(xenConnection, Host.CorosyncDisabled);
+                                   !Helpers.FeatureForbidden(xenConnection, Host.RestrictCorosync);
                     if (showProvisioningPage)
                         AddPage(xenTabPageChooseSrProv);
                     AddPage(xenTabPageLvmoHba);
