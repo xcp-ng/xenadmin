@@ -20,11 +20,13 @@ A clear and concise description of what you expected to happen.
 **Screenshots / Logfiles**
 If applicable, add screenshots / logfiles to help explain your problem.
 
-**Hard-/Software involved:**
- - Hardware: [e.g. Dell M620]
- - Host XCP-ng Version: [e.g. 7.4.1]
- - Client XCP-ng Center Version: [e.g. 7.4.2-RC2]
- - Desktop OS: [e.g. Windows 10 1803]
+**XCP-ng Center:**
+ - XCP-ng Center Version:
+ - Desktop OS:
+
+**XCP-ng Server**
+ - Hardware:
+ - XCP-ng Version:
 
 **Additional context**
-Add any other context about the problem here.
+[Add any other context about the problem here.]
