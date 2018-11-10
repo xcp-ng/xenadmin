@@ -34,7 +34,11 @@
     <UIRef Id="WixUI_Minimal"/>
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="{2010795F-AB74-4166-89F0-B555B3DEB9C8}">
-        <Shortcut Id="startmenuxcpng"  Name="[XenCenter]" Target="[INSTALLLOCATION]$(var.splash.TargetFileName)" WorkingDirectory="INSTALLLOCATION" />
+        <Shortcut Id="startmenuxcpng"
+                  Name="[XenCenter]"
+                  Target="[INSTALLLOCATION]$(var.splash.TargetFileName)"
+                  WorkingDirectory="INSTALLLOCATION" />
+        
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
         <RegistryValue Root="HKCU" Key="Software\[Citrix]\[XenCenter]" Name="installed" Type="integer" Value="1" KeyPath="yes" />
       </Component>
@@ -52,7 +56,7 @@
 
       <Shortcut Id="ApplicationShortcutDesktop"
               Target="[INSTALLLOCATION]$(var.splash.TargetFileName)"
-              WorkingDirectory="INSTALLFOLDER"
+              WorkingDirectory="INSTALLLOCATION"
               Directory="DesktopFolder"
               Name="[XenCenter]"
               Advertise="no"/>
