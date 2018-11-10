@@ -101,7 +101,7 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             var existingSrDescriptors = new List<FibreChannelDescriptor>();
             var formatDiskDescriptors = new List<FibreChannelDescriptor>();
 
-            var performSecondProbe = Helpers.KolkataOrGreater(Connection) && !Helpers.FeatureForbidden(Connection, Host.CorosyncDisabled)
+            var performSecondProbe = Helpers.KolkataOrGreater(Connection) && !Helpers.FeatureForbidden(Connection, Host.RestrictCorosync)
                 && SrType != SR.SRTypes.lvmofcoe; // gfs2 over fcoe is not supported yet
 
             foreach (var device in _selectedDevices)

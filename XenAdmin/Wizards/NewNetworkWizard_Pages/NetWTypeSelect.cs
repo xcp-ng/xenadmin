@@ -109,14 +109,14 @@ namespace XenAdmin.Wizards.NewNetworkWizard_Pages
                 iconWarningSriovOption.Visible = labelWarningSriovOption.Visible = false;
                 rbtnSriov.Visible = labelSriov.Visible = false;
             }
-            else if (Helpers.FeatureForbidden(pool.Connection, Host.SriovNetworkDisabled) ||
+            else if (Helpers.FeatureForbidden(pool.Connection, Host.RestrictSriovNetwork) ||
                 sriovFeatureForbidden || !pool.HasSriovNic() || !hasNicCanEnableSriov)
             {
                 rbtnSriov.Checked = false;
                 rbtnSriov.Enabled = labelSriov.Enabled = false;
 
                 labelWarningSriovOption.Text =
-                    Helpers.FeatureForbidden(pool.Connection, Host.SriovNetworkDisabled)
+                    Helpers.FeatureForbidden(pool.Connection, Host.RestrictSriovNetwork)
                         ? String.Format(Messages.FEATURE_EXPERIMENTAL, Messages.NETWORK_SRIOV)
                         : sriovFeatureForbidden
                             ? String.Format(Messages.FEATURE_DISABLED, Messages.NETWORK_SRIOV)

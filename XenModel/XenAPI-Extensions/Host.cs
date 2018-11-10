@@ -456,29 +456,29 @@ namespace XenAPI
             return BoolKeyPreferTrue(h.license_params, "restrict_corosync");
         }
 
-        #region Experimental Features
+        //#region Experimental Features
 
-        public static bool CorosyncDisabled(Host h)
-        {
-            return  RestrictCorosync(h) && FeatureDisabled(h, "corosync");
-        }
+        //public static bool CorosyncDisabled(Host h)
+        //{
+        //    return  RestrictCorosync(h) && FeatureDisabled(h, "corosync");
+        //}
 
-        public static bool SriovNetworkDisabled(Host h)
-        {
-            return RestrictSriovNetwork(h) && FeatureDisabled(h, "network_sriov");
-        }
+        //public static bool SriovNetworkDisabled(Host h)
+        //{
+        //    return RestrictSriovNetwork(h) && FeatureDisabled(h, "network_sriov");
+        //}
 
-        public static bool FeatureDisabled(Host h, string featureName)
-        {
-            foreach (var feature in h.Connection.ResolveAll(h.features))
-            {
-                if (feature.name_label.Equals(featureName, StringComparison.OrdinalIgnoreCase))
-                    return !feature.enabled;
-            }
-            return false;
-        }
+        //public static bool FeatureDisabled(Host h, string featureName)
+        //{
+        //    foreach (var feature in h.Connection.ResolveAll(h.features))
+        //    {
+        //        if (feature.name_label.Equals(featureName, StringComparison.OrdinalIgnoreCase))
+        //            return !feature.enabled;
+        //    }
+        //    return false;
+        //}
 
-        #endregion
+        //#endregion
 
         public bool HasPBDTo(SR sr)
         {
