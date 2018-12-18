@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -161,6 +161,8 @@
     <Compile Include="Actions\VM\VMCrossPoolMigrateAction.cs" />
     <Compile Include="Actions\VM\VMSnapshotCreateAction.cs" />
     <Compile Include="Actions\VM\VMStartAction.cs" />
+    <Compile Include="Actions\VM\VMPauseAction.cs" />
+    <Compile Include="Actions\VM\VMUnPauseAction.cs" />
     <Compile Include="Actions\WLB\WlbRetrieveVmRecommendationsAction.cs" />
     <Compile Include="Actions\ZipStatusReportAction.cs" />
     <Compile Include="Alerts\Types\Alert.cs" />

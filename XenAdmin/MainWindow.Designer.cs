@@ -116,6 +116,8 @@ namespace XenAdmin
             this.RebootToolbarButton = new XenAdmin.Commands.CommandToolStripButton();
             this.resumeToolStripButton = new XenAdmin.Commands.CommandToolStripButton();
             this.SuspendToolbarButton = new XenAdmin.Commands.CommandToolStripButton();
+            this.PauseVmToolbarButton = new XenAdmin.Commands.CommandToolStripButton();
+            this.UnpauseVmToolbarButton = new XenAdmin.Commands.CommandToolStripButton();
             this.ForceShutdownToolbarButton = new XenAdmin.Commands.CommandToolStripButton();
             this.ForceRebootToolbarButton = new XenAdmin.Commands.CommandToolStripButton();
             this.stopContainerToolStripButton = new XenAdmin.Commands.CommandToolStripButton();
@@ -615,6 +617,8 @@ namespace XenAdmin
             this.RebootToolbarButton,
             this.resumeToolStripButton,
             this.SuspendToolbarButton,
+            this.PauseVmToolbarButton,
+            this.UnpauseVmToolbarButton,
             this.ForceShutdownToolbarButton,
             this.ForceRebootToolbarButton,
             this.stopContainerToolStripButton,
@@ -735,6 +739,21 @@ namespace XenAdmin
             resources.ApplyResources(this.SuspendToolbarButton, "SuspendToolbarButton");
             this.SuspendToolbarButton.Image = global::XenAdmin.Properties.Resources._000_Paused_h32bit_24;
             this.SuspendToolbarButton.Name = "SuspendToolbarButton";
+            // 
+            // PauseVmToolbarButton
+            // 
+            this.PauseVmToolbarButton.Command = new XenAdmin.Commands.PauseVMCommand();
+            resources.ApplyResources(this.PauseVmToolbarButton, "PauseVmToolbarButton");
+            this.PauseVmToolbarButton.Image = global::XenAdmin.Properties.Resources._000_Paused_h32bit_24;
+            this.PauseVmToolbarButton.Name = "PauseVmToolbarButton";
+            // 
+            // UnpauseVmToolbarButton
+            // 
+            this.UnpauseVmToolbarButton.Command = new XenAdmin.Commands.UnPauseVMCommand();
+            resources.ApplyResources(this.UnpauseVmToolbarButton, "UnpauseVmToolbarButton");
+            this.UnpauseVmToolbarButton.Image = global::XenAdmin.Properties.Resources._000_Resumed_h32bit_24;
+            this.UnpauseVmToolbarButton.Name = "UnpauseVmToolbarButton";
+            // 
             // 
             // ForceShutdownToolbarButton
             // 
@@ -1953,6 +1972,8 @@ namespace XenAdmin
         private CommandToolStripButton AddServerToolbarButton;
         private CommandToolStripButton RebootToolbarButton;
         private CommandToolStripButton SuspendToolbarButton;
+        private CommandToolStripButton PauseVmToolbarButton;
+        private CommandToolStripButton UnpauseVmToolbarButton;
         private CommandToolStripButton ForceRebootToolbarButton;
         private CommandToolStripButton ForceShutdownToolbarButton;
         private System.Windows.Forms.ToolTip statusToolTip;

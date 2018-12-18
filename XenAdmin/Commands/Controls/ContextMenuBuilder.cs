@@ -1,4 +1,4 @@
-﻿/* Copyright (c) Citrix Systems, Inc. 
+/* Copyright (c) Citrix Systems, Inc. 
  * All rights reserved. 
  * 
  * Redistribution and use in source and binary forms, 
@@ -866,6 +866,8 @@ namespace XenAdmin.Commands
                 items.AddIfEnabled(new StartVMCommand(mainWindow, selection), vm.power_state == vm_power_state.Halted);
                 items.AddIfEnabled(new ResumeVMCommand(mainWindow, selection));
                 items.AddIfEnabled(new SuspendVMCommand(mainWindow, selection));
+                items.AddIfEnabled(new PauseVMCommand(mainWindow, selection));
+                items.AddIfEnabled(new UnPauseVMCommand(mainWindow, selection));                
                 items.AddIfEnabled(new RebootVMCommand(mainWindow, selection));
                 items.AddSeparator();
 
@@ -1066,6 +1068,8 @@ namespace XenAdmin.Commands
                 items.AddIfEnabled(new StartVMCommand(mainWindow, selection));
                 items.AddIfEnabled(new ResumeVMCommand(mainWindow, selection));
                 items.AddIfEnabled(new SuspendVMCommand(mainWindow, selection));
+                items.AddIfEnabled(new PauseVMCommand(mainWindow, selection));
+                items.AddIfEnabled(new UnPauseVMCommand(mainWindow, selection));                
                 items.AddIfEnabled(new RebootVMCommand(mainWindow, selection));
                 items.AddSeparator();
                 items.AddIfEnabled(new ForceVMShutDownCommand(mainWindow, selection));
