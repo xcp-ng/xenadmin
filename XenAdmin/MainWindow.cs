@@ -1,4 +1,4 @@
-﻿/* Copyright (c) Citrix Systems, Inc. 
+/* Copyright (c) Citrix Systems, Inc. 
  * All rights reserved. 
  * 
  * Redistribution and use in source and binary forms, 
@@ -1332,6 +1332,9 @@ namespace XenAdmin
 
             resumeToolStripButton.Available = resumeToolStripButton.Enabled;
             SuspendToolbarButton.Available = SuspendToolbarButton.Enabled || (!resumeToolStripButton.Available && !containerButtonsAvailable);
+
+            UnpauseVmToolbarButton.Available = UnpauseVmToolbarButton.Enabled;
+            PauseVmToolbarButton.Available = PauseVmToolbarButton.Enabled || (!UnpauseVmToolbarButton.Available);            
 
             ForceRebootToolbarButton.Available = ((ForceVMRebootCommand)ForceRebootToolbarButton.Command).ShowOnMainToolBar;
             ForceShutdownToolbarButton.Available = ((ForceVMShutDownCommand)ForceShutdownToolbarButton.Command).ShowOnMainToolBar;

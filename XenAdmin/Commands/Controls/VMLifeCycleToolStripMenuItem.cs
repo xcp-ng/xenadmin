@@ -1,4 +1,4 @@
-﻿/* Copyright (c) Citrix Systems, Inc. 
+/* Copyright (c) Citrix Systems, Inc. 
  * All rights reserved. 
  * 
  * Redistribution and use in source and binary forms, 
@@ -85,6 +85,16 @@ namespace XenAdmin.Commands
                 {
                     base.DropDownItems.Add(new CommandToolStripMenuItem(new SuspendVMCommand(mainWindow, selection)));
                 }
+
+                cmd = new UnPauseVMCommand(mainWindow, selection);
+                if (cmd.CanExecute())
+                {
+                    base.DropDownItems.Add(new CommandToolStripMenuItem(cmd));
+                }
+                else
+                {
+                    base.DropDownItems.Add(new CommandToolStripMenuItem(new PauseVMCommand(mainWindow, selection)));
+                }                
 
                 base.DropDownItems.Add(new CommandToolStripMenuItem(new RebootVMCommand(mainWindow, selection)));
                 base.DropDownItems.Add(new CommandToolStripMenuItem(new VMRecoveryModeCommand(mainWindow, selection)));

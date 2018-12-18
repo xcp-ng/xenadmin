@@ -1791,6 +1791,60 @@
   <data name="pauseContainerToolStripButton.ToolTipText" xml:space="preserve">
     <value>Pause Docker Container</value>
   </data>
+  <data name="UnpauseVmToolbarButton.ToolTipText" xml:space="preserve">
+    <value>Unpause VM (Ctrl+P)</value>
+  </data>
+  <data name="&gt;&gt;UnpauseVmToolbarButton.Name" xml:space="preserve">
+    <value>UnpauseVmToolbarButton</value>
+  </data>
+  <data name="&gt;&gt;UnpauseVmToolbarButton.Type" xml:space="preserve">
+    <value>XenAdmin.Commands.CommandToolStripButton, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="UnpauseVmToolbarButton.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 8.25pt</value>
+  </data>
+  <data name="UnpauseVmToolbarButton.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="UnpauseVmToolbarButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="UnpauseVmToolbarButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 28</value>
+  </data>
+  <data name="UnpauseVmToolbarButton.Text" xml:space="preserve">
+    <value>Unpause</value>
+  </data>
+  <data name="UnpauseVmToolbarButton.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;PauseVmToolbarButton.Name" xml:space="preserve">
+    <value>PauseVmToolbarButton</value>
+  </data>
+  <data name="&gt;&gt;PauseVmToolbarButton.Type" xml:space="preserve">
+    <value>XenAdmin.Commands.CommandToolStripButton, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="PauseVmToolbarButton.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 8.25pt</value>
+  </data>
+  <data name="PauseVmToolbarButton.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="PauseVmToolbarButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="PauseVmToolbarButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 28</value>
+  </data>
+  <data name="PauseVmToolbarButton.Text" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="PauseVmToolbarButton.ToolTipText" xml:space="preserve">
+    <value>Pause VM to RAM (Ctrl+P)</value>
+  </data>
+  <data name="PauseVmToolbarButton.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data> 
   <data name="ToolStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 24</value>
   </data>
