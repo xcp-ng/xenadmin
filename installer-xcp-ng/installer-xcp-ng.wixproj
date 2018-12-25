@@ -68,6 +68,9 @@
     <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup>
+    <PostBuildEvent>signtool.exe sign /a /n Vates /fd sha256 /t "http://timestamp.verisign.com/scripts/timestamp.dll" "!(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
     <PreBuildEvent>del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.ilk
 del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.pdb
 
@@ -77,7 +80,7 @@ del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\Schemas
 del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\ja
 del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\zh-CN
 
-signtool.exe sign /a /n Vates /fd sha256 /t "http://timestamp.verisign.com/scripts/timestamp.dll" "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.dll"
+REM signtool.exe sign /a /n Vates /fd sha256 /t "http://timestamp.verisign.com/scripts/timestamp.dll" "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.dll"
 signtool.exe sign /a /n Vates /fd sha256 /t "http://timestamp.verisign.com/scripts/timestamp.dll" "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.exe"
 
 heat.exe dir "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)" -cg XCPngFiles -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -out "$(ProjectDir)\FilesFragment.wxs"</PreBuildEvent>
