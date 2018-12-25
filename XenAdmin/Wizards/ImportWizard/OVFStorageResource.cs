@@ -110,9 +110,18 @@ namespace XenAdmin.Wizards.ImportWizard
             {
                 VirtualDiskDesc_Type disk = OVF.FindDiskReference(envelope, rasd);
 
-                return (disk != null && !string.IsNullOrEmpty(disk.capacity))
-                                        ? Convert.ToUInt64(OVF.ComputeCapacity(Convert.ToInt64(disk.capacity), disk.capacityAllocationUnits))
-                                        : file.size;
+                if (disk != null && !string.IsNullOrEmpty(disk.capacity))
+                {
+                    return Convert.ToUInt64(OVF.ComputeCapacity(Convert.ToInt64(disk.capacity), disk.capacityAllocationUnits));
+                }
+                else if (file != null)
+                {
+                    return file.size;
+                }
+                else 
+                {
+                    return 0;
+                }
             }
         }
 
