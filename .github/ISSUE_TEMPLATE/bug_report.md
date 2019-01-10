@@ -1,6 +1,9 @@
 ---
 name: Bug report
 about: Create a report to help us improve
+title: ''
+labels: have to be checked
+assignees: ''
 
 ---
 
@@ -29,4 +32,3 @@ If applicable, add screenshots / logfiles to help explain your problem.
  - XCP-ng Version:
 
 **Additional context**
-[Add any other context about the problem here.]
