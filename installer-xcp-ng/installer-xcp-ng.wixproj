@@ -76,7 +76,6 @@ del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.pdb
 
 del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\Help
 del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\TestResources
-del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\Schemas
 del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\ja
 del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\zh-CN
 
