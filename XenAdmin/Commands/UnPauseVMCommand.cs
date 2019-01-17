@@ -97,7 +97,8 @@ namespace XenAdmin.Commands
             {
                 //fixme: add new message to Messages
                 //return Messages.MAINWINDOW_TOOLBAR_UNPAUSEVM;
-                return "Unpause (" + ShortcutKeyDisplayString + ") ";
+                //return "Unpause (" + ShortcutKeyDisplayString + ") ";
+                return "Unpause";
             }
         }
 
@@ -109,22 +110,24 @@ namespace XenAdmin.Commands
             }
         }
 
-        public override Keys ShortcutKeys
-        {
-            get
-            {
-                return Keys.Control | Keys.P;
-            }
-        }
+        //removed because ERROR Duplicate access key: p
+        //public override Keys ShortcutKeys
+        //{
+        //    get
+        //    {
+        //        return Keys.Control | Keys.P;
+        //    }
+        //}
 
-        public override string ShortcutKeyDisplayString
-        {
-            get
-            {
-                //return Messages.MAINWINDOW_CTRL_E;
-                return "CTRL + P";
-            }
-        }
+        //removed because ERROR Duplicate access key: p
+        //public override string ShortcutKeyDisplayString
+        //{
+        //    get
+        //    {
+        //        //return Messages.MAINWINDOW_CTRL_E;
+        //        return "CTRL + P";
+        //    }
+        //}
 
         protected override bool ConfirmationRequired
         {
