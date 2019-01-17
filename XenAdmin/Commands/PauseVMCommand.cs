@@ -96,7 +96,8 @@ namespace XenAdmin.Commands
             {
                 //fixme: add new message to Messages
                 //return Messages.MAINWINDOW_TOOLBAR_PAUSEVM;
-                return "Pause to RAM (" + ShortcutKeyDisplayString + ") ";
+                //return "Pause to RAM (" + ShortcutKeyDisplayString + ") ";
+                return "Pause to RAM";
             }
         }
 
@@ -116,23 +117,25 @@ namespace XenAdmin.Commands
             }
         }
 
-        public override Keys ShortcutKeys
-        {
-            get
-            {
-                return Keys.Control | Keys.P;
-            }
-        }
+        //removed because ERROR Duplicate access key: p
+        //public override Keys ShortcutKeys
+        //{
+        //    get
+        //    {
+        //        return Keys.Control | Keys.P;
+        //    }
+        //}
 
-        public override string ShortcutKeyDisplayString
-        {
-            get
-            {
-                //fixme: add new message to Messages
-                //return Messages.MAINWINDOW_CTRL_P;
-                return "CTRL + P";
-            }
-        }
+        //removed because ERROR Duplicate access key: p
+        //public override string ShortcutKeyDisplayString
+        //{
+        //    get
+        //    {
+        //        //fixme: add new message to Messages
+        //        //return Messages.MAINWINDOW_CTRL_P;
+        //        return "CTRL + P";
+        //    }
+        //}
 
         protected override bool ConfirmationRequired
         {
