@@ -1,4 +1,5 @@
-﻿/* Copyright (c) Citrix Systems, Inc. 
+/* Original work Copyright (c) Citrix Systems, Inc.
+ * Modified work Copyright XCP-ng project 
  * All rights reserved. 
  * 
  * Redistribution and use in source and binary forms, 
