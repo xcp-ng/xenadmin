@@ -1,4 +1,4 @@
-﻿/* Copyright (c) Citrix Systems, Inc. 
+/* Copyright (c) Citrix Systems, Inc. 
  * All rights reserved. 
  * 
  * Redistribution and use in source and binary forms, 
@@ -642,7 +642,9 @@ namespace XenAdmin
             public static Image _000_Patch_h32bit_16 = Properties.Resources._000_Patch_h32bit_16;
             public static Image _000_Patch_h32bit_32 = Properties.Resources._000_Patch_h32bit_32;
             public static Image _000_paused_h32bit_16 = Properties.Resources._000_paused_h32bit_16;
+            public static Image _000_paused_h32bit_16_green = Properties.Resources._000_paused_h32bit_16_green;
             public static Image _000_Paused_h32bit_24 = Properties.Resources._000_Paused_h32bit_24;
+            public static Image _000_Paused_h32bit_24_green = Properties.Resources._000_Paused_h32bit_24_green;
             public static Image _000_Pool_h32bit_16 = Properties.Resources._000_Pool_h32bit_16;
             public static Image _000_Pool_h32bit_16_w_alert = Properties.Resources._000_Pool_h32bit_16_w_alert;
             public static Image _000_PoolConnected_h32bit_16 = Properties.Resources._000_PoolConnected_h32bit_16;
@@ -652,7 +654,9 @@ namespace XenAdmin
             public static Image _000_RemoveIPAddress_h32bit_16 = Properties.Resources._000_RemoveIPAddress_h32bit_16;
             public static Image _000_RemoveSite_h32bit_16 = Properties.Resources._000_RemoveSite_h32bit_16;
             public static Image _000_Resumed_h32bit_16 = Properties.Resources._000_Resumed_h32bit_16;
+            public static Image _000_Resumed_h32bit_16_green = Properties.Resources._000_Resumed_h32bit_16_green;
             public static Image _000_Resumed_h32bit_24 = Properties.Resources._000_Resumed_h32bit_24;
+            public static Image _000_Resumed_h32bit_24_green = Properties.Resources._000_Resumed_h32bit_24_green;
             public static Image _000_ScheduledVMsnapshotDiskMemory_h32bit_16 = Properties.Resources._000_ScheduledVMsnapshotDiskMemory_h32bit_16;
             public static Image _000_ScheduledVMSnapshotDiskMemory_h32bit_32 = Properties.Resources._000_ScheduledVMSnapshotDiskMemory_h32bit_32;
             public static Image _000_ScheduledVMsnapshotDiskOnly_h32bit_16 = Properties.Resources._000_ScheduledVMsnapshotDiskOnly_h32bit_16;

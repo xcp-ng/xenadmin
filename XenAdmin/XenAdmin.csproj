@@ -4299,6 +4299,10 @@
     <None Include="Images\000_Resumed_h32bit_24.png" />
     <None Include="Images\000_paused_h32bit_16.png" />
     <None Include="Images\000_Resumed_h32bit_16.png" />
+    <None Include="Images\000_paused_h32bit_16_green.png" />
+    <None Include="Images\000_Paused_h32bit_24_green.png" />
+    <None Include="Images\000_Resumed_h32bit_16_green.png" />
+    <None Include="Images\000_Resumed_h32bit_24_green.png" />
     <None Include="Images\000_PiiCustomised_h32bit_16.png" />
     <None Include="Images\000_PiiMaybe_h32bit_16.png" />
     <None Include="Images\000_PiiNo_h32bit_16.png" />
