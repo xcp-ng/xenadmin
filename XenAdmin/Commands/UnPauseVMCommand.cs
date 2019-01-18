@@ -107,7 +107,15 @@ namespace XenAdmin.Commands
         {
             get
             {
-                return Images.StaticImages._000_Resumed_h32bit_16;
+                return Images.StaticImages._000_Resumed_h32bit_16_green;
+            }
+        }
+
+        public override Image ToolBarImage
+        {
+            get
+            {
+                return Images.StaticImages._000_Resumed_h32bit_24_green;
             }
         }
 

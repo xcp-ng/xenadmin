@@ -106,7 +106,7 @@ namespace XenAdmin.Commands
         {
             get
             {
-                return Images.StaticImages._000_SuspendVM_h32bit_16;
+                return Images.StaticImages._000_paused_h32bit_16_green;
             }
         }
 
@@ -114,7 +114,7 @@ namespace XenAdmin.Commands
         {
             get
             {
-                return Images.StaticImages._000_SuspendVM_h32bit_16;
+                return Images.StaticImages._000_Paused_h32bit_24_green;
             }
         }
 
