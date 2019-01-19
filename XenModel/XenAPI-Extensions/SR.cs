@@ -49,13 +49,13 @@ namespace XenAPI
         /// </summary>
         public enum SRTypes
         {
-            local, ext, lvmoiscsi, iso, nfs, lvm, netapp, udev, lvmofc,
+            local, ext, ext4, lvmoiscsi, iso, nfs, lvm, netapp, udev, lvmofc,
             lvmohba, egenera, egeneracd, dummy, unknown, equal, cslg, shm,
             iscsi,
             ebs, rawhba,
             smb, lvmofcoe, gfs2,
             nutanix, nutanixiso, 
-            tmpfs
+            tmpfs, xfs
         }
 
         public const string Content_Type_ISO = "iso";
@@ -244,7 +244,9 @@ namespace XenAPI
                 || type == SRTypes.cslg
                 || type == SRTypes.smb
                 || type == SRTypes.lvmofcoe
-                || type == SRTypes.gfs2;
+                || type == SRTypes.gfs2
+                || type == SRTypes.ext4
+                || type == SRTypes.xfs;
         }
 
         public bool IsLocalSR()
@@ -255,7 +257,8 @@ namespace XenAPI
                    || typ == SRTypes.lvm
                    || typ == SRTypes.udev
                    || typ == SRTypes.egeneracd
-                   || typ == SRTypes.dummy;
+                   || typ == SRTypes.dummy
+                   || typ == SRTypes.ext4;
         }
 
         public bool ShowForgetWarning()

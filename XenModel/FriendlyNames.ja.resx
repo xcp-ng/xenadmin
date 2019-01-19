@@ -357,6 +357,12 @@
   <data name="Label-SR.SRTypes-ext" xml:space="preserve">
     <value>Ext3</value>
   </data>
+  <data name="Label-SR.SRTypes-ext4" xml:space="preserve">
+    <value>Ext4</value>
+  </data>
+  <data name="Label-SR.SRTypes-xfs" xml:space="preserve">
+    <value>XFS</value>
+  </data>  
   <data name="Label-SR.SRTypes-iscsi" xml:space="preserve">
     <value>VDI-per-LUN iSCSI</value>
   </data>
