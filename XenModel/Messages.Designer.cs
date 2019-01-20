@@ -21627,7 +21627,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Pause ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Pause ähnelt.
         /// </summary>
         public static string MAINWINDOW_PAUSE {
             get {
