@@ -66,6 +66,7 @@ namespace XenAdmin
             // To workaround the bug, we just add the images from the resource file.
             // Note that this list is in the same order as the enum in Icons.cs.
             ImageList16.Images.Add("Logo.png", XenAdmin.Properties.Resources.Logo);
+
             ImageList16.Images.Add("000_ServerInProgress_h32bit_16.png", XenAdmin.Properties.Resources._000_ServerInProgress_h32bit_16);
             ImageList16.Images.Add("000_TreeConnected_h32bit_16.png", XenAdmin.Properties.Resources._000_TreeConnected_h32bit_16);
             ImageList16.Images.Add("000_ServerDisconnected_h32bit_16.png", XenAdmin.Properties.Resources._000_ServerDisconnected_h32bit_16);
@@ -73,14 +74,18 @@ namespace XenAdmin
             ImageList16.Images.Add("000_HostUnpatched_h32bit_16.png", XenAdmin.Properties.Resources._000_HostUnpatched_h32bit_16);
             ImageList16.Images.Add("server_up_16.png", XenAdmin.Properties.Resources.server_up_16);
             ImageList16.Images.Add("000_ServerErrorFile_h32bit_16.png", XenAdmin.Properties.Resources._000_ServerErrorFile_h32bit_16);
+
             ImageList16.Images.Add("000_StartVM_h32bit_16.png", XenAdmin.Properties.Resources._000_StartVM_h32bit_16);
             ImageList16.Images.Add("000_VMDisabled_h32bit_16.png", XenAdmin.Properties.Resources._000_VMDisabled_h32bit_16);
             ImageList16.Images.Add("000_StoppedVM_h32bit_16.png", XenAdmin.Properties.Resources._000_StoppedVM_h32bit_16);
             ImageList16.Images.Add("000_VMStoppedDisabled_h32bit_16.png", XenAdmin.Properties.Resources._000_VMStoppedDisabled_h32bit_16);
             ImageList16.Images.Add("000_SuspendVM_h32bit_16.png", XenAdmin.Properties.Resources._000_SuspendVM_h32bit_16);
             ImageList16.Images.Add("000_VMPausedDisabled_h32bit_16.png", XenAdmin.Properties.Resources._000_VMPausedDisabled_h32bit_16);
+            ImageList16.Images.Add("000_SuspendVM_h32bit_16_green.png", XenAdmin.Properties.Resources._000_SuspendVM_h32bit_16_green);
+            ImageList16.Images.Add("000_VMPausedDisabled_h32bit_16_green.png", XenAdmin.Properties.Resources._000_VMPausedDisabled_h32bit_16_green);
             ImageList16.Images.Add("000_VMStarting_h32bit_16.png", XenAdmin.Properties.Resources._000_VMStarting_h32bit_16);
             ImageList16.Images.Add("000_VMStartingDisabled_h32bit_16.png", XenAdmin.Properties.Resources._000_VMStartingDisabled_h32bit_16);
+
             ImageList16.Images.Add("000_VMTemplate_h32bit_16.png", XenAdmin.Properties.Resources._000_VMTemplate_h32bit_16);
             ImageList16.Images.Add("000_TemplateDisabled_h32bit_16.png", XenAdmin.Properties.Resources._000_TemplateDisabled_h32bit_16);
             ImageList16.Images.Add("000_UserTemplate_h32bit_16.png", XenAdmin.Properties.Resources._000_UserTemplate_h32bit_16);
@@ -89,6 +94,7 @@ namespace XenAdmin
             ImageList16.Images.Add("000_VMSnapshotDiskMemory_h32bit_16.png", XenAdmin.Properties.Resources._000_VMSnapshotDiskMemory_h32bit_16);
             ImageList16.Images.Add("_000_ScheduledVMsnapshotDiskOnly_h32bit_16.png", XenAdmin.Properties.Resources._000_ScheduledVMsnapshotDiskOnly_h32bit_16);
             ImageList16.Images.Add("_000_ScheduledVMsnapshotDiskMemory_h32bit_16.png", XenAdmin.Properties.Resources._000_ScheduledVMsnapshotDiskMemory_h32bit_16);
+
             ImageList16.Images.Add("000_PoolConnected_h32bit_16.png", XenAdmin.Properties.Resources._000_PoolConnected_h32bit_16);
             ImageList16.Images.Add("pool_up_16.png", XenAdmin.Properties.Resources.pool_up_16);
 
@@ -102,10 +108,12 @@ namespace XenAdmin
 
             ImageList16.Images.Add("001_ShutDown_h32bit_16.png", Properties.Resources._001_ShutDown_h32bit_16);
             ImageList16.Images.Add("000_paused_h32bit_16.png", Properties.Resources._000_paused_h32bit_16);
+            ImageList16.Images.Add("000_paused_h32bit_16_green.png", Properties.Resources._000_paused_h32bit_16_green);
             ImageList16.Images.Add("001_PowerOn_h32bit_16.png", Properties.Resources._001_PowerOn_h32bit_16);
             ImageList16.Images.Add("000_HelpIM_h32bit_16.png", Properties.Resources._000_HelpIM_h32bit_16);
 
             ImageList16.Images.Add("000_Network_h32bit_16.png", Properties.Resources._000_Network_h32bit_16);
+
             ImageList16.Images.Add("000_defaultSpyglass_h32bit_16.png", Properties.Resources._000_defaultSpyglass_h32bit_16);
             ImageList16.Images.Add("000_Search_h32bit_16.png", Properties.Resources._000_Search_h32bit_16);
 
@@ -119,7 +127,6 @@ namespace XenAdmin
             ImageList16.Images.Add("clonevm_16.png", Properties.Resources.clonevm_16);
 
             ImageList16.Images.Add("Logo.png", Properties.Resources.Logo);
-
             ImageList16.Images.Add("alert1_16.png", Properties.Resources.alert1_16);
             ImageList16.Images.Add("alert2_16.png", Properties.Resources.alert2_16);
             ImageList16.Images.Add("alert3_16.png", Properties.Resources.alert3_16);
@@ -381,7 +388,7 @@ namespace XenAdmin
                 case XenAPI.vm_power_state.Running:
                     return disabled ? Icons.VmRunningDisabled : Icons.VmRunning;
                 case XenAPI.vm_power_state.Paused:
-                    return disabled ? Icons.VmSuspendedDisabled : Icons.VmSuspended;
+                    return disabled ? Icons.VmPausedDisabled : Icons.VmPaused;
                 default:
                     return disabled ? Icons.VmStoppedDisabled : Icons.VmStopped;
             }
