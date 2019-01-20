@@ -254,6 +254,7 @@ namespace XenAPI
         {
             SRTypes typ = GetSRType(false);
             return typ == SRTypes.local
+                   || typ == SRTypes.file
                    || typ == SRTypes.ext
                    || typ == SRTypes.lvm
                    || typ == SRTypes.udev
