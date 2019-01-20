@@ -49,6 +49,8 @@ namespace XenAdmin
         VmStoppedDisabled,
         VmSuspended,
         VmSuspendedDisabled,
+        VmPaused,
+        VmPausedDisabled,
         VmStarting,
         VmStartingDisabled,
 
@@ -74,6 +76,7 @@ namespace XenAdmin
 
         PowerStateHalted,
         PowerStateSuspended,
+        PowerStatePaused,
         PowerStateRunning,
         PowerStateUnknown,
 
