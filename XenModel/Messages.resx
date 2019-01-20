@@ -7627,7 +7627,7 @@ This will permanently delete and reinitialize all local storage on the servers. 
     <value>&amp;New VM wizard...</value>
   </data>
   <data name="MAINWINDOW_PAUSE" xml:space="preserve">
-    <value>&amp;Pause</value>
+    <value>Pause</value>
   </data>
   <data name="MAINWINDOW_POWER_ON" xml:space="preserve">
     <value>Power O&amp;n</value>
