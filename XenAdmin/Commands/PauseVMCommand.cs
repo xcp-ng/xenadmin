@@ -43,7 +43,7 @@ using XenAdmin.Actions.VMActions;
 namespace XenAdmin.Commands
 {
     /// <summary>
-    /// Shuts down the selected VMs. Shows a confirmation dialog.
+    /// Pauses the selected VMs. Shows a confirmation dialog.
     /// </summary>
     internal class PauseVMCommand : VMLifeCycleCommand
     {
@@ -77,9 +77,7 @@ namespace XenAdmin.Commands
 
         protected override void Execute(List<VM> vms)
         {
-            //fixme: add new message to Messages
-            //RunAction(vms, Messages.ACTION_VM_PAUSING, Messages.ACTION_VM_PAUSING, Messages.ACTION_VM_PAUSED, null);
-            RunAction(vms, "VM pausing", "VM pausing", "VM paused", null);
+            RunAction(vms, Messages.ACTION_VM_PAUSING, Messages.ACTION_VM_PAUSING, Messages.ACTION_VM_PAUSED, null);
         }
 
         public override string MenuText
@@ -95,10 +93,7 @@ namespace XenAdmin.Commands
         {
             get
             {
-                //fixme: add new message to Messages
-                //return Messages.MAINWINDOW_TOOLBAR_PAUSEVM;
-                //return "Pause to RAM (" + ShortcutKeyDisplayString + ") ";
-                return "Pause to RAM";
+                return Messages.MAINWINDOW_TOOLBAR_PAUSEVM;
             }
         }
 
@@ -154,14 +149,10 @@ namespace XenAdmin.Commands
                 if (selection.Count == 1)
                 {
                     VM vm = (VM)selection[0].XenObject;
-                    //fixme: add new message to Messages
-                    //return vm.HAIsProtected() ? Messages.HA_CONFIRM_PAUSE_VM : Messages.CONFIRM_PAUSE_VM;
-                    return vm.HAIsProtected() ? "Confirm HA Pause VM" : "Confirm Pause VM";
+                    return vm.HAIsProtected() ? Messages.HA_CONFIRM_PAUSE_VM : Messages.CONFIRM_PAUSE_VM;
                 }
 
-                //fixme: add new message to Messages
-                //return Messages.CONFIRM_PAUSE_VMS;
-                return "Confirm pausing VMs";
+                return Messages.CONFIRM_PAUSE_VMS;
             }
         }
 
@@ -171,13 +162,9 @@ namespace XenAdmin.Commands
             {
                 if (GetSelection().Count == 1)
                 {
-                    //fixme: add new message to Messages
-                    //return Messages.CONFIRM_PAUSE_VM_TITLE;
-                    return "Confirm Pause VM";
+                    return Messages.CONFIRM_PAUSE_VM_TITLE;
                 }
-                //fixme: add new message to Messages
-                //return Messages.CONFIRM_PAUSE_VMS_TITLE;
-                return "Confirm Pause VMs";
+                return Messages.CONFIRM_PAUSE_VMS_TITLE;
             }
         }
 
