@@ -548,7 +548,7 @@
   </data>
   <data name="Label-host.edition-xcp-ng" xml:space="preserve">
     <value>XCP-ng Free/Libre Edition</value>
-  </data>  
+  </data>
   <data name="Label-host.edition" xml:space="preserve">
     <value>License</value>
   </data>
@@ -1882,6 +1882,9 @@
   </data>
   <data name="Label-host.edition-legacy-desktop-cloud" xml:space="preserve">
     <value>XenApp/XenDesktop [Citrix] Cloud</value>
+  </data>
+  <data name="Label-SR.SRTypes-file" xml:space="preserve">
+    <value>File</value>
   </data>
   <data name="Label-host.edition-legacy-desktop-plus" xml:space="preserve">
     <value>XenApp/XenDesktop Platinum</value>

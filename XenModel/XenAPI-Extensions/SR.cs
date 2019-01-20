@@ -49,7 +49,7 @@ namespace XenAPI
         /// </summary>
         public enum SRTypes
         {
-            local, ext, ext4, lvmoiscsi, iso, nfs, lvm, netapp, udev, lvmofc,
+            local, file, ext, ext4, lvmoiscsi, iso, nfs, lvm, netapp, udev, lvmofc,
             lvmohba, egenera, egeneracd, dummy, unknown, equal, cslg, shm,
             iscsi,
             ebs, rawhba,
