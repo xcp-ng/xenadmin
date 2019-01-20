@@ -116,7 +116,7 @@ namespace XenAPI
             if (is_a_template)  // Templates (apart from snapshots) don't have a "home", even if their affinity is set CA-36286
                 return null;
 
-            if (power_state == vm_power_state.Running)
+            if (power_state == vm_power_state.Running | power_state == vm_power_state.Paused)
                 return Connection.Resolve(resident_on);
 
             Host storage_host = GetStorageHost(false);

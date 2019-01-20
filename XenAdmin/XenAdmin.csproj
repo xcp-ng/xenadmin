@@ -132,6 +132,8 @@
     <Compile Include="Commands\PauseDockerContainerCommand.cs" />
     <Compile Include="Commands\StopDockerContainerCommand.cs" />
     <Compile Include="Commands\StartDockerContainerCommand.cs" />
+    <Compile Include="Commands\PauseVMCommand.cs" />
+    <Compile Include="Commands\UnPauseVMCommand.cs" />
     <Compile Include="Commands\Controls\EditPropertiesToolStripMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -4297,6 +4299,10 @@
     <None Include="Images\000_Resumed_h32bit_24.png" />
     <None Include="Images\000_paused_h32bit_16.png" />
     <None Include="Images\000_Resumed_h32bit_16.png" />
+    <None Include="Images\000_paused_h32bit_16_green.png" />
+    <None Include="Images\000_Paused_h32bit_24_green.png" />
+    <None Include="Images\000_Resumed_h32bit_16_green.png" />
+    <None Include="Images\000_Resumed_h32bit_24_green.png" />
     <None Include="Images\000_PiiCustomised_h32bit_16.png" />
     <None Include="Images\000_PiiMaybe_h32bit_16.png" />
     <None Include="Images\000_PiiNo_h32bit_16.png" />
@@ -4437,6 +4443,8 @@
       <Link>Images\alerts_32.png</Link>
     </Content>
     <Content Include="Images\000_Sites_h32bit_16.png" />
+    <Content Include="Images\000_SuspendVM_h32bit_16_green.png" />
+    <Content Include="Images\000_VMPausedDisabled_h32bit_16_green.png" />
     <Content Include="Images\asterisk.png" />
     <Content Include="Images\attach_24.png" />
     <None Include="Images\cancelled_action_16.png" />
@@ -6910,6 +6918,7 @@
       <DependentUpon>WorkloadReports.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Images\VMTemplate_h32bit_32.png" />
+    <None Include="Resources\_000_SuspendVM_h32bit_16_green.bmp" />
     <Content Include="TestResources\credits.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

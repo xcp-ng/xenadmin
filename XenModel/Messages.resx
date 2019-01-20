@@ -1170,6 +1170,12 @@
   <data name="ACTION_VM_MOVING_TITLE" xml:space="preserve">
     <value>Moving VM '{0}' to '{1}' on SR '{2}'</value>
   </data>
+  <data name="ACTION_VM_PAUSED" xml:space="preserve">
+    <value>VM paused</value>
+  </data>
+  <data name="ACTION_VM_PAUSING" xml:space="preserve">
+    <value>VM pausing</value>
+  </data>
   <data name="ACTION_VM_REBOOTED" xml:space="preserve">
     <value>Rebooted</value>
   </data>
@@ -2865,6 +2871,18 @@ Are you sure you want to export VM {2}?</value>
   </data>
   <data name="CONFIRM_FORCESHUTDOWN_VM_TITLE" xml:space="preserve">
     <value>Force Shut Down VM</value>
+  </data>
+  <data name="CONFIRM_PAUSE_VM" xml:space="preserve">
+    <value>Confirm Pause VM</value>
+  </data>
+  <data name="CONFIRM_PAUSE_VMS" xml:space="preserve">
+    <value>Confirm pausing VMs</value>
+  </data>
+  <data name="CONFIRM_PAUSE_VMS_TITLE" xml:space="preserve">
+    <value>Confirm Pause VMs</value>
+  </data>
+  <data name="CONFIRM_PAUSE_VM_TITLE" xml:space="preserve">
+    <value>Confirm Pause VM</value>
   </data>
   <data name="CONFIRM_REBOOT_HCI_WARN_SERVER" xml:space="preserve">
     <value>Rebooting a server will also shut down all the VMs running on it. '{0}' is running a storage virtual appliance and rebooting it might impact the availability of your storage. Are you sure you want to continue?</value>
@@ -5926,6 +5944,9 @@ not currently live:
   <data name="HA_CONFIRM_FORCESHUTDOWN_VM_NO_CANCEL_TASKS" xml:space="preserve">
     <value>The selected VM is currently protected by HA. Are you sure you want to force the shut down of this VM? This operation can result in data loss.</value>
   </data>
+  <data name="HA_CONFIRM_PAUSE_VM" xml:space="preserve">
+    <value>Confirm HA Pause VM</value>
+  </data>
   <data name="HA_CONFIRM_SHUTDOWN_VM" xml:space="preserve">
     <value>The selected VM is currently protected by HA. Are you sure you want to shut it down?</value>
   </data>
@@ -7501,7 +7522,7 @@ This will permanently delete and reinitialize all local storage on the servers. 
     <value>&amp;New VM wizard...</value>
   </data>
   <data name="MAINWINDOW_PAUSE" xml:space="preserve">
-    <value>&amp;Pause</value>
+    <value>Pause</value>
   </data>
   <data name="MAINWINDOW_POWER_ON" xml:space="preserve">
     <value>Power O&amp;n</value>
@@ -7592,6 +7613,9 @@ This will permanently delete and reinitialize all local storage on the servers. 
   </data>
   <data name="MAINWINDOW_TAKE_SNAPSHOT" xml:space="preserve">
     <value>Ta&amp;ke a Snapshot...</value>
+  </data>
+  <data name="MAINWINDOW_TOOLBAR_PAUSEVM" xml:space="preserve">
+    <value>Pause to RAM</value>
   </data>
   <data name="MAINWINDOW_TOOLBAR_POWER_ON_SERVER" xml:space="preserve">
     <value>Power On Server (Ctrl+B)</value>
