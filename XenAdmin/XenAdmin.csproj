@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -132,6 +132,8 @@
     <Compile Include="Commands\PauseDockerContainerCommand.cs" />
     <Compile Include="Commands\StopDockerContainerCommand.cs" />
     <Compile Include="Commands\StartDockerContainerCommand.cs" />
+    <Compile Include="Commands\PauseVMCommand.cs" />
+    <Compile Include="Commands\UnPauseVMCommand.cs" />
     <Compile Include="Commands\Controls\EditPropertiesToolStripMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -4297,6 +4299,10 @@
     <None Include="Images\000_Resumed_h32bit_24.png" />
     <None Include="Images\000_paused_h32bit_16.png" />
     <None Include="Images\000_Resumed_h32bit_16.png" />
+    <None Include="Images\000_paused_h32bit_16_green.png" />
+    <None Include="Images\000_Paused_h32bit_24_green.png" />
+    <None Include="Images\000_Resumed_h32bit_16_green.png" />
+    <None Include="Images\000_Resumed_h32bit_24_green.png" />
     <None Include="Images\000_PiiCustomised_h32bit_16.png" />
     <None Include="Images\000_PiiMaybe_h32bit_16.png" />
     <None Include="Images\000_PiiNo_h32bit_16.png" />
