@@ -244,9 +244,7 @@ namespace XenAPI
                 || type == SRTypes.cslg
                 || type == SRTypes.smb
                 || type == SRTypes.lvmofcoe
-                || type == SRTypes.gfs2
-                || type == SRTypes.ext4
-                || type == SRTypes.xfs;
+                || type == SRTypes.gfs2;
         }
 
         public bool IsLocalSR()
