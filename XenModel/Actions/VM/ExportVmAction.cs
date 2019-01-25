@@ -103,7 +103,7 @@ namespace XenAdmin.Actions
 
             UriBuilder uriBuilder = new UriBuilder(this.Session.Url);
             uriBuilder.Path = "export";
-            uriBuilder.Query = string.Format("session_id={0}&uuid={1}&task_id={2}",
+            uriBuilder.Query = string.Format("session_id={0}&uuid={1}&task_id={2}&use_compression=zstd",
                 Uri.EscapeDataString(this.Session.opaque_ref),
                 Uri.EscapeDataString(this.VM.uuid),
                 Uri.EscapeDataString(this.RelatedTask.opaque_ref));
@@ -120,7 +120,7 @@ namespace XenAdmin.Actions
             String tmpFile = _filename + ".tmp";
             try
             {
-                HttpGet(tmpFile, uriBuilder.Uri);
+                HttpGet(tmpFile, uriBuilder.Uri, true);
             }
             catch (Exception e)
             {
@@ -248,13 +248,20 @@ namespace XenAdmin.Actions
 
 
 
-        private void HttpGet(string filename, Uri uri)
+        private void HttpGet(string filename, Uri uri, bool useServerSideCompression = false)
         {
             using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
             {
                 using (Stream http = HTTPHelper.GET(uri, Connection, true, true))
                 {
-                    new Export().verify(http, fs, (Export.cancellingCallback)delegate() { return Cancelling; });
+                    if (useServerSideCompression)
+                    {
+                        http.CopyTo(fs);
+                    }
+                    else
+                    {
+                        new Export().verify(http, fs, (Export.cancellingCallback)delegate () { return Cancelling; });
+                    }
                 }
             }
         }
