@@ -78,7 +78,8 @@ namespace XenAdmin.SettingsPanels
 		{
 			get
 			{
-				return (vm.IsHVM() && GetOrder() != vm.GetBootOrder()) || (m_textBoxOsParams.Text != vm.PV_args) || (VMPVBootableDVD() != bootFromCD);
+                bool autoBootChanged = m_checkBoxAutoBoot.Checked != vm.GetAutoPowerOn();
+                return autoBootChanged || (vm.IsHVM() && GetOrder() != vm.GetBootOrder()) || (m_textBoxOsParams.Text != vm.PV_args) || (VMPVBootableDVD() != bootFromCD);
 			}
 		}
 
@@ -88,7 +89,9 @@ namespace XenAdmin.SettingsPanels
 			
 			vm.PV_args = m_textBoxOsParams.Text;
 
-			return new DelegatedAsyncAction(vm.Connection, "Change VBDs bootable", "Change VBDs bootable", null,
+            vm.SetAutoPowerOn(m_checkBoxAutoBoot.Checked);
+
+            return new DelegatedAsyncAction(vm.Connection, "Change VBDs bootable", "Change VBDs bootable", null,
 			                                delegate(Session session)
 			                                	{
 			                                		if (bootFromCD)
@@ -158,7 +161,10 @@ namespace XenAdmin.SettingsPanels
 
 					string order = String.Join(", ", driveLetters.ToArray());
 
-					return String.Format(Messages.BOOTORDER, order);
+                    if (m_checkBoxAutoBoot.Checked)
+                        return String.Format(Messages.BOOTORDER_AUTOSTART, order);
+                    else
+                        return String.Format(Messages.BOOTORDER, order);
 				}
 
 				return Messages.NONE_DEFINED;
@@ -183,6 +189,8 @@ namespace XenAdmin.SettingsPanels
 
 		private void Repopulate()
 		{
+            m_checkBoxAutoBoot.Checked = vm.GetAutoPowerOn();
+
             BootDeviceAndOrderEnabled(vm.IsHVM());
 
 			if (vm.IsHVM())

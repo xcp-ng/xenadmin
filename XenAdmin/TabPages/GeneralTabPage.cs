@@ -964,7 +964,10 @@ namespace XenAdmin.TabPages
 
             PDSection s = pdSectionBootOptions;
 
-        	if (vm.IsHVM())
+            s.AddEntry(FriendlyName("VM.auto_boot"), Helpers.BoolToString(vm.GetAutoPowerOn()),
+                new PropertiesToolStripMenuItem(new VmEditStartupOptionsCommand(Program.MainWindow, vm)));
+
+            if (vm.IsHVM())
             {	
                 s.AddEntry(FriendlyName("VM.BootOrder"), HVMBootOrder(vm),
                    new PropertiesToolStripMenuItem(new VmEditStartupOptionsCommand(Program.MainWindow, vm)));
