@@ -2213,6 +2213,9 @@ Deleting this bond will disrupt traffic through the secondary interface on the b
   <data name="BOOTORDER" xml:space="preserve">
     <value>Boot order: {0}</value>
   </data>
+  <data name="BOOTORDER_AUTOSTART" xml:space="preserve">
+    <value>Boot order: {0} (auto-start on server boot)</value>
+  </data>
   <data name="BOOT_DEVICE_DISABLED_ROW_TEXT" xml:space="preserve">
     <value>VM will not boot from devices below this line</value>
   </data>

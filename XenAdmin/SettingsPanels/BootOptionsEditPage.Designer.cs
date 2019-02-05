@@ -42,6 +42,7 @@ namespace XenAdmin.SettingsPanels
             this.m_tlpNonHvm = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.m_comboBoxBootDevice = new System.Windows.Forms.ComboBox();
+            this.m_checkBoxAutoBoot = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.m_tlpHvm.SuspendLayout();
             this.m_tlpNonHvm.SuspendLayout();
@@ -64,6 +65,7 @@ namespace XenAdmin.SettingsPanels
             this.tableLayoutPanel1.Controls.Add(this.m_autoHeightLabelNonHvm, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.m_tlpHvm, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.m_tlpNonHvm, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.m_checkBoxAutoBoot, 0, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // m_autoHeightLabelHvm
@@ -136,6 +138,12 @@ namespace XenAdmin.SettingsPanels
             this.m_comboBoxBootDevice.Name = "m_comboBoxBootDevice";
             this.m_comboBoxBootDevice.SelectedIndexChanged += new System.EventHandler(this.m_comboBoxBootDevice_SelectedIndexChanged);
             // 
+            // m_checkBoxAutoBoot
+            // 
+            resources.ApplyResources(this.m_checkBoxAutoBoot, "m_checkBoxAutoBoot");
+            this.m_checkBoxAutoBoot.Name = "m_checkBoxAutoBoot";
+            this.m_checkBoxAutoBoot.UseVisualStyleBackColor = true;
+            // 
             // BootOptionsEditPage
             // 
             resources.ApplyResources(this, "$this");
@@ -169,6 +177,6 @@ namespace XenAdmin.SettingsPanels
 		private System.Windows.Forms.Button m_buttonUp;
 		private System.Windows.Forms.Button m_buttonDown;
         private System.Windows.Forms.CheckedListBox m_checkedListBox;
-
+        private System.Windows.Forms.CheckBox m_checkBoxAutoBoot;
     }
 }

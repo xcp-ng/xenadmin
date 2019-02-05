@@ -6072,6 +6072,15 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boot order: {0} (auto-start on server boot) ähnelt.
+        /// </summary>
+        public static string BOOTORDER_AUTOSTART {
+            get {
+                return ResourceManager.GetString("BOOTORDER_AUTOSTART", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die There are broken SRs after the upgrade. To solve this problem you should reattach the SRs. ähnelt.
         /// </summary>
         public static string BROKEN_SRS_AFTER_UPGRADE {
