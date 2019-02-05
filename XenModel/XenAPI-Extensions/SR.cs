@@ -258,7 +258,8 @@ namespace XenAPI
                    || typ == SRTypes.udev
                    || typ == SRTypes.egeneracd
                    || typ == SRTypes.dummy
-                   || typ == SRTypes.ext4;
+                   || typ == SRTypes.ext4
+                   || typ == SRTypes.xfs;
         }
 
         public bool ShowForgetWarning()
