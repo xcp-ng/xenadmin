@@ -615,9 +615,9 @@
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="nfsVersionLabel" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label1" Row="0" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="label3" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="NfsServerPathTextBox" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="2" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="labelAdvancedOptions" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="serverOptionsTextBox" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="radioButtonNfsNew" Row="5" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="radioButtonNfsReattach" Row="6" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="listBoxNfsSRs" Row="7" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="NfsScanButton" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="nfsVersionSelectorTableLayoutPanel" Row="3" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>96, 96</value>
   </data>
@@ -629,5 +629,20 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>XenAdmin.Controls.XenTabPage, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;nfsVersion41RadioButton.Name" xml:space="preserve">
+    <value>nfsVersion4RadioButton</value>
+  </data>
+  <data name="&gt;&gt;nfsVersion41RadioButton.Parent" xml:space="preserve">
+    <value>nfsVersionSelectorTableLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;nfsVersion41RadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nfsVersion41RadioButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="nfsVersion41RadioButton.Text" xml:space="preserve">
+    <value>NFSv4.1</value>
   </data>
 </root>
