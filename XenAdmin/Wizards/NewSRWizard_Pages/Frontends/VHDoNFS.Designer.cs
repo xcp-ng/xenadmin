@@ -43,6 +43,7 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             this.nfsVersionSelectorTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.nfsVersion3RadioButton = new System.Windows.Forms.RadioButton();
             this.nfsVersion4RadioButton = new System.Windows.Forms.RadioButton();
+            this.nfsVersion41RadioButton = new System.Windows.Forms.RadioButton();
             this.listBoxNfsSRs = new XenAdmin.Controls.SRListBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.nfsVersionSelectorTableLayoutPanel.SuspendLayout();
@@ -138,6 +139,7 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             this.tableLayoutPanel1.SetColumnSpan(this.nfsVersionSelectorTableLayoutPanel, 2);
             this.nfsVersionSelectorTableLayoutPanel.Controls.Add(this.nfsVersion3RadioButton, 0, 0);
             this.nfsVersionSelectorTableLayoutPanel.Controls.Add(this.nfsVersion4RadioButton, 0, 1);
+            this.nfsVersionSelectorTableLayoutPanel.Controls.Add(this.nfsVersion41RadioButton, 0, 2);
             this.nfsVersionSelectorTableLayoutPanel.Name = "nfsVersionSelectorTableLayoutPanel";
             // 
             // nfsVersion3RadioButton
@@ -153,6 +155,12 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             resources.ApplyResources(this.nfsVersion4RadioButton, "nfsVersion4RadioButton");
             this.nfsVersion4RadioButton.Name = "nfsVersion4RadioButton";
             this.nfsVersion4RadioButton.UseVisualStyleBackColor = true;
+            // 
+            // nfsVersion41RadioButton
+            // 
+            resources.ApplyResources(this.nfsVersion41RadioButton, "nfsVersion41RadioButton");
+            this.nfsVersion41RadioButton.Name = "nfsVersion41RadioButton";
+            this.nfsVersion41RadioButton.UseVisualStyleBackColor = true;
             // 
             // listBoxNfsSRs
             // 
@@ -193,6 +201,7 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
         private System.Windows.Forms.TableLayoutPanel nfsVersionSelectorTableLayoutPanel;
         private System.Windows.Forms.RadioButton nfsVersion3RadioButton;
         private System.Windows.Forms.RadioButton nfsVersion4RadioButton;
+        private System.Windows.Forms.RadioButton nfsVersion41RadioButton;
         private System.Windows.Forms.Button NfsScanButton;
     }
 }

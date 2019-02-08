@@ -103,6 +103,11 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             OnPageUpdated();
         }
 
+        private void NfsServerEnableVersionButtons(bool enable)
+        {
+            nfsVersion3RadioButton.Enabled = nfsVersion4RadioButton.Enabled = nfsVersion41RadioButton.Enabled = enable;
+        }
+
         private void NfsServerPathTextBox_TextChanged(object sender, EventArgs e)
         {
             NfsScanButton.Enabled = SrWizardHelpers.ValidateNfsSharename(NfsServerPathTextBox.Text);
@@ -113,7 +118,7 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             if(radioButtonNfsNew.Enabled)
                 radioButtonNfsNew.Checked = true;
 
-            nfsVersion3RadioButton.Enabled = nfsVersion4RadioButton.Enabled = true;
+            NfsServerEnableVersionButtons(true);
 
             UpdateButtons();
         }
@@ -206,15 +211,16 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             {
                 //supported NFS version are not known: either we have not got a result back (older host) or neither version is supported (not likely)
 
-                nfsVersion4RadioButton.Enabled = nfsVersion3RadioButton.Enabled = true;
+                NfsServerEnableVersionButtons(true);
             }
             else
             {
                 //supported NFS versions are known
-
                 nfsVersion3RadioButton.Enabled = supportedVersions.Contains("3");
                 nfsVersion4RadioButton.Enabled = supportedVersions.Contains("4");
+                nfsVersion41RadioButton.Enabled = supportedVersions.Contains("4.1");
 
+                // TODO: improve handling with 4.1
                 //when only one version is supported, check/select the one that is
                 if (!(nfsVersion3RadioButton.Enabled && nfsVersion4RadioButton.Enabled))
                 {
@@ -270,6 +276,8 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
 
                 if (nfsVersion4RadioButton.Checked)
                     dconf[NFSVERSION] = "4";
+                else if (nfsVersion41RadioButton.Checked)
+                    dconf[NFSVERSION] = "4.1";
 
                 return dconf;
             }
