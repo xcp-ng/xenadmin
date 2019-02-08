@@ -215,18 +215,20 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
             }
             else
             {
-                //supported NFS versions are known
-                nfsVersion3RadioButton.Enabled = supportedVersions.Contains("3");
-                nfsVersion4RadioButton.Enabled = supportedVersions.Contains("4");
-                nfsVersion41RadioButton.Enabled = supportedVersions.Contains("4.1");
+                // TODO: sr-probe does not find NFSv4/NFSv4.1 with FreeNAS share, so enable all buttons
+                NfsServerEnableVersionButtons(true);
 
-                // TODO: improve handling with 4.1
-                //when only one version is supported, check/select the one that is
-                if (!(nfsVersion3RadioButton.Enabled && nfsVersion4RadioButton.Enabled))
-                {
-                    nfsVersion3RadioButton.Checked = nfsVersion3RadioButton.Enabled;
-                    nfsVersion4RadioButton.Checked = nfsVersion4RadioButton.Enabled;
-                }
+                ////supported NFS versions are known
+                //nfsVersion3RadioButton.Enabled = supportedVersions.Contains("3");
+                //nfsVersion4RadioButton.Enabled = supportedVersions.Contains("4");
+                //nfsVersion41RadioButton.Enabled = supportedVersions.Contains("4.1");
+
+                ////when only one version is supported, check/select the one that is
+                //if (!(nfsVersion3RadioButton.Enabled && nfsVersion4RadioButton.Enabled))
+                //{
+                //    nfsVersion3RadioButton.Checked = nfsVersion3RadioButton.Enabled;
+                //    nfsVersion4RadioButton.Checked = nfsVersion4RadioButton.Enabled;
+                //}
             }
         }
 
