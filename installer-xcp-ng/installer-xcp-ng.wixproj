@@ -42,6 +42,16 @@
     <Content Include="license.rtf" />
     <Content Include="license.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\xcpng.splash\splash-xcp-ng\splash-xcp-ng.csproj">
+      <Name>splash-xcp-ng</Name>
+      <Project>{cd563857-6159-4415-b7b2-a21991f572e3}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
   <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
@@ -70,9 +80,9 @@ del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\ja
 del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\zh-CN
 
 REM signtool.exe sign /a /n Vates /fd sha256 /t "http://timestamp.verisign.com/scripts/timestamp.dll" "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.dll"
-signtool.exe sign /a /n Vates /fd sha256 /t "http://timestamp.verisign.com/scripts/timestamp.dll" "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.exe"
+REM signtool.exe sign /a /n Vates /fd sha256 /t "http://timestamp.verisign.com/scripts/timestamp.dll" "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.exe"
 
-heat.exe dir "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)" -cg XCPngFiles -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -out "$(ProjectDir)\FilesFragment.wxs"</PreBuildEvent>
+REM heat.exe dir "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)" -cg XCPngFiles -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -out "$(ProjectDir)\FilesFragment.wxs"</PreBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.

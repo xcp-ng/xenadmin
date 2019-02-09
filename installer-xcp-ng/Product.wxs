@@ -36,7 +36,7 @@
       <Component Id="ApplicationShortcut" Guid="{2010795F-AB74-4166-89F0-B555B3DEB9C8}">
         <Shortcut Id="startmenuxcpng"
                   Name="[XenCenter]"
-                  Target="[INSTALLLOCATION]$(var.splash.TargetFileName)"
+                  Target="[INSTALLLOCATION]$(var.splash-xcp-ng.TargetFileName)"
                   WorkingDirectory="INSTALLLOCATION" />
         
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
@@ -55,7 +55,7 @@
               KeyPath="yes" />
 
       <Shortcut Id="ApplicationShortcutDesktop"
-              Target="[INSTALLLOCATION]$(var.splash.TargetFileName)"
+              Target="[INSTALLLOCATION]$(var.splash-xcp-ng.TargetFileName)"
               WorkingDirectory="INSTALLLOCATION"
               Directory="DesktopFolder"
               Name="[XenCenter]"
