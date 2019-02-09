@@ -546,7 +546,7 @@
   <data name="Label-host.agentUptime" xml:space="preserve">
     <value>Toolstack uptime</value>
   </data>
-  <data name="Label-host.edition-xcp-ng" xml:space="preserve">
+  <data name="Label-host.edition-legacy-xcp-ng" xml:space="preserve">
     <value>XCP-ng Free/Libre Edition</value>
   </data>
   <data name="Label-host.edition" xml:space="preserve">
