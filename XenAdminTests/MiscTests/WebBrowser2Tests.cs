@@ -38,7 +38,7 @@ using System.IO;
 
 namespace XenAdminTests.MiscTests
 {
-    [TestFixture, Apartment(ApartmentState.STA)]
+    [TestFixture, Apartment(System.Threading.ApartmentState.STA)]
     public class WebBrowser2Tests : MainWindowLauncher_TestFixture
     {
         private WebBrowser2 _wb;

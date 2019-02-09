@@ -34,41 +34,41 @@ using XenAdmin.Help;
 
 namespace XenAdminTests.UnitTests
 {
-    [TestFixture, Category(TestCategories.Unit)]
-    public class HelpManagerTests
-    {
-        //As per current InvisibleMessages.HELP_URL.
-        private const string HelpUrl =
-            "http://docs.citrix.com/{0}/xencenter/current-release/{1}.html?utm_campaign={2}&utm_medium={3}&utm_source={4}";
-        private const string HelpUrlUpper = "UPPER_HELP_URL/{0}/{1}/{2}/{3}/{4}";
+    //[TestFixture, Category(TestCategories.Unit)]
+    //public class HelpManagerTests
+    //{
+    //    //As per current InvisibleMessages.HELP_URL.
+    //    private const string HelpUrl =
+    //        "http://docs.citrix.com/{0}/xencenter/current-release/{1}.html?utm_campaign={2}&utm_medium={3}&utm_source={4}";
+    //    private const string HelpUrlUpper = "UPPER_HELP_URL/{0}/{1}/{2}/{3}/{4}";
 
-        //As per InvisibleMessages.LOCALE.
-        private const string Locale = "en-US";
+    //    //As per InvisibleMessages.LOCALE.
+    //    private const string Locale = "en-US";
 
-        private const string Campaign = "7.9.50.6753";
-        private const string Medium = "ui_link";
+    //    private const string Campaign = "7.9.50.6753";
+    //    private const string Medium = "ui_link";
 
-        //As per Messages.XENCENTER.
-        private const string Source = "XenCenter";
+    //    //As per Messages.XENCENTER.
+    //    private const string Source = "XenCenter";
 
-        [TestCase(null, HelpUrl, Locale, Campaign, Medium, Source,
-            Result = "http://docs.citrix.com/en-us/xencenter/current-release/index.html?utm_campaign=7_9_50_6753&utm_medium=ui_link&utm_source=xencenter",
-            Description = "No topic defaults to index page")]
-        [TestCase(null, HelpUrl, "ja-JP", Campaign, Medium, Source,
-            Result = "http://docs.citrix.com/ja-jp/xencenter/current-release/index.html?utm_campaign=7_9_50_6753&utm_medium=ui_link&utm_source=xencenter",
-            Description = "Japanese locale is handled correctly")]
-        [TestCase("tabs", HelpUrl, Locale, Campaign, Medium, Source,
-            Result = "http://docs.citrix.com/en-us/xencenter/current-release/tabs.html?utm_campaign=7_9_50_6753&utm_medium=ui_link&utm_source=xencenter",
-            Description = "Given topic is reflected in result")]
-        [TestCase(null, HelpUrl, Locale, "10.0.0.9999", Medium, Source,
-            Result = "http://docs.citrix.com/en-us/xencenter/current-release/index.html?utm_campaign=10_0_0_9999&utm_medium=ui_link&utm_source=xencenter",
-            Description = "Given campaign version is reflected in result")]
-        [TestCase("UPPER_TOPIC", HelpUrlUpper, "UPPER_LOCALE", "UPPER_CAMPAIGN", "UPPER_MEDIUM", "UPPER_SOURCE",
-            Result = "upper_help_url/upper_locale/upper_topic/upper_campaign/upper_medium/upper_source",
-            Description = "Ensure the URL is in lower case")]
-        public string TestProduceUrl(string topicId, string helpUrl, string locale, string campaign, string medium, string source)
-        {
-            return HelpManager.ProduceUrl(topicId, helpUrl, locale, campaign, medium, source);
-        }
-    }
+    //    [TestCase(null, HelpUrl, Locale, Campaign, Medium, Source,
+    //        Result = "http://docs.citrix.com/en-us/xencenter/current-release/index.html?utm_campaign=7_9_50_6753&utm_medium=ui_link&utm_source=xencenter",
+    //        Description = "No topic defaults to index page")]
+    //    [TestCase(null, HelpUrl, "ja-JP", Campaign, Medium, Source,
+    //        Result = "http://docs.citrix.com/ja-jp/xencenter/current-release/index.html?utm_campaign=7_9_50_6753&utm_medium=ui_link&utm_source=xencenter",
+    //        Description = "Japanese locale is handled correctly")]
+    //    [TestCase("tabs", HelpUrl, Locale, Campaign, Medium, Source,
+    //        Result = "http://docs.citrix.com/en-us/xencenter/current-release/tabs.html?utm_campaign=7_9_50_6753&utm_medium=ui_link&utm_source=xencenter",
+    //        Description = "Given topic is reflected in result")]
+    //    [TestCase(null, HelpUrl, Locale, "10.0.0.9999", Medium, Source,
+    //        Result = "http://docs.citrix.com/en-us/xencenter/current-release/index.html?utm_campaign=10_0_0_9999&utm_medium=ui_link&utm_source=xencenter",
+    //        Description = "Given campaign version is reflected in result")]
+    //    [TestCase("UPPER_TOPIC", HelpUrlUpper, "UPPER_LOCALE", "UPPER_CAMPAIGN", "UPPER_MEDIUM", "UPPER_SOURCE",
+    //        Result = "upper_help_url/upper_locale/upper_topic/upper_campaign/upper_medium/upper_source",
+    //        Description = "Ensure the URL is in lower case")]
+    //    public string TestProduceUrl(string topicId, string helpUrl, string locale, string campaign, string medium, string source)
+    //    {
+    //        return HelpManager.ProduceUrl(topicId, helpUrl, locale, campaign, medium, source);
+    //    }
+    //}
 }
