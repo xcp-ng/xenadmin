@@ -41,7 +41,8 @@ using System.Collections;
 using XenAdmin.Properties;
 using XenAdmin.Actions;
 using XenCenterLib;
-
+using XenAdmin.Core;
+using System.Linq;
 
 namespace XenAdmin.SettingsPanels
 {
@@ -49,7 +50,9 @@ namespace XenAdmin.SettingsPanels
 	{
 		#region Private fields
 		private VM vm;
-		private bool bootFromCD;
+        private Pool pool;
+        private bool clusteringEnabled;
+        private bool bootFromCD;
 		#endregion
 
 		public BootOptionsEditPage()
@@ -133,7 +136,11 @@ namespace XenAdmin.SettingsPanels
 			if (vm == null)
 				return;
 
-			Repopulate();
+            pool = Helpers.GetPoolOfOne(clone.Connection);
+            var existingCluster = pool.Connection.Cache.Clusters.FirstOrDefault();
+            clusteringEnabled = existingCluster != null;
+
+            Repopulate();
 		}
 
 		#endregion
@@ -189,7 +196,31 @@ namespace XenAdmin.SettingsPanels
 
 		private void Repopulate()
 		{
-            m_checkBoxAutoBoot.Checked = vm.GetAutoPowerOn();
+            m_picInfoAutoBoot.Visible = false;
+            m_autoHeightLabelAutoBoot.Visible = false;
+            m_autoHeightLabelAutoBootHAWarning.Visible = false;
+            m_checkBoxAutoBoot.Visible = false;
+
+            if (clusteringEnabled)
+            {
+                m_picInfoAutoBoot.Visible = true;
+
+                if (vm.GetAutoPowerOn())
+                {
+                    m_checkBoxAutoBoot.Visible = true;
+                    m_checkBoxAutoBoot.Checked = true;
+                    m_autoHeightLabelAutoBootHAWarning.Visible = true;
+                }
+                else
+                {
+                    m_autoHeightLabelAutoBoot.Visible = true;
+                }
+            } 
+            else
+            {
+                m_checkBoxAutoBoot.Visible = true;
+                m_checkBoxAutoBoot.Checked = vm.GetAutoPowerOn();
+            }
 
             BootDeviceAndOrderEnabled(vm.IsHVM());
 

@@ -32,6 +32,10 @@ namespace XenAdmin.SettingsPanels
             this.m_textBoxOsParams = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.m_groupBoxAutoBoot = new System.Windows.Forms.GroupBox();
+            this.m_tlpAutoBoot = new System.Windows.Forms.TableLayoutPanel();
+            this.m_picInfoAutoBoot = new System.Windows.Forms.PictureBox();
+            this.m_checkBoxAutoBoot = new System.Windows.Forms.CheckBox();
             this.m_tlpHvm = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.m_buttonUp = new System.Windows.Forms.Button();
@@ -42,10 +46,14 @@ namespace XenAdmin.SettingsPanels
             this.label2 = new System.Windows.Forms.Label();
             this.m_comboBoxBootDevice = new System.Windows.Forms.ComboBox();
             this.m_buttonConvertToHVM = new System.Windows.Forms.Button();
-            this.m_checkBoxAutoBoot = new System.Windows.Forms.CheckBox();
             this.m_autoHeightLabelHvm = new XenAdmin.Controls.Common.AutoHeightLabel();
             this.m_autoHeightLabelNonHvm = new XenAdmin.Controls.Common.AutoHeightLabel();
+            this.m_autoHeightLabelAutoBoot = new XenAdmin.Controls.Common.AutoHeightLabel();
+            this.m_autoHeightLabelAutoBootHAWarning = new XenAdmin.Controls.Common.AutoHeightLabel();
             this.tableLayoutPanel1.SuspendLayout();
+            this.m_groupBoxAutoBoot.SuspendLayout();
+            this.m_tlpAutoBoot.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.m_picInfoAutoBoot)).BeginInit();
             this.m_tlpHvm.SuspendLayout();
             this.m_tlpNonHvm.SuspendLayout();
             this.SuspendLayout();
@@ -65,10 +73,40 @@ namespace XenAdmin.SettingsPanels
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.m_autoHeightLabelHvm, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.m_autoHeightLabelNonHvm, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.m_checkBoxAutoBoot, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.m_groupBoxAutoBoot, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.m_tlpHvm, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.m_tlpNonHvm, 0, 5);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // m_groupBoxAutoBoot
+            // 
+            resources.ApplyResources(this.m_groupBoxAutoBoot, "m_groupBoxAutoBoot");
+            this.m_groupBoxAutoBoot.Controls.Add(this.m_tlpAutoBoot);
+            this.m_groupBoxAutoBoot.Name = "m_groupBoxAutoBoot";
+            this.m_groupBoxAutoBoot.TabStop = false;
+            // 
+            // m_tlpAutoBoot
+            // 
+            resources.ApplyResources(this.m_tlpAutoBoot, "m_tlpAutoBoot");
+            this.m_tlpAutoBoot.Controls.Add(this.m_picInfoAutoBoot, 0, 0);
+            this.m_tlpAutoBoot.Controls.Add(this.m_autoHeightLabelAutoBoot, 1, 0);
+            this.m_tlpAutoBoot.Controls.Add(this.m_autoHeightLabelAutoBootHAWarning, 1, 0);
+            this.m_tlpAutoBoot.Controls.Add(this.m_checkBoxAutoBoot, 0, 1);
+            this.m_tlpAutoBoot.Name = "m_tlpAutoBoot";
+            // 
+            // m_picInfoAutoBoot
+            // 
+            resources.ApplyResources(this.m_picInfoAutoBoot, "m_picInfoAutoBoot");
+            this.m_picInfoAutoBoot.Image = global::XenAdmin.Properties.Resources._000_Info3_h32bit_16;
+            this.m_picInfoAutoBoot.Name = "m_picInfoAutoBoot";
+            this.m_picInfoAutoBoot.TabStop = false;
+            // 
+            // m_checkBoxAutoBoot
+            // 
+            resources.ApplyResources(this.m_checkBoxAutoBoot, "m_checkBoxAutoBoot");
+            this.m_tlpAutoBoot.SetColumnSpan(this.m_checkBoxAutoBoot, 2);
+            this.m_checkBoxAutoBoot.Name = "m_checkBoxAutoBoot";
+            this.m_checkBoxAutoBoot.UseVisualStyleBackColor = true;
             // 
             // m_tlpHvm
             // 
@@ -144,13 +182,6 @@ namespace XenAdmin.SettingsPanels
             this.m_buttonConvertToHVM.UseVisualStyleBackColor = true;
             this.m_buttonConvertToHVM.Click += new System.EventHandler(this.m_buttonConvertToHVM_Click);
             // 
-            // m_checkBoxAutoBoot
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.m_checkBoxAutoBoot, 2);
-            resources.ApplyResources(this.m_checkBoxAutoBoot, "m_checkBoxAutoBoot");
-            this.m_checkBoxAutoBoot.Name = "m_checkBoxAutoBoot";
-            this.m_checkBoxAutoBoot.UseVisualStyleBackColor = true;
-            // 
             // m_autoHeightLabelHvm
             // 
             resources.ApplyResources(this.m_autoHeightLabelHvm, "m_autoHeightLabelHvm");
@@ -163,6 +194,16 @@ namespace XenAdmin.SettingsPanels
             this.tableLayoutPanel1.SetColumnSpan(this.m_autoHeightLabelNonHvm, 3);
             this.m_autoHeightLabelNonHvm.Name = "m_autoHeightLabelNonHvm";
             // 
+            // m_autoHeightLabelAutoBoot
+            // 
+            resources.ApplyResources(this.m_autoHeightLabelAutoBoot, "m_autoHeightLabelAutoBoot");
+            this.m_autoHeightLabelAutoBoot.Name = "m_autoHeightLabelAutoBoot";
+            // 
+            // m_autoHeightLabelAutoBootHAWarning
+            // 
+            resources.ApplyResources(this.m_autoHeightLabelAutoBootHAWarning, "m_autoHeightLabelAutoBootHAWarning");
+            this.m_autoHeightLabelAutoBootHAWarning.Name = "m_autoHeightLabelAutoBootHAWarning";
+            // 
             // BootOptionsEditPage
             // 
             resources.ApplyResources(this, "$this");
@@ -172,6 +213,11 @@ namespace XenAdmin.SettingsPanels
             this.Name = "BootOptionsEditPage";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.m_groupBoxAutoBoot.ResumeLayout(false);
+            this.m_groupBoxAutoBoot.PerformLayout();
+            this.m_tlpAutoBoot.ResumeLayout(false);
+            this.m_tlpAutoBoot.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.m_picInfoAutoBoot)).EndInit();
             this.m_tlpHvm.ResumeLayout(false);
             this.m_tlpHvm.PerformLayout();
             this.m_tlpNonHvm.ResumeLayout(false);
@@ -199,5 +245,10 @@ namespace XenAdmin.SettingsPanels
         private System.Windows.Forms.CheckBox m_checkBoxAutoBoot;
         private System.Windows.Forms.Button m_buttonConvertToPV;
         private System.Windows.Forms.Button m_buttonConvertToHVM;
+        private System.Windows.Forms.TableLayoutPanel m_tlpAutoBoot;
+        private Controls.Common.AutoHeightLabel m_autoHeightLabelAutoBoot;
+        private System.Windows.Forms.GroupBox m_groupBoxAutoBoot;
+        private System.Windows.Forms.PictureBox m_picInfoAutoBoot;
+        private Controls.Common.AutoHeightLabel m_autoHeightLabelAutoBootHAWarning;
     }
 }
