@@ -1373,7 +1373,6 @@ namespace XenAdmin.TabPages
             else
                 return string.Empty;
         }
-        }
 
         private static void GenerateVirtualisationStatusForGeneralBox(PDSection s, VM vm)
         {

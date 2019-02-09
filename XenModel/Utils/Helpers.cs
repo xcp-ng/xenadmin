@@ -691,6 +691,11 @@ namespace XenAdmin.Core
             return output;
         }
 
+        public static string BoolToString(bool b)
+        {
+            return b ? Messages.YES : Messages.NO;
+        }
+
         private static readonly Regex IqnRegex = new Regex(@"^iqn\.\d{4}-\d{2}\.([a-zA-Z0-9][-_a-zA-Z0-9]*(\.[a-zA-Z0-9][-_a-zA-Z0-9]*)*)(:.+)?$", RegexOptions.ECMAScript);
 
         public static bool ValidateIscsiIQN(string iqn)

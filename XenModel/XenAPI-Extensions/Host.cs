@@ -445,7 +445,7 @@ namespace XenAPI
             return BoolKeyPreferTrue(h.license_params, "restrict_corosync");
         }
 
-        //#region Experimental Features
+        #region Experimental Features
 
         //public static bool CorosyncDisabled(Host h)
         //{
