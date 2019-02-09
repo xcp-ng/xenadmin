@@ -80,9 +80,9 @@ del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\ja
 del /Q $(SolutionDir)XenAdmin\bin\$(ConfigurationName)\zh-CN
 
 REM signtool.exe sign /a /n Vates /fd sha256 /t "http://timestamp.verisign.com/scripts/timestamp.dll" "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.dll"
-REM signtool.exe sign /a /n Vates /fd sha256 /t "http://timestamp.verisign.com/scripts/timestamp.dll" "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.exe"
+signtool.exe sign /a /n Vates /fd sha256 /t "http://timestamp.verisign.com/scripts/timestamp.dll" "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)\%2a.exe"
 
-REM heat.exe dir "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)" -cg XCPngFiles -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -out "$(ProjectDir)\FilesFragment.wxs"</PreBuildEvent>
+heat.exe dir "$(SolutionDir)XenAdmin\bin\$(ConfigurationName)" -cg XCPngFiles -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -out "$(ProjectDir)\FilesFragment.wxs"</PreBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
