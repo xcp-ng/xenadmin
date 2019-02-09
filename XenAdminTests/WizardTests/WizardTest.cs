@@ -101,13 +101,7 @@ namespace XenAdminTests.WizardTests
                 });
         }
 
-<<<<<<< .mine
-        [Test, MaxTime(100 * 1000)]
-        public void RunWizardTests()
-=======
         private void SetUp()
-
->>>>>>> .theirs
         {
             RunBefore();
 
