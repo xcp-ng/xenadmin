@@ -267,6 +267,8 @@ namespace XenAdmin.SettingsPanels
 		{
 			m_buttonUp.Enabled = 0 < m_checkedListBox.SelectedIndex && m_checkedListBox.SelectedIndex <= m_checkedListBox.Items.Count - 1;
 			m_buttonDown.Enabled = 0 <= m_checkedListBox.SelectedIndex && m_checkedListBox.SelectedIndex < m_checkedListBox.Items.Count - 1;
+            m_buttonConvertToHVM.Enabled = vm.power_state == vm_power_state.Halted;
+            m_buttonConvertToPV.Enabled = vm.power_state == vm_power_state.Halted;
 		}
 
 		/// <param name="up">
@@ -298,6 +300,27 @@ namespace XenAdmin.SettingsPanels
 			ToggleUpDownButtonsEnabledState();
 		}
 
+        /// <param name="toPV">
+        /// True converts to PV, false converts to HVM
+        /// </param>
+        private void Convert(bool toPV)
+        {
+            if (toPV)
+            {
+                vm.HVM_boot_policy = "";
+
+                vm.PV_args = "console=tty0 xencons=tty";
+                vm.PV_bootloader = "pygrub";
+            }
+            else
+            {
+                vm.HVM_boot_policy = "BIOS Order";
+            }
+
+            Repopulate();
+        }
+
+
 		#region Control Event Handlers
 
 		private void m_checkedListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -319,7 +342,19 @@ namespace XenAdmin.SettingsPanels
 		{
 			bootFromCD = (string)m_comboBoxBootDevice.SelectedItem == Messages.DVD_DRIVE;
 		}
-		
-		#endregion
-	}
+
+        private void m_buttonConvertToPV_Click(object sender, EventArgs e)
+        {
+            Convert(true);
+        }
+
+        private void m_buttonConvertToHVM_Click(object sender, EventArgs e)
+        {
+            Convert(false);
+        }
+
+        #endregion
+
+
+    }
 }

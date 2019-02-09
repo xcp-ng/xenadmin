@@ -123,10 +123,10 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="m_textBoxOsParams.Location" type="System.Drawing.Point, System.Drawing">
-    <value>113, 50</value>
+    <value>120, 50</value>
   </data>
   <data name="m_textBoxOsParams.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 20</value>
+    <value>206, 20</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="m_textBoxOsParams.TabIndex" type="System.Int32, mscorlib">
@@ -255,6 +255,39 @@
   <data name="&gt;&gt;m_autoHeightLabelNonHvm.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="m_checkBoxAutoBoot.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="m_checkBoxAutoBoot.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="m_checkBoxAutoBoot.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 101</value>
+  </data>
+  <data name="m_checkBoxAutoBoot.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>9, 3, 3, 3</value>
+  </data>
+  <data name="m_checkBoxAutoBoot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>438, 24</value>
+  </data>
+  <data name="m_checkBoxAutoBoot.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="m_checkBoxAutoBoot.Text" xml:space="preserve">
+    <value>Autostart on server boot</value>
+  </data>
+  <data name="&gt;&gt;m_checkBoxAutoBoot.Name" xml:space="preserve">
+    <value>m_checkBoxAutoBoot</value>
+  </data>
+  <data name="&gt;&gt;m_checkBoxAutoBoot.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;m_checkBoxAutoBoot.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;m_checkBoxAutoBoot.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="m_tlpHvm.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -301,7 +334,7 @@
     <value>NoControl</value>
   </data>
   <data name="m_buttonUp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 3</value>
+    <value>291, 3</value>
   </data>
   <data name="m_buttonUp.Size" type="System.Drawing.Size, System.Drawing">
     <value>85, 23</value>
@@ -328,7 +361,7 @@
     <value>NoControl</value>
   </data>
   <data name="m_buttonDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 32</value>
+    <value>291, 32</value>
   </data>
   <data name="m_buttonDown.Size" type="System.Drawing.Size, System.Drawing">
     <value>85, 23</value>
@@ -355,7 +388,7 @@
     <value>Fill</value>
   </data>
   <data name="m_checkedListBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>68, 3</value>
+    <value>141, 3</value>
   </data>
   <data name="m_checkedListBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 102</value>
@@ -375,17 +408,44 @@
   <data name="&gt;&gt;m_checkedListBox.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="m_buttonConvertToPV.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="m_buttonConvertToPV.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 131</value>
+  </data>
+  <data name="m_buttonConvertToPV.Size" type="System.Drawing.Size, System.Drawing">
+    <value>132, 23</value>
+  </data>
+  <data name="m_buttonConvertToPV.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="m_buttonConvertToPV.Text" xml:space="preserve">
+    <value>Convert to PV</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToPV.Name" xml:space="preserve">
+    <value>m_buttonConvertToPV</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToPV.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToPV.Parent" xml:space="preserve">
+    <value>m_tlpHvm</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToPV.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="m_tlpHvm.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="m_tlpHvm.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 101</value>
+    <value>3, 131</value>
   </data>
   <data name="m_tlpHvm.RowCount" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="m_tlpHvm.Size" type="System.Drawing.Size, System.Drawing">
-    <value>444, 108</value>
+    <value>444, 157</value>
   </data>
   <data name="m_tlpHvm.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -400,10 +460,10 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;m_tlpHvm.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="m_tlpHvm.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="m_buttonUp" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="m_buttonDown" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="m_checkedListBox" Row="0" RowSpan="3" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Absolute,150,AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,Absolute,50,Percent,100,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="m_buttonUp" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="m_buttonDown" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="m_checkedListBox" Row="0" RowSpan="3" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="m_buttonConvertToPV" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Absolute,150,AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,Absolute,50,Absolute,20,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="m_tlpNonHvm.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -454,10 +514,10 @@
     <value>Fill</value>
   </data>
   <data name="m_comboBoxBootDevice.Location" type="System.Drawing.Point, System.Drawing">
-    <value>113, 3</value>
+    <value>120, 3</value>
   </data>
   <data name="m_comboBoxBootDevice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 21</value>
+    <value>206, 21</value>
   </data>
   <data name="m_comboBoxBootDevice.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -474,17 +534,44 @@
   <data name="&gt;&gt;m_comboBoxBootDevice.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="m_buttonConvertToHVM.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="m_buttonConvertToHVM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 96</value>
+  </data>
+  <data name="m_buttonConvertToHVM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 23</value>
+  </data>
+  <data name="m_buttonConvertToHVM.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="m_buttonConvertToHVM.Text" xml:space="preserve">
+    <value>Convert to HVM</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToHVM.Name" xml:space="preserve">
+    <value>m_buttonConvertToHVM</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToHVM.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToHVM.Parent" xml:space="preserve">
+    <value>m_tlpNonHvm</value>
+  </data>
+  <data name="&gt;&gt;m_buttonConvertToHVM.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="m_tlpNonHvm.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="m_tlpNonHvm.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 215</value>
+    <value>3, 294</value>
   </data>
   <data name="m_tlpNonHvm.RowCount" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="m_tlpNonHvm.Size" type="System.Drawing.Size, System.Drawing">
-    <value>444, 208</value>
+    <value>444, 129</value>
   </data>
   <data name="m_tlpNonHvm.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -499,10 +586,10 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;m_tlpNonHvm.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="m_tlpNonHvm.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label3" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="m_textBoxOsParams" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="m_comboBoxBootDevice" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,65,Percent,35" /&gt;&lt;Rows Styles="AutoSize,0,Absolute,20,AutoSize,0,Percent,100,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label3" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="m_textBoxOsParams" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="m_comboBoxBootDevice" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="m_buttonConvertToHVM" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,65,Percent,35" /&gt;&lt;Rows Styles="AutoSize,0,Absolute,20,AutoSize,0,Absolute,20,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -511,7 +598,7 @@
     <value>0, 0</value>
   </data>
   <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>450, 426</value>
@@ -532,11 +619,11 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="m_autoHeightLabelHvm" Row="0" RowSpan="1" Column="0" ColumnSpan="4" /&gt;&lt;Control Name="m_autoHeightLabelNonHvm" Row="1" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="m_tlpHvm" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="m_tlpNonHvm" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,Absolute,20,AutoSize,0,AutoSize,0,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="m_autoHeightLabelHvm" Row="0" RowSpan="1" Column="0" ColumnSpan="4" /&gt;&lt;Control Name="m_autoHeightLabelNonHvm" Row="1" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="m_checkBoxAutoBoot" Row="3" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="m_tlpHvm" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="m_tlpNonHvm" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,Absolute,20,AutoSize,0,AutoSize,0,AutoSize,0,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>96, 96</value>
   </data>
@@ -551,20 +638,5 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;m_checkBoxAutoBoot.Name" xml:space="preserve">
-    <value>m_checkBoxAutoBoot</value>
-  </data>
-  <data name="&gt;&gt;m_checkBoxAutoBoot.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;m_checkBoxAutoBoot.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;m_checkBoxAutoBoot.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="m_checkBoxAutoBoot.Text" xml:space="preserve">
-    <value>Auto-start on server boot</value>
   </data>
 </root>
