@@ -93,7 +93,7 @@ BRANDING_BRAND_CONSOLE_TITLE="${BRANDING_BRAND_CONSOLE} ${BRANDING_PRODUCT_VERSI
 
 BRANDING_PERF_ALERT_MAIL_LANGUAGE_DEFAULT=en-US
 
-BRANDING_XENSERVER_UPDATE_URL="https://raw.githubusercontent.com/xcp-ng/xenadmin/master/updates.xml"
+BRANDING_XENSERVER_UPDATE_URL="https://raw.githubusercontent.com/xcp-ng/xenadmin-updates/master/updates.xml"
 BRANDING_HIDDEN_FEATURES=""
 BRANDING_ADDITIONAL_FEATURES=""
 
