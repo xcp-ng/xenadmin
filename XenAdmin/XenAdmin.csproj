@@ -197,7 +197,7 @@
     <Compile Include="Controls\SpinnerIcon.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\SpinnerIcon.designer.cs">
+    <Compile Include="Controls\SpinnerIcon.Designer.cs">
       <DependentUpon>SpinnerIcon.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Tags\TagList.cs" />
@@ -210,7 +210,7 @@
     <Compile Include="Controls\UpsellPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\UpsellPage.designer.cs">
+    <Compile Include="Controls\UpsellPage.Designer.cs">
       <DependentUpon>UpsellPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\HealthCheck.cs" />
@@ -276,7 +276,7 @@
     <Compile Include="Dialogs\PvsPages\PvsCacheConfigurationPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Dialogs\PvsPages\PvsCacheConfigurationPage.designer.cs">
+    <Compile Include="Dialogs\PvsPages\PvsCacheConfigurationPage.Designer.cs">
       <DependentUpon>PvsCacheConfigurationPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\PvsSiteDialog.cs">
@@ -309,7 +309,7 @@
     <Compile Include="Dialogs\HealthCheck\HealthCheckSettingsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\HealthCheck\HealthCheckSettingsDialog.designer.cs">
+    <Compile Include="Dialogs\HealthCheck\HealthCheckSettingsDialog.Designer.cs">
       <DependentUpon>HealthCheckSettingsDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\OptionsPages\SaveAndRestoreOptionsPage.cs">
@@ -351,7 +351,7 @@
     <Compile Include="Dialogs\UpsellDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\UpsellDialog.designer.cs">
+    <Compile Include="Dialogs\UpsellDialog.Designer.cs">
       <DependentUpon>UpsellDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\UsbUsageDialog.cs">
@@ -469,13 +469,13 @@
     <Compile Include="TabPages\SnapshotsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TabPages\SnapshotsPage.designer.cs">
+    <Compile Include="TabPages\SnapshotsPage.Designer.cs">
       <DependentUpon>SnapshotsPage.cs</DependentUpon>
     </Compile>
     <Compile Include="TabPages\UpsellTabPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TabPages\UpsellTabPage.designer.cs">
+    <Compile Include="TabPages\UpsellTabPage.Designer.cs">
       <DependentUpon>UpsellTabPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Clip.cs" />
@@ -617,7 +617,7 @@
     <Compile Include="Dialogs\ConnectingToServerDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\ConnectingToServerDialog.designer.cs">
+    <Compile Include="Dialogs\ConnectingToServerDialog.Designer.cs">
       <DependentUpon>ConnectingToServerDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\MessageBoxTest.cs">
@@ -925,7 +925,7 @@
     <Compile Include="Controls\CustomDataGraph\DataEventList.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\CustomDataGraph\DataEventList.designer.cs">
+    <Compile Include="Controls\CustomDataGraph\DataEventList.Designer.cs">
       <DependentUpon>DataEventList.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\CustomDataGraph\DataGrid.cs" />
@@ -938,13 +938,13 @@
     <Compile Include="Controls\CustomDataGraph\DataPlot.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\CustomDataGraph\DataPlot.designer.cs">
+    <Compile Include="Controls\CustomDataGraph\DataPlot.Designer.cs">
       <DependentUpon>DataPlot.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\CustomDataGraph\DataPlotNav.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\CustomDataGraph\DataPlotNav.designer.cs">
+    <Compile Include="Controls\CustomDataGraph\DataPlotNav.Designer.cs">
       <DependentUpon>DataPlotNav.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\CustomDataGraph\DataPoint.cs" />
@@ -991,13 +991,13 @@
     <Compile Include="Wizards\PatchingWizard\AutomatedUpdatesBasePage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Wizards\PatchingWizard\AutomatedUpdatesBasePage.designer.cs">
+    <Compile Include="Wizards\PatchingWizard\AutomatedUpdatesBasePage.Designer.cs">
       <DependentUpon>AutomatedUpdatesBasePage.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizards\PatchingWizard\PatchingWizard_AutomatedUpdatesPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Wizards\PatchingWizard\PatchingWizard_AutomatedUpdatesPage.designer.cs">
+    <Compile Include="Wizards\PatchingWizard\PatchingWizard_AutomatedUpdatesPage.Designer.cs">
       <DependentUpon>PatchingWizard_AutomatedUpdatesPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizards\PatchingWizard\PatchingWizard_UploadPage.cs">
@@ -1143,7 +1143,7 @@
     <Compile Include="SettingsPanels\CustomFieldsDisplayPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SettingsPanels\CustomFieldsDisplayPage.designer.cs">
+    <Compile Include="SettingsPanels\CustomFieldsDisplayPage.Designer.cs">
       <DependentUpon>CustomFieldsDisplayPage.cs</DependentUpon>
     </Compile>
     <Compile Include="TabPages\PerformancePage.cs">
@@ -1351,7 +1351,7 @@
     <Compile Include="Dialogs\XenDialogBase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\XenDialogBase.designer.cs">
+    <Compile Include="Dialogs\XenDialogBase.Designer.cs">
       <DependentUpon>XenDialogBase.cs</DependentUpon>
     </Compile>
     <Compile Include="LicenseTimer.cs">
@@ -1517,7 +1517,7 @@
     <Compile Include="Wizards\HAWizard_Pages\AssignPriorities.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Wizards\HAWizard_Pages\AssignPriorities.designer.cs">
+    <Compile Include="Wizards\HAWizard_Pages\AssignPriorities.Designer.cs">
       <DependentUpon>AssignPriorities.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizards\HAWizard_Pages\Intro.cs">
@@ -1559,13 +1559,13 @@
     <Compile Include="Wizards\NewSRWizard_Pages\Frontends\LVMoHBA.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Wizards\NewSRWizard_Pages\Frontends\LVMoHBA.designer.cs">
+    <Compile Include="Wizards\NewSRWizard_Pages\Frontends\LVMoHBA.Designer.cs">
       <DependentUpon>LVMoHBA.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizards\XenWizardBase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Wizards\XenWizardBase.designer.cs">
+    <Compile Include="Wizards\XenWizardBase.Designer.cs">
       <DependentUpon>XenWizardBase.cs</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.cs">
@@ -2830,13 +2830,13 @@
     <Compile Include="Controls\ConsoleTab\ConnectionBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ConsoleTab\ConnectionBar.designer.cs">
+    <Compile Include="Controls\ConsoleTab\ConnectionBar.Designer.cs">
       <DependentUpon>ConnectionBar.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ConsoleTab\FullScreenForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\ConsoleTab\FullScreenForm.designer.cs">
+    <Compile Include="Controls\ConsoleTab\FullScreenForm.Designer.cs">
       <DependentUpon>FullScreenForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ConsoleTab\FullScreenHint.cs">
@@ -2872,7 +2872,7 @@
     <Compile Include="Controls\SnapshotTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\SnapshotTreeView.designer.cs">
+    <Compile Include="Controls\SnapshotTreeView.Designer.cs">
       <DependentUpon>SnapshotTreeView.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\DataGridViewDropDownSplitButtonCell.cs">
@@ -3150,7 +3150,7 @@
     <Compile Include="Dialogs\VMAppliances\VMAppliancesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\VMAppliances\VMAppliancesDialog.designer.cs">
+    <Compile Include="Dialogs\VMAppliances\VMAppliancesDialog.Designer.cs">
       <DependentUpon>VMAppliancesDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="ConsoleView\IRemoteConsole.cs" />
@@ -3158,7 +3158,7 @@
     <Compile Include="Dialogs\WarningDialogs\LVMoHBAWarningDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\WarningDialogs\LVMoHBAWarningDialog.designer.cs">
+    <Compile Include="Dialogs\WarningDialogs\LVMoHBAWarningDialog.Designer.cs">
       <DependentUpon>LVMoHBAWarningDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Network\XenConnectionUI.cs" />
@@ -3215,7 +3215,7 @@
     <Compile Include="Controls\Common\SearchTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Common\SearchTextBox.designer.cs">
+    <Compile Include="Controls\Common\SearchTextBox.Designer.cs">
       <DependentUpon>SearchTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\DateTimeMinutes15.cs">
@@ -3569,7 +3569,7 @@
     <Compile Include="Dialogs\MoveVirtualDiskDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\MoveVirtualDiskDialog.designer.cs">
+    <Compile Include="Dialogs\MoveVirtualDiskDialog.Designer.cs">
       <DependentUpon>MoveVirtualDiskDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\NewPoolDialog.cs">
@@ -3620,13 +3620,13 @@
     <Compile Include="Dialogs\Wlb\WlbReportCustomFilter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\Wlb\WlbReportCustomFilter.designer.cs">
+    <Compile Include="Dialogs\Wlb\WlbReportCustomFilter.Designer.cs">
       <DependentUpon>WlbReportCustomFilter.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\Wlb\WlbReportSubscriptionDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\Wlb\WlbReportSubscriptionDialog.designer.cs">
+    <Compile Include="Dialogs\Wlb\WlbReportSubscriptionDialog.Designer.cs">
       <DependentUpon>WlbReportSubscriptionDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizards\CrossPoolMigrateWizard\Filters\WlbEnabledFilter.cs" />
@@ -3867,25 +3867,25 @@
     <Compile Include="Wizards\NewVMApplianceWizard\NewVMApplianceFinishPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Wizards\NewVMApplianceWizard\NewVMApplianceFinishPage.designer.cs">
+    <Compile Include="Wizards\NewVMApplianceWizard\NewVMApplianceFinishPage.Designer.cs">
       <DependentUpon>NewVMApplianceFinishPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizards\NewVMApplianceWizard\NewVMApplianceNamePage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Wizards\NewVMApplianceWizard\NewVMApplianceNamePage.designer.cs">
+    <Compile Include="Wizards\NewVMApplianceWizard\NewVMApplianceNamePage.Designer.cs">
       <DependentUpon>NewVMApplianceNamePage.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizards\NewVMApplianceWizard\NewVMApplianceVMOrderAndDelaysPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Wizards\NewVMApplianceWizard\NewVMApplianceVMOrderAndDelaysPage.designer.cs">
+    <Compile Include="Wizards\NewVMApplianceWizard\NewVMApplianceVMOrderAndDelaysPage.Designer.cs">
       <DependentUpon>NewVMApplianceVMOrderAndDelaysPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizards\NewVMApplianceWizard\NewVMApplianceWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Wizards\NewVMApplianceWizard\NewVMApplianceWizard.designer.cs">
+    <Compile Include="Wizards\NewVMApplianceWizard\NewVMApplianceWizard.Designer.cs">
       <DependentUpon>NewVMApplianceWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizards\NewVMWizard\LunPerVdiNewVMMappingPage.cs">
@@ -4150,7 +4150,7 @@
     <Compile Include="Wizards\PatchingWizard\PatchingWizard_PatchingPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Wizards\PatchingWizard\PatchingWizard_PatchingPage.designer.cs">
+    <Compile Include="Wizards\PatchingWizard\PatchingWizard_PatchingPage.Designer.cs">
       <DependentUpon>PatchingWizard_PatchingPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizards\PatchingWizard\PatchingWizard_PrecheckPage.cs">
