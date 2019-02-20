@@ -2721,7 +2721,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" />
+    <None Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
@@ -5164,12 +5164,12 @@
     <EmbeddedResource Include="Dialogs\CommandErrorDialog.zh-CN.resx">
       <DependentUpon>CommandErrorDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\ConfirmVMDeleteDialog.ja.resx">
+    <None Include="Dialogs\ConfirmVMDeleteDialog.ja.resx">
       <DependentUpon>ConfirmVMDeleteDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\ConfirmVMDeleteDialog.zh-CN.resx">
+    </None>
+    <None Include="Dialogs\ConfirmVMDeleteDialog.zh-CN.resx">
       <DependentUpon>ConfirmVMDeleteDialog.cs</DependentUpon>
-    </EmbeddedResource>
+    </None>
     <EmbeddedResource Include="Dialogs\ConnectingToServerDialog.ja.resx">
       <DependentUpon>ConnectingToServerDialog.cs</DependentUpon>
     </EmbeddedResource>
