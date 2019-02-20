@@ -626,6 +626,7 @@ namespace XenAdmin
         /// </summary>
         private static void SetDefaultFonts()
         {
+            /*
             if (Registry.ForceSystemFonts)
             {
                 log.Debug("ForceSystemFonts registry key is defined");
@@ -682,6 +683,8 @@ namespace XenAdmin
                 }
             }
             log.DebugFormat("Leaving the default font as {0} {1}pt.", DefaultFont.Name, DefaultFont.Size);
+            */
+            DefaultFont = SystemFonts.DefaultFont;
             SetDefaultFonts(DefaultFont);
         }
 
