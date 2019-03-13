@@ -1949,6 +1949,9 @@
   <data name="VDI_READONLY" xml:space="preserve">
     <value>该操作需要进行写入访问，但 VDI {0} 为只读</value>
   </data>
+  <data name="VDI_TOO_LARGE" xml:space="preserve">
+    <value>VDI 太大。</value>
+  </data>
   <data name="VDI_TOO_SMALL" xml:space="preserve">
     <value>VDI 太小。请至少将其大小调整到最小大小。</value>
   </data>
@@ -2029,6 +2032,9 @@
   </data>
   <data name="VM_FAILED_SHUTDOWN_ACKNOWLEDGMENT" xml:space="preserve">
     <value>VM 未认可需要关闭。</value>
+  </data>
+  <data name="VM_FAILED_SUSPEND_ACKNOWLEDGMENT" xml:space="preserve">
+    <value>VM 未确认需要挂起。</value>
   </data>
   <data name="VM_HALTED" xml:space="preserve">
     <value>VM 意外终止</value>
@@ -2185,6 +2191,9 @@
   </data>
   <data name="VM_SNAPSHOT_WITH_QUIESCE_TIMEOUT" xml:space="preserve">
     <value>VSS 插件已超时</value>
+  </data>
+  <data name="VM_SUSPEND_TIMEOUT" xml:space="preserve">
+    <value>VM 在超时到期之前无法挂起</value>
   </data>
   <data name="VM_TOO_MANY_VCPUS" xml:space="preserve">
     <value>VCPU 过多，无法启动此 VM</value>
