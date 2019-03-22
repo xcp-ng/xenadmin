@@ -2649,6 +2649,12 @@ Do you want to assign it to the schedule '{2}' instead?</value>
   <data name="CHOOSE_ANOTHER_DESTINATION" xml:space="preserve">
     <value>Choose another &amp;destination</value>
   </data>
+  <data name="CHOOSE_SR_PROVISIONING_PAGE_MULTIPATHING_MANY" xml:space="preserve">
+    <value>Multipathing is not enabled on all servers of your pool. To ensure system stability, it is strongly recommended that you use multipathing for your storage connectivity.</value>
+  </data>
+  <data name="CHOOSE_SR_PROVISIONING_PAGE_MULTIPATHING_ONE" xml:space="preserve">
+    <value>Multipathing is not enabled on your server. To ensure system stability, it is strongly recommended that you use multipathing for your storage connectivity.</value>
+  </data>
   <data name="CHOOSE_SR_PROVISIONING_PAGE_TITLE" xml:space="preserve">
     <value>Choose the provisioning method</value>
   </data>
@@ -8168,6 +8174,11 @@ Do you want to continue?</value>
   </data>
   <data name="MULTIPATH_NOT_ACTIVE" xml:space="preserve">
     <value>Not active</value>
+  </data>
+  <data name="MULTIPATH_NOT_ACTIVE_GFS2" xml:space="preserve">
+    <value>Not active.
+To ensure system stability, it is strongly recommended that you use multipathing for your storage connectivity.
+</value>
   </data>
   <data name="MULTIPATH_STATUS" xml:space="preserve">
     <value>{0} of {1} paths active</value>

@@ -7294,6 +7294,24 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Multipathing is not enabled on all servers of your pool. To ensure system stability, it is strongly recommended that you use multipathing for your storage connectivity..
+        /// </summary>
+        public static string CHOOSE_SR_PROVISIONING_PAGE_MULTIPATHING_MANY {
+            get {
+                return ResourceManager.GetString("CHOOSE_SR_PROVISIONING_PAGE_MULTIPATHING_MANY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multipathing is not enabled on your server. To ensure system stability, it is strongly recommended that you use multipathing for your storage connectivity..
+        /// </summary>
+        public static string CHOOSE_SR_PROVISIONING_PAGE_MULTIPATHING_ONE {
+            get {
+                return ResourceManager.GetString("CHOOSE_SR_PROVISIONING_PAGE_MULTIPATHING_ONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose the provisioning method.
         /// </summary>
         public static string CHOOSE_SR_PROVISIONING_PAGE_TITLE {
@@ -23402,6 +23420,17 @@ namespace XenAdmin {
         public static string MULTIPATH_NOT_ACTIVE {
             get {
                 return ResourceManager.GetString("MULTIPATH_NOT_ACTIVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not active.
+        ///To ensure system stability, it is strongly recommended that you use multipathing for your storage connectivity.
+        ///.
+        /// </summary>
+        public static string MULTIPATH_NOT_ACTIVE_GFS2 {
+            get {
+                return ResourceManager.GetString("MULTIPATH_NOT_ACTIVE_GFS2", resourceCulture);
             }
         }
         

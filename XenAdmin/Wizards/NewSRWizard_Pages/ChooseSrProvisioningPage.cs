@@ -39,33 +39,26 @@ using XenAPI;
 namespace XenAdmin.Wizards.NewSRWizard_Pages
 {
     public partial class ChooseSrProvisioningPage : XenTabPage
-
     {
         public ChooseSrProvisioningPage()
         {
             InitializeComponent();
             Cluster_CollectionChangedWithInvoke = Program.ProgramInvokeHandler(Cluster_CollectionChanged);
         }
+
         private readonly CollectionChangeEventHandler Cluster_CollectionChangedWithInvoke;
+
         #region XenTabPage overrides
 
-        public override string Text { get { return Messages.PROVISIONING; } }
+        public override string Text => Messages.PROVISIONING;
 
-        public override string PageTitle { get { return Messages.CHOOSE_SR_PROVISIONING_PAGE_TITLE; } }
+        public override string PageTitle => Messages.CHOOSE_SR_PROVISIONING_PAGE_TITLE;
 
-        public override string HelpID
-        {
-            get { return "Provisioning"; }
-        }
+        public override string HelpID => "Provisioning";
+
         #endregion
 
-        public bool IsGfs2
-        {
-            get
-            {
-                return radioButtonGfs2.Checked;
-            }
-        }
+        public bool IsGfs2 => radioButtonGfs2.Checked;
 
         private void RefreshPage()
         {
@@ -81,22 +74,88 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages
             }
 
             tableLayoutInfo.Visible = !gfs2Allowed;
-            labelWarning.Text = restrictGfs2
+            labelInfo.Text = restrictGfs2
                 ? Messages.GFS2_INCORRECT_POOL_LICENSE
                 : Messages.GFS2_REQUIRES_CLUSTERING_ENABLED;
-            linkLabelPoolProperties.Visible = !clusteringEnabled && !restrictGfs2;
+            linkLabelPoolProperties.Visible = !clusteringEnabled && !restrictGfs2;   
+            
+            RefreshWarnings();
+        }
+
+        private void RefreshWarnings()
+        {
+            if (radioButtonGfs2.Checked)
+            {
+                bool disabledMultipathExists = false;
+
+                foreach (Host host in Connection.Cache.Hosts)
+                {
+                    if (!host.MultipathEnabled())
+                    {
+                        disabledMultipathExists = true;
+                        break;
+                    }
+                }
+
+                tableLayoutWarning.Visible = disabledMultipathExists;
+                labelWarning.Text = Connection.Cache.Hosts.Length > 1
+                    ? Messages.CHOOSE_SR_PROVISIONING_PAGE_MULTIPATHING_MANY
+                    : Messages.CHOOSE_SR_PROVISIONING_PAGE_MULTIPATHING_ONE;
+            }
+            else
+            {
+                tableLayoutWarning.Visible = false;
+            }
         }
 
         protected override void PageLoadedCore(PageLoadedDirection direction)
         {
             RefreshPage();
+
+            foreach (var host in Connection.Cache.Hosts)
+                host.PropertyChanged += Host_PropertyChanged;
+
             Connection.Cache.RegisterCollectionChanged<Cluster>(Cluster_CollectionChangedWithInvoke);
+            Connection.Cache.RegisterCollectionChanged<Host>(Host_CollectionChangedWithInvoke);
         }
 
         protected override void PageLeaveCore(PageLoadedDirection direction, ref bool cancel)
         {
+            foreach (var host in Connection.Cache.Hosts)
+                host.PropertyChanged -= Host_PropertyChanged;
+
             Connection.Cache.DeregisterCollectionChanged<Cluster>(Cluster_CollectionChangedWithInvoke);
+            Connection.Cache.DeregisterCollectionChanged<Host>(Host_CollectionChangedWithInvoke);
         }
+
+        private void Cluster_CollectionChanged(object sender, CollectionChangeEventArgs e)
+        {
+            Program.AssertOnEventThread();
+            RefreshPage();
+        }
+
+        private void Host_CollectionChangedWithInvoke(object sender, CollectionChangeEventArgs e)
+        {
+            Host host = e.Element as Host;
+            if (host == null)
+                return;
+
+            if (e.Action == CollectionChangeAction.Add)
+                host.PropertyChanged += Host_PropertyChanged;
+            else if (e.Action == CollectionChangeAction.Remove)
+                host.PropertyChanged -= Host_PropertyChanged;
+        }
+
+        private void Host_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "multipathing":
+                    RefreshWarnings();
+                    break;
+            }
+        }
+
 
         private void linkLabelPoolProperties_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
         {
@@ -112,14 +171,16 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages
             }
         }
 
-        /// <summary>
-        /// Called when the current IXenConnection's VM dictionary changes.
-        /// </summary>
-        private void Cluster_CollectionChanged(object sender, CollectionChangeEventArgs e)
+        private void radioButtonGfs2_CheckedChanged(object sender, System.EventArgs e)
         {
-            Program.AssertOnEventThread();
+            if (radioButtonGfs2.Checked)
+                RefreshWarnings();
+        }
 
-            RefreshPage();
+        private void radioButtonLvm_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (radioButtonLvm.Checked)
+                RefreshWarnings();
         }
     }
 }

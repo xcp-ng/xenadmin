@@ -906,10 +906,14 @@ namespace XenAdmin.TabPages
                     PBD pbd = sr.GetPBDFor(host);
                     if (pbd == null || !pathStatus.ContainsKey(pbd))
                     {
-                        s.AddEntry(host.Name(),
-                            pbd != null && pbd.MultipathActive()
-                                ? Messages.MULTIPATH_ACTIVE
-                                : Messages.MULTIPATH_NOT_ACTIVE);
+                        if (pbd == null)
+                            s.AddEntry(host.Name(), Messages.MULTIPATH_NOT_ACTIVE);
+                        else if (pbd.MultipathActive())
+                            s.AddEntry(host.Name(), Messages.MULTIPATH_ACTIVE);
+                        else if (sr.GetSRType(true) == SR.SRTypes.gfs2)
+                            s.AddEntry(host.Name(), Messages.MULTIPATH_NOT_ACTIVE_GFS2, Color.Red);
+                        else
+                            s.AddEntry(host.Name(), Messages.MULTIPATH_NOT_ACTIVE);
                         continue;
                     }
 
