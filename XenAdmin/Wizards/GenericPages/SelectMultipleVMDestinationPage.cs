@@ -543,7 +543,8 @@ namespace XenAdmin.Wizards.GenericPages
 	                    cb.Value = item;
 	                else
 	                    cb.Value = selectedValue;
-	            }
+	                SetButtonNextEnabled(cb.Value is IEnableableComboBoxItem enableableComboBoxItem && enableableComboBoxItem.Enabled);
+                }
 	            finally
 	            {
 	                item.ReasonUpdated -= DelayLoadedGridComboBoxItem_ReasonChanged;
