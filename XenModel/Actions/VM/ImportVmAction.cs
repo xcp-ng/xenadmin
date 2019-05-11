@@ -191,6 +191,8 @@ namespace XenAdmin.Actions
                         if (network != null)
                             networks.Add(network);
 
+                        string oldmac = VIF.get_MAC(Session, vif);
+
                         if (canMoveVifs)
                         {
                             var vifObj = Connection.Resolve(vif);
@@ -198,7 +200,7 @@ namespace XenAdmin.Actions
                                 continue;
                             // try to find a matching VIF in the m_proxyVIFs list, based on the device field
                             var matchingProxyVif = m_VIFs.FirstOrDefault(proxyVIF => proxyVIF.device == vifObj.device);
-                            if (matchingProxyVif != null)
+                            if (matchingProxyVif != null && matchingProxyVif.MAC == oldmac)
                             {
                                 // move the VIF to the desired network
                                 VIF.move(Session, vif, matchingProxyVif.network);
