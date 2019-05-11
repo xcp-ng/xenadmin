@@ -37,7 +37,7 @@ namespace splash_xcp_ng
 
         private void Style()
         {
-            labelVersion.Text = ProductVersion + " (" + AssemblyVersion + ")";
+            labelVersion.Text = ProductVersion + " (Build " + AssemblyVersion + ")";
 
             Image bitmap;
             assembly = System.Reflection.Assembly.LoadFrom(Application.ExecutablePath);
