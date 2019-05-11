@@ -905,10 +905,6 @@ namespace XenAPI
                 {
                     VM.set_hardware_platform_version(session, opaqueRef, _hardware_platform_version);
                 }
-                if (!Helper.AreEqual2(_NVRAM, server._NVRAM))
-                {
-                    VM.set_NVRAM(session, opaqueRef, _NVRAM);
-                }
                 if (!Helper.AreEqual2(_memory_static_max, server._memory_static_max))
                 {
                     VM.set_memory_static_max(session, opaqueRef, _memory_static_max);
@@ -2281,7 +2277,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the NVRAM field of the given VM.
-        /// Experimental. First published in Unreleased.
+        /// Experimental. First published in Citrix Hypervisor 8.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
@@ -3559,7 +3555,7 @@ namespace XenAPI
 
         /// <summary>
         /// 
-        /// Experimental. First published in Unreleased.
+        /// Experimental. First published in Citrix Hypervisor 8.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
@@ -3574,7 +3570,7 @@ namespace XenAPI
 
         /// <summary>
         /// 
-        /// Experimental. First published in Unreleased.
+        /// Experimental. First published in Citrix Hypervisor 8.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
@@ -3590,7 +3586,7 @@ namespace XenAPI
 
         /// <summary>
         /// 
-        /// Experimental. First published in Unreleased.
+        /// Experimental. First published in Citrix Hypervisor 8.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
@@ -6783,7 +6779,7 @@ namespace XenAPI
 
         /// <summary>
         /// initial value for guest NVRAM (containing UEFI variables, etc). Cannot be changed while the VM is running
-        /// Experimental. First published in Unreleased.
+        /// Experimental. First published in Citrix Hypervisor 8.0.
         /// </summary>
         [JsonConverter(typeof(StringStringMapConverter))]
         public virtual Dictionary<string, string> NVRAM

@@ -126,9 +126,6 @@
   <data name="ACTIVATION_URL" xml:space="preserve">
     <value>https://{0}/reactivation_server.php</value>
   </data>
-  <data name="COMMUNITY_URL" xml:space="preserve">
-    <value>http://xenserver.org/</value>
-  </data>
   <data name="HEALTH_CHECK_PRIVACY_STATEMENT_URL" xml:space="preserve">
     <value>https://cis.citrix.com/legal/</value>
   </data>
@@ -166,7 +163,7 @@
     <value>http://www.citrix.com/buy/partnerlocator.html</value>
   </data>
   <data name="PLUGINS_URL" xml:space="preserve">
-    <value>https://more.citrix.com/xenserver-plugin-development</value>
+    <value>https://github.com/xenserver/xencenter-samples</value>
   </data>
   <data name="PRIVACY" xml:space="preserve">
     <value>http://citrix.com/English/aboutCitrix/legal/privacyStatement.asp?ntref=hp_nav_US</value>

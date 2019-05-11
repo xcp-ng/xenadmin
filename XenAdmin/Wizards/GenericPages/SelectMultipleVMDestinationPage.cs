@@ -409,13 +409,13 @@ namespace XenAdmin.Wizards.GenericPages
                         foreach (var host in sortedHosts)
                         {
                             var item = new DelayLoadingOptionComboBoxItem(host, homeserverFilters);
-                            item.LoadSync();
                             cb.Items.Add(item);
-                            if (item.Enabled && ((m_selectedObject != null && m_selectedObject.opaque_ref == host.opaque_ref) ||
-                                                 (target.Item.opaque_ref == host.opaque_ref)))
-                                cb.Value = item;
+                            item.ParentComboBox = cb;
+                            item.PreferAsSelectedItem = m_selectedObject != null && m_selectedObject.opaque_ref == host.opaque_ref ||
+                                                 target.Item.opaque_ref == host.opaque_ref;
+                            item.ReasonUpdated += DelayLoadedGridComboBoxItem_ReasonChanged;
+                            item.LoadAsync();
                         }
-
                     }
 
                     SetComboBoxPreSelection(cb);
@@ -524,7 +524,34 @@ namespace XenAdmin.Wizards.GenericPages
             });
         }
 
-		private void PropertyChanged(object sender, PropertyChangedEventArgs e)
+	    private void DelayLoadedGridComboBoxItem_ReasonChanged(DelayLoadingOptionComboBoxItem item)
+	    {
+	        if (item == null)
+	            throw new NullReferenceException("Trying to update delay loaded reason but failed to extract reason");
+
+	        var cb = item.ParentComboBox as DataGridViewEnableableComboBoxCell;
+	        if (cb == null)
+	            return;
+
+            Program.Invoke(this, () =>
+	        {
+	            try
+	            {
+	                var selectedValue = cb.Value;
+                    cb.DataGridView.RefreshEdit();
+	                if (item.Enabled && item.PreferAsSelectedItem)
+	                    cb.Value = item;
+	                else
+	                    cb.Value = selectedValue;
+	            }
+	            finally
+	            {
+	                item.ReasonUpdated -= DelayLoadedGridComboBoxItem_ReasonChanged;
+	            }
+	        });
+	    }
+
+        private void PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 	        if (e.PropertyName == "name_label" || e.PropertyName == "metrics" ||
 	            e.PropertyName == "enabled" || e.PropertyName == "live" || e.PropertyName == "patches")

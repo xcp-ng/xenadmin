@@ -2133,6 +2133,9 @@
   <data name="BIGGER_THAN" xml:space="preserve">
     <value>大于</value>
   </data>
+  <data name="BIOS_BOOT" xml:space="preserve">
+    <value>BIOS 引导</value>
+  </data>
   <data name="BIOS_STRINGS_COPIED" xml:space="preserve">
     <value>已复制 BIOS 字符串</value>
   </data>
@@ -5792,9 +5795,6 @@
   <data name="GPU_RUBRIC_PLEASE_SELECT_WHICH_GPU_ONE" xml:space="preserve">
     <value>选择允许在此 GPU 上使用的虚拟 GPU 类型:</value>
   </data>
-  <data name="GPU_UNAVAILABLE" xml:space="preserve">
-    <value>不可用</value>
-  </data>
   <data name="GRAPHS_CANNOT_ADD_VM_HALTED" xml:space="preserve">
     <value>无法在 VM“{0}”上添加新的性能图表，因为该 VM 未运行。</value>
   </data>
@@ -5852,22 +5852,34 @@
     <value>组角色</value>
   </data>
   <data name="GUEFI_BOOT_MODES_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>UEFI 和 UEFI 安全启动模式是实验性功能，当前不适合于供生产使用。</value>
+    <value>来宾 UEFI 引导和来宾 UEFI 安全引导属于实验性功能。可以在生产环境中的主机上创建启用了 UEFI 的 VM。但是，启用了 UEFI 的 VM 不得用于生产目的。将主机升级到更新版本的 [XenServer] 时，可能必须重新创建这些 VM。</value>
   </data>
   <data name="GUEFI_BOOT_MODES_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>选定模板不支持 UEFI 和 UEFI 安全启动模式。</value>
   </data>
+  <data name="GUEFI_BOOT_MODE_EXPERIMENTAL_LABEL" xml:space="preserve">
+    <value>UEFI 引导(&amp;U) (实验)</value>
+  </data>
   <data name="GUEFI_BOOT_MODE_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>UEFI 启动模式是实验性功能，当前不适合于供生产使用。</value>
+    <value>来宾 UEFI 引导是一项实验性功能。可以在生产环境中的主机上创建启用了 UEFI 的 VM。但是，启用了 UEFI 的 VM 不得用于生产目的。将主机升级到更新版本的 [XenServer] 时，可能必须重新创建这些 VM。</value>
+  </data>
+  <data name="GUEFI_BOOT_MODE_LABEL" xml:space="preserve">
+    <value>UEFI 引导(&amp;U)</value>
   </data>
   <data name="GUEFI_BOOT_MODE_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>选定模板不支持 UEFI 启动模式。</value>
   </data>
   <data name="GUEFI_SECUREBOOT_MODE_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>UEFI 安全启动模式是实验性功能，当前不适合于供生产使用。</value>
+    <value>来宾 UEFI 安全引导是一项实验性功能。可以在生产环境中的主机上创建配置为使用 UEFI 安全引导模式的 VM。但是，这些 VM 不得用于生产目的。将主机升级到更新版本的 [XenServer] 时，可能必须重新创建这些 VM。</value>
   </data>
   <data name="GUEFI_SECUREBOOT_MODE_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>选定模板不支持 UEFI 安全启动模式。</value>
+  </data>
+  <data name="GUEFI_SECURE_BOOT_MODE_EXPERIMENTAL_LABEL" xml:space="preserve">
+    <value>UEFI 安全引导(&amp;S) (实验)</value>
+  </data>
+  <data name="GUEFI_SECURE_BOOT_MODE_LABEL" xml:space="preserve">
+    <value>UEFI 安全引导(&amp;S)</value>
   </data>
   <data name="GUI_OUT_OF_DATE" xml:space="preserve">
     <value>此版本的 [XenCenter] 已过时，无法连接到 {0}。
@@ -10967,9 +10979,6 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="SELECTED_HOST_POOL_NOT_CONNECTED" xml:space="preserve">
     <value>所选主机或池未连接</value>
   </data>
-  <data name="SELECTION_CANNOT_BE_MIXED_FOR_LICENSING" xml:space="preserve">
-    <value>必须分别对不同版本的 [XenServer] 进行授权</value>
-  </data>
   <data name="SELECT_A_FILTER" xml:space="preserve">
     <value>选择过滤器...</value>
   </data>
@@ -11052,7 +11061,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>池主服务器上的当前时间为: {0}</value>
   </data>
   <data name="SERVER_TOO_OLD" xml:space="preserve">
-    <value>本版本的 [XenCenter] 支持 [XenServer] [BRANDING_VERSION_6_2] 及更高版本。</value>
+    <value>此版本的 [XenCenter] 支持 [XenServer] [BRANDING_VERSION_7_0] 及更高版本。</value>
   </data>
   <data name="SERVER_TOO_OLD_SOLUTION" xml:space="preserve">
     <value>使用早期版本的 [XenCenter] 管理此服务器。</value>
@@ -11228,6 +11237,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="SLAVE_CONNECTION_ERROR" xml:space="preserve">
     <value>服务器“{0}”在某个池中。要连接池，必须连接池主服务器。
 是否连接池主服务器“{1}”?</value>
+  </data>
+  <data name="SLAVE_TOO_OLD" xml:space="preserve">
+    <value>此池包含的服务器低于 [XenServer] [BRANDING_VERSION_7_0]。请使用早期版本的 [XenCenter] 来管理此池。</value>
   </data>
   <data name="SMALLER_THAN" xml:space="preserve">
     <value>小于</value>
@@ -11959,10 +11971,19 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="TYPE_PAGE_DESCRIPTION_HEADER_XVA" xml:space="preserve">
     <value>将本地存储的 VM、模板或快照作为新 VM 导入。</value>
   </data>
+  <data name="UEFI_BOOT" xml:space="preserve">
+    <value>UEFI 引导</value>
+  </data>
+  <data name="UEFI_SECURE_BOOT" xml:space="preserve">
+    <value>UEFI 安全引导</value>
+  </data>
   <data name="UNABLE_TO_IMPORT_SEARCH" xml:space="preserve">
     <value>[XenCenter] 无法从文件“{0}”中导入保存的搜索。
 
 请确认该文件属于有效的 {1} 导出。</value>
+  </data>
+  <data name="UNAVAILABLE" xml:space="preserve">
+    <value>不可用</value>
   </data>
   <data name="UNCOMPRESS_APPLIANCE_DESCRIPTION" xml:space="preserve">
     <value>[XenCenter] 将文件解压到“{0}”。 解压后，将删除原始文件“{1}”。是否继续?</value>

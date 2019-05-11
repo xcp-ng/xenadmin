@@ -135,7 +135,7 @@ namespace XenAdmin.SettingsPanels
         {
             get
             {
-                string txt = Messages.GPU_UNAVAILABLE;
+                string txt = Messages.UNAVAILABLE;
 
                 if (gpusAvailable)
                 {

@@ -1949,6 +1949,9 @@ Authorized Roles: {1}</value>
   <data name="VDI_READONLY" xml:space="preserve">
     <value>The operation required write access but VDI {0} is read-only</value>
   </data>
+  <data name="VDI_TOO_LARGE" xml:space="preserve">
+    <value>The VDI is too large.</value>
+  </data>
   <data name="VDI_TOO_SMALL" xml:space="preserve">
     <value>The VDI is too small. Please resize it to at least the minimum size.</value>
   </data>
@@ -2029,6 +2032,9 @@ Authorized Roles: {1}</value>
   </data>
   <data name="VM_FAILED_SHUTDOWN_ACKNOWLEDGMENT" xml:space="preserve">
     <value>VM didn&apos;t acknowledge the need to shut down.</value>
+  </data>
+  <data name="VM_FAILED_SUSPEND_ACKNOWLEDGMENT" xml:space="preserve">
+    <value>VM didn&apos;t acknowledge the need to suspend.</value>
   </data>
   <data name="VM_HALTED" xml:space="preserve">
     <value>The VM unexpectedly halted</value>
@@ -2186,6 +2192,9 @@ Authorized Roles: {1}</value>
   <data name="VM_SNAPSHOT_WITH_QUIESCE_TIMEOUT" xml:space="preserve">
     <value>The VSS plug-in has timed out</value>
   </data>
+  <data name="VM_SUSPEND_TIMEOUT" xml:space="preserve">
+    <value>VM failed to suspend before the timeout expired</value>
+  </data>
   <data name="VM_TOO_MANY_VCPUS" xml:space="preserve">
     <value>Too many VCPUs to start this VM</value>
   </data>
@@ -2282,4 +2291,4 @@ Authorized Roles: {1}</value>
   <data name="XMLRPC_UNMARSHAL_FAILURE" xml:space="preserve">
     <value>The server failed to unmarshal the XMLRPC message; it was expecting one element and received something else.</value>
   </data>
-</root>
+</root>

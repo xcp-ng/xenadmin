@@ -97,6 +97,7 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
         {
             bool master = GetResolvedHost().IsMaster();
 
+            lostConnection = false;
             _cancelled = false;
             double metric = metricDelegate(session, HostXenRef.opaque_ref);
 

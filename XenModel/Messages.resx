@@ -2139,6 +2139,9 @@ This is a potentially dangerous operation and is not allowed.</value>
   <data name="BIGGER_THAN" xml:space="preserve">
     <value>bigger than</value>
   </data>
+  <data name="BIOS_BOOT" xml:space="preserve">
+    <value>BIOS Boot</value>
+  </data>
   <data name="BIOS_STRINGS_COPIED" xml:space="preserve">
     <value>BIOS strings copied</value>
   </data>
@@ -5814,9 +5817,6 @@ Warning: to prevent data loss you must ensure that the LUN is not in use by any 
   <data name="GPU_RUBRIC_PLEASE_SELECT_WHICH_GPU_ONE" xml:space="preserve">
     <value>Select which virtual GPU types are allowed on this GPU:</value>
   </data>
-  <data name="GPU_UNAVAILABLE" xml:space="preserve">
-    <value>Not available</value>
-  </data>
   <data name="GRAPHS_CANNOT_ADD_VM_HALTED" xml:space="preserve">
     <value>It is not possible to add new performance graphs on VM '{0}' because the VM is not running.</value>
   </data>
@@ -5874,22 +5874,34 @@ Note: Any custom color selections will remain unchanged</value>
     <value>Group Roles</value>
   </data>
   <data name="GUEFI_BOOT_MODES_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>The UEFI and UEFI secure boot modes are experimental, and are currently not suitable for production use.</value>
+    <value>Guest UEFI boot and guest UEFI secure boot are experimental features. You can create UEFI-enabled VMs on hosts that are in a production environment. However, UEFI-enabled VMs must not be used for production purposes. You may have to re-create the VMs when you upgrade the host to a newer version of [XenServer].</value>
   </data>
   <data name="GUEFI_BOOT_MODES_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>The UEFI and UEFI secure boot modes are not supported with the selected template.</value>
   </data>
+  <data name="GUEFI_BOOT_MODE_EXPERIMENTAL_LABEL" xml:space="preserve">
+    <value>&amp;UEFI Boot (experimental)</value>
+  </data>
   <data name="GUEFI_BOOT_MODE_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>The UEFI boot mode is experimental, and is currently not suitable for production use.</value>
+    <value>Guest UEFI boot is an experimental feature. You can create UEFI-enabled VMs on hosts that are in a production environment. However, UEFI-enabled VMs must not be used for production purposes. You may have to re-create the VMs when you upgrade the host to a newer version of [XenServer].</value>
+  </data>
+  <data name="GUEFI_BOOT_MODE_LABEL" xml:space="preserve">
+    <value>&amp;UEFI Boot</value>
   </data>
   <data name="GUEFI_BOOT_MODE_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>The UEFI boot mode is not supported with the selected template.</value>
   </data>
   <data name="GUEFI_SECUREBOOT_MODE_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>The UEFI secure boot mode is experimental, and is currently not suitable for production use.</value>
+    <value>Guest UEFI secure boot is an experimental feature. You can create VMs configured to use the UEFI secure boot mode on hosts that are in a production environment. However, these VMs must not be used for production purposes. You may have to re-create the VMs when you upgrade the host to a newer version of [XenServer].</value>
   </data>
   <data name="GUEFI_SECUREBOOT_MODE_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>The UEFI secure boot mode is not supported with the selected template.</value>
+  </data>
+  <data name="GUEFI_SECURE_BOOT_MODE_EXPERIMENTAL_LABEL" xml:space="preserve">
+    <value>UEFI &amp;Secure Boot (experimental)</value>
+  </data>
+  <data name="GUEFI_SECURE_BOOT_MODE_LABEL" xml:space="preserve">
+    <value>UEFI &amp;Secure Boot</value>
   </data>
   <data name="GUI_OUT_OF_DATE" xml:space="preserve">
     <value>This version of [XenCenter] is out of date and cannot connect to {0}.
@@ -11077,7 +11089,7 @@ Click Keep Waiting if the upgrade is still running or Cancel if an error occurre
     <value>The current time on the pool master is: {0}</value>
   </data>
   <data name="SERVER_TOO_OLD" xml:space="preserve">
-    <value>This version of [XenCenter] supports [XenServer] [BRANDING_VERSION_6_2] onwards.</value>
+    <value>This version of [XenCenter] supports [XenServer] [BRANDING_VERSION_7_0] onwards.</value>
   </data>
   <data name="SERVER_TOO_OLD_SOLUTION" xml:space="preserve">
     <value>Use an earlier version of [XenCenter] to manage this server.</value>
@@ -11987,10 +11999,19 @@ Refer to the "[XenServer product] Administrator's Guide" for instructions on how
   <data name="TYPE_PAGE_DESCRIPTION_HEADER_XVA" xml:space="preserve">
     <value>Import a locally stored VM, template or snapshot as a new VM.</value>
   </data>
+  <data name="UEFI_BOOT" xml:space="preserve">
+    <value>UEFI Boot</value>
+  </data>
+  <data name="UEFI_SECURE_BOOT" xml:space="preserve">
+    <value>UEFI Secure Boot</value>
+  </data>
   <data name="UNABLE_TO_IMPORT_SEARCH" xml:space="preserve">
     <value>[XenCenter] was unable to import a saved search from file '{0}'.
 
 Verify that the file is a valid {1} export.</value>
+  </data>
+  <data name="UNAVAILABLE" xml:space="preserve">
+    <value>Not available</value>
   </data>
   <data name="UNCOMPRESS_APPLIANCE_DESCRIPTION" xml:space="preserve">
     <value>[XenCenter] will uncompress the file to '{0}'. After uncompression the original file '{1}' will be deleted. Continue?</value>

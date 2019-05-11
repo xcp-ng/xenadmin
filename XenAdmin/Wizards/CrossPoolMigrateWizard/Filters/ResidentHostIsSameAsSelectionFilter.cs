@@ -49,31 +49,29 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard.Filters
             this.preSelectedVMs = preSelectedVMs;
         }
 
-        public override bool FailureFound
+        public override bool FailureFoundFor(IXenObject itemToFilterOn)
         {
-            get
+            var residentHosts = from VM vm in preSelectedVMs
+                let home = vm.Home()
+                where home != null
+                select home;
+
+
+            if (itemToFilterOn is Host)
+                return residentHosts.Any(h => h == itemToFilterOn);
+
+            Pool tempPool = itemToFilterOn as Pool;
+            if (tempPool != null)
             {
-                var residentHosts = from VM vm in preSelectedVMs
-                    let home = vm.Home()
-                    where home != null
-                    select home;
+                if (tempPool.Connection.Cache.Hosts.Length > 1)
+                    return false;
 
-                if (ItemToFilterOn is Host)
-                    return residentHosts.Any(h => h == ItemToFilterOn);
-
-                Pool tempPool = ItemToFilterOn as Pool;
-                if (tempPool != null)
-                {
-                    if (tempPool.Connection.Cache.Hosts.Length > 1)
-                        return false;
-
-                    //Pool with one host (or less)
-                    Host master = tempPool.Connection.Resolve(tempPool.master);
-                    return residentHosts.Any(h => h == master);
-                }
-
-                return false;
+                //Pool with one host (or less)
+                Host master = tempPool.Connection.Resolve(tempPool.master);
+                return residentHosts.Any(h => h == master);
             }
+
+            return false;
         }
 
         public override string Reason

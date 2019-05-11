@@ -59,7 +59,7 @@ namespace XenAdminTests.UnitTests.Diagnostics
             string[] enumNames = Enum.GetNames(typeof (HotfixFactory.HotfixableServerVersion));
             Array.Sort(enumNames);
 
-            string[] expectedNames = {"Clearwater", "Creedence", "Dundee", "ElyKolkata"};
+            string[] expectedNames = {"Dundee", "ElyLima"};
             Array.Sort(expectedNames);
 
             CollectionAssert.AreEqual(expectedNames, enumNames, "Expected contents of HotfixableServerVersion enum");
@@ -68,13 +68,13 @@ namespace XenAdminTests.UnitTests.Diagnostics
         [Test]
         public void UUIDLookedUpFromEnum()
         {
-            Assert.AreEqual("f6014211-7611-47ac-ac4c-e66bb1692c35",
+            Assert.AreEqual("149be566-421d-4661-bfca-e70970f86a36",
                             factory.Hotfix(HotfixFactory.HotfixableServerVersion.Dundee).UUID,
                             "Dundee UUID lookup from enum");
 
-            Assert.AreEqual("ddd68553-2bf8-411d-99bc-ed4a95265840",
-                            factory.Hotfix(HotfixFactory.HotfixableServerVersion.ElyKolkata).UUID,
-                            "Ely-Jura UUID lookup from enum");
+            Assert.AreEqual("d72c237a-eaaf-4d98-be63-48e2add8dc3a",
+                            factory.Hotfix(HotfixFactory.HotfixableServerVersion.ElyLima).UUID,
+                            "Ely - Lima UUID lookup from enum");
         }
 
         [Test]
@@ -85,12 +85,12 @@ namespace XenAdminTests.UnitTests.Diagnostics
                             "Dundee Filename lookup from enum");
 
             Assert.AreEqual("RPU004",
-                            factory.Hotfix(HotfixFactory.HotfixableServerVersion.ElyKolkata).Filename,
-                            "Ely-Jura Filename lookup from enum");
+                            factory.Hotfix(HotfixFactory.HotfixableServerVersion.ElyLima).Filename,
+                            "Ely - Lima Filename lookup from enum");
         }
 
         [Test]
-        [TestCase("2.6.50", Description = "Lima")]
+        [TestCase("2.9.50", Description = "Naples")]
         [TestCase("9999.9999.9999", Description = "Future")]
         public void TestPlatformVersionNumbersLatestReleaseGiveNulls(string platformVersion)
         {

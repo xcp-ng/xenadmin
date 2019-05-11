@@ -411,6 +411,9 @@
   <data name="Label-VM.BootOrder" xml:space="preserve">
     <value>起動順序</value>
   </data>
+  <data name="Label-VM.BootMode" xml:space="preserve">
+    <value>起動モード</value>
+  </data>
   <data name="Label-VM.ImageId" xml:space="preserve">
     <value>イメージ ID</value>
   </data>

@@ -96,11 +96,7 @@ namespace XenAPI
             : this(url)
         {
             opaque_ref = opaqueRef;
-            SetAPIVersion();
-            if (XmlRpcToJsonRpcInvoker != null)
-                XmlRpcToJsonRpcInvoker(this);
-            SetADDetails();
-            SetRbacPermissions();
+            SetupSessionDetails();
         }
 
         /// <summary>
@@ -111,13 +107,17 @@ namespace XenAPI
         /// <param name="session"></param>
         /// <param name="timeout"></param>
         public Session(Session session, int timeout)
-            : this(session.Url, timeout)
+            : this(timeout, session.Url)
         {
             opaque_ref = session.opaque_ref;
             APIVersion = session.APIVersion;
+            if (XmlRpcToJsonRpcInvoker != null)
+                XmlRpcToJsonRpcInvoker(this);
             _isLocalSuperuser = session.IsLocalSuperuser;
             _subject = session._subject;
             _userSid = session._userSid;
+            roles = session.Roles;
+            permissions = session.Permissions;
         }
 
         #endregion
@@ -142,6 +142,15 @@ namespace XenAPI
             proxy.UserAgent = UserAgent;
             proxy.KeepAlive = true;
             proxy.Proxy = Proxy;
+        }
+
+        private void SetupSessionDetails()
+        {
+            SetAPIVersion();
+            if (XmlRpcToJsonRpcInvoker != null)
+                XmlRpcToJsonRpcInvoker(this);
+            SetADDetails();
+            SetRbacPermissions();
         }
 
         /// <summary>
@@ -321,9 +330,7 @@ namespace XenAPI
             else
                 opaque_ref = proxy.session_login_with_password(username, password).parse();
 
-            SetAPIVersion();
-            if (XmlRpcToJsonRpcInvoker != null)
-                XmlRpcToJsonRpcInvoker(this);
+            SetupSessionDetails();
         }
 
         public void login_with_password(string username, string password, string version)
@@ -335,11 +342,7 @@ namespace XenAPI
                 else
                     opaque_ref = proxy.session_login_with_password(username, password, version).parse();
 
-                SetAPIVersion();
-                if (XmlRpcToJsonRpcInvoker != null)
-                    XmlRpcToJsonRpcInvoker(this);
-                SetADDetails();
-                SetRbacPermissions();
+                SetupSessionDetails();
             }
             catch (Failure exn)
             {
@@ -364,11 +367,7 @@ namespace XenAPI
                 else
                     opaque_ref = proxy.session_login_with_password(username, password, version, originator).parse();
 
-                SetAPIVersion();
-                if (XmlRpcToJsonRpcInvoker != null)
-                    XmlRpcToJsonRpcInvoker(this);
-                SetADDetails();
-                SetRbacPermissions();
+                SetupSessionDetails();
             }
             catch (Failure exn)
             {

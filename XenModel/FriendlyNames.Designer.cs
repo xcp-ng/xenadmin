@@ -3121,7 +3121,16 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Boot order ähnelt.
+        ///   Looks up a localized string similar to Boot mode.
+        /// </summary>
+        public static string Label_VM_BootMode {
+            get {
+                return ResourceManager.GetString("Label-VM.BootMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Boot order.
         /// </summary>
         public static string Label_VM_BootOrder {
             get {

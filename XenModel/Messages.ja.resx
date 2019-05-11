@@ -2137,6 +2137,9 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
   <data name="BIGGER_THAN" xml:space="preserve">
     <value>＞</value>
   </data>
+  <data name="BIOS_BOOT" xml:space="preserve">
+    <value>BIOS ブート</value>
+  </data>
   <data name="BIOS_STRINGS_COPIED" xml:space="preserve">
     <value>BIOS 文字列のコピー</value>
   </data>
@@ -5798,9 +5801,6 @@ CD をイジェクトしてから再試行してください。</value>
   <data name="GPU_RUBRIC_PLEASE_SELECT_WHICH_GPU_ONE" xml:space="preserve">
     <value>この GPU で使用できる仮想 GPU の種類を選択します。</value>
   </data>
-  <data name="GPU_UNAVAILABLE" xml:space="preserve">
-    <value>使用できません</value>
-  </data>
   <data name="GRAPHS_CANNOT_ADD_VM_HALTED" xml:space="preserve">
     <value>仮想マシン '{0}' は実行されていないため、パフォーマンス グラフを追加できません。</value>
   </data>
@@ -5858,22 +5858,34 @@ CD をイジェクトしてから再試行してください。</value>
     <value>グループの役割</value>
   </data>
   <data name="GUEFI_BOOT_MODES_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>UEFI ブート モードおよび UEFI セキュア ブート モードは試験段階の機能であり、現時点では実稼働での使用には適していません。</value>
+    <value>ゲストの UEFI ブートとゲストの UEFI セキュア ブートは試験段階の機能です。UEFI に対応した VM は、実稼働環境に配置されたホスト上に作成できますが、業務用に使用しないでください。ホストを [XenServer] の新しいバージョンにアップグレードすると、VM を再作成する必要があります。</value>
   </data>
   <data name="GUEFI_BOOT_MODES_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>UEFI ブート モードおよび UEFI セキュア ブート モードは現在選択したテンプレートでサポートされていません。</value>
   </data>
+  <data name="GUEFI_BOOT_MODE_EXPERIMENTAL_LABEL" xml:space="preserve">
+    <value>UEFI ブート(&amp;U) - 試験段階</value>
+  </data>
   <data name="GUEFI_BOOT_MODE_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>UEFI ブート モードは試験段階の機能であり、現時点では実稼働での使用には適していません。</value>
+    <value>ゲストの UEFI ブートは試験段階の機能です。UEFI に対応した VM は、実稼働環境に配置されたホスト上に作成できますが、業務用に使用しないでください。ホストを [XenServer] の新しいバージョンにアップグレードすると、VM を再作成する必要があります。</value>
+  </data>
+  <data name="GUEFI_BOOT_MODE_LABEL" xml:space="preserve">
+    <value>UEFI ブート(&amp;U)</value>
   </data>
   <data name="GUEFI_BOOT_MODE_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>UEFI ブート モードは現在選択したテンプレートでサポートされていません。</value>
   </data>
   <data name="GUEFI_SECUREBOOT_MODE_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>UEFI セキュア ブート モードは試験段階の機能であり、現時点では実稼働での使用には適していません。</value>
+    <value>ゲストの UEFI セキュア ブートは試験段階の機能です。UEFI セキュア ブート モードを使用するように構成された VM は、実稼働環境に配置されたホスト上に作成できますが、業務用に使用しないでください。ホストを [XenServer] の新しいバージョンにアップグレードすると、VM を再作成する必要があります。</value>
   </data>
   <data name="GUEFI_SECUREBOOT_MODE_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>UEFI セキュア ブート モードは現在選択したテンプレートでサポートされていません。</value>
+  </data>
+  <data name="GUEFI_SECURE_BOOT_MODE_EXPERIMENTAL_LABEL" xml:space="preserve">
+    <value>UEFI セキュア ブート(&amp;S) - 試験段階</value>
+  </data>
+  <data name="GUEFI_SECURE_BOOT_MODE_LABEL" xml:space="preserve">
+    <value>UEFI セキュア ブート(&amp;S)</value>
   </data>
   <data name="GUI_OUT_OF_DATE" xml:space="preserve">
     <value>[XenCenter] のバージョンが古いため、{0} に接続できません。
@@ -10969,9 +10981,6 @@ VM が再起動したら、[[Citrix VM Tools] をインストール] を再度�
   <data name="SELECTED_HOST_POOL_NOT_CONNECTED" xml:space="preserve">
     <value>選択したホストまたはプールに接続されていません</value>
   </data>
-  <data name="SELECTION_CANNOT_BE_MIXED_FOR_LICENSING" xml:space="preserve">
-    <value>異なるバージョンの [XenServer] のライセンスは、個別に適用してください</value>
-  </data>
   <data name="SELECT_A_FILTER" xml:space="preserve">
     <value>フィルタを選択...</value>
   </data>
@@ -11054,7 +11063,7 @@ VM が再起動したら、[[Citrix VM Tools] をインストール] を再度�
     <value>プール マスターの現在の時間: {0}</value>
   </data>
   <data name="SERVER_TOO_OLD" xml:space="preserve">
-    <value>このバージョンの [XenCenter] では [XenServer] [BRANDING_VERSION_6_2] 以降のバージョンがサポートされます。</value>
+    <value>このバージョンの [XenCenter] では [XenServer] [BRANDING_VERSION_7_0] 以降のバージョンがサポートされます。</value>
   </data>
   <data name="SERVER_TOO_OLD_SOLUTION" xml:space="preserve">
     <value>このサーバーを管理するには、以前のバージョンの [XenCenter] を使用してください。</value>
@@ -11230,6 +11239,9 @@ VM が再起動したら、[[Citrix VM Tools] をインストール] を再度�
   <data name="SLAVE_CONNECTION_ERROR" xml:space="preserve">
     <value>サーバー '{0}' はプールに属しています。プールに接続するには、プール マスターに接続する必要があります。
 プール マスター '{1}' に接続しますか?</value>
+  </data>
+  <data name="SLAVE_TOO_OLD" xml:space="preserve">
+    <value>このプールには、[XenServer] [BRANDING_VERSION_7_0] より前のサーバーが含まれています。このプールを管理するには、以前のバージョンの [XenCenter] を使用してください。</value>
   </data>
   <data name="SMALLER_THAN" xml:space="preserve">
     <value>＜</value>
@@ -11961,10 +11973,19 @@ SR-IOV ネットワークを有効にするには、サーバーの再起動が�
   <data name="TYPE_PAGE_DESCRIPTION_HEADER_XVA" xml:space="preserve">
     <value>ローカルに格納された VM、テンプレート、またはスナップショットを新規 VM としてインポートします。</value>
   </data>
+  <data name="UEFI_BOOT" xml:space="preserve">
+    <value>UEFI ブート</value>
+  </data>
+  <data name="UEFI_SECURE_BOOT" xml:space="preserve">
+    <value>UEFI セキュア ブート</value>
+  </data>
   <data name="UNABLE_TO_IMPORT_SEARCH" xml:space="preserve">
     <value>ファイル '{0}' に保存されている検索をインポートできません。
 
 このファイルが有効な {1} ファイルであることを確認してください。</value>
+  </data>
+  <data name="UNAVAILABLE" xml:space="preserve">
+    <value>使用できません</value>
   </data>
   <data name="UNCOMPRESS_APPLIANCE_DESCRIPTION" xml:space="preserve">
     <value>ファイルが '{0}' に圧縮解除されます。元のファイル '{1}' は削除されます。続行しますか?</value>

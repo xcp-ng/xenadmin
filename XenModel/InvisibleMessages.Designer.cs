@@ -90,15 +90,6 @@ namespace XenAdmin {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die https://xcp-ng.org ähnelt.
         /// </summary>
-        public static string COMMUNITY_URL {
-            get {
-                return ResourceManager.GetString("COMMUNITY_URL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
         public static string HEALTH_CHECK_PRIVACY_STATEMENT_URL {
             get {
                 return ResourceManager.GetString("HEALTH_CHECK_PRIVACY_STATEMENT_URL", resourceCulture);

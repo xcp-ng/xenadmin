@@ -47,37 +47,34 @@ namespace XenAdmin.Wizards.ImportWizard.Filters
         {
             _hardwarePlatformSettings = hardwarePlatformSettings;
 
-            if (ItemToFilterOn is Host host)
+            if (itemAddedToComboBox is Host host)
                 _hosts.Add(host);
 
-            if (ItemToFilterOn is Pool pool)
+            if (itemAddedToComboBox is Pool pool)
                 _hosts.AddRange(pool.Connection.Cache.Hosts);
         }
     
-        public override bool FailureFound
+        public override bool FailureFoundFor(IXenObject itemToFilterOn)
         {
-            get
+            foreach (var setting in _hardwarePlatformSettings)
             {
-                foreach (var setting in _hardwarePlatformSettings)
+                long hardwarePlatformVersion;
+                if (!long.TryParse(setting.Value.Value, out hardwarePlatformVersion))
+                    continue;
+
+                if (_hosts.Count > 0)
                 {
-                    long hardwarePlatformVersion;
-                    if (!long.TryParse(setting.Value.Value, out hardwarePlatformVersion))
-                        continue;
-
-                    if (_hosts.Count > 0)
-                    {
-                        if (_hosts.Any(h => !h.virtual_hardware_platform_versions.Contains(hardwarePlatformVersion)))
-                            return true;
-                    }
-                    else
-                    {
-                        if (hardwarePlatformVersion > 0)
-                            return true;
-                    }
+                    if (_hosts.Any(h => !h.virtual_hardware_platform_versions.Contains(hardwarePlatformVersion)))
+                        return true;
                 }
-
-                return false;
+                else
+                {
+                    if (hardwarePlatformVersion > 0)
+                        return true;
+                }
             }
+
+            return false;
         }
 
         public override string Reason => Messages.CPM_FAILURE_REASON_HARDWARE_PLATFORM;

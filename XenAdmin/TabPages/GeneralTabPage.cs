@@ -970,7 +970,9 @@ namespace XenAdmin.TabPages
             if (vm.IsHVM())
             {	
                 s.AddEntry(FriendlyName("VM.BootOrder"), HVMBootOrder(vm),
-                   new PropertiesToolStripMenuItem(new VmEditStartupOptionsCommand(Program.MainWindow, vm)));
+                    new PropertiesToolStripMenuItem(new VmEditStartupOptionsCommand(Program.MainWindow, vm)));
+                if (Helpers.NaplesOrGreater(vm.Connection))
+                    s.AddEntry(FriendlyName("VM.BootMode"), HVMBootMode(vm));
             }
             else
             {
@@ -1693,6 +1695,15 @@ namespace XenAdmin.TabPages
         {
             var order = vm.GetBootOrder().ToUpper().Union(new[] { 'D', 'C', 'N' });
             return string.Join("\n", order.Select(c => new BootDevice(c).ToString()).ToArray());
+        }
+
+        private static string HVMBootMode(VM vm)
+        {
+            if (vm.IsSecureBootEnabled())
+                return Messages.UEFI_SECURE_BOOT;
+            if (vm.IsUEFIEnabled())
+                return Messages.UEFI_BOOT;
+            return Messages.BIOS_BOOT;
         }
 
         #endregion

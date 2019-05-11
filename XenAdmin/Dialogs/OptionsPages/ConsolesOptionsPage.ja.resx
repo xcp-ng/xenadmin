@@ -168,42 +168,6 @@
   <data name="RDPGroupBox.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
   </data>
-  <data name="checkBoxDisableRDPPolling.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="checkBoxDisableRDPPolling.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 8pt</value>
-  </data>
-  <data name="checkBoxDisableRDPPolling.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="checkBoxDisableRDPPolling.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 116</value>
-  </data>
-  <data name="checkBoxDisableRDPPolling.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 0</value>
-  </data>
-  <data name="checkBoxDisableRDPPolling.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 17</value>
-  </data>
-  <data name="checkBoxDisableRDPPolling.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="checkBoxDisableRDPPolling.Text" xml:space="preserve">
-    <value>リモート デスクトップ コンソールのスキャンを有効にする([XenServer] 6.5 以前)(&amp;N)</value>
-  </data>
-  <data name="&gt;&gt;checkBoxDisableRDPPolling.Name" xml:space="preserve">
-    <value>checkBoxDisableRDPPolling</value>
-  </data>
-  <data name="&gt;&gt;checkBoxDisableRDPPolling.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkBoxDisableRDPPolling.Parent" xml:space="preserve">
-    <value>RDPGroupBox</value>
-  </data>
-  <data name="&gt;&gt;checkBoxDisableRDPPolling.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="WindowsKeyCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -235,7 +199,7 @@
     <value>RDPGroupBox</value>
   </data>
   <data name="&gt;&gt;WindowsKeyCheckBox.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="ConnectToServerConsoleCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -271,7 +235,7 @@
     <value>RDPGroupBox</value>
   </data>
   <data name="&gt;&gt;ConnectToServerConsoleCheckBox.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="SoundCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -304,7 +268,7 @@
     <value>RDPGroupBox</value>
   </data>
   <data name="&gt;&gt;SoundCheckBox.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="AutoSwitchCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -337,7 +301,7 @@
     <value>RDPGroupBox</value>
   </data>
   <data name="&gt;&gt;AutoSwitchCheckBox.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="RDPGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>

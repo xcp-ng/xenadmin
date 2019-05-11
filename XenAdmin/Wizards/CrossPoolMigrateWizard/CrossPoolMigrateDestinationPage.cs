@@ -155,7 +155,6 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
 
                 filters.Add(new ResidentHostIsSameAsSelectionFilter(selectedItem.Item, vmList));
                 filters.Add(new CrossPoolMigrateCanMigrateFilter(selectedItem.Item, vmList, wizardMode, force, migrateFilterCache));
-                filters.Add(new WlbEnabledFilter(selectedItem.Item, vmList));
             } 
 
             return filters;

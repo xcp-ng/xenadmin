@@ -163,7 +163,7 @@
     <value>PerfmonAlertOptionsPage</value>
   </data>
   <data name="SmtpServerPortTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>368, 45</value>
+    <value>388, 45</value>
   </data>
   <data name="MailLanguageComboBox.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -178,7 +178,7 @@
     <value>groupBox1</value>
   </data>
   <data name="SmtpServerPortTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 20</value>
+    <value>59, 20</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -229,7 +229,7 @@
     <value>3</value>
   </data>
   <data name="SmtpServerAddrTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 20</value>
+    <value>210, 20</value>
   </data>
   <data name="SmtpServerLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -319,7 +319,7 @@
     <value>groupBox1</value>
   </data>
   <data name="MailLanguageComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 21</value>
+    <value>210, 21</value>
   </data>
   <data name="&gt;&gt;SendEmailNoteLabel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -376,10 +376,10 @@
     <value>0, 0, 0, 10</value>
   </data>
   <data name="EmailAddressTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>100, 19</value>
+    <value>113, 19</value>
   </data>
   <data name="MailLanguageComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>100, 71</value>
+    <value>113, 71</value>
   </data>
   <data name="EmailAddressLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -439,10 +439,10 @@
     <value>330, 48</value>
   </data>
   <data name="EmailAddressTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 20</value>
+    <value>334, 20</value>
   </data>
   <data name="SmtpServerAddrTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>100, 45</value>
+    <value>113, 45</value>
   </data>
   <data name="EmailAddressLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 13</value>

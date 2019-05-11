@@ -1,19 +1,19 @@
 From: "Saved by Internet Explorer 11"
 Subject: Citrix Hypervisor
-Date: Thu, 4 Oct 2018 01:57:43 +0100
+Date: Thu, 7 Mar 2019 13:43:21 -0000
 MIME-Version: 1.0
 Content-Type: multipart/related;
 	type="text/html";
-	boundary="----=_NextPart_000_0000_01D45B85.A3E63CA0"
+	boundary="----=_NextPart_000_0015_01D4D4EB.BA946F00"
 X-MimeOLE: Produced By Microsoft MimeOLE
 
 This is a multi-part message in MIME format.
 
-------=_NextPart_000_0000_01D45B85.A3E63CA0
+------=_NextPart_000_0015_01D4D4EB.BA946F00
 Content-Type: text/html;
 	charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-Content-Location: file://C:\WORKSPACE\xenadmin\XenAdmin\HomePage\index.html
+Content-Location: file://C:\Code\xenadmin\XenAdmin\HomePage\index.html
 
 <!DOCTYPE HTML>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" =
@@ -23,13 +23,11 @@ content=3D"IE=3D11.0000" http-equiv=3D"X-UA-Compatible">
 <META http-equiv=3D"Content-Type" content=3D"text/html; =
 charset=3DISO-8859-1">  =20
 <TITLE>Citrix Hypervisor</TITLE>   <LINK =
-href=3D"file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/css/screen.css"=20
+href=3D"file:///C:/Code/xenadmin/XenAdmin/HomePage/css/screen.css"=20
 rel=3D"stylesheet" type=3D"text/css" media=3D"screen, projection">   =
-<LINK =
-href=3D"file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/css/theme.css"=20
+<LINK href=3D"file:///C:/Code/xenadmin/XenAdmin/HomePage/css/theme.css"=20
 rel=3D"stylesheet" type=3D"text/css" media=3D"screen, projection">   =
-<LINK =
-href=3D"file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/css/print.css"=20
+<LINK href=3D"file:///C:/Code/xenadmin/XenAdmin/HomePage/css/print.css"=20
 rel=3D"stylesheet" type=3D"text/css" media=3D"print">=20
 <META name=3D"GENERATOR" content=3D"MSHTML 11.00.10570.1001"></HEAD>=20
 <BODY>
@@ -39,8 +37,8 @@ rel=3D"stylesheet" type=3D"text/css" media=3D"print">=20
 <DIV class=3D"span-16 prepend-1 append-0 inner last">
 <DIV class=3D"column left span-12 first"><IMG =
 id=3D"logo-citrixHypervisor" alt=3D"Citrix Hypervisor Logo"=20
-src=3D"file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/media/logos/cx-log=
-o-citrixHypervisor.png">
+src=3D"file:///C:/Code/xenadmin/XenAdmin/HomePage/media/logos/cx-logo-cit=
+rixHypervisor.png">
 <P title=3D"Industry leading open source platform for cloud server and =
 desktop virtualization"=20
 class=3D"cx-tagline"><SPAN>Industry leading open source platform for =
@@ -54,9 +52,10 @@ class=3D"cx-link"=20
   </LI>
   <LI title=3D"Network with other Citrix Hypervisor users" =
 class=3D"cx-doc-icon"><A=20
-  class=3D"cx-link" href=3D"http://xenserver.org/">Network with other =
-Citrix=20
-  Hypervisor users</A>             </LI>
+  class=3D"cx-link" =
+href=3D"https://discussions.citrix.com/forum/101-hypervisor-formerly-xens=
+erver/">Network=20
+  with other Citrix Hypervisor users</A>             </LI>
   <LI title=3D"Community Support Partners" class=3D"cx-doc-icon last"><A =
 class=3D"cx-link"=20
   href=3D"https://www.citrix.com/support">Visit the Citrix Knowledge =
@@ -64,41 +63,41 @@ Center</A>   =20
            </LI></UL></DIV>
 <DIV class=3D"column right span-6 last"><IMG id=3D"cloudServerGraphic" =
 alt=3D"Cloud Server Graphic"=20
-src=3D"file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/media/icons/cx-clo=
-udServerGraphic.png">=20
+src=3D"file:///C:/Code/xenadmin/XenAdmin/HomePage/media/icons/cx-cloudSer=
+verGraphic.png">=20
         </DIV></DIV></DIV>
 <DIV class=3D"span-18 cx-hero-bottom clearfix">
 <DIV class=3D"column prepend-1 clearfix">
 <DIV title=3D"Add a Server" class=3D"span-6 cx-cards"><A =
 class=3D"cx-link" href=3D"xencenter://AddServer/"><IMG=20
 id=3D"addServer" alt=3D"Add a Server" =
-src=3D"file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/media/icons/cx-ico=
-n-addServer.png">
+src=3D"file:///C:/Code/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-add=
+Server.png">
 <P>Add a Server</P></A>         </DIV>
 <DIV title=3D"Purchase Support" class=3D"span-6 cx-cards"><A =
 class=3D"cx-link" =
 href=3D"http://www.citrix.com/xenserver/le/features"><IMG=20
 id=3D"purchaseSupport" alt=3D"Purchase Support" =
-src=3D"file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/media/icons/cx-ico=
-n-purchaseSupport.png">
+src=3D"file:///C:/Code/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-pur=
+chaseSupport.png">
 <P>Purchase Support</P></A>         </DIV>
 <DIV title=3D"Try Desktop Virtualization" class=3D"span-6 cx-cards =
 last"><A class=3D"cx-link"=20
 href=3D"http://www.citrix.com/TryXenDesktop"><IMG id=3D"deskTopVirt" =
 alt=3D"Try Desktop Virtualization"=20
-src=3D"file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/media/icons/cx-ico=
-n-tryVirtualization.png">
+src=3D"file:///C:/Code/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-try=
+Virtualization.png">
 <P>Try Desktop Virtualization</P></A>         =
 </DIV></DIV></DIV></DIV><IMG=20
 width=3D"0" height=3D"0" =
-src=3D"file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/media/icons/cx-ico=
-n-generic-doc.png">=20
+src=3D"file:///C:/Code/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-gen=
+eric-doc.png">=20
 </BODY></HTML>
 
-------=_NextPart_000_0000_01D45B85.A3E63CA0
+------=_NextPart_000_0015_01D4D4EB.BA946F00
 Content-Type: image/png
 Content-Transfer-Encoding: base64
-Content-Location: file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/media/logos/cx-logo-citrixHypervisor.png
+Content-Location: file:///C:/Code/xenadmin/XenAdmin/HomePage/media/logos/cx-logo-citrixHypervisor.png
 
 iVBORw0KGgoAAAANSUhEUgAAANgAAAAfCAYAAACFzQPhAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
 bWFnZVJlYWR5ccllPAAAA4ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdp
@@ -147,10 +146,10 @@ mDxo5frKPXjQrqS/9hybUcFsr22bLK9ty9DAK4twLyTV36cN07O1ZXJhIalXgrl4sHu+tu1IjJaP
 T0u8L8n64C2x73nxnljwFMcJ4s47aglJwX4sYmTOJyQFS2C2k7dMjUpICvajUJKzlhQeJgVLiIg8
 IDwcmc8JScESCJRSLdkMronHS1aC2mXcJxY+N/4KMADVVkraqVEFgQAAAABJRU5ErkJggg==
 
-------=_NextPart_000_0000_01D45B85.A3E63CA0
+------=_NextPart_000_0015_01D4D4EB.BA946F00
 Content-Type: image/png
 Content-Transfer-Encoding: base64
-Content-Location: file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/media/icons/cx-cloudServerGraphic.png
+Content-Location: file:///C:/Code/xenadmin/XenAdmin/HomePage/media/icons/cx-cloudServerGraphic.png
 
 iVBORw0KGgoAAAANSUhEUgAAAIEAAAClCAYAAAB7nZ5wAAAKRWlDQ1BJQ0MgcHJvZmlsZQAAeNqd
 U2dUU+kWPffe9EJLiICUS29SFQggUkKLgBSRJiohCRBKiCGh2RVRwRFFRQQbyKCIA46OgIwVUSwM
@@ -308,10 +307,10 @@ yw33zeHeGHs3MQFfTcUTT4WAEpHp9CyjFj+kIEU7hbHDhXtizGNOzz7xYwEwHU88NRal1tVoAT8r
 rENqV7Ii754jCCWJhCrcy2ksw7j4klkZHHA8ocmSBthRu9zMtcwMPFF2AkXi/wUYAKHmYva3WaRg
 AAAAAElFTkSuQmCC
 
-------=_NextPart_000_0000_01D45B85.A3E63CA0
+------=_NextPart_000_0015_01D4D4EB.BA946F00
 Content-Type: image/png
 Content-Transfer-Encoding: base64
-Content-Location: file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-addServer.png
+Content-Location: file:///C:/Code/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-addServer.png
 
 iVBORw0KGgoAAAANSUhEUgAAADcAAABCCAYAAADzNE40AAAKRWlDQ1BJQ0MgcHJvZmlsZQAAeNqd
 U2dUU+kWPffe9EJLiICUS29SFQggUkKLgBSRJiohCRBKiCGh2RVRwRFFRQQbyKCIA46OgIwVUSwM
@@ -387,10 +386,10 @@ rveJjysRyavryJegXL9kmayXGcosVGqxTLWYHEhem/QSbkf7XpgtYyUEJpaNpCXLpMXSe2P5b1jZ
 pcDfTVFELKlF12NWOpRX2q4IYm9pfNlcRhQroVCQessxqJ56pIuvFxWJSSfqukWzL3M1cqhQh6+h
 B/zVwbrePRnnAHiuSf6FhDMUhmM4n+aW1kx8M9+Hnq0U+hRgAIYz031FnvkhAAAAAElFTkSuQmCC
 
-------=_NextPart_000_0000_01D45B85.A3E63CA0
+------=_NextPart_000_0015_01D4D4EB.BA946F00
 Content-Type: image/png
 Content-Transfer-Encoding: base64
-Content-Location: file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-purchaseSupport.png
+Content-Location: file:///C:/Code/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-purchaseSupport.png
 
 iVBORw0KGgoAAAANSUhEUgAAADkAAABBCAYAAABraQwpAAAKRWlDQ1BJQ0MgcHJvZmlsZQAAeNqd
 U2dUU+kWPffe9EJLiICUS29SFQggUkKLgBSRJiohCRBKiCGh2RVRwRFFRQQbyKCIA46OgIwVUSwM
@@ -474,10 +473,10 @@ AHIxwDbF+7fBAc69COw1T3H6D5+rJQV56b0qPQ/bMh5KbQf5Ys7fxKOmLsW73m8GB/OLlT9fpts9
 QQskUviMJxTBAJ+Bdzz1UQdi/f67JRrJa9hu5tRXixt2K/RVWtVvBlOsaNMfCZZ9Iki9LrWvOcES
 FNGSk9lFae1Qi2cqRNVDjmd/CzAA4cJVq5HwYZMAAAAASUVORK5CYII=
 
-------=_NextPart_000_0000_01D45B85.A3E63CA0
+------=_NextPart_000_0015_01D4D4EB.BA946F00
 Content-Type: image/png
 Content-Transfer-Encoding: base64
-Content-Location: file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-tryVirtualization.png
+Content-Location: file:///C:/Code/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-tryVirtualization.png
 
 iVBORw0KGgoAAAANSUhEUgAAAFYAAABCCAYAAADNESF6AAAKRWlDQ1BJQ0MgcHJvZmlsZQAAeNqd
 U2dUU+kWPffe9EJLiICUS29SFQggUkKLgBSRJiohCRBKiCGh2RVRwRFFRQQbyKCIA46OgIwVUSwM
@@ -561,10 +560,10 @@ ZkyahOFf5/dkEibT+2n++wr/pg35BJBn04aZbCr/8Yt2kVl9BCtg6vNUl1GCkBzlLP6d3UKRtpYZ
 MZWMTY2NIpzqiKWtmv7e6IVkbGo0ixj1B6W0zoCP/JYXbJCxcvDVQVvtLDEiyCOBPLsSfwUYAP2G
 LP9CyPswAAAAAElFTkSuQmCC
 
-------=_NextPart_000_0000_01D45B85.A3E63CA0
+------=_NextPart_000_0015_01D4D4EB.BA946F00
 Content-Type: image/png
 Content-Transfer-Encoding: base64
-Content-Location: file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-generic-doc.png
+Content-Location: file:///C:/Code/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-generic-doc.png
 
 iVBORw0KGgoAAAANSUhEUgAAABEAAAAVCAYAAACg/AXsAAAKRWlDQ1BJQ0MgcHJvZmlsZQAAeNqd
 U2dUU+kWPffe9EJLiICUS29SFQggUkKLgBSRJiohCRBKiCGh2RVRwRFFRQQbyKCIA46OgIwVUSwM
@@ -634,11 +633,11 @@ g/kbFEMrsGiOgNI/gfgVEP+FYn4gXgPU586CpPgNECdgMQQkvgaIL2CRA6nXhxsCjLo/QOoBDq88
 gWL0WHNA9w4HkLIgMnzeAC29AuMge4cHh3ewgXNAjGkI0OQ3JBhCdmLDCZDDRApIbSNS336gywux
 eecZkDIYMt6pA7p4E05DBtw7VDEEVDz2AOkQCsxoAggwACbuXbJX+JbPAAAAAElFTkSuQmCC
 
-------=_NextPart_000_0000_01D45B85.A3E63CA0
+------=_NextPart_000_0015_01D4D4EB.BA946F00
 Content-Type: text/css;
 	charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-Content-Location: file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/css/screen.css
+Content-Location: file:///C:/Code/xenadmin/XenAdmin/HomePage/css/screen.css
 
 html {
 	margin: 0px; padding: 0px; border: 0px currentColor; border-image: =
@@ -1207,11 +1206,11 @@ hidden; content: "\0020";
 	clear: both;
 }
 
-------=_NextPart_000_0000_01D45B85.A3E63CA0
+------=_NextPart_000_0015_01D4D4EB.BA946F00
 Content-Type: text/css;
 	charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-Content-Location: file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/css/theme.css
+Content-Location: file:///C:/Code/xenadmin/XenAdmin/HomePage/css/theme.css
 
 .cx-hero-top {
 	background: rgb(95, 103, 181); height: 310px;
@@ -1301,11 +1300,11 @@ img#deskTopVirt {
 	width: 86px; height: 66px;
 }
 
-------=_NextPart_000_0000_01D45B85.A3E63CA0
+------=_NextPart_000_0015_01D4D4EB.BA946F00
 Content-Type: text/css;
 	charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-Content-Location: file:///C:/WORKSPACE/xenadmin/XenAdmin/HomePage/css/print.css
+Content-Location: file:///C:/Code/xenadmin/XenAdmin/HomePage/css/print.css
 
 body {
 	background: none; color: rgb(0, 0, 0); line-height: 1.5; font-family: =
@@ -1337,4 +1336,4 @@ a:visited::after {
 	font-size: 90%; content: " (" attr(href) ")";
 }
 
-------=_NextPart_000_0000_01D45B85.A3E63CA0--
+------=_NextPart_000_0015_01D4D4EB.BA946F00--
