@@ -6839,6 +6839,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\splash-xcp-ng\splash-xcp-ng.csproj">
+      <Project>{cd563857-6159-4415-b7b2-a21991f572e3}</Project>
+      <Name>splash-xcp-ng</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XenCenterLib\XenCenterLib.csproj">
       <Project>{9861DFA1-B41F-432D-A43F-226257DEBBB9}</Project>
       <Name>XenCenterLib</Name>
@@ -6858,6 +6862,10 @@
     <ProjectReference Include="..\XenOvfTransport\XenOvfTransport.csproj">
       <Project>{9F7E6285-5CBF-41B4-8CB9-AB06DFF90DC0}</Project>
       <Name>XenOvfTransport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\xe\Xe.csproj">
+      <Project>{727e885d-14be-40f0-9d0b-3853d44d3984}</Project>
+      <Name>Xe</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

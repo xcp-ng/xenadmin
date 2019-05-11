@@ -88,11 +88,5 @@
   <ItemGroup>
     <Content Include="Resources\AppIcon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\XenAdmin\XenAdmin.csproj">
-      <Project>{70bda4bc-f062-4302-8acd-a15d8bf31d65}</Project>
-      <Name>XenAdmin</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
