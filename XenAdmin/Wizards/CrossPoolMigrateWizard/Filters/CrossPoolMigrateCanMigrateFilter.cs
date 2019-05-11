@@ -32,7 +32,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using XenAdmin.Commands;
 using XenAdmin.Core;
 using XenAdmin.Wizards.GenericPages;
@@ -72,25 +71,19 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard.Filters
             canceled = true;
         }
 
-        public override bool FailureFound
+        public override bool FailureFoundFor(IXenObject itemToFilterOn)
         {
-            get
-            {
-                log.InfoFormat("Asserting can migrate to {0}...", ItemToFilterOn);
-
                 Pool targetPool;
-                List<Host> targets = CollateHosts(out targetPool);
-                var excludedHosts = new List<string>();
+            List<Host> targets = CollateHosts(itemToFilterOn, out targetPool);
 
+            foreach (VM vm in preSelectedVMs)
+            {
+                log.InfoFormat("Asserting can migrate VM {0} to {1}...", vm.Name(), itemToFilterOn);
+                bool vmIsMigratable = false;
                 foreach (Host host in targets)
                 {
-                    var targetSrs = host.Connection.Cache.SRs.Where(sr => sr.SupportsStorageMigration()).ToList();
-                    var targetNetwork = GetANetwork(host);
-
-                    foreach (VM vm in preSelectedVMs)
-                    {
                         if (canceled)
-                            return excludedHosts.Count == targets.Count;
+                        return false;
 
                         // obtain the cache data for a vm
                         IDictionary<string, string> vmCache;
@@ -108,25 +101,27 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard.Filters
                             //CA-220218: for intra-pool motion of halted VMs we do a move, so no need to assert we can migrate
                             Pool vmPool = Helpers.GetPoolOfOne(vm.Connection);
                             if (_wizardMode == WizardMode.Move && vmPool != null && targetPool != null && vmPool.opaque_ref == targetPool.opaque_ref)
-                                continue;
+                        {
                             
+                            vmIsMigratable = true; 
+                            break;
+                        }
                             //Skip the resident host as there's a filter for it and 
                             //if not then you could exclude intrapool migration
                             //CA-205799: do not offer the host the VM is currently on
+                        //CA-205799: do not offer the host the VM is currently on
                             Host homeHost = vm.Home();
                             if (homeHost != null && homeHost.opaque_ref == host.opaque_ref)
-                            {
-                                if (!excludedHosts.Contains(host.opaque_ref))
-                                    excludedHosts.Add(host.opaque_ref);
                                 continue;
-                            }
 
                             if (vmCache.ContainsKey(host.opaque_ref))
                             {
                                 disableReason = vmCache[host.opaque_ref];
-                                if (!string.IsNullOrEmpty(disableReason) && !excludedHosts.Contains(host.opaque_ref))
+                            if (string.IsNullOrEmpty(disableReason))
                                 {
-                                    excludedHosts.Add(host.opaque_ref);
+                                // vm is migratable to at least one host in the pool, no need to itearate through all the pool members
+                                vmIsMigratable = true;
+                                break;
                                 }
                                 continue;
                             }
@@ -141,15 +136,29 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard.Filters
                                     {
                                         vmCache.Add(host.opaque_ref, reason);
                                     }
-                                    continue;
+                                // vm is migratable to at least one host in the pool, no need to itearate through all the pool members
+                                vmIsMigratable = true;
+                                break;
                                 }
                             }
 
+                        //check if the destination host is older than the source host
+                        var destinationVersion = Helpers.HostPlatformVersion(host);
+                        var sourceVersion = Helpers.HostPlatformVersion(vm.Home() ?? Helpers.GetMaster(vmPool));
+                        if (Helpers.productVersionCompare(destinationVersion, sourceVersion) < 0)
+                        {
+                            throw new Failure(Messages.OLDER_THAN_CURRENT_SERVER);
+                        }
+
                             PIF managementPif = host.Connection.Cache.PIFs.First(p => p.management);
-                            XenAPI.Network network = host.Connection.Cache.Resolve(managementPif.network);
+                        XenAPI.Network managementNetwork = host.Connection.Cache.Resolve(managementPif.network);
 
                             Session session = host.Connection.DuplicateSession();
-                            Dictionary<string, string> receiveMapping = Host.migrate_receive(session, host.opaque_ref, network.opaque_ref, new Dictionary<string, string>());
+                        Dictionary<string, string> receiveMapping = Host.migrate_receive(session, host.opaque_ref, managementNetwork.opaque_ref, new Dictionary<string, string>());
+
+                        var targetSrs = host.Connection.Cache.SRs.Where(sr => sr.SupportsStorageMigration()).ToList();
+                        var targetNetwork = GetANetwork(host);
+
                             Dictionary<string, string> options = new Dictionary<string, string>();
                             if (force)
                                 options.Add("force", "true");
@@ -164,6 +173,9 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard.Filters
                             {
                                 vmCache.Add(host.opaque_ref, string.Empty);
                             }
+                        // vm is migratable to at least one host in the pool, no need to itearate through all the pool members
+                        vmIsMigratable = true;
+                        break;
                         }
                         catch (Failure failure)
                         {
@@ -177,33 +189,35 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard.Filters
                                 vmCache.Add(host.opaque_ref, disableReason.Clone().ToString());
                             }
 
-                            log.ErrorFormat("VM: {0}, Host: {1} - Reason: {2};", vm.opaque_ref, host.opaque_ref, failure.Message);
+                        log.ErrorFormat("VM: {0}, Host: {1} - Reason: {2};", vm.Name(), host.Name(), failure.Message);
                             
-                            if (!excludedHosts.Contains(host.opaque_ref))
-                                excludedHosts.Add(host.opaque_ref);
+                        vmIsMigratable = false;
                         }
                     }
-                }
 
-                return excludedHosts.Count == targets.Count;
+                // if at least one VM is not migratable to the target pool, then there is no point checking the remaining VMs
+                if (!vmIsMigratable)
+                    return true;
             }
+            return false;
         }
 
-        private List<Host> CollateHosts(out Pool thePool)
+        private List<Host> CollateHosts(IXenObject itemToFilterOn, out Pool thePool)
         {
             thePool = null;
 
             List<Host> target = new List<Host>();
-            if (ItemToFilterOn is Host)
+            if (itemToFilterOn is Host)
             {
-                target.Add(ItemToFilterOn as Host);
-                thePool = Helpers.GetPoolOfOne(ItemToFilterOn.Connection);
+                target.Add(itemToFilterOn as Host);
+                thePool = Helpers.GetPoolOfOne(itemToFilterOn.Connection);
             }
 
-            if (ItemToFilterOn is Pool)
+            if (itemToFilterOn is Pool)
             {
-                Pool pool = ItemToFilterOn as Pool;
+                Pool pool = itemToFilterOn as Pool;
                 target.AddRange(pool.Connection.Cache.Hosts);
+                target.Sort();
                 thePool = pool;
             }
             return target;

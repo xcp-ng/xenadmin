@@ -83,15 +83,13 @@ namespace XenAdmin.Controls.MainWindowControls
         public event Action TreeViewRefreshResumed;
 
         [Browsable(true)]
-        internal event Action<string> DragDropCommandActivated;
+        public event Action<string> DragDropCommandActivated;
 
         #endregion
 
         public NavigationPane()
         {
             InitializeComponent();
-
-            navigationView.DragDropCommandActivated += navigationView_DragDropCommandActivated;
 
             AddNavigationItemPair(buttonInfraBig, buttonInfraSmall);
             AddNavigationItemPair(buttonObjectsBig, buttonObjectsSmall);

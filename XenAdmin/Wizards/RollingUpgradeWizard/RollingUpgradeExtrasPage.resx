@@ -385,7 +385,7 @@
     <value>4</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Choose wether you want [XenCenter] to install an update or supplemental pack from disk after the selected pools are upgraded. Please note that installation will fail if a file incompatible with the [XenServer] version you have upgraded to is selected.</value>
+    <value>Choose whether you want [XenCenter] to install an update or supplemental pack from disk after the selected pools are upgraded. Please note that installation will fail if a file incompatible with the [XenServer] version you have upgraded to is selected.</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>

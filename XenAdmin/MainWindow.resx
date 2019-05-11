@@ -292,7 +292,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageConsole.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="TabPageCvmConsole.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -316,7 +316,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageCvmConsole.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="TabPageStorage.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -349,7 +349,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageStorage.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <data name="TabPagePhysicalStorage.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -376,7 +376,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPagePhysicalStorage.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="TabPageSR.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -406,7 +406,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageSR.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="TabPageNetwork.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -436,7 +436,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageNetwork.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>8</value>
   </data>
   <data name="TabPageNICs.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -469,7 +469,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageNICs.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>9</value>
   </data>
   <data name="TabPagePeformance.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -499,7 +499,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPagePeformance.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>10</value>
   </data>
   <data name="TabPageHA.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -526,7 +526,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageHA.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>11</value>
   </data>
   <data name="TabPageHAUpsell.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -553,7 +553,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageHAUpsell.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>12</value>
   </data>
   <data name="snapshotPage.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -610,7 +610,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageSnapshots.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>13</value>
   </data>
   <data name="TabPageWLB.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -634,7 +634,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageWLB.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>14</value>
   </data>
   <data name="TabPageWLBUpsell.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -658,7 +658,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageWLBUpsell.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>15</value>
   </data>
   <data name="TabPageAD.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -682,7 +682,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageAD.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>16</value>
   </data>
   <data name="TabPageADUpsell.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -709,7 +709,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageADUpsell.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>17</value>
   </data>
   <data name="TabPageGPU.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -733,7 +733,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageGPU.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>18</value>
   </data>
   <data name="TabPagePvs.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -760,7 +760,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPagePvs.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>19</value>
   </data>
   <data name="TabPageSearch.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -790,7 +790,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageSearch.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>20</value>
   </data>
   <data name="TabPageDockerProcess.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -820,7 +820,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageDockerProcess.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>21</value>
   </data>
   <data name="TabPageDockerDetails.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -850,7 +850,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageDockerDetails.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>22</value>
   </data>
   <data name="TabPageUSB.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -877,7 +877,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageUSB.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>23</value>
   </data>
   <data name="TheTabControl.Font" type="System.Drawing.Font, System.Drawing">
     <value>Verdana, 8.25pt</value>
@@ -1207,7 +1207,7 @@
     <value>TitleBackPanel</value>
   </data>
   <data name="&gt;&gt;TitleBackPanel.Type" xml:space="preserve">
-    <value>XenAdmin.Controls.GradientPanel.GradientPanel, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>XenAdmin.Controls.GradientPanel.VerticalGradientPanel, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;TitleBackPanel.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -2338,130 +2338,130 @@
     <value>Control+N</value>
   </data>
   <data name="NewVmToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="NewVmToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;New VM...</value>
   </data>
   <data name="startShutdownToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="startShutdownToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Start/Shut down</value>
   </data>
   <data name="resumeOnToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="resumeOnToolStripMenuItem.Text" xml:space="preserve">
     <value>Res&amp;ume on Server</value>
   </data>
   <data name="relocateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="relocateToolStripMenuItem.Text" xml:space="preserve">
     <value>M&amp;igrate to Server</value>
   </data>
   <data name="startOnHostToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="startOnHostToolStripMenuItem.Text" xml:space="preserve">
     <value>Start &amp;on Server</value>
   </data>
   <data name="toolStripSeparator20.Size" type="System.Drawing.Size, System.Drawing">
-    <value>241, 6</value>
+    <value>240, 6</value>
   </data>
   <data name="assignSnapshotScheduleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="assignSnapshotScheduleToolStripMenuItem.Text" xml:space="preserve">
     <value>Assign to Snaps&amp;hot Schedule...</value>
   </data>
   <data name="assignToVirtualApplianceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="assignToVirtualApplianceToolStripMenuItem.Text" xml:space="preserve">
     <value>Assign to &amp;vApp</value>
   </data>
   <data name="toolStripMenuItem9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>241, 6</value>
+    <value>240, 6</value>
   </data>
   <data name="copyVMtoSharedStorageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="copyVMtoSharedStorageMenuItem.Text" xml:space="preserve">
     <value>&amp;Copy VM</value>
   </data>
   <data name="MoveVMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="MoveVMToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Move VM</value>
   </data>
   <data name="snapshotToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="snapshotToolStripMenuItem.Text" xml:space="preserve">
     <value>Ta&amp;ke a Snapshot</value>
   </data>
   <data name="convertToTemplateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="convertToTemplateToolStripMenuItem.Text" xml:space="preserve">
     <value>Convert to &amp;Template</value>
   </data>
   <data name="exportToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="exportToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Export...</value>
   </data>
   <data name="disableCbtToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="disableCbtToolStripMenuItem.Text" xml:space="preserve">
     <value>D&amp;isable Changed Block Tracking</value>
   </data>
   <data name="enablePVSReadcachingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="disablePVSReadcachingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="toolStripMenuItem12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>241, 6</value>
+    <value>240, 6</value>
   </data>
   <data name="installToolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="installToolsToolStripMenuItem.Text" xml:space="preserve">
     <value>Inst&amp;all [Citrix VM Tools]</value>
   </data>
   <data name="sendCtrlAltDelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="sendCtrlAltDelToolStripMenuItem.Text" xml:space="preserve">
     <value>Send Ctrl+&amp;Alt+Del</value>
   </data>
   <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>241, 6</value>
+    <value>240, 6</value>
   </data>
   <data name="uninstallToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="uninstallToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Delete VM</value>
   </data>
   <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>241, 6</value>
+    <value>240, 6</value>
   </data>
   <data name="pluginItemsPlaceHolderToolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="pluginItemsPlaceHolderToolStripMenuItem4.Text" xml:space="preserve">
     <value>PluginItemsPlaceHolder</value>
   </data>
   <data name="VMPropertiesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="VMPropertiesToolStripMenuItem.Text" xml:space="preserve">
     <value>P&amp;roperties</value>
@@ -3582,6 +3582,12 @@
   <data name="&gt;&gt;exportToolStripMenuItem.Type" xml:space="preserve">
     <value>XenAdmin.Commands.CommandToolStripMenuItem, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
+  <data name="&gt;&gt;disableCbtToolStripMenuItem.Name" xml:space="preserve">
+    <value>disableCbtToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;disableCbtToolStripMenuItem.Type" xml:space="preserve">
+    <value>XenAdmin.Commands.CommandToolStripMenuItem, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <data name="&gt;&gt;enablePVSReadcachingToolStripMenuItem.Name" xml:space="preserve">
     <value>enablePVSReadcachingToolStripMenuItem</value>
   </data>
@@ -3989,12 +3995,6 @@
   </data>
   <data name="&gt;&gt;statusProgressBar.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;disableCbtToolStripMenuItem.Name" xml:space="preserve">
-    <value>disableCbtToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;disableCbtToolStripMenuItem.Type" xml:space="preserve">
-    <value>XenAdmin.Commands.CommandToolStripMenuItem, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainWindow</value>

@@ -86,9 +86,9 @@ namespace XenAdmin.Commands
             }
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            SR sr = item.XenObject as SR;
+            SR sr = item as SR;
             if (sr != null && !sr.SupportsTrim())
             {
                 return Messages.TOOLTIP_SR_TRIM_UNSUPPORTED;

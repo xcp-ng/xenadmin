@@ -82,14 +82,6 @@ namespace XenAdmin.Commands
             return false;
         }
 
-        private AsyncAction DoRevert()
-        {
-            AsyncAction revertSnapshot = new VMSnapshotRevertAction(_snapshot);
-            revertSnapshot.ShowProgress = true;
-            return revertSnapshot;
-            
-        }
-
         protected override void ExecuteCore(SelectedItemCollection selection)
         {
             VM vm = (VM)selection[0].XenObject;
@@ -124,10 +116,8 @@ namespace XenAdmin.Commands
 
         private void ExecuteRevertAction()
         {
-            var action = DoRevert();
+            var action = new VMSnapshotRevertAction(_snapshot);
             action.RunAsync();
         }
     }
-
-   
 }

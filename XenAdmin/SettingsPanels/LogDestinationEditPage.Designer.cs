@@ -33,12 +33,11 @@ namespace XenAdmin.SettingsPanels
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.LocalRadioButton = new System.Windows.Forms.RadioButton();
-            this.RemoteRadioButton = new System.Windows.Forms.RadioButton();
             this.ServerLabel = new System.Windows.Forms.Label();
             this.ServerTextBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
+            this.checkBoxRemote = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -65,21 +64,6 @@ namespace XenAdmin.SettingsPanels
             resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             // 
-            // LocalRadioButton
-            // 
-            resources.ApplyResources(this.LocalRadioButton, "LocalRadioButton");
-            this.LocalRadioButton.Name = "LocalRadioButton";
-            this.LocalRadioButton.TabStop = true;
-            this.LocalRadioButton.UseVisualStyleBackColor = true;
-            // 
-            // RemoteRadioButton
-            // 
-            resources.ApplyResources(this.RemoteRadioButton, "RemoteRadioButton");
-            this.RemoteRadioButton.Name = "RemoteRadioButton";
-            this.RemoteRadioButton.TabStop = true;
-            this.RemoteRadioButton.UseVisualStyleBackColor = true;
-            this.RemoteRadioButton.CheckedChanged += new System.EventHandler(this.RemoteRadioButton_CheckedChanged);
-            // 
             // ServerLabel
             // 
             resources.ApplyResources(this.ServerLabel, "ServerLabel");
@@ -90,27 +74,36 @@ namespace XenAdmin.SettingsPanels
             resources.ApplyResources(this.ServerTextBox, "ServerTextBox");
             this.ServerTextBox.Name = "ServerTextBox";
             this.ServerTextBox.TextChanged += new System.EventHandler(this.ServerTextBox_TextChanged);
+            this.ServerTextBox.Enter += new System.EventHandler(this.ServerTextBox_Enter);
             // 
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxRemote, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.ServerLabel, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.ServerTextBox, 2, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // label3
             // 
             resources.ApplyResources(this.label3, "label3");
+            this.tableLayoutPanel1.SetColumnSpan(this.label3, 3);
             this.label3.Name = "label3";
+            // 
+            // checkBoxRemote
+            // 
+            resources.ApplyResources(this.checkBoxRemote, "checkBoxRemote");
+            this.tableLayoutPanel1.SetColumnSpan(this.checkBoxRemote, 3);
+            this.checkBoxRemote.Name = "checkBoxRemote";
+            this.checkBoxRemote.UseVisualStyleBackColor = true;
+            this.checkBoxRemote.CheckedChanged += new System.EventHandler(this.checkBoxRemote_CheckedChanged);
             // 
             // LogDestinationEditPage
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.ServerTextBox);
-            this.Controls.Add(this.ServerLabel);
-            this.Controls.Add(this.RemoteRadioButton);
-            this.Controls.Add(this.LocalRadioButton);
             this.DoubleBuffered = true;
             this.Name = "LogDestinationEditPage";
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -118,7 +111,6 @@ namespace XenAdmin.SettingsPanels
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -128,11 +120,10 @@ namespace XenAdmin.SettingsPanels
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.RadioButton LocalRadioButton;
-        private System.Windows.Forms.RadioButton RemoteRadioButton;
         private System.Windows.Forms.Label ServerLabel;
         private System.Windows.Forms.TextBox ServerTextBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox checkBoxRemote;
     }
 }

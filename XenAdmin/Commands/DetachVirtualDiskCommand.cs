@@ -127,9 +127,9 @@ namespace XenAdmin.Commands
             return true;
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            VDI vdi = item.XenObject as VDI;
+            VDI vdi = item as VDI;
             if (vdi == null)
                 return base.GetCantExecuteReasonCore(item);
 
@@ -263,7 +263,7 @@ namespace XenAdmin.Commands
             }
         }
 
-        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<SelectedItem, string> cantExecuteReasons)
+        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<IXenObject, string> cantExecuteReasons)
         {
             return new CommandErrorDialog(Messages.ERROR_ACTIVATING_VDIS_TITLE, Messages.ERROR_ACTIVATING_VDIS_MESSAGE, cantExecuteReasons);
         }

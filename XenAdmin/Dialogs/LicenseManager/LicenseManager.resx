@@ -289,7 +289,7 @@
     <value>916, 426</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
     <value>tableLayoutPanel1</value>
@@ -328,7 +328,7 @@
     <value>275, 15</value>
   </data>
   <data name="downloadLicenseServerLink.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="downloadLicenseServerLink.Text" xml:space="preserve">
     <value>Download a [Citrix] License Server virtual appliance</value>
@@ -514,7 +514,7 @@
     <value>91, 25</value>
   </data>
   <data name="cancelButton.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>&amp;Close</value>

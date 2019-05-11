@@ -163,9 +163,9 @@ namespace XenAdmin.Commands
             return atLeastOneCanExecute;
         }
 
-        protected string GetCantExecuteNoToolsOrDriversReasonCore(SelectedItem item)
+        protected string GetCantExecuteNoToolsOrDriversReasonCore(IXenObject item)
         {
-            VM vm = item.XenObject as VM;
+            VM vm = item as VM;
             if (vm == null)
                 return null;
 

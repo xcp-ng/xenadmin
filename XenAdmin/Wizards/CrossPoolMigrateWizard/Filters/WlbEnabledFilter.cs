@@ -50,21 +50,18 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard.Filters
             this.preSelectedVMs = preSelectedVMs;
         }
 
-        public override bool FailureFound
+        public override bool FailureFoundFor(IXenObject itemToFilterOn)
         {
-            get
-            {
-                bool targetWlb = false;
+            bool targetWlb = false;
 
-                if(ItemToFilterOn != null)
-                    targetWlb = Helpers.CrossPoolMigrationRestrictedWithWlb(ItemToFilterOn.Connection);
+            if(itemToFilterOn != null)
+                targetWlb = Helpers.CrossPoolMigrationRestrictedWithWlb(itemToFilterOn.Connection);
 
-                bool sourceWlb = preSelectedVMs.Any(vm => Helpers.CrossPoolMigrationRestrictedWithWlb(vm.Connection));
+            bool sourceWlb = preSelectedVMs.Any(vm => Helpers.CrossPoolMigrationRestrictedWithWlb(vm.Connection));
 
-                reason = targetWlb ? Messages.CPM_WLB_ENABLED_ON_HOST_FAILURE_REASON : Messages.CPM_WLB_ENABLED_ON_VM_FAILURE_REASON;
+            reason = targetWlb ? Messages.CPM_WLB_ENABLED_ON_HOST_FAILURE_REASON : Messages.CPM_WLB_ENABLED_ON_VM_FAILURE_REASON;
 
-                return targetWlb || sourceWlb;
-            }
+            return targetWlb || sourceWlb;
         }
 
         private string reason = Messages.UNKNOWN;

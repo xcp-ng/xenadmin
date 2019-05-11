@@ -1,6 +1,3 @@
-using XenAdmin.SettingsPanels;
-using XenAPI;
-
 namespace XenAdmin.Dialogs
 {
     partial class PropertiesDialog
@@ -16,9 +13,17 @@ namespace XenAdmin.Dialogs
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing)
             {
-                components.Dispose();
+                if (VMHAEditPage != null)
+                    VMHAEditPage.Populated -= this.EditPage_Populated;
+                if (usbEditPage != null)
+                    usbEditPage.Populated -= this.EditPage_Populated;
+                if (newPolicySnapshotFrequencyPage1 != null)
+                    newPolicySnapshotFrequencyPage1.Populated -= EditPage_Populated;
+
+                if (components != null)
+                    components.Dispose();
             }
             base.Dispose(disposing);
         }

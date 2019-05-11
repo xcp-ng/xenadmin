@@ -29,43 +29,22 @@
  * SUCH DAMAGE.
  */
 
-using System;
 using XenAdmin.Controls;
 
 namespace XenAdmin.Wizards.NewPolicyWizard
 {
     public partial class NewPolicyFinishPage : XenTabPage
     {
-        private readonly string _pageTitle;
-
-        public NewPolicyFinishPage(string pageText, string checkBoxText, string finishPageTitle)
+        public NewPolicyFinishPage()
         {
             InitializeComponent();
-            this.label13.Text = pageText;
-            this.checkBox1.Text = checkBoxText;
-            _pageTitle = finishPageTitle;
         }
 
-        public override string Text
-        {
-            get
-            {
-                return Messages.FINISH_PAGE_TEXT;
-            }
-        }
+        public override string Text => Messages.FINISH_PAGE_TEXT;
 
-        public override string PageTitle
-        {
-            get
-            {
-                return _pageTitle;
-            }
-        }
+        public override string PageTitle => Messages.VMSS_FINISH_TITLE;
 
-        public override string HelpID
-        {
-            get { return "Finish"; }
-        }
+        public override string HelpID => "Finish";
 
         protected override void PageLoadedCore(PageLoadedDirection direction)
         {
@@ -76,12 +55,6 @@ namespace XenAdmin.Wizards.NewPolicyWizard
         public string Summary { private get; set; }
         public int SelectedVMsCount { private get; set; }
 
-        public bool RunNow
-        {
-            get
-            {
-                return checkBox1.Checked;
-            }
-        }
+        public bool RunNow => checkBox1.Checked;
     }
 }

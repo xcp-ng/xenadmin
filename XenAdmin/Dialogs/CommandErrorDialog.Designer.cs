@@ -58,6 +58,7 @@ namespace XenAdmin.Dialogs
             // pbQuestion
             // 
             resources.ApplyResources(this.pbQuestion, "pbQuestion");
+            this.pbQuestion.Image = global::XenAdmin.Properties.Resources._000_error_h32bit_32;
             this.pbQuestion.Name = "pbQuestion";
             this.pbQuestion.TabStop = false;
             // 

@@ -32,9 +32,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 
 
@@ -42,102 +40,67 @@ namespace XenAdmin.Wizards.NewPolicyWizard
 {
     public partial class DaysWeekCheckboxes : UserControl
     {
+        public event EventHandler CheckBoxChanged;
+
         public DaysWeekCheckboxes()
         {
             InitializeComponent();
-            checkBoxMonday.CheckedChanged += new EventHandler(checkBoxMonday_CheckedChanged);
-            checkBoxTuesday.CheckedChanged += new EventHandler(checkBoxMonday_CheckedChanged);
-            checkBoxWednesday.CheckedChanged += new EventHandler(checkBoxMonday_CheckedChanged);
-            checkBoxThursday.CheckedChanged += new EventHandler(checkBoxMonday_CheckedChanged);
-            checkBoxFriday.CheckedChanged += new EventHandler(checkBoxMonday_CheckedChanged);
-            checkBoxSaturday.CheckedChanged += new EventHandler(checkBoxMonday_CheckedChanged);
-            checkBoxSunday.CheckedChanged += new EventHandler(checkBoxMonday_CheckedChanged);
         }
 
-        void checkBoxMonday_CheckedChanged(object sender, EventArgs e)
+        public bool AnySelected()
         {
-            EventHandler handler = CheckBoxChanged;
-            if (handler != null) handler(sender, e);
+            return checkBoxSunday.Checked ||
+                   checkBoxMonday.Checked ||
+                   checkBoxTuesday.Checked ||
+                   checkBoxWednesday.Checked ||
+                   checkBoxThursday.Checked ||
+                   checkBoxFriday.Checked ||
+                   checkBoxSaturday.Checked;
         }
 
-
-        public event EventHandler CheckBoxChanged;
-
-        public enum DaysMode { ENGLISH, L10N_SHORT, L10N_LONG };
-        private string DaysToString(DaysMode mode)
-        {
-            var sb = new StringBuilder();
-            if (checkBoxMonday.Checked)
-                sb.Append((mode == DaysMode.ENGLISH ? "Monday" : mode == DaysMode.L10N_LONG ? Messages.MONDAY_LONG : Messages.MONDAY_SHORT) + ",");
-            if (checkBoxTuesday.Checked)
-                sb.Append((mode == DaysMode.ENGLISH ? "Tuesday" : mode == DaysMode.L10N_LONG ? Messages.TUESDAY_LONG : Messages.TUESDAY_SHORT) + ",");
-            if (checkBoxWednesday.Checked)
-                sb.Append((mode == DaysMode.ENGLISH ? "Wednesday" : mode == DaysMode.L10N_LONG ? Messages.WEDNESDAY_LONG : Messages.WEDNESDAY_SHORT) + ",");
-            if (checkBoxThursday.Checked)
-                sb.Append((mode == DaysMode.ENGLISH ? "Thursday" : mode == DaysMode.L10N_LONG ? Messages.THURSDAY_LONG : Messages.THURSDAY_SHORT) + ",");
-            if (checkBoxFriday.Checked)
-                sb.Append((mode == DaysMode.ENGLISH ? "Friday" : mode == DaysMode.L10N_LONG ? Messages.FRIDAY_LONG : Messages.FRIDAY_SHORT) + ",");
-            if (checkBoxSaturday.Checked)
-                sb.Append((mode == DaysMode.ENGLISH ? "Saturday" : mode == DaysMode.L10N_LONG ? Messages.SATURDAY_LONG : Messages.SATURDAY_SHORT) + ",");
-            if (checkBoxSunday.Checked)
-                sb.Append((mode == DaysMode.ENGLISH ? "Sunday" : mode == DaysMode.L10N_LONG ? Messages.SUNDAY_LONG : Messages.SUNDAY_SHORT) + ",");
-            if (sb.Length > 0)
-                sb.Remove(sb.Length - 1, 1);
-            return sb.ToString();
-        }
-
-        public string Days
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public DayOfWeek[] SelectedDays
         {
             get
             {
-                return DaysToString(DaysMode.ENGLISH);
+                var days = new List<DayOfWeek>();
+
+                if (checkBoxSunday.Checked)
+                    days.Add(DayOfWeek.Sunday);
+                if (checkBoxMonday.Checked)
+                    days.Add(DayOfWeek.Monday);
+                if (checkBoxTuesday.Checked)
+                    days.Add(DayOfWeek.Tuesday);
+                if (checkBoxWednesday.Checked)
+                    days.Add(DayOfWeek.Wednesday);
+                if (checkBoxThursday.Checked)
+                    days.Add(DayOfWeek.Thursday);
+                if (checkBoxFriday.Checked)
+                    days.Add(DayOfWeek.Friday);
+                if (checkBoxSaturday.Checked)
+                    days.Add(DayOfWeek.Saturday);
+
+                return days.ToArray();
             }
             set
             {
-                if (value != null)
-                {
-                    checkBoxTuesday.Checked = value.IndexOf("tuesday", StringComparison.InvariantCultureIgnoreCase) >= 0;
-                    checkBoxWednesday.Checked = value.IndexOf("wednesday", StringComparison.InvariantCultureIgnoreCase) >= 0;
-                    checkBoxThursday.Checked = value.IndexOf("thursday", StringComparison.InvariantCultureIgnoreCase) >= 0;
-                    checkBoxFriday.Checked = value.IndexOf("friday", StringComparison.InvariantCultureIgnoreCase) >= 0;
-                    checkBoxSaturday.Checked = value.IndexOf("saturday", StringComparison.InvariantCultureIgnoreCase) >= 0;
-                    checkBoxSunday.Checked = value.IndexOf("sunday", StringComparison.InvariantCultureIgnoreCase) >= 0;
-                    checkBoxMonday.Checked = value.IndexOf("monday", StringComparison.InvariantCultureIgnoreCase) >= 0;
-                }
+                if (value == null || value.Length <= 0)
+                    return;
+
+                checkBoxSunday.Checked = value.Contains(DayOfWeek.Sunday);
+                checkBoxMonday.Checked = value.Contains(DayOfWeek.Monday);
+                checkBoxTuesday.Checked = value.Contains(DayOfWeek.Tuesday);
+                checkBoxWednesday.Checked = value.Contains(DayOfWeek.Wednesday);
+                checkBoxThursday.Checked = value.Contains(DayOfWeek.Thursday);
+                checkBoxFriday.Checked = value.Contains(DayOfWeek.Friday);
+                checkBoxSaturday.Checked = value.Contains(DayOfWeek.Saturday);
             }
         }
 
-        // Localise a comma-separated days string. I don't think this is the right way to do it. Really
-        // the data structures should keep the days as an array of bools or list of ints or something and
-        // only translate on input and output, but that would require too much rewriting now. (CA-51612)
-        public static string L10NDays(string days, DaysMode mode)
+        private void checkBox_CheckedChanged(object sender, EventArgs e)
         {
-            DaysWeekCheckboxes dwc = new DaysWeekCheckboxes();
-            dwc.Days = days;
-            return dwc.DaysToString(mode);
+            if (CheckBoxChanged != null)
+                CheckBoxChanged(sender, e);
         }
-
-        public void DisableUnSelected()
-        {
-            checkBoxTuesday.Enabled = checkBoxTuesday.Checked;
-            checkBoxWednesday.Enabled = checkBoxWednesday.Checked;
-            checkBoxThursday.Enabled = checkBoxThursday.Checked;
-            checkBoxFriday.Enabled = checkBoxFriday.Checked;
-            checkBoxSaturday.Enabled = checkBoxSaturday.Checked;
-            checkBoxSunday.Enabled = checkBoxSunday.Checked;
-            checkBoxMonday.Enabled = checkBoxMonday.Checked;
-        }
-
-        public void EnableAll()
-        {
-            checkBoxTuesday.Enabled =
-            checkBoxWednesday.Enabled = 
-            checkBoxThursday.Enabled = 
-            checkBoxFriday.Enabled = 
-            checkBoxSaturday.Enabled = 
-            checkBoxSunday.Enabled = 
-            checkBoxMonday.Enabled = true;
-        }
-
     }
 }

@@ -228,9 +228,9 @@ namespace XenAdmin.Commands
             }
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            VM vm = item.XenObject as VM;
+            VM vm = item as VM;
             if (vm == null)
                 return base.GetCantExecuteReasonCore(item);
             if (vm.power_state == vm_power_state.Running)

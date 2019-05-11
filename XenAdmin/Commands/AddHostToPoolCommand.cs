@@ -69,12 +69,12 @@ namespace XenAdmin.Commands
 
         protected override void ExecuteCore(SelectedItemCollection selection)
         {
-            Dictionary<SelectedItem, string> reasons = new Dictionary<SelectedItem, string>();
+            var reasons = new Dictionary<IXenObject, string>();
             foreach (Host host in _hosts)
             {
                 PoolJoinRules.Reason reason = PoolJoinRules.CanJoinPool(host.Connection, _pool.Connection, true, true, true, _hosts.Count);
                 if (reason != PoolJoinRules.Reason.Allowed)
-                    reasons[new SelectedItem(host)] = PoolJoinRules.ReasonMessage(reason);
+                    reasons[host] = PoolJoinRules.ReasonMessage(reason);
             }
 
             if (reasons.Count > 0)

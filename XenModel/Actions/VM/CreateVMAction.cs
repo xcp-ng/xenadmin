@@ -56,13 +56,13 @@ namespace XenAdmin.Actions.VMActions
             switch (x)
             {
                 case BootMode.BIOS_BOOT:
-                    return "BIOS Boot";
+                    return Messages.BIOS_BOOT;
                 case BootMode.UEFI_BOOT:
-                    return "UEFI Boot";
+                    return Messages.UEFI_BOOT;
                 case BootMode.UEFI_SECURE_BOOT:
-                    return "UEFI Secure Boot";
+                    return Messages.UEFI_SECURE_BOOT;
                 default:
-                    return "Not Available";
+                    return Messages.UNAVAILABLE;
             }
         }
     }

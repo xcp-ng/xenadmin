@@ -148,7 +148,7 @@
     <value>0</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>To grant access to a user, enter their AD name or group, separating mutliple entries by commas:</value>
+    <value>To grant access to a user, enter their AD name or group, separating multiple entries by commas:</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -277,7 +277,7 @@
     <value>0</value>
   </data>
   <data name="labelTopBlurb.Text" xml:space="preserve">
-    <value>Adding users or groups to the access list of {0} lets them connect to the server using their AD credentials. To grant access to users, enter their AD name or group name, separating mutliple entries by commas or semicolons.</value>
+    <value>Adding users or groups to the access list of {0} lets them connect to the server using their AD credentials. To grant access to users, enter their AD name or group name, separating multiple entries by commas or semicolons.</value>
   </data>
   <data name="&gt;&gt;labelTopBlurb.Name" xml:space="preserve">
     <value>labelTopBlurb</value>

@@ -153,11 +153,6 @@
                             </ProgId>
                         </Component>
                         <Component Id="UpdateFiles" Guid="[BRANDING_XSUPDATE_FILE_GUID]">
-                            <?if "$(env.Branding)"="XenCenter"?>
-							<File Id="hotfixClearwater" Source="..\Branding\Hotfixes\RPU001.xsupdate" />
-                            <File Id="hotfixClearwaterSource" Source="..\Branding\Hotfixes\RPU001-src-pkgs.tar.gz" />
-							<?endif?>
-                            <File Id="hotfixCreedence" Source="..\Branding\Hotfixes\RPU002.[xsupdate]" />
                             <File Id="hotfixDundee" Source="..\Branding\Hotfixes\RPU003.[xsupdate]" />
                             <File Id="hotfixEly" Source="..\Branding\Hotfixes\RPU004.iso" />
                         </Component>

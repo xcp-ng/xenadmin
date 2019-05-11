@@ -41,15 +41,14 @@ namespace XenAdmin.Dialogs.Network
     public partial class UnknownCertificateDialog : XenDialogBase
     {
         private string _hostname;
+        private X509Certificate Certificate;
 
         public UnknownCertificateDialog(X509Certificate certificate,string hostname)
         {
             InitializeComponent();
             AutoAcceptCheckBox.Enabled = Registry.AlwaysShowSSLCertificates != SSLCertificateTypes.All;
-            IconPictureBox.Image = SystemIcons.Warning.ToBitmap();
             _hostname = hostname;
             Certificate = certificate;
-
 
             string h = _hostname.Ellipsise(35);
 
@@ -60,9 +59,6 @@ namespace XenAdmin.Dialogs.Network
             BlurbLabel.Text = string.Format(BlurbLabel.Text, h);
             Blurb2Label.Text = string.Format(Blurb2Label.Text, h);
         }
-
-        private X509Certificate Certificate;
-
 
         private void ViewCertificateButton_Click(object sender, EventArgs e)
         {

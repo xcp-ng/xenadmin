@@ -223,7 +223,7 @@ namespace XenAdmin.Commands
             get { return "WarningVmLifeCycleForceShutDown"; }
         }
 
-        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<SelectedItem, string> cantExecuteReasons)
+        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<IXenObject, string> cantExecuteReasons)
         {
             foreach (VM vm in GetSelection().AsXenObjects<VM>())
             {

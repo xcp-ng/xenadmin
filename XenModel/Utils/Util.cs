@@ -32,6 +32,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 
@@ -333,13 +334,6 @@ namespace XenAdmin
                 return string.Format(Messages.TIME_SECONDS, t);
             
             return Messages.TIME_NEGLIGIBLE;
-        }
-
-        public static string TimeRangeString(long t1, long t2)
-        {
-            return t1 > 60 && t2 > 60 ?
-                string.Format(Messages.TIME_RANGE_MINUTES, t1 / 60, t2 / 60) :
-                string.Format(Messages.TIME_RANGE_SECONDS, t1, t2);
         }
 
         internal static string GThanSize(long min)

@@ -62,8 +62,7 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
             {
                 if (_restartAgentFallback)
                     RestartAgent(ref session);
-                else
-                    return;
+                return;
             }
 
             EvacuateHost(ref session);

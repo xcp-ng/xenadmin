@@ -594,6 +594,12 @@
   <data name="ACTION_HOST_START_TITLE" xml:space="preserve">
     <value>Powering on server '{0}'</value>
   </data>
+  <data name="ACTION_IMPORT_VM_TITLE" xml:space="preserve">
+    <value>Importing VM '{0}'</value>
+  </data>
+  <data name="ACTION_IMPORT_VM_TO_HOST_TITLE" xml:space="preserve">
+    <value>Importing VM '{0}' to '{1}'</value>
+  </data>
   <data name="ACTION_ISCSI_IQN_SCANNING" xml:space="preserve">
     <value>Scanning for IQNs on iSCSI filer {0}</value>
   </data>
@@ -1173,6 +1179,9 @@
   <data name="ACTION_VM_MIGRATING_RESIDENT" xml:space="preserve">
     <value>Migrating VM '{0}' from '{1}' to '{2}'</value>
   </data>
+  <data name="ACTION_VM_MIGRATING_TITLE" xml:space="preserve">
+    <value>Migrating VM '{0}'</value>
+  </data>
   <data name="ACTION_VM_MOVING" xml:space="preserve">
     <value>Moving VM to new storage...</value>
   </data>
@@ -1191,8 +1200,11 @@
   <data name="ACTION_VM_REBOOTING" xml:space="preserve">
     <value>Rebooting VM</value>
   </data>
-  <data name="ACTION_VM_REBOOTING_TITLE" xml:space="preserve">
+  <data name="ACTION_VM_REBOOTING_ON_TITLE" xml:space="preserve">
     <value>Rebooting VM '{0}' on '{1}'</value>
+  </data>
+  <data name="ACTION_VM_REBOOTING_TITLE" xml:space="preserve">
+    <value>Rebooting VM '{0}'</value>
   </data>
   <data name="ACTION_VM_RESUMED" xml:space="preserve">
     <value>Resumed</value>
@@ -1218,8 +1230,11 @@
   <data name="ACTION_VM_SHUTTING_DOWN" xml:space="preserve">
     <value>Shutting down VM</value>
   </data>
-  <data name="ACTION_VM_SHUTTING_DOWN_TITLE" xml:space="preserve">
+  <data name="ACTION_VM_SHUTTING_DOWN_ON_TITLE" xml:space="preserve">
     <value>Shutting down VM '{0}' on '{1}'</value>
+  </data>
+  <data name="ACTION_VM_SHUTTING_DOWN_TITLE" xml:space="preserve">
+    <value>Shutting down VM '{0}'</value>
   </data>
   <data name="ACTION_VM_SHUT_DOWN" xml:space="preserve">
     <value>Shut down</value>
@@ -2139,6 +2154,9 @@ This is a potentially dangerous operation and is not allowed.</value>
   <data name="BIGGER_THAN" xml:space="preserve">
     <value>bigger than</value>
   </data>
+  <data name="BIOS_BOOT" xml:space="preserve">
+    <value>BIOS Boot</value>
+  </data>
   <data name="BIOS_STRINGS_COPIED" xml:space="preserve">
     <value>BIOS strings copied</value>
   </data>
@@ -2431,13 +2449,13 @@ This will cancel compilation of the status report.</value>
     <value>Cannot delete this system disk as it is in use by the running VM '{0}'.</value>
   </data>
   <data name="CANNOT_DELETE_ISO_GENERIC" xml:space="preserve">
-    <value>It is not possible to delete this ISO storage. Try again later and confirm your SR supports this operation.</value>
+    <value>It is not possible to delete this ISO storage. Please check your SR supports this operation and try again.</value>
   </data>
   <data name="CANNOT_DELETE_ISO_IN_USE" xml:space="preserve">
     <value>This ISO storage is currently in use and cannot be deleted.</value>
   </data>
   <data name="CANNOT_DELETE_SNAPSHOT_GENERIC" xml:space="preserve">
-    <value>It is not possible to delete this snapshot. Try again later and confirm your SR supports this operation.</value>
+    <value>It is not possible to delete this snapshot. Please check your SR supports this operation and try again.</value>
   </data>
   <data name="CANNOT_DELETE_SNAPSHOT_IN_USE" xml:space="preserve">
     <value>This snapshot is currently in use and cannot be deleted.</value>
@@ -2458,7 +2476,7 @@ This will cancel compilation of the status report.</value>
     <value>Virtual disks cannot be deleted from suspended VMs. This virtual disk is used by the suspended VM '{0}'.</value>
   </data>
   <data name="CANNOT_DELETE_VD_GENERIC" xml:space="preserve">
-    <value>It is not possible to delete this virtual disk. Try again later and confirm your SR supports this operation.</value>
+    <value>It is not possible to delete this virtual disk. Please check your SR supports this operation and try again.</value>
   </data>
   <data name="CANNOT_DELETE_VD_IN_USE" xml:space="preserve">
     <value>This virtual disk is currently in use and cannot be deleted.</value>
@@ -2645,6 +2663,12 @@ Do you want to assign it to the schedule '{2}' instead?</value>
   </data>
   <data name="CHOOSE_ANOTHER_DESTINATION" xml:space="preserve">
     <value>Choose another &amp;destination</value>
+  </data>
+  <data name="CHOOSE_SR_PROVISIONING_PAGE_MULTIPATHING_MANY" xml:space="preserve">
+    <value>Multipathing is not enabled on all servers of your pool. To ensure system stability, it is strongly recommended that you use multipathing for your storage connectivity.</value>
+  </data>
+  <data name="CHOOSE_SR_PROVISIONING_PAGE_MULTIPATHING_ONE" xml:space="preserve">
+    <value>Multipathing is not enabled on your server. To ensure system stability, it is strongly recommended that you use multipathing for your storage connectivity.</value>
   </data>
   <data name="CHOOSE_SR_PROVISIONING_PAGE_TITLE" xml:space="preserve">
     <value>Choose the provisioning method</value>
@@ -4960,7 +4984,7 @@ Would you like to eject these ISOs before continuing?</value>
     <value>To access your saved session it is required that you enter the master password when starting [XenCenter]</value>
   </data>
   <data name="ENTER_VALID_QOS" xml:space="preserve">
-    <value>The value for your QoS limit needs to be greater than zero</value>
+    <value>The QoS limit value should be an integer greater than zero</value>
   </data>
   <data name="EQUALLOGICS_MEMBERS" xml:space="preserve">
     <value>Members</value>
@@ -5646,14 +5670,14 @@ Warning: to prevent data loss you must ensure that the LUN is not in use by any 
   <data name="GENERAL_DETAILS_CPU_NUMBER" xml:space="preserve">
     <value>CPU {0}</value>
   </data>
-  <data name="GENERAL_EDIT_INVALID_HOSTNAME" xml:space="preserve">
-    <value>You must give a valid server name.</value>
-  </data>
   <data name="GENERAL_EDIT_INVALID_IQN" xml:space="preserve">
-    <value>You must give a valid IQN, e.g. iqn.2007-11.com.example.subdomain:optional-domain-specific-string</value>
+    <value>Please enter a valid IQN, e.g. iqn.2007-11.com.example.subdomain:optional-domain-specific-string</value>
   </data>
   <data name="GENERAL_EDIT_INVALID_NAME" xml:space="preserve">
-    <value>You must give a valid name.</value>
+    <value>Please enter a valid name.</value>
+  </data>
+  <data name="GENERAL_EDIT_INVALID_REMOTE" xml:space="preserve">
+    <value>Please enter a valid IP address or server name.</value>
   </data>
   <data name="GENERAL_HEADING_BOOT_OPTIONS" xml:space="preserve">
     <value>Boot Options</value>
@@ -5814,9 +5838,6 @@ Warning: to prevent data loss you must ensure that the LUN is not in use by any 
   <data name="GPU_RUBRIC_PLEASE_SELECT_WHICH_GPU_ONE" xml:space="preserve">
     <value>Select which virtual GPU types are allowed on this GPU:</value>
   </data>
-  <data name="GPU_UNAVAILABLE" xml:space="preserve">
-    <value>Not available</value>
-  </data>
   <data name="GRAPHS_CANNOT_ADD_VM_HALTED" xml:space="preserve">
     <value>It is not possible to add new performance graphs on VM '{0}' because the VM is not running.</value>
   </data>
@@ -5874,22 +5895,34 @@ Note: Any custom color selections will remain unchanged</value>
     <value>Group Roles</value>
   </data>
   <data name="GUEFI_BOOT_MODES_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>The UEFI and UEFI secure boot modes are experimental, and are currently not suitable for production use.</value>
+    <value>Guest UEFI boot and guest UEFI secure boot are experimental features. You can create UEFI-enabled VMs on hosts that are in a production environment. However, UEFI-enabled VMs must not be used for production purposes. You may have to re-create the VMs when you upgrade the host to a newer version of [XenServer].</value>
   </data>
   <data name="GUEFI_BOOT_MODES_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>The UEFI and UEFI secure boot modes are not supported with the selected template.</value>
   </data>
+  <data name="GUEFI_BOOT_MODE_EXPERIMENTAL_LABEL" xml:space="preserve">
+    <value>&amp;UEFI Boot (experimental)</value>
+  </data>
   <data name="GUEFI_BOOT_MODE_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>The UEFI boot mode is experimental, and is currently not suitable for production use.</value>
+    <value>Guest UEFI boot is an experimental feature. You can create UEFI-enabled VMs on hosts that are in a production environment. However, UEFI-enabled VMs must not be used for production purposes. You may have to re-create the VMs when you upgrade the host to a newer version of [XenServer].</value>
+  </data>
+  <data name="GUEFI_BOOT_MODE_LABEL" xml:space="preserve">
+    <value>&amp;UEFI Boot</value>
   </data>
   <data name="GUEFI_BOOT_MODE_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>The UEFI boot mode is not supported with the selected template.</value>
   </data>
   <data name="GUEFI_SECUREBOOT_MODE_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>The UEFI secure boot mode is experimental, and is currently not suitable for production use.</value>
+    <value>Guest UEFI secure boot is an experimental feature. You can create VMs configured to use the UEFI secure boot mode on hosts that are in a production environment. However, these VMs must not be used for production purposes. You may have to re-create the VMs when you upgrade the host to a newer version of [XenServer].</value>
   </data>
   <data name="GUEFI_SECUREBOOT_MODE_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>The UEFI secure boot mode is not supported with the selected template.</value>
+  </data>
+  <data name="GUEFI_SECURE_BOOT_MODE_EXPERIMENTAL_LABEL" xml:space="preserve">
+    <value>UEFI &amp;Secure Boot (experimental)</value>
+  </data>
+  <data name="GUEFI_SECURE_BOOT_MODE_LABEL" xml:space="preserve">
+    <value>UEFI &amp;Secure Boot</value>
   </data>
   <data name="GUI_OUT_OF_DATE" xml:space="preserve">
     <value>This version of [XenCenter] is out of date and cannot connect to {0}.
@@ -6373,6 +6406,9 @@ Click Configure HA to alter the settings displayed below.</value>
   </data>
   <data name="HOST_LOG_DESTINATION_LOCAL" xml:space="preserve">
     <value>Local</value>
+  </data>
+  <data name="HOST_LOG_DESTINATION_LOCAL_AND_REMOTE" xml:space="preserve">
+    <value>Local and Remote ({0})</value>
   </data>
   <data name="HOST_MEMORY_POST_UPGRADE_DEFAULT_WARNING_LONG" xml:space="preserve">
     <value>If you are upgrading to [XenServer] [BRANDING_VERSION_8_0] and above, the Control Domain memory on {0} will be increased. 
@@ -7340,9 +7376,6 @@ To complete the patch installation, please put the servers into maintenance mode
   <data name="LIVE_PATCHING_FAILED_ONE_HOST" xml:space="preserve">
     <value>Live patching failed for server ‘{0}’. To complete the patch installation, please put the server into maintenance mode and reboot it.</value>
   </data>
-  <data name="LOCAL" xml:space="preserve">
-    <value>Local</value>
-  </data>
   <data name="LOCAL_SRS" xml:space="preserve">
     <value>Local Storage Repositories</value>
   </data>
@@ -8085,9 +8118,6 @@ Do you want to continue?</value>
   <data name="MIGRATE_PLEASE_EJECT_YOUR_CD" xml:space="preserve">
     <value>Please eject your CD</value>
   </data>
-  <data name="MIGRATE_VDI_UPSELL_BLURB" xml:space="preserve">
-    <value>Upgrade your [XenServer] license to enable VDI live migration. This feature enables you to migrate multiple running VDIs between SRs in the same pool with no VM downtime. </value>
-  </data>
   <data name="MIGRATION_NOT_ALLOWED" xml:space="preserve">
     <value>This VM may not migrate at the moment</value>
   </data>
@@ -8156,6 +8186,11 @@ Do you want to continue?</value>
   </data>
   <data name="MULTIPATH_NOT_ACTIVE" xml:space="preserve">
     <value>Not active</value>
+  </data>
+  <data name="MULTIPATH_NOT_ACTIVE_GFS2" xml:space="preserve">
+    <value>Not active.
+To ensure system stability, it is strongly recommended that you use multipathing for your storage connectivity.
+</value>
   </data>
   <data name="MULTIPATH_STATUS" xml:space="preserve">
     <value>{0} of {1} paths active</value>
@@ -10201,7 +10236,10 @@ Please reconnect the host and try again</value>
     <value>Server '{0}'</value>
   </data>
   <data name="PROBLEM_MAC_ADDRESS_IS_DUPLICATE" xml:space="preserve">
-    <value>The MAC address entered has already been assigned to the VM: \n {1} \n\n Are you sure you want to continue?</value>
+    <value>The MAC address entered has already been assigned to the VM:
+{1}
+
+Are you sure you want to continue?</value>
   </data>
   <data name="PROBLEM_MAC_ADDRESS_IS_DUPLICATE_TITLE" xml:space="preserve">
     <value>Duplicate MAC address</value>
@@ -10509,9 +10547,6 @@ To log out of this server and log in again using a different user account, enter
   </data>
   <data name="REMAINING_VFS" xml:space="preserve">
     <value>Yes ({0} VFs remaining)</value>
-  </data>
-  <data name="REMOTE" xml:space="preserve">
-    <value>Remote ({0})</value>
   </data>
   <data name="REMOTE_SRS" xml:space="preserve">
     <value>Remote Storage Repositories</value>
@@ -11077,7 +11112,7 @@ Click Keep Waiting if the upgrade is still running or Cancel if an error occurre
     <value>The current time on the pool master is: {0}</value>
   </data>
   <data name="SERVER_TOO_OLD" xml:space="preserve">
-    <value>This version of [XenCenter] supports [XenServer] [BRANDING_VERSION_6_2] onwards.</value>
+    <value>This version of [XenCenter] supports [XenServer] [BRANDING_VERSION_7_0] onwards.</value>
   </data>
   <data name="SERVER_TOO_OLD_SOLUTION" xml:space="preserve">
     <value>Use an earlier version of [XenCenter] to manage this server.</value>
@@ -11987,10 +12022,19 @@ Refer to the "[XenServer product] Administrator's Guide" for instructions on how
   <data name="TYPE_PAGE_DESCRIPTION_HEADER_XVA" xml:space="preserve">
     <value>Import a locally stored VM, template or snapshot as a new VM.</value>
   </data>
+  <data name="UEFI_BOOT" xml:space="preserve">
+    <value>UEFI Boot</value>
+  </data>
+  <data name="UEFI_SECURE_BOOT" xml:space="preserve">
+    <value>UEFI Secure Boot</value>
+  </data>
   <data name="UNABLE_TO_IMPORT_SEARCH" xml:space="preserve">
     <value>[XenCenter] was unable to import a saved search from file '{0}'.
 
 Verify that the file is a valid {1} export.</value>
+  </data>
+  <data name="UNAVAILABLE" xml:space="preserve">
+    <value>Not available</value>
   </data>
   <data name="UNCOMPRESS_APPLIANCE_DESCRIPTION" xml:space="preserve">
     <value>[XenCenter] will uncompress the file to '{0}'. After uncompression the original file '{1}' will be deleted. Continue?</value>
@@ -12491,6 +12535,9 @@ Note that if RBAC is enabled, only updates which you have privileges to dismiss 
   <data name="UPSELL_BLURB_HA" xml:space="preserve">
     <value>Upgrade your server license to enable High Availability. High Availability allows virtual machines to be automatically restarted in the event of an underlying hardware failure or individual VM failure. If the server fails the VMs will be intelligently restarted on other virtualized servers in the resource pool.</value>
   </data>
+  <data name="UPSELL_BLURB_MIGRATE_VDI" xml:space="preserve">
+    <value>Upgrade your [XenServer] license to enable VDI live migration. This feature enables you to migrate multiple running VDIs between SRs in the same pool with no VM downtime. </value>
+  </data>
   <data name="UPSELL_BLURB_PERFORMANCE" xml:space="preserve">
     <value>Upgrade your server license to enable Performance Reporting capabilities. Performance Reporting provides guidance on overall environment performance trends and enables you to accurately plan capacity as business needs change.</value>
   </data>
@@ -12751,12 +12798,6 @@ To start a [XenServer] trial, click the button below.</value>
   <data name="VIF_HOTPLUG_FAILED_TITLE" xml:space="preserve">
     <value>Virtual Network Device Changes</value>
   </data>
-  <data name="VIF_LICENSE_RESTRICTION" xml:space="preserve">
-    <value>Upgrade your license to enable QoS settings</value>
-  </data>
-  <data name="VIF_VSWITCH_CONTROLLER" xml:space="preserve">
-    <value>QoS settings should be configured using the vSwitch Controller</value>
-  </data>
   <data name="VIRTUALIZATION_OPTIMIZED" xml:space="preserve">
     <value>Optimized (version {0} installed)</value>
   </data>
@@ -12841,17 +12882,14 @@ To start a [XenServer] trial, click the button below.</value>
   <data name="VMSS_EMAIL_PAGE_TEXT" xml:space="preserve">
     <value>The server can send you email notifications when alerts associated with snapshot schedule jobs are raised, such as when a VM snapshot is created or when a snapshot operation fails.</value>
   </data>
-  <data name="VMSS_FINISH_PAGE_CHECKBOX_TEXT" xml:space="preserve">
-    <value>&amp;Run the new snapshot schedule job when I click Finish</value>
-  </data>
-  <data name="VMSS_FINISH_PAGE_TEXT" xml:space="preserve">
-    <value>Review the new snapshot schedule and click Previous if you want to change any settings or Finish to create the new schedule.</value>
-  </data>
   <data name="VMSS_FINISH_TITLE" xml:space="preserve">
     <value>Create the new schedule</value>
   </data>
   <data name="VMSS_HOST_NOT_LIVE" xml:space="preserve">
     <value>Pool master unreachable</value>
+  </data>
+  <data name="VMSS_INVALID_SCHEDULE" xml:space="preserve">
+    <value>Invalid or incomplete schedule</value>
   </data>
   <data name="VMSS_MAIN_MENU" xml:space="preserve">
     <value>VM Snapsh&amp;ot Schedules...</value>
@@ -12862,8 +12900,24 @@ To start a [XenServer] trial, click the button below.</value>
   <data name="VMSS_NAME_TITLE" xml:space="preserve">
     <value>What do you want to call this schedule?</value>
   </data>
+  <data name="VMSS_NEXT_CLIENT_LOCAL_RUN" xml:space="preserve">
+    <value>The next scheduled local run time is {0}.</value>
+  </data>
+  <data name="VMSS_NEXT_SERVER_LOCAL_RUN" xml:space="preserve">
+    <value>The corresponding server local time is {0}.</value>
+  </data>
   <data name="VMSS_POLICY_SUMMARY" xml:space="preserve">
-    <value>Job name:\r\n    {0}\r\n\r\nSelected VMs:\r\n    {1}\r\n\r\nSnapshot type:\r\n    {2}\r\n\r\nSchedule:\r\n    {3}\r\n</value>
+    <value>Job name:
+	{0}
+
+Selected VMs:
+	{1}
+
+Snapshot type:
+	{2}
+
+Schedule:
+	{3}</value>
   </data>
   <data name="VMSS_SCHEDULED_SNAPSHOTS_DEFINED_FOR_POOL" xml:space="preserve">
     <value>Snapshot schedules defined in pool '{0}' ({1} out of {2} VMs currently in schedule):</value>

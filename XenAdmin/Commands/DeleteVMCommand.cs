@@ -81,7 +81,7 @@ namespace XenAdmin.Commands
             if (MainWindowCommandInterface.RunInAutomatedTestMode || dialog.ShowDialog(Parent) == DialogResult.Yes)
             {
                 CommandErrorDialog errorDialog = null;
-                Dictionary<SelectedItem, string> cantExecuteReasons = GetCantExecuteReasons();
+                var cantExecuteReasons = GetCantExecuteReasons();
 
                 if (cantExecuteReasons.Count > 0)
                 {
@@ -142,9 +142,9 @@ namespace XenAdmin.Commands
             }
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            VM vm = item.XenObject as VM;
+            VM vm = item as VM;
             if (vm == null)
             {
                 return base.GetCantExecuteReasonCore(item);

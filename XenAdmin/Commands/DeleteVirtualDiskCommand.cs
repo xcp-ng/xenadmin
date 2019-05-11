@@ -355,9 +355,9 @@ namespace XenAdmin.Commands
             return true;
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            VDI vdi = item.XenObject as VDI;
+            VDI vdi = item as VDI;
             if (vdi == null)
                 return base.GetCantExecuteReasonCore(item);
 
@@ -437,7 +437,7 @@ namespace XenAdmin.Commands
             return base.GetCantExecuteReasonCore(item);
         }
 
-        protected override XenAdmin.Dialogs.CommandErrorDialog GetErrorDialogCore(IDictionary<SelectedItem, string> cantExecuteReasons)
+        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<IXenObject, string> cantExecuteReasons)
         {
             return new CommandErrorDialog(Messages.ERROR_DESTROYING_STORAGE_ITEMS_TITLE, Messages.ERROR_DESTROYING_STORAGE_ITEMS_MESSAGE, cantExecuteReasons);
         }

@@ -151,9 +151,9 @@ namespace XenAdmin.Commands
             get { return "WarningVmLifeCycleShutdown"; }
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            VM vm = (VM)item.XenObject;
+            VM vm = item as VM;
             if (vm == null)
                 return base.GetCantExecuteReasonCore(item);
 
@@ -172,7 +172,7 @@ namespace XenAdmin.Commands
             return GetCantExecuteNoToolsOrDriversReasonCore(item) ?? base.GetCantExecuteReasonCore(item);
         }
 
-        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<SelectedItem, string> cantExecuteReasons)
+        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<IXenObject, string> cantExecuteReasons)
         {
             foreach (VM vm in GetSelection().AsXenObjects<VM>())
             {

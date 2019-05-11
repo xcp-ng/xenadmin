@@ -37,6 +37,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using XenAdmin.Dialogs;
 using XenAdmin.Actions;
+using XenAPI;
 
 
 namespace XenAdmin.Commands
@@ -188,7 +189,7 @@ namespace XenAdmin.Commands
             }
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
             return ConnectionAvailable() ? base.GetCantExecuteReasonCore(item) : Messages.FOLDER_NO_CONNECTION;
         }

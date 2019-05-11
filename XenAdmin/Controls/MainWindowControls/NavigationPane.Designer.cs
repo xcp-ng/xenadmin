@@ -74,6 +74,7 @@
             // 
             resources.ApplyResources(this.navigationView, "navigationView");
             this.navigationView.Name = "navigationView";
+            this.navigationView.DragDropCommandActivated += new System.Action<string>(this.navigationView_DragDropCommandActivated);
             this.navigationView.TreeViewSelectionChanged += new System.Action(this.navigationView_TreeViewSelectionChanged);
             this.navigationView.TreeNodeBeforeSelected += new System.Action(this.navigationView_TreeNodeBeforeSelected);
             this.navigationView.TreeNodeClicked += new System.Action(this.navigationView_TreeNodeClicked);

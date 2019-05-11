@@ -154,7 +154,7 @@
     <value>3, 3, 3, 15</value>
   </data>
   <data name="BlurbLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>488, 15</value>
+    <value>490, 15</value>
   </data>
   <data name="BlurbLabel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -184,7 +184,7 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="AlwaysIgnoreCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 194</value>
+    <value>3, 213</value>
   </data>
   <data name="AlwaysIgnoreCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>206, 19</value>
@@ -226,7 +226,7 @@
     <value>3, 0, 3, 15</value>
   </data>
   <data name="labelTrusted.Size" type="System.Drawing.Size, System.Drawing">
-    <value>488, 15</value>
+    <value>490, 15</value>
   </data>
   <data name="labelTrusted.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -262,7 +262,7 @@
     <value>41, 111</value>
   </data>
   <data name="Blurb2Label.Size" type="System.Drawing.Size, System.Drawing">
-    <value>488, 80</value>
+    <value>490, 99</value>
   </data>
   <data name="Blurb2Label.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -294,13 +294,13 @@ You should only accept the certificate if you are sure that it belongs to '{0}'.
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="ViewCertificateButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>420, 66</value>
+    <value>419, 66</value>
   </data>
   <data name="ViewCertificateButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 15</value>
   </data>
   <data name="ViewCertificateButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 25</value>
+    <value>112, 25</value>
   </data>
   <data name="ViewCertificateButton.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -336,7 +336,7 @@ You should only accept the certificate if you are sure that it belongs to '{0}'.
     <value>3, 3, 3, 15</value>
   </data>
   <data name="Blurb3Label.Size" type="System.Drawing.Size, System.Drawing">
-    <value>373, 30</value>
+    <value>372, 30</value>
   </data>
   <data name="Blurb3Label.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -372,7 +372,7 @@ You should only accept the certificate if you are sure that it belongs to '{0}'.
     <value>NoControl</value>
   </data>
   <data name="Okbutton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>373, 3</value>
+    <value>375, 3</value>
   </data>
   <data name="Okbutton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
@@ -402,7 +402,7 @@ You should only accept the certificate if you are sure that it belongs to '{0}'.
     <value>NoControl</value>
   </data>
   <data name="Cancelbutton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>454, 3</value>
+    <value>456, 3</value>
   </data>
   <data name="Cancelbutton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
@@ -432,7 +432,7 @@ You should only accept the certificate if you are sure that it belongs to '{0}'.
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 216</value>
+    <value>0, 235</value>
   </data>
   <data name="tableLayoutPanel2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -441,7 +441,7 @@ You should only accept the certificate if you are sure that it belongs to '{0}'.
     <value>1</value>
   </data>
   <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>532, 31</value>
+    <value>534, 31</value>
   </data>
   <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -474,7 +474,7 @@ You should only accept the certificate if you are sure that it belongs to '{0}'.
     <value>7</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>532, 247</value>
+    <value>534, 266</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -519,7 +519,7 @@ You should only accept the certificate if you are sure that it belongs to '{0}'.
     <value>96, 96</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>552, 267</value>
+    <value>554, 286</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>

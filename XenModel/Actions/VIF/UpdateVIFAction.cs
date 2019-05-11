@@ -29,10 +29,7 @@
  * SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
 using XenAPI;
-
 
 namespace XenAdmin.Actions
 {
@@ -41,42 +38,29 @@ namespace XenAdmin.Actions
         private readonly VIF vif;
         private readonly VIF vifDescriptor;
 
-        private List<string> apiMethods = new List<string>();
-
-        /// <summary>
-        /// Update the VIF
-        /// </summary>
-        /// <param name="vm"></param>
-        /// <param name="vif"></param>
-        /// <param name="vifDescriptor"></param>
         public UpdateVIFAction(VM vm, VIF vif, VIF vifDescriptor)
-            : base(vm.Connection, String.Format(Messages.ACTION_VIF_UPDATING_TITLE, vif.NetworkName(), vm.Name()))
+            : base(vm.Connection, string.Format(Messages.ACTION_VIF_UPDATING_TITLE, vif.NetworkName(), vm.Name()))
         {
             this.vif = vif;
             VM = vm;
             this.vifDescriptor = vifDescriptor;
-            Initialise();
-            apiMethods.ForEach(method => ApiMethodsToRoleCheck.Add(method));
+
+            ApiMethodsToRoleCheck.AddRange(DeleteVIFAction.XmlRpcMethods);
+            ApiMethodsToRoleCheck.AddRange(CreateVIFAction.XmlRpcMethods);
         }
 
-        private void Initialise()
-        {
-            apiMethods.AddRange(DeleteVIFAction.XmlRpcMethods);
-            apiMethods.AddRange(CreateVIFAction.XmlRpcMethods);
-        }
-
-        private void UpdateVIF()
-        {
-            new DeleteVIFAction(vif).RunExternal(Session);
-            var createAction = new CreateVIFAction(VM, vifDescriptor);
-            createAction.RunExternal(Session);
-            Result = createAction.Result;
-        }
+        public bool RebootRequired { get; private set; }
 
         protected override void Run()
         {
             Description = Messages.ACTION_VIF_UPDATING;
-            UpdateVIF();
+
+            new DeleteVIFAction(vif, true).RunExternal(Session);
+
+            var createAction = new CreateVIFAction(VM, vifDescriptor, true);
+            createAction.RunExternal(Session);
+            RebootRequired = createAction.RebootRequired;
+
             Description = Messages.ACTION_VIF_UPDATED;
         }
     }

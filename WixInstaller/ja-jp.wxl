@@ -13,6 +13,6 @@
     <String Id="XenCenter_Saved_Search">[XenCenter] 保存済みの検索</String>
     <String Id="Required_For_Installation">このインストールには、Microsoft .NET Framework 4.6 以降が必要です。https://www.microsoft.com/net/download/framework からインストールしてください。</String>
     <String Id="Readme">README.TXT</String>
-	<String Id="HealthCheckDescr">サーバーから Citrix Insight Services に定期的にデータをアップロードすることにより、Citrix XenServer プールのヘルス状態の監視を有効にします。</String>
-	<String Id="HealthCheckDescrShort">Citrix XenServer プールのヘルス状態の監視を有効にします。</String>
+	<String Id="HealthCheckDescr">サーバーから Citrix Insight Services に定期的にデータをアップロードして [Citrix XenServer] プールのヘルス状態を監視する機能を有効にします。</String>
+	<String Id="HealthCheckDescrShort">[Citrix XenServer] プールのヘルス状態の監視を有効にします。</String>
 </WixLocalization>

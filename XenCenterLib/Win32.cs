@@ -228,6 +228,7 @@ namespace XenCenterLib
         public const int WM_HSCROLL = 0x114;
 
         public const int OCM_DRAWITEM = 8235;
+        public const int OCM_NOTIFY = 8270;
 
         public const int OFN_ENABLEHOOK = 0x00000020;
         public const int OFN_EXPLORER = 0x00080000;
@@ -697,6 +698,14 @@ namespace XenCenterLib
             public IntPtr HwndFrom;
             public IntPtr IdFrom;
             public int code;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct NMUPDOWN
+        {
+            public NMHDR hdr;
+            public int pos;
+            public int delta;
         }
 
         public const int S_OK = unchecked((int)0x00000000);

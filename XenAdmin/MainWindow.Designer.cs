@@ -79,6 +79,7 @@ namespace XenAdmin
             this.TabPageSearch = new System.Windows.Forms.TabPage();
             this.TabPageDockerProcess = new System.Windows.Forms.TabPage();
             this.TabPageDockerDetails = new System.Windows.Forms.TabPage();
+            this.TabPageUSB = new System.Windows.Forms.TabPage();
             this.alertPage = new XenAdmin.TabPages.AlertSummaryPage();
             this.updatesPage = new XenAdmin.TabPages.ManageUpdatesPage();
             this.eventsPage = new XenAdmin.TabPages.HistoryPage();
@@ -206,6 +207,7 @@ namespace XenAdmin
             this.snapshotToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
             this.convertToTemplateToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
             this.exportToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
+            this.disableCbtToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
             this.enablePVSReadcachingToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
             this.disablePVSReadcachingToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripSeparator();
@@ -277,8 +279,6 @@ namespace XenAdmin
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.TabPageUSB = new System.Windows.Forms.TabPage();
-            this.disableCbtToolStripMenuItem = new XenAdmin.Commands.CommandToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -325,45 +325,44 @@ namespace XenAdmin
             this.navigationPane.Name = "navigationPane";
             this.navigationPane.NavigationModeChanged += new System.Action<XenAdmin.Controls.MainWindowControls.NavigationPane.NavigationMode>(this.navigationPane_NavigationModeChanged);
             this.navigationPane.NotificationsSubModeChanged += new System.Action<XenAdmin.Controls.MainWindowControls.NotificationsSubModeItem>(this.navigationPane_NotificationsSubModeChanged);
-            this.navigationPane.DragDropCommandActivated += new System.Action<string>(this.navigationPane_DragDropCommandActivated);
             this.navigationPane.TreeViewSelectionChanged += new System.Action(this.navigationPane_TreeViewSelectionChanged);
             this.navigationPane.TreeNodeBeforeSelected += new System.Action(this.navigationPane_TreeNodeBeforeSelected);
             this.navigationPane.TreeNodeClicked += new System.Action(this.navigationPane_TreeNodeClicked);
             this.navigationPane.TreeNodeRightClicked += new System.Action(this.navigationPane_TreeNodeRightClicked);
             this.navigationPane.TreeViewRefreshed += new System.Action(this.navigationPane_TreeViewRefreshed);
+            this.navigationPane.DragDropCommandActivated += new System.Action<string>(this.navigationPane_DragDropCommandActivated);
             // 
             // TheTabControl
             // 
             resources.ApplyResources(this.TheTabControl, "TheTabControl");
-            this.TheTabControl.Controls.AddRange(new System.Windows.Forms.TabPage [] {
-            this.TabPageHome,
-            this.TabPageGeneral,
-            this.TabPageBallooning,
-            this.TabPageConsole,
-            this.TabPageCvmConsole,
-            this.TabPageStorage,
-            this.TabPagePhysicalStorage,
-            this.TabPageSR,
-            this.TabPageNetwork,
-            this.TabPageNICs,
-            this.TabPagePeformance,
-            this.TabPageHA,
-            this.TabPageHAUpsell,
-            this.TabPageSnapshots,
-            this.TabPageWLB,
-            this.TabPageWLBUpsell,
-            this.TabPageAD,
-            this.TabPageADUpsell,
-            this.TabPageGPU,
-            this.TabPagePvs,
-            this.TabPageSearch,
-            this.TabPageDockerProcess,
-            this.TabPageDockerDetails,
-            this.TabPageUSB});
+            this.TheTabControl.Controls.Add(this.TabPageHome);
+            this.TheTabControl.Controls.Add(this.TabPageGeneral);
+            this.TheTabControl.Controls.Add(this.TabPageBallooning);
+            this.TheTabControl.Controls.Add(this.TabPageConsole);
+            this.TheTabControl.Controls.Add(this.TabPageCvmConsole);
+            this.TheTabControl.Controls.Add(this.TabPageStorage);
+            this.TheTabControl.Controls.Add(this.TabPagePhysicalStorage);
+            this.TheTabControl.Controls.Add(this.TabPageSR);
+            this.TheTabControl.Controls.Add(this.TabPageNetwork);
+            this.TheTabControl.Controls.Add(this.TabPageNICs);
+            this.TheTabControl.Controls.Add(this.TabPagePeformance);
+            this.TheTabControl.Controls.Add(this.TabPageHA);
+            this.TheTabControl.Controls.Add(this.TabPageHAUpsell);
+            this.TheTabControl.Controls.Add(this.TabPageSnapshots);
+            this.TheTabControl.Controls.Add(this.TabPageWLB);
+            this.TheTabControl.Controls.Add(this.TabPageWLBUpsell);
+            this.TheTabControl.Controls.Add(this.TabPageAD);
+            this.TheTabControl.Controls.Add(this.TabPageADUpsell);
+            this.TheTabControl.Controls.Add(this.TabPageGPU);
+            this.TheTabControl.Controls.Add(this.TabPagePvs);
+            this.TheTabControl.Controls.Add(this.TabPageSearch);
+            this.TheTabControl.Controls.Add(this.TabPageDockerProcess);
+            this.TheTabControl.Controls.Add(this.TabPageDockerDetails);
+            this.TheTabControl.Controls.Add(this.TabPageUSB);
             this.TheTabControl.Name = "TheTabControl";
             this.TheTabControl.SelectedIndex = 4;
-            this.TheTabControl.Deselected += new System.Windows.Forms.TabControlEventHandler(this.TheTabControl_Deselected);
             this.TheTabControl.SelectedIndexChanged += new System.EventHandler(this.TheTabControl_SelectedIndexChanged);
+            this.TheTabControl.Deselected += new System.Windows.Forms.TabControlEventHandler(this.TheTabControl_Deselected);
             // 
             // TabPageHome
             // 
@@ -509,6 +508,12 @@ namespace XenAdmin
             resources.ApplyResources(this.TabPageDockerDetails, "TabPageDockerDetails");
             this.TabPageDockerDetails.Name = "TabPageDockerDetails";
             this.TabPageDockerDetails.UseVisualStyleBackColor = true;
+            // 
+            // TabPageUSB
+            // 
+            resources.ApplyResources(this.TabPageUSB, "TabPageUSB");
+            this.TabPageUSB.Name = "TabPageUSB";
+            this.TabPageUSB.UseVisualStyleBackColor = true;
             // 
             // alertPage
             // 
@@ -1413,6 +1418,12 @@ namespace XenAdmin
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             resources.ApplyResources(this.exportToolStripMenuItem, "exportToolStripMenuItem");
             // 
+            // disableCbtToolStripMenuItem
+            // 
+            this.disableCbtToolStripMenuItem.Command = new XenAdmin.Commands.DisableChangedBlockTrackingCommand();
+            this.disableCbtToolStripMenuItem.Name = "disableCbtToolStripMenuItem";
+            resources.ApplyResources(this.disableCbtToolStripMenuItem, "disableCbtToolStripMenuItem");
+            // 
             // enablePVSReadcachingToolStripMenuItem
             // 
             this.enablePVSReadcachingToolStripMenuItem.Command = new XenAdmin.Commands.EnablePvsReadCachingCommand();
@@ -1894,17 +1905,6 @@ namespace XenAdmin
             this.statusProgressBar.Name = "statusProgressBar";
             this.statusProgressBar.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             // 
-            // TabPageUSB
-            // 
-            resources.ApplyResources(this.TabPageUSB, "TabPageUSB");
-            this.TabPageUSB.Name = "TabPageUSB";
-            this.TabPageUSB.UseVisualStyleBackColor = true;
-            // disableCbtToolStripMenuItem
-            // 
-            this.disableCbtToolStripMenuItem.Command = new XenAdmin.Commands.DisableChangedBlockTrackingCommand();
-            this.disableCbtToolStripMenuItem.Name = "disableCbtToolStripMenuItem";
-            resources.ApplyResources(this.disableCbtToolStripMenuItem, "disableCbtToolStripMenuItem");
-            // 
             // MainWindow
             // 
             resources.ApplyResources(this, "$this");
@@ -1966,7 +1966,6 @@ namespace XenAdmin
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.Label TitleLabel;
         private System.Windows.Forms.PictureBox TitleIcon;
-        private XenAdmin.Controls.GradientPanel.GradientPanel TitleBackPanel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
         internal System.Windows.Forms.ToolStripSplitButton backButton;
         internal System.Windows.Forms.ToolStripSplitButton forwardButton;
@@ -2176,6 +2175,7 @@ namespace XenAdmin
         private System.Windows.Forms.TabPage TabPageUSB;
         private XenAdmin.Commands.CommandToolStripMenuItem disableCbtToolStripMenuItem;
         private System.Windows.Forms.Label LicenseStatusTitleLabel;
+        private Controls.GradientPanel.VerticalGradientPanel TitleBackPanel;
     }
 
 }

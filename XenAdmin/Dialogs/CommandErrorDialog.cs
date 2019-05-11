@@ -54,51 +54,21 @@ namespace XenAdmin.Dialogs
         private ListSortDirection m_direction;
         private DataGridViewColumn m_oldSortedColumn;
 
-
-        /// <summary>
-        /// Gets a new <see cref="CommandErrorDialog"/> using the specified parameters.
-        /// </summary>
-        /// <typeparam name="TXenObject">The type of the xen object.</typeparam>
-        /// <param name="title">The title for the confirmation dialog.</param>
-        /// <param name="text">The text for the confirmation dialog.</param>
-        /// <param name="cantExecuteReasons">A dictionary of names of the objects which will be ignored with assoicated reasons.</param>
-        public static CommandErrorDialog Create<TXenObject>(string title, string text, IDictionary<TXenObject, string> cantExecuteReasons) where TXenObject : IXenObject
-        {
-            Dictionary<SelectedItem, string> d = new Dictionary<SelectedItem, string>();
-            foreach (TXenObject x in cantExecuteReasons.Keys)
-            {
-                d[new SelectedItem(x)] = cantExecuteReasons[x];
-            }
-            return new CommandErrorDialog(title, text, d);
-
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandErrorDialog"/> class.
         /// </summary>
         /// <param name="title">The title for the confirmation dialog.</param>
         /// <param name="text">The text for the confirmation dialog.</param>
-        /// <param name="cantExecuteReasons">A dictionary of names of the objects which will be ignored with assoicated reasons.</param>
-        public CommandErrorDialog(string title, string text, IDictionary<SelectedItem, string> cantExecuteReasons)
-            : this(title, text, cantExecuteReasons, DialogMode.Close)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CommandErrorDialog"/> class.
-        /// </summary>
-        /// <param name="title">The title for the confirmation dialog.</param>
-        /// <param name="text">The text for the confirmation dialog.</param>
-        /// <param name="cantExecuteReasons">A dictionary of names of the objects which will be ignored with assoicated reasons.</param>
+        /// <param name="cantExecuteReasons">A dictionary of names of the objects which will be ignored with associated reasons.</param>
         /// <param name="mode">Whether the dialog should show a Close button, or OK and Cancel buttons.</param>
-        public CommandErrorDialog(string title, string text, IDictionary<SelectedItem, string> cantExecuteReasons, DialogMode mode)
+        public CommandErrorDialog(string title, string text,
+            IDictionary<IXenObject, string> cantExecuteReasons, DialogMode mode = DialogMode.Close)
         {
             Util.ThrowIfParameterNull(cantExecuteReasons, "cantExecuteReasons");
             Util.ThrowIfParameterNull(title, "title");
             Util.ThrowIfParameterNull(text, "text");
 
             InitializeComponent();
-            pbQuestion.Image = SystemIcons.Error.ToBitmap();
 
             Text = title;
             lblText.Text = text;
@@ -108,15 +78,13 @@ namespace XenAdmin.Dialogs
             btnOK.Visible = mode == DialogMode.OKCancel;
             btnClose.Visible = mode == DialogMode.Close;
 
-            foreach (SelectedItem selectedItem in cantExecuteReasons.Keys)
+            foreach (var xenObject in cantExecuteReasons.Keys)
             {
-                DataGridViewRow row = new DataGridViewRow {Tag = selectedItem.XenObject};
-                row.Cells.AddRange(new DataGridViewCell[]
-                                       {
-                                           new DataGridViewImageCell {Value = Images.GetImage16For(selectedItem.XenObject)},
-                                           new DataGridViewTextBoxCell {Value = selectedItem.XenObject.ToString()},
-                                           new DataGridViewTextBoxCell {Value = cantExecuteReasons[selectedItem]}
-                                       });
+                DataGridViewRow row = new DataGridViewRow {Tag = xenObject };
+                row.Cells.AddRange(
+                    new DataGridViewImageCell {Value = Images.GetImage16For(xenObject) },
+                    new DataGridViewTextBoxCell {Value = xenObject.ToString()},
+                    new DataGridViewTextBoxCell {Value = cantExecuteReasons[xenObject] });
                 m_dataGridView.Rows.Add(row);
             }
 

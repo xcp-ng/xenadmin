@@ -30,25 +30,22 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Text;
 using System.Windows.Forms;
 
 namespace XenAdmin.Controls
 {
-    public partial class DateTimeMinutes15 : DateTimePicker
+    public class DateTimeMinutes15 : DateTimePicker
     {
+        public bool AutoCorrecting;
+
         public DateTimeMinutes15()
         {
-            base.ValueChanged += new EventHandler(DateTimeMinutes15_ValueChanged);
+            ValueChanged += DateTimeMinutes15_ValueChanged;
             Value = new DateTime(1970, 1, 1, 0, 0, 0);
         }
 
-        void DateTimeMinutes15_ValueChanged(object sender, EventArgs e)
+        private void DateTimeMinutes15_ValueChanged(object sender, EventArgs e)
         {
-
             if (Value.Minute == 1)
             {
                 Value = new DateTime(1970, 1, 1, Value.Hour, 15, 0);
@@ -120,6 +117,23 @@ namespace XenAdmin.Controls
             {
                 Value = Value.AddMinutes(60 - Value.Minute);
                 return;
+            }
+        }
+
+        public new DateTime Value
+        {
+            get { return base.Value; }
+            set
+            {
+                try
+                {
+                    AutoCorrecting = true;
+                    base.Value = value;
+                }
+                finally
+                {
+                    AutoCorrecting = false;
+                }
             }
         }
     }

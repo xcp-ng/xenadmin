@@ -934,7 +934,7 @@ namespace XenAdmin
                     Program.Invoke(Program.MainWindow, delegate
                     {
                         var msg = string.Format(Messages.GUI_OUT_OF_DATE, Helpers.GetName(master));
-                        var url = "https://" + connection.Hostname;
+                        var url = InvisibleMessages.OUT_OF_DATE_WEBSITE;
                         var title = string.Format(Messages.CONNECTION_REFUSED_TITLE, Helpers.GetName(master).Ellipsise(80));
                         var error = $"{msg}\n{url}";
 

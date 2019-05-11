@@ -57,7 +57,6 @@ namespace XenAdmin.SettingsPanels
         private long origNtol;
         private long origOrder;
         private long origStartDelay;
-        private VerticalTabs verticalTabs;
 
         /// <summary>
         /// The vm's pool. May be null.
@@ -86,17 +85,11 @@ namespace XenAdmin.SettingsPanels
             nudOrder.Maximum = long.MaxValue;
         }
 
-        public VerticalTabs VerticalTabs
-        {
-            set
-            {
-                this.verticalTabs = value;
-            }
-		}
+        #region VerticalTabs.IVerticalTab implementation
 
-		#region VerticalTabs.IVerticalTab implementation
+        public event Action Populated;
 
-		public String SubText
+        public String SubText
         {
             get
             {
@@ -245,8 +238,8 @@ namespace XenAdmin.SettingsPanels
             {
                 Program.Invoke(this, delegate()
                 {
-                    if (verticalTabs != null)
-                        verticalTabs.Refresh();
+                    if (Populated != null)
+                        Populated();
                 });
             }
         }

@@ -170,6 +170,9 @@
     <Compile Include="Controls\ComboBoxes\EnableableComboBoxEditingControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\DateTimeMinutes15.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\TreeViews\FolderChangeDialogTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -197,9 +200,6 @@
     </Compile>
     <Compile Include="Controls\SpinnerIcon.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\SpinnerIcon.designer.cs">
-      <DependentUpon>SpinnerIcon.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Tags\TagList.cs" />
     <Compile Include="Controls\Tags\TagButton.cs">
@@ -2760,12 +2760,10 @@
   <ItemGroup>
     <Content Include="..\Branding\Images\AppIcon.ico" />
     <Compile Include="Actions\GUIActions\MeddlingActionManager.cs" />
-    <Compile Include="Actions\GUIActions\MeddlingActionTaskSpecifications.cs" />
     <Compile Include="Alerts\AlertExtensions.cs" />
     <Compile Include="Alerts\Types\LicenseAlert.cs" />
     <Compile Include="Alerts\Types\IqnAlert.cs" />
     <Compile Include="Commands\ApplyLicenseEditionCommand.cs" />
-    <Compile Include="Commands\BaseVIFCommand.cs" />
     <Compile Include="Commands\Controls\AssignVMGroupToolStripMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -2774,7 +2772,6 @@
     <Compile Include="Commands\CrossPoolMigrateCommand.cs" />
     <Compile Include="Commands\DestroyHostCommand.cs" />
     <Compile Include="Commands\MigrateVirtualDiskCommand.cs" />
-    <Compile Include="Commands\UpdateVIFCommand.cs" />
     <Compile Include="Actions\OVFActions\ApplianceAction.cs" />
     <Compile Include="Actions\OVFActions\ExportApplianceAction.cs" />
     <Compile Include="Actions\GUIActions\GeneralEditPageAction.cs" />
@@ -3199,7 +3196,6 @@
     <Compile Include="Commands\Controls\MultipleWarningDialog.Designer.cs">
       <DependentUpon>MultipleWarningDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Commands\CreateVIFCommand.cs" />
     <Compile Include="Commands\DeactivateVBDCommand.cs" />
     <Compile Include="Commands\DeleteVirtualDiskCommand.cs" />
     <Compile Include="Commands\DestroyBondCommand.cs" />
@@ -3218,12 +3214,6 @@
     </Compile>
     <Compile Include="Controls\Common\SearchTextBox.designer.cs">
       <DependentUpon>SearchTextBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\DateTimeMinutes15.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\DateTimeMinutes15.Designer.cs">
-      <DependentUpon>DateTimeMinutes15.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SimpleProgressBar.cs">
       <SubType>Component</SubType>
@@ -3791,12 +3781,6 @@
     </Compile>
     <Compile Include="Wizards\NewPolicyWizard\DaysWeekCheckboxes.Designer.cs">
       <DependentUpon>DaysWeekCheckboxes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizards\NewPolicyWizard\LocalServerTime.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizards\NewPolicyWizard\LocalServerTime.Designer.cs">
-      <DependentUpon>LocalServerTime.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizards\NewPolicyWizard\NewPolicyFinishPage.cs">
       <SubType>UserControl</SubType>
@@ -6347,15 +6331,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Wizards\NewPolicyWizard\DaysWeekCheckboxes.zh-CN.resx">
       <DependentUpon>DaysWeekCheckboxes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizards\NewPolicyWizard\LocalServerTime.ja.resx">
-      <DependentUpon>LocalServerTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizards\NewPolicyWizard\LocalServerTime.resx">
-      <DependentUpon>LocalServerTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizards\NewPolicyWizard\LocalServerTime.zh-CN.resx">
-      <DependentUpon>LocalServerTime.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizards\NewPolicyWizard\NewPolicyFinishPage.ja.resx">
       <DependentUpon>NewPolicyFinishPage.cs</DependentUpon>

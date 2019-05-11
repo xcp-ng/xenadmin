@@ -86,17 +86,18 @@ namespace XenAdmin.Commands
             return false;
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            VM vm = item.XenObject as VM;
-            if(vm!=null&&vm.power_state != vm_power_state.Halted)
+            VM vm = item as VM;
+            if (vm != null && vm.power_state != vm_power_state.Halted)
                 return Messages.SHUTDOWN_BEFORE_EXPORT;
-            if (item.XenObject != null && item.XenObject.Connection != null)
+
+            if (item != null && item.Connection != null)
             {
-                var vms = item.XenObject.Connection.Cache.VMs.Where(
-                    xvm =>
+                var vms = item.Connection.Cache.VMs.Where(xvm =>
                     xvm.is_a_real_vm() && CanExportVm(xvm) &&
                     xvm.Show(Properties.Settings.Default.ShowHiddenVMs)).ToList();
+
                 if (vms.Count == 0)
                     return Messages.NO_HALTED_VMS;
             }

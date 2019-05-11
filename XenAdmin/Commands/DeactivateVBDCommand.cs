@@ -106,9 +106,9 @@ namespace XenAdmin.Commands
             return vbd.allowed_operations.Contains(vbd_operations.unplug);
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            VBD vbd = item.XenObject as VBD;
+            VBD vbd = item as VBD;
             if (vbd == null)
                 return base.GetCantExecuteReasonCore(item);
 
@@ -151,7 +151,7 @@ namespace XenAdmin.Commands
             return base.GetCantExecuteReasonCore(item);
         }
 
-        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<SelectedItem, string> cantExecuteReasons)
+        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<IXenObject, string> cantExecuteReasons)
         {
             return new CommandErrorDialog(Messages.ERROR_DEACTIVATING_MULTIPLE_VDIS_TITLE, Messages.ERROR_DEACTIVATING_MULTIPLE_VDIS_MESSAGE, cantExecuteReasons);
         }

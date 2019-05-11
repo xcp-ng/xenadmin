@@ -275,7 +275,7 @@ namespace XenAdmin.Wizards.ImportWizard
                 m_pageOptions.Connection = TargetConnection;
                 m_pageTvmIp.Connection = TargetConnection;
 			    RemovePage(m_pageBootOptions);
-                if (m_typeOfImport == ImportType.Vhd && Helpers.NaplesOrGreater(TargetConnection))
+                if (m_typeOfImport == ImportType.Vhd && BootModesControl.ShowBootModeOptions(TargetConnection))
 			    {
 			        AddAfterPage(m_pageNetwork, m_pageBootOptions);
 			        m_pageBootOptions.Connection = TargetConnection;

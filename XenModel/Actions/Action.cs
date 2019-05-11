@@ -76,12 +76,7 @@ namespace XenAdmin.Actions
         /// after XenCenter has exited.
         /// Use this for composite tasks when an action has more than one xapi call.
         /// </summary>
-        private bool safeToExit = true;
-        public bool SafeToExit
-        {
-            get { return safeToExit; }
-            protected set { safeToExit = value; }
-        }
+        public bool SafeToExit { get; protected set; } = true;
 
         /// <summary>
         /// A list of opaque_refs, giving all the objects that this action applies to.
@@ -209,9 +204,9 @@ namespace XenAdmin.Actions
         }
 
         private string _description;
-        private bool _isCompleted = false;
-        private int _percentComplete = 0;
-        private Exception _exception = null;
+        private bool _isCompleted;
+        private int _percentComplete;
+        private Exception _exception;
 
         #region Events
         public event Action<ActionBase> Changed;
@@ -221,19 +216,8 @@ namespace XenAdmin.Actions
 
         public bool LogDescriptionChanges = true;
 
-        private bool showProgress = true;
+        public bool ShowProgress { get; protected set; } = true;
 
-        public bool ShowProgress
-        {
-            get
-            {
-                return showProgress;
-            }
-            set
-            {
-                showProgress = value;
-            }
-        }
 
         public ActionBase(string title, string description, bool suppressHistory)
             : this(title, description, suppressHistory, false)

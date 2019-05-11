@@ -149,6 +149,12 @@ namespace XenAdmin.Core
             Add(new RbacMethod(method, key));
         }
 
+        public void AddRange(params string[] methods)
+        {
+            foreach (var method in methods)
+                Add(method);
+        }
+
         public string[] ToStringArray()
         {
             string[] ans = new string[this.Count];

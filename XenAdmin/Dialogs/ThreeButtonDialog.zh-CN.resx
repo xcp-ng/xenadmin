@@ -135,11 +135,17 @@
   <data name="pictureBoxIcon.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
   </data>
+  <data name="pictureBoxIcon.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>32, 32</value>
+  </data>
+  <data name="pictureBoxIcon.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>32, 32</value>
+  </data>
   <data name="pictureBoxIcon.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 30</value>
   </data>
   <data name="pictureBoxIcon.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>AutoSize</value>
+    <value>StretchImage</value>
   </data>
   <data name="pictureBoxIcon.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>

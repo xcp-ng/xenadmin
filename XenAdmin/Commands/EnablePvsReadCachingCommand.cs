@@ -29,17 +29,11 @@
  * SUCH DAMAGE.
  */
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using XenAPI;
 using XenAdmin.Dialogs;
-using XenAdmin.Network;
-using XenAdmin.Properties;
-using System.Drawing;
-using System.Collections.ObjectModel;
 using System.Linq;
-using XenAdmin.Model;
+
 
 
 namespace XenAdmin.Commands
@@ -53,7 +47,7 @@ namespace XenAdmin.Commands
         /// Initializes a new instance of this Command. The parameter-less constructor is required if 
         /// this Command is to be attached to a ToolStrip menu item or button. It should not be used in any other scenario.
         /// </summary>
-        internal EnablePvsReadCachingCommand()
+        public EnablePvsReadCachingCommand()
         {
         }
 

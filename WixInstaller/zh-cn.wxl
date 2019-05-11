@@ -13,6 +13,6 @@
     <String Id="XenCenter_Saved_Search">[XenCenter] 保存的搜索</String>
     <String Id="Required_For_Installation">此安装需要 Microsoft .NET Framework 4.6 或更高版本。请从 https://www.microsoft.com/net/download/framework 安装</String>
     <String Id="Readme">声明.TXT</String>
-	<String Id="HealthCheckDescr">通过定期将数据从服务器上载到 Citrix Insight Services，实现对 Citrix XenServer 池的运行状况监视。</String>
-	<String Id="HealthCheckDescrShort">允许监视 Citrix XenServer 池的运行状况。</String>
+	<String Id="HealthCheckDescr">通过定期将数据从服务器上载到 Citrix Insight Services，实现对 [Citrix XenServer] 池的运行状况监视。</String>
+	<String Id="HealthCheckDescrShort">允许监视 [Citrix XenServer] 池的运行状况。</String>
 </WixLocalization>

@@ -198,11 +198,11 @@
   <data name="licenseServerLayoutPanel.ColumnCount" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
+  <data name="licenseServerNameLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
   <data name="licenseServerNameLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="licenseServerNameLabel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
   </data>
   <data name="licenseServerNameLabel.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
@@ -211,19 +211,16 @@
     <value>NoControl</value>
   </data>
   <data name="licenseServerNameLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 8</value>
+    <value>3, 7</value>
   </data>
   <data name="licenseServerNameLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 29</value>
+    <value>84, 15</value>
   </data>
   <data name="licenseServerNameLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="licenseServerNameLabel.Text" xml:space="preserve">
     <value>&amp;License Server:</value>
-  </data>
-  <data name="licenseServerNameLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;licenseServerNameLabel.Name" xml:space="preserve">
     <value>licenseServerNameLabel</value>
@@ -237,17 +234,20 @@
   <data name="&gt;&gt;licenseServerNameLabel.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="licenseServerNameTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
   <data name="licenseServerNameTextBox.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="licenseServerNameTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>101, 11</value>
+    <value>93, 3</value>
   </data>
   <data name="licenseServerNameTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>304, 23</value>
+    <value>307, 23</value>
   </data>
   <data name="licenseServerNameTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;licenseServerNameTextBox.Name" xml:space="preserve">
     <value>licenseServerNameTextBox</value>
@@ -261,11 +261,47 @@
   <data name="&gt;&gt;licenseServerNameTextBox.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="colonLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="colonLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="colonLabel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="colonLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="colonLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>406, 7</value>
+  </data>
+  <data name="colonLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>10, 15</value>
+  </data>
+  <data name="colonLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="colonLabel.Text" xml:space="preserve">
+    <value>:</value>
+  </data>
+  <data name="&gt;&gt;colonLabel.Name" xml:space="preserve">
+    <value>colonLabel</value>
+  </data>
+  <data name="&gt;&gt;colonLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;colonLabel.Parent" xml:space="preserve">
+    <value>licenseServerLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;colonLabel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="licenseServerPortTextBox.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="licenseServerPortTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>427, 11</value>
+    <value>422, 3</value>
   </data>
   <data name="licenseServerPortTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 23</value>
@@ -286,42 +322,6 @@
     <value>licenseServerLayoutPanel</value>
   </data>
   <data name="&gt;&gt;licenseServerPortTextBox.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="colonLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="colonLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="colonLabel.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="colonLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="colonLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>411, 15</value>
-  </data>
-  <data name="colonLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>10, 15</value>
-  </data>
-  <data name="colonLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="colonLabel.Text" xml:space="preserve">
-    <value>:</value>
-  </data>
-  <data name="&gt;&gt;colonLabel.Name" xml:space="preserve">
-    <value>colonLabel</value>
-  </data>
-  <data name="&gt;&gt;colonLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;colonLabel.Parent" xml:space="preserve">
-    <value>licenseServerLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;colonLabel.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="licenseServerLayoutPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -333,14 +333,14 @@
   <data name="licenseServerLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 41</value>
   </data>
-  <data name="licenseServerLayoutPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>8, 8, 8, 8</value>
+  <data name="licenseServerLayoutPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 10</value>
   </data>
   <data name="licenseServerLayoutPanel.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="licenseServerLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 45</value>
+    <value>525, 29</value>
   </data>
   <data name="licenseServerLayoutPanel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -358,7 +358,7 @@
     <value>0</value>
   </data>
   <data name="licenseServerLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="licenseServerNameLabel" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="licenseServerNameTextBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="licenseServerPortTextBox" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="colonLabel" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="licenseServerNameLabel" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="licenseServerNameTextBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="colonLabel" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="licenseServerPortTextBox" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="mainLabel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -691,7 +691,7 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="editionsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 92</value>
+    <value>11, 83</value>
   </data>
   <data name="editionsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>525, 178</value>
@@ -727,7 +727,7 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="buttonsLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>350, 281</value>
+    <value>350, 272</value>
   </data>
   <data name="buttonsLayoutPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 8, 3, 3</value>

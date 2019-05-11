@@ -482,10 +482,11 @@ namespace XenAdmin.Core
         }
 
         /// <summary>
-        /// Returns the full name of the specified DayOfWeek, making sure that the resultant string is localised if and only if necessary.
+        /// Returns the full name of the specified DayOfWeek,
+        /// making sure that the resultant string is localised if and only if necessary.
         /// Localised means: in the language of the program (not in the language of the OS).
         /// </summary>
-        public static string DayOfWeekToString(DayOfWeek dayOfWeek, bool localise)
+        public static string DayOfWeekToString(DayOfWeek dayOfWeek, bool localise = true)
         {
             if (localise)
             {
@@ -493,8 +494,41 @@ namespace XenAdmin.Core
                 // get the day of the week localized to culture of the current thread
                 return DateTimeFormatInfo.CurrentInfo.GetDayName(dayOfWeek);
             }
+            
+            return dayOfWeek.ToString();
+        }
+
+        /// <summary>
+        /// Returns the abbreviated name of the specified DayOfWeek,
+        /// making sure that the resultant string is localised if and only if necessary.
+        /// Localised means: in the language of the program (not in the language of the OS).
+        /// </summary>
+        public static string DayOfWeekToShortString(DayOfWeek dayOfWeek, bool localise = true)
+        {
+            if (localise)
+            {
+                Program.AssertOnEventThread();
+                // get the day of the week localized to culture of the current thread
+                return DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(dayOfWeek);
+            }
+            
+            return dayOfWeek.ToString();
+        }
+
+        public static DateTime RoundToNearestQuarter(DateTime time)
+        {
+            var baseTime = new DateTime(time.Year, time.Month, time.Day, time.Hour, 0, 0);
+
+            if (time < baseTime.AddMinutes(7.5))
+                return baseTime;
+            if (baseTime.AddMinutes(7.5) <= time && time < baseTime.AddMinutes(22.5))
+                return baseTime.AddMinutes(15);
+            if (baseTime.AddMinutes(22.5) <= time && time < baseTime.AddMinutes(37.5))
+                return baseTime.AddMinutes(30);
+            if (baseTime.AddMinutes(37.5) <= time && time < baseTime.AddMinutes(52.5))
+                return baseTime.AddMinutes(45);
             else
-                return dayOfWeek.ToString();
+                return baseTime.AddHours(1);
         }
 
         private const int WM_SETREDRAW = 11;

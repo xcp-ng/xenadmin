@@ -280,20 +280,15 @@ namespace XenAdmin.Dialogs
         /// </summary>
         public class Details
         {
-            public Icon Icon;
-            public string WindowTitle;
-            public string MainMessage = "";
+            public readonly Icon Icon;
+            public readonly string WindowTitle;
+            public readonly string MainMessage;
 
-            public Details(Icon Icon, string MainMessage)
+            public Details(Icon icon, string mainMessage, string windowTitle = null)
             {
-                this.Icon = Icon;
-                this.MainMessage = MainMessage;
-            }
-
-            public Details(Icon Icon, string MainMessage, string WindowTitle)
-                : this(Icon, MainMessage)
-            {
-                this.WindowTitle = WindowTitle;
+                Icon = icon;
+                MainMessage = mainMessage ?? "";
+                WindowTitle = string.IsNullOrEmpty(windowTitle) ? Messages.XENCENTER : windowTitle;
             }
         }
 

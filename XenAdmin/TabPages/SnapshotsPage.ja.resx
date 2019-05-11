@@ -1813,7 +1813,7 @@
     <value>186, 22</value>
   </data>
   <data name="toolStripMenuItemScheduledSnapshots.Text" xml:space="preserve">
-    <value>定期的なスナップショット作成(&amp;S)</value>
+    <value>スケジュールされたスナップショット(&amp;S)</value>
   </data>
   <data name="contextMenuStripView.Size" type="System.Drawing.Size, System.Drawing">
     <value>187, 76</value>

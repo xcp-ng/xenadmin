@@ -50,7 +50,7 @@ namespace XenAdmin.Actions.VMActions
     public class VMCleanShutdown : VMShutdownAction
     {
         public VMCleanShutdown(VM vm)
-            : base(vm, string.Format(Messages.ACTION_VM_SHUTTING_DOWN_TITLE, vm.Name(), vm.Home() == null ? Helpers.GetName(vm.Connection) : vm.Home().Name()))
+            : base(vm, string.Format(Messages.ACTION_VM_SHUTTING_DOWN_ON_TITLE, vm.Name(), vm.Home() == null ? Helpers.GetName(vm.Connection) : vm.Home().Name()))
         {
         }
 
@@ -67,7 +67,7 @@ namespace XenAdmin.Actions.VMActions
     public class VMHardShutdown : VMShutdownAction
     {
         public VMHardShutdown(VM vm)
-            : base(vm, string.Format(Messages.ACTION_VM_SHUTTING_DOWN_TITLE, vm.Name(), vm.Home() == null ? Helpers.GetName(vm.Connection) : vm.Home().Name()))
+            : base(vm, string.Format(Messages.ACTION_VM_SHUTTING_DOWN_ON_TITLE, vm.Name(), vm.Home() == null ? Helpers.GetName(vm.Connection) : vm.Home().Name()))
         {
         }
 

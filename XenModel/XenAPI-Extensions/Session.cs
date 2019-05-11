@@ -68,6 +68,8 @@ namespace XenAPI
         public Session(Session session, Proxy proxy, IXenConnection connection)
             : this(proxy, connection)
         {
+            opaque_ref = session.opaque_ref;
+            APIVersion = session.APIVersion;
             CopyADFromSession(session);
         }
 
@@ -77,57 +79,26 @@ namespace XenAPI
         /// for example when you need to cancel an operation that is blocking the primary connection.
         /// </summary>
         public Session(Session session, IXenConnection connection, int timeout)
+            : this(session, timeout)
         {
+            Connection = connection;
+
             if (session.JsonRpcClient != null)
             {
-                JsonRpcClient = new JsonRpcClient(session.Url)
-                {
-                    JsonRpcVersion = session.JsonRpcClient.JsonRpcVersion,
-                    Timeout = timeout,
-                    ConnectionGroupName = session.JsonRpcClient.ConnectionGroupName,
-                    KeepAlive = session.JsonRpcClient.KeepAlive,
-                    UserAgent = session.JsonRpcClient.UserAgent,
-                    WebProxy = session.JsonRpcClient.WebProxy,
-                    ProtocolVersion = session.JsonRpcClient.ProtocolVersion,
-                    Expect100Continue = session.JsonRpcClient.Expect100Continue,
-                    AllowAutoRedirect = session.JsonRpcClient.AllowAutoRedirect,
-                    PreAuthenticate = session.JsonRpcClient.PreAuthenticate,
-                    Cookies = session.JsonRpcClient.Cookies
-                };
                 JsonRpcClient.RequestEvent += LogJsonRequest;
             }
-            else
+            else if (session.proxy != null)
             {
-                InitializeXmlRpcProxy(session.Url, timeout);
                 proxy.RequestEvent += LogRequest;
                 proxy.ResponseEvent += LogResponse;
             }
-
-            Connection = connection;
-            CopyADFromSession(session);
-        }
-
-        private void CopyADFromSession(Session session)
-        {
-            opaque_ref = session.opaque_ref;
-            APIVersion = session.APIVersion;
-            _userSid = session.UserSid;
-            _subject = session.Subject;
-            _isLocalSuperuser = session.IsLocalSuperuser;
-            roles = session.Roles;
-            permissions = session.Permissions;
         }
 
         /// <summary>
         /// When the CacheWarming flag is set, we output logging at Debug rather than Info level.
         /// This means that we don't spam the logs when the application starts.
         /// </summary>
-        private bool _cacheWarming = false;
-        public bool CacheWarming
-        {
-            get { return _cacheWarming; }
-            set { _cacheWarming = value; }
-        }
+        public bool CacheWarming { get; set; }
 
         /// <summary>
         /// Do not log while downloading objects;

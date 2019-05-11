@@ -29,31 +29,46 @@
  * SUCH DAMAGE.
  */
 
-using System.Diagnostics;
-using XenAdmin.Actions;
+using System;
 using XenAPI;
 
-namespace XenAdmin.Commands
+namespace XenAdmin.Actions
 {
-    internal class CreateVIFCommand : BaseVIFCommand
+    public class GetServerLocalTimeAction : PureAsyncAction
     {
-        private VM _vm;
-        private VIF _vifDescriptor;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private Host _host;
 
-        public CreateVIFCommand(IMainWindow mainWindow, VM vm, VIF vifDescriptor)
-            : base(mainWindow, vm)
+        public ServerTimeInfo? ServerTimeInfo;
+
+        public GetServerLocalTimeAction(Host host)
+            : base(host.Connection, "", true)
         {
-            _vm = vm;
-            _vifDescriptor = vifDescriptor;
+            _host = host;
         }
 
-        protected override void ExecuteCore(SelectedItemCollection selection)
+        protected override void Run()
         {
-            Trace.Assert(selection.Count == 1);
+            try
+            {
+                var serverLocalTime = Host.get_server_localtime(Connection.Session, _host.opaque_ref);
 
-            var action = new CreateVIFAction(_vm, _vifDescriptor);
-            action.Completed += action_Completed;
-            action.RunAsync();
+                ServerTimeInfo = new ServerTimeInfo
+                {
+                    ServerClientTimeZoneDiff = DateTime.Now - Connection.ServerTimeOffset - serverLocalTime,
+                    ServerLocalTime = serverLocalTime
+                };
+            }
+            catch (Exception e)
+            {
+                log.Error("An error occurred while obtaining the server local time: ", e);
+            }
         }
+    }
+
+    public struct ServerTimeInfo
+    {
+        public DateTime ServerLocalTime;
+        public TimeSpan ServerClientTimeZoneDiff;
     }
 }

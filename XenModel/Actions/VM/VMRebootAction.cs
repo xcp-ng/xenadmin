@@ -40,7 +40,7 @@ namespace XenAdmin.Actions.VMActions
     {
 
         public VMRebootAction(VM vm)
-            : base(vm.Connection, string.Format(Messages.ACTION_VM_REBOOTING_TITLE, vm.Name(), vm.Home() == null ? Helpers.GetName(vm.Connection) : vm.Home().Name()))
+            : base(vm.Connection, string.Format(Messages.ACTION_VM_REBOOTING_ON_TITLE, vm.Name(), vm.Home() == null ? Helpers.GetName(vm.Connection) : vm.Home().Name()))
         {
             this.Description = Messages.ACTION_PREPARING;
             this.VM = vm;

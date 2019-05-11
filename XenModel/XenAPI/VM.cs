@@ -905,10 +905,6 @@ namespace XenAPI
                 {
                     VM.set_hardware_platform_version(session, opaqueRef, _hardware_platform_version);
                 }
-                if (!Helper.AreEqual2(_NVRAM, server._NVRAM))
-                {
-                    VM.set_NVRAM(session, opaqueRef, _NVRAM);
-                }
                 if (!Helper.AreEqual2(_memory_static_max, server._memory_static_max))
                 {
                     VM.set_memory_static_max(session, opaqueRef, _memory_static_max);
@@ -2281,7 +2277,7 @@ namespace XenAPI
 
         /// <summary>
         /// Get the NVRAM field of the given VM.
-        /// Experimental. First published in Unreleased.
+        /// Experimental. First published in Citrix Hypervisor 8.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
@@ -3559,7 +3555,7 @@ namespace XenAPI
 
         /// <summary>
         /// 
-        /// Experimental. First published in Unreleased.
+        /// Experimental. First published in Citrix Hypervisor 8.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
@@ -3574,7 +3570,7 @@ namespace XenAPI
 
         /// <summary>
         /// 
-        /// Experimental. First published in Unreleased.
+        /// Experimental. First published in Citrix Hypervisor 8.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
@@ -3590,7 +3586,7 @@ namespace XenAPI
 
         /// <summary>
         /// 
-        /// Experimental. First published in Unreleased.
+        /// Experimental. First published in Citrix Hypervisor 8.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
@@ -4616,7 +4612,7 @@ namespace XenAPI
         }
 
         /// <summary>
-        /// Set custom BIOS strings to this VM. VM will be given a default set of BIOS strings, only some of which can be overridden by the supplied values. Allowed keys are: 'bios-vendor', 'bios-version', 'system-manufacturer', 'system-product-name', 'system-version', 'system-serial-number', 'enclosure-asset-tag'
+        /// Set custom BIOS strings to this VM. VM will be given a default set of BIOS strings, only some of which can be overridden by the supplied values. Allowed keys are: 'bios-vendor', 'bios-version', 'system-manufacturer', 'system-product-name', 'system-version', 'system-serial-number', 'enclosure-asset-tag', 'baseboard-manufacturer', 'baseboard-product-name', 'baseboard-version', 'baseboard-serial-number', 'baseboard-asset-tag', 'baseboard-location-in-chassis', 'enclosure-asset-tag'
         /// First published in XenServer 7.3.
         /// </summary>
         /// <param name="session">The session</param>
@@ -4631,7 +4627,7 @@ namespace XenAPI
         }
 
         /// <summary>
-        /// Set custom BIOS strings to this VM. VM will be given a default set of BIOS strings, only some of which can be overridden by the supplied values. Allowed keys are: 'bios-vendor', 'bios-version', 'system-manufacturer', 'system-product-name', 'system-version', 'system-serial-number', 'enclosure-asset-tag'
+        /// Set custom BIOS strings to this VM. VM will be given a default set of BIOS strings, only some of which can be overridden by the supplied values. Allowed keys are: 'bios-vendor', 'bios-version', 'system-manufacturer', 'system-product-name', 'system-version', 'system-serial-number', 'enclosure-asset-tag', 'baseboard-manufacturer', 'baseboard-product-name', 'baseboard-version', 'baseboard-serial-number', 'baseboard-asset-tag', 'baseboard-location-in-chassis', 'enclosure-asset-tag'
         /// First published in XenServer 7.3.
         /// </summary>
         /// <param name="session">The session</param>
@@ -6783,7 +6779,7 @@ namespace XenAPI
 
         /// <summary>
         /// initial value for guest NVRAM (containing UEFI variables, etc). Cannot be changed while the VM is running
-        /// Experimental. First published in Unreleased.
+        /// Experimental. First published in Citrix Hypervisor 8.0.
         /// </summary>
         [JsonConverter(typeof(StringStringMapConverter))]
         public virtual Dictionary<string, string> NVRAM

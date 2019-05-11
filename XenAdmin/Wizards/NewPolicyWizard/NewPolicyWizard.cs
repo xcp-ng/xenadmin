@@ -32,6 +32,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using XenAdmin.Actions;
 using XenAdmin.Controls;
@@ -51,6 +52,7 @@ namespace XenAdmin.Wizards.NewPolicyWizard
         private readonly RBACWarningPage xenTabPageRBAC; 
 
         public readonly Pool Pool;
+
         public NewPolicyWizard(Pool pool)
             : base(pool.Connection)
         {
@@ -62,11 +64,11 @@ namespace XenAdmin.Wizards.NewPolicyWizard
             xenTabPagePolicy = new NewPolicyPolicyNamePage();
             xenTabPageSnapshotType = new NewPolicySnapshotTypePage();
             xenTabPageVMsPage = new NewVMGroupVMsPage<VMSS>();
-            xenTabPageFinish = new NewPolicyFinishPage(Messages.VMSS_FINISH_PAGE_TEXT, Messages.VMSS_FINISH_PAGE_CHECKBOX_TEXT, Messages.VMSS_FINISH_TITLE);
+            xenTabPageFinish = new NewPolicyFinishPage();
             xenTabPageRBAC = new RBACWarningPage();
             xenTabPageVMsPage.Pool = pool;
             xenTabPageSnapshotFrequency = new NewPolicySnapshotFrequencyPage();
-            xenTabPageSnapshotFrequency.Pool = pool;
+            xenTabPageSnapshotFrequency.Connection = pool.Connection;
             
             #region RBAC Warning Page Checks
             if (Pool.Connection.Session.IsLocalSuperuser || Helpers.GetMaster(Pool.Connection).external_auth_type == Auth.AUTH_TYPE_NONE)
@@ -96,58 +98,6 @@ namespace XenAdmin.Wizards.NewPolicyWizard
             this.xenTabPageVMsPage.SelectedVMs = selection;
         }
 
-        private new string GetSummary()
-        {
-
-            return string.Format(Messages.VMSS_POLICY_SUMMARY.Replace("\\n", "\n").Replace("\\r", "\r"), xenTabPagePolicy.PolicyName, CommaSeparated(xenTabPageVMsPage.SelectedVMs),
-                                     FormatBackupType(xenTabPageSnapshotType.BackupType),
-                                     FormatSchedule(xenTabPageSnapshotFrequency.Schedule, xenTabPageSnapshotFrequency.Frequency, DaysWeekCheckboxes.DaysMode.L10N_LONG));
-        }
-
-        private static string FormatBackupType(vmss_type backupType)
-        {
-            if (backupType == vmss_type.snapshot)
-                return Messages.DISKS_ONLY;
-            else if (backupType == vmss_type.checkpoint)
-                return Messages.DISKS_AND_MEMORY;
-            else if (backupType == vmss_type.snapshot_with_quiesce)
-                return Messages.QUIESCED_SNAPSHOTS;
-
-            throw new ArgumentException("wrong argument");
-        }
-
-        internal static string FormatSchedule(Dictionary<string, string> schedule, vmss_frequency backupFrequency, DaysWeekCheckboxes.DaysMode mode)
-        {
-            if (backupFrequency == vmss_frequency.hourly)
-            {
-                return string.Format(Messages.HOURLY_SCHEDULE_FORMAT, schedule["min"]);
-            }
-            else if (backupFrequency == vmss_frequency.daily)
-            {
-                DateTime value = DateTime.Parse(string.Format("{0}:{1}", schedule["hour"], schedule["min"]), CultureInfo.InvariantCulture);
-                return string.Format(Messages.DAILY_SCHEDULE_FORMAT, HelpersGUI.DateTimeToString(value, Messages.DATEFORMAT_HM, true));
-            }
-            else if (backupFrequency == vmss_frequency.weekly)
-            {
-                DateTime value = DateTime.Parse(string.Format("{0}:{1}", schedule["hour"], schedule["min"]), CultureInfo.InvariantCulture);
-                return string.Format(Messages.WEEKLY_SCHEDULE_FORMAT, HelpersGUI.DateTimeToString(value, Messages.DATEFORMAT_HM, true), DaysWeekCheckboxes.L10NDays(schedule["days"], mode));
-            }
-            return "";
-        }
-
-        private static string CommaSeparated(IEnumerable<VM> selectedVMs)
-        {
-            var sb = new StringBuilder();
-            foreach (var selectedVM in selectedVMs)
-            {
-                sb.Append(selectedVM.Name());
-                sb.Append(", ");
-            }
-            if (sb.Length > 2)
-                sb.Remove(sb.Length - 2, 2);
-            return sb.ToString();
-        }
-
         protected override void UpdateWizardContent(XenTabPage senderPage)
         {
             var prevPageType = senderPage.GetType();
@@ -160,7 +110,11 @@ namespace XenAdmin.Wizards.NewPolicyWizard
             {
                 if (prevPageType == typeof(NewPolicySnapshotFrequencyPage))
                 {
-                    xenTabPageFinish.Summary = GetSummary();
+                    xenTabPageFinish.Summary = string.Format(Messages.VMSS_POLICY_SUMMARY,
+                        xenTabPagePolicy.PolicyName,
+                        string.Join(", ", xenTabPageVMsPage.SelectedVMs.Select(vm => vm.Name())),
+                        xenTabPageSnapshotType.BackupTypeToString,
+                        xenTabPageSnapshotFrequency.FormattedSchedule);
                     xenTabPageFinish.SelectedVMsCount = xenTabPageVMsPage.SelectedVMs.Count;
                 }
                 else if (prevPageType == typeof(NewVMGroupVMsPage<VMSS>))
@@ -176,11 +130,11 @@ namespace XenAdmin.Wizards.NewPolicyWizard
                 {
                     name_label = xenTabPagePolicy.PolicyName,
                     name_description = xenTabPagePolicy.PolicyDescription,
-                    type = (vmss_type)xenTabPageSnapshotType.BackupType,
-                    frequency = (vmss_frequency)xenTabPageSnapshotFrequency.Frequency,
+                    type = xenTabPageSnapshotType.BackupType,
+                    frequency = xenTabPageSnapshotFrequency.Frequency,
                     schedule = xenTabPageSnapshotFrequency.Schedule,
                     retained_snapshots = xenTabPageSnapshotFrequency.BackupRetention,
-                    enabled = xenTabPageVMsPage.SelectedVMs.Count == 0 ? false : true,
+                    enabled = xenTabPageVMsPage.SelectedVMs.Count != 0,
                     Connection = Pool.Connection
                 };
 
@@ -199,7 +153,5 @@ namespace XenAdmin.Wizards.NewPolicyWizard
 
             return "NewPolicyWizardVMSS_" + CurrentStepTabPage.HelpID + "Pane";    
         }
-
-                        
     }
 }

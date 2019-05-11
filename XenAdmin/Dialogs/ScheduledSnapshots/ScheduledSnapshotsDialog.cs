@@ -57,15 +57,15 @@ namespace XenAdmin.Dialogs.ScheduledSnapshots
             : base(pool.Connection)
         {
             Pool = pool;
-            InitializeComponent();      
-            chevronButton1.Text = Messages.SHOW_RUN_HISTORY;
-            chevronButton1.Image = Properties.Resources.PDChevronDown;
+            InitializeComponent();
+            ShowHideRunHistoryButton.Text = Messages.SHOW_RUN_HISTORY;
+            ShowHideRunHistoryButton.Image = Properties.Resources.PDChevronDown;
 
             ColumnExpand.DefaultCellStyle.NullValue = null;
             comboBoxTimeSpan.SelectedIndex = 0;
             dataGridViewRunHistory.Columns[2].ValueType = typeof(DateTime);
             dataGridViewRunHistory.Columns[2].DefaultCellStyle.Format = Messages.DATEFORMAT_DMY_HM;
-            panelHistory.Visible = false;
+            tableLayoutPanel2.Visible = false;
             RefreshPoolTitle(pool);
             RefreshButtons();
         }
@@ -103,52 +103,52 @@ namespace XenAdmin.Dialogs.ScheduledSnapshots
 
         private class PolicyRow : DataGridViewRow
         {
-            private DataGridViewTextBoxCell _name = new DataGridViewTextBoxCell();
-            private DataGridViewTextBoxCell _numVMs = new DataGridViewTextBoxCell();
-            private DataGridViewTextBoxCell _nextRunTime = new DataGridViewTextBoxCell();
-            private DataGridViewTextBoxCell _status = new DataGridViewTextBoxCell();
-            private DataGridViewTextAndImageCell _lastResult = new DataGridViewTextAndImageCell();
+            private readonly DataGridViewTextBoxCell _name = new DataGridViewTextBoxCell();
+            private readonly DataGridViewTextBoxCell _numVMs = new DataGridViewTextBoxCell();
+            private readonly DataGridViewTextBoxCell _nextRunClientLocal = new DataGridViewTextBoxCell();
+            private readonly DataGridViewTextBoxCell _nextRunServerLocal = new DataGridViewTextBoxCell();
+            private readonly DataGridViewTextBoxCell _status = new DataGridViewTextBoxCell();
+            private readonly DataGridViewTextAndImageCell _lastResult = new DataGridViewTextAndImageCell();
 
-            private readonly DateTime? _serverLocalTime;
-            private readonly VMSS _policy;
-            private readonly List<XenAPI.Message> _alertMessages;
+            private readonly ServerTimeInfo? serverTimeInfo;
 
             public bool IsBusy { get; set; }
-
-            public VMSS Policy { get { return _policy; } }
-
-            public List<XenAPI.Message> AlertMessages { get { return _alertMessages; } }
-
+            public VMSS Policy { get; }
+            public List<XenAPI.Message> AlertMessages { get; }
             public string PolicyName { get; private set; }
             public string PolicyStatus { get; private set; }
             public int PolicyVmCount { get; private set; }
-            public DateTime? PolicyNextRunTime { get; private set; }
+            public DateTime? NextRunLocalToClient { get; private set; }
+            public DateTime? NextRunLocalToServer { get; private set; }
             public string PolicyLastResult { get; private set; }
             private Bitmap PolicyLastResultImage { get; set; }
 
-            public PolicyRow(VMSS policy, List<XenAPI.Message> alertMessages, DateTime? serverLocalTime)
+
+            public PolicyRow(VMSS policy, List<XenAPI.Message> alertMessages, ServerTimeInfo? serverTimeInfo)
             {
-                Cells.AddRange(_name, _status, _numVMs, _nextRunTime, _lastResult);
-                _policy = policy;
-                _alertMessages = alertMessages;
-                _serverLocalTime = serverLocalTime;
+                Cells.AddRange(_name, _status, _numVMs, _nextRunClientLocal, _nextRunServerLocal, _lastResult);
+                Policy = policy;
+                AlertMessages = alertMessages;
+                this.serverTimeInfo = serverTimeInfo;
                 RefreshRow();
             }
 
             private void RefreshRow()
             {
-                PolicyName = _policy.Name();
-                PolicyVmCount = _policy.VMs.FindAll(vm => _policy.Connection.Resolve(vm).is_a_real_vm()).Count;
-                PolicyStatus = _policy.enabled ? Messages.ENABLED : Messages.DISABLED;
+                PolicyName = Policy.Name();
+                PolicyVmCount = Policy.VMs.FindAll(vm => Policy.Connection.Resolve(vm).is_a_real_vm()).Count;
+                PolicyStatus = Policy.enabled ? Messages.ENABLED : Messages.DISABLED;
 
-                if (_serverLocalTime.HasValue)
-                    PolicyNextRunTime = _policy.GetNextRunTime(_serverLocalTime.Value);
-                else
-                    PolicyNextRunTime = null;
+                //the policy is in server's local time zone
+                if (serverTimeInfo.HasValue)
+                    NextRunLocalToServer = Policy.GetNextRunTime(serverTimeInfo.Value.ServerLocalTime);
 
-                if (_alertMessages.Count > 0)
+                if (serverTimeInfo.HasValue && NextRunLocalToServer.HasValue)
+                    NextRunLocalToClient = HelpersGUI.RoundToNearestQuarter(NextRunLocalToServer.Value + serverTimeInfo.Value.ServerClientTimeZoneDiff);
+
+                if (AlertMessages.Count > 0)
                 {
-                    if (_alertMessages[0].priority == PolicyAlert.INFO_PRIORITY)
+                    if (AlertMessages[0].priority == PolicyAlert.INFO_PRIORITY)
                     {
                         PolicyLastResult = Messages.VMSS_SUCCEEDED;
                         PolicyLastResultImage = Resources._075_TickRound_h32bit_16;
@@ -170,8 +170,13 @@ namespace XenAdmin.Dialogs.ScheduledSnapshots
                 _status.Value = PolicyStatus;
                 _lastResult.Value = PolicyLastResult;
                 _lastResult.Image = PolicyLastResultImage;
-                _nextRunTime.Value = PolicyNextRunTime.HasValue
-                    ? HelpersGUI.DateTimeToString(PolicyNextRunTime.Value, Messages.DATEFORMAT_DMY_HM, true)
+
+                _nextRunClientLocal.Value = NextRunLocalToClient.HasValue
+                    ? HelpersGUI.DateTimeToString(NextRunLocalToClient.Value, Messages.DATEFORMAT_DMY_HM, true)
+                    : Messages.VMSS_HOST_NOT_LIVE;
+
+                _nextRunServerLocal.Value = NextRunLocalToServer.HasValue
+                    ? HelpersGUI.DateTimeToString(NextRunLocalToServer.Value, Messages.DATEFORMAT_DMY_HM, true)
                     : Messages.VMSS_HOST_NOT_LIVE;
             }
         }
@@ -204,15 +209,21 @@ namespace XenAdmin.Dialogs.ScheduledSnapshots
 
         private void LoadPolicies()
         {
-            var action = new LoadVmssAction(Pool.Connection);
+            var master = Helpers.GetMaster(Pool);
+            var action = new GetServerLocalTimeAction(master);
             action.Completed += action_Completed;
             action.RunAsync();
         }
 
         private void action_Completed(ActionBase sender)
         {
-            var action = sender as LoadVmssAction;
-            if (action == null || !action.Succeeded)
+            sender.Completed -= action_Completed;
+
+            var action = sender as GetServerLocalTimeAction;
+            if (action == null)
+                return;
+
+            if (!action.Succeeded)
                 return;
 
             Program.Invoke(Program.MainWindow, () =>
@@ -225,25 +236,50 @@ namespace XenAdmin.Dialogs.ScheduledSnapshots
                     var selectedPolicyUuids = (from PolicyRow row in dataGridViewPolicies.SelectedRows
                         select row.Policy.uuid).ToList();
 
-                    var rowList = from kvp in action.SnapshotSchedules select new PolicyRow(kvp.Key, kvp.Value, action.ServerLocalTime);
+                    var schedules = connection.Cache.VMSSs;
+                    var messages = Pool.Connection.Cache.Messages;
+
+                    var allVmssMessages = (from XenAPI.Message msg in messages
+                            where msg.cls == cls.VMSS
+                            group msg by msg.obj_uuid
+                            into g
+                            let gOrdered = g.OrderByDescending(m => m.timestamp).ToList()
+                            select new {PolicyUuid = g.Key, PolicyMessages = gOrdered})
+                        .ToDictionary(x => x.PolicyUuid, x => x.PolicyMessages);
+
+                    var filteredVmssMessages = new Dictionary<VMSS, List<XenAPI.Message>>();
+                    foreach (var schedule in schedules)
+                    {
+                        List<XenAPI.Message> value;
+                        if (!allVmssMessages.TryGetValue(schedule.uuid, out value))
+                            value = new List<XenAPI.Message>();
+
+                        filteredVmssMessages[schedule] = value;
+                    }
+
+                    var rowList = from kvp in filteredVmssMessages
+                        select new PolicyRow(kvp.Key, kvp.Value, action.ServerTimeInfo);
 
                     Func<PolicyRow, object> comparer = p => p.PolicyName;
                     if (dataGridViewPolicies.SortedColumn != null)
                     {
-                        if (dataGridViewPolicies.SortedColumn.Index == NameColum.Index)
+                        if (dataGridViewPolicies.SortedColumn.Index == ColumnName.Index)
                             comparer = p => p.PolicyName;
-                        else if (dataGridViewPolicies.SortedColumn.Index == EnabledColumn.Index)
+                        else if (dataGridViewPolicies.SortedColumn.Index == ColumnEnabled.Index)
                             comparer = p => p.PolicyStatus;
                         else if (dataGridViewPolicies.SortedColumn.Index == ColumnVMs.Index)
                             comparer = p => p.PolicyVmCount;
-                        else if (dataGridViewPolicies.SortedColumn.Index == DescriptionColum.Index)
-                            comparer = p => p.PolicyNextRunTime;
+                        else if (dataGridViewPolicies.SortedColumn.Index == ColumnNextSnapshotTime.Index)
+                            comparer = p => p.NextRunLocalToClient;
+                        else if (dataGridViewPolicies.SortedColumn.Index == ColumnCorrespondingServerTime.Index)
+                            comparer = p => p.NextRunLocalToServer;
                         else if (dataGridViewPolicies.SortedColumn.Index == ColumnLastResult.Index)
                             comparer = p => p.PolicyLastResult;
                     }
 
                     var rows = dataGridViewPolicies.SortOrder == SortOrder.Descending
-                        ? rowList.OrderByDescending(comparer) : rowList.OrderBy(comparer);
+                        ? rowList.OrderByDescending(comparer)
+                        : rowList.OrderBy(comparer);
 
                     dataGridViewPolicies.SuspendLayout();
                     dataGridViewPolicies.Rows.Clear();
@@ -259,12 +295,6 @@ namespace XenAdmin.Dialogs.ScheduledSnapshots
                 {
                     dataGridViewPolicies.ResumeLayout();
                     updatingPolicies = false;
-
-                    if (action.ServerLocalTime.HasValue)
-                    {
-                        string time= HelpersGUI.DateTimeToString(action.ServerLocalTime.Value, Messages.DATEFORMAT_WDMY_HM_LONG, true);
-                        labelServerTime.Text = string.Format(Messages.SERVER_TIME, time);
-                    }
 
                     RefreshPoolTitle(Pool);
                     RefreshButtons();
@@ -304,7 +334,7 @@ namespace XenAdmin.Dialogs.ScheduledSnapshots
                 buttonEnable.Text = row.Policy.enabled ? Messages.DISABLE : Messages.ENABLE;
                 buttonEnable.Enabled = !row.IsBusy && (row.Policy.VMs.Count != 0 || row.Policy.enabled);
                 buttonProperties.Enabled = !row.IsBusy;
-                buttonRunNow.Enabled = !row.IsBusy && row.Policy.enabled;
+                buttonRunNow.Enabled = !row.IsBusy && row.Policy.enabled && row.Policy.VMs.Count != 0;
                 comboBoxTimeSpan.Enabled = !row.IsBusy;
             }
             else
@@ -318,12 +348,12 @@ namespace XenAdmin.Dialogs.ScheduledSnapshots
 
         #region Button event handlers
 
-        private void buttonNew_Click(object sender, System.EventArgs e)
+        private void buttonNew_Click(object sender, EventArgs e)
         {
             new NewPolicyWizard(Pool).Show(this);
         }
 
-        private void buttonCancel_Click(object sender, System.EventArgs e)
+        private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -395,26 +425,20 @@ namespace XenAdmin.Dialogs.ScheduledSnapshots
             }
         }
 
-        private void chevronButton1_ButtonClick(object sender, EventArgs e)
+        private void ShowHideRunHistoryButton_Click(object sender, EventArgs e)
         {
-            if (chevronButton1.Text == Messages.HIDE_RUN_HISTORY)
+            tableLayoutPanel2.Visible = !tableLayoutPanel2.Visible;
+
+            if (tableLayoutPanel2.Visible)
             {
-                chevronButton1.Text = Messages.SHOW_RUN_HISTORY;
-                chevronButton1.Image = Properties.Resources.PDChevronDown;
-                panelHistory.Visible = false;
+                ShowHideRunHistoryButton.Text = Messages.HIDE_RUN_HISTORY;
+                ShowHideRunHistoryButton.Image = Resources.PDChevronUp;
             }
             else
             {
-                chevronButton1.Text = Messages.HIDE_RUN_HISTORY;
-                chevronButton1.Image = Properties.Resources.PDChevronUp;
-                panelHistory.Visible = true;
+                ShowHideRunHistoryButton.Text = Messages.SHOW_RUN_HISTORY;
+                ShowHideRunHistoryButton.Image = Resources.PDChevronDown;
             }
-        }
-
-        private void chevronButton1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space)
-                chevronButton1_ButtonClick(sender, e);
         }
 
         #endregion

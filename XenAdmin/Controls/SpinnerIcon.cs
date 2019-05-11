@@ -38,17 +38,28 @@ using System.Windows.Forms;
 namespace XenAdmin.Controls
 {
     /// <summary>
-    /// Lightweight control to support easy diplaying of the rotating spinning icon and any configurable succeded icon.
+    /// Lightweight control to support easy display of the rotating spinning icon and a configurable success icon.
     /// </summary>
     public class SpinnerIcon : PictureBox
     {
         #region Fields
 
         private readonly Timer spinningTimer = new Timer();
-        private const int Speed = 150;
+        private const int SPEED = 150;
         private int currentPosition;
         private Image succeededImage;
-        private readonly List<Bitmap> spinningImageFrames = new List<Bitmap>();
+
+        private readonly Image[] spinningImageFrames =
+        {
+            Images.StaticImages.SpinningFrame0,
+            Images.StaticImages.SpinningFrame1,
+            Images.StaticImages.SpinningFrame2,
+            Images.StaticImages.SpinningFrame3,
+            Images.StaticImages.SpinningFrame4,
+            Images.StaticImages.SpinningFrame5,
+            Images.StaticImages.SpinningFrame6,
+            Images.StaticImages.SpinningFrame7
+        };
 
         #endregion
 
@@ -73,22 +84,13 @@ namespace XenAdmin.Controls
 
         public SpinnerIcon()
         {
-            spinningTimer.Interval = Speed;
+            spinningTimer.Interval = SPEED;
             spinningTimer.Tick += spinningTimer_Tick;
-
-            spinningImageFrames.Add(Properties.Resources.SpinningFrame0);
-            spinningImageFrames.Add(Properties.Resources.SpinningFrame1);
-            spinningImageFrames.Add(Properties.Resources.SpinningFrame2);
-            spinningImageFrames.Add(Properties.Resources.SpinningFrame3);
-            spinningImageFrames.Add(Properties.Resources.SpinningFrame4);
-            spinningImageFrames.Add(Properties.Resources.SpinningFrame5);
-            spinningImageFrames.Add(Properties.Resources.SpinningFrame6);
-            spinningImageFrames.Add(Properties.Resources.SpinningFrame7);
         }
 
         private void spinningTimer_Tick(object sender, EventArgs e)
         {
-            if (currentPosition == spinningImageFrames.Count)
+            if (currentPosition == spinningImageFrames.Length)
                 currentPosition = 0;
 
             Image = spinningImageFrames[currentPosition++];
@@ -123,6 +125,15 @@ namespace XenAdmin.Controls
             StopSpinning();
             Image = succeededImage;
             Visible = true;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            spinningTimer.Stop();
+            spinningTimer.Tick -= spinningTimer_Tick;
+            spinningTimer.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

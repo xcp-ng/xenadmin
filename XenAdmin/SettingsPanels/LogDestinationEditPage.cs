@@ -30,39 +30,25 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-
-using XenAdmin;
-using XenAdmin.Network;
-using XenAdmin.Core;
 using XenAPI;
-using XenAdmin.Dialogs;
 using XenAdmin.Actions;
+using XenAdmin.Core;
 
 
 namespace XenAdmin.SettingsPanels
 {
     public partial class LogDestinationEditPage : UserControl, IEditPage
     {
-        private Host TheHost;
-
-        private bool _ValidToSave = true;
-        private string _OrigLocation = null;
+        private Host _host;
+        private bool _validToSave;
+        private string _origLocation;
 
         private Regex regex = new Regex(@"^[a-zA-Z0-9]([-a-zA-Z0-9]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([-a-zA-Z0-9]{0,61}[a-zA-Z0-9])?)*$");
 
         private readonly ToolTip InvalidParamToolTip;
-
-        public bool ValidToSave
-        {
-            get { return _ValidToSave; }
-        }
 
         public LogDestinationEditPage()
         {
@@ -70,128 +56,114 @@ namespace XenAdmin.SettingsPanels
 
             Text = Messages.LOG_DESTINATION;
 
-            InvalidParamToolTip = new ToolTip();
-            InvalidParamToolTip.IsBalloon = true;
-            InvalidParamToolTip.ToolTipIcon = ToolTipIcon.Warning;
-            InvalidParamToolTip.ToolTipTitle = Messages.INVALID_PARAMETER;
+            InvalidParamToolTip = new ToolTip
+            {
+                IsBalloon = true,
+                ToolTipIcon = ToolTipIcon.Warning,
+                ToolTipTitle = Messages.INVALID_PARAMETER
+            };
         }
 
-        public void SetXenObjects(IXenObject orig, IXenObject clone)
+        private string RemoteServer => ServerTextBox.Text.Trim();
+
+        #region IVerticalTabs implementation
+
+        public Image Image => Properties.Resources.log_destination_16;
+
+        public string SubText
         {
-            TheHost = clone as Host;
-            Repopulate();
+            get
+            {
+                return checkBoxRemote.Checked
+                    ? string.Format(Messages.HOST_LOG_DESTINATION_LOCAL_AND_REMOTE, RemoteServer)
+                    : Messages.HOST_LOG_DESTINATION_LOCAL;
+            }
         }
 
-        public Image Image
-        {
-            get { return Properties.Resources.log_destination_16; }
-        }
+        #endregion
 
         private void Repopulate()
         {
-            if (TheHost != null)
-            {
-                string location = TheHost.GetSysLogDestination();
-                if (location == null)
-                {
-                    LocalRadioButton.Checked = true;
-                    ServerTextBox.Text = "";
-                }
-                else
-                {
-                    RemoteRadioButton.Checked = true;
-                    ServerTextBox.Text = location;
-                }
-                _OrigLocation = location;
-                _ValidToSave = true;
-            }
-            ServerLabel.Enabled = RemoteRadioButton.Checked;
-            ServerTextBox.Enabled = RemoteRadioButton.Checked;
+            if (_host == null)
+                return;
+
+            _origLocation = _host.GetSysLogDestination();
+            checkBoxRemote.Checked = !string.IsNullOrWhiteSpace(_origLocation);
+            ServerTextBox.Text = _origLocation;
+            ReValidate();
         }
+
+        private void ReValidate()
+        {
+            _validToSave = !checkBoxRemote.Checked ||
+                           !string.IsNullOrEmpty(RemoteServer) && regex.IsMatch(RemoteServer);
+        }
+
+        #region IEditPage implementation
+
+        public void SetXenObjects(IXenObject orig, IXenObject clone)
+        {
+            _host = clone as Host;
+            Repopulate();
+        }
+
+        public bool ValidToSave => _validToSave;
 
         public bool HasChanged
         {
             get
             {
-                // User changed remote location
-                if (RemoteRadioButton.Checked == true && _OrigLocation != ServerTextBox.Text)
-                {
-                    return true;
-                }
-                // User switched from Server to Local
-                if (LocalRadioButton.Checked == true && _OrigLocation != null)
-                {
-                    return true;
-                }
+                if (checkBoxRemote.Checked)
+                    return _origLocation != RemoteServer;
 
-                return false;
+                return !string.IsNullOrWhiteSpace(_origLocation);
             }
         }
 
         public AsyncAction SaveSettings()
         {
-            if (TheHost != null)
-            {
-                if (RemoteRadioButton.Checked)
-                    TheHost.SetSysLogDestination(ServerTextBox.Text);
-                else if (LocalRadioButton.Checked)
-                    TheHost.SetSysLogDestination(null);
-
-                return new DelegatedAsyncAction(
-                    TheHost.Connection,
-                    Messages.ACTION_CHANGE_LOG_DESTINATION,
-                    string.Format(Messages.ACTION_CHANGING_LOG_DESTINATION_FOR, TheHost),
-                    null,
-                    delegate(Session session) { Host.syslog_reconfigure(session, TheHost.opaque_ref); },
-                    true,
-                    "host.syslog_reconfigure"
-                );
-            }
-            else
+            if (_host == null)
                 return null;
+
+            _host.SetSysLogDestination(checkBoxRemote.Checked ? RemoteServer : null);
+
+            return new DelegatedAsyncAction(
+                _host.Connection,
+                Messages.ACTION_CHANGE_LOG_DESTINATION,
+                string.Format(Messages.ACTION_CHANGING_LOG_DESTINATION_FOR, _host),
+                null,
+                delegate(Session session) { Host.syslog_reconfigure(session, _host.opaque_ref); },
+                true,
+                "host.syslog_reconfigure"
+            );
         }
 
-        /** Show local validation balloon tooltips */
         public void ShowLocalValidationMessages()
         {
-            if (RemoteRadioButton.Checked && (ServerTextBox.Text.Trim() == "" || !regex.IsMatch(ServerTextBox.Text)) && ServerTextBox.Text != _OrigLocation)
-            {
-                // Show invalid host message.
-                HelpersGUI.ShowBalloonMessage(ServerTextBox, Messages.GENERAL_EDIT_INVALID_HOSTNAME, InvalidParamToolTip);
-            }
+            if (!_validToSave)
+                HelpersGUI.ShowBalloonMessage(ServerTextBox, Messages.GENERAL_EDIT_INVALID_REMOTE, InvalidParamToolTip);
         }
 
-        /** Unregister listeners, dispose balloon tooltips, etc. */
         public void Cleanup()
         {
             InvalidParamToolTip.Dispose();
         }
 
-        private void RemoteRadioButton_CheckedChanged(object sender, EventArgs e)
+        #endregion
+
+        private void checkBoxRemote_CheckedChanged(object sender, EventArgs e)
         {
-            ServerLabel.Enabled = RemoteRadioButton.Checked;
-            ServerTextBox.Enabled = RemoteRadioButton.Checked;
-            if (RemoteRadioButton.Checked)
-            {
-                _ValidToSave = ServerTextBox.Text.Trim() != "" || ServerTextBox.Text == _OrigLocation;
-            }
-            else
-            {
-                _ValidToSave = true;
-            }
+            ReValidate();
         }
 
         private void ServerTextBox_TextChanged(object sender, EventArgs e)
         {
-            _ValidToSave = ServerTextBox.Text.Trim() != "" && ServerTextBox.Text != _OrigLocation && regex.IsMatch(ServerTextBox.Text) && regex.IsMatch(ServerTextBox.Text);
+            ReValidate();
         }
 
-        public String SubText
+        private void ServerTextBox_Enter(object sender, EventArgs e)
         {
-            get
-            {
-                return LocalRadioButton.Checked ? Messages.LOCAL : String.Format(Messages.REMOTE, ServerTextBox.Text);
-            }
+            checkBoxRemote.Checked = true;
         }
     }
 }

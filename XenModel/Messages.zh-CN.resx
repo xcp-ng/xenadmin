@@ -594,6 +594,12 @@
   <data name="ACTION_HOST_START_TITLE" xml:space="preserve">
     <value>正在开启服务器“{0}”</value>
   </data>
+  <data name="ACTION_IMPORT_VM_TITLE" xml:space="preserve">
+    <value>正在导入 VM“{0}”</value>
+  </data>
+  <data name="ACTION_IMPORT_VM_TO_HOST_TITLE" xml:space="preserve">
+    <value>正在将 VM“{0}”导入“{1}”</value>
+  </data>
   <data name="ACTION_ISCSI_IQN_SCANNING" xml:space="preserve">
     <value>正在 iSCSI 文件管理器 {0} 上扫描 IQN</value>
   </data>
@@ -1173,6 +1179,9 @@
   <data name="ACTION_VM_MIGRATING_RESIDENT" xml:space="preserve">
     <value>正在将 VM“{0}”从“{1}”迁移至“{2}”</value>
   </data>
+  <data name="ACTION_VM_MIGRATING_TITLE" xml:space="preserve">
+    <value>正在迁移 VM“{0}”</value>
+  </data>
   <data name="ACTION_VM_MOVING" xml:space="preserve">
     <value>正在将 VM 迁移至新存储...</value>
   </data>
@@ -1185,8 +1194,11 @@
   <data name="ACTION_VM_REBOOTING" xml:space="preserve">
     <value>正在重新启动 VM</value>
   </data>
-  <data name="ACTION_VM_REBOOTING_TITLE" xml:space="preserve">
+  <data name="ACTION_VM_REBOOTING_ON_TITLE" xml:space="preserve">
     <value>正在重新启动“{1}”上的 VM“{0}”</value>
+  </data>
+  <data name="ACTION_VM_REBOOTING_TITLE" xml:space="preserve">
+    <value>正在重新启动 VM“{0}”</value>
   </data>
   <data name="ACTION_VM_RESUMED" xml:space="preserve">
     <value>已恢复</value>
@@ -1212,8 +1224,11 @@
   <data name="ACTION_VM_SHUTTING_DOWN" xml:space="preserve">
     <value>正在关闭 VM</value>
   </data>
-  <data name="ACTION_VM_SHUTTING_DOWN_TITLE" xml:space="preserve">
+  <data name="ACTION_VM_SHUTTING_DOWN_ON_TITLE" xml:space="preserve">
     <value>正在关闭“{1}”上的 VM“{0}”</value>
+  </data>
+  <data name="ACTION_VM_SHUTTING_DOWN_TITLE" xml:space="preserve">
+    <value>正在关闭 VM“{0}”</value>
   </data>
   <data name="ACTION_VM_SHUT_DOWN" xml:space="preserve">
     <value>关闭</value>
@@ -2133,6 +2148,9 @@
   <data name="BIGGER_THAN" xml:space="preserve">
     <value>大于</value>
   </data>
+  <data name="BIOS_BOOT" xml:space="preserve">
+    <value>BIOS 引导</value>
+  </data>
   <data name="BIOS_STRINGS_COPIED" xml:space="preserve">
     <value>已复制 BIOS 字符串</value>
   </data>
@@ -2422,13 +2440,13 @@
     <value>无法删除该系统磁盘，因为运行中的 VM“{0}”正在使用该磁盘。</value>
   </data>
   <data name="CANNOT_DELETE_ISO_GENERIC" xml:space="preserve">
-    <value>无法删除该 ISO 存储。请稍后重试，并确认所用 SR 支持该操作。</value>
+    <value>无法删除此 ISO 存储。请检查您的 SR 是否支持此操作，然后重试。</value>
   </data>
   <data name="CANNOT_DELETE_ISO_IN_USE" xml:space="preserve">
     <value>此 ISO 存储当前正在使用，无法删除。</value>
   </data>
   <data name="CANNOT_DELETE_SNAPSHOT_GENERIC" xml:space="preserve">
-    <value>无法删除该快照。请稍后重试，并确认所用 SR 支持该操作。</value>
+    <value>无法删除此快照。请检查您的 SR 是否支持此操作，然后重试。</value>
   </data>
   <data name="CANNOT_DELETE_SNAPSHOT_IN_USE" xml:space="preserve">
     <value>此快照当前正在使用，无法删除。</value>
@@ -2449,7 +2467,7 @@
     <value>无法从挂起的 VM 中删除虚拟磁盘。此虚拟磁盘正由挂起的 VM {0} 使用。</value>
   </data>
   <data name="CANNOT_DELETE_VD_GENERIC" xml:space="preserve">
-    <value>无法删除该虚拟磁盘。请稍后重试，并确认所用 SR 支持该操作。</value>
+    <value>无法删除此虚拟磁盘。请检查您的 SR 是否支持此操作，然后重试。</value>
   </data>
   <data name="CANNOT_DELETE_VD_IN_USE" xml:space="preserve">
     <value>该虚拟磁盘当前正在使用，无法删除。</value>
@@ -2636,6 +2654,12 @@
   </data>
   <data name="CHOOSE_ANOTHER_DESTINATION" xml:space="preserve">
     <value>选择其他目标(&amp;D)</value>
+  </data>
+  <data name="CHOOSE_SR_PROVISIONING_PAGE_MULTIPATHING_MANY" xml:space="preserve">
+    <value>池中的所有服务器上都未启用多路径功能。为确保系统稳定性，强烈建议您对存储连接使用多路径功能。</value>
+  </data>
+  <data name="CHOOSE_SR_PROVISIONING_PAGE_MULTIPATHING_ONE" xml:space="preserve">
+    <value>您的服务器上未启用多路径功能。为确保系统稳定性，强烈建议您对存储连接使用多路径功能。</value>
   </data>
   <data name="CHOOSE_SR_PROVISIONING_PAGE_TITLE" xml:space="preserve">
     <value>选择预配方法</value>
@@ -4938,7 +4962,7 @@
     <value>要访问保存的会话，需要在启动 [XenCenter] 时输入主密码</value>
   </data>
   <data name="ENTER_VALID_QOS" xml:space="preserve">
-    <value>QoS 限制值应大于零</value>
+    <value>QoS 限制值应为大于零的整数</value>
   </data>
   <data name="EQUALLOGICS_MEMBERS" xml:space="preserve">
     <value>成员</value>
@@ -5624,14 +5648,14 @@
   <data name="GENERAL_DETAILS_CPU_NUMBER" xml:space="preserve">
     <value>CPU {0}</value>
   </data>
-  <data name="GENERAL_EDIT_INVALID_HOSTNAME" xml:space="preserve">
-    <value>必须提供有效的服务器名称。</value>
-  </data>
   <data name="GENERAL_EDIT_INVALID_IQN" xml:space="preserve">
-    <value>必须提供有效的 IQN，例如 iqn.2007-11.com.example.subdomain:optional-domain-specific-string</value>
+    <value>请输入一个有效的 IQN，例如 iqn.2007-11.com.example.subdomain:optional-domain-specific-string</value>
   </data>
   <data name="GENERAL_EDIT_INVALID_NAME" xml:space="preserve">
-    <value>必须提供有效的名称。</value>
+    <value>请输入有效的名称。</value>
+  </data>
+  <data name="GENERAL_EDIT_INVALID_REMOTE" xml:space="preserve">
+    <value>请输入有效的 IP 地址或服务器名称。</value>
   </data>
   <data name="GENERAL_HEADING_BOOT_OPTIONS" xml:space="preserve">
     <value>引导选项</value>
@@ -5792,9 +5816,6 @@
   <data name="GPU_RUBRIC_PLEASE_SELECT_WHICH_GPU_ONE" xml:space="preserve">
     <value>选择允许在此 GPU 上使用的虚拟 GPU 类型:</value>
   </data>
-  <data name="GPU_UNAVAILABLE" xml:space="preserve">
-    <value>不可用</value>
-  </data>
   <data name="GRAPHS_CANNOT_ADD_VM_HALTED" xml:space="preserve">
     <value>无法在 VM“{0}”上添加新的性能图表，因为该 VM 未运行。</value>
   </data>
@@ -5852,22 +5873,34 @@
     <value>组角色</value>
   </data>
   <data name="GUEFI_BOOT_MODES_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>UEFI 和 UEFI 安全启动模式是实验性功能，当前不适合于供生产使用。</value>
+    <value>来宾 UEFI 引导和来宾 UEFI 安全引导属于实验性功能。可以在生产环境中的主机上创建启用了 UEFI 的 VM。但是，启用了 UEFI 的 VM 不得用于生产目的。将主机升级到更新版本的 [XenServer] 时，可能必须重新创建这些 VM。</value>
   </data>
   <data name="GUEFI_BOOT_MODES_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>选定模板不支持 UEFI 和 UEFI 安全启动模式。</value>
   </data>
+  <data name="GUEFI_BOOT_MODE_EXPERIMENTAL_LABEL" xml:space="preserve">
+    <value>UEFI 引导(&amp;U) (实验)</value>
+  </data>
   <data name="GUEFI_BOOT_MODE_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>UEFI 启动模式是实验性功能，当前不适合于供生产使用。</value>
+    <value>来宾 UEFI 引导是一项实验性功能。可以在生产环境中的主机上创建启用了 UEFI 的 VM。但是，启用了 UEFI 的 VM 不得用于生产目的。将主机升级到更新版本的 [XenServer] 时，可能必须重新创建这些 VM。</value>
+  </data>
+  <data name="GUEFI_BOOT_MODE_LABEL" xml:space="preserve">
+    <value>UEFI 引导(&amp;U)</value>
   </data>
   <data name="GUEFI_BOOT_MODE_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>选定模板不支持 UEFI 启动模式。</value>
   </data>
   <data name="GUEFI_SECUREBOOT_MODE_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>UEFI 安全启动模式是实验性功能，当前不适合于供生产使用。</value>
+    <value>来宾 UEFI 安全引导是一项实验性功能。可以在生产环境中的主机上创建配置为使用 UEFI 安全引导模式的 VM。但是，这些 VM 不得用于生产目的。将主机升级到更新版本的 [XenServer] 时，可能必须重新创建这些 VM。</value>
   </data>
   <data name="GUEFI_SECUREBOOT_MODE_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>选定模板不支持 UEFI 安全启动模式。</value>
+  </data>
+  <data name="GUEFI_SECURE_BOOT_MODE_EXPERIMENTAL_LABEL" xml:space="preserve">
+    <value>UEFI 安全引导(&amp;S) (实验)</value>
+  </data>
+  <data name="GUEFI_SECURE_BOOT_MODE_LABEL" xml:space="preserve">
+    <value>UEFI 安全引导(&amp;S)</value>
   </data>
   <data name="GUI_OUT_OF_DATE" xml:space="preserve">
     <value>此版本的 [XenCenter] 已过时，无法连接到 {0}。
@@ -6348,6 +6381,9 @@
   </data>
   <data name="HOST_LOG_DESTINATION_LOCAL" xml:space="preserve">
     <value>本地</value>
+  </data>
+  <data name="HOST_LOG_DESTINATION_LOCAL_AND_REMOTE" xml:space="preserve">
+    <value>本地和远程({0})</value>
   </data>
   <data name="HOST_MEMORY_POST_UPGRADE_DEFAULT_WARNING_LONG" xml:space="preserve">
     <value>如果要升级到 [XenServer] [BRANDING_VERSION_8_0] 及更高版本，则将增加 {0} 上的控制域内存。
@@ -7315,9 +7351,6 @@ Premium 功能已启用</value>
   <data name="LIVE_PATCHING_FAILED_ONE_HOST" xml:space="preserve">
     <value>服务器“{0}”的实时修补失败。要完成修补程序安装，请将该服务器置于维护模式并重新启动。</value>
   </data>
-  <data name="LOCAL" xml:space="preserve">
-    <value>本地</value>
-  </data>
   <data name="LOCAL_SRS" xml:space="preserve">
     <value>本地存储库</value>
   </data>
@@ -8057,9 +8090,6 @@ SCSI ID: {2}
   <data name="MIGRATE_PLEASE_EJECT_YOUR_CD" xml:space="preserve">
     <value>请弹出 CD</value>
   </data>
-  <data name="MIGRATE_VDI_UPSELL_BLURB" xml:space="preserve">
-    <value>升级您的 [XenServer] 许可证以启用 VDI 实时迁移。此功能允许您在同一池中的两个 SR 之间迁移多个正在运行的 VDI，而不会造成 VM 停机。 </value>
-  </data>
   <data name="MIGRATION_NOT_ALLOWED" xml:space="preserve">
     <value>此时无法迁移该 VM</value>
   </data>
@@ -8128,6 +8158,11 @@ SCSI ID: {2}
   </data>
   <data name="MULTIPATH_NOT_ACTIVE" xml:space="preserve">
     <value>非活动</value>
+  </data>
+  <data name="MULTIPATH_NOT_ACTIVE_GFS2" xml:space="preserve">
+    <value>不活动。
+为确保系统稳定性，强烈建议您对存储连接使用多路径功能。
+</value>
   </data>
   <data name="MULTIPATH_STATUS" xml:space="preserve">
     <value>{1} 个路径中有 {0} 个处于活动状态</value>
@@ -10173,7 +10208,10 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>服务器“{0}”</value>
   </data>
   <data name="PROBLEM_MAC_ADDRESS_IS_DUPLICATE" xml:space="preserve">
-    <value>已将输入的 MAC 地址分配给以下 VM: \n {1} \n\n 是否要继续?</value>
+    <value>已将输入的 MAC 地址分配给以下 VM: 
+ {1} 
+
+ 是否确实要继续?</value>
   </data>
   <data name="PROBLEM_MAC_ADDRESS_IS_DUPLICATE_TITLE" xml:space="preserve">
     <value>复制 MAC 地址</value>
@@ -10481,9 +10519,6 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="REMAINING_VFS" xml:space="preserve">
     <value>是(剩余 {0} 个 VF)</value>
-  </data>
-  <data name="REMOTE" xml:space="preserve">
-    <value>远程({0})</value>
   </data>
   <data name="REMOTE_SRS" xml:space="preserve">
     <value>远程存储库</value>
@@ -10967,9 +11002,6 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="SELECTED_HOST_POOL_NOT_CONNECTED" xml:space="preserve">
     <value>所选主机或池未连接</value>
   </data>
-  <data name="SELECTION_CANNOT_BE_MIXED_FOR_LICENSING" xml:space="preserve">
-    <value>必须分别对不同版本的 [XenServer] 进行授权</value>
-  </data>
   <data name="SELECT_A_FILTER" xml:space="preserve">
     <value>选择过滤器...</value>
   </data>
@@ -11052,7 +11084,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>池主服务器上的当前时间为: {0}</value>
   </data>
   <data name="SERVER_TOO_OLD" xml:space="preserve">
-    <value>本版本的 [XenCenter] 支持 [XenServer] [BRANDING_VERSION_6_2] 及更高版本。</value>
+    <value>此版本的 [XenCenter] 支持 [XenServer] [BRANDING_VERSION_7_0] 及更高版本。</value>
   </data>
   <data name="SERVER_TOO_OLD_SOLUTION" xml:space="preserve">
     <value>使用早期版本的 [XenCenter] 管理此服务器。</value>
@@ -11228,6 +11260,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="SLAVE_CONNECTION_ERROR" xml:space="preserve">
     <value>服务器“{0}”在某个池中。要连接池，必须连接池主服务器。
 是否连接池主服务器“{1}”?</value>
+  </data>
+  <data name="SLAVE_TOO_OLD" xml:space="preserve">
+    <value>此池包含的服务器低于 [XenServer] [BRANDING_VERSION_7_0]。请使用早期版本的 [XenCenter] 来管理此池。</value>
   </data>
   <data name="SMALLER_THAN" xml:space="preserve">
     <value>小于</value>
@@ -11959,10 +11994,19 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="TYPE_PAGE_DESCRIPTION_HEADER_XVA" xml:space="preserve">
     <value>将本地存储的 VM、模板或快照作为新 VM 导入。</value>
   </data>
+  <data name="UEFI_BOOT" xml:space="preserve">
+    <value>UEFI 引导</value>
+  </data>
+  <data name="UEFI_SECURE_BOOT" xml:space="preserve">
+    <value>UEFI 安全引导</value>
+  </data>
   <data name="UNABLE_TO_IMPORT_SEARCH" xml:space="preserve">
     <value>[XenCenter] 无法从文件“{0}”中导入保存的搜索。
 
 请确认该文件属于有效的 {1} 导出。</value>
+  </data>
+  <data name="UNAVAILABLE" xml:space="preserve">
+    <value>不可用</value>
   </data>
   <data name="UNCOMPRESS_APPLIANCE_DESCRIPTION" xml:space="preserve">
     <value>[XenCenter] 将文件解压到“{0}”。 解压后，将删除原始文件“{1}”。是否继续?</value>
@@ -12461,6 +12505,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="UPSELL_BLURB_HA" xml:space="preserve">
     <value>升级您的服务器许可证以启用高可用性。通过高可用性，虚拟机可以在基础硬件出现故障或单个 VM 出现故障时自动重新启动。如果服务器出现故障，VM 将智能地在资源池中的其他虚拟化服务器上重新启动。</value>
   </data>
+  <data name="UPSELL_BLURB_MIGRATE_VDI" xml:space="preserve">
+    <value>升级您的 [XenServer] 许可证以启用 VDI 实时迁移。此功能允许您在同一池中的两个 SR 之间迁移多个正在运行的 VDI，而不会造成 VM 停机。 </value>
+  </data>
   <data name="UPSELL_BLURB_PERFORMANCE" xml:space="preserve">
     <value>升级您的服务器许可证以启用性能报告功能。性能报告提供关于整体环境性能趋势的指导，并使您能够在业务需求发生变化时对生产能力做出准确规划。</value>
   </data>
@@ -12721,12 +12768,6 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="VIF_HOTPLUG_FAILED_TITLE" xml:space="preserve">
     <value>虚拟网络设备更改</value>
   </data>
-  <data name="VIF_LICENSE_RESTRICTION" xml:space="preserve">
-    <value>升级许可证以启用 QoS 设置</value>
-  </data>
-  <data name="VIF_VSWITCH_CONTROLLER" xml:space="preserve">
-    <value>应使用 vSwitch Controller 配置 QoS 设置</value>
-  </data>
   <data name="VIRTUALIZATION_OPTIMIZED" xml:space="preserve">
     <value>已优化(已安装 {0} 版本)</value>
   </data>
@@ -12811,17 +12852,14 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="VMSS_EMAIL_PAGE_TEXT" xml:space="preserve">
     <value>服务器可以在引发了与快照计划作业有关的警报时向您发送电子邮件通知，例如创建 VM 快照时或快照操作失败时。</value>
   </data>
-  <data name="VMSS_FINISH_PAGE_CHECKBOX_TEXT" xml:space="preserve">
-    <value>当我单击“完成”时运行新快照计划作业(&amp;R)</value>
-  </data>
-  <data name="VMSS_FINISH_PAGE_TEXT" xml:space="preserve">
-    <value>检查新快照计划，如果要更改任何设置，请单击“上一步”，或者单击“完成”以创建新计划。</value>
-  </data>
   <data name="VMSS_FINISH_TITLE" xml:space="preserve">
     <value>创建新计划</value>
   </data>
   <data name="VMSS_HOST_NOT_LIVE" xml:space="preserve">
     <value>无法访问池主服务器</value>
+  </data>
+  <data name="VMSS_INVALID_SCHEDULE" xml:space="preserve">
+    <value>计划无效或不完整</value>
   </data>
   <data name="VMSS_MAIN_MENU" xml:space="preserve">
     <value>VM 快照计划(&amp;O)...</value>
@@ -12832,8 +12870,24 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="VMSS_NAME_TITLE" xml:space="preserve">
     <value>您想如何命名此计划?</value>
   </data>
+  <data name="VMSS_NEXT_CLIENT_LOCAL_RUN" xml:space="preserve">
+    <value>下一个计划的本地运行时间为 {0}。</value>
+  </data>
+  <data name="VMSS_NEXT_SERVER_LOCAL_RUN" xml:space="preserve">
+    <value>相应的服务器本地时间为 {0}。</value>
+  </data>
   <data name="VMSS_POLICY_SUMMARY" xml:space="preserve">
-    <value>作业名称:\r\n    {0}\r\n\r\n所选 VM:\r\n    {1}\r\n\r\n快照类型:\r\n    {2}\r\n\r\n计划:\r\n    {3}\r\n</value>
+    <value>作业名称:
+	{0}
+
+所选 VM:
+	{1}
+
+快照类型:
+	{2}
+
+计划:
+	{3}</value>
   </data>
   <data name="VMSS_SCHEDULED_SNAPSHOTS_DEFINED_FOR_POOL" xml:space="preserve">
     <value>在池“{0}”中定义的快照计划(计划中当前包含 {1} 个 VM，共 {2} 个):</value>

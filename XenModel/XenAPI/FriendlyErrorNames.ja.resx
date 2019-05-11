@@ -1949,6 +1949,9 @@
   <data name="VDI_READONLY" xml:space="preserve">
     <value>この処理では書き込みアクセスが必要ですが VDI {0} は読み取り専用です。</value>
   </data>
+  <data name="VDI_TOO_LARGE" xml:space="preserve">
+    <value>VDI が大きすぎます。</value>
+  </data>
   <data name="VDI_TOO_SMALL" xml:space="preserve">
     <value>VDI が小さすぎます。最小サイズよりも大きくしてください。</value>
   </data>
@@ -2029,6 +2032,9 @@
   </data>
   <data name="VM_FAILED_SHUTDOWN_ACKNOWLEDGMENT" xml:space="preserve">
     <value>VM がシャットダウン要求を承認しません。</value>
+  </data>
+  <data name="VM_FAILED_SUSPEND_ACKNOWLEDGMENT" xml:space="preserve">
+    <value>VM が一時停止要求を承認しません。</value>
   </data>
   <data name="VM_HALTED" xml:space="preserve">
     <value>VM が予期せず停止しました。</value>
@@ -2185,6 +2191,9 @@
   </data>
   <data name="VM_SNAPSHOT_WITH_QUIESCE_TIMEOUT" xml:space="preserve">
     <value>VSS プラグインでタイムアウトが発生しました</value>
+  </data>
+  <data name="VM_SUSPEND_TIMEOUT" xml:space="preserve">
+    <value>VM が一時停止に失敗し、タイムアウトになりました</value>
   </data>
   <data name="VM_TOO_MANY_VCPUS" xml:space="preserve">
     <value>VCPU の数が多すぎるため、この VM を起動できません</value>

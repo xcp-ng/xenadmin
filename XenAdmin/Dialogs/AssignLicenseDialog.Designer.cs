@@ -37,8 +37,8 @@ namespace XenAdmin.Dialogs
             this.licenseServerLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.licenseServerNameLabel = new System.Windows.Forms.Label();
             this.licenseServerNameTextBox = new System.Windows.Forms.TextBox();
-            this.licenseServerPortTextBox = new System.Windows.Forms.TextBox();
             this.colonLabel = new System.Windows.Forms.Label();
+            this.licenseServerPortTextBox = new System.Windows.Forms.TextBox();
             this.mainLabel = new System.Windows.Forms.Label();
             this.editionsGroupBox = new System.Windows.Forms.GroupBox();
             this.editionLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
@@ -86,8 +86,8 @@ namespace XenAdmin.Dialogs
             resources.ApplyResources(this.licenseServerLayoutPanel, "licenseServerLayoutPanel");
             this.licenseServerLayoutPanel.Controls.Add(this.licenseServerNameLabel, 0, 0);
             this.licenseServerLayoutPanel.Controls.Add(this.licenseServerNameTextBox, 1, 0);
-            this.licenseServerLayoutPanel.Controls.Add(this.licenseServerPortTextBox, 3, 0);
             this.licenseServerLayoutPanel.Controls.Add(this.colonLabel, 2, 0);
+            this.licenseServerLayoutPanel.Controls.Add(this.licenseServerPortTextBox, 3, 0);
             this.licenseServerLayoutPanel.Name = "licenseServerLayoutPanel";
             // 
             // licenseServerNameLabel
@@ -100,15 +100,15 @@ namespace XenAdmin.Dialogs
             resources.ApplyResources(this.licenseServerNameTextBox, "licenseServerNameTextBox");
             this.licenseServerNameTextBox.Name = "licenseServerNameTextBox";
             // 
-            // licenseServerPortTextBox
-            // 
-            resources.ApplyResources(this.licenseServerPortTextBox, "licenseServerPortTextBox");
-            this.licenseServerPortTextBox.Name = "licenseServerPortTextBox";
-            // 
             // colonLabel
             // 
             resources.ApplyResources(this.colonLabel, "colonLabel");
             this.colonLabel.Name = "colonLabel";
+            // 
+            // licenseServerPortTextBox
+            // 
+            resources.ApplyResources(this.licenseServerPortTextBox, "licenseServerPortTextBox");
+            this.licenseServerPortTextBox.Name = "licenseServerPortTextBox";
             // 
             // mainLabel
             // 

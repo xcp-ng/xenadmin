@@ -44,7 +44,7 @@ namespace XenAdmin.Controls
         public delegate void RefreshAllEvent(object sender, EventArgs e);
         public event RefreshAllEvent RefreshAll;
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public DataGridViewImageColumn StatusImageColumn
         {
             get

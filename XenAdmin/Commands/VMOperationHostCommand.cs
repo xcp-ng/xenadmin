@@ -34,7 +34,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using XenAdmin.Core;
-using XenAdmin.Properties;
 using XenAPI;
 using XenAdmin.Dialogs;
 
@@ -156,14 +155,14 @@ namespace XenAdmin.Commands
             return null;
         }
 
-        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<SelectedItem, string> cantExecuteReasons)
+        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<IXenObject, string> cantExecuteReasons)
         {
             return new CommandErrorDialog(ErrorDialogTitle, ErrorDialogText, cantExecuteReasons);
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            VM vm = item.XenObject as VM;
+            VM vm = item as VM;
             if (vm != null && _cantBootReasons.ContainsKey(vm))
                 return _cantBootReasons[vm];
 

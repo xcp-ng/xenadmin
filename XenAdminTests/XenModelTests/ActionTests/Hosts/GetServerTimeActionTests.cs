@@ -37,25 +37,23 @@ using XenAPI;
 
 namespace XenAdminTests.XenModelTests.ActionTests.Hosts
 {
-
     [TestFixture]
-    class GetServerTimeActionTests : ActionUnitTest<GetServerTimeAction>
+    class GetServerTimeActionTests : ActionUnitTest<GetServerLocalTimeAction>
     {
-
         private readonly DateTime time = new DateTime(2012, 3, 15, 1, 1, 1);
 
-        protected override GetServerTimeAction NewAction()
+        protected override GetServerLocalTimeAction NewAction()
         {
             Mock<Host> host = ObjectManager.NewXenObject<Host>(id);
-            ObjectManager.MockProxyFor(id).Setup(
-                p => p.host_get_server_localtime(It.IsAny<string>(), It.IsAny<string>())).Returns(
-                    new Response<DateTime>(time));
-            return new GetServerTimeAction(host.Object);
+            ObjectManager.MockProxyFor(id).Setup(p =>
+                p.host_get_server_localtime(It.IsAny<string>(), It.IsAny<string>())).Returns(new Response<DateTime>(time));
+            return new GetServerLocalTimeAction(host.Object);
         }
 
-        protected override bool VerifyResult(GetServerTimeAction action)
+        protected override bool VerifyResult(GetServerLocalTimeAction action)
         {
-            ObjectManager.MockProxyFor(id).Verify(p => p.host_get_server_localtime(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
+            ObjectManager.MockProxyFor(id).Verify(p =>
+                p.host_get_server_localtime(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
             return action.Result == "2012-03-15 01:01:01Z";
         }
     }

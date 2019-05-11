@@ -124,14 +124,14 @@ namespace XenAdmin.Commands
             }
         }
 
-        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<SelectedItem, string> cantExecuteReasons)
+        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<IXenObject, string> cantExecuteReasons)
         {
             return new CommandErrorDialog(Messages.ERROR_DIALOG_DETACH_SR_TITLE, Messages.ERROR_DIALOG_DETACH_SR_TEXT, cantExecuteReasons);
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            SR sr = item.XenObject as SR;
+            SR sr = item as SR;
             if (sr == null)
             {
                 return base.GetCantExecuteReasonCore(item);

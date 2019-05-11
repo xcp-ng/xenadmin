@@ -302,7 +302,7 @@ namespace XenAdmin.Wizards.PatchingWizard
 
             try
             {
-                using (var isoStream = File.Open(fileName, FileMode.Open))
+                using (var isoStream = File.OpenRead(fileName))
                 {
                     var cd = new CDReader(isoStream, true);
                     if (cd.Exists("Update.xml"))

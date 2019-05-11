@@ -292,7 +292,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageConsole.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="TabPageCvmConsole.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -316,7 +316,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageCvmConsole.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="TabPageStorage.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -349,7 +349,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageStorage.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <data name="TabPagePhysicalStorage.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -376,7 +376,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPagePhysicalStorage.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="TabPageSR.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -406,7 +406,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageSR.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="TabPageNetwork.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -436,7 +436,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageNetwork.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>8</value>
   </data>
   <data name="TabPageNICs.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -469,7 +469,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageNICs.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>9</value>
   </data>
   <data name="TabPagePeformance.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -499,7 +499,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPagePeformance.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>10</value>
   </data>
   <data name="TabPageHA.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -526,7 +526,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageHA.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>11</value>
   </data>
   <data name="TabPageHAUpsell.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -553,7 +553,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageHAUpsell.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>12</value>
   </data>
   <data name="snapshotPage.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -610,7 +610,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageSnapshots.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>13</value>
   </data>
   <data name="TabPageWLB.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -634,7 +634,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageWLB.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>14</value>
   </data>
   <data name="TabPageWLBUpsell.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -658,7 +658,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageWLBUpsell.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>15</value>
   </data>
   <data name="TabPageAD.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -682,7 +682,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageAD.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>16</value>
   </data>
   <data name="TabPageADUpsell.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -709,7 +709,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageADUpsell.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>17</value>
   </data>
   <data name="TabPageGPU.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -733,7 +733,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageGPU.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>18</value>
   </data>
   <data name="TabPagePvs.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -760,7 +760,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPagePvs.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>19</value>
   </data>
   <data name="TabPageSearch.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -790,7 +790,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageSearch.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>20</value>
   </data>
   <data name="TabPageDockerProcess.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -820,7 +820,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageDockerProcess.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>21</value>
   </data>
   <data name="TabPageDockerDetails.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -850,7 +850,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageDockerDetails.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>22</value>
   </data>
   <data name="TabPageUSB.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -877,7 +877,7 @@
     <value>TheTabControl</value>
   </data>
   <data name="&gt;&gt;TabPageUSB.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>23</value>
   </data>
   <data name="TheTabControl.Font" type="System.Drawing.Font, System.Drawing">
     <value>Verdana, 8.25pt</value>
@@ -1165,7 +1165,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;toolTipContainer1.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>28, 0</value>
@@ -1207,7 +1207,7 @@
     <value>TitleBackPanel</value>
   </data>
   <data name="&gt;&gt;TitleBackPanel.Type" xml:space="preserve">
-    <value>XenAdmin.Controls.GradientPanel.GradientPanel, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>XenAdmin.Controls.GradientPanel.VerticalGradientPanel, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;TitleBackPanel.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -3582,6 +3582,12 @@
   <data name="&gt;&gt;exportToolStripMenuItem.Type" xml:space="preserve">
     <value>XenAdmin.Commands.CommandToolStripMenuItem, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
+  <data name="&gt;&gt;disableCbtToolStripMenuItem.Name" xml:space="preserve">
+    <value>disableCbtToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;disableCbtToolStripMenuItem.Type" xml:space="preserve">
+    <value>XenAdmin.Commands.CommandToolStripMenuItem, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <data name="&gt;&gt;enablePVSReadcachingToolStripMenuItem.Name" xml:space="preserve">
     <value>enablePVSReadcachingToolStripMenuItem</value>
   </data>
@@ -3989,12 +3995,6 @@
   </data>
   <data name="&gt;&gt;statusProgressBar.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;disableCbtToolStripMenuItem.Name" xml:space="preserve">
-    <value>disableCbtToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;disableCbtToolStripMenuItem.Type" xml:space="preserve">
-    <value>XenAdmin.Commands.CommandToolStripMenuItem, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainWindow</value>

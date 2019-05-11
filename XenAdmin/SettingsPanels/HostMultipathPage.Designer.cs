@@ -48,6 +48,7 @@ namespace XenAdmin.SettingsPanels
             // 
             // maintenanceWarningImage
             // 
+            this.maintenanceWarningImage.Image = global::XenAdmin.Properties.Resources._000_Info3_h32bit_16;
             resources.ApplyResources(this.maintenanceWarningImage, "maintenanceWarningImage");
             this.maintenanceWarningImage.Name = "maintenanceWarningImage";
             this.maintenanceWarningImage.TabStop = false;
@@ -69,7 +70,7 @@ namespace XenAdmin.SettingsPanels
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.maintenanceWarningImage, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.maintenanceWarningLabel, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.multipathCheckBox, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.multipathCheckBox, 0, 1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // HostMultipathPage

@@ -32,195 +32,267 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 using XenAdmin.Actions;
 using XenAdmin.Controls;
+using XenAdmin.Core;
 using XenAdmin.Dialogs;
 using XenAdmin.SettingsPanels;
 using XenAPI;
-using XenAdmin.Core;
+
 
 namespace XenAdmin.Wizards.NewPolicyWizard
 {
     public partial class NewPolicySnapshotFrequencyPage : XenTabPage, IEditPage
     {
+        private VMSS _policyCopy;
+        private ServerTimeInfo? _serverTimeInfo;
+        private bool updating;
+        private readonly ToolTip InvalidParamToolTip;
+
         public NewPolicySnapshotFrequencyPage()
         {
             InitializeComponent();
-            radioButtonDaily.Checked = true;
-            comboBoxMin.SelectedIndex = 1;
-            daysWeekCheckboxes.CheckBoxChanged += checkBox_CheckedChanged;
+            MainTableLayoutPanel.Visible = false;
+            LoadingBox.Visible = true;
 
-        }
-        private Pool _pool;
-        public Pool Pool
-        {
-            get { return _pool; }
-            set
+            InvalidParamToolTip = new ToolTip
             {
-                _pool = value;
-                localServerTime1.Pool = _pool;
+                IsBalloon = true,
+                ToolTipIcon = ToolTipIcon.Warning,
+                ToolTipTitle = Messages.INVALID_PARAMETER
+            };
+
+            try
+            {
+                updating = true;
+                radioButtonDaily.Checked = true;
+                numericUpDownRetention.Value = 7;
+                SetHourlyMinutes(15);
+                daysWeekCheckboxes.SelectedDays = new[] {DayOfWeek.Monday};
+            }
+            finally
+            {
+                updating = false;
             }
         }
 
-        public override string Text
+        #region IVerticalTab implementation
+
+        public override string Text => Messages.SNAPSHOT_FREQUENCY;
+
+        public string SubText { get; private set; }
+
+        public Image Image => Properties.Resources.notif_events_16;
+
+        #endregion
+
+        #region XenTabPage implementation
+
+        public override string PageTitle => Messages.SNAPSHOT_FREQUENCY_TITLE;
+
+        public override string HelpID => "Snapshotfrequency";
+
+        protected override void PageLoadedCore(PageLoadedDirection direction)
         {
-            get { return Messages.SNAPSHOT_FREQUENCY; }
+            if (direction == PageLoadedDirection.Forward)
+                GetServerTime();
         }
 
-        public string SubText
+        public override bool EnableNext()
         {
-            get { return NewPolicyWizard.FormatSchedule(Schedule, Frequency, DaysWeekCheckboxes.DaysMode.L10N_SHORT); }
+            if (radioButtonHourly.Checked && comboBoxMin.SelectedIndex < 0)
+                return false;
+            if (radioButtonWeekly.Checked && !daysWeekCheckboxes.AnySelected())
+                return false;
+            return true;
         }
 
-        public Image Image
+        #endregion
+
+        public long BackupRetention {get; private set; }
+
+        public Dictionary<string, string> Schedule { get; private set; }
+
+        public vmss_frequency Frequency { get; private set; }
+
+        public string FormattedSchedule { get; private set; }
+
+        public void GetServerTime()
         {
-            get { return Properties.Resources.notif_events_16; }
+            var master = Helpers.GetMaster(Connection);
+            if (master == null)
+                return;
+
+            var action = new GetServerLocalTimeAction(master);
+            action.Completed += action_CompletedTimeServer;
+            MainTableLayoutPanel.Visible = false;
+            LoadingBox.Visible = true;
+            spinnerIcon1.StartSpinning();
+            action.RunAsync();
         }
 
-        public override string PageTitle
+        private void action_CompletedTimeServer(ActionBase sender)
         {
-            get { return Messages.SNAPSHOT_FREQUENCY_TITLE; }
-        }
+            sender.Completed -= action_CompletedTimeServer;
 
-        public override string HelpID
-        {
-            get { return "Snapshotfrequency"; }
-        }
+            var action = sender as GetServerLocalTimeAction;
+            if (action == null)
+                return;
 
-        public long BackupRetention
-        {
-            get { return (long)numericUpDownRetention.Value; }
-        }
-
-        public Dictionary<string, string> Schedule
-        {
-            get
+            Program.Invoke(ParentForm, () =>
             {
-                var result = new Dictionary<string, string>();
+                spinnerIcon1.StopSpinning();
+                LoadingBox.Visible = false;
+                MainTableLayoutPanel.Visible = true;
+                _serverTimeInfo = action.ServerTimeInfo;
+                PopulateTab();
+            });
+        }
 
-                if (Frequency == vmss_frequency.hourly)
-                    result.Add("min", comboBoxMin.SelectedItem.ToString());
-                else if (Frequency == vmss_frequency.daily)
+        private void PopulateTab()
+        {
+            try
+            {
+                updating = true;
+
+                if (_policyCopy == null || !_serverTimeInfo.HasValue)
+                    return;
+
+                var nextRunOnServer = _policyCopy.GetNextRunTime(_serverTimeInfo.Value.ServerLocalTime);
+                if (!nextRunOnServer.HasValue)
+                    return;
+
+                var nextRunOnClient = HelpersGUI.RoundToNearestQuarter(nextRunOnServer.Value + _serverTimeInfo.Value.ServerClientTimeZoneDiff);
+
+                switch (_policyCopy.frequency)
                 {
-                    result.Add("hour", dateTimePickerDaily.Value.Hour.ToString());
-                    result.Add("min", dateTimePickerDaily.Value.Minute.ToString());
+                    case vmss_frequency.hourly:
+                        SetHourlyMinutes(nextRunOnClient.Minute);
+                        radioButtonHourly.Checked = true;
+                        break;
+                    case vmss_frequency.daily:
+                        dateTimePickerDaily.Value = new DateTime(1970, 1, 1, nextRunOnClient.Hour, nextRunOnClient.Minute, 0);
+                        radioButtonDaily.Checked = true;
+                        break;
+                    case vmss_frequency.weekly:
+                        dateTimePickerWeekly.Value = new DateTime(1970, 1, 1, nextRunOnClient.Hour, nextRunOnClient.Minute, 0);
+                        daysWeekCheckboxes.SelectedDays = VMSS.BackUpScheduleDays(_policyCopy.schedule);
+                        radioButtonWeekly.Checked = true;
+                        break;
                 }
-                else if (Frequency == vmss_frequency.weekly)
-                {
-                    result.Add("hour", dateTimePickerWeekly.Value.Hour.ToString());
-                    result.Add("min", dateTimePickerWeekly.Value.Minute.ToString());
-                    result.Add("days", daysWeekCheckboxes.Days);
-                }
 
-                return result;
+                numericUpDownRetention.Value = _policyCopy.retained_snapshots;
             }
-        }
-
-        public vmss_frequency Frequency
-        {
-            get
+            finally
             {
-                if (radioButtonHourly.Checked) return vmss_frequency.hourly;
-                else if (radioButtonDaily.Checked) return vmss_frequency.daily;
-                else if (radioButtonWeekly.Checked) return vmss_frequency.weekly;
-
-                throw new ArgumentException("Wrong value");
+                updating = false;
+                RecalculateSchedule();
             }
         }
 
-        private void radioButtonHourly_CheckedChanged(object sender, System.EventArgs e)
+        private void SetHourlyMinutes(int min)
         {
-            ShowPanel(panelHourly);
-            numericUpDownRetention.Value = 10;
-            OnPageUpdated();
-        }
-
-        private void ShowPanel(Panel panel)
-        {
-            panelHourly.Visible = false;
-            panelDaily.Visible = false;
-            panelWeekly.Visible = false;
-            panelHourly.Dock = DockStyle.None;
-            panelDaily.Dock = DockStyle.None;
-            panelHourly.Dock = DockStyle.None;
-            panel.Dock = DockStyle.Fill;
-            panel.Visible = true;
-
-        }
-
-        private void radioButtonDaily_CheckedChanged(object sender, System.EventArgs e)
-        {
-            ShowPanel(panelDaily);
-            numericUpDownRetention.Value = 7;
-            OnPageUpdated();
-        }
-
-        private void radioButtonWeekly_CheckedChanged(object sender, System.EventArgs e)
-        {
-            ShowPanel(panelWeekly);
-            daysWeekCheckboxes.Days = "monday";
-            numericUpDownRetention.Value = 4;
-            OnPageUpdated();
-        }
-
-        private void RefreshTab(VMSS policy)
-        {
-            if (ParentForm != null)
-            {
-                var parentFormType = ParentForm.GetType();
-
-                if (parentFormType == typeof(XenWizardBase))
-                    sectionLabelSchedule.LineColor = sectionLabelNumber.LineColor = SystemColors.Window;
-                else if (parentFormType == typeof(PropertiesDialog))
-                    sectionLabelSchedule.LineColor = sectionLabelNumber.LineColor = SystemColors.ActiveBorder;
-            }
-
-            switch (policy.frequency)
-            {
-                case vmss_frequency.hourly:
-                    radioButtonHourly.Checked = true;
-                    SetHourlyMinutes(policy.BackupScheduleMin());
-                    break;
-                case vmss_frequency.daily:
-                    radioButtonDaily.Checked = true;
-                    dateTimePickerDaily.Value = new DateTime(1970, 1, 1,
-                        policy.BackupScheduleHour(), policy.BackupScheduleMin(), 0);
-                    break;
-                case vmss_frequency.weekly:
-                    radioButtonWeekly.Checked = true;
-                    dateTimePickerWeekly.Value = new DateTime(1970, 1, 1,
-                        policy.BackupScheduleHour(), policy.BackupScheduleMin(), 0);
-                    daysWeekCheckboxes.Days = policy.BackupScheduleDays();
-                    break;
-            }
-
-            numericUpDownRetention.Value = policy.retained_snapshots;
-        }
-
-        private void SetHourlyMinutes(decimal min)
-        {
-            if (min == 0)
+            if (0 <= min && min < 15)
                 comboBoxMin.SelectedIndex = 0;
-            else if (min == 15)
+            else if (15 <= min && min < 30)
                 comboBoxMin.SelectedIndex = 1;
-            else if (min == 30)
+            else if (30 <= min && min <45)
                 comboBoxMin.SelectedIndex = 2;
-            else if (min == 45)
+            else if (45 <= min && min < 60)
                 comboBoxMin.SelectedIndex = 3;
-            else comboBoxMin.SelectedIndex = 1;
-
+            else
+                throw new ArgumentException("min");
         }
 
-        private void checkBox_CheckedChanged(object sender, EventArgs e)
+        private void RecalculateSchedule()
         {
-            CheckBox checkBox = (CheckBox)sender;
-            if (!checkBox.Checked && daysWeekCheckboxes.Days == "")
+            if (updating)
+                return;
+
+            Schedule = new Dictionary<string, string>();
+            DateTime? nextRunOnClient = null;
+            DateTime? nextRunOnServer = null;
+
+            if (radioButtonHourly.Checked && int.TryParse(comboBoxMin.SelectedItem.ToString(), out int min))
             {
-                checkBox.Checked = true;
+                SubText = FormattedSchedule = string.Format(Messages.HOURLY_SCHEDULE_FORMAT, min);
+                nextRunOnClient = VMSS.GetHourlyDate(DateTime.Now, min);
+
+                if (_serverTimeInfo.HasValue)
+                {
+                    nextRunOnServer = HelpersGUI.RoundToNearestQuarter(nextRunOnClient.Value - _serverTimeInfo.Value.ServerClientTimeZoneDiff);
+                    Schedule["min"] = nextRunOnServer.Value.Minute.ToString();
+                }
             }
+            else if (radioButtonDaily.Checked)
+            {
+                SubText = FormattedSchedule = string.Format(Messages.DAILY_SCHEDULE_FORMAT,
+                    HelpersGUI.DateTimeToString(dateTimePickerDaily.Value, Messages.DATEFORMAT_HM, true));
+                nextRunOnClient = VMSS.GetDailyDate(DateTime.Now, dateTimePickerDaily.Value.Minute, dateTimePickerDaily.Value.Hour);
+
+                if (_serverTimeInfo.HasValue)
+                {
+                    nextRunOnServer = HelpersGUI.RoundToNearestQuarter(nextRunOnClient.Value - _serverTimeInfo.Value.ServerClientTimeZoneDiff);
+                    Schedule["hour"] = nextRunOnServer.Value.Hour.ToString();
+                    Schedule["min"] = nextRunOnServer.Value.Minute.ToString();
+                }
+            }
+            else if (radioButtonWeekly.Checked && daysWeekCheckboxes.AnySelected())
+            {
+                var days = daysWeekCheckboxes.SelectedDays;
+                var longString = string.Join(", ", days.Select(d => HelpersGUI.DayOfWeekToString(d)));
+                var shortString = string.Join(", ", days.Select(d => HelpersGUI.DayOfWeekToShortString(d)));
+
+                FormattedSchedule = string.Format(Messages.WEEKLY_SCHEDULE_FORMAT,
+                    HelpersGUI.DateTimeToString(dateTimePickerWeekly.Value, Messages.DATEFORMAT_HM, true), longString);
+                SubText = string.Format(Messages.WEEKLY_SCHEDULE_FORMAT,
+                    HelpersGUI.DateTimeToString(dateTimePickerWeekly.Value, Messages.DATEFORMAT_HM, true), shortString);
+
+                var nextClientRuns = VMSS.GetWeeklyDates(DateTime.Now, dateTimePickerWeekly.Value.Minute,
+                    dateTimePickerWeekly.Value.Hour, days);
+
+                if (_serverTimeInfo.HasValue && nextClientRuns.Count > 0)
+                {
+                    nextRunOnClient = nextClientRuns[0];
+                    var nextServerRuns = nextClientRuns.Select(n =>
+                        HelpersGUI.RoundToNearestQuarter(n - _serverTimeInfo.Value.ServerClientTimeZoneDiff)).ToList();
+                    nextRunOnServer = nextServerRuns[0];
+
+                    Schedule["hour"] = nextRunOnServer.Value.Hour.ToString();
+                    Schedule["min"] = nextRunOnServer.Value.Minute.ToString();
+                    Schedule["days"] = string.Join(",", nextServerRuns.Select(n => n.DayOfWeek.ToString())).ToLower();
+                }
+            }
+
+            if (string.IsNullOrEmpty(FormattedSchedule))
+                FormattedSchedule = Messages.UNKNOWN;
+            if (string.IsNullOrEmpty(SubText))
+                SubText = Messages.UNKNOWN;
+
+            RefreshTime(nextRunOnServer, nextRunOnClient);
+            OnPageUpdated();
+
+            if (Populated != null)
+                Populated();
         }
+
+        private void RefreshTime(DateTime? nextRunOnServer = null, DateTime? nextRunOnClient = null)
+        { 
+            var localRun = nextRunOnClient.HasValue
+                ? HelpersGUI.DateTimeToString(nextRunOnClient.Value, Messages.DATEFORMAT_WDMY_HM_LONG, true)
+                : Messages.UNKNOWN;
+
+            var serverRun = nextRunOnServer.HasValue
+                ? HelpersGUI.DateTimeToString(nextRunOnServer.Value, Messages.DATEFORMAT_WDMY_HM_LONG, true)
+                : Messages.UNKNOWN;
+
+            labelClientNextRun.Text = string.Format(Messages.VMSS_NEXT_CLIENT_LOCAL_RUN, localRun);
+            labelServerNextRun.Text = string.Format(Messages.VMSS_NEXT_SERVER_LOCAL_RUN, serverRun);
+        }
+
+        #region IEditPage implementation
 
         public AsyncAction SaveSettings()
         {
@@ -230,31 +302,22 @@ namespace XenAdmin.Wizards.NewPolicyWizard
             return null;
         }
 
-        private VMSS _policyCopy;
-
         public void SetXenObjects(IXenObject orig, IXenObject clone)
         {
             _policyCopy = (VMSS)clone;
-            RefreshTab(_policyCopy);
+            GetServerTime();
         }
 
-        public bool ValidToSave
-        {
-            get
-            {
-                _policyCopy.frequency = Frequency;
-                _policyCopy.schedule = Schedule;
-                _policyCopy.retained_snapshots = BackupRetention;
-                return true;
-            }
-        }
+        public bool ValidToSave => EnableNext();
 
         public void ShowLocalValidationMessages()
         {
+            HelpersGUI.ShowBalloonMessage(flowLayoutPanel1, Messages.VMSS_INVALID_SCHEDULE, InvalidParamToolTip);
         }
 
         public void Cleanup()
         {
+            InvalidParamToolTip.Dispose();
         }
 
         public bool HasChanged
@@ -263,13 +326,103 @@ namespace XenAdmin.Wizards.NewPolicyWizard
             {
                 if (!Helper.AreEqual2(_policyCopy.frequency, Frequency))
                     return true;
+
                 if (!Helper.AreEqual2(_policyCopy.schedule, Schedule))
                     return true;
+
                 if (!Helper.AreEqual2(_policyCopy.retained_snapshots, BackupRetention))
                     return true;
 
                 return false;
             }
         }
+
+        public event Action Populated;
+
+        #endregion
+
+        #region Control event handlers
+
+        private void NewPolicySnapshotFrequencyPage_ParentChanged(object sender, EventArgs e)
+        {
+            if (Parent == null || ParentForm == null)
+                return;
+
+            var parentFormType = ParentForm.GetType();
+
+            if (parentFormType == typeof(XenWizardBase))
+                sectionLabelSchedule.LineColor = sectionLabelNumber.LineColor = SystemColors.Window;
+            else if (parentFormType == typeof(PropertiesDialog))
+                sectionLabelSchedule.LineColor = sectionLabelNumber.LineColor = SystemColors.ActiveBorder;
+        }
+
+        private void comboBoxMin_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RecalculateSchedule();
+        }
+
+        private void dateTimePickerDaily_ValueChanged(object sender, EventArgs e)
+        {
+            if (!dateTimePickerDaily.AutoCorrecting)
+                RecalculateSchedule();
+        }
+
+        private void dateTimePickerWeekly_ValueChanged(object sender, EventArgs e)
+        {
+            if (!dateTimePickerWeekly.AutoCorrecting)
+                RecalculateSchedule();
+        }
+
+        private void daysWeekCheckboxes_CheckBoxChanged(object sender, EventArgs e)
+        {
+            RecalculateSchedule();
+        }
+
+        private void radioButtonHourly_CheckedChanged(object sender, EventArgs e)
+        {
+            if (sender == null || !radioButtonHourly.Checked)
+                return;
+
+            panelWeekly.Visible = panelDaily.Visible = false; //hide the others first
+            panelHourly.Visible = true;
+
+            Frequency = vmss_frequency.hourly;
+            numericUpDownRetention.Value = 10;
+            RecalculateSchedule();
+        }
+
+        private void radioButtonDaily_CheckedChanged(object sender, EventArgs e)
+        {
+            if (sender == null || !radioButtonDaily.Checked)
+                return;
+
+            panelWeekly.Visible = panelHourly.Visible = false; //hide the others first
+            panelDaily.Visible = true;
+
+            Frequency = vmss_frequency.daily;
+            numericUpDownRetention.Value = 7;
+            RecalculateSchedule();
+        }
+
+        private void radioButtonWeekly_CheckedChanged(object sender, EventArgs e)
+        {
+            if (sender == null || !radioButtonWeekly.Checked)
+                return;
+
+            panelHourly.Visible = panelDaily.Visible = false; //hide the others first
+            panelWeekly.Visible = true;
+
+            Frequency = vmss_frequency.weekly;
+            numericUpDownRetention.Value = 4;
+            RecalculateSchedule();
+        }
+
+        private void numericUpDownRetention_ValueChanged(object sender, EventArgs e)
+        {
+            BackupRetention = (long)numericUpDownRetention.Value;
+            RecalculateSchedule();
+        }
+
+        #endregion
     }
 }

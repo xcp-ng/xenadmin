@@ -140,7 +140,6 @@
     <Compile Include="Actions\VMAppliances\DestroyVMApplianceAction.cs" />
     <Compile Include="Actions\VMAppliances\ShutDownApplianceAction.cs" />
     <Compile Include="Actions\VMAppliances\StartApplianceAction.cs" />
-    <Compile Include="Actions\VMSS\LoadVmssAction.cs" />
     <Compile Include="Actions\VM\ChangeMemorySettingsAction.cs" />
     <Compile Include="Actions\VM\CreateCdDriveAction.cs" />
     <Compile Include="Actions\VM\CreateVMAction.cs" />
@@ -248,7 +247,7 @@
     <Compile Include="Actions\Host\EditMultipathAction.cs" />
     <Compile Include="Actions\Host\ExecutePluginAction.cs" />
     <Compile Include="Actions\Host\FibreChannelProbeAction.cs" />
-    <Compile Include="Actions\Host\GetServerTimeAction.cs" />
+    <Compile Include="Actions\Host\GetServerLocalTimeAction.cs" />
     <Compile Include="Actions\Host\GetSystemStatusCapabilities.cs" />
     <Compile Include="Actions\Host\HostPowerOnAction.cs" />
     <Compile Include="Actions\Host\LicensingHelper.cs" />

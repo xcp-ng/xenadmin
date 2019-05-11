@@ -87,9 +87,9 @@ namespace XenAdmin.Commands
             return true;
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            VDI vdi = item.XenObject as VDI;
+            VDI vdi = item as VDI;
             if (vdi == null)
                 return base.GetCantExecuteReasonCore(item);
 

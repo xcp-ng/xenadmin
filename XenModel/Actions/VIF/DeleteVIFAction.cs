@@ -29,11 +29,6 @@
  * SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using XenAdmin.Actions;
 using XenAPI;
 
 
@@ -41,49 +36,45 @@ namespace XenAdmin.Actions
 {
     public class DeleteVIFAction : PureAsyncAction
     {
-        private XenAPI.VIF _vif;
-        public DeleteVIFAction(XenAPI.VIF vif):base(vif.Connection,String.Format(Messages.ACTION_VIF_DELETING_TITLE, vif.NetworkName(), vif.Connection.Resolve(vif.VM).Name()))
+        private VIF _vif;
+
+        public DeleteVIFAction(VIF vif, bool suppressHistory = false)
+            : base(vif.Connection,
+                string.Format(Messages.ACTION_VIF_DELETING_TITLE, vif.NetworkName(), vif.Connection.Resolve(vif.VM).Name()),
+                suppressHistory)
         {
-            _vif=vif;
+            _vif = vif;
             VM = vif.Connection.Resolve(vif.VM);
         }
 
         /// <summary>
-        /// List of XML RPC calls made by the class although not need explicity by 
-        /// this class as it's pure async
+        /// List of XML RPC calls made by the class
+        /// (although not needed explicitly here as this class is a pure async action)
         /// </summary>
-        public static readonly List<string> XmlRpcMethods = new List<string>()
-        {
-            "VIF.unplug",
-            "VIF.destroy"                                   
-        };
+        public static readonly string[] XmlRpcMethods = {"VIF.unplug", "VIF.destroy"};
 
         protected override void Run()
         {
             Description = Messages.ACTION_VIF_DELETING;
-            DeleteVIF();
-            Description = Messages.ACTION_VIF_DELETED;
-        }
 
-        private void DeleteVIF()
-        {
-            if (VM.power_state == XenAPI.vm_power_state.Running
-                && XenAPI.VIF.get_allowed_operations(Session, _vif.opaque_ref).Contains(XenAPI.vif_operations.unplug))
+            if (VM.power_state == vm_power_state.Running
+                && VIF.get_allowed_operations(Session, _vif.opaque_ref).Contains(vif_operations.unplug))
             {
                 try
                 {
-                    XenAPI.VIF.unplug(Session, _vif.opaque_ref);
+                    VIF.unplug(Session, _vif.opaque_ref);
                 }
-                catch (XenAPI.Failure exn)
+                catch (Failure exn)
                 {
                     // Ignore the failure if it's already detached -- throw everything else.
-                    if (exn.ErrorDescription[0] != XenAPI.Failure.DEVICE_ALREADY_DETACHED)
-                    {
+                    if (exn.ErrorDescription[0] != Failure.DEVICE_ALREADY_DETACHED)
                         throw;
-                    }
                 }
             }
-            XenAPI.VIF.destroy(Session, _vif.opaque_ref);
+
+            VIF.destroy(Session, _vif.opaque_ref);
+
+            Description = Messages.ACTION_VIF_DELETED;
         }
     }
 }

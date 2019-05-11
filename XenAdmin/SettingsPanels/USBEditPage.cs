@@ -55,16 +55,9 @@ namespace XenAdmin.SettingsPanels
             InitializeComponent();
         }
 
-        private VerticalTabs verticalTabs;
-        public VerticalTabs VerticalTabs
-        {
-            set
-            {
-                this.verticalTabs = value;
-            }
-        }
-
         #region override IEditPage
+
+        public event Action Populated;
 
         public bool ValidToSave
         {
@@ -209,8 +202,8 @@ namespace XenAdmin.SettingsPanels
             if (e.PropertyName == "VUSBs")
             {
                 BuildList();
-                if (verticalTabs != null)
-                    verticalTabs.Refresh();
+                if (Populated != null)
+                    Populated();
             }
         }
 

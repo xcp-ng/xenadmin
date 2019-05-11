@@ -166,11 +166,16 @@ namespace XenAdmin.Wizards.NewVMWizard
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            VIFDialog dialog = new VIFDialog(Connection, null, NetworksGridView.Rows.Count, Template.HasSriovRecommendation());
-            if (dialog.ShowDialog() != DialogResult.OK)
-                return;
+            VIF newVif;
+            using (var dialog = new VIFDialog(Connection, null, NetworksGridView.Rows.Count, Template.HasSriovRecommendation()))
+            {
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
 
-            NetworksGridView.Rows.Add(new NetworkListViewItem(Connection, dialog.NewVif(), NetworksGridView.Rows.Count, true));
+                newVif = dialog.NewVif();
+            }
+
+            NetworksGridView.Rows.Add(new NetworkListViewItem(Connection, newVif, NetworksGridView.Rows.Count, true));
             UpdateEnablement();
         }
 
@@ -190,11 +195,16 @@ namespace XenAdmin.Wizards.NewVMWizard
 
             NetworkListViewItem selectedItem = ((NetworkListViewItem)NetworksGridView.SelectedRows[0]);
 
-            VIFDialog dialog = new VIFDialog(Connection, selectedItem.Vif, selectedItem.Index, Template.HasSriovRecommendation());
-            if (dialog.ShowDialog() != DialogResult.OK)
-                return;
+            VIF newVif;
+            using (var dialog = new VIFDialog(Connection, selectedItem.Vif, selectedItem.Index, Template.HasSriovRecommendation()))
+            {
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
 
-            selectedItem.Vif = dialog.NewVif();
+                newVif = dialog.NewVif();
+            }
+
+            selectedItem.Vif = newVif;
             selectedItem.UpdateDetails();
 
             UpdateEnablement();

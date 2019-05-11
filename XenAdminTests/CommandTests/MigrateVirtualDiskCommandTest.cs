@@ -148,7 +148,7 @@ namespace XenAdminTests.CommandTests
         private void ExecuteCommandCheckingReason(string expectedReason, VDI vdi)
         {
             MigrateVirtualDiskCommand cmd = new MigrateVirtualDiskCommand(mw, new List<SelectedItem> { new SelectedItem(vdi) });
-            Dictionary<SelectedItem, string> reasons = cmd.GetCantExecuteReasons();
+            var reasons = cmd.GetCantExecuteReasons();
             Assert.IsNotEmpty(reasons, "Reasons found for " + vdi.name_label);
             Assert.IsFalse(cmd.CanExecute(), "Command can execute for " + vdi.name_label);
             Assert.AreEqual(expectedReason, reasons.First().Value, "Reason as expected for " + vdi.name_label);

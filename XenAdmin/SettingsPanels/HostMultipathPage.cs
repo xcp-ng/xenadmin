@@ -54,8 +54,6 @@ namespace XenAdmin.SettingsPanels
 
             Text = Messages.MULTIPATHING;
 
-            maintenanceWarningImage.Image = SystemIcons.Information.ToBitmap().GetThumbnailImage(16, 16, null, IntPtr.Zero);
-
             UpdateMaintenanceWarning();
         }
 

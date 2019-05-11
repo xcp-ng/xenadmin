@@ -90,7 +90,9 @@ namespace XenAdmin.Wizards.NewVMWizard
             PvBootBox.Visible = !IsSelectedTemplateHVM;
             PvBootTextBox.Text = m_template.PV_args;
 
-            bootModesControl1.Visible = Helpers.NaplesOrGreater(SelectedTemplate.Connection) && IsSelectedTemplateHVM;
+            bootModesControl1.Visible = IsSelectedTemplateHVM &&
+                                        BootModesControl.ShowBootModeOptions(SelectedTemplate.Connection);
+            ;
             bootModesControl1.TemplateVM = m_template;
 
             if (!ShowInstallationMedia)
@@ -159,7 +161,7 @@ namespace XenAdmin.Wizards.NewVMWizard
             UpdateEnablement();
         }
 
-        public Actions.VMActions.BootMode SelectedBootMode { get { return IsSelectedTemplateHVM ? bootModesControl1.SelectedOption : BootMode.NOT_AVAILABLE; } }
+        public BootMode SelectedBootMode { get { return IsSelectedTemplateHVM ? bootModesControl1.SelectedOption : BootMode.NOT_AVAILABLE; } }
 
         private bool IsBootFromNetworkCustomTemplate(bool userTemplate)
         {

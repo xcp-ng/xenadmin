@@ -140,7 +140,7 @@ namespace XenAdmin.Commands
             }
         }
 
-        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<SelectedItem, string> cantExecuteReasons)
+        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<IXenObject, string> cantExecuteReasons)
         {
             foreach (VM vm in GetSelection().AsXenObjects<VM>())
             {
@@ -168,9 +168,9 @@ namespace XenAdmin.Commands
             }
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            VM vm = item.XenObject as VM;
+            VM vm = item as VM;
             if (vm == null)
             {
                 return base.GetCantExecuteReasonCore(item);

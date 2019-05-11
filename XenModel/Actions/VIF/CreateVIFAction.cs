@@ -29,8 +29,6 @@
  * SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
 using XenAPI;
 
 
@@ -40,55 +38,41 @@ namespace XenAdmin.Actions
     {
         private VIF _vifDescriptor;
 
-        public CreateVIFAction(VM vm, VIF vifDescriptor)
-            : base(vm.Connection, String.Format(Messages.ACTION_VIF_CREATING_TITLE, vm.Name()))
+        public CreateVIFAction(VM vm, VIF vifDescriptor, bool suppressHistory = false)
+            : base(vm.Connection, string.Format(Messages.ACTION_VIF_CREATING_TITLE, vm.Name()), suppressHistory)
         {
             _vifDescriptor = vifDescriptor;
             VM = vm;
-            XmlRpcMethods.ForEach( method => ApiMethodsToRoleCheck.Add( method ) );
+
+            foreach (var method in XmlRpcMethods)
+                ApiMethodsToRoleCheck.Add(method);
         }
 
         /// <summary>
         /// A List of XML RPC methods used by this class
         /// </summary>
-        public static readonly List<string> XmlRpcMethods = new List<string>()
-        {
-            "Async_VIF.create",
-            "VIF.plug"                        
-        };
+        public static readonly string[] XmlRpcMethods = {"Async_VIF.create", "VIF.plug"};
+
+        public bool RebootRequired { get; private set; }
 
         protected override void Run()
         {
             Description = Messages.ACTION_VIF_CREATING;
-            CreateVIF();
+
+            RelatedTask = VIF.async_create(Session, _vifDescriptor);
+            PollToCompletion();
+
+            if (VM.power_state == vm_power_state.Running)
+            {
+                string newVifRef = Result; //the result from async_create
+
+                if (VIF.get_allowed_operations(Session, newVifRef).Contains(vif_operations.plug))
+                    VIF.plug(Session, newVifRef); // try hot-plugging
+                else
+                    RebootRequired = true;
+            }
+
             Description = Messages.ACTION_VIF_CREATED;
         }
-
-        private void CreateVIF()
-        {
-            RelatedTask = XenAPI.VIF.async_create(Session, _vifDescriptor);
-            
-            PollToCompletion();
-            string newVifRef = Result;
-
-            if (VM.power_state == XenAPI.vm_power_state.Running)
-            {
-                if (XenAPI.VIF.get_allowed_operations(Session, newVifRef).Contains(XenAPI.vif_operations.plug))
-                {
-                    // Try hotplug
-                    XenAPI.VIF.plug(Session, newVifRef);
-                    Result = true.ToString();
-                }
-                else
-                {
-                    Result = false.ToString();
-                }
-            }
-            else
-                Result = true.ToString();
-        }
-
-
-
     }
 }

@@ -186,7 +186,7 @@ namespace XenAdmin.Commands
             }
         }
 
-        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<SelectedItem, string> cantExecuteReasons)
+        protected override CommandErrorDialog GetErrorDialogCore(IDictionary<IXenObject, string> cantExecuteReasons)
         {
             foreach (Host host in GetSelection().AsXenObjects<Host>())
             {
@@ -198,9 +198,9 @@ namespace XenAdmin.Commands
             return null;
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            Host host = item.XenObject as Host;
+            Host host = item as Host;
             if (host == null)
             {
                 return base.GetCantExecuteReasonCore(item);

@@ -78,9 +78,9 @@ namespace XenAdmin.Commands
             return selection.AllItemsAre<Host>() && selection.Any(item => ((Host)item.XenObject).IsLive());
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            Host host = item.XenObject as Host;
+            Host host = item as Host;
             
             if (host == null)
                 return base.GetCantExecuteReasonCore(item);

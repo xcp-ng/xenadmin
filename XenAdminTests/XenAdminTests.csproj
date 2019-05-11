@@ -367,7 +367,6 @@
     <Compile Include="UnitTests\UnitTestHelper\VerifyGetters.cs" />
     <Compile Include="UnitTests\UnitTestHelper\VerifyGettersAndSetters.cs" />
     <Compile Include="UnitTests\UnitTestHelper\VerifyPropertyCounter.cs" />
-    <Compile Include="UnitTests\VMPPGetWeeklyTests.cs" />
     <Compile Include="UnitTests\WlbTests\WlbPoolConfigurationTests.cs" />
     <Compile Include="UnitTests\WlbTests\WlbReportSubscriptionTests.cs" />
     <Compile Include="UnitTests\WlbTests\WlbScheduledTasksTests.cs" />

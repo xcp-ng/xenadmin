@@ -87,6 +87,7 @@ namespace XenAdmin.Dialogs.Network
             // IconPictureBox
             // 
             resources.ApplyResources(this.IconPictureBox, "IconPictureBox");
+            this.IconPictureBox.Image = global::XenAdmin.Properties.Resources._000_WarningAlert_h32bit_32;
             this.IconPictureBox.Name = "IconPictureBox";
             this.IconPictureBox.TabStop = false;
             // 

@@ -65,13 +65,3 @@ foreach($dep in $DEPS_MAP.files) {
         }
     }
 }
-
-#unit test dependencies
-
-$MOQ="Moq.dll"
-$MOQ_URL="https://$DOMAIN/ctx-local-contrib/Moq/4.0.10827.0/4.0/$MOQ"
-$NUNIT="nunit.framework.dll"
-$NUNIT_URL="https://$DOMAIN/ctx-local-contrib/NUnit/NUnit/2.5.2.9122/3.5/$NUNIT"
-
-Invoke-WebRequest -Uri $MOQ_URL   -Method Get -OutFile "$PACKAGE_DIR\$MOQ"
-Invoke-WebRequest -Uri $NUNIT_URL -Method Get -OutFile "$PACKAGE_DIR\$NUNIT"

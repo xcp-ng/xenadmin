@@ -59,8 +59,10 @@ namespace XenAPI
         API_2_9 = 20, //XenServer 7.4 (jura)
         API_2_10 = 21, //XenServer 7.5 (kolkata)
         API_2_11 = 22, //XenServer 7.6 (lima)
-        API_2_12 = 23, //Unreleased (naples)
-        LATEST = 23,
+        API_2_12 = 23, //Citrix Hypervisor 8.0 (naples)
+        API_2_13 = 24, //Unreleased (oslo)
+        API_2_14 = 25, //Unreleased (plymouth)
+        LATEST = 25,
         UNKNOWN = 99
     }
 
@@ -116,6 +118,10 @@ namespace XenAPI
                     return "2.11";
                 case API_Version.API_2_12:
                     return "2.12";
+                case API_Version.API_2_13:
+                    return "2.13";
+                case API_Version.API_2_14:
+                    return "2.14";
                 default:
                     return "Unknown";
             }
@@ -170,4 +176,4 @@ namespace XenAPI
             return APIVersionCompare(session, v) >= 0;
         }
     }
-}
+}

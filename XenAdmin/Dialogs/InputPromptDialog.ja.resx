@@ -135,7 +135,7 @@
     <value>0</value>
   </data>
   <data name="promptLabel.Text" xml:space="preserve">
-    <value>テキスト</value>
+    <value>本文</value>
   </data>
   <data name="&gt;&gt;promptLabel.Name" xml:space="preserve">
     <value>promptLabel</value>

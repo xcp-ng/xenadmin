@@ -126,11 +126,11 @@ namespace XenAdmin.Commands
              }
              else
              {
-                 var failureDic = new Dictionary<SelectedItem, string>();
+                 var failureDic = new Dictionary<IXenObject, string>();
 
                  foreach (var f in licenseFailures)
                  {
-                     failureDic.Add(new SelectedItem(f.Host), f.AlertText);
+                     failureDic.Add(f.Host, f.AlertText);
                  }
 
                  Program.Invoke(Program.MainWindow, () => 

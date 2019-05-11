@@ -411,6 +411,9 @@
   <data name="Label-VM.BootOrder" xml:space="preserve">
     <value>引导顺序</value>
   </data>
+  <data name="Label-VM.BootMode" xml:space="preserve">
+    <value>引导模式</value>
+  </data>
   <data name="Label-VM.ImageId" xml:space="preserve">
     <value>映像 ID</value>
   </data>
@@ -1191,7 +1194,7 @@
     <value>有关许可的帮助</value>
   </data>
   <data name="Message.help-pbd_plug_failed_on_server_start" xml:space="preserve">
-    <value>有关损坏存储的帮助</value>
+    <value>有关损坏的存储的帮助</value>
   </data>
   <data name="Message.help-vbd_qos_failed" xml:space="preserve">
     <value>有关 QoS 的帮助</value>

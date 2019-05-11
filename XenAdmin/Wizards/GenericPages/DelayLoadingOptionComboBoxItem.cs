@@ -32,6 +32,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Windows.Forms;
 using XenAdmin.Controls;
 using XenAPI;
 
@@ -48,6 +49,7 @@ namespace XenAdmin.Wizards.GenericPages
         /// Event raised when the reason is updated
         /// </summary>
         public event Action<DelayLoadingOptionComboBoxItem> ReasonUpdated;
+        public Object ParentComboBox;
         private string failureReason;
         private IXenObject xenObject;
         private const int DEFAULT_RETRIES = 10;

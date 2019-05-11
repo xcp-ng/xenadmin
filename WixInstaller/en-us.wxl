@@ -13,6 +13,6 @@
     <String Id="XenCenter_Saved_Search">[XenCenter] Saved Search</String>
     <String Id="Required_For_Installation">Microsoft .NET Framework 4.6 or later is required for this installation. Please install it from: https://www.microsoft.com/net/download/framework</String>
     <String Id="Readme">README.TXT</String>
-	<String Id="HealthCheckDescr">Enables monitoring of the health of your Citrix XenServer pools by periodically uploading data from the servers to Citrix Insight Services.</String>
-	<String Id="HealthCheckDescrShort">Enables monitoring of the health of your Citrix XenServer pools.</String>
+	<String Id="HealthCheckDescr">Enables monitoring of the health of your [Citrix XenServer] pools by periodically uploading data from the servers to Citrix Insight Services.</String>
+	<String Id="HealthCheckDescrShort">Enables monitoring of the health of your [Citrix XenServer] pools.</String>
 </WixLocalization>

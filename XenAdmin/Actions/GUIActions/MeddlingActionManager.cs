@@ -43,17 +43,6 @@ namespace XenAdmin.Actions.GUIActions
     /// </summary>
     public class MeddlingActionManager
     {
-        #region Predicates
-        private static readonly ITaskSpecification taskFinishedSuccessfully =
-            new TaskHasFinishedSuccessfullySpecification();
-
-        private static readonly ITaskSpecification taskIsSuitableForMeddlingAction =
-            new TaskIsSuitableForMeddlingActionSpecification();
-
-        private static readonly ITaskSpecification taskIsUnwanted =
-            new TaskIsUnwantedSpecification();
-        #endregion
-
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
@@ -77,34 +66,25 @@ namespace XenAdmin.Actions.GUIActions
                 if (e.Action == CollectionChangeAction.Add)
                 {
                     if (!UnmatchedTasks.Contains(task.opaque_ref))
-                        AddTaskToUnmatchedList(task);
+                    {
+                        task.PropertyChanged += Task_PropertyChanged;
+                        UnmatchedTasks.Add(task.opaque_ref);
+                    }
                 }
                 else if (e.Action == CollectionChangeAction.Remove)
                 {
-                    CompletelyForgetTask(task);
+                    task.PropertyChanged -= Task_PropertyChanged;
+                    if (MatchedTasks.TryGetValue(task.opaque_ref, out MeddlingAction a))
+                        a.Update(task, true);
+
+                    UnmatchedTasks.Remove(task.opaque_ref);
+                    MatchedTasks.Remove(task.opaque_ref);
                 }
                 else
                 {
-                    log.DebugFormat(String.Format("Unmatched action from sender -- Action: {0}; Task: {1}", e.Action, task.opaque_ref));
+                    log.DebugFormat($"Unmatched action from sender -- Action: {e.Action}; Task: {task.opaque_ref}");
                 }
             }
-        }
-
-        private static void AddTaskToUnmatchedList(Task task)
-        {
-            task.PropertyChanged += Task_PropertyChanged;
-            UnmatchedTasks.Add(task.opaque_ref);
-        }
-
-        private static void CompletelyForgetTask(Task task)
-        {
-            task.PropertyChanged -= Task_PropertyChanged;
-            if (MatchedTasks.ContainsKey(task.opaque_ref))
-            {
-                MatchedTasks[task.opaque_ref].Update(task, true);
-            }
-            UnmatchedTasks.Remove(task.opaque_ref);
-            MatchedTasks.Remove(task.opaque_ref);
         }
 
         public static void ForceAddTask(Task task)
@@ -119,27 +99,34 @@ namespace XenAdmin.Actions.GUIActions
             {
                 if (UnmatchedTasks.Contains(task.opaque_ref))
                 {
-                    if (taskIsUnwanted.IsSatisfiedBy(task))
+                    if (MeddlingAction.IsTaskUnwanted(task))
                     {
-                        RemoveUnmatchedTask(task);
+                        task.PropertyChanged -= Task_PropertyChanged;
+                        UnmatchedTasks.Remove(task.opaque_ref);
                     }
-                    else if (taskIsSuitableForMeddlingAction.IsSatisfiedBy(task))
+                    else if (MeddlingAction.IsTaskSuitable(task))
                     {
-                        CreateMeddlingActionForTask(task);
+                        var a = new MeddlingAction(task);
+                        UnmatchedTasks.Remove(task.opaque_ref);
+                        MatchedTasks[task.opaque_ref] = a;
                     }
                     else
                     {
                         log.DebugFormat("Unmatched meddling task skipped -- " + task.opaque_ref);
                     }
                 }
-                else if (MatchedTasks.ContainsKey(task.opaque_ref))
+                else if (MatchedTasks.TryGetValue(task.opaque_ref, out MeddlingAction a))
                 {
-                    if (taskFinishedSuccessfully.IsSatisfiedBy(task))
+                    if (task.status == task_status_type.success)
                     {
-                        UpdateAndDeleteTask(task);
+                        task.PropertyChanged -= Task_PropertyChanged;
+                        a.Update(task, true);
+                        MatchedTasks.Remove(task.opaque_ref);
                     }
                     else
-                        UpdateTask(task);
+                    {
+                        a.Update(task, false);
+                    }
                 }
                 else
                 {
@@ -148,38 +135,6 @@ namespace XenAdmin.Actions.GUIActions
                     log.DebugFormat("Uncategorised meddling task skipped -- " + task.opaque_ref);
                 }
             }
-        }
-
-        private static void UpdateTask(Task task)
-        {
-            MatchedTasks[task.opaque_ref].Update(task, false);
-        }
-
-        private static void UpdateAndDeleteTask(Task task)
-        {
-            task.PropertyChanged -= Task_PropertyChanged;
-            MatchedTasks[task.opaque_ref].Update(task, true);
-            MatchedTasks.Remove(task.opaque_ref);
-        }
-
-        private static void CreateMeddlingActionForTask(Task task)
-        {
-            // If AppliesTo is set, then the client that created this task knows about our scheme for passing
-            // info between clients.  We give the client a window (AwareClientHeuristic) to set this field
-            // before deciding that it's a non-aware client.  Having decided that it's one of those two cases,
-            // we make a MeddlingAction.
-
-            MeddlingAction a = new MeddlingAction(task);
-            UnmatchedTasks.Remove(task.opaque_ref);
-            MatchedTasks[task.opaque_ref] = a;
-        }
-
-        private static void RemoveUnmatchedTask(Task task)
-        {
-            // This is one of our tasks, or it's a subtask of something else, or it's one that we
-            // just don't care about.  We're going to do no more with it.
-            task.PropertyChanged -= Task_PropertyChanged;
-            UnmatchedTasks.Remove(task.opaque_ref);
         }
     }
 }

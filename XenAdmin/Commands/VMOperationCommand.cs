@@ -239,7 +239,7 @@ namespace XenAdmin.Commands
                 Session session = connection.DuplicateSession();
                 if (session != null)
                 {
-                    Dictionary<Host, string> reasons = new Dictionary<Host, string>();
+                    var reasons = new Dictionary<IXenObject, string>();
 
                     foreach (Host host in connection.Cache.Hosts)
                     {
@@ -259,7 +259,11 @@ namespace XenAdmin.Commands
                         }
                     }
 
-                    Program.Invoke(Program.MainWindow, () => CommandErrorDialog.Create<Host>(title, text, reasons).ShowDialog(Program.MainWindow));
+                    Program.Invoke(Program.MainWindow, () =>
+                    {
+                        using (var dialog = new CommandErrorDialog(title, text, reasons))
+                            dialog.ShowDialog(Program.MainWindow);
+                    });
                 }
             });
         }

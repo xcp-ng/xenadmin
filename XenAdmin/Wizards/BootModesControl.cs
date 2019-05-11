@@ -102,9 +102,6 @@ namespace XenAdmin.Wizards
             if (radioButtonUEFISecureBoot.Checked && !radioButtonUEFISecureBoot.Visible)
                 radioButtonBIOSBoot.Checked = true;
 
-            // show the experimental message
-            ShowExperimentalWarning();
-
             if (_templateVM != null)
             {
                 radioButtonUEFIBoot.Enabled = _templateVM.CanSupportUEFIBoot();
@@ -124,16 +121,28 @@ namespace XenAdmin.Wizards
                 radioButtonUEFIBoot.Checked = false;
                 radioButtonUEFISecureBoot.Checked = false;
             }
-
+            
             ShowTemplateWarning();
+
+            // show the experimental message
+            ShowExperimentalWarning();
         }
         private void ShowExperimentalWarning()
         {
             var uefiExperimental = Helpers.FeatureForbidden(_connection, Host.UefiBootExperimental);
             var uefiSecureExperimental = Helpers.FeatureForbidden(_connection, Host.UefiSecureBootExperimental);
-            if (uefiExperimental || uefiSecureExperimental)
+
+
+            radioButtonUEFIBoot.Text = uefiExperimental
+                ? Messages.GUEFI_BOOT_MODE_EXPERIMENTAL_LABEL
+                : Messages.GUEFI_BOOT_MODE_LABEL;
+            radioButtonUEFISecureBoot.Text = uefiSecureExperimental
+                ? Messages.GUEFI_SECURE_BOOT_MODE_EXPERIMENTAL_LABEL
+                : Messages.GUEFI_SECURE_BOOT_MODE_LABEL;
+
+            if ((uefiExperimental || uefiSecureExperimental) && (radioButtonUEFIBoot.Enabled || radioButtonUEFISecureBoot.Enabled))
             {
-                imgExperimental.Visible = labelExperimental.Visible = true;
+                imgExperimental.Visible = labelExperimental.Visible = radioButtonUEFIBoot.Enabled || radioButtonUEFISecureBoot.Enabled;
                 labelExperimental.Text = uefiExperimental && uefiSecureExperimental
                     ? Messages.GUEFI_BOOT_MODES_EXPERIMENTAL_WARNING
                     : uefiExperimental
@@ -169,6 +178,12 @@ namespace XenAdmin.Wizards
             {
                 imgUnsupported.Visible = labelUnsupported.Visible = false;
             }
+        }
+
+        public static bool ShowBootModeOptions(IXenConnection connection)
+        {
+            return Helpers.NaplesOrGreater(connection) && 
+                   (!Helpers.FeatureForbidden(connection, Host.UefiBootDisabled) || !Helpers.FeatureForbidden(connection, Host.UefiSecureBootDisabled));
         }
     }
 }

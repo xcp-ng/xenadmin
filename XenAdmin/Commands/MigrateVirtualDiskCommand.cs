@@ -66,8 +66,8 @@ namespace XenAdmin.Commands
             if (featureForbidden)
             {
                 string theText = HiddenFeatures.LinkLabelHidden
-                    ? Messages.MIGRATE_VDI_UPSELL_BLURB
-                    : Messages.MIGRATE_VDI_UPSELL_BLURB + Messages.UPSELL_BLURB_TRIAL;
+                    ? Messages.UPSELL_BLURB_MIGRATE_VDI
+                    : Messages.UPSELL_BLURB_MIGRATE_VDI + Messages.UPSELL_BLURB_TRIAL;
 
                 using (var dlg = new UpsellDialog(theText, InvisibleMessages.UPSELL_LEARNMOREURL_TRIAL))
                     dlg.ShowDialog(Parent);
@@ -102,9 +102,9 @@ namespace XenAdmin.Commands
             return true;
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            VDI vdi = item.XenObject as VDI;
+            VDI vdi = item as VDI;
             if (vdi == null)
                 return base.GetCantExecuteReasonCore(item);
 

@@ -594,6 +594,12 @@
   <data name="ACTION_HOST_START_TITLE" xml:space="preserve">
     <value>サーバー '{0}' の電源投入</value>
   </data>
+  <data name="ACTION_IMPORT_VM_TITLE" xml:space="preserve">
+    <value>VM '{0}' のインポート</value>
+  </data>
+  <data name="ACTION_IMPORT_VM_TO_HOST_TITLE" xml:space="preserve">
+    <value>'{1}' への VM '{0}' のインポート</value>
+  </data>
   <data name="ACTION_ISCSI_IQN_SCANNING" xml:space="preserve">
     <value>iSCSI ファイラ {0} での IQN のスキャン</value>
   </data>
@@ -1173,6 +1179,9 @@
   <data name="ACTION_VM_MIGRATING_RESIDENT" xml:space="preserve">
     <value>'{1}' から '{2}' への VM '{0}' の移行</value>
   </data>
+  <data name="ACTION_VM_MIGRATING_TITLE" xml:space="preserve">
+    <value>VM '{0}' の移行</value>
+  </data>
   <data name="ACTION_VM_MOVING" xml:space="preserve">
     <value>VM を新規ストレージに移動しています...</value>
   </data>
@@ -1185,8 +1194,11 @@
   <data name="ACTION_VM_REBOOTING" xml:space="preserve">
     <value>VM の再起動</value>
   </data>
-  <data name="ACTION_VM_REBOOTING_TITLE" xml:space="preserve">
+  <data name="ACTION_VM_REBOOTING_ON_TITLE" xml:space="preserve">
     <value>'{1}' の VM '{0}' の再起動</value>
+  </data>
+  <data name="ACTION_VM_REBOOTING_TITLE" xml:space="preserve">
+    <value>VM '{0}' の再起動</value>
   </data>
   <data name="ACTION_VM_RESUMED" xml:space="preserve">
     <value>再開しました</value>
@@ -1212,8 +1224,11 @@
   <data name="ACTION_VM_SHUTTING_DOWN" xml:space="preserve">
     <value>VM をシャット ダウンしています</value>
   </data>
-  <data name="ACTION_VM_SHUTTING_DOWN_TITLE" xml:space="preserve">
+  <data name="ACTION_VM_SHUTTING_DOWN_ON_TITLE" xml:space="preserve">
     <value>'{1}' の VM '{0}' のシャットダウン</value>
+  </data>
+  <data name="ACTION_VM_SHUTTING_DOWN_TITLE" xml:space="preserve">
+    <value>VM '{0}' のシャットダウン</value>
   </data>
   <data name="ACTION_VM_SHUT_DOWN" xml:space="preserve">
     <value>シャットダウンしました</value>
@@ -2137,6 +2152,9 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
   <data name="BIGGER_THAN" xml:space="preserve">
     <value>＞</value>
   </data>
+  <data name="BIOS_BOOT" xml:space="preserve">
+    <value>BIOS ブート</value>
+  </data>
   <data name="BIOS_STRINGS_COPIED" xml:space="preserve">
     <value>BIOS 文字列のコピー</value>
   </data>
@@ -2426,13 +2444,13 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>実行中の VM '{0}' により使用されているため、このシステム ディスクを削除できません。</value>
   </data>
   <data name="CANNOT_DELETE_ISO_GENERIC" xml:space="preserve">
-    <value>この ISO ストレージを削除できません。SR でこの操作がサポートされていることを確認して後で再試行してください。</value>
+    <value>この ISO ストレージを削除できません。SR でこの操作がサポートされていることを確認して、再試行してください。</value>
   </data>
   <data name="CANNOT_DELETE_ISO_IN_USE" xml:space="preserve">
     <value>この ISO ストレージは使用中であり削除できません。</value>
   </data>
   <data name="CANNOT_DELETE_SNAPSHOT_GENERIC" xml:space="preserve">
-    <value>このスナップショットを削除できません。SR でこの操作がサポートされていることを確認して後で再試行してください。</value>
+    <value>このスナップショットを削除できません。SR でこの操作がサポートされていることを確認して、再試行してください。</value>
   </data>
   <data name="CANNOT_DELETE_SNAPSHOT_IN_USE" xml:space="preserve">
     <value>このスナップショットは使用中であり削除できません。</value>
@@ -2453,7 +2471,7 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
     <value>一時停止中の VM の仮想ディスクは削除できません。このディスクは一時停止中の VM '{0}' により使用されています。</value>
   </data>
   <data name="CANNOT_DELETE_VD_GENERIC" xml:space="preserve">
-    <value>この仮想ディスクを削除できません。SR でこの操作がサポートされていることを確認して後で再試行してください。</value>
+    <value>この仮想ディスクを削除できません。SR でこの操作がサポートされていることを確認して、再試行してください。</value>
   </data>
   <data name="CANNOT_DELETE_VD_IN_USE" xml:space="preserve">
     <value>この仮想ディスクは使用中であり削除できません。</value>
@@ -2640,6 +2658,12 @@ SR の物理使用量が {2} を超えるとアラートが送信されます。
   </data>
   <data name="CHOOSE_ANOTHER_DESTINATION" xml:space="preserve">
     <value>ほかの場所を指定(&amp;D)</value>
+  </data>
+  <data name="CHOOSE_SR_PROVISIONING_PAGE_MULTIPATHING_MANY" xml:space="preserve">
+    <value>プール内のすべてのサーバーで、マルチパスが有効になっていません。システムの安定性を確保するために、ストレージ接続にマルチパスを使用することを強くお勧めします。</value>
+  </data>
+  <data name="CHOOSE_SR_PROVISIONING_PAGE_MULTIPATHING_ONE" xml:space="preserve">
+    <value>サーバーでマルチパスが有効になっていません。システムの安定性を確保するために、ストレージ接続にマルチパスを使用することを強くお勧めします。</value>
   </data>
   <data name="CHOOSE_SR_PROVISIONING_PAGE_TITLE" xml:space="preserve">
     <value>プロビジョニング方法の選択</value>
@@ -4944,7 +4968,7 @@ CD をイジェクトしてから再試行してください。</value>
     <value>保存したセッションにアクセスするには、[XenCenter] の起動時にマスター パスワードを入力する必要があります</value>
   </data>
   <data name="ENTER_VALID_QOS" xml:space="preserve">
-    <value>QoS 制限に、0 よりも大きな値を指定してください</value>
+    <value>QoS 制限値は、0 よりも大きな整数を指定してください</value>
   </data>
   <data name="EQUALLOGICS_MEMBERS" xml:space="preserve">
     <value>メンバー</value>
@@ -5630,14 +5654,14 @@ CD をイジェクトしてから再試行してください。</value>
   <data name="GENERAL_DETAILS_CPU_NUMBER" xml:space="preserve">
     <value>CPU {0}</value>
   </data>
-  <data name="GENERAL_EDIT_INVALID_HOSTNAME" xml:space="preserve">
-    <value>有効なサーバー名を入力してください。</value>
-  </data>
   <data name="GENERAL_EDIT_INVALID_IQN" xml:space="preserve">
     <value>有効な IQN を入力してください (iqn.2007-11.com.example.subdomain:optional-domain-specific-string など)</value>
   </data>
   <data name="GENERAL_EDIT_INVALID_NAME" xml:space="preserve">
     <value>有効な名前を入力してください。</value>
+  </data>
+  <data name="GENERAL_EDIT_INVALID_REMOTE" xml:space="preserve">
+    <value>有効な IP アドレスまたはサーバー名を入力してください。</value>
   </data>
   <data name="GENERAL_HEADING_BOOT_OPTIONS" xml:space="preserve">
     <value>起動オプション</value>
@@ -5798,9 +5822,6 @@ CD をイジェクトしてから再試行してください。</value>
   <data name="GPU_RUBRIC_PLEASE_SELECT_WHICH_GPU_ONE" xml:space="preserve">
     <value>この GPU で使用できる仮想 GPU の種類を選択します。</value>
   </data>
-  <data name="GPU_UNAVAILABLE" xml:space="preserve">
-    <value>使用できません</value>
-  </data>
   <data name="GRAPHS_CANNOT_ADD_VM_HALTED" xml:space="preserve">
     <value>仮想マシン '{0}' は実行されていないため、パフォーマンス グラフを追加できません。</value>
   </data>
@@ -5858,22 +5879,34 @@ CD をイジェクトしてから再試行してください。</value>
     <value>グループの役割</value>
   </data>
   <data name="GUEFI_BOOT_MODES_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>UEFI ブート モードおよび UEFI セキュア ブート モードは試験段階の機能であり、現時点では実稼働での使用には適していません。</value>
+    <value>ゲストの UEFI ブートとゲストの UEFI セキュア ブートは試験段階の機能です。UEFI に対応した VM は、実稼働環境に配置されたホスト上に作成できますが、業務用に使用しないでください。ホストを [XenServer] の新しいバージョンにアップグレードすると、VM を再作成する必要があります。</value>
   </data>
   <data name="GUEFI_BOOT_MODES_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>UEFI ブート モードおよび UEFI セキュア ブート モードは現在選択したテンプレートでサポートされていません。</value>
   </data>
+  <data name="GUEFI_BOOT_MODE_EXPERIMENTAL_LABEL" xml:space="preserve">
+    <value>UEFI ブート(&amp;U) - 試験段階</value>
+  </data>
   <data name="GUEFI_BOOT_MODE_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>UEFI ブート モードは試験段階の機能であり、現時点では実稼働での使用には適していません。</value>
+    <value>ゲストの UEFI ブートは試験段階の機能です。UEFI に対応した VM は、実稼働環境に配置されたホスト上に作成できますが、業務用に使用しないでください。ホストを [XenServer] の新しいバージョンにアップグレードすると、VM を再作成する必要があります。</value>
+  </data>
+  <data name="GUEFI_BOOT_MODE_LABEL" xml:space="preserve">
+    <value>UEFI ブート(&amp;U)</value>
   </data>
   <data name="GUEFI_BOOT_MODE_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>UEFI ブート モードは現在選択したテンプレートでサポートされていません。</value>
   </data>
   <data name="GUEFI_SECUREBOOT_MODE_EXPERIMENTAL_WARNING" xml:space="preserve">
-    <value>UEFI セキュア ブート モードは試験段階の機能であり、現時点では実稼働での使用には適していません。</value>
+    <value>ゲストの UEFI セキュア ブートは試験段階の機能です。UEFI セキュア ブート モードを使用するように構成された VM は、実稼働環境に配置されたホスト上に作成できますが、業務用に使用しないでください。ホストを [XenServer] の新しいバージョンにアップグレードすると、VM を再作成する必要があります。</value>
   </data>
   <data name="GUEFI_SECUREBOOT_MODE_UNSUPPORTED_WARNING" xml:space="preserve">
     <value>UEFI セキュア ブート モードは現在選択したテンプレートでサポートされていません。</value>
+  </data>
+  <data name="GUEFI_SECURE_BOOT_MODE_EXPERIMENTAL_LABEL" xml:space="preserve">
+    <value>UEFI セキュア ブート(&amp;S) - 試験段階</value>
+  </data>
+  <data name="GUEFI_SECURE_BOOT_MODE_LABEL" xml:space="preserve">
+    <value>UEFI セキュア ブート(&amp;S)</value>
   </data>
   <data name="GUI_OUT_OF_DATE" xml:space="preserve">
     <value>[XenCenter] のバージョンが古いため、{0} に接続できません。
@@ -6354,6 +6387,9 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
   </data>
   <data name="HOST_LOG_DESTINATION_LOCAL" xml:space="preserve">
     <value>ローカル</value>
+  </data>
+  <data name="HOST_LOG_DESTINATION_LOCAL_AND_REMOTE" xml:space="preserve">
+    <value>ローカルとリモート ({0})</value>
   </data>
   <data name="HOST_MEMORY_POST_UPGRADE_DEFAULT_WARNING_LONG" xml:space="preserve">
     <value>[XenServer] [BRANDING_VERSION_8_0] 以降にアップグレードすると、{0} のコントロール ドメイン メモリが増加します。
@@ -7321,9 +7357,6 @@ Standard 機能のみ有効です</value>
   <data name="LIVE_PATCHING_FAILED_ONE_HOST" xml:space="preserve">
     <value>サーバー ‘{0}’ のライブパッチに失敗しました。パッチのインストールを完了するには、サーバーをメンテナンス モードにして再起動してください。</value>
   </data>
-  <data name="LOCAL" xml:space="preserve">
-    <value>ローカル</value>
-  </data>
   <data name="LOCAL_SRS" xml:space="preserve">
     <value>ローカル ストレージ リポジトリ</value>
   </data>
@@ -8063,9 +8096,6 @@ SCSI ID: {2}
   <data name="MIGRATE_PLEASE_EJECT_YOUR_CD" xml:space="preserve">
     <value>CD をイジェクトしてください</value>
   </data>
-  <data name="MIGRATE_VDI_UPSELL_BLURB" xml:space="preserve">
-    <value>VDI ライブ マイグレーション機能を使用するには、[XenServer] ライセンスをアップグレードしてください。この機能により、実行中の複数の VDI を、同一プールの SR 間で移行できます。VM のダウンタイムは発生しません。 </value>
-  </data>
   <data name="MIGRATION_NOT_ALLOWED" xml:space="preserve">
     <value>現在、この VM を移行することはできません</value>
   </data>
@@ -8134,6 +8164,11 @@ SCSI ID: {2}
   </data>
   <data name="MULTIPATH_NOT_ACTIVE" xml:space="preserve">
     <value>非アクティブ</value>
+  </data>
+  <data name="MULTIPATH_NOT_ACTIVE_GFS2" xml:space="preserve">
+    <value>アクティブではありません。
+システムの安定性を確保するために、ストレージ接続にマルチパスを使用することを強くお勧めします。
+</value>
   </data>
   <data name="MULTIPATH_STATUS" xml:space="preserve">
     <value>{1} パスのうち {0} パスがアクティブです</value>
@@ -10175,7 +10210,10 @@ VM が再起動したら、[[Citrix VM Tools] をインストール] を再度�
     <value>サーバー '{0}'</value>
   </data>
   <data name="PROBLEM_MAC_ADDRESS_IS_DUPLICATE" xml:space="preserve">
-    <value>この MAC アドレスは、以下の仮想マシンに割り当て済みです。\n {1} \n\n続行しますか?</value>
+    <value>この MAC アドレスは、次の仮想マシンに割り当て済みです:
+ {1} 
+
+続行しますか?</value>
   </data>
   <data name="PROBLEM_MAC_ADDRESS_IS_DUPLICATE_TITLE" xml:space="preserve">
     <value>MAC アドレスの重複</value>
@@ -10483,9 +10521,6 @@ VM が再起動したら、[[Citrix VM Tools] をインストール] を再度�
   </data>
   <data name="REMAINING_VFS" xml:space="preserve">
     <value>はい (残り {0} VF)</value>
-  </data>
-  <data name="REMOTE" xml:space="preserve">
-    <value>リモート ({0})</value>
   </data>
   <data name="REMOTE_SRS" xml:space="preserve">
     <value>リモート ストレージ リポジトリ</value>
@@ -10969,9 +11004,6 @@ VM が再起動したら、[[Citrix VM Tools] をインストール] を再度�
   <data name="SELECTED_HOST_POOL_NOT_CONNECTED" xml:space="preserve">
     <value>選択したホストまたはプールに接続されていません</value>
   </data>
-  <data name="SELECTION_CANNOT_BE_MIXED_FOR_LICENSING" xml:space="preserve">
-    <value>異なるバージョンの [XenServer] のライセンスは、個別に適用してください</value>
-  </data>
   <data name="SELECT_A_FILTER" xml:space="preserve">
     <value>フィルタを選択...</value>
   </data>
@@ -11054,7 +11086,7 @@ VM が再起動したら、[[Citrix VM Tools] をインストール] を再度�
     <value>プール マスターの現在の時間: {0}</value>
   </data>
   <data name="SERVER_TOO_OLD" xml:space="preserve">
-    <value>このバージョンの [XenCenter] では [XenServer] [BRANDING_VERSION_6_2] 以降のバージョンがサポートされます。</value>
+    <value>このバージョンの [XenCenter] では [XenServer] [BRANDING_VERSION_7_0] 以降のバージョンがサポートされます。</value>
   </data>
   <data name="SERVER_TOO_OLD_SOLUTION" xml:space="preserve">
     <value>このサーバーを管理するには、以前のバージョンの [XenCenter] を使用してください。</value>
@@ -11230,6 +11262,9 @@ VM が再起動したら、[[Citrix VM Tools] をインストール] を再度�
   <data name="SLAVE_CONNECTION_ERROR" xml:space="preserve">
     <value>サーバー '{0}' はプールに属しています。プールに接続するには、プール マスターに接続する必要があります。
 プール マスター '{1}' に接続しますか?</value>
+  </data>
+  <data name="SLAVE_TOO_OLD" xml:space="preserve">
+    <value>このプールには、[XenServer] [BRANDING_VERSION_7_0] より前のサーバーが含まれています。このプールを管理するには、以前のバージョンの [XenCenter] を使用してください。</value>
   </data>
   <data name="SMALLER_THAN" xml:space="preserve">
     <value>＜</value>
@@ -11961,10 +11996,19 @@ SR-IOV ネットワークを有効にするには、サーバーの再起動が�
   <data name="TYPE_PAGE_DESCRIPTION_HEADER_XVA" xml:space="preserve">
     <value>ローカルに格納された VM、テンプレート、またはスナップショットを新規 VM としてインポートします。</value>
   </data>
+  <data name="UEFI_BOOT" xml:space="preserve">
+    <value>UEFI ブート</value>
+  </data>
+  <data name="UEFI_SECURE_BOOT" xml:space="preserve">
+    <value>UEFI セキュア ブート</value>
+  </data>
   <data name="UNABLE_TO_IMPORT_SEARCH" xml:space="preserve">
     <value>ファイル '{0}' に保存されている検索をインポートできません。
 
 このファイルが有効な {1} ファイルであることを確認してください。</value>
+  </data>
+  <data name="UNAVAILABLE" xml:space="preserve">
+    <value>使用できません</value>
   </data>
   <data name="UNCOMPRESS_APPLIANCE_DESCRIPTION" xml:space="preserve">
     <value>ファイルが '{0}' に圧縮解除されます。元のファイル '{1}' は削除されます。続行しますか?</value>
@@ -12465,6 +12509,9 @@ SR-IOV ネットワークを有効にするには、サーバーの再起動が�
   <data name="UPSELL_BLURB_HA" xml:space="preserve">
     <value>高可用性機能を使用するには、サーバー ライセンスをアップグレードしてください。高可用性により、サーバーが動作するハードウェアや個々の VM に障害が発生した場合に、VM が自動的に再起動します。サーバー障害が発生した場合、そのサーバー上の VM は、リソース プール内のほかの仮想サーバー上で正しく再起動します。</value>
   </data>
+  <data name="UPSELL_BLURB_MIGRATE_VDI" xml:space="preserve">
+    <value>VDI ライブ マイグレーション機能を使用するには、[XenServer] ライセンスをアップグレードしてください。この機能により、実行中の複数の VDI を、同一プールの SR 間で移行できます。VM のダウンタイムは発生しません。 </value>
+  </data>
   <data name="UPSELL_BLURB_PERFORMANCE" xml:space="preserve">
     <value>パフォーマンス レポート機能を使用するには、サーバー ライセンスをアップグレードしてください。これらのレポートにより、環境の全体的なパフォーマンス傾向を分析して、業務ニーズの変化に応じた的確な展開プランニングが可能になります。</value>
   </data>
@@ -12725,12 +12772,6 @@ SR-IOV ネットワークを有効にするには、サーバーの再起動が�
   <data name="VIF_HOTPLUG_FAILED_TITLE" xml:space="preserve">
     <value>仮想ネットワークへの変更</value>
   </data>
-  <data name="VIF_LICENSE_RESTRICTION" xml:space="preserve">
-    <value>QoS 設定を有効にするにはライセンスをアップグレードする必要があります</value>
-  </data>
-  <data name="VIF_VSWITCH_CONTROLLER" xml:space="preserve">
-    <value>QoS の設定は、vSwitch コントローラーを使用して構成されます</value>
-  </data>
   <data name="VIRTUALIZATION_OPTIMIZED" xml:space="preserve">
     <value>最適化済み (Version {0} インストール済み)</value>
   </data>
@@ -12815,17 +12856,14 @@ SR-IOV ネットワークを有効にするには、サーバーの再起動が�
   <data name="VMSS_EMAIL_PAGE_TEXT" xml:space="preserve">
     <value>サーバーでスナップショット スケジュール ジョブに関するアラート (VM スナップショットが作成された場合や、スナップショット作成が失敗した場合など) が生成されたときに、通知メールが送信されるように設定できます。</value>
   </data>
-  <data name="VMSS_FINISH_PAGE_CHECKBOX_TEXT" xml:space="preserve">
-    <value>[完了] をクリックして新規スナップショット スケジュール処理を実行する(&amp;R)</value>
-  </data>
-  <data name="VMSS_FINISH_PAGE_TEXT" xml:space="preserve">
-    <value>スナップショット スケジュールの内容を確認します。設定内容を変更するには [前へ] をクリックし、このまま新規スケジュールを作成するには [完了] をクリックします。</value>
-  </data>
   <data name="VMSS_FINISH_TITLE" xml:space="preserve">
     <value>新規スケジュールの作成</value>
   </data>
   <data name="VMSS_HOST_NOT_LIVE" xml:space="preserve">
     <value>プール マスターに到達できません</value>
+  </data>
+  <data name="VMSS_INVALID_SCHEDULE" xml:space="preserve">
+    <value>無効または不完全なスケジュール</value>
   </data>
   <data name="VMSS_MAIN_MENU" xml:space="preserve">
     <value>VM スナップショット スケジュール(&amp;O)...</value>
@@ -12836,8 +12874,24 @@ SR-IOV ネットワークを有効にするには、サーバーの再起動が�
   <data name="VMSS_NAME_TITLE" xml:space="preserve">
     <value>このスケジュールの名前</value>
   </data>
+  <data name="VMSS_NEXT_CLIENT_LOCAL_RUN" xml:space="preserve">
+    <value>次にスケジュールされたローカル実行時間は {0} です。</value>
+  </data>
+  <data name="VMSS_NEXT_SERVER_LOCAL_RUN" xml:space="preserve">
+    <value>対応するサーバーのローカル時間は {0} です。</value>
+  </data>
   <data name="VMSS_POLICY_SUMMARY" xml:space="preserve">
-    <value>ジョブ名:\r\n    {0}\r\n\r\n選択した VM:\r\n    {1}\r\n\r\nスナップショットの種類:\r\n    {2}\r\n\r\nスケジュール:\r\n    {3}\r\n</value>
+    <value>ジョブ名:
+    {0}	
+
+選択した VM:
+    {1}
+
+スナップショットの種類: 
+    {2}
+
+スケジュール:
+    {3}	</value>
   </data>
   <data name="VMSS_SCHEDULED_SNAPSHOTS_DEFINED_FOR_POOL" xml:space="preserve">
     <value>プール '{0}' で定義されているスナップショット スケジュール ({2} 項目中 {1} 項目の VM がスケジュールされています):</value>

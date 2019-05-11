@@ -127,12 +127,12 @@ namespace XenAdmin.Commands
             return false;
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
-            Pool poolAncestor = item.PoolAncestor;
+            Pool poolAncestor = item == null ? null : Helpers.GetPool(item.Connection);
             bool inPool = poolAncestor != null;
 
-            if (inPool )
+            if (inPool)
             {
                 Host master = Helpers.GetMaster(poolAncestor.Connection);
 

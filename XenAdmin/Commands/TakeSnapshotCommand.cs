@@ -123,12 +123,10 @@ namespace XenAdmin.Commands
             if (snapshotAction != null)
             {
                 snapshotAction.Completed += snapshotAction_Completed;
-                snapshotAction.ShowProgress = true;
                 if (Started != null)
                     Started(_VM, null);
                 snapshotAction.RunAsync();
             }
-           
         }
 
         private static bool CanExecute(VM vm)

@@ -5547,6 +5547,15 @@ namespace XenAPI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The VDI is too large..
+        /// </summary>
+        public static string VDI_TOO_LARGE {
+            get {
+                return ResourceManager.GetString("VDI_TOO_LARGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The VDI is too small. Please resize it to at least the minimum size..
         /// </summary>
         public static string VDI_TOO_SMALL {
@@ -5750,6 +5759,15 @@ namespace XenAPI {
         public static string VM_FAILED_SHUTDOWN_ACKNOWLEDGMENT {
             get {
                 return ResourceManager.GetString("VM_FAILED_SHUTDOWN_ACKNOWLEDGMENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VM didn&apos;t acknowledge the need to suspend..
+        /// </summary>
+        public static string VM_FAILED_SUSPEND_ACKNOWLEDGMENT {
+            get {
+                return ResourceManager.GetString("VM_FAILED_SUSPEND_ACKNOWLEDGMENT", resourceCulture);
             }
         }
         
@@ -6218,6 +6236,15 @@ namespace XenAPI {
         public static string VM_SNAPSHOT_WITH_QUIESCE_TIMEOUT {
             get {
                 return ResourceManager.GetString("VM_SNAPSHOT_WITH_QUIESCE_TIMEOUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VM failed to suspend before the timeout expired.
+        /// </summary>
+        public static string VM_SUSPEND_TIMEOUT {
+            get {
+                return ResourceManager.GetString("VM_SUSPEND_TIMEOUT", resourceCulture);
             }
         }
         

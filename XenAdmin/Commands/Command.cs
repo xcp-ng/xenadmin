@@ -164,7 +164,8 @@ namespace XenAdmin.Commands
         {
             if (Confirm())
             {
-                CommandErrorDialog errorDialog = GetErrorDialog();
+                var cantExecuteReasons = GetCantExecuteReasons();
+                var errorDialog = cantExecuteReasons.Count > 0 ? GetErrorDialogCore(cantExecuteReasons) : null;
 
                 ExecuteCore(GetSelection());
 
@@ -262,7 +263,7 @@ namespace XenAdmin.Commands
         {
             get 
             {
-                Dictionary<SelectedItem,string> reasons = GetCantExecuteReasons();
+                var reasons = GetCantExecuteReasons();
                 // It's necessary to double check that we have one reason which matches up with a single selection
                 // as CanExecuteCore and GetCantExecuteReasons aren't required to match up.
                 if (reasons.Count == 1 && GetSelection().Count == 1)
@@ -394,9 +395,9 @@ namespace XenAdmin.Commands
         /// Gets all of the reasons that items in the selection can't execute.
         /// </summary>
         /// <returns>A dictionary of reasons keyed by the item name.</returns>
-        public Dictionary<SelectedItem, string> GetCantExecuteReasons()
+        public Dictionary<IXenObject, string> GetCantExecuteReasons()
         {
-            Dictionary<SelectedItem, string> cantExecuteReasons = new Dictionary<SelectedItem, string>();
+            var cantExecuteReasons = new Dictionary<IXenObject, string>();
 
             foreach (SelectedItem item in GetSelection())
             {
@@ -405,9 +406,9 @@ namespace XenAdmin.Commands
                 if (MainWindowCommandInterface != null && CanExecuteCore(new SelectedItemCollection(item)))
                     continue;
 
-                string reason = GetCantExecuteReasonCore(item);
+                string reason = GetCantExecuteReasonCore(item.XenObject);
                 if (reason != null)
-                    cantExecuteReasons.Add(item, reason);
+                    cantExecuteReasons.Add(item.XenObject, reason);
             }
 
             return cantExecuteReasons;
@@ -418,21 +419,9 @@ namespace XenAdmin.Commands
         /// Gets the reason that the specified item from the selection cant execute. This is displayed in the error dialog.
         /// The default is "Unknown".
         /// </summary>
-        protected virtual string GetCantExecuteReasonCore(SelectedItem item)
+        protected virtual string GetCantExecuteReasonCore(IXenObject item)
         {
             return Messages.UNKNOWN;
-        }
-
-        private CommandErrorDialog GetErrorDialog()
-        {
-            Dictionary<SelectedItem, string> cantExecuteReasons = GetCantExecuteReasons();
-
-            if (cantExecuteReasons.Count > 0)
-            {
-                return GetErrorDialogCore(cantExecuteReasons);
-            }
-
-            return null;
         }
 
         /// <summary>
@@ -440,7 +429,7 @@ namespace XenAdmin.Commands
         /// default i.e. An error dialog isn't displayed by default.
         /// </summary>
         /// <param name="cantExecuteReasons">The reasons for why the items couldn't execute.</param>
-        protected virtual CommandErrorDialog GetErrorDialogCore(IDictionary<SelectedItem, string> cantExecuteReasons)
+        protected virtual CommandErrorDialog GetErrorDialogCore(IDictionary<IXenObject, string> cantExecuteReasons)
         {
             return null;
         }

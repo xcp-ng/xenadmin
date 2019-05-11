@@ -464,6 +464,23 @@ namespace XenAdmin.Core
             return platformVersion != null && productVersionCompare(platformVersion, "2.9.50") >= 0;
         }
 
+        /// <param name="conn">May be null, in which case true is returned.</param>
+        public static bool PlymouthOrGreater(IXenConnection conn)
+        {
+            return conn == null || PlymouthOrGreater(GetMaster(conn));
+        }
+
+        /// Plymouth platform version is 3.1.0
+        /// <param name="host">May be null, in which case true is returned.</param>
+        public static bool PlymouthOrGreater(Host host)
+        {
+            if (host == null)
+                return true;
+
+            string platform_version = HostPlatformVersion(host);
+            return platform_version != null && productVersionCompare(platform_version, "3.0.50") >= 0;
+        }
+
         // CP-3435: Disable Check for Updates in Common Criteria Certification project
         public static bool CommonCriteriaCertificationRelease
         {

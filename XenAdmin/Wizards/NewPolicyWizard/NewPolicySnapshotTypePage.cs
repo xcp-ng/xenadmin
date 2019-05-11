@@ -46,7 +46,7 @@ namespace XenAdmin.Wizards.NewPolicyWizard
         private VMSS _policy;
 
         public List<VM> SelectedVMs { private get; set; }
-        
+
         public NewPolicySnapshotTypePage()
         {
             InitializeComponent();
@@ -73,18 +73,12 @@ namespace XenAdmin.Wizards.NewPolicyWizard
 
         public override string PageTitle
         {
-            get
-            {
-                return Messages.SNAPSHOT_TYPE_TITLE;
-            }
+            get { return Messages.SNAPSHOT_TYPE_TITLE; }
         }
 
         public override string Text
         {
-            get
-            {
-                return Messages.SNAPSHOT_TYPE;
-            }
+            get { return Messages.SNAPSHOT_TYPE; }
         }
 
         protected override void PageLoadedCore(PageLoadedDirection direction)
@@ -121,11 +115,27 @@ namespace XenAdmin.Wizards.NewPolicyWizard
                     return vmss_type.snapshot_with_quiesce;
                 if (radioButtonDiskOnly.Checked)
                     return vmss_type.snapshot;
-                else if (radioButtonDiskAndMemory.Checked)
+                if (radioButtonDiskAndMemory.Checked)
                     return vmss_type.checkpoint;
-                else
+                return vmss_type.unknown;
+            }
+        }
+
+        public string BackupTypeToString
+        {
+            get
+            {
+                switch (BackupType)
                 {
-                    return vmss_type.unknown;
+                    case vmss_type.snapshot:
+                        return Messages.DISKS_ONLY;
+                    case vmss_type.checkpoint:
+                        return Messages.DISKS_AND_MEMORY;
+                    case vmss_type.snapshot_with_quiesce:
+                        return Messages.QUIESCED_SNAPSHOTS;
+                    case vmss_type.unknown:
+                    default:
+                        return Messages.UNKNOWN;
                 }
             }
         }

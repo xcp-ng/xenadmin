@@ -30,12 +30,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using System.Security.Cryptography.X509Certificates;
 
 using XenAdmin.Core;
@@ -46,13 +40,13 @@ namespace XenAdmin.Dialogs.Network
 {
     public partial class CertificateChangedDialog : XenDialogBase
     {
+        private X509Certificate NewCertificate;
         private string _hostname;
 
         public CertificateChangedDialog(X509Certificate certificate, string hostname)
         {
             InitializeComponent();
             AlwaysIgnoreCheckBox.Enabled = Registry.AlwaysShowSSLCertificates == SSLCertificateTypes.None;
-            pictureBox1.Image = SystemIcons.Warning.ToBitmap();
             NewCertificate = certificate;
             _hostname = hostname;
 
@@ -63,10 +57,6 @@ namespace XenAdmin.Dialogs.Network
             BlurbLabel.Text = string.Format(BlurbLabel.Text, h);
             Blurb2Label.Text = string.Format(Blurb2Label.Text, h);
         }
-
-        private X509Certificate NewCertificate;
-
-
 
         private void ViewCertificateButton_Click(object sender, EventArgs e)
         {

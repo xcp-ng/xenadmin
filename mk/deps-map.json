@@ -11,11 +11,6 @@
       "flat": "true"
     },
     {
-      "pattern": "@REMOTE_DOTNET@/dotnet46/NDP46-KB3045560-Web.exe",
-      "target": "xenadmin.git/dotNetInstaller/",
-      "flat": "true"
-    },
-    {
       "pattern": "@REMOTE_DOTNET@/dotnet46/CookComputing.XmlRpcV2.dll",
       "target": "xenadmin.git/packages/",
       "flat": "true"

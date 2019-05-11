@@ -33,9 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using XenAdmin.Core;
-using XenAdmin.Dialogs;
-using System.Drawing;
+using XenAPI;
 
 
 namespace XenAdmin.Commands
@@ -60,7 +58,7 @@ namespace XenAdmin.Commands
             return base.CanExecuteCore(selection);
         }
 
-        protected override string GetCantExecuteReasonCore(SelectedItem item)
+        protected override string GetCantExecuteReasonCore(IXenObject item)
         {
             if (XenAdmin.Properties.Settings.Default.RequirePass && Program.MasterPassword == null)
                 return Messages.ENTER_MASTER_PASSWORD_TO_ACCESS_SETTINGS_TT;

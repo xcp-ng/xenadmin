@@ -152,7 +152,9 @@ namespace XenAdmin.Dialogs
                 {
                     ShowTab(VCpuMemoryEditPage = new CPUMemoryEditPage());
                     ShowTab(StartupOptionsEditPage = new BootOptionsEditPage());
-                    ShowTab(VMHAEditPage = new VMHAEditPage {VerticalTabs = verticalTabs});
+                    VMHAEditPage = new VMHAEditPage();
+                    VMHAEditPage.Populated += EditPage_Populated;
+                    ShowTab(VMHAEditPage);
                 }
 
                 if (is_vm || is_host || is_sr)
@@ -237,7 +239,9 @@ namespace XenAdmin.Dialogs
                 if (is_hvm && !is_template && !Helpers.FeatureForbidden(xenObjectCopy, Host.RestrictUsbPassthrough) &&
                     pool.Connection.Cache.Hosts.Any(host => host.PUSBs.Count > 0))
                 {
-                    ShowTab(usbEditPage = new USBEditPage { VerticalTabs = verticalTabs });
+                    usbEditPage = new USBEditPage();
+                    usbEditPage.Populated += EditPage_Populated;
+                    ShowTab(usbEditPage);
                 }
 
                 if (is_hvm)
@@ -255,7 +259,9 @@ namespace XenAdmin.Dialogs
                 {
                     ShowTab(newVMSSVMsPage1 = new NewVMGroupVMsPage<VMSS> {Pool = pool});
                     ShowTab(newPolicyVMSSTypePage1 = new NewPolicySnapshotTypePage());
-                    ShowTab(newPolicySnapshotFrequencyPage1 = new NewPolicySnapshotFrequencyPage {Pool = pool});
+                    newPolicySnapshotFrequencyPage1 = new NewPolicySnapshotFrequencyPage {Connection = pool.Connection};
+                    newPolicySnapshotFrequencyPage1.Populated += EditPage_Populated;
+                    ShowTab(newPolicySnapshotFrequencyPage1);
                 }
 
                 if (is_VM_appliance)
@@ -320,6 +326,11 @@ namespace XenAdmin.Dialogs
 
             editPage.SetXenObjects(xenObject, xenObjectCopy);
             verticalTabs.Items.Add(editPage);
+        }
+
+        private void EditPage_Populated()
+        {
+            verticalTabs.Refresh();
         }
 
         private void btnOK_Click(object sender, EventArgs e)

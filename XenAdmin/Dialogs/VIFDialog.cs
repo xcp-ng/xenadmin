@@ -31,15 +31,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using XenAdmin.Network;
 using XenAPI;
 using XenAdmin.Core;
-using System.Collections;
 using System.Linq;
 
 
@@ -47,72 +43,45 @@ namespace XenAdmin.Dialogs
 {
     public partial class VIFDialog : XenDialogBase
     {
-        private VIF ExistingVif;
-        private int Device;
-        private readonly bool vSwitchController;
+        private readonly VIF ExistingVif;
+        private readonly int Device;
         private readonly bool allowSriov;
 
-        public VIFDialog(IXenConnection Connection, VIF ExistingVif, int Device, bool allowSriov = false)
-            : base(Connection)
+        public VIFDialog(IXenConnection connection, VIF existingVif, int device, bool allowSriov = false)
+            : base(connection)
         {
             InitializeComponent();
             CueBannersManager.SetWatermark(promptTextBoxMac, "aa:bb:cc:dd:ee:ff");
 
-            this.ExistingVif = ExistingVif;
-            this.Device = Device;
-            if (ExistingVif != null)
-                changeToPropertiesTitle();
+            ExistingVif = existingVif;
+            Device = device;
             this.allowSriov = allowSriov;
 
-            // Check if vSwitch Controller is configured for the pool (CA-46299)
-            Pool pool = Helpers.GetPoolOfOne(connection);
-            vSwitchController = pool != null && pool.vSwitchController();
+            if (ExistingVif != null)
+            {
+                Text = Messages.VIRTUAL_INTERFACE_PROPERTIES;
+                buttonOk.Text = Messages.OK;
+            }
+        }
 
-            label1.Text = vSwitchController ? Messages.VIF_VSWITCH_CONTROLLER : Messages.VIF_LICENSE_RESTRICTION; 
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
             LoadNetworks();
             LoadDetails();
-            updateEnablement();
-            SetupEventHandlers();
-        }
-
-        private void SetupEventHandlers()
-        {
-            promptTextBoxMac.GotFocus += new EventHandler(promptTextBoxMac_ReceivedFocus);
-            promptTextBoxQoS.GotFocus += new EventHandler(promptTextBoxQoS_ReceivedFocus);
-            promptTextBoxQoS.TextChanged += new EventHandler(promptTextBoxQoS_TextChanged);
-            comboBoxNetwork.SelectedIndexChanged += new EventHandler(NetworkComboBox_SelectedIndexChanged);
-            promptTextBoxMac.TextChanged += new EventHandler(promptTextBoxMac_TextChanged);
-        }
-
-        void promptTextBoxQoS_TextChanged(object sender, EventArgs e)
-        {
-            updateEnablement();
-        }
-
-        void promptTextBoxQoS_ReceivedFocus(object sender, EventArgs e)
-        {
-            checkboxQoS.Checked = true;
-            updateEnablement();
-        }
-
-        void promptTextBoxMac_ReceivedFocus(object sender, EventArgs e)
-        {
-            radioButtonMac.Checked = true;
-            updateEnablement();
-        }
-
-        private void changeToPropertiesTitle()
-        {
-            this.Text = Messages.VIRTUAL_INTERFACE_PROPERTIES;
-            this.buttonOk.Text = Messages.OK;
+            ValidateInput();
         }
 
         private void LoadDetails()
         {
+            // Check if vSwitch Controller is configured for the pool (CA-46299)
+            Pool pool = Helpers.GetPoolOfOne(connection);
+            var vSwitchController = pool != null && pool.vSwitchController();
+
             if (vSwitchController) 
             {
-                flowLayoutPanelQoS.Enabled = checkboxQoS.Enabled = checkboxQoS.Checked = false;
-                panelLicenseRestriction.Visible = true;
+                tableLayoutPanel3.Enabled = checkboxQoS.Enabled = checkboxQoS.Checked = false;
+                tableLayoutPanelInfo.Visible = true;
             }
             else
             {
@@ -126,9 +95,9 @@ namespace XenAdmin.Dialogs
                     promptTextBoxQoS.Text = ExistingVif.LimitString();
                     checkboxQoS.Checked = ExistingVif.qos_algorithm_type == VIF.RATE_LIMIT_QOS_VALUE;
                 }
-                flowLayoutPanelQoS.Enabled = checkboxQoS.Enabled = true;
 
-                panelLicenseRestriction.Visible = false;
+                tableLayoutPanel3.Enabled = checkboxQoS.Enabled = true;
+                tableLayoutPanelInfo.Visible = false;
             }
 
             if (ExistingVif == null)
@@ -136,70 +105,83 @@ namespace XenAdmin.Dialogs
                 radioButtonAutogenerate.Checked = true;
                 return;
             }
+
             foreach (NetworkComboBoxItem item in comboBoxNetwork.Items)
             {
                 if (item.Network != null && item.Network.opaque_ref == ExistingVif.network.opaque_ref)
                     comboBoxNetwork.SelectedItem = item;
             }
+
             promptTextBoxMac.Text = ExistingVif.MAC;
+
             if (!string.IsNullOrEmpty(ExistingVif.MAC))
                 radioButtonMac.Checked = true;
             else
                 radioButtonAutogenerate.Checked = true;
         }
 
-        void promptTextBoxMac_TextChanged(object sender, EventArgs e)
+        private void ValidateInput()
         {
-            ValidateMACAddress();
-        }
+            string error;
 
-        private void ValidateMACAddress()
-        {
-            if (MACAddressHasChanged() && !MACAddressIsAcceptable())
-            {
-                MarkMACAsInvalid();
-                if (ExistingVif != null)
-                    promptTextBoxMac.Text = ExistingVif.MAC;
-                return;
-            }
-
-            updateEnablement();
-        }
-
-        private bool MACAddressHasChanged()
-        {
-            if (ExistingVif == null) 
-                return true;
-            return promptTextBoxMac.Text != ExistingVif.MAC;
-        }
-
-        private void MarkMACAsInvalid()
-        {
-            buttonOk.Enabled = false;
-            toolTipContainerOkButton.SetToolTip(Messages.MAC_INVALID);
-        }
-
-        private void updateEnablement()
-        {
-            if (!Helpers.IsValidMAC(promptTextBoxMac.Text) && !AutogenerateMac)
-            {
-                MarkMACAsInvalid();
-            }
-            else if (comboBoxNetwork.SelectedItem == null || ((NetworkComboBoxItem)comboBoxNetwork.SelectedItem).Network == null)
+            if (!IsValidNetwork(out error) || !IsValidMAc(out error) || !IsValidQoSLimit(out error))
             {
                 buttonOk.Enabled = false;
-                toolTipContainerOkButton.SetToolTip(Messages.SELECT_NETWORK_TOOLTIP);
-            }
-            else if (checkboxQoS.Checked && !isValidQoSLimit())
-            {
-                buttonOk.Enabled = false;
-                toolTipContainerOkButton.SetToolTip(Messages.ENTER_VALID_QOS);
+
+                if (string.IsNullOrEmpty(error))
+                {
+                    tableLayoutPanelError.Visible = false;
+                }
+                else
+                {
+                    tableLayoutPanelError.Visible = true;
+                    pictureBoxError.Image = Images.StaticImages._000_error_h32bit_16;
+                    labelError.Text = error;
+                }
             }
             else
             {
                 buttonOk.Enabled = true;
-                toolTipContainerOkButton.RemoveAll();
+                tableLayoutPanelError.Visible = false;
             }
+        }
+
+        private bool IsValidNetwork(out string error)
+        {
+            error = Messages.SELECT_NETWORK_TOOLTIP;
+            return comboBoxNetwork.SelectedItem is NetworkComboBoxItem item && item.Network != null;
+        }
+
+        private bool IsValidMAc(out string error)
+        {
+            error = null;
+
+            if (!radioButtonMac.Checked)
+                return true;
+
+            if (string.IsNullOrWhiteSpace(promptTextBoxMac.Text))
+                return false;
+
+            error = Messages.MAC_INVALID;
+            return Helpers.IsValidMAC(promptTextBoxMac.Text);
+        }
+
+        private bool IsValidQoSLimit(out string error)
+        {
+            error = null;
+
+            if (!checkboxQoS.Checked)
+                return true;
+
+            if (string.IsNullOrWhiteSpace(promptTextBoxQoS.Text))
+                return false;
+
+            error = Messages.ENTER_VALID_QOS;
+
+            if (int.TryParse(promptTextBoxQoS.Text, out var result))
+                return result > 0;
+
+            return false;
         }
 
         private void LoadNetworks()
@@ -221,12 +203,6 @@ namespace XenAdmin.Dialogs
             comboBoxNetwork.SelectedIndex = 0;
         }
 
-        private void NetworkComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ValidateMACAddress();
-            updateEnablement();
-        }
-
         private XenAPI.Network SelectedNetwork
         {
             get
@@ -239,21 +215,13 @@ namespace XenAdmin.Dialogs
         {
             get
             {
-                return AutogenerateMac ? "" : promptTextBoxMac.Text;
-            }
-        }
-
-        private bool AutogenerateMac
-        {
-            get
-            {
-                return radioButtonAutogenerate.Checked;
+                return radioButtonAutogenerate.Checked ? "" : promptTextBoxMac.Text;
             }
         }
 
         public VIF NewVif()
         {
-            VIF vif = new VIF();
+            var vif = new VIF();
             vif.Connection = connection;
             vif.network = new XenRef<XenAPI.Network>(SelectedNetwork.opaque_ref);
             vif.MAC = SelectedMac;
@@ -263,12 +231,9 @@ namespace XenAdmin.Dialogs
                 vif.qos_algorithm_type = VIF.RATE_LIMIT_QOS_VALUE;
 
             // preserve this param even if we have decided not to turn on qos
-            if (!string.IsNullOrEmpty(promptTextBoxQoS.Text))
-            {
-                Dictionary<String, String> qos_algorithm_params = new Dictionary<String, String>();
-                qos_algorithm_params.Add(VIF.KBPS_QOS_PARAMS_KEY, promptTextBoxQoS.Text);
-                vif.qos_algorithm_params = qos_algorithm_params;
-            }
+            if (!string.IsNullOrWhiteSpace(promptTextBoxQoS.Text))
+                vif.qos_algorithm_params = new Dictionary<string, string> {{VIF.KBPS_QOS_PARAMS_KEY, promptTextBoxQoS.Text}};
+
             return vif;
         }
 
@@ -301,6 +266,13 @@ namespace XenAdmin.Dialogs
                 newVif.qos_algorithm_params = new Dictionary<string, string> { { VIF.KBPS_QOS_PARAMS_KEY, promptTextBoxQoS.Text } };
 
             return newVif;
+        }
+
+        private bool MACAddressHasChanged()
+        {
+            if (ExistingVif == null)
+                return true;
+            return promptTextBoxMac.Text != ExistingVif.MAC;
         }
 
         private bool ChangesHaveBeenMade
@@ -336,95 +308,84 @@ namespace XenAdmin.Dialogs
             }
         }
 
-        private void AutogenerateRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            updateEnablement();
-        }
+        #region Control event handlers
 
-        private void MacRadioButton_CheckedChanged(object sender, EventArgs e)
+        private void VIFDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
-            updateEnablement();
-        }
+            if (DialogResult == DialogResult.Cancel)
+                return;
 
-        private ThreeButtonDialog MacAddressDuplicationWarningDialog(string macAddress, string vmName)
-        {
-            return new ThreeButtonDialog(
-                                  new ThreeButtonDialog.Details(SystemIcons.Warning,
-                                      String.Format(Messages.PROBLEM_MAC_ADDRESS_IS_DUPLICATE, macAddress, vmName).Replace("\\n", "\n"),
-                                      Messages.PROBLEM_MAC_ADDRESS_IS_DUPLICATE_TITLE),
-                                      new[]
-                                          {
-                                            new ThreeButtonDialog.TBDButton( Messages.YES_BUTTON_CAPTION, DialogResult.Yes),
-                                            new ThreeButtonDialog.TBDButton( Messages.NO_BUTTON_CAPTION, DialogResult.No, ThreeButtonDialog.ButtonType.CANCEL, true)
-                                          }
-                                      );
-        }
-
-        /// <summary>
-        /// Determine if the MAC is accetable. It may not be if 
-        /// other VIFs have the same MAC address as entered
-        /// </summary>
-        /// <returns>If the MAC address entered is acceptable</returns>
-        private bool MACAddressIsAcceptable()
-        {
-            foreach (var xenConnection in ConnectionsManager.XenConnectionsCopy.Where(c => c.IsConnected))
-            {
-                foreach (VIF vif in xenConnection.Cache.VIFs)
+            if (MACAddressHasChanged())
+                foreach (var xenConnection in ConnectionsManager.XenConnectionsCopy.Where(c => c.IsConnected))
                 {
-                    var vm = xenConnection.Resolve(vif.VM);
-                    if (vif != ExistingVif && vif.MAC == SelectedMac && vm != null && vm.is_a_real_vm())
+                    foreach (VIF vif in xenConnection.Cache.VIFs)
                     {
-                        DialogResult result;
-                        using (var dlg = MacAddressDuplicationWarningDialog(SelectedMac, vm.NameWithLocation()))
+                        var vm = xenConnection.Resolve(vif.VM);
+                        if (vif != ExistingVif && vif.MAC == SelectedMac && vm != null && vm.is_a_real_vm())
                         {
-                            result = dlg.ShowDialog(Program.MainWindow);
+                            using (var dlg = new ThreeButtonDialog(
+                                new ThreeButtonDialog.Details(SystemIcons.Warning,
+                                    string.Format(Messages.PROBLEM_MAC_ADDRESS_IS_DUPLICATE, SelectedMac, vm.NameWithLocation()),
+                                    Messages.PROBLEM_MAC_ADDRESS_IS_DUPLICATE_TITLE),
+                                new ThreeButtonDialog.TBDButton(Messages.YES_BUTTON_CAPTION, DialogResult.Yes),
+                                new ThreeButtonDialog.TBDButton(Messages.NO_BUTTON_CAPTION, DialogResult.No, ThreeButtonDialog.ButtonType.CANCEL, true)))
+                            {
+                                e.Cancel = dlg.ShowDialog(this) == DialogResult.No;
+                                return;
+                            }
                         }
-                        return (result == DialogResult.Yes);
                     }
                 }
-            }
-            return true;
+
+            if (!ChangesHaveBeenMade)
+                DialogResult = DialogResult.Cancel;
         }
 
-        private void Okbutton_Click(object sender, EventArgs e)
+        private void comboBoxNetwork_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DialogResult = !ChangesHaveBeenMade ? DialogResult.Cancel : DialogResult.OK;
-            Close();
+            ValidateInput();
         }
 
-        private void Cancelbutton_Click(object sender, EventArgs e)
+        private void radioButtonAutogenerate_CheckedChanged(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Cancel;
-            Close();
+            if (radioButtonAutogenerate.Checked)
+                ValidateInput();
         }
 
-        private bool isValidQoSLimit()
+        private void radioButtonMac_CheckedChanged(object sender, EventArgs e)
         {
-            if (!checkboxQoS.Checked)
-            {
-                return true;
-            }
+            if (radioButtonMac.Checked)
+                ValidateInput();
+        }
 
-            string value = promptTextBoxQoS.Text;
+        private void promptTextBoxMac_Enter(object sender, EventArgs e)
+        {
+            radioButtonMac.Checked = true;
+            ValidateInput();
+        }
 
-            if (value == null || value.Trim().Length == 0)
-                return false;
-
-            Int32 result;
-            if (Int32.TryParse(value, out result))
-            {
-                return result > 0;
-            }
-            else
-            {
-                return false;
-            }
+        private void promptTextBoxMac_TextChanged(object sender, EventArgs e)
+        {
+            ValidateInput();
         }
 
         private void checkboxQoS_CheckedChanged(object sender, EventArgs e)
         {
-            updateEnablement();
+            ValidateInput();
         }
+
+        private void promptTextBoxQoS_TextChanged(object sender, EventArgs e)
+        {
+            ValidateInput();
+        }
+
+        private void promptTextBoxQoS_Enter(object sender, EventArgs e)
+        {
+            checkboxQoS.Checked = true;
+            ValidateInput();
+        }       
+
+        #endregion
 
         internal override string HelpName
         {

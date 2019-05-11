@@ -139,7 +139,7 @@ namespace XenAdmin.Controls
 
             //remove one more as we're adding the selected further down
             //Take(arg) returns empty list if the arg <= 0
-            var viewsToRemove = vncViews.Where(v => v.Key.opaque_ref != source.opaque_ref).Take(vncViews.Count -1 - MAX_ACTIVE_VM_CONSOLES);
+            var viewsToRemove = vncViews.Where(v => v.Key.opaque_ref != source.opaque_ref).Take(vncViews.Count - 1 - MAX_ACTIVE_VM_CONSOLES).ToList();
 
             foreach (var view in viewsToRemove)
                 closeVNCForSource(view.Key);
@@ -305,8 +305,9 @@ namespace XenAdmin.Controls
             if (vncView == null)
                 return;
 
-            // find the <VM, VNCView> pair in vncViews and start timer on the vm 
-            foreach (var kvp in vncViews.Where(kvp => kvp.Value == vncView))
+            // find the <VM, VNCView> pair in vncViews and start timer on the vm
+            var views = vncViews.Where(kvp => kvp.Value == vncView).ToList();
+            foreach (var kvp in views)
             {
                 StartCloseVNCTimer(kvp.Key);
                 break;

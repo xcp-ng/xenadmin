@@ -906,10 +906,14 @@ namespace XenAdmin.TabPages
                     PBD pbd = sr.GetPBDFor(host);
                     if (pbd == null || !pathStatus.ContainsKey(pbd))
                     {
-                        s.AddEntry(host.Name(),
-                            pbd != null && pbd.MultipathActive()
-                                ? Messages.MULTIPATH_ACTIVE
-                                : Messages.MULTIPATH_NOT_ACTIVE);
+                        if (pbd == null)
+                            s.AddEntry(host.Name(), Messages.MULTIPATH_NOT_ACTIVE);
+                        else if (pbd.MultipathActive())
+                            s.AddEntry(host.Name(), Messages.MULTIPATH_ACTIVE);
+                        else if (sr.GetSRType(true) == SR.SRTypes.gfs2)
+                            s.AddEntry(host.Name(), Messages.MULTIPATH_NOT_ACTIVE_GFS2, Color.Red);
+                        else
+                            s.AddEntry(host.Name(), Messages.MULTIPATH_NOT_ACTIVE);
                         continue;
                     }
 
@@ -970,7 +974,9 @@ namespace XenAdmin.TabPages
             if (vm.IsHVM())
             {	
                 s.AddEntry(FriendlyName("VM.BootOrder"), HVMBootOrder(vm),
-                   new PropertiesToolStripMenuItem(new VmEditStartupOptionsCommand(Program.MainWindow, vm)));
+                    new PropertiesToolStripMenuItem(new VmEditStartupOptionsCommand(Program.MainWindow, vm)));
+                if (Helpers.NaplesOrGreater(vm.Connection))
+                    s.AddEntry(FriendlyName("VM.BootMode"), HVMBootMode(vm));
             }
             else
             {
@@ -1199,7 +1205,13 @@ namespace XenAdmin.TabPages
 
                 s.AddEntry(FriendlyName("host.iscsi_iqn"), host.GetIscsiIqn(),
                     new PropertiesToolStripMenuItem(new IqnPropertiesCommand(Program.MainWindow, xenObject)));
-                s.AddEntry(FriendlyName("host.log_destination"), host.GetSysLogDestination() ?? Messages.HOST_LOG_DESTINATION_LOCAL,
+
+                var sysLog = host.GetSysLogDestination();
+                var sysLogDisplay = string.IsNullOrEmpty(sysLog)
+                    ? Messages.HOST_LOG_DESTINATION_LOCAL
+                    : string.Format(Messages.HOST_LOG_DESTINATION_LOCAL_AND_REMOTE, sysLog);
+
+                s.AddEntry(FriendlyName("host.log_destination"), sysLogDisplay,
                    new PropertiesToolStripMenuItem(new HostEditLogDestinationCommand(Program.MainWindow, xenObject)));
 
                 PrettyTimeSpan uptime = host.Uptime();
@@ -1693,6 +1705,15 @@ namespace XenAdmin.TabPages
         {
             var order = vm.GetBootOrder().ToUpper().Union(new[] { 'D', 'C', 'N' });
             return string.Join("\n", order.Select(c => new BootDevice(c).ToString()).ToArray());
+        }
+
+        private static string HVMBootMode(VM vm)
+        {
+            if (vm.IsSecureBootEnabled())
+                return Messages.UEFI_SECURE_BOOT;
+            if (vm.IsUEFIEnabled())
+                return Messages.UEFI_BOOT;
+            return Messages.BIOS_BOOT;
         }
 
         #endregion
