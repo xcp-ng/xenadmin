@@ -43,9 +43,9 @@
     <Content Include="license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\splash-xcp-ng\splash-xcp-ng.csproj">
-      <Name>splash-xcp-ng</Name>
-      <Project>{cd563857-6159-4415-b7b2-a21991f572e3}</Project>
+    <ProjectReference Include="..\XenAdmin\XenAdmin.csproj">
+      <Name>XenAdmin</Name>
+      <Project>{70bda4bc-f062-4302-8acd-a15d8bf31d65}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
