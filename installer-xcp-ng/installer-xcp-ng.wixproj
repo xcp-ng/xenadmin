@@ -43,9 +43,17 @@
     <Content Include="license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\xcpng.splash\splash-xcp-ng\splash-xcp-ng.csproj">
+    <ProjectReference Include="..\splash-xcp-ng\splash-xcp-ng.csproj">
       <Name>splash-xcp-ng</Name>
       <Project>{cd563857-6159-4415-b7b2-a21991f572e3}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\xe\Xe.csproj">
+      <Name>Xe</Name>
+      <Project>{727e885d-14be-40f0-9d0b-3853d44d3984}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
