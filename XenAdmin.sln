@@ -32,7 +32,7 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "installer-xcp-ng", "install
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xe", "xe\Xe.csproj", "{727E885D-14BE-40F0-9D0B-3853D44D3984}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "splash-xcp-ng", "..\xcpng.splash\splash-xcp-ng\splash-xcp-ng.csproj", "{CD563857-6159-4415-B7B2-A21991F572E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "splash-xcp-ng", "splash-xcp-ng\splash-xcp-ng.csproj", "{CD563857-6159-4415-B7B2-A21991F572E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
