@@ -1185,6 +1185,12 @@
   <data name="ACTION_VM_PAUSING" xml:space="preserve">
     <value>VM pausing</value>
   </data>
+  <data name="ACTION_VM_PAUSED" xml:space="preserve">
+    <value>VM paused</value>
+  </data>
+  <data name="ACTION_VM_PAUSING" xml:space="preserve">
+    <value>VM pausing</value>
+  </data>
   <data name="ACTION_VM_REBOOTED" xml:space="preserve">
     <value>Rebooted</value>
   </data>
