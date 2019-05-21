@@ -1973,4 +1973,7 @@
   <data name="PREPARE_HOST_UPGRADE_REPO_IOERROR" xml:space="preserve">
     <value>An error occurred while opening the installer files.</value>
   </data>
+  <data name="Label-host.edition-xcp-ng" xml:space="preserve">
+    <value>XCP-ng Free/Libre Edition</value>
+  </data>
 </root>

@@ -1051,6 +1051,15 @@ namespace XenAdmin {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die XCP-ng Free/Libre Edition ähnelt.
+        /// </summary>
+        public static string Label_host_edition_xcp_ng {
+            get {
+                return ResourceManager.GetString("Label-host.edition-xcp-ng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die [XenServer product] for [Citrix] Virtual Desktops ähnelt.
         /// </summary>
         public static string Label_host_edition_xendesktop {
@@ -3121,7 +3130,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Boot mode.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boot mode ähnelt.
         /// </summary>
         public static string Label_VM_BootMode {
             get {
@@ -3130,7 +3139,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Boot order.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boot order ähnelt.
         /// </summary>
         public static string Label_VM_BootOrder {
             get {
