@@ -180,15 +180,15 @@ namespace XenAdmin
             }
             if (bytes >= BINARY_GIGA)
             {
-                unit = isRate ? Messages.VAL_GIGRATE : Messages.VAL_GIGB;
-                var result = Math.Round(bytes / BINARY_GIGA, decPlaces);
+                unit = isRate ? "GBit/s" /*Messages.VAL_GIGRATE*/ : Messages.VAL_GIGB;
+                var result = isRate ? Math.Round((bytes*8) / (BINARY_GIGA), decPlaces) : Math.Round(bytes / BINARY_GIGA, decPlaces);
                 return string.IsNullOrEmpty(format) ? result.ToString() : result.ToString(format);
             }
 
             if (bytes >= BINARY_MEGA)
             {
-                unit = isRate ? Messages.VAL_MEGRATE : Messages.VAL_MEGB;
-                var result = Math.Round(bytes / BINARY_MEGA, decPlaces);
+                unit = isRate ? "MBit/s" /*Messages.VAL_MEGRATE*/ : Messages.VAL_MEGB;
+                var result = isRate ? Math.Round((bytes*8) / (BINARY_MEGA), decPlaces) : Math.Round(bytes / BINARY_MEGA, decPlaces);
                 return string.IsNullOrEmpty(format) ? result.ToString() : result.ToString(format);
             }
 
