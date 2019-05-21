@@ -503,6 +503,7 @@ namespace XenAdmin.TabPages
             {
                 generateGeneralBox();
                 generateCustomFieldsBox();
+                generateBiosBox();
                 generateInterfaceBox();
                 generateMemoryBox();
                 generateVersionBox();
@@ -603,6 +604,23 @@ namespace XenAdmin.TabPages
                             string.Format(Messages.PROPERTY_ON_OBJECT, pif.GetManagementPurpose().Ellipsise(30), Helpers.GetName(Host)),
                             pif.FriendlyIPAddress(),
                             editValue);
+                }
+            }
+        }
+
+        private void generateBiosBox()
+        {
+            PDSection s = pdSectionBios;
+
+            Host host = xenObject as Host;
+            if (host != null)
+            {
+                if (host.bios_strings != null)
+                {
+                    foreach (var entry in host.bios_strings)
+                    {
+                        s.AddEntry(entry.Key, entry.Value);
+                    }
                 }
             }
         }
