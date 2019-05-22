@@ -406,20 +406,35 @@ namespace XenAdmin
             }
             catch (ConfigurationErrorsException ex)
             {
-                // Show a warning to the user and exit the application.
-                using (var dlg = new ThreeButtonDialog(
-                    new ThreeButtonDialog.Details(
-                        SystemIcons.Error,
-                        string.Format(Messages.MESSAGEBOX_SAVE_CORRUPTED, Settings.GetUserConfigPath()),
-                        Messages.MESSAGEBOX_SAVE_CORRUPTED_TITLE)
-                    ))
-                {
-                    dlg.ShowDialog(Program.MainWindow);
-                }
-
-                log.Error("Could not save settings. Exiting application.");
+                log.Error("Could not save settings. Reload config and try once more.");
                 log.Error(ex, ex);
-                Application.Exit();
+
+                // The following excpetion was reported to appear when AppData is redirected to an UNC path on NAS
+                // System.Configuration.ConfigurationErrorsException: Failed to save settings: The configuration file has been changed by another program.
+                // Reloading and saving again was reported to help
+                try
+                {
+                    Properties.Settings.Default.Reload();
+                    Properties.Settings.Default.Save();
+
+                }
+                catch (ConfigurationErrorsException er)
+                {
+                    // Show a warning to the user and exit the application.
+                    using (var dlg = new ThreeButtonDialog(
+                        new ThreeButtonDialog.Details(
+                            SystemIcons.Error,
+                            string.Format(Messages.MESSAGEBOX_SAVE_CORRUPTED, Settings.GetUserConfigPath()),
+                            Messages.MESSAGEBOX_SAVE_CORRUPTED_TITLE)
+                        ))
+                    {
+                        dlg.ShowDialog(Program.MainWindow);
+                    }
+
+                    log.Error("Could not save settings. Exiting application.");
+                    log.Error(er, er);
+                    Application.Exit();
+                }
             }
 
             HealthCheck.SendMetadataToHealthCheck();
