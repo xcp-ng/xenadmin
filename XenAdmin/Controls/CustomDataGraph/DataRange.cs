@@ -95,6 +95,8 @@ namespace XenAdmin.Controls.CustomDataGraph
             {
                 case Unit.Bytes:
                     return Util.MemorySizeStringVariousUnits(constrVal);
+                case Unit.BitsPerSecond:
+                    return Util.DataRateString(constrVal, true);
                 case Unit.BytesPerSecond:
                     return Util.DataRateString(constrVal);
                 case Unit.Percentage:
@@ -127,6 +129,9 @@ namespace XenAdmin.Controls.CustomDataGraph
                 {
                     case Unit.Bytes:
                         Util.MemorySizeValueVariousUnits(Max, out unit);
+                        return unit;
+                    case Unit.BitsPerSecond:
+                        Util.DataRateValue(Max, out unit, true);
                         return unit;
                     case Unit.BytesPerSecond:
                         Util.DataRateValue(Max, out unit);
@@ -164,6 +169,8 @@ namespace XenAdmin.Controls.CustomDataGraph
             {
                 case Unit.Bytes:
                     return Util.MemorySizeValueVariousUnits(constrVal, out unit);
+                case Unit.BitsPerSecond:
+                    return Util.DataRateValue(constrVal, out unit, true);
                 case Unit.BytesPerSecond:
                     return Util.DataRateValue(constrVal, out unit);
                 case Unit.NanoSeconds:
@@ -229,6 +236,7 @@ namespace XenAdmin.Controls.CustomDataGraph
                     Resolution = Max > 10 ? Max / 10d : 1;
                     break;
                 case Unit.Bytes:
+                case Unit.BitsPerSecond:
                 case Unit.BytesPerSecond:
                 default:
                     {
@@ -260,5 +268,5 @@ namespace XenAdmin.Controls.CustomDataGraph
 
     public enum RangeScaleMode { Fixed, Auto, Delegate }
 
-    public enum Unit { None, Percentage, BytesPerSecond, Bytes, NanoSeconds, CountsPerSecond, MilliWatt, Centigrade, MegaHertz }
+    public enum Unit { None, Percentage, BitsPerSecond, BytesPerSecond, Bytes, NanoSeconds, CountsPerSecond, MilliWatt, Centigrade, MegaHertz }
 }

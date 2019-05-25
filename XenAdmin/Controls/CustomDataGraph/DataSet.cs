@@ -154,7 +154,7 @@ namespace XenAdmin.Controls.CustomDataGraph
             else if (settype.StartsWith("vif") || settype.StartsWith("pif"))
             {
                 //xapi units are in bytes/sec or errors/sec
-                Unit unit = settype.EndsWith("errors") ? Unit.CountsPerSecond : Unit.BytesPerSecond;
+                Unit unit = settype.EndsWith("errors") ? Unit.CountsPerSecond : Unit.BitsPerSecond;
 
                 dataSet.CustomYRange = new DataRange(1, 0, 1, unit, RangeScaleMode.Auto);
                 dataSet.Type = DataType.Network;

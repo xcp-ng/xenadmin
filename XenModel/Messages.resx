@@ -12643,7 +12643,10 @@ To start a [XenServer] trial, click the button below.</value>
     <value>GHz</value>
   </data>
   <data name="VAL_GIGRATE" xml:space="preserve">
-    <value>GBps</value>
+    <value>GByte/s</value>
+  </data>
+  <data name="VAL_GIGRATE_BIT_S" xml:space="preserve">
+    <value>GBit/s</value>
   </data>
   <data name="VAL_KB" xml:space="preserve">
     <value>{0} kB</value>
@@ -12655,7 +12658,10 @@ To start a [XenServer] trial, click the button below.</value>
     <value>kW</value>
   </data>
   <data name="VAL_KILRATE" xml:space="preserve">
-    <value>kBps</value>
+    <value>kByte/s</value>
+  </data>
+  <data name="VAL_KILRATE_BIT_S" xml:space="preserve">
+    <value>KBit/s</value>
   </data>
   <data name="VAL_MB" xml:space="preserve">
     <value>{0} MB</value>
@@ -12667,7 +12673,10 @@ To start a [XenServer] trial, click the button below.</value>
     <value>MHz</value>
   </data>
   <data name="VAL_MEGRATE" xml:space="preserve">
-    <value>MBps</value>
+    <value>MByte/s</value>
+  </data>
+  <data name="VAL_MEGRATE_BIT_S" xml:space="preserve">
+    <value>MBit/s</value>
   </data>
   <data name="VAL_MICSEC" xml:space="preserve">
     <value>μs</value>
@@ -12685,7 +12694,10 @@ To start a [XenServer] trial, click the button below.</value>
     <value>ns</value>
   </data>
   <data name="VAL_RATE" xml:space="preserve">
-    <value>Bps</value>
+    <value>Byte/s</value>
+  </data>
+  <data name="VAL_RATE_BIT_S" xml:space="preserve">
+    <value>Bit/s</value>
   </data>
   <data name="VAL_RATE_NUM_FORMAT" xml:space="preserve">
     <value>0.0</value>
@@ -12697,7 +12709,10 @@ To start a [XenServer] trial, click the button below.</value>
     <value>TiB</value>
   </data>
   <data name="VAL_TERRATE" xml:space="preserve">
-    <value>TiBps</value>
+    <value>TiByte/s</value>
+  </data>
+  <data name="VAL_TERRATE_BIT_S" xml:space="preserve">
+    <value>TBit/s</value>
   </data>
   <data name="VAL_WATT" xml:space="preserve">
     <value>W</value>

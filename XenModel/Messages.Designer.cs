@@ -36511,11 +36511,20 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die GBps ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die GByte/s ähnelt.
         /// </summary>
         public static string VAL_GIGRATE {
             get {
                 return ResourceManager.GetString("VAL_GIGRATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die GBit/s ähnelt.
+        /// </summary>
+        public static string VAL_GIGRATE_BIT_S {
+            get {
+                return ResourceManager.GetString("VAL_GIGRATE_BIT_S", resourceCulture);
             }
         }
         
@@ -36547,11 +36556,20 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die kBps ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die kByte/s ähnelt.
         /// </summary>
         public static string VAL_KILRATE {
             get {
                 return ResourceManager.GetString("VAL_KILRATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die KBit/s ähnelt.
+        /// </summary>
+        public static string VAL_KILRATE_BIT_S {
+            get {
+                return ResourceManager.GetString("VAL_KILRATE_BIT_S", resourceCulture);
             }
         }
         
@@ -36583,11 +36601,20 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die MBps ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die MByte/s ähnelt.
         /// </summary>
         public static string VAL_MEGRATE {
             get {
                 return ResourceManager.GetString("VAL_MEGRATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die MBit/s ähnelt.
+        /// </summary>
+        public static string VAL_MEGRATE_BIT_S {
+            get {
+                return ResourceManager.GetString("VAL_MEGRATE_BIT_S", resourceCulture);
             }
         }
         
@@ -36637,11 +36664,20 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Bps ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Byte/s ähnelt.
         /// </summary>
         public static string VAL_RATE {
             get {
                 return ResourceManager.GetString("VAL_RATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bit/s ähnelt.
+        /// </summary>
+        public static string VAL_RATE_BIT_S {
+            get {
+                return ResourceManager.GetString("VAL_RATE_BIT_S", resourceCulture);
             }
         }
         
@@ -36673,11 +36709,20 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die TiBps ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die TiByte/s ähnelt.
         /// </summary>
         public static string VAL_TERRATE {
             get {
                 return ResourceManager.GetString("VAL_TERRATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die TBit/s ähnelt.
+        /// </summary>
+        public static string VAL_TERRATE_BIT_S {
+            get {
+                return ResourceManager.GetString("VAL_TERRATE_BIT_S", resourceCulture);
             }
         }
         
