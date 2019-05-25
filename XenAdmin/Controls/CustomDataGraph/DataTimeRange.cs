@@ -86,8 +86,8 @@ namespace XenAdmin.Controls.CustomDataGraph
         {
             DateTime dt = new DateTime(value - FIVE_SECONDS_TICKS);
             string format = Resolution > -ONE_HOUR.Ticks
-                                ? Messages.DATEFORMAT_HMS
-                                : Messages.DATEFORMAT_DMY;
+                                ? "T"
+                                : "D";
             return HelpersGUI.DateTimeToString(dt, format, true);
         }
 
@@ -96,8 +96,8 @@ namespace XenAdmin.Controls.CustomDataGraph
             DateTime dt = new DateTime(value);
             TimeSpan diff = serverTime - new DateTime(Max);
             string format = diff < TWO_DAYS
-                                ? Messages.DATEFORMAT_HM
-                                : Messages.DATEFORMAT_DM;
+                                ? "T"
+                                : "D";
             return HelpersGUI.DateTimeToString(dt, format, true);
         }
 

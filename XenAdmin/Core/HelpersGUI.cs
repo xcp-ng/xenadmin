@@ -467,18 +467,21 @@ namespace XenAdmin.Core
         /// <returns></returns>
         public static string DateTimeToString(DateTime dt, string format, bool localise)
         {
-            if (localise)
-            {
-                Program.AssertOnEventThread();  // otherwise it won't get localised: see CA-46983
-                // If English, check for 'bad' formats: i.e., "standard" (single letter) formats,
-                // and months in digits (M or MM, but MMM and MMMM are OK).
-                Trace.Assert(!InvisibleMessages.LOCALE.StartsWith("en-") ||
-                    format.Length > 1 && (!format.Contains("M") || format.Contains("MMM")),
-                    "Bad date format");
-                return dt.ToString(format);
-            }
-            else
-                return dt.ToString(format, CultureInfo.InvariantCulture);
+            //if (localise)
+            //{
+            //    Program.AssertOnEventThread();  // otherwise it won't get localised: see CA-46983
+            //    // If English, check for 'bad' formats: i.e., "standard" (single letter) formats,
+            //    // and months in digits (M or MM, but MMM and MMMM are OK).
+            //    Trace.Assert(!InvisibleMessages.LOCALE.StartsWith("en-") ||
+            //        format.Length > 1 && (!format.Contains("M") || format.Contains("MMM")),
+            //        "Bad date format");
+            //    return dt.ToString(format);
+            //}
+            //else
+            //    return dt.ToString(format, CultureInfo.InvariantCulture);
+
+            // XCP-ng: Show date and time in proper format: https://github.com/xcp-ng/xenadmin/issues/163
+            return dt.ToString(format);
         }
 
         /// <summary>

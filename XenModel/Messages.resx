@@ -3776,31 +3776,31 @@ For optimal performance and reliability during VM migration, ensure that the net
     <value>Date</value>
   </data>
   <data name="DATEFORMAT_DM" xml:space="preserve">
-    <value>MMM d</value>
+    <value>M</value>
   </data>
   <data name="DATEFORMAT_DMY" xml:space="preserve">
-    <value>MMM d, yyyy</value>
+    <value>d</value>
   </data>
   <data name="DATEFORMAT_DMY_HM" xml:space="preserve">
-    <value>MMM d, yyyy h:mm tt</value>
+    <value>f</value>
   </data>
   <data name="DATEFORMAT_DMY_HMS" xml:space="preserve">
-    <value>MMM d, yyyy h:mm:ss tt</value>
+    <value>F</value>
   </data>
   <data name="DATEFORMAT_DMY_LONG" xml:space="preserve">
-    <value>MMMM d, yyyy</value>
+    <value>D</value>
   </data>
   <data name="DATEFORMAT_HM" xml:space="preserve">
-    <value>h:mm tt</value>
+    <value>t</value>
   </data>
   <data name="DATEFORMAT_HMS" xml:space="preserve">
-    <value>h:mm:ss tt</value>
+    <value>T</value>
   </data>
   <data name="DATEFORMAT_H_SHORT" xml:space="preserve">
     <value>ht</value>
   </data>
   <data name="DATEFORMAT_WDMY_HM_LONG" xml:space="preserve">
-    <value>dddd, MMMM d, yyyy h:mm tt</value>
+    <value>G</value>
   </data>
   <data name="DATE_AND_TIME" xml:space="preserve">
     <value>Date &amp; Time</value>

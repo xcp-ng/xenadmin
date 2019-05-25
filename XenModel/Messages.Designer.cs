@@ -10599,7 +10599,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die MMM d ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die M ähnelt.
         /// </summary>
         public static string DATEFORMAT_DM {
             get {
@@ -10608,7 +10608,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die MMM d, yyyy ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die d ähnelt.
         /// </summary>
         public static string DATEFORMAT_DMY {
             get {
@@ -10617,7 +10617,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die MMM d, yyyy h:mm tt ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die f ähnelt.
         /// </summary>
         public static string DATEFORMAT_DMY_HM {
             get {
@@ -10626,7 +10626,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die MMM d, yyyy h:mm:ss tt ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die F ähnelt.
         /// </summary>
         public static string DATEFORMAT_DMY_HMS {
             get {
@@ -10635,7 +10635,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die MMMM d, yyyy ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die D ähnelt.
         /// </summary>
         public static string DATEFORMAT_DMY_LONG {
             get {
@@ -10653,7 +10653,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die h:mm tt ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die t ähnelt.
         /// </summary>
         public static string DATEFORMAT_HM {
             get {
@@ -10662,7 +10662,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die h:mm:ss tt ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die T ähnelt.
         /// </summary>
         public static string DATEFORMAT_HMS {
             get {
@@ -10671,7 +10671,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die dddd, MMMM d, yyyy h:mm tt ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die G ähnelt.
         /// </summary>
         public static string DATEFORMAT_WDMY_HM_LONG {
             get {

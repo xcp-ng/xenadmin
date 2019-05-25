@@ -284,8 +284,9 @@ namespace XenAdmin
                     break;
             }
 
-            // Force the current culture, to make the layout the same whatever the culture of the underlying OS (CA-46983).
-            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture = new CultureInfo(InvisibleMessages.LOCALE, false);
+            // XCP-ng: Show date and time in proper format: https://github.com/xcp-ng/xenadmin/issues/163
+            // // Force the current culture, to make the layout the same whatever the culture of the underlying OS (CA-46983).
+            // Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture = new CultureInfo(InvisibleMessages.LOCALE, false);
 
             if (string.IsNullOrEmpty(Thread.CurrentThread.Name))
                 Thread.CurrentThread.Name = "Main program thread";
