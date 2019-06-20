@@ -881,7 +881,7 @@ namespace XenAdmin
                         dlog.ShowDialog(this);
                 });
                 return;
-                    }
+             }
 
             //check the pool has no slaves earlier than the lowest supported version 
             //(could happen if trying to connect to a partially upgraded pool where
@@ -964,11 +964,12 @@ namespace XenAdmin
             if(licenseTimer != null)
                 licenseTimer.CheckActiveServerLicense(connection, false);
 
-            if (Properties.Settings.Default.ShowHealthCheckEnrollmentReminder)
-                ThreadPool.QueueUserWorkItem(CheckHealthCheckEnrollment, connection);
-            ThreadPool.QueueUserWorkItem(HealthCheck.CheckForAnalysisResults, connection);
-            ThreadPool.QueueUserWorkItem(InformHealthCheckEnrollment, connection);
-            
+            // XCP-ng Center: Disable HealthCheck (https://github.com/xcp-ng/xenadmin/issues/144)
+            //if (Properties.Settings.Default.ShowHealthCheckEnrollmentReminder)
+            //    ThreadPool.QueueUserWorkItem(CheckHealthCheckEnrollment, connection);
+            //ThreadPool.QueueUserWorkItem(HealthCheck.CheckForAnalysisResults, connection);
+            //ThreadPool.QueueUserWorkItem(InformHealthCheckEnrollment, connection);
+
             Updates.CheckServerPatches();
             Updates.CheckServerVersion();
 
