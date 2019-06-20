@@ -970,10 +970,13 @@ namespace XenAdmin
             //ThreadPool.QueueUserWorkItem(HealthCheck.CheckForAnalysisResults, connection);
             //ThreadPool.QueueUserWorkItem(InformHealthCheckEnrollment, connection);
 
-            Updates.CheckServerPatches();
-            Updates.CheckServerVersion();
+            // XCP-ng Center: Disable Patchchecking (https://github.com/xcp-ng/xenadmin/issues/144)
+            //Updates.CheckServerPatches();
+            //Updates.CheckServerVersion();
 
-            HealthCheck.SendMetadataToHealthCheck();
+            // XCP-ng Center: Disable Transfer of Metadata (https://github.com/xcp-ng/xenadmin/issues/144)
+            //HealthCheck.SendMetadataToHealthCheck();
+
             RequestRefreshTreeView();
         }
 
