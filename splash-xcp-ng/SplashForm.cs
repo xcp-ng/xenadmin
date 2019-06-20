@@ -105,13 +105,48 @@ namespace splash_xcp_ng
 
             int counter = 0;
 
-            while (proc == null || string.IsNullOrEmpty(proc.MainWindowTitle))
+            while (proc == null)
             {
                 System.Threading.Thread.Sleep(sleepMilliseconds);
-                if(proc != null) proc.Refresh();
+                if (proc != null) proc.Refresh();
 
                 counter++;
                 if ((counter * sleepMilliseconds) >= max) break;
+            }
+
+            if (proc == null)
+            {
+                MessageBox.Show("[ERROR] Something went wrong, program did not start in time: " + Environment.NewLine + exeFullPath);
+            }
+            else
+            {
+                if (proc.HasExited)
+                {
+                    MessageBox.Show("[ERROR] Something went wrong, program stopped already: " + Environment.NewLine + exeFullPath);
+                }
+                else
+                {
+                    for (int i = 1; i * sleepMilliseconds <= max; i++)
+                    {
+                        try
+                        {
+                            while (string.IsNullOrEmpty(proc.MainWindowTitle))
+                            {
+                                System.Threading.Thread.Sleep(sleepMilliseconds);
+                                if (proc != null) proc.Refresh();
+
+                                counter++;
+                                if ((counter * sleepMilliseconds) >= max) break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("[ERROR] Something went wrong, failed to start: " + Environment.NewLine + exeFullPath);
+                            Exit();
+                        }
+                    }
+                }
+
             }
 
             Exit();
