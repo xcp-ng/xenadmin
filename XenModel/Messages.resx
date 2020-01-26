@@ -9603,6 +9603,12 @@ This will cancel the update process and may leave your system in an unstable sta
   <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_TITLE" xml:space="preserve">
     <value>Uploading and installing updates</value>
   </data>
+  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_WARNING_MANY" xml:space="preserve">
+    <value>Some of the automated updates processes were completed with warnings.</value>
+  </data>
+  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_WARNING_ONE" xml:space="preserve">
+    <value>The automated updates process was completed with warnings.</value>
+  </data>
   <data name="PATCHINGWIZARD_CLEANUP" xml:space="preserve">
     <value>Clean up...</value>
   </data>
@@ -9765,6 +9771,9 @@ This will cancel the update process and may leave your system in an unstable sta
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_PATCH_NOT_APPLICABLE" xml:space="preserve">
     <value>Update not applicable</value>
   </data>
+  <data name="PATCHINGWIZARD_SELECTSERVERPAGE_PATCH_NOT_APPLICABLE_OR_INVALID" xml:space="preserve">
+    <value>Update not applicable or file contains invalid data.</value>
+  </data>
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_RUBRIC_AUTOMATED_MODE" xml:space="preserve">
     <value>Select one or more pools or standalone servers that you want to have updated.
 Servers that cannot be updated with automated updates appear disabled in this list.</value>
@@ -9814,6 +9823,12 @@ Servers where this update cannot be applied appear disabled in this list.</value
   <data name="PATCHINGWIZARD_SINGLEUPDATE_TITLE" xml:space="preserve">
     <value>[XenCenter] is now installing update {0} on your system.</value>
   </data>
+  <data name="PATCHINGWIZARD_SINGLEUPDATE_WARNING_MANY" xml:space="preserve">
+    <value>The installation of update {0} was completed with warnings on some of the selected servers.</value>
+  </data>
+  <data name="PATCHINGWIZARD_SINGLEUPDATE_WARNING_ONE" xml:space="preserve">
+    <value>The installation of update {0} was completed with warnings.</value>
+  </data>
   <data name="PATCHINGWIZARD_SINGLEUPLOAD_CANCELLATION" xml:space="preserve">
     <value>The upload process was cancelled.</value>
   </data>
@@ -9842,6 +9857,12 @@ This will cancel the upload process.</value>
   </data>
   <data name="PATCHINGWIZARD_SINGLEUPLOAD_TITLE" xml:space="preserve">
     <value>[XenCenter] is now performing the operations necessary to upload your update to the servers specified in the previous step. Please wait for these operations to complete, then click Next to continue with the installation.</value>
+  </data>
+  <data name="PATCHINGWIZARD_SINGLEUPLOAD_WARNING_MANY" xml:space="preserve">
+    <value>The upload of update {0} was completed with warnings on some of the selected servers.</value>
+  </data>
+  <data name="PATCHINGWIZARD_SINGLEUPLOAD_WARNING_ONE" xml:space="preserve">
+    <value>The upload of update {0} was completed with warnings.</value>
   </data>
   <data name="PATCHINGWIZARD_UPLOADPAGE_TEXT" xml:space="preserve">
     <value>Upload</value>
@@ -10900,6 +10921,12 @@ Click Keep Waiting if the upgrade is still running or Cancel if an error occurre
   </data>
   <data name="ROLLING_UPGRADE_UPGRADE_NOT_COMPLETED" xml:space="preserve">
     <value>Rolling pool upgrade did not complete.</value>
+  </data>
+  <data name="ROLLING_UPGRADE_WARNING_MANY" xml:space="preserve">
+    <value>One or more of the rolling pool upgrade processes were completed with warnings.</value>
+  </data>
+  <data name="ROLLING_UPGRADE_WARNING_ONE" xml:space="preserve">
+    <value>The rolling pool upgrade process was completed with warnings.</value>
   </data>
   <data name="RPU_WIZARD_ERROR_SKIP_MSG" xml:space="preserve">
     <value>{0} could be skipped.</value>
@@ -12244,6 +12271,9 @@ Check your settings and try again.</value>
     <value>This is not a valid update file.
 
 Please check your settings and try again.</value>
+  </data>
+  <data name="UPDATES_WIZARD_INVALID_ISO_FILE" xml:space="preserve">
+    <value>The selected ISO file is corrupt or contains invalid data.</value>
   </data>
   <data name="UPDATES_WIZARD_LOCAL_CD" xml:space="preserve">
     <value>{0}: VM '{1}' has a local CD/DVD in its drive.</value>

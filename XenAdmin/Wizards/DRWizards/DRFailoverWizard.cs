@@ -309,8 +309,7 @@ namespace XenAdmin.Wizards.DRWizards
                 }
                 foreach (var vm in poolMetadata.Vms.Values)
                 {
-                    if (vm.appliance.opaque_ref != null && vm.appliance.opaque_ref.StartsWith("OpaqueRef:") &&
-                        vm.appliance.opaque_ref != "OpaqueRef:NULL")
+                    if (vm.IsAssignedToVapp())
                         continue;
                     SummaryReport.AddLine(vm.Name(), 2);
                 }

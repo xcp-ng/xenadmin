@@ -33,9 +33,6 @@ namespace XenAdmin.TabPages
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GeneralTabPage));
             this.buttonProperties = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.buttonPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonViewConsole = new System.Windows.Forms.Button();
             this.buttonViewLog = new System.Windows.Forms.Button();
             this.linkLabelExpand = new System.Windows.Forms.LinkLabel();
@@ -53,8 +50,6 @@ namespace XenAdmin.TabPages
             this.pdSectionMultipathBoot = new XenAdmin.Controls.PDSection();
             this.panelStorageLink = new System.Windows.Forms.Panel();
             this.pdStorageLink = new XenAdmin.Controls.PDSection();
-            this.panelUpdates = new System.Windows.Forms.Panel();
-            this.pdSectionUpdates = new XenAdmin.Controls.PDSection();
             this.panelMemoryAndVCPUs = new System.Windows.Forms.Panel();
             this.pdSectionVCPUs = new XenAdmin.Controls.PDSection();
             this.panelMultipathing = new System.Windows.Forms.Panel();
@@ -67,24 +62,24 @@ namespace XenAdmin.TabPages
             this.pdSectionBootOptions = new XenAdmin.Controls.PDSection();
             this.panelCPU = new System.Windows.Forms.Panel();
             this.pdSectionCPU = new XenAdmin.Controls.PDSection();
-            this.panelLicense = new System.Windows.Forms.Panel();
-            this.pdSectionLicense = new XenAdmin.Controls.PDSection();
-            this.panelVersion = new System.Windows.Forms.Panel();
-            this.pdSectionVersion = new XenAdmin.Controls.PDSection();
             this.panelMemory = new System.Windows.Forms.Panel();
             this.pdSectionMemory = new XenAdmin.Controls.PDSection();
             this.panelManagementInterfaces = new System.Windows.Forms.Panel();
             this.pdSectionManagementInterfaces = new XenAdmin.Controls.PDSection();
+            this.panelUpdates = new System.Windows.Forms.Panel();
+            this.pdSectionUpdates = new XenAdmin.Controls.PDSection();
+            this.panelVersion = new System.Windows.Forms.Panel();
+            this.pdSectionVersion = new XenAdmin.Controls.PDSection();
+            this.panelLicense = new System.Windows.Forms.Panel();
+            this.pdSectionLicense = new XenAdmin.Controls.PDSection();
             this.panelCustomFields = new System.Windows.Forms.Panel();
             this.pdSectionCustomFields = new XenAdmin.Controls.PDSection();
             this.panelGeneral = new System.Windows.Forms.Panel();
             this.pdSectionGeneral = new XenAdmin.Controls.PDSection();
+			this.tableLayoutPanelButtons = new System.Windows.Forms.TableLayoutPanel();
             this.panelBios = new System.Windows.Forms.Panel();
             this.pdSectionBios = new XenAdmin.Controls.PDSection();
             this.pageContainerPanel.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.buttonPanel.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panelReadCaching.SuspendLayout();
             this.panelDockerInfo.SuspendLayout();
@@ -92,26 +87,27 @@ namespace XenAdmin.TabPages
             this.panelStorageLinkSystemCapabilities.SuspendLayout();
             this.panelMultipathBoot.SuspendLayout();
             this.panelStorageLink.SuspendLayout();
-            this.panelUpdates.SuspendLayout();
             this.panelMemoryAndVCPUs.SuspendLayout();
             this.panelMultipathing.SuspendLayout();
             this.panelStatus.SuspendLayout();
             this.panelHighAvailability.SuspendLayout();
             this.panelBootOptions.SuspendLayout();
             this.panelCPU.SuspendLayout();
-            this.panelLicense.SuspendLayout();
-            this.panelVersion.SuspendLayout();
             this.panelMemory.SuspendLayout();
             this.panelManagementInterfaces.SuspendLayout();
+            this.panelUpdates.SuspendLayout();
+            this.panelVersion.SuspendLayout();
+            this.panelLicense.SuspendLayout();
             this.panelCustomFields.SuspendLayout();
             this.panelGeneral.SuspendLayout();
+            this.tableLayoutPanelButtons.SuspendLayout()
             this.panelBios.SuspendLayout();
             this.SuspendLayout();
             // 
             // pageContainerPanel
             // 
             this.pageContainerPanel.Controls.Add(this.panel2);
-            this.pageContainerPanel.Controls.Add(this.panel1);
+            this.pageContainerPanel.Controls.Add(this.tableLayoutPanelButtons);
             resources.ApplyResources(this.pageContainerPanel, "pageContainerPanel");
             // 
             // buttonProperties
@@ -122,28 +118,6 @@ namespace XenAdmin.TabPages
             this.buttonProperties.Click += new System.EventHandler(this.EditButton_Click);
             // 
             // panel1
-            // 
-            this.panel1.Controls.Add(this.panel3);
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Name = "panel1";
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.buttonPanel);
-            this.panel3.Controls.Add(this.linkLabelExpand);
-            this.panel3.Controls.Add(this.linkLabelCollapse);
-            resources.ApplyResources(this.panel3, "panel3");
-            this.panel3.Name = "panel3";
-            // 
-            // buttonPanel
-            // 
-            this.buttonPanel.Controls.Add(this.buttonProperties);
-            this.buttonPanel.Controls.Add(this.buttonViewConsole);
-            this.buttonPanel.Controls.Add(this.buttonViewLog);
-            resources.ApplyResources(this.buttonPanel, "buttonPanel");
-            this.buttonPanel.Name = "buttonPanel";
-            // 
-            // buttonViewConsole
             // 
             resources.ApplyResources(this.buttonViewConsole, "buttonViewConsole");
             this.buttonViewConsole.Name = "buttonViewConsole";
@@ -180,18 +154,18 @@ namespace XenAdmin.TabPages
             this.panel2.Controls.Add(this.panelStorageLinkSystemCapabilities);
             this.panel2.Controls.Add(this.panelMultipathBoot);
             this.panel2.Controls.Add(this.panelStorageLink);
-            this.panel2.Controls.Add(this.panelUpdates);
             this.panel2.Controls.Add(this.panelMemoryAndVCPUs);
             this.panel2.Controls.Add(this.panelMultipathing);
             this.panel2.Controls.Add(this.panelStatus);
             this.panel2.Controls.Add(this.panelHighAvailability);
             this.panel2.Controls.Add(this.panelBootOptions);
             this.panel2.Controls.Add(this.panelCPU);
-            this.panel2.Controls.Add(this.panelLicense);
-            this.panel2.Controls.Add(this.panelVersion);
             this.panel2.Controls.Add(this.panelMemory);
             this.panel2.Controls.Add(this.panelManagementInterfaces);
             this.panel2.Controls.Add(this.panelBios);
+            this.panel2.Controls.Add(this.panelUpdates);
+            this.panel2.Controls.Add(this.panelVersion);
+            this.panel2.Controls.Add(this.panelLicense);
             this.panel2.Controls.Add(this.panelCustomFields);
             this.panel2.Controls.Add(this.panelGeneral);
             this.panel2.Name = "panel2";
@@ -278,20 +252,6 @@ namespace XenAdmin.TabPages
             // 
             // panelUpdates
             // 
-            resources.ApplyResources(this.panelUpdates, "panelUpdates");
-            this.panelUpdates.Controls.Add(this.pdSectionUpdates);
-            this.panelUpdates.Name = "panelUpdates";
-            // 
-            // pdSectionUpdates
-            // 
-            this.pdSectionUpdates.BackColor = System.Drawing.Color.Gainsboro;
-            resources.ApplyResources(this.pdSectionUpdates, "pdSectionUpdates");
-            this.pdSectionUpdates.Name = "pdSectionUpdates";
-            this.pdSectionUpdates.ShowCellToolTips = false;
-            this.pdSectionUpdates.ExpandedChanged += new System.Action<XenAdmin.Controls.PDSection>(this.pdSection_ExpandedChanged);
-            // 
-            // panelMemoryAndVCPUs
-            // 
             resources.ApplyResources(this.panelMemoryAndVCPUs, "panelMemoryAndVCPUs");
             this.panelMemoryAndVCPUs.Controls.Add(this.pdSectionVCPUs);
             this.panelMemoryAndVCPUs.Name = "panelMemoryAndVCPUs";
@@ -376,34 +336,6 @@ namespace XenAdmin.TabPages
             // 
             // panelLicense
             // 
-            resources.ApplyResources(this.panelLicense, "panelLicense");
-            this.panelLicense.Controls.Add(this.pdSectionLicense);
-            this.panelLicense.Name = "panelLicense";
-            // 
-            // pdSectionLicense
-            // 
-            this.pdSectionLicense.BackColor = System.Drawing.Color.Gainsboro;
-            resources.ApplyResources(this.pdSectionLicense, "pdSectionLicense");
-            this.pdSectionLicense.Name = "pdSectionLicense";
-            this.pdSectionLicense.ShowCellToolTips = false;
-            this.pdSectionLicense.ExpandedChanged += new System.Action<XenAdmin.Controls.PDSection>(this.pdSection_ExpandedChanged);
-            // 
-            // panelVersion
-            // 
-            resources.ApplyResources(this.panelVersion, "panelVersion");
-            this.panelVersion.Controls.Add(this.pdSectionVersion);
-            this.panelVersion.Name = "panelVersion";
-            // 
-            // pdSectionVersion
-            // 
-            this.pdSectionVersion.BackColor = System.Drawing.Color.Gainsboro;
-            resources.ApplyResources(this.pdSectionVersion, "pdSectionVersion");
-            this.pdSectionVersion.Name = "pdSectionVersion";
-            this.pdSectionVersion.ShowCellToolTips = false;
-            this.pdSectionVersion.ExpandedChanged += new System.Action<XenAdmin.Controls.PDSection>(this.pdSection_ExpandedChanged);
-            // 
-            // panelMemory
-            // 
             resources.ApplyResources(this.panelMemory, "panelMemory");
             this.panelMemory.Controls.Add(this.pdSectionMemory);
             this.panelMemory.Name = "panelMemory";
@@ -429,6 +361,48 @@ namespace XenAdmin.TabPages
             this.pdSectionManagementInterfaces.Name = "pdSectionManagementInterfaces";
             this.pdSectionManagementInterfaces.ShowCellToolTips = false;
             this.pdSectionManagementInterfaces.ExpandedChanged += new System.Action<XenAdmin.Controls.PDSection>(this.pdSection_ExpandedChanged);
+            // 
+            // panelCustomFields
+            // 
+            resources.ApplyResources(this.panelUpdates, "panelUpdates");
+            this.panelUpdates.Controls.Add(this.pdSectionUpdates);
+            this.panelUpdates.Name = "panelUpdates";
+            // 
+            // pdSectionUpdates
+            // 
+            this.pdSectionUpdates.BackColor = System.Drawing.Color.Gainsboro;
+            resources.ApplyResources(this.pdSectionUpdates, "pdSectionUpdates");
+            this.pdSectionUpdates.Name = "pdSectionUpdates";
+            this.pdSectionUpdates.ShowCellToolTips = false;
+            this.pdSectionUpdates.ExpandedChanged += new System.Action<XenAdmin.Controls.PDSection>(this.pdSection_ExpandedChanged);
+            // 
+            // panelVersion
+            // 
+            resources.ApplyResources(this.panelVersion, "panelVersion");
+            this.panelVersion.Controls.Add(this.pdSectionVersion);
+            this.panelVersion.Name = "panelVersion";
+            // 
+            // pdSectionVersion
+            // 
+            this.pdSectionVersion.BackColor = System.Drawing.Color.Gainsboro;
+            resources.ApplyResources(this.pdSectionVersion, "pdSectionVersion");
+            this.pdSectionVersion.Name = "pdSectionVersion";
+            this.pdSectionVersion.ShowCellToolTips = false;
+            this.pdSectionVersion.ExpandedChanged += new System.Action<XenAdmin.Controls.PDSection>(this.pdSection_ExpandedChanged);
+            // 
+            // panelLicense
+            // 
+            resources.ApplyResources(this.panelLicense, "panelLicense");
+            this.panelLicense.Controls.Add(this.pdSectionLicense);
+            this.panelLicense.Name = "panelLicense";
+            // 
+            // pdSectionLicense
+            // 
+            this.pdSectionLicense.BackColor = System.Drawing.Color.Gainsboro;
+            resources.ApplyResources(this.pdSectionLicense, "pdSectionLicense");
+            this.pdSectionLicense.Name = "pdSectionLicense";
+            this.pdSectionLicense.ShowCellToolTips = false;
+            this.pdSectionLicense.ExpandedChanged += new System.Action<XenAdmin.Controls.PDSection>(this.pdSection_ExpandedChanged);
             // 
             // panelCustomFields
             // 
@@ -458,6 +432,16 @@ namespace XenAdmin.TabPages
             this.pdSectionGeneral.ShowCellToolTips = false;
             this.pdSectionGeneral.ExpandedChanged += new System.Action<XenAdmin.Controls.PDSection>(this.pdSection_ExpandedChanged);
             // 
+            // tableLayoutPanelButtons
+            // 
+            resources.ApplyResources(this.tableLayoutPanelButtons, "tableLayoutPanelButtons");
+            this.tableLayoutPanelButtons.Controls.Add(this.buttonViewLog, 2, 0);
+            this.tableLayoutPanelButtons.Controls.Add(this.buttonViewConsole, 1, 0);
+            this.tableLayoutPanelButtons.Controls.Add(this.buttonProperties, 0, 0);
+            this.tableLayoutPanelButtons.Controls.Add(this.linkLabelCollapse, 5, 0);
+            this.tableLayoutPanelButtons.Controls.Add(this.linkLabelExpand, 4, 0);
+            this.tableLayoutPanelButtons.Name = "tableLayoutPanelButtons";
+            // 
             // panelBios
             // 
             resources.ApplyResources(this.panelBios, "panelBios");
@@ -478,10 +462,7 @@ namespace XenAdmin.TabPages
             this.DoubleBuffered = true;
             this.Name = "GeneralTabPage";
             this.pageContainerPanel.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.buttonPanel.ResumeLayout(false);
+            this.pageContainerPanel.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panelReadCaching.ResumeLayout(false);
@@ -490,20 +471,22 @@ namespace XenAdmin.TabPages
             this.panelStorageLinkSystemCapabilities.ResumeLayout(false);
             this.panelMultipathBoot.ResumeLayout(false);
             this.panelStorageLink.ResumeLayout(false);
-            this.panelUpdates.ResumeLayout(false);
             this.panelMemoryAndVCPUs.ResumeLayout(false);
             this.panelMultipathing.ResumeLayout(false);
             this.panelStatus.ResumeLayout(false);
             this.panelHighAvailability.ResumeLayout(false);
             this.panelBootOptions.ResumeLayout(false);
             this.panelCPU.ResumeLayout(false);
-            this.panelLicense.ResumeLayout(false);
-            this.panelVersion.ResumeLayout(false);
             this.panelMemory.ResumeLayout(false);
             this.panelManagementInterfaces.ResumeLayout(false);
+            this.panelUpdates.ResumeLayout(false);
+            this.panelVersion.ResumeLayout(false);
+            this.panelLicense.ResumeLayout(false);
             this.panelCustomFields.ResumeLayout(false);
             this.panelGeneral.ResumeLayout(false);
             this.panelBios.ResumeLayout(false);
+            this.tableLayoutPanelButtons.ResumeLayout(false);
+            this.tableLayoutPanelButtons.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -512,7 +495,6 @@ namespace XenAdmin.TabPages
         #endregion
 
         private System.Windows.Forms.Button buttonProperties;
-        private System.Windows.Forms.Panel panel1;
         private XenAdmin.Controls.PanelNoFocusScroll panel2;
         private System.Windows.Forms.Panel panelGeneral;
         private XenAdmin.Controls.PDSection pdSectionGeneral;
@@ -542,7 +524,6 @@ namespace XenAdmin.TabPages
         private XenAdmin.Controls.PDSection pdSectionUpdates;
         private System.Windows.Forms.LinkLabel linkLabelExpand;
         private System.Windows.Forms.LinkLabel linkLabelCollapse;
-        private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panelStorageLink;
         private XenAdmin.Controls.PDSection pdStorageLink;
         private System.Windows.Forms.Panel panelMultipathBoot;
@@ -557,7 +538,7 @@ namespace XenAdmin.TabPages
         private Controls.PDSection pdSectionReadCaching;
         private System.Windows.Forms.Button buttonViewConsole;
         private System.Windows.Forms.Button buttonViewLog;
-        private System.Windows.Forms.FlowLayoutPanel buttonPanel;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelButtons;
         private System.Windows.Forms.Panel panelBios;
         private Controls.PDSection pdSectionBios;
     }

@@ -577,7 +577,6 @@ namespace XenAdmin.Wizards.PatchingWizard
         private void fileNameTextBox_Enter(object sender, EventArgs e)
         {
             selectFromDiskRadioButton.Checked = true;
-            OnPageUpdated();
         }
 
         private void fileNameTextBox_TextChanged(object sender, EventArgs e)

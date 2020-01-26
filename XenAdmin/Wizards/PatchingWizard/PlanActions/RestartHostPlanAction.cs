@@ -62,6 +62,9 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
             {
                 if (_restartAgentFallback)
                     RestartAgent(ref session);
+
+                if (!EnableOnly)
+                    BringBabiesBack(ref session, _vms, EnableOnly);
                 return;
             }
 
@@ -75,13 +78,10 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
 
         public bool SkipRestartHost(Host host)
         {
-            if (hostsNeedReboot != null
-                && !hostsNeedReboot.Contains(host.uuid)
-                && Helpers.ElyOrGreater(host)
-                && host.updates_requiring_reboot.Count <= 0)
-            {
+            // if the precheck didn't mark this host as requiring reboot, then skip the reboot
+            if (Helpers.ElyOrGreater(host) && hostsNeedReboot != null && !hostsNeedReboot.Contains(host.uuid))
                 return true;
-            }
+
             return false;
         }
     }

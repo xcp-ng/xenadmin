@@ -34,22 +34,28 @@ using XenAPI;
 
 namespace XenAdmin.Wizards.PatchingWizard.PlanActions
 {
-    public class ApplyPatchPlanAction : PlanActionWithSession
+    public class ApplyPatchPlanAction : HostPlanAction
     {
-        private readonly Host _host;
         private readonly Pool_patch _patch;
+        private readonly bool _hostNeedsEvacuated;
 
-        public ApplyPatchPlanAction(Host host, Pool_patch patch)
-            : base(host.Connection)
+        public ApplyPatchPlanAction(Host host, Pool_patch patch, bool hostNeedsEvacuated)
+            : base(host)
         {
-            _host = host;
             _patch = patch;
+            _hostNeedsEvacuated = hostNeedsEvacuated;
         }
 
         protected override void RunWithSession(ref Session session)
         {
-            AddProgressStep(string.Format(Messages.UPDATES_WIZARD_APPLYING_UPDATE, _patch.Name(), _host.Name()));
-            XenRef<Task> task = Pool_patch.async_apply(session, _patch.opaque_ref, _host.opaque_ref);
+            var host = GetResolvedHost();
+
+            // evacuate the host, if needed,  before applying the update
+            if (_hostNeedsEvacuated)
+                EvacuateHost(ref session);
+
+            AddProgressStep(string.Format(Messages.UPDATES_WIZARD_APPLYING_UPDATE, _patch.Name(), host.Name()));
+            XenRef<Task> task = Pool_patch.async_apply(session, _patch.opaque_ref, host.opaque_ref);
             PollTaskForResultAndDestroy(Connection, ref session, task);
         }
     }

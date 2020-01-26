@@ -307,10 +307,15 @@ namespace XenAdmin.Wizards.PatchingWizard
                         return IsHostAmongApplicable(host, out tooltipText);
 
                     // here a file from disk was selected, but it was not an update (FileFromDiskAlert == null)
-                    if ((!Helpers.ElyOrGreater(host.Connection) && FileFromDiskHasUpdateXml) ||
-                        (Helpers.ElyOrGreater(host.Connection) && !FileFromDiskHasUpdateXml))
+                    if (!Helpers.ElyOrGreater(host.Connection) && FileFromDiskHasUpdateXml)
                     {
                         tooltipText = Messages.PATCHINGWIZARD_SELECTSERVERPAGE_PATCH_NOT_APPLICABLE;
+                        return false;
+                    }
+
+                    if (Helpers.ElyOrGreater(host.Connection) && !FileFromDiskHasUpdateXml)
+                    {
+                        tooltipText = Messages.PATCHINGWIZARD_SELECTSERVERPAGE_PATCH_NOT_APPLICABLE_OR_INVALID;
                         return false;
                     }
 

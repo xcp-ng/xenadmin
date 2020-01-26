@@ -174,6 +174,14 @@ namespace XenAdmin.Wizards.PatchingWizard
             return string.Format(msg, GetUpdateName());
         }
 
+        protected override string WarningMessageOnCompletion(bool multiplePools)
+        {
+            var msg = multiplePools
+                ? Messages.PATCHINGWIZARD_SINGLEUPLOAD_WARNING_MANY
+                : Messages.PATCHINGWIZARD_SINGLEUPLOAD_WARNING_ONE;
+            return string.Format(msg, GetUpdateName());
+        }
+
         protected override string SuccessMessagePerPool(Pool pool)
         {
             return string.Format( Messages.PATCHINGWIZARD_SINGLEUPLOAD_SUCCESS_ONE, GetUpdateName());
@@ -185,6 +193,11 @@ namespace XenAdmin.Wizards.PatchingWizard
                 ? Messages.PATCHINGWIZARD_SINGLEUPLOAD_FAILURE_PER_POOL_MANY
                 : Messages.PATCHINGWIZARD_SINGLEUPLOAD_FAILURE_PER_POOL_ONE;
             return string.Format(msg, GetUpdateName());
+        }
+
+        protected override string WarningMessagePerPool(Pool pool)
+        {
+            return null;
         }
 
         protected override string UserCancellationMessage()

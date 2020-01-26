@@ -31,21 +31,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading;
-using log4net;
-using XenAdmin.Controls;
-using XenAdmin.Diagnostics.Problems;
-using XenAdmin.Dialogs;
 using XenAdmin.Wizards.PatchingWizard.PlanActions;
 using XenAPI;
-using XenAdmin.Actions;
-using XenAdmin.Core;
 
 namespace XenAdmin.Wizards.PatchingWizard
 {
@@ -122,6 +112,14 @@ namespace XenAdmin.Wizards.PatchingWizard
             return string.Format(msg, GetUpdateName());
         }
 
+        protected override string WarningMessageOnCompletion(bool multiplePools)
+        {
+            var msg = multiplePools
+                ? Messages.PATCHINGWIZARD_SINGLEUPDATE_WARNING_MANY
+                : Messages.PATCHINGWIZARD_SINGLEUPDATE_WARNING_ONE;
+            return string.Format(msg, GetUpdateName());
+        }
+
         protected override string SuccessMessagePerPool(Pool pool)
         {
             var sb = new StringBuilder();
@@ -130,6 +128,13 @@ namespace XenAdmin.Wizards.PatchingWizard
 
             if (!IsAutomaticMode && ManualTextInstructions.ContainsKey(pool))
                 sb.Append(ManualTextInstructions[pool]).AppendLine();
+            
+            return sb.ToString();
+        }
+        
+        protected override string WarningMessagePerPool(Pool pool)
+        {
+            var sb = new StringBuilder();
 
             var poolHosts = pool.Connection.Cache.Hosts.ToList();
 
@@ -143,15 +148,18 @@ namespace XenAdmin.Wizards.PatchingWizard
             if (livePatchingFailedHosts.Count == 1)
             {
                 sb.AppendFormat(Messages.LIVE_PATCHING_FAILED_ONE_HOST, livePatchingFailedHosts[0].Name()).AppendLine();
+                return sb.ToString();
             }
-            else if (livePatchingFailedHosts.Count > 1)
+
+            if (livePatchingFailedHosts.Count > 1)
             {
                 var hostnames = string.Join(", ", livePatchingFailedHosts.Select(h => string.Format("'{0}'", h.Name())));
                 sb.AppendFormat(Messages.LIVE_PATCHING_FAILED_MULTI_HOST, hostnames).AppendLine();
+                return sb.ToString();
             }
-
-            return sb.ToString();
+            return null;
         }
+
 
         protected override string FailureMessageOnCompletion(bool multiplePools)
         {
@@ -168,7 +176,6 @@ namespace XenAdmin.Wizards.PatchingWizard
                 : Messages.PATCHINGWIZARD_SINGLEUPDATE_FAILURE_PER_POOL_ONE;
             return string.Format(msg, GetUpdateName());
         }
-
         protected override string UserCancellationMessage()
         {
             return Messages.PATCHINGWIZARD_AUTOUPDATINGPAGE_CANCELLATION;
@@ -196,7 +203,9 @@ namespace XenAdmin.Wizards.PatchingWizard
                     foreach (var server in SelectedServers)
                         if (poolHosts.Contains(server))
                         {
-                            var updateActions = new List<PlanAction> {new ApplyPoolUpdatePlanAction(server, PoolUpdate)};
+                            var hostRebootRequired = WizardHelpers.IsHostRebootRequiredForUpdate(server, PoolUpdate, LivePatchCodesByHost);
+
+                            var updateActions = new List<PlanAction> {new ApplyPoolUpdatePlanAction(server, PoolUpdate, hostRebootRequired) };
                             hostplans.Add(new HostPlan(server, null, updateActions, null));
                         }
                 }
@@ -215,7 +224,9 @@ namespace XenAdmin.Wizards.PatchingWizard
                 foreach (var server in SelectedServers)
                     if (poolHosts.Contains(server))
                     {
-                        var updateActions = new List<PlanAction> { new ApplyPatchPlanAction(server, Patch) };
+                        var hostRebootRequired = WizardHelpers.IsHostRebootRequiredForUpdate(server, Patch, LivePatchCodesByHost);
+
+                        var updateActions = new List<PlanAction> { new ApplyPatchPlanAction(server, Patch, hostRebootRequired) };
                         hostplans.Add(new HostPlan(server, null, updateActions, null));
                     }
 
@@ -284,14 +295,12 @@ namespace XenAdmin.Wizards.PatchingWizard
 
         private List<PlanAction> CompilePatchActionList(Host host, Pool_patch patch)
         {
-            var actions = new List<PlanAction> {new ApplyPatchPlanAction(host, patch)};
+            var hostRebootRequired = WizardHelpers.IsHostRebootRequiredForUpdate(host, patch, LivePatchCodesByHost);
 
-            if (patch.after_apply_guidance.Contains(after_apply_guidance.restartHost)
-                && !(LivePatchCodesByHost != null && LivePatchCodesByHost.ContainsKey(host.uuid)
-                     && LivePatchCodesByHost[host.uuid] == livepatch_status.ok_livepatch_complete))
-            {
+            var actions = new List<PlanAction> {new ApplyPatchPlanAction(host, patch, hostRebootRequired) };
+
+            if (hostRebootRequired)
                 actions.Add(new RestartHostPlanAction(host, host.GetRunningVMs()));
-            }
 
             if (patch.after_apply_guidance.Contains(after_apply_guidance.restartXAPI))
                 actions.Add(new RestartAgentPlanAction(host));
@@ -307,14 +316,12 @@ namespace XenAdmin.Wizards.PatchingWizard
 
         private List<PlanAction> CompilePoolUpdateActionList(Host host, Pool_update poolUpdate)
         {
-            var actions = new List<PlanAction> {new ApplyPoolUpdatePlanAction(host, poolUpdate)};
+            var hostRebootRequired = WizardHelpers.IsHostRebootRequiredForUpdate(host, poolUpdate, LivePatchCodesByHost);
 
-            if (poolUpdate.after_apply_guidance.Contains(update_after_apply_guidance.restartHost)
-                && !(LivePatchCodesByHost != null && LivePatchCodesByHost.ContainsKey(host.uuid)
-                     && LivePatchCodesByHost[host.uuid] == livepatch_status.ok_livepatch_complete))
-            {
+            var actions = new List<PlanAction> {new ApplyPoolUpdatePlanAction(host, poolUpdate, hostRebootRequired) };
+
+            if (hostRebootRequired)
                 actions.Add(new RestartHostPlanAction(host, host.GetRunningVMs()));
-            }
 
             if (poolUpdate.after_apply_guidance.Contains(update_after_apply_guidance.restartXAPI))
                 actions.Add(new RestartAgentPlanAction(host));

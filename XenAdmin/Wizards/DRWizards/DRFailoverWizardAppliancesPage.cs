@@ -183,7 +183,7 @@ namespace XenAdmin.Wizards.DRWizards
                 {
                     foreach (var vmItem in poolMetadata.Vms)
                     {
-                        if (vmItem.Value.appliance.opaque_ref != null && vmItem.Value.appliance.opaque_ref.StartsWith("OpaqueRef:") && vmItem.Value.appliance.opaque_ref != "OpaqueRef:NULL")
+                        if (vmItem.Value.IsAssignedToVapp())
                         {
                             //VM included in an appliance
                             continue;

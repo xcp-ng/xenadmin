@@ -78,9 +78,9 @@ namespace XenAdmin.Controls
             this.chevron.Image = global::XenAdmin.Properties.Resources.PDChevronUp;
             this.chevron.Name = "chevron";
             this.chevron.TabStop = false;
-            this.chevron.MouseLeave += new System.EventHandler(this.chevron_MouseLeave);
             this.chevron.Click += new System.EventHandler(this.chevron_Click);
             this.chevron.MouseEnter += new System.EventHandler(this.chevron_MouseEnter);
+            this.chevron.MouseLeave += new System.EventHandler(this.chevron_MouseLeave);
             // 
             // contextMenuStrip1
             // 
@@ -97,7 +97,6 @@ namespace XenAdmin.Controls
             // 
             // dataGridViewEx1
             // 
-            resources.ApplyResources(this.dataGridViewEx1, "dataGridViewEx1");
             this.dataGridViewEx1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridViewEx1.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dataGridViewEx1.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -115,6 +114,7 @@ namespace XenAdmin.Controls
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewEx1.DefaultCellStyle = dataGridViewCellStyle3;
+            resources.ApplyResources(this.dataGridViewEx1, "dataGridViewEx1");
             this.dataGridViewEx1.GridColor = System.Drawing.SystemColors.Control;
             this.dataGridViewEx1.HideSelection = true;
             this.dataGridViewEx1.Name = "dataGridViewEx1";
@@ -122,14 +122,14 @@ namespace XenAdmin.Controls
             dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(5);
             this.dataGridViewEx1.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridViewEx1.ShowCellToolTips = false;
-            this.dataGridViewEx1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewEx1_MouseClick);
-            this.dataGridViewEx1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dataGridViewEx1_KeyPress);
-            this.dataGridViewEx1.SelectionChanged += new System.EventHandler(this.dataGridViewEx1_SelectionChanged);
             this.dataGridViewEx1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewEx1_CellContentClick);
+            this.dataGridViewEx1.SelectionChanged += new System.EventHandler(this.dataGridViewEx1_SelectionChanged);
+            this.dataGridViewEx1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dataGridViewEx1_KeyPress);
+            this.dataGridViewEx1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewEx1_MouseClick);
             // 
             // KeyColumn
             // 
-            this.KeyColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.KeyColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.KeyColumn.DefaultCellStyle = dataGridViewCellStyle1;
@@ -157,8 +157,8 @@ namespace XenAdmin.Controls
             this.Controls.Add(this.dataGridViewEx1);
             this.Controls.Add(this.panel1);
             this.DoubleBuffered = true;
-            this.Name = "PDSection";
             resources.ApplyResources(this, "$this");
+            this.Name = "PDSection";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chevron)).EndInit();
@@ -176,8 +176,8 @@ namespace XenAdmin.Controls
         private System.Windows.Forms.PictureBox chevron;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn KeyColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ValueColumn;
-        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
     }
 }

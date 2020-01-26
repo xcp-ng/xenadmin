@@ -45,7 +45,7 @@ using XenAdmin.Wizards.PatchingWizard.PlanActions;
 
 namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
 {
-    class RpuUploadAndApplySuppPackPlanAction : PlanActionWithSession
+    class RpuUploadAndApplySuppPackPlanAction : HostPlanAction
     {
         private Host host;
         private List<Host> hosts;
@@ -55,7 +55,7 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
         private readonly List<string> hostsThatWillRequireReboot;
 
         public RpuUploadAndApplySuppPackPlanAction(IXenConnection connection, Host host, List<Host> hosts, string path, Dictionary<Host, Pool_update> uploadedUpdate, List<string> hostsThatWillRequireReboot)
-            : base(connection)
+            : base(host)
         {
             this.host = host;
             this.hosts = hosts;
@@ -89,6 +89,8 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
             var master = Helpers.GetMaster(conn);
             var suppPackName = Path.GetFileName(suppPackPath);
 
+            host = GetResolvedHost();
+
             // upload
             UploadSuppPack(master, conn, session, suppPackName);
 
@@ -98,8 +100,7 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
                 if (update != null)
                 {
                     // precheck
-                    bool alreadyApplied;
-                    PrecheckSuppPack(update, suppPackName, out alreadyApplied);
+                    PrecheckSuppPack(update, suppPackName, out var alreadyApplied, out var updateRequiresHostEvacuation);
                     if (alreadyApplied)
                     {
                         // do after-apply-supppack step in case that this is a retry after
@@ -110,7 +111,7 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
                     }
 
                     // apply
-                    ApplySuppPack(conn, session, suppPackName, update);
+                    ApplySuppPack(conn, session, suppPackName, update, updateRequiresHostEvacuation);
 
                     // after apply guidance
                     AfterApplySuppPack(update);
@@ -158,7 +159,7 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
             }
         }
 
-        private void PrecheckSuppPack(Pool_update update, string suppPack, out bool alreadyApplied)
+        private void PrecheckSuppPack(Pool_update update, string suppPack, out bool alreadyApplied, out bool updateRequiresHostEvacuation)
         {
             alreadyApplied = false;
             if (Cancelling)
@@ -173,6 +174,7 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
 
                 PatchPrecheckCheck check = new PatchPrecheckCheck(host, update, livePatchStatus);
                 var problems = check.RunAllChecks();
+                updateRequiresHostEvacuation = WizardHelpers.IsHostRebootRequiredForUpdate(host, update, livePatchStatus);
                 if (problems != null && problems.Count > 0)
                 {
                     if (problems[0] is PatchAlreadyApplied)
@@ -197,10 +199,14 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
                 hostsThatWillRequireReboot.Add(host.uuid);
         }
 
-        private void ApplySuppPack(IXenConnection connection, Session session, string suppPack, Pool_update update)
+        private void ApplySuppPack(IXenConnection connection, Session session, string suppPack, Pool_update update, bool updateRequiresHostEvacuation)
         {
             try
             {
+                // evacuate the host, if needed, before applying the update
+                if (updateRequiresHostEvacuation)
+                    EvacuateHost(ref session);
+
                 AddProgressStep(string.Format(Messages.UPDATES_WIZARD_APPLYING_UPDATE, suppPack, host.Name()));
 
                 var task = Pool_update.async_apply(session, update.opaque_ref, host.opaque_ref);

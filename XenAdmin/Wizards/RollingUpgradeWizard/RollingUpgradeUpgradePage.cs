@@ -85,6 +85,11 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard
             return multiplePools ? Messages.ROLLING_UPGRADE_ERROR_MANY : Messages.ROLLING_UPGRADE_ERROR_ONE;
         }
 
+        protected override string WarningMessageOnCompletion(bool multiplePools)
+        {
+            return multiplePools ? Messages.ROLLING_UPGRADE_WARNING_MANY : Messages.ROLLING_UPGRADE_WARNING_ONE;
+        }
+
         protected override string SuccessMessagePerPool(Pool pool)
         {
             return Messages.ROLLING_UPGRADE_SUCCESS_ONE;
@@ -93,6 +98,11 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard
         protected override string FailureMessagePerPool(bool multipleErrors)
         {
             return multipleErrors ? Messages.ROLLING_UPGRADE_ERROR_POOL_MANY : Messages.ROLLING_UPGRADE_ERROR_POOL_ONE;
+        }
+
+        protected override string WarningMessagePerPool(Pool pool)
+        {
+            return LivePatchWarningMessagePerPool(pool);
         }
 
         protected override string UserCancellationMessage()

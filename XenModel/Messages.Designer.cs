@@ -27788,6 +27788,24 @@ namespace XenAdmin {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Clean up... ähnelt.
         /// </summary>
+        public static string PATCHINGWIZARD_AUTOUPDATINGPAGE_WARNING_MANY {
+            get {
+                return ResourceManager.GetString("PATCHINGWIZARD_AUTOUPDATINGPAGE_WARNING_MANY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The automated updates process was completed with warnings..
+        /// </summary>
+        public static string PATCHINGWIZARD_AUTOUPDATINGPAGE_WARNING_ONE {
+            get {
+                return ResourceManager.GetString("PATCHINGWIZARD_AUTOUPDATINGPAGE_WARNING_ONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clean up....
+        /// </summary>
         public static string PATCHINGWIZARD_CLEANUP {
             get {
                 return ResourceManager.GetString("PATCHINGWIZARD_CLEANUP", resourceCulture);
@@ -28275,6 +28293,15 @@ namespace XenAdmin {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select one or more pools or standalone servers that you want to have updated.
         ///Servers that cannot be updated with automated updates appear disabled in this list. ähnelt.
+        public static string PATCHINGWIZARD_SELECTSERVERPAGE_PATCH_NOT_APPLICABLE_OR_INVALID {
+            get {
+                return ResourceManager.GetString("PATCHINGWIZARD_SELECTSERVERPAGE_PATCH_NOT_APPLICABLE_OR_INVALID", resourceCulture);
+            }
+        }
+        /// </summary>
+        /// <summary>
+        ///   Looks up a localized string similar to Select one or more pools or standalone servers that you want to have updated.
+        ///Servers that cannot be updated with automated updates appear disabled in this list..
         /// </summary>
         public static string PATCHINGWIZARD_SELECTSERVERPAGE_RUBRIC_AUTOMATED_MODE {
             get {
@@ -28414,6 +28441,24 @@ namespace XenAdmin {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The upload process was cancelled. ähnelt.
         /// </summary>
+        public static string PATCHINGWIZARD_SINGLEUPDATE_WARNING_MANY {
+            get {
+                return ResourceManager.GetString("PATCHINGWIZARD_SINGLEUPDATE_WARNING_MANY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The installation of update {0} was completed with warnings..
+        /// </summary>
+        public static string PATCHINGWIZARD_SINGLEUPDATE_WARNING_ONE {
+            get {
+                return ResourceManager.GetString("PATCHINGWIZARD_SINGLEUPDATE_WARNING_ONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The upload process was cancelled..
+        /// </summary>
         public static string PATCHINGWIZARD_SINGLEUPLOAD_CANCELLATION {
             get {
                 return ResourceManager.GetString("PATCHINGWIZARD_SINGLEUPLOAD_CANCELLATION", resourceCulture);
@@ -28496,6 +28541,24 @@ namespace XenAdmin {
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die [XenCenter] is now installing updates on your system. ähnelt.
+        /// </summary>
+        public static string PATCHINGWIZARD_SINGLEUPLOAD_WARNING_MANY {
+            get {
+                return ResourceManager.GetString("PATCHINGWIZARD_SINGLEUPLOAD_WARNING_MANY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The upload of update {0} was completed with warnings..
+        /// </summary>
+        public static string PATCHINGWIZARD_SINGLEUPLOAD_WARNING_ONE {
+            get {
+                return ResourceManager.GetString("PATCHINGWIZARD_SINGLEUPLOAD_WARNING_ONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [XenCenter] is now installing updates on your system..
         /// </summary>
         public static string PATCHINGWIZARD_UPLOAD_AND_INSTALL_TITLE_AUTOMATED_MODE {
             get {
@@ -31339,6 +31402,24 @@ namespace XenAdmin {
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Upgrade prechecks are performed on all the pools you selected to ensure that all the servers can be upgraded. ähnelt.
+        /// </summary>
+        public static string ROLLING_UPGRADE_WARNING_MANY {
+            get {
+                return ResourceManager.GetString("ROLLING_UPGRADE_WARNING_MANY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The rolling pool upgrade process was completed with warnings..
+        /// </summary>
+        public static string ROLLING_UPGRADE_WARNING_ONE {
+            get {
+                return ResourceManager.GetString("ROLLING_UPGRADE_WARNING_ONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upgrade prechecks are performed on all the pools you selected to ensure that all the servers can be upgraded..
         /// </summary>
         public static string ROLLINGUPGRADE_PRECHECKS {
             get {
@@ -35473,6 +35554,15 @@ namespace XenAdmin {
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die {0}: VM &apos;{1}&apos; has a local CD/DVD in its drive. ähnelt.
+        /// </summary>
+        public static string UPDATES_WIZARD_INVALID_ISO_FILE {
+            get {
+                return ResourceManager.GetString("UPDATES_WIZARD_INVALID_ISO_FILE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}: VM &apos;{1}&apos; has a local CD/DVD in its drive..
         /// </summary>
         public static string UPDATES_WIZARD_LOCAL_CD {
             get {

@@ -31,10 +31,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using XenAdmin.Core;
 using XenAPI;
 
 namespace XenAdmin.Wizards.PatchingWizard.PlanActions
@@ -66,9 +63,13 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
             var hostObj = GetResolvedHost();
 
             var vms = hostObj.GetRunningVMs();
-            AddProgressStep(string.Format(Messages.UPDATES_WIZARD_ENTERING_MAINTENANCE_MODE, hostObj.Name()));
-            log.DebugFormat("Disabling host {0}", hostObj.Name());
-            Host.disable(session, HostXenRef.opaque_ref);
+
+            if (hostObj.enabled)
+            {
+                AddProgressStep(string.Format(Messages.UPDATES_WIZARD_ENTERING_MAINTENANCE_MODE, hostObj.Name()));
+                log.DebugFormat("Disabling host {0}", hostObj.Name());
+                Host.disable(session, HostXenRef.opaque_ref);
+            }
 
             if (vms.Count > 0)
             {
@@ -99,18 +100,16 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
             // CA-17428: Apply hotfixes to a pool of hosts through XenCenter fails.
             // Hosts do reenable themselves anyway, so just wait 1 min for that,  
             // occasionally poking it.
-            var hostObj = GetResolvedHost();
-            AddProgressStep(string.Format(Messages.UPDATES_WIZARD_EXITING_MAINTENANCE_MODE, hostObj.Name()));
 
             WaitForHostToBecomeEnabled(session, true);
-
+            
             if (enableOnly || vmrefs.Count == 0)
                 return;
 
             int vmCount = vmrefs.Count;
             int vmNumber = 0;
-            
-            hostObj = GetResolvedHost();
+
+            var hostObj = GetResolvedHost();
             AddProgressStep(string.Format(Messages.PLAN_ACTION_STATUS_REPATRIATING_VMS, hostObj.Name()));
             PBD.CheckPlugPBDsForVMs(Connection, vmrefs, true);
 
@@ -163,6 +162,10 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
             int retries = 0;
             while (!Host.get_enabled(session, HostXenRef.opaque_ref))
             {
+                var hostObj = GetResolvedHost();
+                if (retries == 0)
+                    AddProgressStep(string.Format(Messages.UPDATES_WIZARD_EXITING_MAINTENANCE_MODE, hostObj.Name()));
+
                 retries++;
                 var isLastTry = retries > 60;
 
@@ -172,7 +175,7 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
                 {
                     if (isLastTry)
                     {
-                        log.Debug(string.Format("Timed out waiting for host {0} to become enabled.", HostXenRef.opaque_ref));
+                        log.DebugFormat("Timed out waiting for host {0} to become enabled.", hostObj.Name());
                         break;
                     }
 
@@ -188,7 +191,7 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
                     if (isLastTry)
                         throw;
 
-                    log.Debug(string.Format("Cannot enable host {0}. Retrying in 5 sec.", HostXenRef.opaque_ref), e);
+                    log.Debug(string.Format("Cannot enable host {0}. Retrying in 5 sec.", hostObj), e);
                 }
             }
         }

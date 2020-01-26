@@ -38,16 +38,14 @@ using XenAPI;
 
 namespace XenAdmin.Wizards.PatchingWizard.PlanActions
 {
-    public class ApplyXenServerPatchPlanAction : PlanActionWithSession
+    public class ApplyXenServerPatchPlanAction : HostPlanAction
     {
-        private readonly Host host;
         private readonly XenServerPatch xenServerPatch;
         private readonly List<HostUpdateMapping> mappings;
 
         public ApplyXenServerPatchPlanAction(Host host, XenServerPatch xenServerPatch, List<HostUpdateMapping> mappings)
-            : base(host.Connection)
+            : base(host)
         {
-            this.host = host;
             this.xenServerPatch = xenServerPatch;
             this.mappings = mappings;
         }
@@ -68,8 +66,13 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
                 throw new Exception("Pool_patch or Pool_update not found.");
             }
 
+            var host = GetResolvedHost();
             try
             {
+                // evacuate the host, if needed, before applying the update
+                if (mapping.HostsThatNeedEvacuated.Contains(host.uuid))
+                    EvacuateHost(ref session);
+
                 AddProgressStep(string.Format(Messages.UPDATES_WIZARD_APPLYING_UPDATE, xenServerPatch.Name,
                     host.Name()));
 

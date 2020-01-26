@@ -39,6 +39,7 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
     public abstract class HostUpdateMapping
     {
         protected readonly Host MasterHost;
+        public List<string> HostsThatNeedEvacuated = new List<string>();
 
         protected HostUpdateMapping(Host masterHost)
         {

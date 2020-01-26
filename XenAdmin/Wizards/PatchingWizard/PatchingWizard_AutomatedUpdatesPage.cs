@@ -32,6 +32,7 @@
 using System.Collections.Generic;
 using XenAPI;
 using System.Linq;
+using System.Text;
 using XenAdmin.Core;
 using XenAdmin.Alerts;
 
@@ -92,14 +93,25 @@ namespace XenAdmin.Wizards.PatchingWizard
             return multiplePools ? Messages.PATCHINGWIZARD_AUTOUPDATINGPAGE_ERROR_MANY : Messages.PATCHINGWIZARD_AUTOUPDATINGPAGE_ERROR_ONE;
         }
 
+        protected override string WarningMessageOnCompletion(bool multiplePools)
+        {
+            return multiplePools ? Messages.PATCHINGWIZARD_AUTOUPDATINGPAGE_WARNING_MANY : Messages.PATCHINGWIZARD_AUTOUPDATINGPAGE_WARNING_ONE;
+        }
+
         protected override string SuccessMessagePerPool(Pool pool)
         {
+
             return Messages.PATCHINGWIZARD_AUTOUPDATINGPAGE_SUCCESS_ONE;
         }
 
         protected override string FailureMessagePerPool(bool multipleErrors)
         {
             return multipleErrors ? Messages.PATCHINGWIZARD_AUTOUPDATINGPAGE_ERROR_POOL_MANY : Messages.PATCHINGWIZARD_AUTOUPDATINGPAGE_ERROR_POOL_ONE;
+        }
+
+        protected override string WarningMessagePerPool(Pool pool)
+        {
+            return LivePatchWarningMessagePerPool(pool);
         }
 
         protected override string UserCancellationMessage()

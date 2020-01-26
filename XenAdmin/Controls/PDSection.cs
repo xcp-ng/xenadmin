@@ -492,7 +492,6 @@ namespace XenAdmin.Controls
 
         internal void fixFirstColumnWidth(int width)
         {
-            dataGridViewEx1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             dataGridViewEx1.Columns[0].Width = width;
         }
 
