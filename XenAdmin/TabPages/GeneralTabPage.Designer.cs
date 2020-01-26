@@ -100,7 +100,7 @@ namespace XenAdmin.TabPages
             this.panelLicense.SuspendLayout();
             this.panelCustomFields.SuspendLayout();
             this.panelGeneral.SuspendLayout();
-            this.tableLayoutPanelButtons.SuspendLayout()
+            this.tableLayoutPanelButtons.SuspendLayout();
             this.panelBios.SuspendLayout();
             this.SuspendLayout();
             // 
