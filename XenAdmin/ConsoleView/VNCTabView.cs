@@ -1496,7 +1496,7 @@ namespace XenAdmin.ConsoleView
                 {
                     log.Error("Error starting PuTTY.", ex);
 
-                    using (var dlg = new ThreeButtonDialog(new ThreeButtonDialog.Details(SystemIcons.Error, Messages.ERROR_PUTTY_LAUNCHING, Messages.XENCENTER)))
+                    using (var dlg = new ThreeButtonDialog(new ThreeButtonDialog.Details(SystemIcons.Error, Messages.ERROR_PUTTY_LAUNCHING + "\n\n" + puttyPath + "\n\n" + ex.Message, Messages.XENCENTER)))
                     {    
                         dlg.ShowDialog(Parent);
                     }
