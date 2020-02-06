@@ -958,50 +958,51 @@ namespace XenAdmin.Core
 
         public static void CheckHotfixEligibility(IXenConnection connection)
         {
-            var master = Helpers.GetMaster(connection);
-            if (master == null)
-                return;
+            //var master = Helpers.GetMaster(connection);
+            //if (master == null)
+            //    return;
 
-            var hotfixEligibility = HotfixEligibility(master, out var xenServerVersion);
+            //var hotfixEligibility = HotfixEligibility(master, out var xenServerVersion);
 
-            if (!HotfixEligibilityAlert.IsAlertNeeded(hotfixEligibility, xenServerVersion, !master.IsFreeLicenseOrExpired()))
-            {
-                Alert.RemoveAlert(a => a is HotfixEligibilityAlert && connection.Equals(a.Connection));
-                return;
-            }
+            //if (!HotfixEligibilityAlert.IsAlertNeeded(hotfixEligibility, xenServerVersion, !master.IsFreeLicenseOrExpired()))
+            //{
+            //    Alert.RemoveAlert(a => a is HotfixEligibilityAlert && connection.Equals(a.Connection));
+            //    return;
+            //}
 
-            var alertIndex = Alert.FindAlertIndex(a => a is HotfixEligibilityAlert alert && connection.Equals(alert.Connection) && xenServerVersion == alert.Version);
-            if (alertIndex == -1)
-            {
-                Alert.RemoveAlert(a => a is HotfixEligibilityAlert && connection.Equals(a.Connection)); // ensure that there is no other alert for this connection
-                Alert.AddAlert(new HotfixEligibilityAlert(connection, xenServerVersion));
-            }
-            else
-                Alert.RefreshAlertAt(alertIndex);
+            //var alertIndex = Alert.FindAlertIndex(a => a is HotfixEligibilityAlert alert && connection.Equals(alert.Connection) && xenServerVersion == alert.Version);
+            //if (alertIndex == -1)
+            //{
+            //    Alert.RemoveAlert(a => a is HotfixEligibilityAlert && connection.Equals(a.Connection)); // ensure that there is no other alert for this connection
+            //    Alert.AddAlert(new HotfixEligibilityAlert(connection, xenServerVersion));
+            //}
+            //else
+            //    Alert.RefreshAlertAt(alertIndex);
+
         }
 
         public static void CheckHotfixEligibility()
         {
-            var alerts = new List<HotfixEligibilityAlert>();
+            //var alerts = new List<HotfixEligibilityAlert>();
          
-            foreach (var connection in ConnectionsManager.XenConnectionsCopy)
-            {
-                if (!connection.IsConnected)
-                    continue;
+            //foreach (var connection in ConnectionsManager.XenConnectionsCopy)
+            //{
+            //    if (!connection.IsConnected)
+            //        continue;
 
-                var master = Helpers.GetMaster(connection);
-                if (master == null)
-                    continue;
+            //    var master = Helpers.GetMaster(connection);
+            //    if (master == null)
+            //        continue;
                 
-                var hotfixEligibility = HotfixEligibility(master, out var xenServerVersion);
-                if (!HotfixEligibilityAlert.IsAlertNeeded(hotfixEligibility, xenServerVersion, !master.IsFreeLicenseOrExpired()))
-                    continue;
+            //    var hotfixEligibility = HotfixEligibility(master, out var xenServerVersion);
+            //    if (!HotfixEligibilityAlert.IsAlertNeeded(hotfixEligibility, xenServerVersion, !master.IsFreeLicenseOrExpired()))
+            //        continue;
 
-                alerts.Add(new HotfixEligibilityAlert(connection, xenServerVersion));
-            }
+            //    alerts.Add(new HotfixEligibilityAlert(connection, xenServerVersion));
+            //}
 
-            Alert.RemoveAlert(a => a is HotfixEligibilityAlert);
-            Alert.AddAlertRange(alerts);
+            //Alert.RemoveAlert(a => a is HotfixEligibilityAlert);
+            //Alert.AddAlertRange(alerts);
         }
     }
 }

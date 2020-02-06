@@ -90,6 +90,24 @@ namespace XenAdmin {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die https://xcp-ng.org ähnelt.
         /// </summary>
+        public static string COMMUNITY_URL {
+            get {
+                return ResourceManager.GetString("COMMUNITY_URL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string DEPRECATION_URL {
+            get {
+                return ResourceManager.GetString("DEPRECATION_URL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         public static string HEALTH_CHECK_PRIVACY_STATEMENT_URL {
             get {
                 return ResourceManager.GetString("HEALTH_CHECK_PRIVACY_STATEMENT_URL", resourceCulture);
@@ -228,6 +246,15 @@ namespace XenAdmin {
         public static string PRIVACY {
             get {
                 return ResourceManager.GetString("PRIVACY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string PV_GUESTS_CHECK_URL {
+            get {
+                return ResourceManager.GetString("PV_GUESTS_CHECK_URL", resourceCulture);
             }
         }
         

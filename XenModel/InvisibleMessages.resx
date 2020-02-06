@@ -198,4 +198,10 @@
   <data name="HELP_URL" xml:space="preserve">
     <value />
   </data>
+  <data name="DEPRECATION_URL" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PV_GUESTS_CHECK_URL" xml:space="preserve">
+    <value />
+  </data>
 </root>

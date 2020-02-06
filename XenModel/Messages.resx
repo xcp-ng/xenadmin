@@ -14460,4 +14460,16 @@ You will need to navigate to the Console on each of the selected VMs to complete
   <data name="YOU_ARE_HERE" xml:space="preserve">
     <value>You are here</value>
   </data>
+  <data name="ACTION_VM_PAUSED" xml:space="preserve">
+    <value>VM paused</value>
+  </data>
+  <data name="ACTION_VM_PAUSING" xml:space="preserve">
+    <value>VM pausing</value>
+  </data>
+  <data name="ACTION_VM_PAUSED" xml:space="preserve">
+    <value>VM paused</value>
+  </data>
+  <data name="ACTION_VM_PAUSING" xml:space="preserve">
+    <value>VM pausing</value>
+  </data>
 </root>
