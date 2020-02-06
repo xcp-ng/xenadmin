@@ -50,6 +50,8 @@ namespace XenAdmin.Commands
     /// </summary>
     internal class ExportVMCommand : Command
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// Initializes a new instance of this Command. The parameter-less constructor is required if 
         /// this Command is to be attached to a ToolStrip menu item or button. It should not be used in any other scenario.
@@ -117,7 +119,15 @@ namespace XenAdmin.Commands
 
                     // CA-12975: Warn the user if the export operation does not have enough disk space to
                     // complete.  This is an approximation only.
-                    Win32.DiskSpaceInfo diskSpaceInfo = Win32.GetDiskSpaceInfo(dlg.FileName);
+                    Win32.DiskSpaceInfo diskSpaceInfo = null;
+                    try
+                    {
+                        diskSpaceInfo = Win32.GetDiskSpaceInfo(dlg.FileName);
+                    }
+                    catch (Exception exn)
+                    {
+                        log.Warn(exn, exn);
+                    }
 
                     if (diskSpaceInfo == null)
                     {

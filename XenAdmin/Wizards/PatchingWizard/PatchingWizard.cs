@@ -53,6 +53,8 @@ namespace XenAdmin.Wizards.PatchingWizard
     /// </summary>
     public partial class PatchingWizard : UpdateUpgradeWizard
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly PatchingWizard_PatchingPage PatchingWizard_PatchingPage;
         private readonly PatchingWizard_SelectPatchPage PatchingWizard_SelectPatchPage;
         private readonly PatchingWizard_ModePage PatchingWizard_ModePage;
@@ -261,21 +263,30 @@ namespace XenAdmin.Wizards.PatchingWizard
                     if (PatchingWizard_UploadPage.Patch == null ||
                         !string.Equals(patch.uuid, PatchingWizard_UploadPage.Patch.uuid, StringComparison.OrdinalIgnoreCase) ||
                         forceCleanSelectedPatch)
-                        list.Add(GetCleanActionForPoolPatch(patch));
-
+                    {
+                        var action = GetCleanActionForPoolPatch(patch);
+                        if (action != null)
+                            list.Add(action);
+                    }
                     continue;
                 }
                 
                 if (mapping is PoolUpdateMapping updateMapping)
                 {
-                    list.Add(GetCleanActionForPoolUpdate(updateMapping.Pool_update));
+                    var action = GetCleanActionForPoolUpdate(updateMapping.Pool_update);
+                    if (action != null)
+                        list.Add(action);
                     continue;
                 }
                 
                 if (mapping is SuppPackMapping suppPackMapping)
                 {
                     if (suppPackMapping.Pool_update!= null)
-                        list.Add(GetCleanActionForPoolUpdate(suppPackMapping.Pool_update));
+                    {
+                        var action = GetCleanActionForPoolUpdate(suppPackMapping.Pool_update);
+                        if (action != null)
+                            list.Add(action);
+                    }                        
                     else
                         list.AddRange(GetRemoveVdiActions(suppPackMapping.SuppPackVdis.Values.ToList()));
                 }

@@ -41,8 +41,6 @@ namespace XenAdmin.Network
 {
     class AddServerTask
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private readonly IWin32Window _parentForm;
 
         /// <summary>

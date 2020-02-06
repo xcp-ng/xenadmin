@@ -31,6 +31,7 @@
 
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using XenAdmin.Actions;
 using XenAdmin.Controls;
 using XenAdmin.Core;
@@ -58,49 +59,31 @@ namespace XenAdmin.Wizards.NewPolicyWizard
             {
                 if (BackupType == vmss_type.snapshot)
                     return Messages.DISKS_ONLY;
-                else if (BackupType == vmss_type.snapshot_with_quiesce)
+                if (BackupType == vmss_type.snapshot_with_quiesce)
                     return Messages.QUIESCED_SNAPSHOTS;
-                else
-                    return Messages.DISKS_AND_MEMORY;
+                return Messages.DISKS_AND_MEMORY;
             }
 
         }
 
-        public override string HelpID
-        {
-            get { return "Snapshottype"; }
-        }
+        public override string HelpID => "Snapshottype";
 
-        public override string PageTitle
-        {
-            get { return Messages.SNAPSHOT_TYPE_TITLE; }
-        }
+        public override string PageTitle => Messages.SNAPSHOT_TYPE_TITLE;
 
-        public override string Text
-        {
-            get { return Messages.SNAPSHOT_TYPE; }
-        }
+        public override string Text => Messages.SNAPSHOT_TYPE;
 
         protected override void PageLoadedCore(PageLoadedDirection direction)
         {
             if (direction == PageLoadedDirection.Forward)
-                EnableShapshotTypes(Connection, false);
+                EnableShapshotTypes(Connection);
         }
 
-        public Image Image
-        {
-            get { return Properties.Resources._000_VMSession_h32bit_16; }
-        }
+        public Image Image => Properties.Resources._000_VMSession_h32bit_16;
 
-        public bool ValidToSave
-        {
-            get { return true; }
-        }
+        public bool ValidToSave => true;
 
         public void ShowLocalValidationMessages()
-        {
-
-        }
+        { }
 
         public void Cleanup()
         {
@@ -133,14 +116,13 @@ namespace XenAdmin.Wizards.NewPolicyWizard
                         return Messages.DISKS_AND_MEMORY;
                     case vmss_type.snapshot_with_quiesce:
                         return Messages.QUIESCED_SNAPSHOTS;
-                    case vmss_type.unknown:
                     default:
                         return Messages.UNKNOWN;
                 }
             }
         }
 
-        public void ToggleQuiesceCheckBox(List<VM> SelectedVMs)
+        public void ToggleQuiesceCheckBox(List<VM> selectedVMs)
         {
             switch (BackupType)
             {
@@ -160,7 +142,7 @@ namespace XenAdmin.Wizards.NewPolicyWizard
                     break;
             }
 
-            foreach (VM vm in SelectedVMs)
+            foreach (VM vm in selectedVMs)
             {
                 if (!vm.allowed_operations.Contains(vm_operations.snapshot_with_quiesce) || Helpers.FeatureForbidden(vm, Host.RestrictVss))
                 {
@@ -172,67 +154,45 @@ namespace XenAdmin.Wizards.NewPolicyWizard
 
         }
 
-        private void RefreshTab(VMSS policy)
-        {
-            /* when a policy does not have any VMs, irrespective of
-             * the snapshot type, enable Quiesce 
-             */
-
-            quiesceCheckBox.Enabled = (policy.VMs.Count == 0);
-
-            switch (policy.type)
-            {
-                case vmss_type.checkpoint:
-                    radioButtonDiskAndMemory.Checked = true;
-                    quiesceCheckBox.Enabled = false;
-                    break;
-                case vmss_type.snapshot:
-                    radioButtonDiskOnly.Checked = true;
-                    break;
-                case vmss_type.snapshot_with_quiesce:
-                    radioButtonDiskOnly.Checked = true;
-
-                    /* when the snapshot type itself is quiesce then we need to 
-                     * enable it irrespective of the number of VMs ( > 1 condition)
-                     */
-
-                    quiesceCheckBox.Enabled = true;
-                    quiesceCheckBox.Checked = true;
-                    break;
-            }
-            EnableShapshotTypes(policy.Connection, quiesceCheckBox.Enabled);
-        }
-
-        private void EnableShapshotTypes(IXenConnection connection, bool isQuiesceEnabled)
+        private void EnableShapshotTypes(IXenConnection connection)
         {
             radioButtonDiskAndMemory.Enabled =
                 label3.Enabled = !Helpers.FeatureForbidden(connection, Host.RestrictCheckpoint);
             tableLayoutPanelCheckpoint.Visible = !radioButtonDiskAndMemory.Enabled;
             pictureBoxWarning.Visible = labelWarning.Visible = radioButtonDiskAndMemory.Enabled;
 
-            quiesceCheckBox.Enabled = true;
-            quiesceCheckBox.Visible = true;
-            if (SelectedVMs != null)
+            var vssFeatureExists = !Helpers.QuebecOrGreater(connection);
+            quiesceCheckBox.Visible = vssFeatureExists;
+
+            if (_policy == null) // new policy
             {
-                if (SelectedVMs.Count > 0)
+                quiesceCheckBox.Enabled = vssFeatureExists && !Helpers.FeatureForbidden(connection, Host.RestrictVss);
+                if (quiesceCheckBox.Enabled && SelectedVMs != null && SelectedVMs.Any(vm => !vm.allowed_operations.Contains(vm_operations.snapshot_with_quiesce)))
+                    quiesceCheckBox.Enabled = quiesceCheckBox.Checked = false;
+            }
+            else // editing existing policy
+            {
+                switch (_policy.type)
                 {
-                    foreach (VM vm in SelectedVMs)
-                    {
-                        if (!vm.allowed_operations.Contains(vm_operations.snapshot_with_quiesce) ||
-                            Helpers.FeatureForbidden(vm, Host.RestrictVss))
-                        {
-                            quiesceCheckBox.Enabled = false;
-                            quiesceCheckBox.Checked = false;
-                            break;
-                        }
-                    }
+                    case vmss_type.checkpoint:
+                        radioButtonDiskAndMemory.Checked = true;
+                        quiesceCheckBox.Enabled = false;
+                        break;
+                    case vmss_type.snapshot:
+                        radioButtonDiskOnly.Checked = true;
+                        // when a policy does not have any VMs, irrespective of the snapshot type, enable Quiesce if supported
+                        quiesceCheckBox.Enabled = vssFeatureExists && _policy.VMs.Count == 0;
+                        break;
+                    case vmss_type.snapshot_with_quiesce:
+                        radioButtonDiskOnly.Checked = true;
+                        // when the snapshot type itself is quiesce then we need to enable it irrespective of the number of VMs ( > 1 condition)
+                        quiesceCheckBox.Visible = quiesceCheckBox.Enabled = true;
+                        quiesceCheckBox.Checked = true;
+                        break;
                 }
             }
-            else /* we enter this block only when we are editing a policy, in that case the decision has already been taken in RefreshTab function */
-            {
-                quiesceCheckBox.Enabled = isQuiesceEnabled;
-            }
-            tableLayoutPanelVss.Visible = !quiesceCheckBox.Enabled;
+            tableLayoutPanelVss.Visible = vssFeatureExists && !quiesceCheckBox.Enabled;
+            tableLayoutPanelVssRemoved.Visible = !vssFeatureExists && quiesceCheckBox.Checked;
         }
 
         public AsyncAction SaveSettings()
@@ -244,7 +204,7 @@ namespace XenAdmin.Wizards.NewPolicyWizard
         public void SetXenObjects(IXenObject orig, IXenObject clone)
         {
             _policy = (VMSS)clone;
-            RefreshTab(_policy);
+            EnableShapshotTypes(_policy.Connection);
         }
 
         public bool HasChanged
@@ -262,6 +222,7 @@ namespace XenAdmin.Wizards.NewPolicyWizard
         {
             if (quiesceCheckBox.Checked)
                 radioButtonDiskOnly.Checked = true;
+            tableLayoutPanelVssRemoved.Visible = Helpers.QuebecOrGreater(_policy != null ? _policy.Connection : Connection) && quiesceCheckBox.Checked;
         }
 
         private void radioButtonDiskAndMemory_CheckedChanged(object sender, System.EventArgs e)

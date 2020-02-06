@@ -16,7 +16,7 @@
       "flat": "true"
     },
     {
-      "pattern": "@REMOTE_DOTNET@/dotnet46/Newtonsoft.Json.dll",
+      "pattern": "@REMOTE_DOTNET@/dotnet46/Newtonsoft.Json.CH.dll",
       "target": "xenadmin.git/packages/",
       "flat": "true"
     },
@@ -56,7 +56,7 @@
       "flat": "true"
     },
     {
-      "pattern": "ctx-local-contrib/NUnit/NUnit/2.5.2.9122/3.5/nunit.framework.dll",
+      "pattern": "ctx-local-contrib/NUnit/3.12/net45/nunit.framework.dll",
       "target": "xenadmin.git/packages/",
       "flat": "true"
     },

@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class PBD : XenObject<PBD>
     {
+        #region Constructors
+
         public PBD()
         {
         }
@@ -65,13 +67,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new PBD from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public PBD(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new PBD from a Proxy_PBD.
         /// </summary>
         /// <param name="proxy"></param>
         public PBD(Proxy_PBD proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -87,7 +103,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_PBD proxy)
+        internal void UpdateFrom(Proxy_PBD proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             host = proxy.host == null ? null : XenRef<Host>.Create(proxy.host);
@@ -107,17 +123,6 @@ namespace XenAPI
             result_.currently_attached = currently_attached;
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new PBD from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public PBD(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

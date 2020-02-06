@@ -274,6 +274,11 @@ namespace XenAPI
             return BoolKeyPreferTrue(h.license_params, "restrict_dr");
         }
 
+        public static bool RestrictConversion(Host h)
+        {
+            return BoolKeyPreferTrue(h.license_params, "restrict_xcm");
+        }
+
         public static bool RestrictCrossPoolMigrate(Host h)
         {
             return BoolKeyPreferTrue(h.license_params, "restrict_storage_xen_motion");

@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class PVS_server : XenObject<PVS_server>
     {
+        #region Constructors
+
         public PVS_server()
         {
         }
@@ -63,13 +65,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new PVS_server from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public PVS_server(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new PVS_server from a Proxy_PVS_server.
         /// </summary>
         /// <param name="proxy"></param>
         public PVS_server(Proxy_PVS_server proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -84,7 +100,7 @@ namespace XenAPI
             site = update.site;
         }
 
-        internal void UpdateFromProxy(Proxy_PVS_server proxy)
+        internal void UpdateFrom(Proxy_PVS_server proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             addresses = proxy.addresses == null ? new string[] {} : (string [])proxy.addresses;
@@ -102,17 +118,6 @@ namespace XenAPI
             result_.last_port = last_port.ToString();
             result_.site = site ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new PVS_server from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public PVS_server(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

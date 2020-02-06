@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Data_source : XenObject<Data_source>
     {
+        #region Constructors
+
         public Data_source()
         {
         }
@@ -69,13 +71,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Data_source from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Data_source(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Data_source from a Proxy_Data_source.
         /// </summary>
         /// <param name="proxy"></param>
         public Data_source(Proxy_Data_source proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -93,7 +109,7 @@ namespace XenAPI
             value = update.value;
         }
 
-        internal void UpdateFromProxy(Proxy_Data_source proxy)
+        internal void UpdateFrom(Proxy_Data_source proxy)
         {
             name_label = proxy.name_label == null ? null : proxy.name_label;
             name_description = proxy.name_description == null ? null : proxy.name_description;
@@ -117,17 +133,6 @@ namespace XenAPI
             result_.max = max;
             result_.value = value;
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Data_source from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Data_source(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

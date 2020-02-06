@@ -69,6 +69,8 @@ namespace XenAdmin.TabPages
             dataGridViewBuilder = new VDIsDataGridViewBuilder(this);
         }
 
+        public override string HelpID => "TabPageStorage";
+
         private bool disposed;
 
         /// <summary> 

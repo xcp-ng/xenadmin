@@ -31,35 +31,26 @@
 
 namespace XenAdminTests
 {
-    /// <summary>
-    /// These are the caegory names used for grouping sets of unit tests together
-    /// 
-    /// XenRT has a knowledge of these categories
-    /// 
-    /// NOTE: If you add a category you need to add it to the python code in XenRT
-    /// </summary>
-    public class TestCategories
+    public static class TestCategories
     {
         /// <summary>
-        /// First set of UI tests
-        /// </summary>
-        public const string UICategoryA = "UICategoryA";
-
-        /// <summary>
-        /// Second set of UI tests
-        /// </summary>
-        public const string UICategoryB = "UICategoryB";
-
-        /// <summary>
-        /// Unit tests
+        /// Unit tests that don't need any database (real or mocked)
         /// </summary>
         public const string Unit = "Unit";
 
         /// <summary>
-        /// Smoke tests
+        /// Unit tests that need mocked databases
         /// </summary>
-        public const string SmokeTest = "SmokeTest";
+        public const string MockedDbs = "MockedDbs";
 
+        /// <summary>
+        /// Unit tests that need real databases
+        /// </summary>
+        public const string RealDbs = "RealDbs";
+
+        /// <summary>
+        /// Unit tests that require launching of MainWindow and real databases
+        /// </summary>
+        public const string MainWindow = "MainWindow";
     }
-
 }

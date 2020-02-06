@@ -47,7 +47,7 @@ namespace XenAdmin.Actions
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly string suppPackFilePath;
-        private readonly long _totalUpdateSize;
+        private long _totalUpdateSize;
         private readonly List<Host> servers;
         private long totalCount;
         private long totalUploaded;
@@ -77,13 +77,14 @@ namespace XenAdmin.Actions
             
             suppPackFilePath = path;
             _updateName = Path.GetFileNameWithoutExtension(suppPackFilePath);
-            _totalUpdateSize = (new FileInfo(path)).Length;
             servers = selectedServers;
         }
 
         protected override void Run()
         {
             SafeToExit = false;
+
+            _totalUpdateSize = new FileInfo(suppPackFilePath).Length;
 
             var srList = SelectTargetSr();
 

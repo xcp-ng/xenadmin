@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class VBD : XenObject<VBD>
     {
+        #region Constructors
+
         public VBD()
         {
         }
@@ -97,13 +99,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new VBD from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public VBD(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new VBD from a Proxy_VBD.
         /// </summary>
         /// <param name="proxy"></param>
         public VBD(Proxy_VBD proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -135,7 +151,7 @@ namespace XenAPI
             metrics = update.metrics;
         }
 
-        internal void UpdateFromProxy(Proxy_VBD proxy)
+        internal void UpdateFrom(Proxy_VBD proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             allowed_operations = proxy.allowed_operations == null ? null : Helper.StringArrayToEnumList<vbd_operations>(proxy.allowed_operations);
@@ -187,17 +203,6 @@ namespace XenAPI
             result_.qos_supported_algorithms = qos_supported_algorithms;
             result_.metrics = metrics ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new VBD from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public VBD(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

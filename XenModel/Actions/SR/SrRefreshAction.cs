@@ -29,9 +29,6 @@
  * SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using XenAPI;
 
 
@@ -39,14 +36,11 @@ namespace XenAdmin.Actions
 {
     public class SrRefreshAction : PureAsyncAction
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         public SrRefreshAction(SR Sr, bool suppress_history = false)
             : base(Sr.Connection, string.Format(Messages.SR_REFRESH_ACTION_TITLE, Sr.NameWithoutHost()), suppress_history)
         {
             SR = Sr;
         }
-
 
         protected override void Run()
         {

@@ -37,8 +37,8 @@ using XenCenterLib.Compression;
 
 namespace XenAdminTests.CompressionTests
 {
-    [TestFixture, Category(TestCategories.UICategoryA)]
-    class CompressionStreamTest
+    [TestFixture, Category(TestCategories.Unit)]
+    public class CompressionStreamTest
     {
         private class CompressionStreamFake : CompressionStream
         {

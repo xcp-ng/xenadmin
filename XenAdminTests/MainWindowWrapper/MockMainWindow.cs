@@ -43,14 +43,8 @@ namespace XenAdminTests
     {
         #region IMainWindow Members
 
-        public Form Form
-        {
-            get
-            {
-                return null;
-            }
-        }
-        
+        public Form Form => null;
+
         public void Invoke(MethodInvoker method)
         {
 
@@ -70,7 +64,7 @@ namespace XenAdminTests
 
         }
 
-        public void ShowPerConnectionWizard(IXenConnection connection, Form wizard)
+        public void ShowPerConnectionWizard(IXenConnection connection, Form wizard, Form parentForm = null)
         {
 
         }
@@ -87,52 +81,49 @@ namespace XenAdminTests
 
         public void CloseActiveWizards(IXenConnection connection)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
         public void CloseActiveWizards(IXenObject xenObject)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
         public System.Collections.ObjectModel.Collection<IXenConnection> GetXenConnectionsCopy()
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
         public void SaveServerList()
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
         public bool DoSearch(string filename)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
-        public bool RunInAutomatedTestMode
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
+        public bool RunInAutomatedTestMode => throw new NotImplementedException();
 
         public void RemoveConnection(IXenConnection connection)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
         public void PutSelectedNodeIntoEditMode()
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
         public void SwitchToTab(MainWindow.Tab tab)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
         public void TrySelectNewObjectInTree(Predicate<object> tagMatch, bool selectNode, bool expandNode, bool ensureNodeVisible)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
         public bool MenuShortcutsEnabled

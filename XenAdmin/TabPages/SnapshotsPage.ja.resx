@@ -1441,13 +1441,13 @@
     <value>209, 22</value>
   </data>
   <data name="saveTemplateToolStripMenuItem.Text" xml:space="preserve">
-    <value>テンプレートとして保存(&amp;S)...</value>
+    <value>スナップショットから新規テンプレートを作成(&amp;S)...</value>
   </data>
   <data name="exportToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>209, 22</value>
   </data>
   <data name="exportToolStripMenuItem.Text" xml:space="preserve">
-    <value>ファイルにエクスポート(&amp;X)...</value>
+    <value>スナップショットをテンプレートとしてエクスポート(&amp;X)... </value>
   </data>
   <data name="separatorDeleteToolStripSeparator.Size" type="System.Drawing.Size, System.Drawing">
     <value>206, 6</value>
@@ -1774,13 +1774,13 @@
     <value>209, 22</value>
   </data>
   <data name="saveAsTemplateToolStripMenuItem.Text" xml:space="preserve">
-    <value>テンプレートとして保存(&amp;S)...</value>
+    <value>スナップショットから新規テンプレートを作成(&amp;S)...</value>
   </data>
   <data name="exportAsBackupToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>209, 22</value>
   </data>
   <data name="exportAsBackupToolStripMenuItem.Text" xml:space="preserve">
-    <value>ファイルにエクスポート(&amp;X)...</value>
+    <value>スナップショットをテンプレートとしてエクスポート(&amp;X)...</value>
   </data>
   <data name="saveMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
     <value>210, 98</value>

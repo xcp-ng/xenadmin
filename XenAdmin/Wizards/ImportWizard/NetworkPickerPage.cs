@@ -473,8 +473,9 @@ namespace XenAdmin.Wizards.ImportWizard
 		private void m_networkGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
 		{
 			e.ThrowException = false;
-			log.Error(String.Format(Messages.NETWORKPICKER_LOG_VIF_ERROR, e.Exception.Message));
-		}
+            log.Error("Error from VIF table:", e.Exception);
+
+        }
 
         private void m_networkGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {

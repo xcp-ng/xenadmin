@@ -52,17 +52,14 @@ namespace XenAdmin.Wizards.ImportWizard
 		#region Base class (XenTabPage) overrides
 
 		/// <summary>
-		/// The pages' label in the (left hand side) wizard progress panel
+		/// The page's label in the (left hand side) wizard progress panel
 		/// </summary>
-		public override string Text
-		{
-			get { return Messages.FINISH_PAGE_TEXT; }
-		}
+		public override string Text => Messages.FINISH_PAGE_TEXT;
 
-		/// <summary>
+        /// <summary>
 		/// Gets the page's title (headline)
 		/// </summary>
-		public override string PageTitle { get { return Messages.FINISH_PAGE_TITLE_IMPORT; } }
+		public override string PageTitle => Messages.FINISH_PAGE_TITLE_IMPORT;
 
         protected override bool ImplementsIsDirty()
         {
@@ -71,10 +68,10 @@ namespace XenAdmin.Wizards.ImportWizard
 
 		public override void PopulatePage()
 		{
-			if (SummaryRetreiver == null)
+			if (SummaryRetriever == null)
 				return;
 
-			var entries = SummaryRetreiver.Invoke();
+			var entries = SummaryRetriever.Invoke();
 			m_dataGridView.Rows.Clear();
 
 			foreach (var pair in entries)
@@ -89,13 +86,16 @@ namespace XenAdmin.Wizards.ImportWizard
 
 		#endregion
 
-		public Func<IEnumerable<KeyValuePair<string, string>>> SummaryRetreiver { private get; set; }
+        public Func<IEnumerable<KeyValuePair<string, string>>> SummaryRetriever { private get; set; }
 
-		/// <summary>
+        /// <summary>
 		/// Do the action described after the import/export has finished?
 		/// </summary>
-		public bool StartVmsAutomatically { get { return m_groupBox.Visible && m_checkBoxStartVms.Checked; } }
+		public bool StartVmsAutomatically => m_checkBoxStartVms.Visible && m_checkBoxStartVms.Checked;
 
-		public bool ShowStartVmsGroupBox { set { m_groupBox.Visible = value; } }
-	}
+        public bool ShowStartVmsGroupBox
+        {
+            set => m_checkBoxStartVms.Visible = value;
+        }
+    }
 }

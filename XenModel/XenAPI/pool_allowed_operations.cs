@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,19 @@ namespace XenAPI
     [JsonConverter(typeof(pool_allowed_operationsConverter))]
     public enum pool_allowed_operations
     {
-        ha_enable, ha_disable, cluster_create, unknown
+        /// <summary>
+        /// Indicates this pool is in the process of enabling HA
+        /// </summary>
+        ha_enable,
+        /// <summary>
+        /// Indicates this pool is in the process of disabling HA
+        /// </summary>
+        ha_disable,
+        /// <summary>
+        /// Indicates this pool is in the process of creating a cluster
+        /// </summary>
+        cluster_create,
+        unknown
     }
 
     public static class pool_allowed_operations_helper
@@ -73,4 +84,4 @@ namespace XenAPI
             writer.WriteValue(((pool_allowed_operations)value).StringOf());
         }
     }
-}
+}

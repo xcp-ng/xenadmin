@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,7 +46,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.CH.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -55,7 +56,6 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -158,8 +158,12 @@
     <Compile Include="Actions\VM\VMPauseAction.cs" />
     <Compile Include="Actions\VM\VMUnPauseAction.cs" />
     <Compile Include="Actions\WLB\WlbRetrieveVmRecommendationsAction.cs" />
+    <Compile Include="Actions\XCM\ActivateConversionVpxAction.cs" />
     <Compile Include="Actions\ZipStatusReportAction.cs" />
     <Compile Include="Alerts\Types\Alert.cs" />
+    <Compile Include="XCM\ConversionClient.cs" />
+    <Compile Include="XCM\ConversionDescriptors.cs" />
+    <Compile Include="XCM\IConversion.cs" />
     <Compile Include="DockerContainers.cs" />
     <Compile Include="CustomFields\CustomField.cs" />
     <Compile Include="CustomFields\CustomFieldDefinition.cs" />
@@ -225,7 +229,6 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Tags.cs" />
     <Compile Include="TimeSpanExtensions.cs" />
-    <Compile Include="Utils\AsyncServerTime.cs" />
     <Compile Include="WLB\RetrieveWlbConfigurationAction.cs" />
     <Compile Include="WLB\WlbHostEvacuationRecommendation.cs" />
     <Compile Include="WLB\WlbOptimizationRecommendation.cs" />
@@ -239,7 +242,6 @@
     <Compile Include="Actions\DelegatedAsyncAction.cs" />
     <Compile Include="Actions\GetDataSourcesAction.cs" />
     <Compile Include="Actions\Host\ActivationProxy.cs" />
-    <Compile Include="Actions\Host\ActivationRequestAction.cs" />
     <Compile Include="Actions\Host\ApplyLicenseAction.cs" />
     <Compile Include="Actions\Host\ChangeHostPasswordAction.cs" />
     <Compile Include="Actions\Host\DestroyHostCrashDumpAction.cs" />
@@ -487,7 +489,6 @@
     <Compile Include="XenAPI\Crashdump.cs" />
     <Compile Include="XenAPI\Data_source.cs" />
     <Compile Include="XenAPI\Event.cs" />
-    <Compile Include="XenAPI\EventHelpers.cs" />
     <Compile Include="XenAPI\Failure.cs" />
     <Compile Include="XenAPI\Helper.cs" />
     <Compile Include="XenAPI\Host.cs" />
@@ -611,7 +612,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

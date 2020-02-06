@@ -96,13 +96,7 @@ namespace XenAdmin.Controls
         /// <summary>
         /// The text that has been passed to the base System.Windows.Forms.GroupBox class, escaped as necessary.
         /// </summary>
-        protected String EscapedText
-        {
-            get
-            {
-                return base.Text;
-            }
-        }
+        public string EscapedText => base.Text;
 
         private const int FUDGE = 15;
 

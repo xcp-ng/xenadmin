@@ -30,14 +30,16 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 using XenAdmin.Controls;
 using XenAdmin.Core;
 using XenAdmin.Mappings;
 using XenAdmin.Network;
 using XenAPI;
-using System.Linq;
 using XenCenterLib;
 
 namespace XenAdmin.Wizards.GenericPages
@@ -50,38 +52,47 @@ namespace XenAdmin.Wizards.GenericPages
 	{
         private bool m_buttonNextEnabled;
         private bool m_buttonPreviousEnabled;
+        private Dictionary<string, VmMapping> m_vmMappings;
 
-		private class NetworkDetail
+        private struct NetworkDetail
 		{
 			public string SysId { get; set; }
 			public string NetworkId { get; set; }
 		}
-		
-		private Dictionary<string, VmMapping> m_vmMappings;
 
-        public SelectMultipleVMNetworkPage()
+        protected SelectMultipleVMNetworkPage()
 		{
 			InitializeComponent();
-            InitializeText();
 		}
 
-        public void InitializeText()
+        protected override void OnLoad(EventArgs e)
         {
+            base.OnLoad(e);
+        
             m_labelIntro.Text = IntroductionText;
             label2.Text = TableIntroductionText;
             m_colVmNetwork.HeaderText = NetworkColumnHeaderText;
+            m_checkBoxMac.Visible = ShowReserveMacAddressesCheckBox;
+            m_buttonRefresh.Visible = ShowRefreshButton;
         }
 
-        protected virtual string NetworkColumnHeaderText
+        protected virtual string NetworkColumnHeaderText => m_colVmNetwork.HeaderText;
+        protected virtual bool ShowReserveMacAddressesCheckBox => false;
+        protected virtual bool ShowRefreshButton => false;
+        protected virtual bool LoadsRemoteData => false;
+
+        protected abstract string IntroductionText { get; }
+        protected abstract string TableIntroductionText { get; }
+        protected abstract NetworkResourceContainer NetworkData(string sysId);
+
+        protected virtual bool AllowSriovNetwork(XenAPI.Network network, string sysId)
         {
-            get
-            {
-                return m_colVmNetwork.HeaderText;
-            }
+            return true;
         }
 
-	    public abstract string IntroductionText { get; }
-        public abstract string TableIntroductionText { get; }
+        protected virtual void LoadNetworkData()
+        {
+        }
 
         private IXenConnection targetConnection;
         /// <summary>
@@ -99,91 +110,106 @@ namespace XenAdmin.Wizards.GenericPages
             set { targetConnection = value; }
         }
 
+        public bool PreserveMAC => ShowReserveMacAddressesCheckBox && m_checkBoxMac.Checked;
+
         protected override void PageLeaveCore(PageLoadedDirection direction, ref bool cancel)
         {
             targetConnection = null;
         }
 
         protected override void PageLoadedCore(PageLoadedDirection direction)
-		{
+        {
             SetButtonPreviousEnabled(true);
 			SetButtonNextEnabled(true);
 		}
 
-	    public DataGridView DataTable
-	    {
-            get { return m_dataGridView; }
-	    }
+        public override void PageCancelled(ref bool cancel)
+        {
+            backgroundWorker1.CancelAsync();
+        }
 
         public override void PopulatePage()
-		{
-			m_dataGridView.Rows.Clear();
-			SetButtonNextEnabled(true);
-			FillTableRows();
-            HelpersGUI.ResizeGridViewColumnToAllCells(m_colTargetNet);//set properly the width of the last column
-		}
+        {
+            m_dataGridView.Rows.Clear();
+            SetButtonNextEnabled(false);
 
-	    public abstract NetworkResourceContainer NetworkData(string sysId);
+            if (LoadsRemoteData)
+            {
+                m_buttonRefresh.Enabled = false;
+                pictureBoxError.Image = Images.StaticImages.ajax_loader;
+                labelError.Text = Messages.CONVERSION_NETWORK_PAGE_QUERYING_NETWORKS;
+                tableLayoutPanelError.Visible = true;
+                backgroundWorker1.RunWorkerAsync();
+            }
+            else
+            {
+                FillTableRows();
+                HelpersGUI.ResizeGridViewColumnToAllCells(m_colTargetNet);//set properly the width of the last column
+            }
+        }
 
-        private void FillTableRows()
+        protected virtual void FillTableRows()
         {
             foreach (var kvp in VmMappings)
             {
                 string sysId = kvp.Key;
                 var vmMapping = kvp.Value;
 
-                var cb = FillGridComboBox(vmMapping.XenRef, sysId);
-
-                foreach (INetworkResource networkResource in NetworkData(sysId))
-                {
-                    var cellVmNetwork = CreateFormattedNetworkCell(sysId, networkResource.NetworkID, vmMapping.VmNameLabel,
-                                                                   networkResource.NetworkName, networkResource.MACAddress);
-
-                    DataGridViewRow row = new DataGridViewRow();
-                    row.Cells.Add(cellVmNetwork);
-
-                    var cbClone = (DataGridViewComboBoxCell)cb.Clone();
-
-                    if (cbClone.Items.Count > 0)
-                    {
-                        cbClone.DisplayMember = ToStringWrapper<XenAPI.Network>.DisplayMember;
-                            //this is the ToStringProperty
-                        cbClone.ValueMember = ToStringWrapper<XenAPI.Network>.ValueMember;
-                            //this is the ToStringWrapper<XenAPI.Network> object itself
-                        cbClone.Value = cb.Items[0]; // Default selection of the combobox cell
-
-                        //Select the network if the names of the target and source networks match in the combobox cell
-                        foreach (ToStringWrapper<XenAPI.Network> item in cb.Items)
-                        {
-                            if (item.ToStringProperty == networkResource.NetworkName)
-                                cbClone.Value = item;
-                        }
-
-                        row.Cells.Add(cbClone);
-                    }
-                    else
-                    {
-                        var cellError = new DataGridViewTextBoxCell { Value = Messages.IMPORT_SELECT_NETWORK_PAGE_NO_AVAIL_NETWORKS };
-                        row.Cells.Add(cellError);
-                        cellError.ReadOnly = true; //this has to be set after the cell is added to a row
-                        SetButtonNextEnabled(false);
-                    }
-
-                    DataTable.Rows.Add(row);
-                }
+                FillTableRow(vmMapping.XenRef, sysId, vmMapping.VmNameLabel);
             }
         }
 
-        protected DataGridViewTextBoxCell CreateFormattedNetworkCell(string sysID, string networkID, string vmName, string netName, string macAddress)
+        protected void FillTableRow(object targetRef, string sysId, string vmName)
         {
-            return new DataGridViewTextBoxCell
+            var cb = FillGridComboBox(targetRef, sysId);
+
+            foreach (INetworkResource networkResource in NetworkData(sysId))
             {
-                Tag = new NetworkDetail { SysId = sysID, NetworkId = networkID },
-                Value = string.Format("{0} - {1} ({2})", vmName, netName, macAddress)
-            };
+                var val = networkResource.NetworkName;
+                if (!string.IsNullOrEmpty(vmName))
+                    val = $"{vmName} - {val}";
+                if (!string.IsNullOrEmpty(networkResource.MACAddress))
+                    val = $"{val} ({networkResource.MACAddress})";
+
+                var cellSourceNetwork = new DataGridViewTextBoxCell
+                {
+                    Tag = new NetworkDetail {SysId = sysId, NetworkId = networkResource.NetworkID},
+                    Value = val
+                };
+
+                DataGridViewRow row = new DataGridViewRow();
+                row.Cells.Add(cellSourceNetwork);
+
+                var cbClone = (DataGridViewComboBoxCell)cb.Clone();
+
+                if (cbClone.Items.Count > 0)
+                {
+                    cbClone.DisplayMember = ToStringWrapper<XenAPI.Network>.DisplayMember; //ToStringProperty
+                    cbClone.ValueMember = ToStringWrapper<XenAPI.Network>.ValueMember; //ToStringWrapper<XenAPI.Network> object itself
+                    cbClone.Value = cb.Items[0]; // Default selection of the combobox cell
+
+                    //Select the network if the names of the target and source networks match in the combobox cell
+                    foreach (ToStringWrapper<XenAPI.Network> item in cb.Items)
+                    {
+                        if (item.ToStringProperty == networkResource.NetworkName)
+                            cbClone.Value = item;
+                    }
+
+                    row.Cells.Add(cbClone);
+                }
+                else
+                {
+                    var cellError = new DataGridViewTextBoxCell {Value = Messages.IMPORT_SELECT_NETWORK_PAGE_NO_AVAIL_NETWORKS};
+                    row.Cells.Add(cellError);
+                    cellError.ReadOnly = true; //this has to be set after the cell is added to a row
+                    SetButtonNextEnabled(false);
+                }
+
+                m_dataGridView.Rows.Add(row);
+            }
         }
 
-	    public override bool EnableNext()
+        public override bool EnableNext()
         {
             return m_buttonNextEnabled;
         }
@@ -216,9 +242,25 @@ namespace XenAdmin.Wizards.GenericPages
 			set
 			{
 			    m_vmMappings = value;
-                InitializeText();
 			}
 		}
+
+        public Dictionary<string, string> RawMappings
+        {
+            get
+            {
+                var mappings = new Dictionary<string, string>();
+
+                foreach (DataGridViewRow row in m_dataGridView.Rows)
+                {
+                    var networkDetail = (NetworkDetail)row.Cells[0].Tag;
+                    var selectedItem = row.Cells[1].Value as ToStringWrapper<XenAPI.Network>;
+                    mappings.Add(networkDetail.NetworkId, selectedItem.ToString());
+                }
+
+                return mappings;
+            }
+        }
 
         protected void SetButtonNextEnabled(bool enabled)
         {
@@ -232,14 +274,11 @@ namespace XenAdmin.Wizards.GenericPages
             OnPageUpdated();
         }   
 
-		private DataGridViewComboBoxCell FillGridComboBox(object xenRef, string vsId)
+		private DataGridViewComboBoxCell FillGridComboBox(object targetRef, string vsId)
 		{
 		    var cb = new DataGridViewComboBoxCell {FlatStyle = FlatStyle.Flat, Sorted = true};
 
-			XenRef<Host> hostRef = xenRef as XenRef<Host>;
-			Host host = TargetConnection.Resolve(hostRef);
-
-            var availableNetworks = TargetConnection.Cache.Networks.Where(net => ShowNetwork(host, net, vsId));
+            var availableNetworks = TargetConnection.Cache.Networks.Where(net => ShowNetwork(targetRef, net, vsId));
 
 			foreach (XenAPI.Network netWork in availableNetworks)
 			{
@@ -255,7 +294,7 @@ namespace XenAdmin.Wizards.GenericPages
 			return cb;
 		}
 
-        private bool ShowNetwork(Host targetHost, XenAPI.Network network, string vsId)
+        private bool ShowNetwork(object targetRef, XenAPI.Network network, string vsId)
         {
             if (network.IsSriov() && !AllowSriovNetwork(network, vsId))
                 return false;
@@ -266,6 +305,9 @@ namespace XenAdmin.Wizards.GenericPages
             if (network.IsSlave())
                 return false;
 
+            var targetHostRef = targetRef as XenRef<Host>;
+            Host targetHost = targetHostRef == null ? null : TargetConnection.Resolve(targetHostRef);
+
             if (targetHost != null && !targetHost.CanSeeNetwork(network))
                 return false;
 
@@ -275,12 +317,7 @@ namespace XenAdmin.Wizards.GenericPages
             return true;
         }
 
-        protected virtual bool AllowSriovNetwork(XenAPI.Network network, string sysId)
-	    {
-	        return true;
-	    }
-
-	    private void m_dataGridView_CellEnter(object sender, DataGridViewCellEventArgs e)
+        private void m_dataGridView_CellEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.ColumnIndex != m_colTargetNet.Index || e.RowIndex < 0 || e.RowIndex >= m_dataGridView.RowCount)
 				return;
@@ -296,5 +333,37 @@ namespace XenAdmin.Wizards.GenericPages
 			m_dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
 			IsDirty = true;
 		}
-	}
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            PopulatePage();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            LoadNetworkData();
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                tableLayoutPanelError.Visible = false;
+                return;
+            }
+            else if (e.Error != null)
+            {
+                pictureBoxError.Image = Images.StaticImages._000_error_h32bit_16;
+                labelError.Text = Messages.CONVERSION_NETWORK_PAGE_QUERYING_NETWORKS_FAILURE;
+            }
+            else
+            {
+                tableLayoutPanelError.Visible = false;
+                FillTableRows();
+                HelpersGUI.ResizeGridViewColumnToAllCells(m_colTargetNet);//set properly the width of the last column
+            }
+
+            m_buttonRefresh.Enabled = true;
+        }
+    }
 }

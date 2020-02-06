@@ -106,7 +106,7 @@ namespace XenAdmin.Controls
 
     }
 
-    internal class GpuTuple : IEquatable<GpuTuple>
+    public class GpuTuple : IEquatable<GpuTuple>
     {
         public readonly GPU_group GpuGroup;
         public readonly VGPU_type[] VgpuTypes;

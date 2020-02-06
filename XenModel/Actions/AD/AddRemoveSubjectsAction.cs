@@ -150,7 +150,7 @@ namespace XenAdmin.Actions
             Exception e = null;
             string resolvedName = "";
             string sid = "";
-            log.DebugFormat("Resolving AD entries on pool '{0}'", Helpers.GetName(Connection).Ellipsise(50));
+            log.DebugFormat("Resolving AD entries on pool '{0}'.", Helpers.GetName(Connection));
             foreach (string name in subjectNamesToAdd)
             {
                 try
@@ -192,7 +192,7 @@ namespace XenAdmin.Actions
         {
             Exception e = null;
             Subject subject = null;
-            log.DebugFormat("Adding {0} new subjects on pool '{1}'", sidsToAdd.Count, Helpers.GetName(Connection).Ellipsise(50));
+            log.DebugFormat("Adding {0} new subjects on pool '{1}'", sidsToAdd.Count, Helpers.GetName(Connection));
             foreach (string sid in sidsToAdd)
             {
                 try
@@ -242,7 +242,7 @@ namespace XenAdmin.Actions
         private void removeSubjects()
         {
             Exception e = null;
-            log.DebugFormat("Removing {0} existing subjects on pool '{1}'", subjectsToRemove.Count, Helpers.GetName(Connection).Ellipsise(50));
+            log.DebugFormat("Removing {0} existing subjects on pool '{1}'.", subjectsToRemove.Count, Helpers.GetName(Connection));
             string selfSid = Connection.Session.IsLocalSuperuser || Connection.Session.Subject == null
                 ? ""
                 : Connection.Resolve(Connection.Session.Subject).subject_identifier;

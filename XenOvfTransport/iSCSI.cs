@@ -63,7 +63,7 @@ namespace XenOvfTransport
 
 		public bool Cancel { get; set; }
 
-		public Action<XenOvfTranportEventArgs> UpdateHandler { get; set; }
+		public Action<XenOvfTransportEventArgs> UpdateHandler { get; set; }
 
         public Disk ScsiDisk
         {
@@ -119,7 +119,7 @@ namespace XenOvfTransport
 
                 try
                 {
-                    log.DebugFormat(Messages.FILES_TRANSPORT_SETUP, vdiuuid);
+                    log.DebugFormat("Connecting virtual disk {0}... ", vdiuuid);
                     TargetAddress ta = new TargetAddress(ipaddress, ipport, targetGroupTag);
                     TargetInfo[] targets = initiator.GetTargets(ta);
                     log.InfoFormat("iSCSI.Connect found {0} targets, connecting to: {1}", targets.Length, targets[0].Name);
@@ -128,7 +128,7 @@ namespace XenOvfTransport
                 }
                 catch (Exception ex)
                 {
-                    log.ErrorFormat("{0} {1}", Messages.ISCSI_ERROR, ex.Message);
+                    log.Error($"Failed to connect to VDI {vdiuuid} over iSCSI.", ex);
                     Thread.Sleep(new TimeSpan(0, 0, 5));
                     iSCSIConnectRetry--;
                 }
@@ -163,9 +163,9 @@ namespace XenOvfTransport
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                log.Error("Could not determin LUN");
+                log.Error("Could not determine LUN", e);
                 throw;
             }
 
@@ -179,7 +179,7 @@ namespace XenOvfTransport
             }
             catch (Exception ex)
             {   
-                log.ErrorFormat("{0} {1}", Messages.ISCSI_ERROR_CANNOT_OPEN_DISK, ex.Message);
+                log.Error("Failed to open virtual disk.", ex);
                 throw new Exception(Messages.ISCSI_ERROR_CANNOT_OPEN_DISK, ex);
             }
         }
@@ -195,7 +195,7 @@ namespace XenOvfTransport
             }
             catch (Exception exn)
             {
-                log.DebugFormat("Failed to dispose iDisk: {0}. Continuing.", exn);
+                log.Debug("Failed to dispose iDisk. Continuing.", exn);
             }
 
             try
@@ -206,7 +206,7 @@ namespace XenOvfTransport
             }
             catch (Exception exn)
             {
-                log.DebugFormat("Failed to dispose iScsiSession: {0}. Continuing.", exn);
+                log.Debug("Failed to dispose iScsiSession. Continuing.", exn);
             }
 
             StopiScsiTarget(xenSession);
@@ -223,7 +223,7 @@ namespace XenOvfTransport
             _bytestotal = (ulong)source.Length;
 
             string updatemsg = string.Format(Messages.ISCSI_COPY_PROGRESS, filename);
-            OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileStart, "SendData Start", updatemsg, 0, _bytestotal));
+            OnUpdate(new XenOvfTransportEventArgs(TransportStep.SendData, updatemsg, 0, _bytestotal));
 
             // Create a hash algorithm to compute the hash from separate blocks during the copy.
             using (var hashAlgorithm = System.Security.Cryptography.HashAlgorithm.Create(_hashAlgorithmName))
@@ -232,7 +232,7 @@ namespace XenOvfTransport
                 {
                     if (Cancel)
                     {
-                        log.InfoFormat(Messages.ISCSI_COPY_CANCELLED, filename);
+                        log.InfoFormat("Canceled transfer of virtual disk {0}.", filename);
                         throw new OperationCanceledException(string.Format(Messages.ISCSI_COPY_CANCELLED, filename));
                     }
 
@@ -264,12 +264,12 @@ namespace XenOvfTransport
 
                         _bytescopied = (ulong)offset;
 
-                        OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileProgress, "SendData Start", updatemsg, _bytescopied, _bytestotal));
+                        OnUpdate(new XenOvfTransportEventArgs(TransportStep.SendData, updatemsg, _bytescopied, _bytestotal));
                     }
                     catch (Exception ex)
                     {
+                        log.Warn("Failed to transfer virtual disk.", ex);
                         var message = string.Format(Messages.ISCSI_COPY_ERROR, filename);
-                        log.Warn(message);
                         throw new Exception(message, ex);
                     }
                 }
@@ -283,14 +283,14 @@ namespace XenOvfTransport
                     hashAlgorithm.TransformBlock(_buffer, 0, bytesRead / 2, _buffer, 0);
 
                     // Compute the final hash.
-                    hashAlgorithm.TransformFinalBlock(_buffer, bytesRead / 2, bytesRead / 2);
+                    hashAlgorithm.TransformFinalBlock(_buffer, bytesRead / 2, bytesRead / 2 + bytesRead % 2);
 
                     _copyHash = hashAlgorithm.Hash;
                 }
             }
 
             destination.Flush();
-            OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileComplete, "SendData Completed", updatemsg, _bytescopied, _bytestotal));
+            OnUpdate(new XenOvfTransportEventArgs(TransportStep.SendData, updatemsg, _bytescopied, _bytestotal));
 
             log.InfoFormat("Finished copying {0} bytes to {1} via iSCSI.", source.Length, filename);
         }
@@ -305,7 +305,7 @@ namespace XenOvfTransport
             long limit = (long)_bytescopied;
 
             string updatemsg = string.Format(Messages.ISCSI_VERIFY_PROGRESS, filename);
-            OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileStart, "SendData Start", updatemsg, 0, (ulong)limit));
+            OnUpdate(new XenOvfTransportEventArgs(TransportStep.SendData, updatemsg, 0, (ulong)limit));
 
             // Create a hash algorithm to compute the hash from separate blocks in the same way as Copy().
             using (var hashAlgorithm = System.Security.Cryptography.HashAlgorithm.Create(_hashAlgorithmName))
@@ -314,7 +314,7 @@ namespace XenOvfTransport
                 {
                     if (Cancel)
                     {
-                        log.Info(Messages.ISCSI_VERIFY_CANCELLED);
+                        log.Info("Canceled virtual disk verification after export.");
                         throw new OperationCanceledException(Messages.ISCSI_VERIFY_CANCELLED);
                     }
 
@@ -337,12 +337,12 @@ namespace XenOvfTransport
 
                         offset += bytesRead;
 
-                        OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileProgress, "SendData Start", updatemsg, (ulong)offset, (ulong)limit));
+                        OnUpdate(new XenOvfTransportEventArgs(TransportStep.SendData, updatemsg, (ulong)offset, (ulong)limit));
                     }
                     catch (Exception ex)
                     {
+                        log.Warn($"Failed to verify virtual disk {filename}.", ex);
                         var message = string.Format(Messages.ISCSI_VERIFY_ERROR, filename);
-                        log.WarnFormat("{0} {1}", message, ex.Message);
                         throw new Exception(message, ex);
                     }
                 }
@@ -354,17 +354,17 @@ namespace XenOvfTransport
                 hashAlgorithm.TransformBlock(_buffer, 0, bytesRead / 2, _buffer, 0);
 
                 // Compute the final hash.
-                hashAlgorithm.TransformFinalBlock(_buffer, bytesRead / 2, bytesRead / 2);
+                hashAlgorithm.TransformFinalBlock(_buffer, bytesRead / 2, bytesRead / 2 + bytesRead % 2);
 
                 // Compare targetHash with copyHash.
                 if (!System.Linq.Enumerable.SequenceEqual(_copyHash, hashAlgorithm.Hash))
                 {
-                    log.Error(Messages.ISCSI_VERIFY_INVALID);
+                    log.Error("The exported virtual disk does not match the source.");
                     throw new Exception(Messages.ISCSI_VERIFY_INVALID);
                 }
             }
 
-            OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileComplete, "SendData Completed", updatemsg, (ulong)offset, (ulong)limit));
+            OnUpdate(new XenOvfTransportEventArgs(TransportStep.SendData, updatemsg, (ulong)offset, (ulong)limit));
 
             log.InfoFormat("Finished verifying {0} bytes in {1} after copy via iSCSI.", target.Length, filename);
         }
@@ -378,7 +378,7 @@ namespace XenOvfTransport
             ulong p = 0;
 			
             string updatemsg = string.Format(Messages.ISCSI_WIM_PROGRESS_FORMAT, fileindex, filecount, filename);
-			OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileStart, "SendData Start", updatemsg, 0, _bytestotal));
+			OnUpdate(new XenOvfTransportEventArgs(TransportStep.SendData, updatemsg, 0, _bytestotal));
             
 			while (true)
             {
@@ -398,21 +398,21 @@ namespace XenOvfTransport
                     }
                     if (Cancel)
                     {
-                        log.WarnFormat(Messages.ISCSI_COPY_CANCELLED, filename);
+                        log.WarnFormat("Cancelled transfer of virtual disk {0}.", filename);
                         throw new OperationCanceledException(string.Format(Messages.ISCSI_COPY_CANCELLED, filename));
                     }
                     p += (ulong)n;
                     _bytescopied = p;
                     if (p >= (ulong)source.Length)
                         break;
-                    OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileProgress, "SendData Start", updatemsg, _bytescopied, _bytestotal));
+                    OnUpdate(new XenOvfTransportEventArgs(TransportStep.SendData, updatemsg, _bytescopied, _bytestotal));
                 }
                 catch (Exception ex)
                 {
 					if (ex is OperationCanceledException)
 						throw;
+                    log.Warn($"Failed to transfer virtual disk {filename}.", ex);
                     var message = string.Format(Messages.ISCSI_COPY_ERROR, filename);
-                    log.Warn(message);
                     throw new Exception(message, ex);
                 }
             }
@@ -422,7 +422,7 @@ namespace XenOvfTransport
                 if (source != null) source.Close();
                 if (destination != null) destination.Close();
             }
-			OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileComplete, "SendData Completed", updatemsg, _bytescopied, _bytestotal));
+			OnUpdate(new XenOvfTransportEventArgs(TransportStep.SendData, updatemsg, _bytescopied, _bytestotal));
             log.Info("iSCSI.Copy done with copy.");
         }
 
@@ -473,7 +473,7 @@ namespace XenOvfTransport
 
         #region PRIVATE
 
-		private void OnUpdate(XenOvfTranportEventArgs e)
+		private void OnUpdate(XenOvfTransportEventArgs e)
 		{
 			if (UpdateHandler != null)
 				UpdateHandler.Invoke(e);
@@ -505,7 +505,7 @@ namespace XenOvfTransport
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("{0} {1}", Messages.ISCSI_START_ERROR, ex.Message);
+                log.Error("Failed to start Transfer VM.", ex);
                 throw new Exception(Messages.ISCSI_START_ERROR, ex);
             }
         }
@@ -531,7 +531,7 @@ namespace XenOvfTransport
             }
             catch (Exception ex)
             {
-                log.WarnFormat("{0} {1}", Messages.ISCSI_SHUTDOWN_ERROR, ex.Message);
+                log.Warn("Failed to shutdown Transfer VM.", ex);
                 throw new Exception(Messages.ISCSI_SHUTDOWN_ERROR, ex);
             }
         }
@@ -560,9 +560,9 @@ namespace XenOvfTransport
                     return true;
                 }
             }
-            catch (System.Xml.XmlException)
+            catch (System.Xml.XmlException ex)
             {
-                log.DebugFormat("Failed to parse the plugin record: '{0}'", rec);
+                log.Debug("Failed to parse the transfer plugin record.", ex);
             }
             return false;
         }

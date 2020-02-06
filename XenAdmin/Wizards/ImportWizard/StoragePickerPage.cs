@@ -67,17 +67,17 @@ namespace XenAdmin.Wizards.ImportWizard
 		/// <summary>
 		/// Gets the page's title (headline)
 		/// </summary>
-		public override string PageTitle { get { return Messages.IMPORT_SELECT_STORAGE_PAGE_TITLE; } }
+		public override string PageTitle => Messages.IMPORT_SELECT_STORAGE_PAGE_TITLE;
 
 		/// <summary>
 		/// Gets the page's label in the (left hand side) wizard progress panel
 		/// </summary>
-		public override string Text { get { return Messages.IMPORT_SELECT_STORAGE_PAGE_TEXT; } }
+		public override string Text => Messages.IMPORT_SELECT_STORAGE_PAGE_TEXT;
 
 		/// <summary>
 		/// Gets the value by which the help files section for this page is identified
 		/// </summary>
-		public override string HelpID { get { return "StoragePicker"; } }
+		public override string HelpID => "StoragePicker";
 
         protected override bool ImplementsIsDirty()
         {
@@ -119,8 +119,6 @@ namespace XenAdmin.Wizards.ImportWizard
 
         public override void PopulatePage()
 		{
-			labelSrHint.Text = Messages.IMPORT_VM_SELECT_SR;
-
 			// Select default SR
 			Pool pool = Helpers.GetPoolOfOne(m_targetConnection);
 			if (pool != null)
@@ -148,7 +146,7 @@ namespace XenAdmin.Wizards.ImportWizard
 
 		public string FilePath { private get; set; }
 
-		public SR SR { get { return m_srPicker.SR; } }
+		public SR SR => m_srPicker.SR;
 
 		public VM ImportedVm { get; private set; }
 
@@ -298,7 +296,7 @@ namespace XenAdmin.Wizards.ImportWizard
 			});
 		}
 
-		private void m_srPicker_SrSelectionChanged(object obj)
+		private void srPicker1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (ImportInProgress())
 				return;

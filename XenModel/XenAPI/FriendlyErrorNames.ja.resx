@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
+  <!-- 
+    Microsoft ResX Schema 
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
-
+    
     Example:
-
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,39 +26,39 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
-
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
+    
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
-  -->
+    -->
   <xsd:schema id="root" xmlns="" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element msdata:IsDataSet="true" name="root">
@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ACTIVATION_WHILE_NOT_FREE" xml:space="preserve">
     <value>アクティブ化キーを適用するには、エディションの設定が free である必要があります。</value>
@@ -628,7 +628,7 @@
     <value>値 '{1}' はフィールド '{0}' に対して無効です。</value>
   </data>
   <data name="IS_TUNNEL_ACCESS_PIF" xml:space="preserve">
-    <value>トンネル アクセス PIF 上に VLAN またはトンネルを作成しようとしました。代わりにトランスポート PIF を使用してください。</value>
+    <value>トンネル アクセス PIF 上に VLAN またはトンネルを作成できません。代わりにトランスポート PIF を使用してください。</value>
   </data>
   <data name="JOINING_HOST_CANNOT_BE_MASTER_OF_OTHER_HOSTS" xml:space="preserve">
     <value>ほかのプールのマスターとして動作するサーバーを別のプールに追加することはできません。</value>
@@ -790,7 +790,7 @@
     <value>参加時にアクセスできる他のクラスター ホストがありません</value>
   </data>
   <data name="NO_COMPATIBLE_CLUSTER_HOST" xml:space="preserve">
-    <value>ホストに、互換性のあるクラスター スタックを持つ Cluster_host がありません。</value>
+    <value>クラスタリングがこのホストまたはプールで有効になっていません。</value>
   </data>
   <data name="NO_HOSTS_AVAILABLE" xml:space="preserve">
     <value>指定された処理を完了するためのサーバーがありません。</value>
@@ -824,9 +824,6 @@
   </data>
   <data name="OUT_OF_SPACE" xml:space="preserve">
     <value>アップデートをアップロードするために必要な空き容量がありません。</value>
-  </data>
-  <data name="PASSTHROUGH_NOT_ENABLED" xml:space="preserve">
-    <value>USB を VM にパススルーする前に、passthrough_enabled を true に設定する必要があります。</value>
   </data>
   <data name="PATCH_ALREADY_APPLIED" xml:space="preserve">
     <value>アップデート {0} は適用済みです。</value>
@@ -1327,6 +1324,9 @@
   </data>
   <data name="SR_BACKEND_FAILURE_203" xml:space="preserve">
     <value>アクティブな FIST ポイントに達したため、プロセスが異常終了しました。</value>
+  </data>
+  <data name="SR_BACKEND_FAILURE_204" xml:space="preserve">
+    <value>スナップショット作成前よりもリーフが大きくなったため、リーフを結合できませんでした</value>
   </data>
   <data name="SR_BACKEND_FAILURE_220" xml:space="preserve">
     <value>デバイス構成要求に Location パラメーターがありません。</value>
@@ -1926,7 +1926,7 @@
     <value>指定した仮想ディスクが見つからないため、この処理を実行できません。</value>
   </data>
   <data name="VDI_NEEDS_VM_FOR_MIGRATE" xml:space="preserve">
-    <value>実行中の VM に接続されていない VDI を移行しようとしました。</value>
+    <value>実行中の VM に接続されていない VDI は移行できません。</value>
   </data>
   <data name="VDI_NOT_AVAILABLE" xml:space="preserve">
     <value>VDI {0} を VM に正しく接続できないため、この処理を実行できません。</value>
@@ -1957,6 +1957,12 @@
   </data>
   <data name="VGPU_DESTINATION_INCOMPATIBLE" xml:space="preserve">
     <value>この仮想 GPU は対象の物理 GPU と互換性がありません。</value>
+  </data>
+  <data name="VGPU_GUEST_DRIVER_LIMIT" xml:space="preserve">
+    <value>ゲストドライバーは、仮想 GPU の移行をサポートしていません。</value>
+  </data>
+  <data name="VGPU_TYPE_NOT_COMPATIBLE" xml:space="preserve">
+    <value>仮想 GPU が VM 上の既存の種類と互換性がない場合、作成できません。</value>
   </data>
   <data name="VGPU_TYPE_NOT_COMPATIBLE_WITH_RUNNING_TYPE" xml:space="preserve">
     <value>すべての GPU が使用中か、ほかの種類の仮想 GPU を実行しているため、VM を起動できません。</value>
@@ -2040,7 +2046,7 @@
     <value>VM が予期せず停止しました。</value>
   </data>
   <data name="VM_HAS_CHECKPOINT" xml:space="preserve">
-    <value>チェックポイントが作成された VM を移行しようとしています。</value>
+    <value>チェックポイントが作成された VM は移行できません。</value>
   </data>
   <data name="VM_HAS_NO_SUSPEND_VDI" xml:space="preserve">
     <value>一時停止 VDI がないため、仮想マシンを再開できません</value>
@@ -2052,7 +2058,7 @@
     <value>VM に 1 つまたは複数の SR-IOV VIF が割り当てられているため、この処理を実行できません。</value>
   </data>
   <data name="VM_HAS_TOO_MANY_SNAPSHOTS" xml:space="preserve">
-    <value>複数のスナップショットを持つ VM を移行しようとしました。</value>
+    <value>複数のスナップショットを持つ VM は移行できません。</value>
   </data>
   <data name="VM_HAS_VGPU" xml:space="preserve">
     <value>VM に 仮想 GPU が割り当てられているため、この処理を実行できません。</value>
@@ -2064,7 +2070,7 @@
     <value>古いバージョンのホストをアップグレードするときにこの VM 処理は実行できません。</value>
   </data>
   <data name="VM_HOST_INCOMPATIBLE_VERSION_MIGRATE" xml:space="preserve">
-    <value>移行元ホストより古いバージョンの移行先ホストに VM を移行しようとしました。</value>
+    <value>移行元ホストより古い移行先ホストに VM を移行することはできません。</value>
   </data>
   <data name="VM_HOST_INCOMPATIBLE_VIRTUAL_HARDWARE_PLATFORM_VERSION" xml:space="preserve">
     <value>VM のこのバージョンの仮想ハードウェア プラットフォームには、このホストとの互換性がありません。</value>
@@ -2124,7 +2130,7 @@
     <value>現在、この VM は指定したサーバー上に配置されていません。</value>
   </data>
   <data name="VM_NO_CRASHDUMP_SR" xml:space="preserve">
-    <value>この VM にはクラッシュダンプ用の SR が指定されていません。</value>
+    <value>この VM にはクラッシュ ダンプ用の SR が指定されていません。</value>
   </data>
   <data name="VM_NO_EMPTY_CD_VBD" xml:space="preserve">
     <value>VM に空の CD ドライブ (VBD) がありません。</value>
@@ -2137,6 +2143,9 @@
   </data>
   <data name="VM_OLD_PV_DRIVERS" xml:space="preserve">
     <value>VM で処理を実行しようとしましたが、最新バージョンの PV ドライバーが必要です。PV ドライバーをアップグレードしてください。</value>
+  </data>
+  <data name="VM_PCI_BUS_FULL" xml:space="preserve">
+    <value>VM には空き PCI スロットがありません</value>
   </data>
   <data name="VM_PV_DRIVERS_IN_USE" xml:space="preserve">
     <value>VM PV ドライバーは使用中です</value>
@@ -2261,6 +2270,9 @@
   <data name="XENAPI_PLUGIN_FAILURE" xml:space="preserve">
     <value>プラグインとの通信に失敗しました。</value>
   </data>
+  <data name="XEN_INCOMPATIBLE" xml:space="preserve">
+    <value>Xen またはそのコントロール ライブラリの現在のバージョンは、ツールスタックと互換性がありません。</value>
+  </data>
   <data name="XEN_VSS_REQ_ERROR_ADDING_VOLUME_TO_SNAPSET_FAILED" xml:space="preserve">
     <value>スナップショット対象の一部のボリュームを VSS スナップショット セットに追加できません。</value>
   </data>
@@ -2274,13 +2286,13 @@
     <value>VSS リクエスタの初期化に失敗しました。</value>
   </data>
   <data name="XEN_VSS_REQ_ERROR_NO_VOLUMES_SUPPORTED" xml:space="preserve">
-    <value>Vss Provider でサポートされるボリュームが見つかりません</value>
+    <value>VSS Provider でサポートされるボリュームが見つかりません</value>
   </data>
   <data name="XEN_VSS_REQ_ERROR_PREPARING_WRITERS" xml:space="preserve">
     <value>スナップショットの VSS ライタの準備に失敗しました。</value>
   </data>
   <data name="XEN_VSS_REQ_ERROR_PROV_NOT_LOADED" xml:space="preserve">
-    <value>Vss Provider が読み込まれていません</value>
+    <value>VSS Provider が読み込まれていません</value>
   </data>
   <data name="XEN_VSS_REQ_ERROR_START_SNAPSHOT_SET_FAILED" xml:space="preserve">
     <value>新規 VSS スナップショットの開始に失敗しました。</value>

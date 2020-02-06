@@ -172,7 +172,6 @@ namespace XenAdmin.Controls.XenSearch
             catch (Exception e)
             {
                 log.Debug("Exception firing OnQueryChanged in QueryElement", e);
-                log.Debug(e, e);
             }
         }
 
@@ -510,7 +509,7 @@ namespace XenAdmin.Controls.XenSearch
                     break;
             }
 
-            return new Search(query, grouping, false, "", "", null, sorts);
+            return new Search(query, grouping, "", "", null, sorts);
         }
 
         private void Setup()

@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,15 @@ namespace XenAPI
     [JsonConverter(typeof(primary_address_typeConverter))]
     public enum primary_address_type
     {
-        IPv4, IPv6, unknown
+        /// <summary>
+        /// Primary address is the IPv4 address
+        /// </summary>
+        IPv4,
+        /// <summary>
+        /// Primary address is the IPv6 address
+        /// </summary>
+        IPv6,
+        unknown
     }
 
     public static class primary_address_type_helper
@@ -71,4 +78,4 @@ namespace XenAPI
             writer.WriteValue(((primary_address_type)value).StringOf());
         }
     }
-}
+}

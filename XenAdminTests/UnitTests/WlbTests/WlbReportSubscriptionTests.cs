@@ -33,7 +33,7 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using XenAdmin.Wlb;
-using XenAdminTests.UnitTests.UnitTestHelper;
+
 
 namespace XenAdminTests.UnitTests.WlbTests
 {
@@ -41,26 +41,16 @@ namespace XenAdminTests.UnitTests.WlbTests
     [TestFixture, Category(TestCategories.Unit)]
     public class WlbReportSubscriptionTests
     {
-        private WlbReportSubscription subscription;
-        private IUnitTestVerifier validator;
-
-        [SetUp]
-        public void Setup()
-        {
-            subscription = new WlbReportSubscription("some id");
-            validator = new VerifyGettersAndSetters(subscription);
-        }
-
         [Test]
         public void TestNullConstructionDoesNotThrow()
         {
-            subscription = new WlbReportSubscription(null);
+            Assert.DoesNotThrow(() => new WlbReportSubscription(null));
         }
 
         [Test]
         public void GettersAndSetters()
         {
-            SubscriptionData expected = new SubscriptionData()
+            var expected = new SubscriptionData
             {
                 Id = "subs Id",
                 Created = new DateTime( 2011, 12, 25),
@@ -91,11 +81,11 @@ namespace XenAdminTests.UnitTests.WlbTests
                 ReportDisplayName = "Display name"
             };
 
-            validator.Verify(expected);
+            ClassVerifiers.VerifySettersAndGetters(new WlbReportSubscription("some id"), expected);
 
         }
 
-        #region Helper functions
+        #region Helper structs
 
         private struct SubscriptionData
         {

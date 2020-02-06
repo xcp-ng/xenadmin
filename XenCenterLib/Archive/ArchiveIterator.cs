@@ -70,10 +70,15 @@ namespace XenCenterLib.Archive
         }
 
         /// <summary>
-        /// Hook to allow the base stream to be wrapped by this classes archive mechanism
+        /// Hook to allow the base stream to be wrapped by this class's archive mechanism
         /// </summary>
         /// <param name="stream">base stream</param>
         public virtual void SetBaseStream(Stream stream)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual bool VerifyCurrentFileAgainstDigest(string algorithmName, byte[] digest)
         {
             throw new NotImplementedException();
         }

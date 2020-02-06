@@ -43,14 +43,10 @@ namespace XenCenterLib.Archive
         private const long bufferSize = 32*1024;
         protected bool disposed;
 
-        public SharpZipTarArchiveWriter()
-        {
-            disposed = false;
-        }
-
-        public SharpZipTarArchiveWriter(Stream outputStream) : this()
+        public SharpZipTarArchiveWriter(Stream outputStream)
         {
             tar = new TarOutputStream(outputStream);
+            disposed = false;
         }
 
         public override void SetBaseStream(Stream outputStream)

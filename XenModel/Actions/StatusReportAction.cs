@@ -161,7 +161,7 @@ namespace XenAdmin.Actions
             }
             catch (Exception e)
             {
-                log.ErrorFormat("Exception while writing {0} file: {1}", fileName, e);
+                log.Error($"Exception while writing out {fileName}.", e);
             }
         }
     }

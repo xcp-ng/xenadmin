@@ -61,7 +61,7 @@ namespace XenAPI
         API_2_11 = 22, //XenServer 7.6 (lima)
         API_2_12 = 23, //Citrix Hypervisor 8.0 (naples)
         API_2_13 = 24, //Unreleased (oslo)
-        API_2_14 = 25, //Unreleased (plymouth)
+        API_2_14 = 25, //Unreleased (quebec)
         LATEST = 25,
         UNKNOWN = 99
     }

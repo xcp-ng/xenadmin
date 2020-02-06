@@ -32,12 +32,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
+using System.Linq;
 using System.Windows.Forms;
-
+using XenAdmin.Controls;
 using XenAdmin.Controls.Ballooning;
 using XenAdmin.Core;
-using XenAdmin.Network;
 using XenAPI;
 
 
@@ -122,6 +121,8 @@ namespace XenAdmin.TabPages
                 });
             }
         }
+
+        public override string HelpID => "TabPageBallooning";
 
         private bool VMWanted(VM vm, Host host)
         {
@@ -389,6 +390,8 @@ namespace XenAdmin.TabPages
             _rebuilding = false;       
             pageContainerPanel.ResumeLayout();
             ReLayout();
+
+            SetupDeprecationBanner();
         }
 
         private void ReLayout()
@@ -449,6 +452,22 @@ namespace XenAdmin.TabPages
         private void SetRowWidth(Control row)
         {
             row.Width = pageContainerPanel.Width - pageContainerPanel.Padding.Left - 25;  // It won't drop below row.MinimumSize.Width though
+        }
+
+        private void SetupDeprecationBanner()
+        {
+            Banner.Visible = false;
+            if (!Helpers.QuebecOrGreater(xenObject.Connection))
+                return;
+                
+            if (vms.Any(vm => vm.has_ballooning() && vm.memory_dynamic_min != vm.memory_static_max))
+            {
+                Banner.AppliesToVersion = Messages.XENSERVER_8_1;
+                Banner.BannerType = DeprecationBanner.Type.Deprecation;
+                Banner.FeatureName = Messages.DMC;
+                Banner.LinkUri = HiddenFeatures.LinkLabelHidden ? null : new Uri(InvisibleMessages.DEPRECATION_URL);
+                Banner.Visible = !HiddenFeatures.LinkLabelHidden;
+            }
         }
     }
 }

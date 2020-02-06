@@ -34,37 +34,33 @@ using XenAdmin;
 
 namespace XenAdminTests.StringExtensionsTests
 {
-    public class EscapeAmpersandsTests : UnitTester_SingleConnectionTestFixture
+    [TestFixture, Category(TestCategories.Unit)]
+    public class EscapeAmpersandsTests
     {
         [Test]
-        [TestCase("&", "&&")]
-        [TestCase("bob", "bob")]
-        [TestCase("bob&", "bob&&")]
-        [TestCase("bob&&", "bob&&&&")]
-        [TestCase("bob&&&", "bob&&&&&&")]
-        [TestCase("bob&jones", "bob&&jones")]
-        [TestCase("bob&&jones", "bob&&&&jones")]
-        [TestCase("bob&&&jones", "bob&&&&&&jones")]
-        [TestCase("bob&jones&&", "bob&&jones&&&&")]
-        [TestCase("bob&&jones&", "bob&&&&jones&&")]
-        [TestCase("bob&&&jones&&&", "bob&&&&&&jones&&&&&&")]
-        [TestCase("&&bob&&jones&&", "&&&&bob&&&&jones&&&&")]
-        public void VerifyEscapingAmpersandsOnValidStrings(string toEscape, string expected)
+        [TestCase("", ExpectedResult = "")]
+        [TestCase("&", ExpectedResult = "&&")]
+        [TestCase("bob", ExpectedResult = "bob")]
+        [TestCase("bob&", ExpectedResult = "bob&&")]
+        [TestCase("bob&&", ExpectedResult = "bob&&&&")]
+        [TestCase("bob&&&", ExpectedResult = "bob&&&&&&")]
+        [TestCase("bob&jones", ExpectedResult = "bob&&jones")]
+        [TestCase("bob&&jones", ExpectedResult = "bob&&&&jones")]
+        [TestCase("bob&&&jones", ExpectedResult = "bob&&&&&&jones")]
+        [TestCase("bob&jones&&", ExpectedResult = "bob&&jones&&&&")]
+        [TestCase("bob&&jones&", ExpectedResult = "bob&&&&jones&&")]
+        [TestCase("bob&&&jones&&&", ExpectedResult = "bob&&&&&&jones&&&&&&")]
+        [TestCase("&&bob&&jones&&", ExpectedResult = "&&&&bob&&&&jones&&&&")]
+        public string EscapeAmpersandsTest(string toEscape)
         {
-            Assert.That(toEscape.EscapeAmpersands(), Is.EqualTo(expected));
+            return toEscape.EscapeAmpersands();
         }
 
         [Test]
-        public void VerifyEscapingAmpersandsOnNull()
+        public void EscapeAmpersandsOnNullTest()
         {
-            string testString = null;
-            Assert.That(testString.EscapeAmpersands(), Is.Null);
-        }
-
-        [Test]
-        public void VerifyEscapingAmpersandsOnEmptyStrings()
-        {
-            Assert.That("".EscapeAmpersands(), Is.Empty);
+            string toEscape = null;
+            Assert.Null(toEscape.EscapeAmpersands());
         }
     }
 }

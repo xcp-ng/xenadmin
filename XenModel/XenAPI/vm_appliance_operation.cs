@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,23 @@ namespace XenAPI
     [JsonConverter(typeof(vm_appliance_operationConverter))]
     public enum vm_appliance_operation
     {
-        start, clean_shutdown, hard_shutdown, shutdown, unknown
+        /// <summary>
+        /// Start
+        /// </summary>
+        start,
+        /// <summary>
+        /// Clean shutdown
+        /// </summary>
+        clean_shutdown,
+        /// <summary>
+        /// Hard shutdown
+        /// </summary>
+        hard_shutdown,
+        /// <summary>
+        /// Shutdown
+        /// </summary>
+        shutdown,
+        unknown
     }
 
     public static class vm_appliance_operation_helper
@@ -75,4 +90,4 @@ namespace XenAPI
             writer.WriteValue(((vm_appliance_operation)value).StringOf());
         }
     }
-}
+}

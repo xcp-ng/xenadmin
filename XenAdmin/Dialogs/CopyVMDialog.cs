@@ -95,7 +95,7 @@ namespace XenAdmin.Dialogs
             srPicker1.selectDefaultSROrAny();
         }
 
-        private void srPicker1_SrSelectionChanged(object obj)
+        private void srPicker1_SelectedIndexChanged(object sender, EventArgs e)
         {
             EnableMoveButton();
         }

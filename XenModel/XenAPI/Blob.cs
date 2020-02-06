@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Blob : XenObject<Blob>
     {
+        #region Constructors
+
         public Blob()
         {
         }
@@ -67,13 +69,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Blob from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Blob(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Blob from a Proxy_Blob.
         /// </summary>
         /// <param name="proxy"></param>
         public Blob(Proxy_Blob proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -90,7 +106,7 @@ namespace XenAPI
             mime_type = update.mime_type;
         }
 
-        internal void UpdateFromProxy(Proxy_Blob proxy)
+        internal void UpdateFrom(Proxy_Blob proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -112,17 +128,6 @@ namespace XenAPI
             result_.last_updated = last_updated;
             result_.mime_type = mime_type ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Blob from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Blob(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,23 @@ namespace XenAPI
     [JsonConverter(typeof(after_apply_guidanceConverter))]
     public enum after_apply_guidance
     {
-        restartHVM, restartPV, restartHost, restartXAPI, unknown
+        /// <summary>
+        /// This patch requires HVM guests to be restarted once applied.
+        /// </summary>
+        restartHVM,
+        /// <summary>
+        /// This patch requires PV guests to be restarted once applied.
+        /// </summary>
+        restartPV,
+        /// <summary>
+        /// This patch requires the host to be restarted once applied.
+        /// </summary>
+        restartHost,
+        /// <summary>
+        /// This patch requires XAPI to be restarted once applied.
+        /// </summary>
+        restartXAPI,
+        unknown
     }
 
     public static class after_apply_guidance_helper
@@ -75,4 +90,4 @@ namespace XenAPI
             writer.WriteValue(((after_apply_guidance)value).StringOf());
         }
     }
-}
+}

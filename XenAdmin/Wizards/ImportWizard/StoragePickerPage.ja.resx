@@ -125,13 +125,19 @@
   <data name="m_srPicker.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
+  <data name="m_srPicker.IntegralHeight" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="m_srPicker.ItemHeight" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
   <data name="m_srPicker.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
   <data name="m_srPicker.Size" type="System.Drawing.Size, System.Drawing">
     <value>572, 332</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
   <data name="m_srPicker.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -169,7 +175,9 @@
     <value>0</value>
   </data>
   <data name="labelSrHint.Text" xml:space="preserve">
-    <value>label1</value>
+    <value>新規 VM の仮想ディスクを格納するストレージ リポジトリを選択します。
+
+完了したら、[インポート] をクリックして VM のインポートを開始し、ネットワーク オプションの構成に進みます。</value>
   </data>
   <data name="&gt;&gt;labelSrHint.Name" xml:space="preserve">
     <value>labelSrHint</value>

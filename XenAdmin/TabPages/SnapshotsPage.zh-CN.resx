@@ -1441,13 +1441,13 @@
     <value>209, 22</value>
   </data>
   <data name="saveTemplateToolStripMenuItem.Text" xml:space="preserve">
-    <value>另存为模板(&amp;S)...</value>
+    <value>基于快照新建模板(&amp;S)...</value>
   </data>
   <data name="exportToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>209, 22</value>
   </data>
   <data name="exportToolStripMenuItem.Text" xml:space="preserve">
-    <value>导出到文件(&amp;X)...</value>
+    <value>将快照导出为模板(&amp;X)... </value>
   </data>
   <data name="separatorDeleteToolStripSeparator.Size" type="System.Drawing.Size, System.Drawing">
     <value>206, 6</value>
@@ -1774,13 +1774,13 @@
     <value>209, 22</value>
   </data>
   <data name="saveAsTemplateToolStripMenuItem.Text" xml:space="preserve">
-    <value>另存为模板(&amp;S)...</value>
+    <value>基于快照新建模板(&amp;S)...</value>
   </data>
   <data name="exportAsBackupToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>209, 22</value>
   </data>
   <data name="exportAsBackupToolStripMenuItem.Text" xml:space="preserve">
-    <value>导出到文件(&amp;X)...</value>
+    <value>将快照导出为模板(&amp;X)...</value>
   </data>
   <data name="saveMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
     <value>210, 98</value>

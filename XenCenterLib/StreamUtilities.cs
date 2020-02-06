@@ -31,10 +31,12 @@
 
 using System;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
 
 namespace XenCenterLib
 {
-    public class StreamUtilities
+    public static class StreamUtilities
     {
         /// <summary>
         /// Perform a copy of the contents of one stream class to another in a buffered fashion
@@ -61,6 +63,52 @@ namespace XenCenterLib
             }
 
             outputData.Flush();
+        }
+
+        public static bool VerifyAgainstDigest(Stream stream, long limit, string algorithmName, byte[] digest, RSACryptoServiceProvider cryptoServiceProvider = null)
+        {
+            int bytesRead = 0;
+            long offset = 0;
+            byte[] buffer = new byte[2 * 1024 * 1024];
+
+            using (var hashAlgorithm = HashAlgorithm.Create(algorithmName))
+            {
+                // Validate the algorithm.
+                if (hashAlgorithm == null)
+                    throw new NotSupportedException($"{algorithmName} is not a valid hash algorithm");
+
+                while (offset < limit)
+                {
+                    bytesRead = stream.Read(buffer, 0, buffer.Length);
+
+                    if (bytesRead <= 0)
+                        break;
+
+                    if (buffer.Any(b => b != 0x0))
+                    {
+                        if (offset + bytesRead < limit)
+                        {
+                            // This is not the last block. Compute the partial hash.
+                            hashAlgorithm.TransformBlock(buffer, 0, bytesRead, buffer, 0);
+                        }
+                    }
+
+                    offset += bytesRead;
+                }
+
+                // It is necessary to call TransformBlock at least once and TransformFinalBlock only once before getting the hash.
+                // If only the last buffer had content, then TransformBlock would not have been called at least once.
+                // So, split the last buffer and hash it even if it is empty.
+                // Note: TransformBlock will accept an "inputCount" that is zero.
+                hashAlgorithm.TransformBlock(buffer, 0, bytesRead / 2, buffer, 0);
+
+                // Compute the final hash.
+                hashAlgorithm.TransformFinalBlock(buffer, bytesRead / 2, bytesRead / 2 + bytesRead % 2);
+
+                return cryptoServiceProvider == null
+                    ? digest.SequenceEqual(hashAlgorithm.Hash)
+                    : cryptoServiceProvider.VerifyHash(hashAlgorithm.Hash, CryptoConfig.MapNameToOID(algorithmName), digest);
+            }
         }
     }
 }

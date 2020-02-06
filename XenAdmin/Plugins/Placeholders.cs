@@ -115,7 +115,7 @@ namespace XenAdmin.Plugins
                 catch (Exception e)
                 {
                     // Leave the placeholder in; nothing we can do.
-                    log.Warn(string.Format("Bad placeholder '{0}' in '{1}'", m.Value, text), e);
+                    log.Warn("Bad placeholder", e);
                     return m.Value;
                 }
             });
@@ -192,9 +192,9 @@ namespace XenAdmin.Plugins
                     return new Uri(u.Replace(string.Format(PlaceholderFormat, ipAddressName), ipstring));
                 });
             }
-            catch (UriFormatException)
+            catch (UriFormatException ex)
             {
-                log.Warn(string.Format("Failed to parse url {0}", uri));
+                log.Warn("Failed to parse url.", ex);
                 return new List<Uri> { new Uri("about:blank") };
             }
         }

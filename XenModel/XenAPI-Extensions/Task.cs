@@ -85,16 +85,14 @@ namespace XenAPI
                 }
                 catch (WebException we)
                 {
-                    log.ErrorFormat("WebException in DoWithSessionRetry, retry {0}", retries);
-                    log.Error(we, we);
+                    log.Error($"WebException in DoWithSessionRetry, retry {retries}: ", we);
 
                     if (retries <= 0)
                         throw;
                 }
                 catch (Failure failure)
                 {
-                    log.ErrorFormat("Failure in DoWithSessionRetry, retry {0}", retries);
-                    log.Error(failure, failure);
+                    log.Error($"Failure in DoWithSessionRetry, retry {retries}", failure);
 
                     if (retries <= 0)
                         throw;

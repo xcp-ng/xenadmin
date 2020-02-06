@@ -34,43 +34,50 @@ using System.Collections.Generic;
 using System.Text;
 
 using XenAdmin.Core;
-
 using XenAPI;
 
 namespace XenAdmin.Actions
 {
     public class GpuAssignAction : PureAsyncAction
     {
-        VM vm;
-        GPU_group gpu_group;
-        private VGPU_type vgpuType;
+        private readonly VM vm;
+        private readonly List<VGPU> vGpus;
 
-        public GpuAssignAction(VM vm, GPU_group gpu_group, VGPU_type vgpuType)
+        public GpuAssignAction(VM vm, List<VGPU> vGpus)
             : base(vm.Connection, "Set GPU", true)
         {
             this.vm = vm;
-            this.gpu_group = gpu_group;
-            this.vgpuType = vgpuType;
+            this.vGpus = vGpus;
         }
 
         protected override void Run()
         {
-            // Remove any existing VGPUs before adding new ones
-            foreach (VGPU vgpu in vm.Connection.ResolveAll(vm.VGPUs))
+            var vgpuSetToRemove = new HashSet<VGPU>(vm.Connection.ResolveAll(vm.VGPUs));
+            // Existing vGPUs must have opaque_ref
+            var vgpuSetToUnchanged = new HashSet<VGPU>(vGpus.FindAll(x => x.opaque_ref != null));
+
+            vgpuSetToRemove.ExceptWith(vgpuSetToUnchanged);
+
+            foreach (VGPU vgpu in vgpuSetToRemove)
                 VGPU.destroy(Session, vgpu.opaque_ref);
 
-            if (gpu_group == null)  // The VM doesn't want a VGPU
+            // New added vGPUs haven't opaque_ref
+            foreach (var vGpu in vGpus.FindAll(x => x.opaque_ref == null))
+                AddGpu(vm.Connection.Resolve(vGpu.GPU_group), vm.Connection.Resolve(vGpu.type), vGpu.device ?? "0");
+        }
+
+        private void AddGpu(GPU_group gpuGroup, VGPU_type vGpuType, string device = "0")
+        {
+            if (gpuGroup == null)
                 return;
 
-            // Add the new VGPU
-            string device = "0";  // fixed at the moment, see PR-1060
-            Dictionary<string, string> other_config = new Dictionary<string,string>();
+            Dictionary<string, string> other_config = new Dictionary<string, string>();
 
-            if (Helpers.FeatureForbidden(vm, Host.RestrictVgpu) || vgpuType == null)
-                VGPU.async_create(Session, vm.opaque_ref, gpu_group.opaque_ref, device, other_config);
+            if (Helpers.FeatureForbidden(vm, Host.RestrictVgpu) || vGpuType == null)
+                VGPU.async_create(Session, vm.opaque_ref, gpuGroup.opaque_ref, device, other_config);
             else
-                VGPU.async_create(Session, vm.opaque_ref, gpu_group.opaque_ref, device,
-                                  other_config, vgpuType.opaque_ref);
+                VGPU.async_create(Session, vm.opaque_ref, gpuGroup.opaque_ref, device,
+                    other_config, vGpuType.opaque_ref);
         }
     }
 }

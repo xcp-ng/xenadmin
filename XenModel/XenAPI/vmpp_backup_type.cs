@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,15 @@ namespace XenAPI
     [JsonConverter(typeof(vmpp_backup_typeConverter))]
     public enum vmpp_backup_type
     {
-        snapshot, checkpoint, unknown
+        /// <summary>
+        /// The backup is a snapshot
+        /// </summary>
+        snapshot,
+        /// <summary>
+        /// The backup is a checkpoint
+        /// </summary>
+        checkpoint,
+        unknown
     }
 
     public static class vmpp_backup_type_helper
@@ -71,4 +78,4 @@ namespace XenAPI
             writer.WriteValue(((vmpp_backup_type)value).StringOf());
         }
     }
-}
+}

@@ -126,7 +126,6 @@ namespace XenAdmin.Diagnostics.Checks
                 {
                     log.Debug("Didn't recognise reason", e);
                     log.Debug(exception);
-                    log.Debug(e, e);
 
                     VM vm = Host.Connection.Resolve(kvp.Key);
 
@@ -229,7 +228,6 @@ namespace XenAdmin.Diagnostics.Checks
             catch (Exception e)
             {
                 log.Debug("Exception parsing exception", e);
-                log.Debug(e, e);
 
                 throw new Failure(new List<String>(exception));
             }

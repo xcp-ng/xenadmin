@@ -38,8 +38,6 @@ namespace XenAdmin.Controls.XenSearch
 {
     public partial class Searcher : UserControl
     {
-        private int _maxHeight = 400;
-
         public event Action SearchChanged;
         public event Action SearchForChanged;
         public event Action SaveRequested;
@@ -104,14 +102,10 @@ namespace XenAdmin.Controls.XenSearch
         }
 
         /// <summary>
-        /// Gets or sets the maximum height for this control. The contents of this control will autoscroll inside this height.
+        /// Gets or sets the maximum height for this control.
+        /// The contents of this control will autoscroll inside this height.
         /// </summary>
-        /// <value>The maximum height for this control.</value>
-        public int MaxHeight
-        {
-            get { return _maxHeight; }
-            set { _maxHeight = value; }
-        }
+        public int MaxHeight { get; set; } = 400;
 
         public QueryScope QueryScope
         {
@@ -128,14 +122,11 @@ namespace XenAdmin.Controls.XenSearch
             get { return GroupingControl.Grouping; }
         }
 
-        public bool Expanded { get; private set; }
-
         #endregion
 
         public void ToggleExpandedState(bool expand)
         {
             Visible = expand;
-            Expanded = expand;
 
             if (Visible)
                 buttonSave.Enabled = (ConnectionsManager.XenConnections.Find(c => c.IsConnected) != null);
@@ -164,7 +155,7 @@ namespace XenAdmin.Controls.XenSearch
             GroupsLabel.Top = contentsHeight - 64;
             GroupingControl.Top = contentsHeight - 41;
 
-            Height = Math.Min(_maxHeight, contentsHeight);
+            Height = Math.Min(MaxHeight, contentsHeight);
         }
 
         private void buttonSave_Click(object sender, EventArgs e)

@@ -33,6 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using XenAdmin.Actions.VMActions;
 using XenAdmin.Dialogs;
@@ -47,9 +48,11 @@ namespace XenAdmin.Wizards.NewVMWizard
 {
     public partial class Page_Storage : XenTabPage
     {
-        private VM Template;
-        private bool InstallMethodIsNetwork;
-        private bool loading = false;
+        private VM _template;
+        private InstallMethod _selectedInstallMethod;
+        private Host _affinity;
+        private bool _loadRequired = true;
+        private bool loading;
 
         public Page_Storage()
         {
@@ -73,18 +76,14 @@ namespace XenAdmin.Wizards.NewVMWizard
 
         protected override void PageLoadedCore(PageLoadedDirection direction)
         {
-            VM template = SelectedTemplate;
-            bool installMethodIsNetwork = SelectedInstallMethod == InstallMethod.Network;
-
-            if (template == Template && InstallMethodIsNetwork == installMethodIsNetwork)
+            if (!_loadRequired)
                 return;
 
             loading = true;
-            Template = template;
 
-            InstallMethodIsNetwork = installMethodIsNetwork;
-            if ((!Template.DefaultTemplate() && !Template.HasAtLeastOneDisk())
-                || (Template.IsHVM() && InstallMethodIsNetwork)) // CA-46213 The default should be "diskless" if the install method is "boot from network"
+            // CA-46213 The default should be "diskless" if the install method is "boot from network"
+            if (!Template.DefaultTemplate() && !Template.HasAtLeastOneDisk()
+                || Template.IsHVM() && SelectedInstallMethod == InstallMethod.Network)
             {
                 DisklessVMRadioButton.Checked = true;
             }
@@ -93,6 +92,7 @@ namespace XenAdmin.Wizards.NewVMWizard
 
             LoadDisks();
             loading = false;
+            _loadRequired = false;
             UpdateEnablement(true);
         }
 
@@ -109,8 +109,33 @@ namespace XenAdmin.Wizards.NewVMWizard
             XmlNode provision = Template.ProvisionXml();
             if (provision != null)
             {
-                foreach (XmlNode disk in provision.ChildNodes)
-                    rowList.Add(new DiskGridRowItem(Connection, disk, SelectedName, Affinity));
+                foreach (XmlNode diskNode in provision.ChildNodes)
+                {
+                    var device = new VBD
+                    {
+                        userdevice = diskNode.Attributes["device"].Value,
+                        bootable = diskNode.Attributes["bootable"].Value == "true",
+                        mode = vbd_mode.RW
+                    };
+
+                    var diskSize = long.Parse(diskNode.Attributes["size"].Value);
+                    SR srUuid = Connection.Cache.Find_By_Uuid<SR>(diskNode.Attributes["sr"].Value);
+                    SR sr = GetBestDiskStorage(Connection, diskSize, Affinity, srUuid, out Image icon, out string tooltip);
+
+                    var disk = new VDI
+                    {
+                        name_label = string.Format(Messages.NEWVMWIZARD_STORAGEPAGE_VDINAME, SelectedName, device.userdevice),
+                        name_description = Messages.NEWVMWIZARD_STORAGEPAGE_DISK_DESCRIPTION,
+                        virtual_size = diskSize,
+                        type = (vdi_type)Enum.Parse(typeof(vdi_type), diskNode.Attributes["type"].Value),
+                        read_only = false,
+                        SR = new XenRef<SR>(sr != null ? sr.opaque_ref : Helper.NullOpaqueRef)
+                    };
+
+                    var row = new DiskGridRowItem(Connection, disk, device, DiskSource.FromDefaultTemplate);
+                    row.UpdateStatus(icon, tooltip);
+                    rowList.Add(row);
+                }
             }
             else
             {
@@ -121,61 +146,112 @@ namespace XenAdmin.Wizards.NewVMWizard
                         continue;
 
                     VDI vdi = Connection.Resolve(vbd.VDI);
-                    if (vdi != null)
-                        rowList.Add(new DiskGridRowItem(Connection, vdi, vbd, false, Affinity));
+                    if (vdi == null)
+                        continue;
+
+                    var device = new VBD
+                    {
+                        userdevice = vbd.userdevice,
+                        bootable = vbd.bootable,
+                        mode = vbd.mode
+                    };
+
+                    SR sr = GetBestDiskStorage(Connection, vdi.virtual_size, Affinity, Connection.Resolve(vdi.SR),
+                        out Image icon, out string tooltip);
+
+                    var disk = new VDI
+                    {
+                        name_label = vdi.name_label,
+                        name_description = vdi.name_description,
+                        virtual_size = vdi.virtual_size,
+                        type = vdi.type,
+                        read_only = vdi.read_only,
+                        sm_config = vdi.sm_config,
+                        SR = new XenRef<SR>(sr != null ? sr.opaque_ref : Helper.NullOpaqueRef)
+                    };
+
+                    var row = new DiskGridRowItem(Connection, disk, device, DiskSource.FromCustomTemplate);
+                    row.UpdateStatus(icon, tooltip);
+                    rowList.Add(row);
                 }
             }
 
             DisksGridView.Rows.AddRange(rowList.ToArray());
+            UpdateStatusForEachDisk(true);
+        }
+
+        /// <summary>
+        /// Tries to find the best SR for the given VDI considering first the
+        /// suggestedSR then the pool's default SR, then other SRs.
+        /// </summary>
+        /// <returns>The SR if a suitable one is found, otherwise null</returns>
+        private SR GetBestDiskStorage(IXenConnection connection, long diskSize, Host affinity, SR suggestedSr,
+            out Image icon, out string tooltip)
+        {
+            icon = Images.StaticImages._000_VirtualStorage_h32bit_16;
+            tooltip = null;
+            var sb = new StringBuilder();
+
+            var suggestedSrVisible = suggestedSr != null && suggestedSr.CanBeSeenFrom(affinity);
+            var suggestedSrHasSpace = suggestedSr != null && suggestedSr.VdiCreationCanProceed(diskSize);
+
+            if (suggestedSrVisible && suggestedSrHasSpace)
+                return suggestedSr;
+
+            if (suggestedSrVisible)
+                sb.AppendFormat(Messages.NEWVMWIZARD_STORAGEPAGE_SUGGESTED_NOSPACE, suggestedSr.Name().Ellipsise(50)).AppendLine();
+            else if (suggestedSrHasSpace)
+                sb.AppendFormat(Messages.NEWVMWIZARD_STORAGEPAGE_SUGGESTED_LOCAL, suggestedSr.Name().Ellipsise(50)).AppendLine();
+
+            SR defaultSr = connection.Resolve(Helpers.GetPoolOfOne(connection).default_SR);
+            var defaultSrVisible = defaultSr != null && defaultSr.CanBeSeenFrom(affinity);
+            var defaultSrHasSpace = defaultSr != null && defaultSr.VdiCreationCanProceed(diskSize);
+
+            if (defaultSrVisible && defaultSrHasSpace)
+            {
+                if (suggestedSr != null)
+                {
+                    sb.AppendLine(Messages.NEWVMWIZARD_STORAGEPAGE_XC_SELECTION);
+                    tooltip = sb.ToString();
+                    icon = Images.StaticImages._000_Alert2_h32bit_16;
+                }
+                return defaultSr;
+            }
+
+            if (defaultSrVisible && !defaultSr.Equals(suggestedSr))
+                sb.AppendFormat(Messages.NEWVMWIZARD_STORAGEPAGE_DEFAULT_NOSPACE, defaultSr.Name().Ellipsise(50)).AppendLine();
+            else if (defaultSrHasSpace && !defaultSr.Equals(suggestedSr))
+                sb.AppendFormat(Messages.NEWVMWIZARD_STORAGEPAGE_DEFAULT_LOCAL, defaultSr.Name().Ellipsise(50)).AppendLine();
+
+            foreach (SR sr in connection.Cache.SRs)
+            {
+                if (sr.CanCreateVmOn() && sr.CanBeSeenFrom(affinity) && sr.VdiCreationCanProceed(diskSize))
+                {
+                    if (suggestedSr != null || defaultSr != null)
+                    {
+                        sb.AppendLine(Messages.NEWVMWIZARD_STORAGEPAGE_XC_SELECTION);
+                        tooltip = sb.ToString();
+                        icon = Images.StaticImages._000_Alert2_h32bit_16;
+                    }
+                    return sr;
+                }
+            }
+
+            return null;
         }
 
         public override bool EnableNext()
         {
-            return (DisklessVMRadioButton.Checked || (DisksGridView.Rows.Count > 0 && AllDisksHaveSRs())) && CheckForOverCommit() != DiskOverCommit.Error;
-        }
+            if (DisklessVMRadioButton.Checked)
+                return true;
 
-        private bool AllDisksHaveSRs()
-        {
             foreach (DiskGridRowItem item in DisksGridView.Rows)
             {
-                if (item.Disk.SR.opaque_ref == Helper.NullOpaqueRef)
+                if (item.HasError)
                     return false;
             }
 
             return true;
-        }
-
-        private IEnumerable<VDI> AddedVDIs
-        {
-            get
-            {
-                return from DiskGridRowItem row in DisksGridView.Rows select row.Disk;
-            }
-        }
-
-        private void AddButton_Click(object sender, EventArgs e)
-        {
-            using (var dialog = new NewDiskDialog(Connection, Template, SrPicker.SRPickerType.LunPerVDI, null, Affinity,
-                true, 0, AddedVDIs) {DontCreateVDI = true})
-            {
-                if (dialog.ShowDialog() != DialogResult.OK)
-                    return;
-
-                DisksGridView.Rows.Add(new DiskGridRowItem(Connection, dialog.NewDisk(), dialog.NewDevice(), true, Affinity));
-                UpdateEnablement();
-            }
-        }
-
-        private void DisksRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            if (DisksRadioButton.Checked)
-                UpdateEnablement();
-        }
-
-        private void DisklessVMRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            if (DisklessVMRadioButton.Checked)
-                UpdateEnablement();
         }
 
         private void UpdateEnablement(bool pageLoad = false)
@@ -184,12 +260,10 @@ namespace XenAdmin.Wizards.NewVMWizard
                 return;
 
             AddButton.Enabled = DisksRadioButton.Checked && DisksGridView.Rows.Count < Template.MaxVBDsAllowed() - 1;
-            PropertiesButton.Enabled = DisksRadioButton.Checked && DisksGridView.SelectedRows.Count > 0;
+            EditButton.Enabled = DisksRadioButton.Checked && DisksGridView.SelectedRows.Count > 0;
             DeleteButton.Enabled = DisksRadioButton.Checked && DisksGridView.SelectedRows.Count > 0 && ((DiskGridRowItem)DisksGridView.SelectedRows[0]).CanDelete;
             DisksGridView.Enabled = DisksRadioButton.Checked;
-            DisklessVMRadioButton.Enabled = Template.IsHVM() && InstallMethodIsNetwork;
-
-            CheckForOverCommit();
+            DisklessVMRadioButton.Enabled = Template.IsHVM() && SelectedInstallMethod == InstallMethod.Network;
 
             CloneCheckBox.Enabled = false;
 
@@ -197,12 +271,11 @@ namespace XenAdmin.Wizards.NewVMWizard
             {
                 foreach (DiskGridRowItem row in DisksGridView.Rows)
                 {
-                    if (!row.CanDelete)
+                    if (!row.CanDelete && row.SourceSR != null && row.Disk != null)
                     {
-                        SR src = row.SourceDisk == null ? null : Connection.Resolve<SR>(row.SourceDisk.SR);
-                        SR dest = Connection.Resolve<SR>(row.Disk.SR);
+                        SR dest = Connection.Resolve(row.Disk.SR);
 
-                        if (src != null && src.Equals(dest))
+                        if (row.SourceSR.Equals(dest))
                         {
                             CloneCheckBox.Enabled = true;
 
@@ -221,15 +294,16 @@ namespace XenAdmin.Wizards.NewVMWizard
             OnPageUpdated();
         }
 
-        private DiskOverCommit CheckForOverCommit()
+        private void UpdateStatusForEachDisk(bool pageLoad = false)
         {
-            Dictionary<string, long> totalDiskSize = new Dictionary<string, long>(); // total size of the new disks on each SR (calculated using vdi.virtual_size)
-            Dictionary<string, long> totalDiskInitialAllocation = new Dictionary<string, long>(); // total initial allocation of the new disks on each SR (calculated using vdi.InitialAllocation)
+            // total size of the new disks on each SR (calculated using vdi.virtual_size)
+            var totalDiskSize = new Dictionary<string, long>();
+
+            // total initial allocation of the new disks on each SR (calculated using vdi.InitialAllocation)
+            var totalDiskInitialAllocation = new Dictionary<string, long>();
 
             foreach (DiskGridRowItem item in DisksGridView.Rows)
             {
-                item.OverCommit = DiskOverCommit.None; // reset all errors
-                item.ImageToolTip = "";
                 SR sr = Connection.Resolve(item.Disk.SR);
 
                 if (sr == null) // no sr assigned
@@ -243,13 +317,12 @@ namespace XenAdmin.Wizards.NewVMWizard
                 else
                     totalDiskSize[sr.opaque_ref] = item.Disk.virtual_size;
 
-                var initialSpace = Helpers.GetRequiredSpaceToCreateVdiOnSr(sr, item.Disk);
                 if (totalDiskInitialAllocation.ContainsKey(sr.opaque_ref))
-                    totalDiskInitialAllocation[sr.opaque_ref] +=  initialSpace;
+                    totalDiskInitialAllocation[sr.opaque_ref] += item.Disk.virtual_size;
                 else
-                    totalDiskInitialAllocation[sr.opaque_ref] = initialSpace;
+                    totalDiskInitialAllocation[sr.opaque_ref] = item.Disk.virtual_size;
             }
-            DiskOverCommit overcommitedDisk = DiskOverCommit.None;
+
             foreach (DiskGridRowItem item in DisksGridView.Rows)
             {
                 SR sr = Connection.Resolve(item.Disk.SR);
@@ -260,25 +333,47 @@ namespace XenAdmin.Wizards.NewVMWizard
                 if (sr.HBALunPerVDI()) //No over commit in this case
                     continue;
 
-                if (item.Disk.SR.opaque_ref != sr.opaque_ref)
-                    continue;
+                var toolTip = string.Format(Messages.NEWVMWIZARD_STORAGEPAGE_SROVERCOMMIT,
+                    Helpers.GetName(sr),
+                    Util.DiskSizeString(sr.FreeSpace()),
+                    Util.DiskSizeString(totalDiskSize[sr.opaque_ref]));
 
                 if (!sr.VdiCreationCanProceed(totalDiskInitialAllocation[sr.opaque_ref]))
-                    overcommitedDisk = item.OverCommit = DiskOverCommit.Error;
+                    item.UpdateStatus(Images.StaticImages._000_error_h32bit_16, toolTip);
                 else if (sr.FreeSpace() < totalDiskInitialAllocation[sr.opaque_ref])
-                    overcommitedDisk = item.OverCommit = DiskOverCommit.Warning;
-
-                if (item.OverCommit != DiskOverCommit.None)
-                {
-                    item.ImageToolTip = 
-                        string.Format(Messages.NEWVMWIZARD_STORAGEPAGE_SROVERCOMMIT, 
-                                                Helpers.GetName(sr), 
-                                                Util.DiskSizeString(sr.FreeSpace()),
-                                                Util.DiskSizeString(totalDiskSize[sr.opaque_ref]));
-                }
-                item.UpdateDetails();
+                    item.UpdateStatus(Images.StaticImages._000_Alert2_h32bit_16, toolTip);
+                else if (!pageLoad)
+                    item.UpdateStatus(Images.StaticImages._000_VirtualStorage_h32bit_16, "");
             }
-            return overcommitedDisk;
+        }
+
+        #region Control event handlers
+
+        private void DisksRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (DisksRadioButton.Checked)
+                UpdateEnablement();
+        }
+
+        private void DisklessVMRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (DisklessVMRadioButton.Checked)
+                UpdateEnablement();
+        }
+
+
+        private void AddButton_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new NewDiskDialog(Connection, Template, Affinity, SrPicker.SRPickerType.LunPerVDI, null,
+                    true, 0, AddedVDIs) { DontCreateVDI = true })
+            {
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
+
+                DisksGridView.Rows.Add(new DiskGridRowItem(Connection, dialog.NewDisk(), dialog.NewDevice(), DiskSource.New));
+                UpdateStatusForEachDisk();
+                UpdateEnablement();
+            }
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
@@ -287,18 +382,19 @@ namespace XenAdmin.Wizards.NewVMWizard
                 return;
 
             DisksGridView.Rows.Remove(DisksGridView.SelectedRows[0]);
+            UpdateStatusForEachDisk();
             UpdateEnablement();
         }
 
-        private void PropertiesButton_Click(object sender, EventArgs e)
+        private void EditButton_Click(object sender, EventArgs e)
         {
             if (DisksGridView.SelectedRows.Count <= 0)
                 return;
 
             DiskGridRowItem selectedItem = (DiskGridRowItem) DisksGridView.SelectedRows[0];
 
-            using (var dialog = new NewDiskDialog(Connection, Template, SrPicker.SRPickerType.LunPerVDI,
-                    selectedItem.Disk, Affinity, selectedItem.CanResize, selectedItem.MinSize, AddedVDIs)
+            using (var dialog = new NewDiskDialog(Connection, Template, Affinity, SrPicker.SRPickerType.LunPerVDI, 
+                    selectedItem.Disk, selectedItem.CanResize, selectedItem.MinSize, AddedVDIs)
                 {DontCreateVDI = true})
             {
                 if (dialog.ShowDialog(ParentForm) != DialogResult.OK)
@@ -306,15 +402,30 @@ namespace XenAdmin.Wizards.NewVMWizard
 
                 selectedItem.Disk = dialog.NewDisk();
                 selectedItem.UpdateDetails();
+                UpdateStatusForEachDisk();
                 UpdateEnablement();
             }
         }
 
+
+        private void DisksGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            UpdateEnablement();
+        }
+
+        #endregion
+
         #region Accessors
 
+        private IEnumerable<VDI> AddedVDIs =>
+            from DiskGridRowItem row in DisksGridView.Rows select row.Disk;
+
         /// <summary>
-        /// Gets the SR that should be used as the parameter for VM.copy when the VM is created by the New VM Wizard. If null
-        /// is returned then VM.clone should be used.
+        /// When the VM is created by the New VM Wizard, VM.copy or VM.clone is
+        /// used depending on what SRs the disks are on:
+        /// - If the disks are all on the same SR, this SR is returned and VM.copy is used.
+        /// - If at least one disk is on same SR as the source disk, this SR is returned and VM.copy is used.
+        /// - Otherwise, this property returns null and VM.clone is used.
         /// </summary>
         public SR FullCopySR
         {
@@ -322,35 +433,23 @@ namespace XenAdmin.Wizards.NewVMWizard
             {
                 if (!Template.DefaultTemplate() && !Template.is_a_snapshot && !CloneCheckBox.Checked)
                 {
-                    // if target disks are all on the same SR then use that SR
-                    // otherwise iterate through disks and find first target disks that is on same SR as source disk
-
                     SR sr = null;
                     List<SR> targetSRs = new List<SR>();
                     foreach (DiskGridRowItem row in DisksGridView.Rows)
                     {
-                        if (!row.CanDelete && row.SourceDisk != null && row.Disk != null)
+                        if (!row.CanDelete && row.SourceSR != null && row.Disk != null)
                         {
-                            SR src = Connection.Resolve<SR>(row.SourceDisk.SR);
-                            SR target = Connection.Resolve<SR>(row.Disk.SR);
+                            SR target = Connection.Resolve(row.Disk.SR);
 
-                            if (sr == null && src != null && src.Equals(target))
-                            {
-                                sr = src;
-                            }
+                            if (sr == null && row.SourceSR.Equals(target))
+                                sr = row.SourceSR;
 
                             if (!targetSRs.Contains(target))
-                            {
                                 targetSRs.Add(target);
-                            }
                         }
                     }
 
-                    if (targetSRs.Count == 1)
-                    {
-                        return targetSRs[0];
-                    }
-                    return sr;
+                    return targetSRs.Count == 1 ? targetSRs[0] : sr;
                 }
                 return null;
             }
@@ -389,97 +488,84 @@ namespace XenAdmin.Wizards.NewVMWizard
             }
         }
 
-        public VM SelectedTemplate { private get; set; }
+        public VM Template
+        {
+            private get { return _template; }
+            set
+            {
+                if (_template != value)
+                    _loadRequired = true;
+
+                _template = value;
+            }
+        }
+
         public string SelectedName { private get; set; }
-        public InstallMethod SelectedInstallMethod { private get; set; }
-        public Host Affinity { private get; set; }
+
+        public InstallMethod SelectedInstallMethod
+        {
+            private get { return _selectedInstallMethod; }
+            set
+            {
+                if (_selectedInstallMethod != value)
+                    _loadRequired = true;
+
+                _selectedInstallMethod = value;
+            }
+        }
+
+        public Host Affinity
+        {
+            private get { return _affinity; }
+            set
+            {
+                if (_affinity != value)
+                    _loadRequired = true;
+
+                _affinity = value;
+            }
+        }
 
         #endregion
-
-        private void DisksGridView_SelectionChanged(object sender, EventArgs e)
-        {
-            UpdateEnablement();
-        }
     }
 
     public class DiskGridRowItem : DataGridViewRow
     {
-        public readonly VDI SourceDisk;
+        public readonly SR SourceSR;
         public VDI Disk;
         public readonly VBD Device;
-        public readonly IXenConnection Connection;
+        private readonly IXenConnection _connection;
         public readonly bool CanDelete;
         public readonly bool CanResize;
         public readonly long MinSize;
-        public DiskOverCommit OverCommit = DiskOverCommit.None;
-        public string ImageToolTip;
+        
+        private readonly DataGridViewImageCell ImageCell = new DataGridViewImageCell(false) {ValueType = typeof(Image)};
+        private readonly DataGridViewTextBoxCell SizeCell = new DataGridViewTextBoxCell();
+        private readonly DataGridViewTextBoxCell NameCell = new DataGridViewTextBoxCell();
+        private readonly DataGridViewTextBoxCell SrCell = new DataGridViewTextBoxCell();
+        private readonly DataGridViewTextBoxCell SharedCell = new DataGridViewTextBoxCell();
 
-        private DataGridViewImageCell ImageCell;
-        private DataGridViewTextBoxCell SizeCell;
-        private DataGridViewTextBoxCell NameCell;
-        private DataGridViewTextBoxCell SrCell;
-        private DataGridViewTextBoxCell SharedCell;
+        public bool HasError => Disk.SR.opaque_ref == Helper.NullOpaqueRef ||
+                                Cells.Count > 0 && Cells[0].Value == Images.StaticImages._000_error_h32bit_16;
 
-        public DiskGridRowItem(IXenConnection connection, XmlNode diskNode, string vmName, Host affinity)
+        public DiskGridRowItem(IXenConnection connection, VDI vdi, VBD vbd, DiskSource src)
         {
-            Disk = new VDI();
-            Device = new VBD();
-            Connection = connection;
+            Disk = vdi;
+            Device = vbd;
+            _connection = connection;
 
-            Disk.virtual_size = long.Parse(diskNode.Attributes["size"].Value);
-            SR sruuid = connection.Cache.Find_By_Uuid<SR>(diskNode.Attributes["sr"].Value);
-            SR sr = GetBeskDiskStorage(Connection, Disk, affinity, sruuid == null ? null : sruuid);
-            Disk.SR = new XenRef<SR>(sr != null ? sr.opaque_ref : Helper.NullOpaqueRef);
-            Disk.type = (vdi_type)Enum.Parse(typeof(vdi_type), diskNode.Attributes["type"].Value);
-            Device.userdevice = diskNode.Attributes["device"].Value;
-            Device.bootable = diskNode.Attributes["bootable"].Value == "true";
+            if (src == DiskSource.FromCustomTemplate)
+            {
+                SourceSR = _connection.Resolve(vdi.SR);
+            }
+            else
+            {
+                CanDelete = Disk.type == vdi_type.user;
+                CanResize = true;
+            }
 
-            Disk.name_label = string.Format(Messages.NEWVMWIZARD_STORAGEPAGE_VDINAME, vmName, Device.userdevice); //Device.userdevice;
-            Disk.read_only = false;
-            Disk.name_description = Messages.NEWVMWIZARD_STORAGEPAGE_DISK_DESCRIPTION;
-            Device.mode = vbd_mode.RW;
-
-            CanDelete = Disk.type == vdi_type.user;
-            CanResize = true;
-            MinSize = Disk.virtual_size;
-
-            AddCells();
-        }
-
-        public DiskGridRowItem(IXenConnection connection, VDI vdi, VBD vbd, bool isNew, Host affinity)
-        {
-            SourceDisk = vdi;
-            Disk = new VDI();
-            Device = new VBD();
-            Connection = connection;
-
-            Disk.virtual_size = vdi.virtual_size;
-            SR sr = GetBeskDiskStorage(Connection, vdi, affinity, Connection.Resolve(vdi.SR));
-            Disk.SR = new XenRef<SR>(sr != null ? sr.opaque_ref : Helper.NullOpaqueRef);
-            Disk.type = vdi.type;
-            Device.userdevice = vbd.userdevice;
-            Device.bootable = vbd.bootable;
-
-            Disk.name_label = vdi.name_label;
-            Disk.read_only = vdi.read_only;
-            Disk.name_description = vdi.name_description;
-            Disk.sm_config = vdi.sm_config;
-            Device.mode = vbd.mode;
-
-            CanDelete = Disk.type == vdi_type.user && isNew;
-            CanResize = isNew;
-            MinSize = 0;
-
-            AddCells();
-        }
-
-        private void AddCells()
-        {
-            ImageCell = new DataGridViewImageCell(false) {ValueType = typeof(Image)};
-            NameCell = new DataGridViewTextBoxCell();
-            SizeCell = new DataGridViewTextBoxCell();
-            SrCell = new DataGridViewTextBoxCell();
-            SharedCell = new DataGridViewTextBoxCell();
+            if (src == DiskSource.FromDefaultTemplate)
+                MinSize = Disk.virtual_size;
 
             Cells.AddRange(ImageCell, NameCell, SrCell, SizeCell, SharedCell);
 
@@ -488,88 +574,36 @@ namespace XenAdmin.Wizards.NewVMWizard
 
         public void UpdateDetails()
         {
-            switch (OverCommit)
+            SR sr = _connection.Resolve(Disk.SR);
+            if (sr == null)
             {
-                case DiskOverCommit.None:
-                    ImageCell.Value = Properties.Resources._000_VirtualStorage_h32bit_16;
-                    break;
-                case DiskOverCommit.Warning:
-                    ImageCell.Value = Properties.Resources._000_Alert2_h32bit_16;
-                    break;
-                case DiskOverCommit.Error:
-                    ImageCell.Value = Properties.Resources._000_error_h32bit_16;
-                    break;
-            }
-            ImageCell.ToolTipText = ImageToolTip;
-            SizeCell.ToolTipText = ImageToolTip;
-            NameCell.ToolTipText = ImageToolTip;
-            SrCell.ToolTipText = ImageToolTip;
-            SharedCell.ToolTipText = ImageToolTip;
-
-            SR sr = Connection.Resolve(Disk.SR);
-            if(sr == null)
                 SizeCell.Value = Util.DiskSizeString(Disk.virtual_size);
-            else
-                SizeCell.Value = sr.HBALunPerVDI() ? String.Empty : Util.DiskSizeString(Disk.virtual_size);
-
-            NameCell.Value = Helpers.GetName(Disk);
-
-            if (Disk.SR.opaque_ref != Helper.NullOpaqueRef)
-            {
-                SrCell.Value = Helpers.GetName(sr);
-                SharedCell.Value = sr.shared ? Messages.TRUE : Messages.FALSE;
-            }
-            else
-            {
                 SrCell.Value = Messages.NEWVMWIZARD_STORAGEPAGE_NOSTORAGE;
                 SharedCell.Value = "";
             }
-        }
-
-        /// <summary>
-        /// Tries to find the best SR for the given VDI considering the suggestedSR which has priority over other SRs in this check.
-        /// SuggestedSR, default SR, other SRs are checked.
-        /// Returns first suitable SR or NULL.
-        /// </summary>
-        private static SR GetBeskDiskStorage(IXenConnection connection, VDI disk, Host affinity, SR suggestedSR)
-        {
-            // try suggestion
-            if (suggestedSR != null && suggestedSR.CanBeSeenFrom(affinity) && IsSufficientFreeSpaceAvailableOnSrForVdi(suggestedSR, disk))
-                return suggestedSR;
-
-            // try default sr
-            SR defaultSR = connection.Resolve(Helpers.GetPoolOfOne(connection).default_SR);
-            if (defaultSR != null && defaultSR.CanBeSeenFrom(affinity) && IsSufficientFreeSpaceAvailableOnSrForVdi(defaultSR, disk))
-                return defaultSR;
-
-            // pick an sr
-            foreach (SR sr in connection.Cache.SRs)
+            else
             {
-                if (!sr.CanCreateVmOn())
-                    continue;
-
-                if (sr.CanBeSeenFrom(affinity) && IsSufficientFreeSpaceAvailableOnSrForVdi(sr, disk))
-                    return sr;
+                SizeCell.Value = sr.HBALunPerVDI() ? string.Empty : Util.DiskSizeString(Disk.virtual_size);
+                SrCell.Value = Helpers.GetName(sr);
+                SharedCell.Value = sr.shared ? Messages.TRUE : Messages.FALSE;
             }
 
-            // there has been no suitable SR found
-            return null; 
+            NameCell.Value = Helpers.GetName(Disk);
         }
 
-
-        /// <summary>
-        /// Checks whether there is enough space available on the SR to accommodate a VDI.
-        /// </summary>
-        private static bool IsSufficientFreeSpaceAvailableOnSrForVdi(SR sr, VDI disk)
+        public void UpdateStatus(Image icon, string toolTipTExt)
         {
-            return sr != null && sr.VdiCreationCanProceed(Helpers.GetRequiredSpaceToCreateVdiOnSr(sr, disk));
+            ImageCell.Value = icon;
+
+            foreach (DataGridViewCell cell in Cells)
+                cell.ToolTipText = toolTipTExt;
         }
     }
 
-    public enum DiskOverCommit : int
+    public enum DiskSource
     {
-        None = 0,
-        Warning = 1,
-        Error = 2
+        New,
+        FromDefaultTemplate,
+        FromCustomTemplate
     }
 }

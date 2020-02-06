@@ -38,17 +38,15 @@ namespace XenAdmin.Actions
 {
     public class CreateCdDriveAction : AsyncAction
     {
-        private readonly bool InstallingTools;
-        private Action _showMustRebootBoxCD;
-        private Action _showVBDWarningBox;
+        /// <summary>
+        /// Subscribe to this even unless installing tools
+        /// </summary>
+        public event Action<string> ShowUserInstruction;
 
-        public CreateCdDriveAction(VM vm, bool installingTools, Action showMustRebootBoxCD, Action showVBDWarningBox)
+        public CreateCdDriveAction(VM vm)
             : base(vm.Connection, string.Format(Messages.NEW_DVD_DRIVE_CREATE_TITLE, vm.Name()))
         {
-            _showMustRebootBoxCD = showMustRebootBoxCD;
-            _showVBDWarningBox = showVBDWarningBox;
             VM = vm;
-            InstallingTools = installingTools;
 
             #region RBAC Dependencies
             ApiMethodsToRoleCheck.Add("vm.assert_agile");
@@ -87,7 +85,8 @@ namespace XenAdmin.Actions
                     mode = XenAPI.vbd_mode.RO
                 };
 
-                VbdSaveAndPlugAction cdCreate = new VbdSaveAndPlugAction(VM, cdDrive, Messages.DVD_DRIVE, Session, InstallingTools, true,_showMustRebootBoxCD,_showVBDWarningBox);
+                var cdCreate = new VbdSaveAndPlugAction(VM, cdDrive, Messages.DVD_DRIVE, Session, true);
+                cdCreate.ShowUserInstruction += msg => ShowUserInstruction?.Invoke(msg);
                 cdCreate.RunExternal(Session);
                 Description = Messages.NEW_DVD_DRIVE_DONE;
             }

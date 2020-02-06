@@ -34,15 +34,12 @@ using System.Collections.Generic;
 using System.Text;
 using XenAdmin.Network;
 using XenAdmin.Core;
-using System.Linq;
 using XenAPI;
 
 namespace XenAdmin.Actions
 {
     public class RestoreDismissedUpdatesAction : AsyncAction
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         public RestoreDismissedUpdatesAction(IXenConnection connection)
             : base(connection, "restore_dismissed_updates", "restore_dismissed_updates", true)
         {

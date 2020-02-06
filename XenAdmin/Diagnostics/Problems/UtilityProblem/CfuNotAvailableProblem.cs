@@ -60,10 +60,7 @@ namespace XenAdmin.Diagnostics.Problems.UtilityProblem
             return null;
         }
 
-        public override string HelpMessage
-        {
-            get { return Messages.PATCHINGWIZARD_MORE_INFO; }
-        }
+        public override string HelpMessage => Messages.MORE_INFO;
 
         public sealed override string Title
         {

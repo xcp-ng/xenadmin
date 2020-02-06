@@ -48,7 +48,6 @@ using XenAdmin.Dialogs;
 using XenAdmin.Controls.Common;
 using XenCenterLib.Archive;
 using XenOvf;
-using XenOvf.Definitions;
 using XenOvf.Definitions.VMC;
 using XenOvf.Utilities;
 
@@ -61,14 +60,12 @@ namespace XenAdmin.Wizards.ImportWizard
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly string[] m_supportedImageTypes = { ".vhd", ".vmdk" };//CA-61385: remove ".vdi", ".wim" support for Boston
         private readonly string[] m_supportedApplianceTypes = { ".ovf", ".ova", ".ova.gz" };
-        private readonly string[] m_supportedXvaTypes = {".xva", "ova.xml"};
+        private readonly string[] m_supportedXvaTypes = {".xva", ".xva.gz", "ova.xml"};
 
 		/// <summary>
 		/// Stores the last valid selected appliance
 		/// </summary>
 		private string m_lastValidAppliance;
-		
-		private EnvelopeType m_selectedOvfEnvelope;
         private bool m_buttonNextEnabled;
 
         private string _unzipFileIn;
@@ -132,13 +129,16 @@ namespace XenAdmin.Wizards.ImportWizard
 
                 string extension = Path.GetExtension(FilePath).ToLower();
 
-                if (extension == ".gz")
+                if (extension == ".gz" && (!PerformCheck(CheckSourceIsWritable) || !Uncompress()))
                 {
-                    if (!PerformCheck(CheckSourceIsWritable) || !Uncompress())
-                    {
-                        cancel = true;
-                        return;
-                    }
+                    cancel = true;
+                    return;
+                }
+
+                if (extension == ".ova" && !PerformCheck(CheckSourceIsWritable))
+                {
+                    cancel = true;
+                    return;
                 }
 
                 CheckDelegate check = null;
@@ -161,7 +161,7 @@ namespace XenAdmin.Wizards.ImportWizard
 					return;
 				}
 
-				if (TypeOfImport == ImportWizard.ImportType.Ovf && OVF.HasEncryption(SelectedOvfEnvelope))
+                if (TypeOfImport == ImportWizard.ImportType.Ovf && SelectedOvfPackage.HasEncryption())
 				{
 					cancel = true;
 					m_tlpEncryption.Visible = true;
@@ -198,40 +198,9 @@ namespace XenAdmin.Wizards.ImportWizard
 
 		public ImportWizard.ImportType TypeOfImport { get; private set; }
 
-		public string FilePath { get { return m_textBoxFile.Text.Trim(); } }
+		public string FilePath => m_textBoxFile.Text.Trim();
 
-		/// <summary>
-		/// Maybe null if no valid ovf has been found
-		/// </summary>
-		public EnvelopeType SelectedOvfEnvelope
-		{
-			get { return m_selectedOvfEnvelope; }
-			private set
-			{
-				m_selectedOvfEnvelope = value;
-
-				if (m_selectedOvfEnvelope == null)
-					_SelectedOvfPackage = null;
-				else
-                    _SelectedOvfPackage = XenOvf.Package.Create(FilePath);
-			}
-		}
-
-        /// <summary>
-		/// XenOvf.Package is the proper abstraction for the wizard to use for most cases instead of just OVF.
-        /// Maintain it along side SelectedOvf until it can be phased out.
-		/// </summary>
-        public XenOvf.Package SelectedOvfPackage
-        {
-            get
-            {
-				if (m_selectedOvfEnvelope == null)
-                    return null;
-
-                return _SelectedOvfPackage;
-            }
-        }
-        XenOvf.Package _SelectedOvfPackage;
+        public Package SelectedOvfPackage { get; private set; }
 
 		public ulong ImageLength { get; private set; }
 
@@ -251,7 +220,7 @@ namespace XenAdmin.Wizards.ImportWizard
 		#region Private methods
 
         /// <summary>
-        /// Performs certain checks on the pages's input data and shows/hides an error accordingly
+        /// Performs certain checks on the page's input data and shows/hides an error accordingly
         /// </summary>
         /// <param name="checks">The checks to perform</param>
         private bool PerformCheck(params CheckDelegate[] checks)
@@ -298,18 +267,18 @@ namespace XenAdmin.Wizards.ImportWizard
 		private string GetXmlStringFromTarXVA()
 		{
             using (Stream stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
-			{
-			    ArchiveIterator iterator = ArchiveFactory.Reader(ArchiveFactory.Type.Tar, stream);
-                if( iterator.HasNext() )
-                {
-                    Stream ofs = new MemoryStream();
-                    iterator.ExtractCurrentFile(ofs);
-                    return new StreamReader(ofs).ReadToEnd();
-                }
+            {
+                using (var iterator = ArchiveFactory.Reader(ArchiveFactory.Type.Tar, stream))
+                    if (iterator.HasNext())
+                    {
+                        Stream ofs = new MemoryStream();
+                        iterator.ExtractCurrentFile(ofs);
+                        return new StreamReader(ofs).ReadToEnd();
+                    }
 
-			    return String.Empty;
-			}
-		}
+                return string.Empty;
+            }
+        }
 
 		private ulong GetTotalSizeFromXmlXva(string xmlString)
 		{
@@ -345,7 +314,7 @@ namespace XenAdmin.Wizards.ImportWizard
 					{
 						WimFile wimDisk = new WimFile(wimstream);
 						string manifest = wimDisk.Manifest;
-						Wim_Manifest wimManifest = (Wim_Manifest)Tools.Deserialize(manifest, typeof(Wim_Manifest));
+						Wim_Manifest wimManifest = Tools.Deserialize<Wim_Manifest>(manifest);
 						DiskCapacity = wimManifest.Image[wimDisk.BootImage].TotalBytes; //image data size
 						return true;
 					}
@@ -386,70 +355,26 @@ namespace XenAdmin.Wizards.ImportWizard
             if (m_lastValidAppliance == FilePath)
 				return true;
 
-			SelectedOvfEnvelope = GetOvfEnvelope(out error);
-			if (SelectedOvfEnvelope != null)
-			{
-                m_lastValidAppliance = FilePath;
-				return true;
-			}
+            SelectedOvfPackage = Package.Create(FilePath);
 
-			return false;
-		}
+            if (!OVF.Validate(SelectedOvfPackage, out List<string> warnings))
+            {
+                error = warnings[warnings.Count - 1];
+                return false;
+            }
 
-		private EnvelopeType GetOvfEnvelope(out string error)
-		{
-			error = string.Empty;
-            string path = FilePath;
-			string extension = Path.GetExtension(path).ToLower();
-
-			if (extension == ".ovf")
-			{
-			    EnvelopeType env = null;
-
-                try
+            if (warnings != null && warnings.Count > 0 && !Properties.Settings.Default.IgnoreOvfValidationWarnings)
+            {
+                using (var dlg = new OvfValidationDialog(warnings))
                 {
-                    env = OVF.Load(path);
+                    if (dlg.ShowDialog(this) == DialogResult.Cancel)
+                        return false;
                 }
-                catch(OutOfMemoryException ex)
-                {
-                    log.ErrorFormat("Failed to load OVF {0} as we ran out of memory: {1}", path, ex.Message);
-                    env = null;
-                }
+            }
 
-				if (env == null)
-				{
-					error = Messages.INVALID_OVF;
-					return null;
-				}
-
-				return env;
-			}
-
-			if (extension == ".ova")
-			{
-                if (!CheckSourceIsWritable(out error))
-                    return null;
-
-				try
-				{
-					string x = OVF.ExtractOVFXml(path);
-					var env = Tools.DeserializeOvfXml(x);
-					if (env == null)
-					{
-						error = Messages.IMPORT_SELECT_APPLIANCE_PAGE_ERROR_CORRUPT_OVA;
-						return null;
-					}                   
-					return env;
-				}
-				catch (Exception)
-				{
-					error = Messages.IMPORT_SELECT_APPLIANCE_PAGE_ERROR_CORRUPT_OVA;
-					return null;
-				}
-			}
-
-			return null;
-		}
+            m_lastValidAppliance = FilePath;
+            return true;
+        }
 
 		private bool IsUri()
 		{
@@ -604,7 +529,11 @@ namespace XenAdmin.Wizards.ImportWizard
 
         private bool Download()
         {
-            using (var dlog = new FolderBrowserDialog { Description = Messages.FOLDER_BROWSER_DOWNLOAD_APPLIANCE })
+            using (var dlog = new FolderBrowserDialog
+            {
+                Description = Messages.FOLDER_BROWSER_DOWNLOAD_APPLIANCE,
+                SelectedPath = Win32.GetKnownFolderPath(Win32.KnownFolders.Downloads)
+            })
             {
                 if (dlog.ShowDialog() == DialogResult.OK)
                 {
@@ -840,7 +769,7 @@ namespace XenAdmin.Wizards.ImportWizard
 
                     if (appfile.LocalPath.ToLower().EndsWith(".ovf"))
                     {
-                        var envType = OVF.Load(appfile.LocalPath);
+                        var envType = Tools.DeserializeOvfXml(Tools.LoadFile(appfile.LocalPath));
 
                         if (envType != null)
                         {

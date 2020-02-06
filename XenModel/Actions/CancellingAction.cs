@@ -157,8 +157,6 @@ namespace XenAdmin.Actions
         /// </summary>
         public virtual void RecomputeCanCancel()
         {
-            //Program.AssertOffEventThread();
-
             try
             {
                 XenRef<Task> task = _relatedTask;
@@ -178,7 +176,7 @@ namespace XenAdmin.Actions
             }
             catch (Exception exn)
             {
-                log.Error(exn, exn);
+                log.Error("Error recomputing whether the task can be cancelled.", exn);
                 LogoutCancelSession();
                 can_cancel = false;
             }
@@ -232,7 +230,6 @@ namespace XenAdmin.Actions
         /// </summary>
         public override sealed void Cancel()
         {
-            //Program.AssertOnEventThread();
             log.Debug("Cancel() was called. Attempting to cancel action");
 
             // We can always cancel before the action starts running
@@ -278,8 +275,7 @@ namespace XenAdmin.Actions
                 }
                 catch (Exception e)
                 {
-                    log.DebugFormat("Exception when cancelling action {0}", this.Description);
-                    log.Debug(e, e);
+                    log.Debug($"Exception when cancelling action {Description}.", e);
                     LogoutCancelSession();
                     Cancelling = false;
                 }
@@ -324,19 +320,19 @@ namespace XenAdmin.Actions
                     exn.ErrorDescription[0] == XenAPI.Failure.HANDLE_INVALID &&
                     exn.ErrorDescription[1] == "task")
                 {
-                    log.Debug(exn, exn);
+                    log.Debug("Task related failure (invalid handle)", exn);
                     // The task has disappeared.
                     _relatedTask = null;
                 }
                 else
                 {
-                    log.Error(exn, exn);
+                    log.Error("Task related failure.", exn);
                     // Ignore, and hope that this isn't a problem.
                 }
             }
             catch (Exception exn)
             {
-                log.Error(exn, exn);
+                log.Error("Task related exception.", exn);
                 // Ignore, and hope that this isn't a problem.
             }
         }
@@ -416,30 +412,26 @@ namespace XenAdmin.Actions
                 }
                 catch (XmlRpcNullParameterException xmlExcept)
                 {
-                    log.ErrorFormat("XmlRpcNullParameterException in DoWithSessionRetry, retry {0}", retries);
-                    log.Error(xmlExcept, xmlExcept);
+                    log.Error($"XmlRpcNullParameterException in DoWithSessionRetry, retry {retries}.", xmlExcept);
                     throw new Exception(Messages.INVALID_SESSION);
                 }
                 catch (XmlRpcIllFormedXmlException xmlRpcIllFormedXmlException)
                 {
-                    log.ErrorFormat("XmlRpcIllFormedXmlException in DoWithSessionRetry, retry {0}", retries);
-                    log.Error(xmlRpcIllFormedXmlException, xmlRpcIllFormedXmlException);
+                    log.Error($"XmlRpcIllFormedXmlException in DoWithSessionRetry, retry {retries}.", xmlRpcIllFormedXmlException);
 
                     if (!Connection.ExpectDisruption || retries <= 0)
                         throw;
                 }
                 catch (WebException we)
                 {
-                    log.ErrorFormat("WebException in DoWithSessionRetry, retry {0}", retries);
-                    log.Error(we, we);
+                    log.Error($"WebException in DoWithSessionRetry, retry {retries}.", we);
 
                     if (retries <= 0)
                         throw;
                 }
                 catch (Failure failure)
                 {
-                    log.ErrorFormat("Failure in DoWithSessionRetry, retry {0}", retries);
-                    log.Error(failure, failure);
+                    log.Error($"Failure in DoWithSessionRetry, retry {retries}.", failure);
 
                     if (retries <= 0)
                         throw;

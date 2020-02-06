@@ -69,6 +69,8 @@ namespace XenAdmin.TabPages
             UpdateMoveButtons();
         }
 
+        public override string HelpID => "TabPagePerformance";
+
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>

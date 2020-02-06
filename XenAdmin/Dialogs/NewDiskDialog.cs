@@ -45,74 +45,44 @@ namespace XenAdmin.Dialogs
 {
     public partial class NewDiskDialog : XenDialogBase
     {
-        private enum DiskSizeUnits { MB, GB }
-
         #region Private fields
 
         private readonly VM TheVM;
-        private readonly SR TheSR;
-
         private VDI DiskTemplate;
-        private bool CanResize;
-        private long MinSize;
-        private decimal min;
-        private decimal max;
-
-        private bool SelectionNull = true;
         private readonly IEnumerable<VDI> _VDINamesInUse = new List<VDI>();
-
-        private const int DecimalPlacesGB = 3; // show 3 decimal places for GB (CA-91322)
-        private const int DecimalPlacesMB = 0;
-        private const int IncrementGB = 1;
-        private const int IncrementMB = 256;
-
-        private const decimal MinimumDiskSizeGB = 0.001m;
-        private const int MinimumDiskSizeMB = 1;
-        private DiskSizeUnits currentSelectedUnits = DiskSizeUnits.GB;
 
         #endregion
 
         #region Constructors
 
-        private NewDiskDialog(IXenConnection connection, IEnumerable<VDI> vdiNamesInUse)
-            : base(connection)
-        {
-            if (connection == null)
-                throw new ArgumentNullException("connection");
-
-            InitializeComponent();
-
-            _VDINamesInUse = vdiNamesInUse;
-            SrListBox.Connection = connection;
-            NameTextBox.Text = GetDefaultVDIName();
-            max = (decimal)Math.Pow(1024, 4);//1 Petabit
-            min = 0;
-            comboBoxUnits.SelectedItem = comboBoxUnits.Items[0];
-            SetNumUpDownIncrementAndDecimals(DiskSizeNumericUpDown, comboBoxUnits.SelectedItem.ToString());
-            updateErrorsAndButtons();
-        }
-
         public NewDiskDialog(IXenConnection connection, SR sr)
-            : this(connection, new List<VDI>())
+            : base(connection ?? throw new ArgumentNullException(nameof(connection)))
         {
-            TheSR = sr;
+            InitializeComponent();
+            
+            NameTextBox.Text = GetDefaultVDIName();
+            SrListBox.Connection = connection;
             SrListBox.Usage = SrPicker.SRPickerType.InstallFromTemplate;
             SrListBox.SetAffinity(null);
-            SrListBox.selectSRorNone(TheSR);
+            SrListBox.selectSRorNone(sr);
+            diskSpinner1.Populate();
         }
 
         public NewDiskDialog(IXenConnection connection, VM vm)
-            : this(connection, vm, SrPicker.SRPickerType.VM, null, vm.Home(), true, 0, new List<VDI>())
+            : this(connection, vm, vm.Home())
         { }
 
-        public NewDiskDialog(IXenConnection connection, VM vm, SrPicker.SRPickerType pickerUsage, VDI diskTemplate,
-            Host affinity, bool canResize, long minSize, IEnumerable<VDI> vdiNamesInUse)
-            : this(connection, vdiNamesInUse)
+        public NewDiskDialog(IXenConnection connection, VM vm, Host affinity,
+            SrPicker.SRPickerType pickerUsage = SrPicker.SRPickerType.VM, VDI diskTemplate = null,
+            bool canResize = true, long minSize = 0, IEnumerable<VDI> vdiNamesInUse = null)
+            : base(connection ?? throw new ArgumentNullException(nameof(connection)))
         {
+            InitializeComponent();
+
             TheVM = vm;
-            DiskTemplate = diskTemplate;
-            CanResize = canResize;
-            MinSize = minSize;
+            _VDINamesInUse = vdiNamesInUse ?? new List<VDI>();
+
+            SrListBox.Connection = connection;
             SrListBox.Usage = pickerUsage;
             SrListBox.SetAffinity(affinity);
 
@@ -121,37 +91,32 @@ namespace XenAdmin.Dialogs
             {
                 SrListBox.DefaultSR = connection.Resolve(pool_sr.default_SR); //if default sr resolves to null the first sr in the list will be selected
             }
-            SrListBox.selectDefaultSROrAny();
 
-            LoadValues();
+            if (diskTemplate == null)
+            {
+                NameTextBox.Text = GetDefaultVDIName();
+                SrListBox.selectDefaultSROrAny();
+                diskSpinner1.Populate(minSize: minSize);
+            }
+            else
+            {
+                DiskTemplate = diskTemplate;
+                NameTextBox.Text = DiskTemplate.Name();
+                DescriptionTextBox.Text = DiskTemplate.Description();
+                SrListBox.selectSRorDefaultorAny(connection.Resolve(DiskTemplate.SR));
+                Text = Messages.EDIT_DISK;
+                OkButton.Text = Messages.OK;
+                diskSpinner1.Populate(DiskTemplate.virtual_size, minSize);
+            }
+
+            diskSpinner1.CanResize = canResize;
         }
 
         #endregion
 
-        private void LoadValues()
-        {
-            if (DiskTemplate == null)
-                return;
+        public bool DontCreateVDI { get; set; }
 
-            NameTextBox.Text = DiskTemplate.Name();
-            DescriptionTextBox.Text = DiskTemplate.Description();
-            SrListBox.selectSRorDefaultorAny(connection.Resolve(DiskTemplate.SR));
-
-            // select the appropriate unit, based on size (CA-45905)
-            currentSelectedUnits = DiskTemplate.virtual_size >= Util.BINARY_GIGA ? DiskSizeUnits.GB : DiskSizeUnits.MB;
-            SelectedUnits = currentSelectedUnits;
-            SetNumUpDownIncrementAndDecimals(DiskSizeNumericUpDown, SelectedUnits.ToString());
-            decimal newValue = (decimal)Math.Round((double)DiskTemplate.virtual_size / GetUnits(), DiskSizeNumericUpDown.DecimalPlaces);
-            DiskSizeNumericUpDown.Value = newValue >= DiskSizeNumericUpDown.Minimum && newValue <= DiskSizeNumericUpDown.Maximum ?
-                newValue : DiskSizeNumericUpDown.Maximum;
-
-            if (MinSize > 0)
-                min = (decimal)((double)MinSize / GetUnits());
-            DiskSizeNumericUpDown.Enabled = CanResize;
-
-            Text = Messages.EDIT_DISK;
-            OkButton.Text = Messages.OK;
-        }
+        internal override string HelpName => DiskTemplate == null ? "NewDiskDialog" : "EditNewDiskDialog";
 
         private string GetDefaultVDIName()
         {
@@ -163,21 +128,14 @@ namespace XenAdmin.Dialogs
             return Helpers.MakeUniqueName(Messages.DEFAULT_VDI_NAME, usedNames);
         }
 
-        private void SrListBox_SrSelectionChanged(object obj)
-        {
-            SelectionNull = obj == null;
-        }
-
         private void srListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            updateErrorsAndButtons();
+            UpdateErrorsAndButtons();
         }
 
         private void OkButton_Click(object sender, EventArgs e)
         {
-
-
-            if (SrListBox.SR == null || SelectionNull || NameTextBox.Text == "" || !connection.IsConnected)
+            if (SrListBox.SR == null || NameTextBox.Text == "" || !connection.IsConnected)
                 return;
 
             if (DontCreateVDI)
@@ -231,22 +189,42 @@ namespace XenAdmin.Dialogs
                         vbd.userdevice = ud;
 
                         // Now try to plug the VBD.
-                        new XenAdmin.Actions.VbdSaveAndPlugAction(TheVM, vbd, vdi.Name(), session, false, ShowMustRebootBoxCD, ShowVBDWarningBox).RunAsync();
+                        var plugAction = new VbdSaveAndPlugAction(TheVM, vbd, vdi.Name(), session, false);
+                        plugAction.ShowUserInstruction += PlugAction_ShowUserInstruction;
+                        plugAction.RunAsync();
                     });
+
                 action.VM = TheVM;
-                new Dialogs.ActionProgressDialog(action, ProgressBarStyle.Blocks).ShowDialog();
+                using (var dialog = new ActionProgressDialog(action, ProgressBarStyle.Blocks))
+                    dialog.ShowDialog();
                 if (!action.Succeeded)
                     return;
             }
             else
             {
                 CreateDiskAction action = new CreateDiskAction(vdi);
-                new Dialogs.ActionProgressDialog(action, ProgressBarStyle.Marquee).ShowDialog();
+                using (var dialog = new ActionProgressDialog(action, ProgressBarStyle.Marquee))
+                    dialog.ShowDialog();
                 if (!action.Succeeded)
                     return;
             }
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void PlugAction_ShowUserInstruction(string message)
+        {
+            Program.Invoke(Program.MainWindow, () =>
+            {
+                if (!Program.RunInAutomatedTestMode)
+                {
+                    using (var dlg = new ThreeButtonDialog(
+                        new ThreeButtonDialog.Details(SystemIcons.Information, message)))
+                    {
+                        dlg.ShowDialog(Program.MainWindow);
+                    }
+                }
+            });
         }
 
         private static bool HasBootableDisk(VM vm)
@@ -275,20 +253,6 @@ namespace XenAdmin.Dialogs
             return false;
         }
 
-        private void SetNumUpDownIncrementAndDecimals(NumericUpDown upDown, string units)
-        {
-            if (units == Messages.VAL_GIGB)
-            {
-                upDown.DecimalPlaces = DecimalPlacesGB;
-                upDown.Increment = IncrementGB;
-            }
-            else
-            {
-                upDown.DecimalPlaces = DecimalPlacesMB;
-                upDown.Increment = IncrementMB;
-            }
-        }
-
         public VDI NewDisk()
         {
             VDI vdi = new VDI();
@@ -296,18 +260,13 @@ namespace XenAdmin.Dialogs
             vdi.read_only = DiskTemplate != null ? DiskTemplate.read_only : false;
             vdi.SR = new XenAPI.XenRef<XenAPI.SR>(SrListBox.SR);
 
-            vdi.virtual_size = Convert.ToInt64(DiskSizeNumericUpDown.Value * GetUnits());
+            vdi.virtual_size = diskSpinner1.SelectedSize;
             vdi.name_label = NameTextBox.Text;
             vdi.name_description = DescriptionTextBox.Text;
             vdi.sharable = DiskTemplate != null ? DiskTemplate.sharable : false;
             vdi.type = DiskTemplate != null ? DiskTemplate.type : vdi_type.user;
             vdi.SetVmHint(TheVM != null ? TheVM.uuid : "");
             return vdi;
-        }
-
-        private long GetUnits()
-        {
-            return (SelectedUnits == DiskSizeUnits.GB ? Util.BINARY_GIGA : Util.BINARY_MEGA);
         }
 
         public VBD NewDevice()
@@ -327,213 +286,57 @@ namespace XenAdmin.Dialogs
 
         private void NameTextBox_TextChanged(object sender, EventArgs e)
         {
-            updateErrorsAndButtons();
+            UpdateErrorsAndButtons();
         }
 
-        private DiskSizeUnits SelectedUnits
+        private void diskSpinner1_SelectedSizeChanged()
         {
-            get { return comboBoxUnits.SelectedIndex == 0 ? DiskSizeUnits.GB : DiskSizeUnits.MB; }
-            set { comboBoxUnits.SelectedIndex = value == DiskSizeUnits.GB ? 0 : 1; }
+            UpdateErrorsAndButtons();
         }
 
-        private decimal GetDiskTooSmallMessageMinSize()
-        {
-            return min == 0 ? SelectedUnits == DiskSizeUnits.GB ? MinimumDiskSizeGB : MinimumDiskSizeMB : min;
-        }
-
-        private void updateErrorsAndButtons()
+        private void UpdateErrorsAndButtons()
         {
             // Ordering is important here, we want to show the most relevant message
+            // The error should be shown only for size errors
 
-            if (comboBoxUnits.SelectedItem == null)
+            if (!diskSpinner1.IsSizeValid)
+            {
+                OkButton.Enabled = false;
                 return;
+            }
 
-            if (!SrListBox.ValidSelectionExists)
+            SrListBox.DiskSize = diskSpinner1.SelectedSize;
+            SrListBox.UpdateDiskSize();
+
+            if (!SrListBox.ValidSelectionExists)//all SRs disabled
             {
                 OkButton.Enabled = false;
-                setError(Messages.NO_VALID_DISK_LOCATION);
+                diskSpinner1.SetError(Messages.NO_VALID_DISK_LOCATION);
                 return;
             }
-            if (SelectionNull)
+
+            if (SrListBox.SR == null) //enabled SR exists but the user selects a disabled one
             {
                 OkButton.Enabled = false;
-                // shouldn't happen I think, previous if block should catch this, just to be safe
-                setError(null);
+                diskSpinner1.SetError(null);
                 return;
             }
-            if (DiskSizeNumericUpDown.Text.Trim() == string.Empty)
-            {
-                OkButton.Enabled = false;
-                // too minor for scary error to be displayed, plus it's obvious as they have to 
-                // delete the default entry and can see the OK button disable as they do so
-                setError(null);
-                return;
-            }
-            if (!DiskSizeValidNumber())
-            {
-                OkButton.Enabled = false;
-                setError(Messages.INVALID_NUMBER);
-                return;
-            }
-            if (!DiskSizeValid())
-            {
-                OkButton.Enabled = false;
-                setError(string.Format(Messages.DISK_TOO_SMALL, GetDiskTooSmallMessageMinSize(),
-                                       comboBoxUnits.SelectedItem.ToString()));
-                return;
-            }
+
             if (string.IsNullOrEmpty(NameTextBox.Text.Trim()))
             {
                 OkButton.Enabled = false;
-                // too minor for scary error to be displayed, plus it's obvious as they have to 
-                // delete the default entry and can see the OK button disable as they do so
-                setError(null);
+                diskSpinner1.SetError(null);
                 return;
             }
 
             OkButton.Enabled = true;
-            setError(null);
-        }
-
-        private void setError(string error)
-        {
-            if (string.IsNullOrEmpty(error))
-                tableLayoutPanelError.Visible = false;
-            else
-            {
-                tableLayoutPanelError.Visible = true;
-                labelError.Text = error;
-            }
-        }
-
-        private bool DiskSizeValidNumber()
-        {
-            decimal val;
-            return decimal.TryParse(DiskSizeNumericUpDown.Text.Trim(), out val);
-        }
-
-        private bool DiskSizeValid()
-        {
-            decimal val;
-            if (decimal.TryParse(DiskSizeNumericUpDown.Text.Trim(), out val))
-            {
-                if (min == 0)
-                    return val > min && val <= max;
-                return val >= min && val <= max;
-            }
-            return false;
+            diskSpinner1.SetError(null);
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
-        }
-
-        public bool DontCreateVDI { get; set; }
-
-        private void DiskSizeNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            UpdateDiskSize();
-        }
-
-        private void DiskSizeNumericUpDown_TextChanged(object sender, EventArgs e)
-        {
-            UpdateDiskSize();
-        }
-
-        private void DiskSizeNumericUpDown_KeyUp(object sender, KeyEventArgs e)
-        {
-            UpdateDiskSize();
-        }
-       
-        private void UpdateDiskSize()
-        {
-            // Don't use DiskSizeNumericUpDown.Value here, as it will fire the NumericUpDown built-in validation. Use Text property instead. (CA-46028)
-            decimal newValue;
-            if (decimal.TryParse(DiskSizeNumericUpDown.Text.Trim(), out newValue))
-            {
-                try
-                {
-                    SrListBox.DiskSize = (long)(Math.Round(newValue * GetUnits()));
-                }
-                catch (OverflowException)
-                {
-                    //CA-71312
-                   SrListBox.DiskSize = newValue < 0 ? long.MinValue : long.MaxValue;
-                }
-                SrListBox.UpdateDiskSize();
-            }
-            RefreshMinSize();
-            updateErrorsAndButtons();
-        }
-
-        private void RefreshMinSize()
-        {
-            if (DiskTemplate == null)
-                return;
-            if (MinSize > 0)
-                min = (decimal)((double)MinSize / GetUnits());
-        }
-
-        private void comboBoxUnits_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //Check if the new unit is different than the previous one otherwise discard the change
-            if (currentSelectedUnits != SelectedUnits)
-            {
-                currentSelectedUnits = SelectedUnits;
-                //Convert the current value to the new units
-                decimal newValue = (decimal)Math.Round(SelectedUnits == DiskSizeUnits.GB ? ((double)DiskSizeNumericUpDown.Value / 1024) : ((double)DiskSizeNumericUpDown.Value * 1024), DiskSizeNumericUpDown.DecimalPlaces);
-                DiskSizeNumericUpDown.Value = newValue >= DiskSizeNumericUpDown.Minimum && newValue <= DiskSizeNumericUpDown.Maximum ?
-                    newValue : DiskSizeNumericUpDown.Maximum;
-                SetNumUpDownIncrementAndDecimals(DiskSizeNumericUpDown, comboBoxUnits.SelectedItem.ToString());
-                UpdateDiskSize();
-            }
-        }
-
-        internal override string HelpName
-        {
-            get
-            {
-                if (DiskTemplate != null)
-                    return "EditNewDiskDialog";
-                else
-                    return "NewDiskDialog";
-            }
-        } 
-
-        public static void ShowVBDWarningBox()
-        {
-            Program.Invoke(Program.MainWindow, () =>
-            {
-                if (!Program.RunInAutomatedTestMode)
-                {
-                    using (var dlg = new ThreeButtonDialog(
-                        new ThreeButtonDialog.Details(SystemIcons.Information,
-                                                      Messages.NEWDISKWIZARD_MESSAGE,
-                                                      Messages.NEWDISKWIZARD_MESSAGE_TITLE)))
-                    {
-                        dlg.ShowDialog(Program.MainWindow);
-                    }
-                }
-            });
-        }
-
-        public static void ShowMustRebootBoxCD()
-        {
-            Program.Invoke(Program.MainWindow, () =>
-            {
-                if (!Program.RunInAutomatedTestMode)
-                {
-                    new ThreeButtonDialog(
-                        new ThreeButtonDialog.Details(SystemIcons.Information,
-                                                      Messages.
-                                                          NEW_DVD_DRIVE_REBOOT,
-                                                      Messages.
-                                                          NEW_DVD_DRIVE_CREATED))
-                        .ShowDialog(Program.MainWindow);
-                }
-            });
         }
     }
 }

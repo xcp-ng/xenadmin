@@ -30,9 +30,8 @@
  */
 
 using System;
-using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 using XenAdmin.Actions;
 using XenAdmin.Controls;
@@ -54,34 +53,13 @@ namespace XenAdmin.Wizards.BugToolWizardFiles
         public BugToolPageDestination()
         {
             InitializeComponent();
-
-            m_textBoxName.Text = string.Format("{0}{1}.zip", Messages.BUGTOOL_FILE_PREFIX, HelpersGUI.DateTimeToString(DateTime.Now, "yyyy-MM-dd-HH-mm-ss", false));
-
-            try
-            {
-                string initialDirectory = Path.GetDirectoryName(Properties.Settings.Default.ServerStatusPath);
-
-                if (!string.IsNullOrEmpty(initialDirectory) && Directory.Exists(initialDirectory))
-                    m_textBoxLocation.Text = initialDirectory;
-            }
-            catch (ArgumentException)
-            {
-                //this is normal; ignore
-            }
-            usernameTextBox.Visible = usernameLabel.Visible = passwordLabel.Visible = passwordTextBox.Visible = 
-                caseNumberLabel.Visible = caseNumberTextBox.Visible = optionalLabel.Visible =
-                enterCredentialsLinkLabel.Visible = uploadCheckBox.Visible = !HiddenFeatures.UploadOptionHidden;
-
-            string enterCredentialsMessage = string.Format(Messages.STATUS_REPORT_ENTER_CREDENTIALS_MESSAGE, Messages.MY_CITRIX_CREDENTIALS_URL);
-            enterCredentialsLinkLabel.Text = (enterCredentialsMessage);
-            enterCredentialsLinkLabel.LinkArea = new System.Windows.Forms.LinkArea(enterCredentialsMessage.IndexOf(Messages.MY_CITRIX_CREDENTIALS_URL), Messages.MY_CITRIX_CREDENTIALS_URL.Length);
         }
 
-        public override string Text { get { return Messages.BUGTOOL_PAGE_DESTINATION_TEXT; } }
+        public override string Text => Messages.BUGTOOL_PAGE_DESTINATION_TEXT;
 
-        public override string PageTitle { get { return Messages.BUGTOOL_PAGE_DESTINATION_PAGETITLE; } }
+        public override string PageTitle => Messages.BUGTOOL_PAGE_DESTINATION_PAGETITLE;
 
-        public override string HelpID { get { return "ReportDestination"; } }
+        public override string HelpID => "ReportDestination";
 
         public override bool EnableNext()
         {
@@ -90,13 +68,93 @@ namespace XenAdmin.Wizards.BugToolWizardFiles
 
         protected override void PageLoadedCore(PageLoadedDirection direction)
         {
+            if (direction != PageLoadedDirection.Forward)
+                return;
+
+            m_textBoxName.Text = string.Format("{0}{1}.zip", Messages.BUGTOOL_FILE_PREFIX, HelpersGUI.DateTimeToString(DateTime.Now, "yyyy-MM-dd-HH-mm-ss", false));
+
+            string initialDirectory = Properties.Settings.Default.ServerStatusPath;
+            
+            try
+            {
+                //previous versions were storing the zip file name rather than the directory; check if this is the case
+                if (!string.IsNullOrEmpty(initialDirectory) && !Directory.Exists(initialDirectory))
+                    initialDirectory = Path.GetDirectoryName(initialDirectory);
+            }
+            catch
+            {
+                //ignore
+            }
+
+            if (string.IsNullOrEmpty(initialDirectory) || !Directory.Exists(initialDirectory))
+                m_textBoxLocation.Text = Win32.GetKnownFolderPath(Win32.KnownFolders.Downloads);
+            else
+                m_textBoxLocation.Text = initialDirectory;
+
+            string enterCredentialsMessage = string.Format(Messages.STATUS_REPORT_ENTER_CREDENTIALS_MESSAGE, Messages.MY_CITRIX_CREDENTIALS_URL);
+            enterCredentialsLinkLabel.Text = enterCredentialsMessage;
+            enterCredentialsLinkLabel.LinkArea = new LinkArea(enterCredentialsMessage.IndexOf(Messages.MY_CITRIX_CREDENTIALS_URL), Messages.MY_CITRIX_CREDENTIALS_URL.Length);
+
+            usernameTextBox.Visible = usernameLabel.Visible = passwordLabel.Visible = passwordTextBox.Visible =
+                caseNumberLabel.Visible = caseNumberTextBox.Visible = optionalLabel.Visible =
+                enterCredentialsLinkLabel.Visible = uploadCheckBox.Visible = !HiddenFeatures.UploadOptionHidden;
+
             PerformCheck(CheckPathValid, CheckCredentialsEntered);
         }
 
         protected override void PageLeaveCore(PageLoadedDirection direction, ref bool cancel)
         {
-            if (direction == PageLoadedDirection.Forward)
-                cancel = !PerformCheck(CheckPathValid, CheckCredentialsEntered, CheckUploadAuthentication);
+            if (direction != PageLoadedDirection.Forward)
+                return;
+
+            if (!PerformCheck(CheckPathValid, CheckDestinationFolderExists, CheckCredentialsEntered, CheckUploadAuthentication))
+            {
+                cancel = true;
+                return;
+            }
+
+            string path = OutputFile;
+
+            if (File.Exists(path)) //confirm ok to overwrite
+            {
+                using (var dlg = new ThreeButtonDialog(
+                    new ThreeButtonDialog.Details(SystemIcons.Warning, string.Format(Messages.FILE_X_EXISTS_OVERWRITE, path), Messages.XENCENTER),
+                    ThreeButtonDialog.ButtonOK,
+                    new ThreeButtonDialog.TBDButton(Messages.CANCEL, DialogResult.Cancel, ThreeButtonDialog.ButtonType.CANCEL, true)))
+                {
+                    if (dlg.ShowDialog(this) != DialogResult.OK)
+                    {
+                        cancel = true;
+                        return;
+                    }
+                }
+            }
+
+            // Check we can write to the destination file - otherwise we only find out at the 
+            // end of the ZipStatusReportAction, and the downloaded server files are lost,
+            // and the user will have to run the wizard again.
+            try
+            {
+                using (File.OpenWrite(path)) { }
+            }
+            catch (Exception exn)
+            {
+                // Failure
+                using (var dlg = new ThreeButtonDialog(
+                    new ThreeButtonDialog.Details(
+                        SystemIcons.Error,
+                        string.Format(Messages.COULD_NOT_WRITE_FILE, path, exn.Message),
+                        Messages.XENCENTER)))
+                {
+                    dlg.ShowDialog(this);
+                }
+
+                cancel = true;
+                return;
+            }
+
+            // Save away the output directory for next time
+            Properties.Settings.Default.ServerStatusPath = m_textBoxLocation.Text.Trim();
         }
 
         public override void SelectDefaultControl()
@@ -174,6 +232,18 @@ namespace XenAdmin.Wizards.BugToolWizardFiles
             return true;
         }
 
+        private bool CheckDestinationFolderExists(out string error)
+        {
+            error = string.Empty;
+            var folder = m_textBoxLocation.Text.Trim();
+
+            if (Directory.Exists(folder))
+                return true;
+
+            error = Messages.ERROR_DESTINATION_DIR_NON_EXIST;
+            return false;
+        }
+
         private bool CheckCredentialsEntered(out string error)
         {
             error = string.Empty;
@@ -212,7 +282,7 @@ namespace XenAdmin.Wizards.BugToolWizardFiles
                 return false;
             }
            
-            UploadToken = action.UploadToken;  // curent upload token
+            UploadToken = action.UploadToken;  // current upload token
             return !string.IsNullOrEmpty(UploadToken);
         }
 
@@ -245,7 +315,11 @@ namespace XenAdmin.Wizards.BugToolWizardFiles
 
         private void BrowseButton_Click(object sender, EventArgs e)
         {
-            using (FolderBrowserDialog dlog = new FolderBrowserDialog {SelectedPath = m_textBoxLocation.Text, Description = Messages.FOLDER_BROWSER_BUG_TOOL})
+            using (var dlog = new FolderBrowserDialog
+            {
+                SelectedPath = m_textBoxLocation.Text.Trim(),
+                Description = Messages.FOLDER_BROWSER_BUG_TOOL
+            })
             {
                 if (dlog.ShowDialog() == DialogResult.OK)
                     m_textBoxLocation.Text = dlog.SelectedPath;
@@ -269,12 +343,12 @@ namespace XenAdmin.Wizards.BugToolWizardFiles
             PerformCheck(CheckPathValid, CheckCaseNumberValid, CheckCredentialsEntered);
         }
 
-        #endregion
-
         private void enterCredentialsLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.enterCredentialsLinkLabel.LinkVisited = true;
             Program.OpenURL(Messages.MY_CITRIX_CREDENTIALS_URL);
         }
+
+        #endregion
     }
 }

@@ -314,7 +314,7 @@ namespace XenAdmin.Wizards.BugToolWizardFiles
 
         private long getLogSize()
         {
-            String path = Program.GetLogFile_();
+            String path = Program.GetLogFile();
             if (path != null)
             {
                 // Size of XenCenter.log

@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class VTPM : XenObject<VTPM>
     {
+        #region Constructors
+
         public VTPM()
         {
         }
@@ -59,13 +61,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new VTPM from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public VTPM(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new VTPM from a Proxy_VTPM.
         /// </summary>
         /// <param name="proxy"></param>
         public VTPM(Proxy_VTPM proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -78,7 +94,7 @@ namespace XenAPI
             backend = update.backend;
         }
 
-        internal void UpdateFromProxy(Proxy_VTPM proxy)
+        internal void UpdateFrom(Proxy_VTPM proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             VM = proxy.VM == null ? null : XenRef<VM>.Create(proxy.VM);
@@ -92,17 +108,6 @@ namespace XenAPI
             result_.VM = VM ?? "";
             result_.backend = backend ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new VTPM from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public VTPM(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

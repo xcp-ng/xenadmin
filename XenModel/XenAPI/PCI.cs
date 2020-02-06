@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class PCI : XenObject<PCI>
     {
+        #region Constructors
+
         public PCI()
         {
         }
@@ -75,13 +77,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new PCI from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public PCI(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new PCI from a Proxy_PCI.
         /// </summary>
         /// <param name="proxy"></param>
         public PCI(Proxy_PCI proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -102,7 +118,7 @@ namespace XenAPI
             driver_name = update.driver_name;
         }
 
-        internal void UpdateFromProxy(Proxy_PCI proxy)
+        internal void UpdateFrom(Proxy_PCI proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             class_name = proxy.class_name == null ? null : proxy.class_name;
@@ -132,17 +148,6 @@ namespace XenAPI
             result_.subsystem_device_name = subsystem_device_name ?? "";
             result_.driver_name = driver_name ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new PCI from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public PCI(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

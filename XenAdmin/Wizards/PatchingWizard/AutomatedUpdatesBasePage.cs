@@ -34,8 +34,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Reflection;
-using log4net;
 using XenAdmin.Controls;
 using XenAdmin.Wizards.PatchingWizard.PlanActions;
 using XenAPI;
@@ -53,7 +51,7 @@ namespace XenAdmin.Wizards.PatchingWizard
     public enum Status { NotStarted, Started, Cancelled, Completed }
     public abstract partial class AutomatedUpdatesBasePage : XenTabPage
     {
-        protected static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         protected bool _thisPageIsCompleted;
 
@@ -427,7 +425,7 @@ namespace XenAdmin.Wizards.PatchingWizard
                 if (action.Error == null)
                     action.Error = new Exception(Messages.ERROR_UNKNOWN);
 
-                log.ErrorFormat("Failed to carry out plan. {0} {1}", action.CurrentProgressStep, e);
+                log.Error($"Failed to carry out plan {action.CurrentProgressStep}.", e);
                 doWorkEventArgs.Result = new Exception(action.CurrentProgressStep, e);
             }
         }

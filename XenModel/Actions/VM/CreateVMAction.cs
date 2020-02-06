@@ -87,8 +87,7 @@ namespace XenAdmin.Actions.VMActions
         private readonly bool StartAfter;
         private readonly Host CopyBiosStringsFrom;
         private readonly SR FullCopySR;
-        private readonly GPU_group GpuGroup;
-        private readonly VGPU_type VgpuType;
+        private readonly List<VGPU> vGpus;
         private readonly long CoresPerSocket;
         private readonly string cloudConfigDriveTemplateText;
         private SR firstSR = null;
@@ -140,7 +139,7 @@ namespace XenAdmin.Actions.VMActions
             List<DiskDescription> disks, SR fullCopySR, List<VIF> vifs, bool startAfter,
             Action<VM, bool> warningDialogHAInvalidConfig,
             Action<VMStartAbstractAction, Failure> startDiagnosisForm,
-            GPU_group gpuGroup, VGPU_type vgpuType, bool modifyVgpuSettings, long coresPerSocket, string cloudConfigDriveTemplateText)
+            List<VGPU> vGpus, bool modifyVgpuSettings, long coresPerSocket, string cloudConfigDriveTemplateText)
             : base(connection, string.Format(Messages.CREATE_VM, name),
             string.Format(Messages.CREATE_VM_FROM_TEMPLATE, name, Helpers.GetName(template)))
         {
@@ -165,8 +164,7 @@ namespace XenAdmin.Actions.VMActions
             StartAfter = startAfter;
             _warningDialogHAInvalidConfig = warningDialogHAInvalidConfig;
             _startDiagnosisForm = startDiagnosisForm;
-            GpuGroup = gpuGroup;
-            VgpuType = vgpuType;
+            this.vGpus = vGpus;
             CoresPerSocket = coresPerSocket;
             this.cloudConfigDriveTemplateText = cloudConfigDriveTemplateText;
 
@@ -174,7 +172,7 @@ namespace XenAdmin.Actions.VMActions
             if (HomeServer != null || pool_of_one != null) // otherwise we have no where to put the action
                 AppliesTo.Add(HomeServer != null ? HomeServer.opaque_ref : pool_of_one.opaque_ref);
 
-            assignOrRemoveVgpu = GpuGroup != null && VgpuType != null || modifyVgpuSettings && Helpers.GpuCapability(Connection);
+            assignOrRemoveVgpu = vGpus != null && vGpus.Count > 0 || modifyVgpuSettings && Helpers.GpuCapability(Connection);
 
             #region RBAC Dependencies
 
@@ -302,7 +300,17 @@ namespace XenAdmin.Actions.VMActions
         {
             if (assignOrRemoveVgpu)
             {
-                var action = new GpuAssignAction(VM, GpuGroup, VgpuType);
+                var newvGpus = new List<VGPU>();
+                foreach (var vGpu in vGpus)
+                {
+                    newvGpus.Add(new VGPU
+                    {
+                        GPU_group = new XenRef<GPU_group>(vGpu.GPU_group.opaque_ref),
+                        type = new XenRef<VGPU_type>(vGpu.type.opaque_ref),
+                        device = vGpu.device
+                    });
+                }
+                var action = new GpuAssignAction(VM, newvGpus);
                 action.RunExternal(Session);
             }
         }

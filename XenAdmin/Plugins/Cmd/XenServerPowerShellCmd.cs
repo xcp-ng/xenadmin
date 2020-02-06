@@ -32,7 +32,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Text;
 using System.Xml;
 
@@ -43,18 +42,6 @@ namespace XenAdmin.Plugins
 {
     internal class XenServerPowershellCmd : ShellCmd
     {
-        // TODO: CA:40580: These version numbers are not checked anywhere at the moment, and thus are not documented as part of the plugin spec
-        /// <summary>
-        /// optional - "version_min" attribute on the "XenServerPowerShellCmd" tag
-        /// </summary>
-        public readonly Version SnapInMinVersion;
-#pragma warning disable 649, 169
-        /// <summary>
-        /// optional - "version_max" attribute on the "XenServerPowerShellCmd" tag
-        /// </summary>
-        public readonly Version SnapInMaxVersion;
-#pragma warning restore 649, 169
-
         /// <summary>
         /// optional - "debug" attribute on the "XenServerPowerShellCmd" tag
         /// </summary>
@@ -66,8 +53,6 @@ namespace XenAdmin.Plugins
         public readonly string Function;
 
         public const string ATT_DEBUG = "debug";
-        public const string ATT_VERSION_MIN = "version_min";
-        public const string ATT_VERSION_MAX = "version_max";
         public const string ATT_FUNCTION = "function";
 
         private const string XEN_PARAM_ARRAY_VAR_NAME = "ObjInfoArray";
@@ -90,80 +75,64 @@ namespace XenAdmin.Plugins
             "}};" +
             "__XenCenter_DebugPlugin";
 
-        private const string InvokeExpression =
-            "Invoke-Expression $([System.String]::Join([System.Environment]::NewLine, (Get-Content -Path \"{0}\"))); {1}";
-
         public XenServerPowershellCmd(XmlNode node, List<string> extraParams)
             : base(node, extraParams)
         {
-            Debug = Helpers.GetBoolXmlAttribute(node, ATT_DEBUG, false);
-            string versionString = Helpers.GetStringXmlAttribute(node, ATT_VERSION_MIN);
-            if (versionString != null)
-                SnapInMinVersion = new Version(versionString);
-
-            versionString = Helpers.GetStringXmlAttribute(node, ATT_VERSION_MAX);
-            if (versionString != null)
-                SnapInMinVersion = new Version(versionString);
-
+            Debug = Helpers.GetBoolXmlAttribute(node, ATT_DEBUG);
             Function = Helpers.GetStringXmlAttribute(node, ATT_FUNCTION);
-
-            Registry.CheckXenServerPSSnapIn();
         }
 
         public override Process CreateProcess(List<string> procParams, IList<IXenObject> targets)
         {
-            Registry.CheckXenServerPSSnapIn();
-            string snapin = Registry.XenServerSnapInLocation();
-            // execute the initialize script
-            // get ourselves in the correct directory
-            // put the parameters in the objInfoArray variable
-            // exectute the plugin, with debugging if required
-            string command = string.Format(
-                              "& {{" +
-                              "  . \"{0}\";" + 
-                              "  {1}" +
-                              "}}",
-                              Path.Combine(Path.GetDirectoryName(snapin), "Initialize-Environment.ps1"),
-                              MakeInvocationExpression(Filename, Function, procParams, Params, targets, Debug));
+            Registry.AssertPowerShellInstalled();
+            Registry.AssertPowerShellExecutionPolicyNonRestricted();
 
-            // finally we escape the entire command statement again as it is being passed into the -Command parameter in quotes
+            string command = MakeInvocationExpression(Filename, Function, procParams, Params, targets, Debug);
+
+            //escape the entire command statement as it is being passed into the -Command parameter in quotes
             command = EscapeQuotes(EscapeBackSlashes(command));
 
-            Process proc = new Process();
-            proc.StartInfo.FileName = PluginDescriptor.PowerShellExecutable;
-            proc.StartInfo.Arguments = string.Format("-PSConsoleFile \"{0}\" -NoLogo -Command \"{1}\"", 
-                EscapeQuotes(snapin), 
-                command);
-            proc.StartInfo.UseShellExecute = false;
-            proc.StartInfo.CreateNoWindow = !Window;
-            proc.StartInfo.WindowStyle = !Window ? ProcessWindowStyle.Hidden : ProcessWindowStyle.Normal;
-            return proc;
+            return new Process
+            {
+                StartInfo =
+                {
+                    FileName = PluginDescriptor.PowerShellExecutable,
+                    Arguments = $"-NoLogo -Command \"Import-Module XenServerPSModule; {command}\"",
+                    UseShellExecute = false,
+                    CreateNoWindow = !Window,
+                    WindowStyle = Window ? ProcessWindowStyle.Normal : ProcessWindowStyle.Hidden
+                }
+            };
         }
 
         public static string EscapeQuotes(string s)
         {
-            // replacing " with \"
             return s.Replace("\"", "\\\"");
         }
 
         public static string EscapeBackSlashes(string s)
         {
-            // replacing \ with \\
             return s.Replace("\\", "\\\\");
         }
 
-        public static string MakeInvocationExpression(string filename, string function, IList<string> proc_params, IList<string> extra_params,
-            IList<IXenObject> objs, bool debug)
+        public static string MakeInvocationExpression(string filename, string function, IList<string> proc_params,
+            IList<string> extra_params, IList<IXenObject> objs, bool debug)
         {
-            string expression = string.Format(InvokeExpression,
-                Placeholders.Substitute(filename, objs),
-                Placeholders.Substitute(function ?? "", objs));
+            filename = Placeholders.Substitute(filename, objs);
+            var expression = $"Invoke-Expression $(Get-Content -Path \"{filename}\" -Raw)";
+
+            if (!string.IsNullOrEmpty(function))
+                function = Placeholders.Substitute(function, objs);
+            if (!string.IsNullOrEmpty(function))
+                expression = $"{expression}; {function}";
+
+            if (debug)
+                expression = string.Format(DebugFunction, expression);
+
             string xenArrayStatement = XenArrayStatement(proc_params);
             string extraArrayStatement = ExtraArrayStatement(extra_params, objs);
 
-            return string.Format("cd \"{0}\"; {1} {2} {3};",
-                Program.AssemblyDir, xenArrayStatement, extraArrayStatement,
-                debug ? string.Format(DebugFunction, expression) : expression);
+            return $"cd \"{Program.AssemblyDir}\"; {xenArrayStatement} {extraArrayStatement} {expression};";
         }
 
         private static string XenArrayStatement(IList<string> procParams)
@@ -173,7 +142,8 @@ namespace XenAdmin.Plugins
 
             // now we form a statement that will initialise a powershell array in the format (a,b,c,d),(a2,b2,c2,d2),(a3,b3,c3,d3) e.t.c 
             StringBuilder sb = new StringBuilder();
-            sb.Append(string.Format("${0}=@(", XEN_PARAM_ARRAY_VAR_NAME));
+            sb.AppendFormat("${0}=@(", XEN_PARAM_ARRAY_VAR_NAME);
+
             for (int i = 0; i < count; i++)
             {
                 if (i > 0)

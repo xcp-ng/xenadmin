@@ -29,18 +29,7 @@
  * SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-
-using log4net;
-
 using XenAdmin.Core;
-
 using XenAPI;
 
 namespace XenAdmin.Actions

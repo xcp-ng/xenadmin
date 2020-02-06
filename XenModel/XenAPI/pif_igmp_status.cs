@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,15 @@ namespace XenAPI
     [JsonConverter(typeof(pif_igmp_statusConverter))]
     public enum pif_igmp_status
     {
-        enabled, disabled, unknown
+        /// <summary>
+        /// IGMP Snooping is enabled in the corresponding backend bridge.&apos;
+        /// </summary>
+        enabled,
+        /// <summary>
+        /// IGMP Snooping is disabled in the corresponding backend bridge.&apos;
+        /// </summary>
+        disabled,
+        unknown
     }
 
     public static class pif_igmp_status_helper
@@ -58,8 +65,6 @@ namespace XenAPI
                     return "enabled";
                 case pif_igmp_status.disabled:
                     return "disabled";
-                case pif_igmp_status.unknown:
-                    return "unknown";
                 default:
                     return "unknown";
             }
@@ -73,4 +78,4 @@ namespace XenAPI
             writer.WriteValue(((pif_igmp_status)value).StringOf());
         }
     }
-}
+}

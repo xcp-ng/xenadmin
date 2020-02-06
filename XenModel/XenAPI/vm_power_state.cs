@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,23 @@ namespace XenAPI
     [JsonConverter(typeof(vm_power_stateConverter))]
     public enum vm_power_state
     {
-        Halted, Paused, Running, Suspended, unknown
+        /// <summary>
+        /// VM is offline and not using any resources
+        /// </summary>
+        Halted,
+        /// <summary>
+        /// All resources have been allocated but the VM itself is paused and its vCPUs are not running
+        /// </summary>
+        Paused,
+        /// <summary>
+        /// Running
+        /// </summary>
+        Running,
+        /// <summary>
+        /// VM state has been saved to disk and it is nolonger running. Note that disks remain in-use while the VM is suspended.
+        /// </summary>
+        Suspended,
+        unknown
     }
 
     public static class vm_power_state_helper
@@ -75,4 +90,4 @@ namespace XenAPI
             writer.WriteValue(((vm_power_state)value).StringOf());
         }
     }
-}
+}

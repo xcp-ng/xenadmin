@@ -29,17 +29,11 @@
  * SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using XenAPI;
 using XenAdmin.Network;
-using XenAdmin.Core;
-using XenAdmin.Commands;
+
 
 namespace XenAdmin.Controls
 {
@@ -61,8 +55,8 @@ namespace XenAdmin.Controls
                 // if the old value was not null then we need to deregister the event handlers
                 if (connection != null)
                 {
-                    connection.ConnectionStateChanged -= new EventHandler<EventArgs>(connection_ConnectionStateChanged);
-                    connection.CachePopulated -= new EventHandler<EventArgs>(connection_CachePopulated);
+                    connection.ConnectionStateChanged -= connection_ConnectionStateChanged;
+                    connection.CachePopulated -= connection_CachePopulated;
                 }
 
                 // Now set to the new value, if it's not null then we set the labels and tooltip relevant to the new connection
@@ -70,9 +64,9 @@ namespace XenAdmin.Controls
                 if (connection != null)
                 {
                     // If the current connection disconnects we need to clear the labels
-                    connection.ConnectionStateChanged += new EventHandler<EventArgs>(connection_ConnectionStateChanged);
+                    connection.ConnectionStateChanged += connection_ConnectionStateChanged;
                     // if the cache isn't populated yet we can clear the lables and update later off this event handler
-                    connection.CachePopulated += new EventHandler<EventArgs>(connection_CachePopulated);
+                    connection.CachePopulated += connection_CachePopulated;
                     if (connection.CacheIsPopulated)
                     {
                         setLabelText();
@@ -85,25 +79,14 @@ namespace XenAdmin.Controls
             }
         }
 
-        /// <summary>
-        ///  Used to clear the labels on a disconnect
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void connection_ConnectionStateChanged(object sender, EventArgs e)
+        void connection_ConnectionStateChanged(IXenConnection conn)
         {
-            Program.Invoke(Program.MainWindow, delegate
-            {
-                setLabelText();
-            });
+            Program.Invoke(Program.MainWindow, setLabelText);
         }
 
-        void connection_CachePopulated(object sender, EventArgs e)
+        void connection_CachePopulated(IXenConnection conn)
         {
-            Program.Invoke(Program.MainWindow, delegate
-            {
-                setLabelText();
-            });
+            Program.Invoke(Program.MainWindow, setLabelText);
         }
 
         private void setLabelText()

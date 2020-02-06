@@ -114,7 +114,7 @@ namespace XenAdmin.Actions
             }
             catch (Exception e)
             {
-                log.ErrorFormat("Exception while getting diagnostic result from {0}. Exception Message: {1} ", diagnosticDomainName, e.Message);
+                log.Error($"Exception while getting diagnostic result from {diagnosticDomainName}.", e);
                 Description = Messages.ACTION_GET_HEALTH_CHECK_RESULT_FAILED;
                 throw;
             }
@@ -168,7 +168,7 @@ namespace XenAdmin.Actions
             }
             catch (Exception e)
             {
-                log.DebugFormat("Exception while getting analysis progress result from {0}. Exception Message: {1} ", diagnosticDomainName, e.Message);
+                log.Debug($"Exception while getting analysis progress result from {diagnosticDomainName}.", e);
                 return -1;
             }
         }
@@ -178,7 +178,7 @@ namespace XenAdmin.Actions
         /// </summary>
         /// <param name="jsonString"></param>
         /// <param name="uploadUuid"></param>
-        /// <returns>the analysis progress as pecentage, or -1 if the JSON object is invalid</returns>
+        /// <returns>the analysis progress as percentage, or -1 if the JSON object is invalid</returns>
         public static double ParseAnalysisProgress(string jsonString, string uploadUuid)
         {
             if (string.IsNullOrEmpty(jsonString))
@@ -192,7 +192,7 @@ namespace XenAdmin.Actions
             }
             catch (Exception e)
             {
-                log.DebugFormat("Exception while deserializing json: {0}. Exception Message: {1} ", jsonString, e.Message);
+                log.Debug($"Exception while deserializing json: {jsonString}.", e);
                 return -1;
             }
         }

@@ -41,9 +41,6 @@ namespace XenAdmin.Controls
 {
     public class LicenseCheckableDataGridView : CheckableDataGridView.CheckableDataGridView, ILicenseCheckableDataGridViewView
     {
-        public delegate void RefreshAllEvent(object sender, EventArgs e);
-        public event RefreshAllEvent RefreshAll;
-
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public DataGridViewImageColumn StatusImageColumn
         {
@@ -126,13 +123,6 @@ namespace XenAdmin.Controls
                     ResumeLayout();
                 }
             });
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public void TriggerRefreshAllEvent()
-        {
-            if (RefreshAll != null)
-                RefreshAll(this, EventArgs.Empty);
         }
     }
 }

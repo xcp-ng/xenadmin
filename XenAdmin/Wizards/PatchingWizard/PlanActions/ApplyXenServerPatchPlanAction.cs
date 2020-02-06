@@ -76,12 +76,20 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
                 AddProgressStep(string.Format(Messages.UPDATES_WIZARD_APPLYING_UPDATE, xenServerPatch.Name,
                     host.Name()));
 
+                PatchPrecheckOnHostPlanAction.RefreshUpdate(host, mapping, session);
+
                 XenRef<Task> task = null;
 
                 if (mapping is PoolPatchMapping patchMapping)
+                {
+                    log.InfoFormat("Applying patch on '{0}'. Patch{1}' (uuid = '{2}'; opaque_ref = '{3}')", host.Name(), patchMapping.Pool_patch.Name(), patchMapping.Pool_patch.uuid, patchMapping.Pool_patch.opaque_ref);
                     task = Pool_patch.async_apply(session, patchMapping.Pool_patch.opaque_ref, host.opaque_ref);
+                }
                 else if (mapping is PoolUpdateMapping updateMapping)
+                {
+                    log.InfoFormat("Applying update on '{0}'. Update = '{1}' (uuid = '{2}'; opaque_ref = '{3}')", host.Name(), updateMapping.Pool_update.Name(), updateMapping.Pool_update.uuid, updateMapping.Pool_update.opaque_ref);
                     task = Pool_update.async_apply(session, updateMapping.Pool_update.opaque_ref, host.opaque_ref);
+                }
 
                 PollTaskForResultAndDestroy(Connection, ref session, task);
             }

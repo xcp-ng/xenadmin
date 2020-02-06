@@ -83,6 +83,8 @@ namespace XenAdmin.TabPages
             }
         }
 
+        public override string HelpID => "TabPageDockerDetails";
+
         private void StartUpdating()
         {
             var args = new Dictionary<string, string>();
@@ -176,7 +178,7 @@ namespace XenAdmin.TabPages
                     }
                 }
             }
-            catch (Failure)
+            catch (Exception)
             {
                 ShowInvalidInfo();
             }

@@ -91,7 +91,7 @@ namespace XenAdmin.Actions
                 }
                 catch (Failure failure)
                 {
-                    log.WarnFormat("Getting disk space requirements on {0} failed with: {1}", Host.Name(), failure.Message);
+                    log.Warn($"Getting disk space requirements on {Host.Name()} failed.", failure);
                 }
                 throw new NotEnoughSpaceException(Host.Name(), fileName, diskSpaceRequirements);
             }

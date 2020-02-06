@@ -47,6 +47,10 @@ namespace XenAdmin.Core
         public string PatchUuid;
         public bool PresentAsUpdate;
         public Version MinimumXcVersion;
+        public hotfix_eligibility HotfixEligibility;
+        public DateTime HotfixEligibilityPremiumDate;
+        public DateTime HotfixEligibilityNoneDate;
+        public DateTime EolDate;
         
         /// <summary>
         /// A host of this version is considered up-to-date when it has all the patches in this list installed on it
@@ -72,7 +76,8 @@ namespace XenAdmin.Core
         /// <param name="patchUuid"></param>
         /// <param name="presentAsUpdate">Indicates that the new version (usually a CU) should be presented as an update where possible</param>
         public XenServerVersion(string version_oem, string name, bool latest, bool latestCr, string url, List<XenServerPatch> patches, List<XenServerPatch> minimumPatches,
-            string timestamp, string buildNumber, string patchUuid, bool presentAsUpdate, string minXcVersion)
+            string timestamp, string buildNumber, string patchUuid, bool presentAsUpdate, string minXcVersion, string hotfixEligibility, string hotfixEligibilityPremiumDate,
+            string hotfixEligibilityNoneDate, string eolDate)
         {
             ParseVersion(version_oem);
             Name = name;
@@ -86,6 +91,10 @@ namespace XenAdmin.Core
             PatchUuid = patchUuid;
             PresentAsUpdate = presentAsUpdate;
             ParseMinXcVersion(minXcVersion);
+            Enum.TryParse(hotfixEligibility, out HotfixEligibility);
+            DateTime.TryParse(hotfixEligibilityPremiumDate, out HotfixEligibilityPremiumDate);
+            DateTime.TryParse(hotfixEligibilityNoneDate, out HotfixEligibilityNoneDate);
+            DateTime.TryParse(eolDate, out EolDate);
         }
 
         private void ParseVersion(string version_oem)
@@ -115,6 +124,25 @@ namespace XenAdmin.Core
                 return !string.IsNullOrEmpty(PatchUuid);
             }
         }
+    }
 
+    public enum hotfix_eligibility
+    {
+        /// <summary>
+        /// All customers are eligible for hotfixes.
+        /// </summary>
+        all,
+        /// <summary>
+        /// Only paying customers are eligible for hotfixes.
+        /// </summary>
+        premium,
+        /// <summary>
+        /// The only hotfix available is a Cumulative Update, for paying customers.
+        /// </summary>
+        cu,
+        /// <summary>
+        /// The version has reached EOL for all customers and no more hotfixes will be released.
+        /// </summary>
+        none
     }
 }

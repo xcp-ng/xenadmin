@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,15 @@ namespace XenAPI
     [JsonConverter(typeof(sdn_controller_protocolConverter))]
     public enum sdn_controller_protocol
     {
-        ssl, pssl, unknown
+        /// <summary>
+        /// Active ssl connection
+        /// </summary>
+        ssl,
+        /// <summary>
+        /// Passive ssl connection
+        /// </summary>
+        pssl,
+        unknown
     }
 
     public static class sdn_controller_protocol_helper
@@ -71,4 +78,4 @@ namespace XenAPI
             writer.WriteValue(((sdn_controller_protocol)value).StringOf());
         }
     }
-}
+}

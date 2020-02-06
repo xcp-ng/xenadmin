@@ -31,6 +31,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using XenAPI;
 
@@ -87,8 +88,15 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
                 {
                     if (f.ErrorDescription.Count > 0 && f.ErrorDescription[0] == Failure.HOST_NOT_ENOUGH_FREE_MEMORY)
                     {
-                        log.WarnFormat("Host {0} cannot be avacuated: {1}", hostObj.Name(), f.Message);
+                        log.WarnFormat("Host {0} cannot be evacuated: {1}", hostObj.Name(), f.Message);
                         throw new Exception(string.Format(Messages.PLAN_ACTION_FAILURE_NOT_ENOUGH_MEMORY, hostObj.Name()), f);
+                    }
+
+                    if (f.ErrorDescription.Count > 0 && f.ErrorDescription[0] == Failure.NO_HOSTS_AVAILABLE)
+                    {
+                        log.WarnFormat("Host {0} cannot be evacuated: {1}", hostObj.Name(), f.Message);
+                        if (hostObj.Connection.Cache.Hosts.Any(h=>h.updates_requiring_reboot.Count > 0 && !h.enabled))
+                            throw new Exception(string.Format(Messages.PLAN_ACTION_FAILURE_NO_HOSTS_AVAILABLE, hostObj.Name()));
                     }
                     throw;
                 }

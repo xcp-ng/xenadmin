@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,15 @@ namespace XenAPI
     [JsonConverter(typeof(sriov_configuration_modeConverter))]
     public enum sriov_configuration_mode
     {
-        sysfs, modprobe, unknown
+        /// <summary>
+        /// Configure network sriov by sysfs, do not need reboot
+        /// </summary>
+        sysfs,
+        /// <summary>
+        /// Configure network sriov by modprobe, need reboot
+        /// </summary>
+        modprobe,
+        unknown
     }
 
     public static class sriov_configuration_mode_helper
@@ -58,8 +65,6 @@ namespace XenAPI
                     return "sysfs";
                 case sriov_configuration_mode.modprobe:
                     return "modprobe";
-                case sriov_configuration_mode.unknown:
-                    return "unknown";
                 default:
                     return "unknown";
             }
@@ -73,4 +78,4 @@ namespace XenAPI
             writer.WriteValue(((sriov_configuration_mode)value).StringOf());
         }
     }
-}
+}

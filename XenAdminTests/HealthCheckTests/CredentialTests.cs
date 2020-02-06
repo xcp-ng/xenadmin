@@ -40,7 +40,8 @@ using NUnit.Framework;
 
 namespace XenAdminTests.HealthCheckTests
 {
-    public class CredentialTests : UnitTester_TestFixture
+    [TestFixture, Category(TestCategories.Unit)]
+    public class CredentialTests
     {
         [OneTimeSetUp]
         public void FixtureSetup()

@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Host_crashdump : XenObject<Host_crashdump>
     {
+        #region Constructors
+
         public Host_crashdump()
         {
         }
@@ -63,13 +65,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Host_crashdump from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Host_crashdump(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Host_crashdump from a Proxy_Host_crashdump.
         /// </summary>
         /// <param name="proxy"></param>
         public Host_crashdump(Proxy_Host_crashdump proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -84,7 +100,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_Host_crashdump proxy)
+        internal void UpdateFrom(Proxy_Host_crashdump proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             host = proxy.host == null ? null : XenRef<Host>.Create(proxy.host);
@@ -102,17 +118,6 @@ namespace XenAPI
             result_.size = size.ToString();
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Host_crashdump from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Host_crashdump(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

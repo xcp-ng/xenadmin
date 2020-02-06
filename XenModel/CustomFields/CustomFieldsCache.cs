@@ -149,8 +149,7 @@ namespace XenAdmin.CustomFields
                     }
                     catch (Exception e)
                     {
-                        log.DebugFormat("Exception unmarshalling custom field definition '{0}'", node.OuterXml);
-                        log.Debug(e, e);
+                        log.Debug($"Exception unmarshalling custom field definition '{node.OuterXml}'.", e);
                     }
                 }
 

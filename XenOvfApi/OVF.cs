@@ -48,8 +48,6 @@ namespace XenOvf
     public partial class OVF
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static readonly log4net.ILog auditLog = log4net.LogManager.GetLogger("Audit");
-        private static readonly log4net.ILog traceLog = log4net.LogManager.GetLogger("Trace");
 
         /// <summary>
         /// Event Registration of changes in Ovf state.
@@ -72,40 +70,24 @@ namespace XenOvf
         private const long MB = (KB * 1024);
         private const long GB = (MB * 1024);
 
-        private static int _processId = 0;
-        private static string _touchFile;
         private static bool _promptForEula = true;
 
 		internal static ResourceManager _rm = new ResourceManager("XenOvf.Messages", Assembly.GetExecutingAssembly());
 		internal static ResourceManager _ovfrm = new ResourceManager("XenOvf.Content", Assembly.GetExecutingAssembly());
 
         #region PUBLIC
-        #region CONSTRUCTOR
-        /// <summary>
-        /// Public Constructor
-        /// </summary>
         public OVF()
         {
             UnLoad();
-            log.InfoFormat("XenOvf.Message.resources {0}", Messages.RESOURCES_LOADED);
-            log.InfoFormat("XenOvf.Content.resources {0}", Messages.RESOURCES_LOADED);
         }
-        #endregion
 
         #region PROPERTIES
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
         public static object AlgorithmMap(string key)
         {
             return Properties.Settings.Default[key];
         }
-        /// <summary>
-        /// 
-        /// </summary>
+
         public bool PromptForEula
         {
             get { return _promptForEula; }
@@ -129,20 +111,11 @@ namespace XenOvf
 
         #region SAVE OVF
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfEnv"></param>
-        /// <param name="filename"></param>
         public static void SaveAs(EnvelopeType ovfEnv, string filename)
         {
             SaveAs(ToXml(ovfEnv), filename);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="OvfXml"></param>
-        /// <param name="filename"></param>
+
         public static void SaveAs(string OvfXml, string filename)
         {
             log.DebugFormat("OVF.SaveAs: {0}", filename);
@@ -171,28 +144,19 @@ namespace XenOvf
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("File handling error. {0}", ex.Message);
+                log.Error("File handling error. ", ex);
             }
-            FileStream fs = null;
-            StreamWriter sw = null;
-            try
+
+            using (var fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
+            using (var sw = new StreamWriter(fs))
             {
-                fs = new FileStream(filename, FileMode.Create, FileAccess.Write);
-                sw = new StreamWriter(fs);
                 sw.Write(OvfXml);
                 sw.Flush();
             }
-            catch (Exception ex)
-            {
-                log.ErrorFormat("SaveAs FAILED: {0} with {1}", filename, ex.Message);
-                throw;
-            }
-            finally
-            {
-                if (sw != null) sw.Close();
-                if (fs != null) fs.Close();
-            }
-            if (File.Exists(oldfile)) { File.Delete(oldfile); }
+
+            if (File.Exists(oldfile))
+                File.Delete(oldfile);
+
             log.Debug("OVF.SaveAs completed");
         }
         #endregion
@@ -219,11 +183,7 @@ namespace XenOvf
         #endregion
 
         #region CHECK FOR FILE(S) METHODs (and HAS methods)
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <returns></returns>
+
 		public static bool HasDeploymentOptions(EnvelopeType ovfObj)
         {
             DeploymentOptionSection_Type[] dos = FindSections<DeploymentOptionSection_Type>(ovfObj);
@@ -234,11 +194,6 @@ namespace XenOvf
             return false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <returns></returns>
 		public static bool HasEula(EnvelopeType ovfObj)
         {
             EulaSection_Type[] eulas = FindSections<EulaSection_Type>(ovfObj);
@@ -248,161 +203,16 @@ namespace XenOvf
             }
             return false;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <param name="extension"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope",
-                                                         Justification = "Streams are used in embedded streams and are disposed appropriately.")]
-        private static bool CheckForFileExt(string filename, string extension)
-        {
-            string ovfpath = Path.GetDirectoryName(filename);
-            string ovfname = Path.GetFileNameWithoutExtension(filename);
-            string findfile = Path.Combine(ovfpath, string.Format("{0}.{1}", ovfname, extension));
-            string ext = Path.GetExtension(filename);
-            bool foundfile = false;
 
-            if (ext.ToLower().EndsWith("gz") || ext.ToLower().EndsWith("bz2"))
-            {
-                ovfname = Path.GetFileNameWithoutExtension(ovfname);
-            }
-
-            if (ext.ToLower().EndsWith("ovf"))
-            {
-                if (File.Exists(findfile))
-                {
-                    log.InfoFormat("File: OVF: {0} found file with (.{1}) extension", filename, extension);
-                    foundfile = true;
-                }
-                else
-                {
-                    log.InfoFormat("File: OVF: {0} did not find file with (.{1}) extension", filename, extension);
-                    foundfile = false;
-                }
-            }
-            else if (ext.ToLower().EndsWith("ova") ||
-                     ext.ToLower().EndsWith("gz") ||
-                     ext.ToLower().EndsWith("bz2"))
-            {
-                string origDir = Directory.GetCurrentDirectory();
-                Directory.SetCurrentDirectory(ovfpath);
-
-                Stream inputStream = null; // new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
-
-                #region DECOMPRESSION STREAM
-                try
-                {
-                    if (ext.ToLower().EndsWith("gz") || ext.ToLower().EndsWith("bz2"))  // need to decompress.
-                    {
-                        log.Info("OVA is compressed, de-compression stream inserted");
-                        string ovaext = Path.GetExtension(ovfname);
-                        if (ovaext.ToLower().EndsWith("ova"))
-                        {
-                            FileStream fsStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
-                            if (Properties.Settings.Default.useGZip)
-                            {
-                                inputStream = CompressionFactory.Reader(CompressionFactory.Type.Gz, fsStream);
-                            }
-                            else
-                            {
-                                inputStream = CompressionFactory.Reader(CompressionFactory.Type.Bz2, fsStream);
-                            }
-                        }
-                        else
-                        {
-                            throw new ArgumentException(Messages.OVF_COMPRESSED_OVA_INVALID);
-                        }
-                    }
-                    else
-                    {
-                        inputStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
-                    }
-                }
-                catch
-                {
-                    if (inputStream != null)
-                    {
-                        inputStream.Dispose();
-                    }
-                    throw;
-                }
-                #endregion
-
-                if (inputStream == null)
-                {
-                    throw new IOException(string.Format(Messages.OVF_COULD_NOT_OPEN_STREAM, filename));
-                }
-
-                ArchiveIterator tar = ArchiveFactory.Reader(ArchiveFactory.Type.Tar, inputStream);
-
-                try
-                {
-                    while(tar.HasNext())
-                    {
-                        string ovaext = Path.GetExtension(tar.CurrentFileName());
-                        log.DebugFormat("OVA: File: {0}", tar.CurrentFileName());
-                        if (tar.CurrentFileName() != null && ovaext.ToLower().Contains(extension.ToLower()))
-                        {
-                            log.InfoFormat("OVF: File: {0} found file with (.{1}) extension", tar.CurrentFileName(), extension);
-                            foundfile = true;
-                            break;
-                        }
-                        if (tar.CurrentFileName() != null &&
-                            !(Path.GetExtension(tar.CurrentFileName()).EndsWith(Properties.Settings.Default.ovfFileExtension)) &&
-                            !(Path.GetExtension(tar.CurrentFileName()).EndsWith(Properties.Settings.Default.manifestFileExtension)) &&
-                            !(Path.GetExtension(tar.CurrentFileName()).EndsWith(Properties.Settings.Default.certificateFileExtension)))
-                        {
-                            foundfile = false;
-                            break;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    log.ErrorFormat("OVA search FAILED with {0}", ex.Message);
-                    throw;
-                }
-                finally
-                {
-                    if (inputStream != null) inputStream.Dispose();
-                    if (tar != null) tar.Dispose();
-                    Directory.SetCurrentDirectory(origDir);
-                }
-                return foundfile;
-            }
-            else
-            {
-                log.InfoFormat("Unknown extension {0}", ext);
-                foundfile = false;
-            }
-            return foundfile;
-        }
         #endregion
 
         #region ADDs
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="info"></param>
-        /// <param name="annotation"></param>
-        /// <returns></returns>
+
 		public string AddAnnotation(EnvelopeType ovfObj, string vsId, string info, string annotation)
         {
             return AddAnnotation(ovfObj, vsId, Properties.Settings.Default.Language, info, annotation);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="lang"></param>
-        /// <param name="info"></param>
-        /// <param name="annotation"></param>
-        /// <returns></returns>
+
         public string AddAnnotation(EnvelopeType ovfObj, string vsId, string lang, string info, string annotation)
         {
 			VirtualSystem_Type vs = FindVirtualSystemById(ovfObj, vsId);
@@ -420,15 +230,7 @@ namespace XenOvf
 
             return annotate.Id;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="cdId"></param>
-        /// <param name="caption"></param>
-        /// <param name="description"></param>
-        /// <returns></returns>
+
 		public static string AddCDROM(EnvelopeType ovfObj, string vsId, string cdId, string caption, string description)
         {
             return AddCDROM(ovfObj, vsId, Properties.Settings.Default.Language, cdId, caption, description);
@@ -472,25 +274,19 @@ namespace XenOvf
             log.Debug("OVF.AddCDDrive completed");
             return rasd.InstanceID.Value;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="type"></param>
-        /// <param name="deviceId"></param>
-        /// <param name="iteration"></param>
+
 		public void AddController(EnvelopeType ovfObj, string vsId, DeviceType type, string deviceId, int iteration)
         {
             AddController(ovfObj, vsId, Properties.Settings.Default.Language, type, deviceId, iteration);
         }
+
         /// <summary>
         /// Add a controller to the mix.
         /// </summary>
         /// <param name="ovfObj">object of type EnvelopeType</param>
         /// <param name="vsId">System Instance ID</param>
         /// <param name="type">Resource Type: 5 = IDE, 6 = SCSI</param>
-        /// <param name="deviceId">String identifing the device to match to the controller</param>
+        /// <param name="deviceId">String identifying the device to match to the controller</param>
         /// <param name="iteration">which controller 0 = first, 1, 2, 3... (per type)</param>
         /// <returns>InstanceID of Controller</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
@@ -506,13 +302,14 @@ namespace XenOvf
 
             log.Debug("OVF.AddController completed");
         }
+
         /// <summary>
         /// Add a controller to the mix.
         /// </summary>
         /// <param name="ovfObj">object of type EnvelopeType</param>
         /// <param name="vsId">System Instance ID</param>
         /// <param name="type">Resource Type: 5 = IDE, 6 = SCSI</param>
-        /// <param name="deviceId">String identifing the device to match to the controller</param>
+        /// <param name="deviceId">String identifying the device to match to the controller</param>
         /// <param name="iteration">which controller 0 = first, 1, 2, 3... (per type)</param>
         /// <returns>InstanceID of Controller</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
@@ -566,27 +363,12 @@ namespace XenOvf
 
             log.Debug("OVF.AddController completed");
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="label"></param>
-        /// <param name="description"></param>
-        /// <param name="isdefault"></param>
-        /// <returns></returns>
+
 		public string AddDeploymentOption(EnvelopeType ovfObj, string label, string description, bool isdefault)
         {
             return AddDeploymentOption(ovfObj, Properties.Settings.Default.Language, label, description, isdefault);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="env"></param>
-        /// <param name="lang"></param>
-        /// <param name="label"></param>
-        /// <param name="description"></param>
-        /// <param name="isdefault"></param>
-        /// <returns></returns>
+
 		public string AddDeploymentOption(EnvelopeType env, string lang, string label, string description, bool isdefault)
         {
             DeploymentOptionSection_Type dos = null;
@@ -634,14 +416,7 @@ namespace XenOvf
 
             return conf.id;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="deviceInstanceId"></param>
-        /// <param name="controllerInstanceId"></param>
-        /// <param name="AddressOnController"></param>
+
 		public void AddDeviceToController(EnvelopeType ovfObj, string vsId, string deviceInstanceId, string controllerInstanceId, string AddressOnController)
         {
             AddDeviceToController(ovfObj, vsId, Properties.Settings.Default.Language, deviceInstanceId, controllerInstanceId, AddressOnController);
@@ -678,19 +453,8 @@ namespace XenOvf
             log.Debug("OVF.AddDeviceToController completed");
             return;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="diskId"></param>
-        /// <param name="vhdFileName"></param>
-        /// <param name="bootable"></param>
-        /// <param name="caption"></param>
-        /// <param name="description"></param>
-        /// <param name="filesize"></param>
-        /// <param name="capacity"></param>
-		public static void AddDisk(EnvelopeType ovfObj, string vsId, string diskId, string vhdFileName, bool bootable, string name, string description, ulong filesize, ulong capacity)
+
+        public static void AddDisk(EnvelopeType ovfObj, string vsId, string diskId, string vhdFileName, bool bootable, string name, string description, ulong filesize, ulong capacity)
         {
             AddDisk(ovfObj, vsId, diskId, Properties.Settings.Default.Language, vhdFileName, bootable, name, description, filesize, capacity);
         }
@@ -700,15 +464,15 @@ namespace XenOvf
         /// <param name="ovfObj">EnvelopeType</param>
         /// <param name="vsId">Which VM to apply to</param>
         /// <param name="diskId">The RASDs InstanceID</param>
-        /// <param name="vhdFileName">File Name of VHD (needs to be insame directory as OVF</param>
+        /// <param name="vhdFileName">File Name of VHD (needs to be in the same directory as OVF</param>
         /// <param name="bootable">Is this disk bootable</param>
         /// <param name="caption">Short string describing disk</param>
-        /// <param name="description">Discription of VHD</param>
+        /// <param name="description">Description of VHD</param>
         /// <param name="filesize">physical file size</param>
         /// <param name="capacity">capacity of disk</param>
-        /// <param name="freespace">amount of freespace</param>
+        /// <param name="freespace">amount of free space</param>
         /// <param name="sysIdx">System Index in OVF to set memory value (0 = first VM)</param>
-        /// <param name="idx">Section Index in Virtual Hardware Section (1 = VHS indext)</param>
+        /// <param name="idx">Section Index in Virtual Hardware Section (1 = VHS index)</param>
         /// <returns>Instance ID of Disk</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
                                                         Justification = "Logging mechanism")]
@@ -808,11 +572,7 @@ namespace XenOvf
             ovfEnv.References.File = files.ToArray();
             log.Debug("OVF.AddDisk completed");
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="eulafilename"></param>
+
 		public static string AddEula(EnvelopeType ovfObj, string eulafilename)
         {
             return AddEula(ovfObj, Properties.Settings.Default.Language, eulafilename);
@@ -820,8 +580,6 @@ namespace XenOvf
         /// <summary>
         /// Add a EULA to the OVF
         /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="eulafilename"></param>
 		public static string AddEula(EnvelopeType ovfEnv, string lang, string eulafilename)
         {
             EulaSection_Type eulaSection = null;
@@ -891,14 +649,7 @@ namespace XenOvf
             ftList.Add(ft);
             ovfObj.References.File = ftList.ToArray();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="filename"></param>
-        /// <param name="id"></param>
-        /// <param name="capacity"></param>
-        /// <param name="format"></param>
+
 		public void AddFileReference(EnvelopeType ovfObj, string filename, string id, ulong capacity, string format)
         {
             AddFileReference(ovfObj, Properties.Settings.Default.Language, filename, id, capacity, format);
@@ -962,14 +713,6 @@ namespace XenOvf
 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="bootStopDelay"></param>
-        /// <param name="lang"></param>
-        /// <param name="info"></param>
 		public static InstallSection_Type AddInstallSection(EnvelopeType ovfObj, string vsId, ushort bootStopDelay, string lang, string info)
         {
             VirtualSystem_Type vSystem = FindVirtualSystemById(ovfObj, vsId);
@@ -998,15 +741,7 @@ namespace XenOvf
             vSystem.Items = sections.ToArray();
             return installSection;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="netId"></param>
-        /// <param name="netName"></param>
-        /// <param name="networkDescription"></param>
-        /// <param name="macAddress"></param>
+
 		public static void AddNetwork(EnvelopeType ovfObj, string vsId, string netId, string netName, string networkDescription, string macAddress)
         {
             AddNetwork(ovfObj, vsId, Properties.Settings.Default.Language, netId, netName, networkDescription, macAddress);
@@ -1106,25 +841,12 @@ namespace XenOvf
             ovfEnv.Sections = sections.ToArray();
             log.Debug("OVF.AddNetwork completed");
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfEnv"></param>
-        /// <param name="vsId"></param>
-        /// <param name="description"></param>
-        /// <param name="osInfo"></param>
+
 		public void AddOperatingSystemSection(EnvelopeType ovfObj, string vsId, string description, string osInfo)
         {
             AddOperatingSystemSection(ovfObj, vsId, Properties.Settings.Default.Language, description, osInfo, 0);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfEnv"></param>
-        /// <param name="vsId"></param>
-        /// <param name="lang"></param>
-        /// <param name="description"></param>
-        /// <param name="osInfo"></param>
+
 		public static void AddOperatingSystemSection(EnvelopeType ovfObj, string vsId, string lang, string description, string osInfo)
         {
             AddOperatingSystemSection(ovfObj, vsId, lang, description, osInfo, 0);
@@ -1137,7 +859,7 @@ namespace XenOvf
         /// <param name="lang">Language</param>
         /// <param name="description">Description</param>
         /// <param name="osInfo">OS Information</param>
-        /// <param name="osid">ushort identifing the OS from CIM_OperatingSystem ValueMap</param>
+        /// <param name="osid">ushort identifying the OS from CIM_OperatingSystem ValueMap</param>
 		public void AddOperatingSystemSection(EnvelopeType ovfObj, string vsId, string description, string osInfo, ushort osid)
         {
             AddOperatingSystemSection(ovfObj, vsId, Properties.Settings.Default.Language, description, osInfo, osid);
@@ -1150,7 +872,7 @@ namespace XenOvf
         /// <param name="lang">Language</param>
         /// <param name="description">Description</param>
         /// <param name="osInfo">OS Information</param>
-        /// <param name="osid">ushort identifing the OS from CIM_OperatingSystem ValueMap</param>
+        /// <param name="osid">ushort identifying the OS from CIM_OperatingSystem ValueMap</param>
 		public static void AddOperatingSystemSection(EnvelopeType ovfEnv, string vsId, string lang, string description, string osInfo, ushort osid)
         {
             OperatingSystemSection_Type oss = new OperatingSystemSection_Type();
@@ -1182,17 +904,10 @@ namespace XenOvf
             AddContent((VirtualSystemCollection_Type)ovfEnv.Item, vsId, oss);
             log.DebugFormat("OVF.AddOperatingSystemSection completed {0}", vsId);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        /// <param name="description"></param>
-		public static string AddOtherSystemSettingData(EnvelopeType ovfObj, string vsId, string name, string value, string description)
+
+		public static string AddOtherSystemSettingData(EnvelopeType ovfObj, string vsId, string name, string value, string description, bool permitMultiple=false)
         {
-            return AddOtherSystemSettingData(ovfObj, vsId, Properties.Settings.Default.Language, name, value, description);
+            return AddOtherSystemSettingData(ovfObj, vsId, Properties.Settings.Default.Language, name, value, description, permitMultiple);
         }
         /// <summary>
         /// Add XEN Specific configuration Items.
@@ -1202,7 +917,8 @@ namespace XenOvf
         /// <param name="name">Name of Parameter: is:  HVM-boot-policy (case sensitive)</param>
         /// <param name="value">value for the parameter</param>
         /// <param name="description">Description of parameter</param>
-		public static string AddOtherSystemSettingData(EnvelopeType ovfObj, string vsId, string lang, string name, string value, string description)
+        /// <param name="permitMultiple">Whether the setting data permit multiple values, default false</param>
+        public static string AddOtherSystemSettingData(EnvelopeType ovfObj, string vsId, string lang, string name, string value, string description, bool permitMultiple=false)
         {
             VirtualHardwareSection_Type[] vhsArray = FindVirtualHardwareSection(ovfObj, vsId);
             VirtualHardwareSection_Type vhs = null;
@@ -1230,8 +946,9 @@ namespace XenOvf
             {
                 foreach (Xen_ConfigurationSettingData_Type xencsd in vhs.VirtualSystemOtherConfigurationData)
                 {
-                    // if we already have the item skip it here, new replaces old.
-                    if (xencsd.Name.ToLower() != name.ToLower())
+                    // If permitMultiple, the old items are kept, and the new item will be added later,
+                    // otherwise, the old item is skipped here and will be overridden by the new one
+                    if (permitMultiple || xencsd.Name.ToLower() != name.ToLower())
                     {
                         xencfg.Add(xencsd);
                     }
@@ -1251,12 +968,6 @@ namespace XenOvf
             return xenother.id;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <returns></returns>
         public static string AddPostInstallOperation(EnvelopeType ovfObj, string vsId, string lang, string message)
         {
             VirtualSystem_Type vSystem = FindVirtualSystemById(ovfObj, vsId);
@@ -1283,35 +994,12 @@ namespace XenOvf
 
             return XenPostInstall.id;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="nameSpace"></param>
-        /// <param name="info"></param>
-        /// <param name="product"></param>
-        /// <param name="vendor"></param>
-        /// <param name="version"></param>
-        /// <param name="producturl"></param>
-        /// <param name="vendorurl"></param>
-        /// <returns></returns>
+
 		public string AddProductSection(EnvelopeType ovfObj, string nameSpace, string info, string product, string vendor, string version, string producturl, string vendorurl)
         {
             return AddProductSection(ovfObj, Properties.Settings.Default.Language, nameSpace, info, product, vendor, version, producturl, vendorurl);
         }
-        /// <summary>
-        /// Add a product section definition
-        /// </summary>
-        /// <param name="ovfObj">Envelope Type</param>
-        /// <param name="lang">Language ie: en-US</param>
-        /// <param name="nameSpace"></param>
-        /// <param name="info"></param>
-        /// <param name="product"></param>
-        /// <param name="vendor"></param>
-        /// <param name="version"></param>
-        /// <param name="producturl"></param>
-        /// <param name="vendorurl"></param>
-        /// <returns></returns>
+
 		public string AddProductSection(EnvelopeType env, string lang, string nameSpace, string info, string product, string vendor, string version, string producturl, string vendorurl)
         {
             string psId = Guid.NewGuid().ToString();
@@ -1361,33 +1049,12 @@ namespace XenOvf
 
             return psId;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="psId"></param>
-        /// <param name="category"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <param name="userConfig"></param>
-        /// <param name="label"></param>
-        /// <param name="description"></param>
+
 		public string AddProductSectionProperty(EnvelopeType ovfObj, string psId, string category, string key, string type, bool userConfig, string label, string description)
         {
             return AddProductSectionProperty(ovfObj, psId, Properties.Settings.Default.Language, category, key, type, userConfig, label, description);
         }
-        /// <summary>
-        /// Add property to Product Section
-        /// </summary>
-        /// <param name="ovfObj">Envelope Type</param>
-        /// <param name="psId">Product Section Identifier</param>
-        /// <param name="lang">Language: en-US</param>
-        /// <param name="category"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <param name="userConfig"></param>
-        /// <param name="label"></param>
-        /// <param name="description"></param>
+
 		public string AddProductSectionProperty(EnvelopeType env, string psId, string lang, string category, string key, string type, bool userConfig, string label, string description)
         {
             Msg_Type msgCategory = new Msg_Type(AddToStringSection(env, lang, category), category);
@@ -1442,12 +1109,7 @@ namespace XenOvf
 
             return pst.id;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="rasd"></param>
+
 		public static string AddRasd(EnvelopeType ovfObj, string vsId, object rasd)
         {
             return AddRasd(ovfObj, vsId, Properties.Settings.Default.Language, rasd);
@@ -1469,27 +1131,12 @@ namespace XenOvf
             log.DebugFormat("OVF.AddRasd added: {0}:{1}", elementname, lRasd.InstanceID.Value);
             return lRasd.InstanceID.Value;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="info"></param>
-        /// <param name="required"></param>
-        /// <param name="rasd"></param>
-        /// <returns></returns>
+
 		public string AddResourceAllocationSection(EnvelopeType ovfObj, string info, bool required, RASD_Type rasd)
         {
             return AddResourceAllocationSection(ovfObj, Properties.Settings.Default.Language, info, required, rasd);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="lang"></param>
-        /// <param name="info"></param>
-        /// <param name="required"></param>
-        /// <param name="rasd"></param>
-        /// <returns></returns>
+
 		public string AddResourceAllocationSection(EnvelopeType ovfObj, string lang, string info, bool required, RASD_Type rasd)
         {
             ResourceAllocationSection_Type rasSection = null;
@@ -1519,12 +1166,7 @@ namespace XenOvf
 
             return rasSection.Id;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sections"></param>
-        /// <param name="section"></param>
-        /// <returns></returns>
+
         public static Section_Type[] AddSection(Section_Type[] sections, Section_Type section)
         {
             List<Section_Type> sectionList = new List<Section_Type>();
@@ -1533,23 +1175,12 @@ namespace XenOvf
             sectionList.Add(section);
             return sectionList.ToArray();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="required"></param>
-        /// <param name="message"></param>
+
 		public static string AddStartupSection(EnvelopeType env, bool required, string vsId, long order, long startdelay, long stopdelay)
         {
             return AddStartupSection(env, required, Properties.Settings.Default.Language, vsId, order, startdelay, stopdelay);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="required"></param>
-        /// <param name="lang"></param>
-        /// <param name="message"></param>
+
 		public static string AddStartupSection(EnvelopeType env, bool required, string lang, string vsId, long order, long startdelay, long stopdelay)
         {
             string info = _ovfrm.GetString("SECTION_STARTUP_INFO");
@@ -1599,12 +1230,7 @@ namespace XenOvf
 
 			return startupSection.Id;
         }
-    	/// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="message"></param>
-        /// <returns></returns>
+
 		public static string AddToStringSection(EnvelopeType ovfObj, string message)
         {
             return AddToStringSection(ovfObj, Properties.Settings.Default.Language, message);
@@ -1665,23 +1291,12 @@ namespace XenOvf
             env.Strings = allStrings.ToArray();
             return sId;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfEnv"></param>
-        /// <param name="vsId"></param>
-        /// <returns></returns>
+
         public static string AddVirtualHardwareSection(EnvelopeType ovfEnv, string vsId)
         {
             return AddVirtualHardwareSection(ovfEnv, vsId, Properties.Settings.Default.Language);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfEnv"></param>
-        /// <param name="vsId"></param>
-        /// <param name="lang"></param>
-        /// <returns></returns>
+
         public static string AddVirtualHardwareSection(EnvelopeType ovfEnv, string vsId, string lang)
         {
 
@@ -1697,23 +1312,12 @@ namespace XenOvf
             log.DebugFormat("OVF.AddVirtualHardwareSection completed {0}", vsId);
             return vhs.Id;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfEnv"></param>
-        /// <param name="vsId"></param>
-        /// <param name="vhsTemplate"></param>
+
         public VirtualHardwareSection_Type AddVHSforVMWare(EnvelopeType ovfEnv, string vsId, VirtualHardwareSection_Type vhsTemplate)
         {
             return AddVHSforVMWare(ovfEnv, vsId, vhsTemplate, Properties.Settings.Default.Language);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfEnv"></param>
-        /// <param name="vsId"></param>
-        /// <param name="lang"></param>
-        /// <param name="vhsTemplate"></param>
+
         public VirtualHardwareSection_Type AddVHSforVMWare(EnvelopeType ovfEnv, string vsId, VirtualHardwareSection_Type vhsTemplate, string lang)
         {
             string vhsId = AddVirtualHardwareSection(ovfEnv, vsId, lang);
@@ -1729,12 +1333,7 @@ namespace XenOvf
             vhs.Item = vhsTemplate.Item;
             return vhs;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="ovfname"></param>
-        /// <returns></returns>
+
 		public static string AddVirtualSystem(EnvelopeType ovfObj, string ovfname)
         {
             return AddVirtualSystem(ovfObj, Properties.Settings.Default.Language, ovfname);
@@ -1762,11 +1361,7 @@ namespace XenOvf
             log.Debug("OVF.AddVirtualSystem(obj,lang,ovfname) completed");
             return vs.id;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfEnv"></param>
-        /// <param name="vs"></param>
+
 		public static void AddVirtualSystem(EnvelopeType ovfEnv, VirtualSystem_Type vs)
         {
             // Collect the current virtual systems so we don't lose any.
@@ -1782,16 +1377,7 @@ namespace XenOvf
             ((VirtualSystemCollection_Type)ovfEnv.Item).Content = virtualsystems.ToArray();
             log.Debug("OVF.AddVirtualSystem(obj, vs)");
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="name"></param>
-        /// <param name="caption"></param>
-        /// <param name="description"></param>
-        /// <param name="identifier"></param>
-        /// <param name="systemtype"></param>
+
 		public static void AddVirtualSystemSettingData(EnvelopeType ovfObj, string vsId, string vhsId, string name, string caption, string description, string identifier, string systemtype)
         {
             AddVirtualSystemSettingData(ovfObj, vsId, vhsId, Properties.Settings.Default.Language, name, caption, description, identifier, systemtype);
@@ -1833,13 +1419,44 @@ namespace XenOvf
         #endregion
 
         #region CREATEs
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vhdExports"></param>
-        /// <param name="pathToOvf"></param>
-        /// <param name="ovfName"></param>
-        /// <returns></returns>
+
+        public static EnvelopeType CreateOvfEnvelope(string vmName, ulong cpuCount, ulong memory,
+            string bootParams, string platformSettings, ulong diskCapacity, bool isWim, ulong additionalSpace,
+            string diskPath, ulong imageLength)
+        {
+            EnvelopeType env = CreateEnvelope(vmName);
+            string systemID = AddVirtualSystem(env, vmName);
+
+            string hdwareSectionId = AddVirtualHardwareSection(env, systemID);
+            string guid = Guid.NewGuid().ToString();
+            AddVirtualSystemSettingData(env, systemID, hdwareSectionId, env.Name, Messages.VIRTUAL_MACHINE, Messages.OVF_CREATED, guid, "hvm-3.0-unknown");
+
+            AddOtherSystemSettingData(env, systemID, "HVM_boot_policy", Properties.Settings.Default.xenBootOptions, GetContentMessage("OTHER_SYSTEM_SETTING_DESCRIPTION_2"));
+
+            bootParams = Properties.Settings.Default.xenBootParams + bootParams;
+            AddOtherSystemSettingData(env, systemID, "HVM_boot_params", bootParams, GetContentMessage("OTHER_SYSTEM_SETTING_DESCRIPTION_6"));
+
+            var platformSetting = Properties.Settings.Default.xenPlatformSetting + platformSettings;
+            AddOtherSystemSettingData(env, systemID, "platform", platformSetting, GetContentMessage("OTHER_SYSTEM_SETTING_DESCRIPTION_3"));
+
+            SetCPUs(env, systemID, cpuCount);
+            SetMemory(env, systemID, memory, "MB");
+
+            string netId = Guid.NewGuid().ToString();
+            AddNetwork(env, systemID, netId, string.Format(Messages.NETWORK_NAME, 0), Messages.OVF_NET_DESCRIPTION, null);
+
+            string diskId = Guid.NewGuid().ToString();
+            ulong capacity = diskCapacity;
+
+            if (isWim)
+                capacity += additionalSpace;
+
+            AddDisk(env, systemID, diskId, diskPath, true, Messages.OVF_DISK_CAPTION, Messages.OVF_CREATED, imageLength, capacity);
+
+            FinalizeEnvelope(env);
+            return env;
+        }
+
         public EnvelopeType Create(DiskInfo[] vhdExports, string pathToOvf, string ovfName)
         {
             return Create(vhdExports, pathToOvf, ovfName, Properties.Settings.Default.Language);
@@ -1859,11 +1476,7 @@ namespace XenOvf
         {
             return ConvertPhysicaltoOVF(vhdExports, pathToOvf, ovfName, lang);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfName"></param>
-        /// <returns></returns>
+
 		public static EnvelopeType CreateEnvelope(string ovfName)
         {
             return CreateEnvelope(ovfName, Properties.Settings.Default.Language);
@@ -1921,31 +1534,17 @@ namespace XenOvf
         #endregion
 
         #region REMOVEs
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="id"></param>
+
 		public void RemoveAnnotation(EnvelopeType env, string id)
         {
             env.Item.Items = RemoveSection(env.Item.Items, id);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="cdromId"></param>
+
 		public void RemoveCDROM(EnvelopeType ovfObj, string vsId, string cdromId)
         {
             RemoveRasd(ovfObj, vsId, cdromId);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="controllerId"></param>
+
         public void RemoveController(EnvelopeType ovfObj, string vsId, string controllerId)
         {
             RemoveRasd(ovfObj, vsId, controllerId);
@@ -1986,32 +1585,18 @@ namespace XenOvf
             log.DebugFormat("OVF.RemoveConnectionInRASD completed {0}", vsId);
             return rasd;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="deploymentId"></param>
+
 		public void RemoveDeploymentOption(EnvelopeType ovfObj, string deploymentId)
         {
             ovfObj.Item.Items = RemoveSection(ovfObj.Item.Items, deploymentId);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="diskId"></param>
+
 		public void RemoveDisk(EnvelopeType ovfObj, string vsId, string diskId)
         {
             RASD_Type rasd = FindRasdById(ovfObj, diskId);
             RemoveDisk(ovfObj, vsId, rasd);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="diskrasd"></param>
+
 		public void RemoveDisk(EnvelopeType ovfObj, string vsId, RASD_Type diskrasd)
         {
             string diskReference = null;
@@ -2043,11 +1628,7 @@ namespace XenOvf
 
             RemoveRasd(ovfObj, vsId, diskrasd.InstanceID.Value);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="filename"></param>
+
 		public void RemoveExternalFile(EnvelopeType ovfObj, string id)
         {
             List<File_Type> file = new List<File_Type>();
@@ -2059,11 +1640,7 @@ namespace XenOvf
             }
             ovfObj.References.File = file.ToArray();
         }
-        /// <summary>
-        /// Remove ALL EULAs from OVF
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="eulaId"></param>
+
 		public void RemoveEula(EnvelopeType ovfEnv, string eulaId)
         {
             List<Section_Type> sections = new List<Section_Type>();
@@ -2079,11 +1656,7 @@ namespace XenOvf
             }
             ovfEnv.Sections = sections.ToArray();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="id"></param>
+
 		public void RemoveFileReference(EnvelopeType ovfObj, string id)
         {
             DiskSection_Type[] disksections = FindSections<DiskSection_Type>(ovfObj.Sections);
@@ -2106,12 +1679,7 @@ namespace XenOvf
             }
             disksections[0].Disk = vdisks.ToArray();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="id"></param>
+
 		public void RemoveNetwork(EnvelopeType ovfObj, string vsId, string id)
         {
             RASD_Type[] netrasds = FindRasdByType(ovfObj, vsId, 10);
@@ -2123,7 +1691,7 @@ namespace XenOvf
             {
                 netmaps.Add(net.Description.msgid, 0);
             }
-            // count the references to each contoller
+            // count the references to each controller
             foreach (RASD_Type rasd in netrasds)
             {
                 string key = rasd.Connection[0].Value;
@@ -2159,12 +1727,7 @@ namespace XenOvf
             netSection[0].Network = nets.ToArray();
             RemoveRasd(ovfObj, vsId, id);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="id"></param>
+
 		public void RemoveOtherSystemSettingData(EnvelopeType ovfObj, string vsId, string id)
         {
             VirtualHardwareSection_Type[] vhsArray = FindVirtualHardwareSection(ovfObj, vsId);
@@ -2183,13 +1746,7 @@ namespace XenOvf
                 vhs.VirtualSystemOtherConfigurationData = ovsocd.ToArray();
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="installId"></param>
-        /// <param name="id"></param>
+
 		public void RemovePostOperation(EnvelopeType ovfObj, string vsId, string installId, string id)
         {
             InstallSection_Type installSection = FindSection<InstallSection_Type>(ovfObj.Item.Items, installId);
@@ -2201,21 +1758,12 @@ namespace XenOvf
                 }
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="id"></param>
+
 		public void RemoveProductSection(EnvelopeType ovfObj, string id)
         {
             ovfObj.Item.Items = RemoveSection(ovfObj.Item.Items, id);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="productId"></param>
-        /// <param name="id"></param>
+
         public void RemoveProductSectionProperty(EnvelopeType ovfObj, string productId, string id)
         {
             ProductSection_Type[] ProductSections = FindSections<ProductSection_Type>(ovfObj.Item.Items);
@@ -2244,14 +1792,7 @@ namespace XenOvf
             }
             _productSection.Items = _properties.ToArray();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="installId"></param>
-        /// <param name="operationId"></param>
-        /// <param name="commandId"></param>
+
 		public void RemovePostOperationCommand(EnvelopeType ovfObj, string vsId, string installId, string operationId, string commandId)
         {
             InstallSection_Type installSection = FindSection<InstallSection_Type>(ovfObj.Item.Items, installId);
@@ -2305,21 +1846,12 @@ namespace XenOvf
             }
             log.Debug("OVF.RemoveRasd completed");
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="id"></param>
+
         public void RemoveResourceAllocationSection(EnvelopeType ovfObj, string id)
         {
             ovfObj.Item.Items = RemoveSection(ovfObj.Item.Items, id);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sections"></param>
-        /// <param name="sectionId"></param>
-        /// <returns></returns>
+
         public Section_Type[] RemoveSection(Section_Type[] sections, string sectionId)
         {
             List<Section_Type> sects = new List<Section_Type>();
@@ -2332,24 +1864,13 @@ namespace XenOvf
             }
             return sects.ToArray();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="id"></param>
+
 		public void RemoveStartupSection(EnvelopeType ovfObj, string vsId, string id)
         {
             VirtualSystem_Type vs = FindVirtualSystemById(ovfObj, vsId);
             vs.Items = RemoveSection(vs.Items, id);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="startupId"></param>
-        /// <param name="id"></param>
+
 		public void RemoveStartupSectionItem(EnvelopeType ovfObj, string vsId, string startupId, string id)
         {
             VirtualSystem_Type vs = FindVirtualSystemById(ovfObj, vsId);
@@ -2368,20 +1889,12 @@ namespace XenOvf
             }
             sst.Item = ssti.ToArray();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="id"></param>
+
         public void RemoveStringSection(EnvelopeType ovfObj, string id)
         {
             ovfObj.Sections = RemoveSection(ovfObj.Sections, id);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="env"></param>
-        /// <param name="id"></param>
+
 		public void RemoveVirtualSystem(EnvelopeType env, string id)
         {
 			RASD_Type[] _disks = FindDiskRasds(env, id);
@@ -2440,7 +1953,7 @@ namespace XenOvf
         /// <param name="ovfObj">EnvelopeType</param>
         /// <param name="vsId">Virtual System Id</param>
         /// <param name="annotationId">Identifier for Annotation</param>
-        /// <param name="lang">Langauge</param>
+        /// <param name="lang">Language</param>
         /// <param name="info">Info Text</param>
         /// <param name="annotation">Annotation</param>
 		public void UpdateAnnotation(EnvelopeType ovfObj, string vsId, string annotationId, string lang, string info, string annotation)
@@ -2473,7 +1986,7 @@ namespace XenOvf
                     }
                 }
             }
-           traceLog.Debug("UpdateAnnotation Exit");
+           log.Debug("UpdateAnnotation Exit");
         }
         /// <summary>
         /// Add a CD/DVD Drive
@@ -2530,7 +2043,7 @@ namespace XenOvf
         /// <param name="ovfObj">object of type EnvelopeType</param>
         /// <param name="vsId">System Instance ID</param>
         /// <param name="type">Resource Type: 5 = IDE, 6 = SCSI</param>
-        /// <param name="deviceId">String identifing the device to match to the controller</param>
+        /// <param name="deviceId">String identifying the device to match to the controller</param>
         /// <param name="iteration">which controller 0 = first, 1, 2, 3... (per type)</param>
         /// <returns>InstanceID of Controller</returns>
 		public void UpdateController(EnvelopeType ovfObj, string vsId, DeviceType type, string deviceId, int iteration)
@@ -2544,7 +2057,7 @@ namespace XenOvf
         /// <param name="vsId">System Instance ID</param>
         /// <param name="lang">Language</param>
         /// <param name="type">Resource Type: 5 = IDE, 6 = SCSI</param>
-        /// <param name="deviceId">String identifing the device to match to the controller</param>
+        /// <param name="deviceId">String identifying the device to match to the controller</param>
         /// <param name="iteration">which controller 0 = first, 1, 2, 3... (per type)</param>
         /// <returns>InstanceID of Controller</returns>
 		public void UpdateController(EnvelopeType ovfObj, string vsId, string lang, string deviceId, DeviceType type, int iteration)
@@ -2637,11 +2150,11 @@ namespace XenOvf
         /// <param name="ovfObj">EnvelopeType</param>
         /// <param name="vsId">Virtual System Identifier</param>
         /// <param name="instanceID">RASD InstanceID</param>
-        /// <param name="description">Discription of VHD</param>
-        /// <param name="vhdFileName">File Name of VHD (needs to be insame directory as OVF</param>
+        /// <param name="description">Description of VHD</param>
+        /// <param name="vhdFileName">File Name of VHD (needs to be in the same directory as OVF</param>
         /// <param name="filesize">physical file size</param>
         /// <param name="capacity">capacity of disk</param>
-        /// <param name="freespace">amount of freespace</param>
+        /// <param name="freespace">amount of free space</param>
 		public void UpdateDisk(EnvelopeType ovfObj, string vsId, string instanceID, string description, string vhdFileName, ulong filesize, ulong capacity, ulong freespace)
         {
             UpdateDisk(ovfObj, vsId, Properties.Settings.Default.Language, instanceID, description, vhdFileName, filesize, capacity, freespace);
@@ -2653,11 +2166,11 @@ namespace XenOvf
         /// <param name="vsId">Virtual System Identifier</param>
         /// <param name="lang">Language</param>
         /// <param name="instanceID">RASD InstanceID</param>
-        /// <param name="description">Discription of VHD</param>
-        /// <param name="vhdFileName">File Name of VHD (needs to be insame directory as OVF</param>
+        /// <param name="description">Description of VHD</param>
+        /// <param name="vhdFileName">File Name of VHD (needs to be in the same directory as OVF</param>
         /// <param name="filesize">physical file size</param>
         /// <param name="capacity">capacity of disk</param>
-        /// <param name="freespace">amount of freespace</param>
+        /// <param name="freespace">amount of free space</param>
         public void UpdateDisk(EnvelopeType ovfEnv, string vsId, string lang, string instanceID, string description, string vhdFileName, ulong filesize, ulong capacity, ulong freespace)
         {
             List<RASD_Type> rasdList = new List<RASD_Type>();
@@ -2883,12 +2396,7 @@ namespace XenOvf
 
             log.Debug("OVF.UpdateFilename completed");
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="filename"></param>
-        /// <param name="size"></param>
+
 		public void UpdateFileSizes(EnvelopeType ovfEnv, string filename, long size, long capacity)
         {
             #region FIND FILE DEFINITION
@@ -3041,7 +2549,7 @@ namespace XenOvf
         /// <param name="lang">Language</param>
         /// <param name="description">Description</param>
         /// <param name="osInfo">OS Information</param>
-        /// <param name="osid">ushort identifing the OS from CIM_OperatingSystem ValueMap</param>
+        /// <param name="osid">ushort identifying the OS from CIM_OperatingSystem ValueMap</param>
         public static void UpdateOperatingSystemSection(EnvelopeType ovfEnv, string vsId, string description, string osInfo, ushort osid)
         {
             VirtualSystem_Type vs = FindVirtualSystemById(ovfEnv, vsId);
@@ -3062,7 +2570,7 @@ namespace XenOvf
         /// <param name="lang">Language</param>
         /// <param name="description">Description</param>
         /// <param name="osInfo">OS Information</param>
-        /// <param name="osid">ushort identifing the OS from CIM_OperatingSystem ValueMap</param>
+        /// <param name="osid">ushort identifying the OS from CIM_OperatingSystem ValueMap</param>
         public void UpdateOperatingSystemSection(EnvelopeType ovfEnv, string vsId, string lang, string description, string osInfo, ushort osid)
         {
             AddOperatingSystemSection(ovfEnv, vsId, lang, description, osInfo, osid);
@@ -3124,7 +2632,7 @@ namespace XenOvf
         /// <param name="ovfObj">EnvelopeType</param>
         /// <param name="vsId">Virtual System Id</param>
         /// <param name="postId">Identifier</param>
-        /// <param name="message">Free form messsage about post install</param>
+        /// <param name="message">Free form message about post install</param>
 		public void UpdatePostInstallOperation(EnvelopeType ovfObj, string vsId, string postId, string message)
         {
             UpdatePostInstallOperation(ovfObj, vsId, postId, Properties.Settings.Default.Language, message);
@@ -3136,7 +2644,7 @@ namespace XenOvf
         /// <param name="vsId">Virtual System Id</param>
         /// <param name="postId">Identifier</param>
         /// <param name="lang">Language</param>
-        /// <param name="message">Free form messsage about post install</param>
+        /// <param name="message">Free form message about post install</param>
 		public void UpdatePostInstallOperation(EnvelopeType ovfObj, string vsId, string postId, string lang, string message)
         {
             VirtualSystem_Type vSystem = FindVirtualSystemById(ovfObj, vsId);
@@ -3162,7 +2670,7 @@ namespace XenOvf
         /// Provides the ability to execute a series of command after the Initial Startup.
         /// In a specific case, the VM is imported then is booted from the ISO file to perform fixups upon the attached hard disk image.
         /// The vm will auto shutdown where these commands will then be executed which in this case is to disconnect the iso image and 
-        /// reset the BIOS boot order to boot from the disk fisrt.
+        /// reset the BIOS boot order to boot from the disk first.
         /// </summary>
         /// <param name="ovfObj">EnvelopeType</param>
         /// <param name="vsId">Virtual System Id</param>
@@ -3181,11 +2689,11 @@ namespace XenOvf
         /// Provides the ability to execute a series of command after the Initial Startup.
         /// In a specific case, the VM is imported then is booted from the ISO file to perform fixups upon the attached hard disk image.
         /// The vm will auto shutdown where these commands will then be executed which in this case is to disconnect the iso image and 
-        /// reset the BIOS boot order to boot from the disk fisrt.
+        /// reset the BIOS boot order to boot from the disk first.
         /// </summary>
         /// <param name="ovfObj">EnvelopeType</param>
         /// <param name="vsId">Virtual System Id</param>
-        /// <param name="lang">Langauge</param>
+        /// <param name="lang">Language</param>
         /// <param name="postId">PostInstallOperation Identifier</param>
         /// <param name="operId">Operation Identifier</param>
         /// <param name="order">Specifies the startup order using non-negative integer values.  The order of execution of the post action is the numerical ascending order of the values. Items with the same order identifier may be started up concurrently.</param>
@@ -3281,7 +2789,7 @@ namespace XenOvf
         /// <param name="type">valid types: uint8, sint8, uint16, sint16, uint32, sint32, uint64, sint64, string, boolean, real32, real64</param>
         /// <param name="userConfig">Force the selection of specific value choices, default: false</param>
         /// <param name="label">label for config</param>
-        /// <param name="description">desciption of configuration item</param>
+        /// <param name="description">description of configuration item</param>
 		public void UpdateProductSectionProperty(EnvelopeType ovfObj, string psId, string propId, string category, string key, string type, bool userConfig, string label, string description)
         {
             UpdateProductSectionProperty(ovfObj, psId, propId, Properties.Settings.Default.Language, category, key, type, userConfig, label, description);
@@ -3298,7 +2806,7 @@ namespace XenOvf
         /// <param name="type">valid types: uint8, sint8, uint16, sint16, uint32, sint32, uint64, sint64, string, boolean, real32, real64</param>
         /// <param name="userConfig">Force the selection of specific value choices, default: false</param>
         /// <param name="label">label for config</param>
-        /// <param name="description">desciption of configuration item</param>
+        /// <param name="description">description of configuration item</param>
 		public void UpdateProductSectionProperty(EnvelopeType ovfObj, string psId, string propId, string lang, string category, string key, string type, bool userConfig, string label, string description)
         {
 
@@ -3421,7 +2929,7 @@ namespace XenOvf
         /// <param name="vsId">Virtual System Id</param>
         /// <param name="ssId">Startup Section Id</param>
         /// <param name="required">Specifies if this section is Required to be processed.</param>
-        /// <param name="message">Free form message descibing the startup section</param>
+        /// <param name="message">Free form message describing the startup section</param>
 		public void UpdateStartupSection(EnvelopeType ovfObj, string vsId, string ssId, bool required, string message)
         {
             UpdateStartupSection(ovfObj, vsId, ssId, required, Properties.Settings.Default.Language, message);
@@ -3434,7 +2942,7 @@ namespace XenOvf
         /// <param name="ssId">Startup Section Id</param>
         /// <param name="required">Specifies if this section is Required to be processed.</param>
         /// <param name="lang">Language</param>
-        /// <param name="message">Free form message descibing the startup section</param>
+        /// <param name="message">Free form message describing the startup section</param>
 		public void UpdateStartupSection(EnvelopeType ovfObj, string vsId, string ssId, bool required, string lang, string message)
         {
             VirtualSystem_Type vs = FindVirtualSystemById(ovfObj, vsId);
@@ -3452,12 +2960,12 @@ namespace XenOvf
         /// <param name="ovfObj">EnvelopeType</param>
         /// <param name="vsId">Virtual System Id</param>
         /// <param name="ssId">Startup Section Id</param>
-        /// <param name="order">Specifies the startup order using non-negative integer values.  The order of execution of the start action is the numerical ascending order of the values. Items with the same order identifier may be started up concurrently.  The order of execution of the stop action is the numverical descending order of the values.</param>
-        /// <param name="startdelay">Specifies a delay in seconds to wait until proceeeding to the next order in the start sequence.  The default value is 0.</param>
+        /// <param name="order">Specifies the startup order using non-negative integer values.  The order of execution of the start action is the numerical ascending order of the values. Items with the same order identifier may be started up concurrently.  The order of execution of the stop action is the numerical descending order of the values.</param>
+        /// <param name="startdelay">Specifies a delay in seconds to wait until proceeding to the next order in the start sequence.  The default value is 0.</param>
         /// <param name="stopdelay">Specifies a delay in seconds to wait until proceeding to the previous order in the stop sequence. The default value is 0.</param>
         /// <param name="startaction">Specifies the start action to use.  Valid values are: PowerOn, None. The default value is PowerOn</param>
         /// <param name="stopaction">Specifies the start action to use.  Valid values are: PowerOff, guestShutdown, None. The default value is PowerOff</param>
-        /// <param name="waitforguest">Enables the platform to resume the startup sequence aftet the guest software has reported it is ready.  The interpretation of this is deployment platform specific. The default value is FALSE.</param>
+        /// <param name="waitforguest">Enables the platform to resume the startup sequence after the guest software has reported it is ready.  The interpretation of this is deployment platform specific. The default value is FALSE.</param>
 		public void UpdateStartupSectionItem(EnvelopeType ovfObj, string vsId, string ssId, ushort order, ushort startdelay, ushort stopdelay, string startaction, string stopaction, bool waitforguest)
         {
             UpdateStartupSectionItem(ovfObj, vsId, ssId, Properties.Settings.Default.Language, order, startdelay, stopdelay, startaction, stopaction, waitforguest);
@@ -3469,8 +2977,8 @@ namespace XenOvf
         /// <param name="vsId">Virtual System Id</param>
         /// <param name="ssId">Startup Section Id</param>
         /// <param name="lang">Language</param>
-        /// <param name="order">Specifies the startup order using non-negative integer values.  The order of execution of the start action is the numerical ascending order of the values. Items with the same order identifier may be started up concurrently.  The order of execution of the stop action is the numverical descending order of the values.</param>
-        /// <param name="startdelay">Specifies a delay in seconds to wait until proceeeding to the next order in the start sequence.  The default value is 0.</param>
+        /// <param name="order">Specifies the startup order using non-negative integer values.  The order of execution of the start action is the numerical ascending order of the values. Items with the same order identifier may be started up concurrently.  The order of execution of the stop action is the numerical descending order of the values.</param>
+        /// <param name="startdelay">Specifies a delay in seconds to wait until proceeding to the next order in the start sequence.  The default value is 0.</param>
         /// <param name="stopdelay">Specifies a delay in seconds to wait until proceeding to the previous order in the stop sequence. The default value is 0.</param>
         /// <param name="startaction">Specifies the start action to use.  Valid values are: PowerOn, None. The default value is PowerOn</param>
         /// <param name="stopaction">Specifies the start action to use.  Valid values are: PowerOff, guestShutdown, None. The default value is PowerOff</param>
@@ -3680,14 +3188,7 @@ namespace XenOvf
             }
             log.Debug("OVF.UpdateResourceAllocationSettingData completed");
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="lang"></param>
-        /// <param name="fieldname"></param>
-        /// <param name="value"></param>
+
 		public void UpdateVirtualSystemSettingData(EnvelopeType ovfObj, string vsId, string vhsId, string lang, string fieldname, object value)
         {
             VirtualHardwareSection_Type vhs = FindVirtualHardwareSection(ovfObj, vsId, vhsId);
@@ -3926,7 +3427,7 @@ namespace XenOvf
         /// Find a RASD in a Virtual System and InstanceId
         /// </summary>
         /// <param name="ovfObj">Envelope_Type</param>
-        /// <param name="vsId">string repsenting the VirtualSystem_Type.id</param>
+        /// <param name="vsId">string representing the VirtualSystem_Type.id</param>
         /// <param name="instanceId">RASD_Type.InstanceId</param>
         /// <returns>RASD_Type or NULL if not found.</returns>
 		public static RASD_Type FindRasdById(EnvelopeType ovfObj, string vsId, string instanceId)
@@ -4155,7 +3656,7 @@ namespace XenOvf
                             File_Type filetype = FindFileReference(ovfObj, strings.fileRef);
                             if (!string.IsNullOrEmpty(filetype.href))
                             {
-                                stringtype = Tools.LoadFileXml<Strings_Type>(filetype.href);
+                                stringtype = Tools.Deserialize<Strings_Type>(Tools.LoadFile(filetype.href));
                                 break;
                             }
                         }
@@ -4172,12 +3673,7 @@ namespace XenOvf
             }
             return message;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="bundle"></param>
-        /// <param name="messageId"></param>
-        /// <returns></returns>
+
         public static string FindStringsMessage(Strings_Type bundle, string messageId)
         {
             string message = null;
@@ -4316,12 +3812,7 @@ namespace XenOvf
             }
             return vs;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="dskreference"></param>
-        /// <returns></returns>
+
 		public static File_Type FindFileReference(EnvelopeType ovfObj, string fileId)
         {
             foreach (File_Type file in ovfObj.References.File)
@@ -4333,23 +3824,13 @@ namespace XenOvf
             }
             return null;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="disk"></param>
-        /// <returns></returns>
+
 		public static File_Type FindFileReferenceByVDisk(EnvelopeType ovfObj, VirtualDiskDesc_Type disk)
         {
             if (disk == null) return null;
             return FindFileReference(ovfObj, disk.fileRef);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="rasd"></param>
-        /// <returns></returns>
+
 		public static File_Type FindFileReferenceByRASD(EnvelopeType ovfObj, RASD_Type rasd)
         {
             File_Type fileRef = null;
@@ -4374,12 +3855,7 @@ namespace XenOvf
 
             return fileRef;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="fileId"></param>
-        /// <returns></returns>
+
 		public static VirtualDiskDesc_Type FindDiskReferenceByFileId(EnvelopeType ovfObj, string fileId)
         {
             foreach (object obj in ovfObj.Sections)
@@ -4399,12 +3875,7 @@ namespace XenOvf
             return null;
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="diskId"></param>
-        /// <returns></returns>
+
 		public static VirtualDiskDesc_Type FindDiskReference(EnvelopeType ovfObj, string diskId)
         {
 			foreach (object obj in ovfObj.Sections)
@@ -4423,12 +3894,7 @@ namespace XenOvf
             }
             return null;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="rasd"></param>
-        /// <returns></returns>
+
 		public static VirtualDiskDesc_Type FindDiskReference(EnvelopeType ovfObj, RASD_Type rasd)
         {
             VirtualDiskDesc_Type vdRef = null;
@@ -4448,12 +3914,7 @@ namespace XenOvf
 
             return vdRef;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="fileId"></param>
-        /// <returns></returns>
+
 		public RASD_Type FindDiskRASDByDiskType(EnvelopeType ovfObj, VirtualDiskDesc_Type disk)
         {
             if (disk != null)
@@ -4492,12 +3953,7 @@ namespace XenOvf
             }
             return null;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="fileId"></param>
-        /// <returns></returns>
+
 		public RASD_Type FindDiskRASDByFileType(EnvelopeType ovfObj, File_Type file)
         {
             return FindDiskRASDByDiskType(ovfObj, FindDiskReferenceByFileId(ovfObj, file.id));
@@ -4506,7 +3962,7 @@ namespace XenOvf
         /// Find the disk sizes from an ova.xml (XenServer XVA)
         /// </summary>
         /// <param name="ovaxml">ova.xml string from a XenServer XVA export.</param>
-        /// <returns>DiskInfo[] summorizing disks defined in the ova.xml</returns>
+        /// <returns>DiskInfo[] summarizing disks defined in the ova.xml</returns>
         public DiskInfo[] FindSizes(string ovaxml)
         {
             int iteration = 0;
@@ -4718,7 +4174,7 @@ namespace XenOvf
         /// Find all sections of type T
         /// </summary>
         /// <typeparam name="T">Type</typeparam>
-        /// <param name="sectObjs">Arrary of Section_Type[]</param>
+        /// <param name="sectObjs">Array of Section_Type[]</param>
         /// <returns>Array of T[]</returns>
         public static T[] FindSections<T>(Section_Type[] sectObjs)
         {
@@ -4760,12 +4216,7 @@ namespace XenOvf
             }
             return section.ToArray();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfEnv"></param>
-        /// <param name="vsId"></param>
-        /// <returns></returns>
+
         public static VirtualHardwareSection_Type[] FindVirtualHardwareSection(EnvelopeType ovfEnv, string vsId)
         {
             List<VirtualHardwareSection_Type> vhs = new List<VirtualHardwareSection_Type>();
@@ -4801,13 +4252,7 @@ namespace XenOvf
             log.DebugFormat("OVF.FindVirtualHardwareSection {0} found.", vhs.Count);
             return vhs.ToArray();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfEnv"></param>
-        /// <param name="vsId"></param>
-        /// <param name="vhsId"></param>
-        /// <returns></returns>
+
         public static VirtualHardwareSection_Type FindVirtualHardwareSection(EnvelopeType ovfEnv, string vsId, string vhsId)
         {
 
@@ -4839,13 +4284,7 @@ namespace XenOvf
             log.DebugFormat("OVF.FindVirtualHardwareSection completed {0} ", vsId);
             return vhs;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfEnv"></param>
-        /// <param name="vsId"></param>
-        /// <param name="typeAffinity"></param>
-        /// <returns></returns>
+
         public static VirtualHardwareSection_Type FindVirtualHardwareSectionByAffinity(EnvelopeType ovfEnv, string vsId, string typeAffinity)
         {
             VirtualHardwareSection_Type vhs = null;
@@ -4859,11 +4298,11 @@ namespace XenOvf
             int priority = 99;
             foreach (VirtualHardwareSection_Type _vhs in vhsArray)
             {
-                if (_vhs.System == null)
+                if (_vhs.System?.VirtualSystemType?.Value == null)
                 {
                     vhs = _vhs;
-                    log.Info("Import.Process: Found an Unknown Virtual Hardware Section (Rating: 5) [Unknown]");
-                    log.Info("Import.Process: Results may vary depending on hard disk image format.");
+                    log.Info("Import.Process: Found an Unknown Virtual Hardware Section (Rating: 5) [Unknown]. " +
+                             "Results may vary depending on hard disk image format.");
                     priority = 5;
                 }
                 else if (_vhs.System.VirtualSystemType.Value.ToLower().StartsWith(typeAffinity))
@@ -4916,12 +4355,12 @@ namespace XenOvf
                     if (priority >= 5)
                     {
                         vhs = _vhs;
-                        log.InfoFormat("Import.Process: Found an Unknown Virtual Hardware Section (Rating: 5) [{0}]", _vhs.System.VirtualSystemType.Value);
-                        log.InfoFormat("Import.Process: Results may vary depending on hard disk image format.");
+                        log.InfoFormat("Import.Process: Found an Unknown Virtual Hardware Section (Rating: 5) [{0}]. " +
+                                       "Results may vary depending on hard disk image format.",
+                            _vhs.System.VirtualSystemType.Value);
                         priority = 5;
                     }
                 }
-
             }
 
             if (vhs == null)
@@ -5064,7 +4503,7 @@ namespace XenOvf
             if (nbr < 0 || nbr > 15)
             {
                 var message = string.Format(Messages.OVF_DEVICE_OUT_OF_RANGE, device);
-                log.Error(message);
+                log.ErrorFormat("Device number {0} is less than zero or greater than 15.", device);
                 throw new ArgumentOutOfRangeException(message);
             }
 
@@ -5174,19 +4613,14 @@ namespace XenOvf
             log.DebugFormat("OVF.SetConnectionInRASD completed {0}", vsId);
             return rasd;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfObj"></param>
-        /// <param name="vsId"></param>
-        /// <param name="ovfPath"></param>
+
         /// <returns>string of the InstanceID of the CDROM RASD</returns>
         public static string SetRunOnceBootCDROMOSFixup(EnvelopeType ovfObj, string vsId, string ovfPath)
         {
             return SetRunOnceBootCDROM(ovfObj, vsId, ovfPath, Properties.Settings.Default.xenLinuxFixUpDisk);
         }
         /// <summary>
-        /// Add an ISO as a runonce device
+        /// Add an ISO as a run-once device
         /// </summary>
         /// <param name="ovfObj">EnvelopeType</param>
         /// <param name="vsId">Virtual System Id</param>
@@ -5198,7 +4632,7 @@ namespace XenOvf
             return SetRunOnceBootCDROM(ovfObj, vsId, Properties.Settings.Default.Language, ovfPath, isofilename);
         }
         /// <summary>
-        /// Add an ISO as a runonce device
+        /// Add an ISO as a run-once device
         /// </summary>
         /// <param name="ovfObj">EnvelopeType</param>
         /// <param name="vsId">Virtual System Id</param>
@@ -5317,6 +4751,7 @@ namespace XenOvf
 
 			return Serialize(ovfEnv);
         }
+
         /// <summary>
         /// Transform the OVF Object (EnvelopeType) to XML.
         /// </summary>
@@ -5341,129 +4776,56 @@ namespace XenOvf
                 throw new ArgumentNullException(Messages.OVF_ENVELOPE_IS_INVALID);
             }
         }
-        /// <summary>
-        /// Transform the OVF XML to Object (EnvelopeType)
-        /// </summary>
-        /// <param name="ovfxml">OVF XML</param>
-        /// <returns>object (EnvelopeType)</returns>
-        [SecurityPermission(SecurityAction.LinkDemand)]
-        public static object Deserialize(string ovfxml)
+
+        public static string ExtractArchive(string pathToOva)
         {
-            if (!string.IsNullOrEmpty(ovfxml))
+            Stream inputStream = null;
+            FileStream fsStream = null;
+            ArchiveIterator tar = null;
+
+            var dir = Path.GetDirectoryName(pathToOva);
+
+            try
             {
-                return Tools.Deserialize(ovfxml, typeof(EnvelopeType));
-            }
-            return null;
-        }
-        /// <summary>
-        /// Extract the contents of the OVA
-        /// </summary>
-        /// <param name="pathToOva">Absolute path to the OVF files</param>
-        /// <param name="ovaFileName">OVF file name (file.ovf)</param>
-        public static void OpenOva(string pathToOva, string ovaFileName)
-        {
-            _processId = System.Diagnostics.Process.GetCurrentProcess().Id;
-            _touchFile = Path.Combine(pathToOva, "xen__" + _processId);
-            log.InfoFormat("OVF.OpenOva: TouchFile: {0}", _touchFile);
-            if (!File.Exists(_touchFile))
-            {
-                FileStream fs = File.Create(_touchFile); fs.Close();
+                string ext = Path.GetExtension(pathToOva);
 
-                string origDir = Directory.GetCurrentDirectory();
-                Directory.SetCurrentDirectory(pathToOva);
-                string ovafilename = ovaFileName;
-                string ext = Path.GetExtension(ovaFileName);
-
-                Stream inputStream = null;
-                FileStream fsStream = null;
-
-                #region DECOMPRESSION STREAM
-                try
+                if (ext.ToLower().EndsWith("gz") || ext.ToLower().EndsWith("bz2")) // need to decompress.
                 {
-                    if (ext.ToLower().EndsWith("gz") || ext.ToLower().EndsWith("bz2"))  // need to decompress.
-                    {
-                        log.Info("OVA is compressed, de-compression stream inserted");
-                        ovafilename = string.Format(@"{0}", Path.GetFileNameWithoutExtension(ovaFileName));
-                        string ovaext = Path.GetExtension(ovafilename);
-                        if (ovaext.ToLower().EndsWith("ova"))
-                        {
-                            fsStream = new FileStream(ovaFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-                            if (Properties.Settings.Default.useGZip)
-                            {
-                                inputStream = CompressionFactory.Reader(CompressionFactory.Type.Gz, fsStream);
-                            }
-                            else
-                            {
-                                inputStream = CompressionFactory.Reader(CompressionFactory.Type.Bz2, fsStream);
-                            }
-                        }
-                        else
-                        {
-                            throw new ArgumentException(Messages.OVF_COMPRESSED_OVA_INVALID);
-                        }
+                    log.Info("OVA is compressed, de-compression stream inserted");
 
+                    var ovafilename = string.Format(@"{0}", Path.GetFileNameWithoutExtension(pathToOva));
+                    string ovaext = Path.GetExtension(ovafilename);
+
+                    if (ovaext.ToLower().EndsWith("ova"))
+                    {
+                        fsStream = new FileStream(Path.Combine(dir, ovafilename), FileMode.Open, FileAccess.Read, FileShare.Read);
+
+                        var compType = Properties.Settings.Default.useGZip ? CompressionFactory.Type.Gz : CompressionFactory.Type.Bz2;
+                        inputStream = CompressionFactory.Reader(compType, fsStream);
                     }
                     else
                     {
-                        inputStream = new FileStream(ovaFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        throw new ArgumentException(Messages.OVF_COMPRESSED_OVA_INVALID);
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    if (fsStream != null)
-                    {
-                        fsStream.Close();
-                        fsStream = null;
-                    }
-                    if (inputStream != null)
-                    {
-                        inputStream.Close();
-                        inputStream = null;
-                    }
-                    log.ErrorFormat("OVF.OpenOva: open failure {0}", ex.Message);
-                    throw;
+                    inputStream = new FileStream(pathToOva, FileMode.Open, FileAccess.Read, FileShare.Read);
                 }
-                #endregion
 
-                #region UN-TAR
-                ArchiveIterator tar = null;
-                try
-                {
-                    tar = ArchiveFactory.Reader(ArchiveFactory.Type.Tar, inputStream);
-                    tar.ExtractAllContents(pathToOva);
-                }
-                catch (Exception ex)
-                {
-                    log.ErrorFormat("OVF.OpenOva: Exception: {0}", ex.Message);
-                }
-                finally
-                {
-                    if (tar != null)
-                    {
-                        tar.Dispose();
-                        tar = null;
-                    }
-                    if (fsStream != null)
-                    {
-                        fsStream.Close();
-                        fsStream = null;
-                    }
-                    if (inputStream != null)
-                    {
-                        inputStream.Close();
-                        inputStream = null;
-                    }
-                    Directory.SetCurrentDirectory(origDir);
-                    log.Debug("OVF.OpenOva: Finally block");
-                }
-                #endregion
-                log.Debug("OVF.OpenOva completed");
+                var temp = Path.Combine(dir, Path.GetRandomFileName());
+                tar = ArchiveFactory.Reader(ArchiveFactory.Type.Tar, inputStream);
+                tar.ExtractAllContents(temp);
+                return temp;
             }
-            else
+            finally
             {
-                log.Info("OVF.OpenOva: Previously Opened, using extracted files.");
+                tar?.Dispose();
+                inputStream?.Close();
+                fsStream?.Close();
             }
         }
+
         /// <summary>
         /// Extract the OVF xml meta data.
         /// </summary>
@@ -5537,12 +4899,6 @@ namespace XenOvf
             return null;
         }
 
-    	/// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovafilename"></param>
-        /// <param name="extractfile"></param>
-        /// <returns></returns>
         public Stream ExtractFileFromOva(string ovafilename, string extractfile)
         {
             MemoryStream ms = new MemoryStream();
@@ -5663,12 +5019,7 @@ namespace XenOvf
             }
             log.Debug("OVF.FinalizeEnvelope completed.");
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ovfcollection"></param>
-        /// <param name="ovfname"></param>
-        /// <returns></returns>
+
         public static EnvelopeType Merge(List<EnvelopeType> ovfcollection, string ovfname)
         {
             EnvelopeType finalEnv = CreateEnvelope(ovfname);
@@ -5889,11 +5240,7 @@ namespace XenOvf
 
             return OVFArray.ToArray();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rasd"></param>
-        /// <returns></returns>
+
         public static bool IsDiskRasd(RASD_Type rasd)
         {
             bool isdiskrasd = false;
@@ -5921,30 +5268,21 @@ namespace XenOvf
             }
             return isdiskrasd;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+
         public static string GetContentMessage(string key)
         {
             return _ovfrm.GetString(key);
         }
-        /// <summary>
-        /// Get the iso file name / path
-        /// </summary>
-        /// <returns>qualified path to Fixup ISO</returns>
+
         public static string GetISOFixupFileName()
         {
-            string isofile = null;
-            string filepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string fullname = Path.Combine(filepath, Properties.Settings.Default.xenLinuxFixUpDisk);
-            if (File.Exists(fullname))
-            {
-                isofile = fullname;
-            }
+            return Path.GetFileName(Properties.Settings.Default.xenLinuxFixUpDisk);
+        }
 
-            return isofile;
+        public static string GetISOFixupPath()
+        {
+            var assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            return Path.Combine(assemblyDir, Properties.Settings.Default.xenLinuxFixUpDisk);
         }
         /// <summary>
         /// convert to a UInt64 a allocation unit
@@ -5983,7 +5321,7 @@ namespace XenOvf
         }
         private bool IsDeviceBootable(EnvelopeType ovfEnv, string vsId, RASD_Type rasd)
         {
-            // This is a best guess algorithm. without opening the VHD itself, there is no guarrenteed method
+            // This is a best guess algorithm. without opening the VHD itself, there is no guaranteed method
             // to delineate this, so we guess.
             // IF it's created by Kensho/XenConvert there will be a chance of having a clue.
             // Otherwise it'll be based upon 'order' and device 0 will win the bootable device.
@@ -6152,7 +5490,7 @@ namespace XenOvf
                 }
                 if (antecedent == null)
                 {
-                    traceLog.Debug("PCI Association not available, continuing.");
+                    log.Debug("PCI Association not available, continuing.");
                     continue;
                 }
                 #endregion
@@ -6187,7 +5525,7 @@ namespace XenOvf
                     }
                     if (_antecedent == null || _dependent == null)
                     {
-                        traceLog.Debug("Win32_DiskDriveToDiskPartition Association not available, continuing.");
+                        log.Debug("Win32_DiskDriveToDiskPartition Association not available, continuing.");
                         continue;
                     }
                     #endregion
@@ -6212,7 +5550,7 @@ namespace XenOvf
                             }
                             if (_deviceid == null)
                             {
-                                traceLog.Debug("Win32_DiskPartition DeviceID not available, continuing.");
+                                log.Debug("Win32_DiskPartition DeviceID not available, continuing.");
                                 continue;
                             }
                             #endregion
@@ -6226,7 +5564,7 @@ namespace XenOvf
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("OVF.IsBootDisk failed, could not determine if bootable, {0}", ex.Message);
+                log.Error("OVF.IsBootDisk failed, could not determine if bootable", ex);
             }
             log.DebugFormat("OVF.IsBootDisk completed Bootable = {0}", bootable);
             return bootable;
@@ -6257,14 +5595,5 @@ namespace XenOvf
             return fl.Length.CompareTo(fr.Length);
         }
         #endregion
-
-
-        internal class DiskMappings
-        {
-            public DeviceType dType = 0;
-            public string diskId = null;
-            public string controllerId = null;
-            public uint address = 0;
-        }
     }
 }

@@ -185,7 +185,6 @@ namespace XenAdmin.Dialogs
             this.CancelButton = this.CancelButton2;
             this.Controls.Add(this.tableLayoutPanelType);
             this.Name = "AddServerDialog";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddServerDialog_FormClosing);
             this.Load += new System.EventHandler(this.AddServerDialog_Load);
             this.Shown += new System.EventHandler(this.AddServerDialog_Shown);
             this.groupBox1.ResumeLayout(false);

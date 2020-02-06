@@ -120,6 +120,9 @@
   <data name="AddServerDialog" xml:space="preserve">
     <value>hosts-add</value>
   </data>
+  <data name="AddVGPUDialog" xml:space="preserve">
+    <value>vgpu-add</value>
+  </data>
   <data name="AdPasswordPromptDisable" xml:space="preserve">
     <value>rbac-join-domain</value>
   </data>
@@ -195,6 +198,27 @@
   <data name="ConfirmVMDeleteDialog" xml:space="preserve">
     <value>vms-uninstall</value>
   </data>
+  <data name="ControlDomainMemoryDialog" xml:space="preserve">
+    <value>hosts-control-domain-memory</value>
+  </data>
+  <data name="ConversionManager" xml:space="preserve">
+    <value>conversion-manager</value>
+  </data>
+  <data name="ConversionWizard_CredentialsPane" xml:space="preserve">
+    <value>conversion-manager</value>
+  </data>
+  <data name="ConversionWizard_NetworkOptionsPane" xml:space="preserve">
+    <value>conversion-manager</value>
+  </data>
+  <data name="ConversionWizard_SrSelectionPane" xml:space="preserve">
+    <value>conversion-manager</value>
+  </data>
+  <data name="ConversionWizard_ConversionSummaryPane" xml:space="preserve">
+    <value>conversion-manager</value>
+  </data>
+  <data name="ConversionWizard_VmSelectionPane" xml:space="preserve">
+    <value>conversion-manager</value>
+  </data>
   <data name="CopyVMDialog" xml:space="preserve">
     <value>vms-copy</value>
   </data>
@@ -204,14 +228,23 @@
   <data name="CrossPoolMigrateWizard_CopyModePane" xml:space="preserve">
     <value>vms-copy</value>
   </data>
+  <data name="CrossPoolMigrateWizard_DestinationCopyModePane" xml:space="preserve">
+    <value>vms-copy</value>
+  </data>
   <data name="CrossPoolMigrateWizard_DestinationPane" xml:space="preserve">
     <value>vms-relocate</value>
   </data>
   <data name="CrossPoolMigrateWizard_IntraPoolCopyPane" xml:space="preserve">
     <value>vms-copy</value>
   </data>
+  <data name="CrossPoolMigrateWizard_MigrationSummaryCopyModePane" xml:space="preserve">
+    <value>vms-copy</value>
+  </data>
   <data name="CrossPoolMigrateWizard_MigrationSummaryPane" xml:space="preserve">
     <value>vms-relocate</value>
+  </data>
+  <data name="CrossPoolMigrateWizard_NetworkingCopyModePane" xml:space="preserve">
+    <value>vms-copy</value>
   </data>
   <data name="CrossPoolMigrateWizard_NetworkingPane" xml:space="preserve">
     <value>vms-relocate</value>
@@ -219,8 +252,14 @@
   <data name="CrossPoolMigrateWizard_RBACPane" xml:space="preserve">
     <value>rbac-roles</value>
   </data>
+  <data name="CrossPoolMigrateWizard_StorageCopyModePane" xml:space="preserve">
+    <value>vms-copy</value>
+  </data>
   <data name="CrossPoolMigrateWizard_StoragePane" xml:space="preserve">
     <value>vms-relocate</value>
+  </data>
+  <data name="CrossPoolMigrateWizard_TransferNetworkCopyModePane" xml:space="preserve">
+    <value>vms-copy</value>
   </data>
   <data name="CrossPoolMigrateWizard_TransferNetworkPane" xml:space="preserve">
     <value>vms-relocate</value>
@@ -238,6 +277,9 @@
     <value>hosts-disconnect</value>
   </data>
   <data name="DiskUsageMessageAlert" xml:space="preserve">
+    <value>systemalerts</value>
+  </data>
+  <data name="Dom0MemoryDemandUsageMessageAlert" xml:space="preserve">
     <value>systemalerts</value>
   </data>
   <data name="DRConfigureDialog" xml:space="preserve">
@@ -363,11 +405,20 @@
   <data name="EditVMPPGeneralSettingsDialog" xml:space="preserve">
     <value>6536</value>
   </data>
+  <data name="EditVMSSGeneralSettingsDialog" xml:space="preserve">
+    <value>vms-snapshotschedule-manage-policy</value>
+  </data>
   <data name="EditVMStorageDialog" xml:space="preserve">
     <value>vms-storage-properties</value>
   </data>
   <data name="EditVM_applianceGeneralSettingsDialog" xml:space="preserve">
     <value>vapps-properties</value>
+  </data>
+  <data name="EnablePvsReadCachingDialog" xml:space="preserve">
+    <value>pvs-read-cache</value>
+  </data>
+  <data name="EnableRDPonVM" xml:space="preserve">
+    <value>tabs</value>
   </data>
   <data name="EnterMasterPasswordDialog" xml:space="preserve">
     <value>hosts-connect-save</value>
@@ -458,6 +509,9 @@
   </data>
   <data name="HealthCheckSettingsDialog" xml:space="preserve">
     <value>health-check</value>
+  </data>
+  <data name="HotfixEligibilityAlert" xml:space="preserve">
+    <value>updates-about</value>
   </data>
   <data name="ImportWizard_GlobalSelectHostPane" xml:space="preserve">
     <value>vms-import</value>
@@ -675,6 +729,9 @@
   <data name="NewSRWizard_NameandStorageSystemPane" xml:space="preserve">
     <value>storage-pools-add</value>
   </data>
+  <data name="NewSRWizard_ProvisioningPane" xml:space="preserve">
+    <value>storage-pools-add</value>
+  </data>
   <data name="NewSRWizard_RbacPane" xml:space="preserve">
     <value>rbac-overview</value>
   </data>
@@ -834,6 +891,12 @@
   <data name="ProcessForceClosePrompt" xml:space="preserve">
     <value>intro-start</value>
   </data>
+  <data name="PvsCacheConfigurationDialog" xml:space="preserve">
+    <value>pvs-read-cache</value>
+  </data>
+  <data name="PvsSiteDialog" xml:space="preserve">
+    <value>pvs-read-cache</value>
+  </data>
   <data name="ReconnectAsDialog" xml:space="preserve">
     <value>hosts-reconnect</value>
   </data>
@@ -867,10 +930,10 @@
   <data name="RollingUpgradeWizard_BeforeyoustartPane" xml:space="preserve">
     <value>upgrade</value>
   </data>
-  <data name="RollingUpgradeWizard_UpgradeextrasPane" xml:space="preserve">
+  <data name="RollingUpgradeWizard_SelectpoolPane" xml:space="preserve">
     <value>upgrade</value>
   </data>
-  <data name="RollingUpgradeWizard_SelectpoolPane" xml:space="preserve">
+  <data name="RollingUpgradeWizard_UpgradeextrasPane" xml:space="preserve">
     <value>upgrade</value>
   </data>
   <data name="RollingUpgradeWizard_upgrademethodPane" xml:space="preserve">
@@ -907,6 +970,9 @@
     <value>systemalerts</value>
   </data>
   <data name="TabPageAD" xml:space="preserve">
+    <value>users-overview</value>
+  </data>
+  <data name="TabPageADUpsell" xml:space="preserve">
     <value>users-overview</value>
   </data>
   <data name="TabPageBallooning" xml:space="preserve">
@@ -957,6 +1023,9 @@
   <data name="TabPagePerformance" xml:space="preserve">
     <value>performance</value>
   </data>
+  <data name="TabPagePvs" xml:space="preserve">
+    <value>pvs-read-cache</value>
+  </data>
   <data name="TabPageSearch" xml:space="preserve">
     <value>tabs</value>
   </data>
@@ -993,11 +1062,17 @@
   <data name="TabPageUnknown" xml:space="preserve">
     <value>intro-xencenterwindow</value>
   </data>
+  <data name="TabPageUSB" xml:space="preserve">
+    <value>tabs</value>
+  </data>
   <data name="TabPageWLB" xml:space="preserve">
     <value>wlb-get-started-help</value>
   </data>
   <data name="TabPageWLBUpsell" xml:space="preserve">
     <value>wlb-overview</value>
+  </data>
+  <data name="TOC" xml:space="preserve">
+    <value>index</value>
   </data>
   <data name="UnknownCertificateDialog" xml:space="preserve">
     <value>hosts-reconnect</value>
@@ -1017,14 +1092,14 @@
   <data name="VMAppliancesDialog" xml:space="preserve">
     <value>vapps-manage</value>
   </data>
-  <data name="VMSnapshotSchedulesDialog" xml:space="preserve">
-    <value>vms-snapshotschedule-about</value>
-  </data>
   <data name="VmSnapshotDialog" xml:space="preserve">
     <value>vms-snapshots-take</value>
   </data>
   <data name="VMSnapshotPage" xml:space="preserve">
     <value>vms-snapshots-newtemplate</value>
+  </data>
+  <data name="VMSnapshotSchedulesDialog" xml:space="preserve">
+    <value>vms-snapshotschedule-about</value>
   </data>
   <data name="WarningVmDisableChangedBlockTracking" xml:space="preserve">
     <value>cbt-overview</value>
@@ -1067,53 +1142,5 @@
   </data>
   <data name="XenServerUpdateAlert" xml:space="preserve">
     <value>updates-applying</value>
-  </data>
-  <data name="CrossPoolMigrateWizard_DestinationCopyModePane" xml:space="preserve">
-    <value>vms-copy</value>
-  </data>
-  <data name="CrossPoolMigrateWizard_MigrationSummaryCopyModePane" xml:space="preserve">
-    <value>vms-copy</value>
-  </data>
-  <data name="CrossPoolMigrateWizard_NetworkingCopyModePane" xml:space="preserve">
-    <value>vms-copy</value>
-  </data>
-  <data name="CrossPoolMigrateWizard_StorageCopyModePane" xml:space="preserve">
-    <value>vms-copy</value>
-  </data>
-  <data name="CrossPoolMigrateWizard_TransferNetworkCopyModePane" xml:space="preserve">
-    <value>vms-copy</value>
-  </data>
-  <data name="TabPageADUpsell" xml:space="preserve">
-    <value>users-overview</value>
-  </data>
-  <data name="Dom0MemoryDemandUsageMessageAlert" xml:space="preserve">
-    <value>systemalerts</value>
-  </data>
-  <data name="ControlDomainMemoryDialog" xml:space="preserve">
-    <value>hosts-control-domain-memory</value>
-  </data>
-  <data name="EnablePvsReadCachingDialog" xml:space="preserve">
-    <value>pvs-read-cache</value>
-  </data>
-  <data name="PvsCacheConfigurationDialog" xml:space="preserve">
-    <value>pvs-read-cache</value>
-  </data>
-  <data name="TabPagePvs" xml:space="preserve">
-    <value>pvs-read-cache</value>
-  </data>
-  <data name="PvsSiteDialog" xml:space="preserve">
-    <value>pvs-read-cache</value>
-  </data>
-  <data name="EnableRDPonVM" xml:space="preserve">
-    <value>tabs</value>
-  </data>
-  <data name="EditVMSSGeneralSettingsDialog" xml:space="preserve">
-    <value>vms-snapshotschedule-manage-policy</value>
-  </data>
-  <data name="NewSRWizard_ProvisioningPane" xml:space="preserve">
-    <value>storage-pools-add</value>
-  </data>
-  <data name="TabPageUSB" xml:space="preserve">
-    <value>tabs</value>
   </data>
 </root>

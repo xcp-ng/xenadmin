@@ -66,13 +66,14 @@ namespace XenAdmin.TabPages
             dataGridViewStorage.Sort(ColumnDevicePosition, ListSortDirection.Ascending);
         }
 
+        public override string HelpID => "TabPageStorage";
+
         public VM VM
         {
             set
             {
                 Program.AssertOnEventThread();
 
-                // de-register old listeners...
                 UnregisterHandlers();
 
                 vm = value;
@@ -96,7 +97,7 @@ namespace XenAdmin.TabPages
 
         private void vdi_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // Nothing changing on any of the vdi's will require a rebuild of the list...
+            // Nothing changing on any of the VDIs will require a rebuild of the list
             Program.Invoke(this, () =>
             {
                 if (e.PropertyName == "allowed_operations")
@@ -110,23 +111,26 @@ namespace XenAdmin.TabPages
         {
             // Only rebuild list if VDIs changed - otherwise just refresh
 
-            if (e.PropertyName == "VDI" || e.PropertyName == "empty" || e.PropertyName == "device")
+            Program.Invoke(this, () =>
             {
-                BuildList();
-            }
-            else if (e.PropertyName == "allowed_operations")
-            {
-                UpdateButtons();
-            }
-            else if (e.PropertyName == "currently_attached")
-            {
-                UpdateButtons();
-                UpdateData();
-            }
-            else
-            {
-                UpdateData();
-            }
+                if (e.PropertyName == "VDI" || e.PropertyName == "empty" || e.PropertyName == "device")
+                {
+                    BuildList();
+                }
+                else if (e.PropertyName == "allowed_operations")
+                {
+                    UpdateButtons();
+                }
+                else if (e.PropertyName == "currently_attached")
+                {
+                    UpdateButtons();
+                    UpdateData();
+                }
+                else
+                {
+                    UpdateData();
+                }
+            });
         }
 
         private void UnregisterHandlers()
@@ -184,7 +188,7 @@ namespace XenAdmin.TabPages
         private void vm_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "VBDs")
-                BuildList();
+                Program.Invoke(this, BuildList);
             else if (e.PropertyName == "power_state" || e.PropertyName == "Locked")
                 Program.Invoke(this, UpdateButtons);
         }
@@ -209,8 +213,8 @@ namespace XenAdmin.TabPages
                 List<bool> devices_in_use = new List<bool>();
                 foreach (VBD vbd in vm.Connection.ResolveAll(vm.VBDs))
                 {
-                    vbd.PropertyChanged -= new PropertyChangedEventHandler(vbd_PropertyChanged);
-                    vbd.PropertyChanged += new PropertyChangedEventHandler(vbd_PropertyChanged);
+                    vbd.PropertyChanged -= vbd_PropertyChanged;
+                    vbd.PropertyChanged += vbd_PropertyChanged;
 
                     if (!vbd.IsCDROM() && !vbd.IsFloppyDrive())
                     {
@@ -224,8 +228,8 @@ namespace XenAdmin.TabPages
 
                         storageLinkColumnVisible = vdi.sm_config.ContainsKey("SVID");
 
-                        vdi.PropertyChanged -= new PropertyChangedEventHandler(vdi_PropertyChanged);
-                        vdi.PropertyChanged += new PropertyChangedEventHandler(vdi_PropertyChanged);
+                        vdi.PropertyChanged -= vdi_PropertyChanged;
+                        vdi.PropertyChanged += vdi_PropertyChanged;
 
                         dataGridViewStorage.Rows.Add(new VBDRow(vbd, vdi, sr));
 
@@ -258,7 +262,7 @@ namespace XenAdmin.TabPages
             }
             catch (Exception e)
             {
-                log.ErrorFormat("Exception building VM storage list: {0}", e.Message);
+                log.Error("Exception while building the VM storage list.", e);
             }
             finally
             {
@@ -385,9 +389,6 @@ namespace XenAdmin.TabPages
             var cmd = new AddVirtualDiskCommand(Program.MainWindow, vm);
             if (cmd.CanExecute())
                 cmd.Execute();
-
-            // don't wait for the property change to trigger it, as this can take a while
-            UpdateButtons();
         }
 
         private void AttachVdi()
@@ -395,8 +396,6 @@ namespace XenAdmin.TabPages
             AttachVirtualDiskCommand cmd = new AttachVirtualDiskCommand(Program.MainWindow, vm);
             if (cmd.CanExecute())
                 cmd.Execute();
-
-            UpdateButtons();
         }
 
         private void MoveVdi()
@@ -590,11 +589,13 @@ namespace XenAdmin.TabPages
         private void toolStripMenuItemAdd_Click(object sender, EventArgs e)
         {
             AddVdi();
+            UpdateButtons();
         }
 
         private void toolStripMenuItemAttach_Click(object sender, EventArgs e)
         {
             AttachVdi();
+            UpdateButtons();
         }
 
         private void toolStripMenuItemDeactivate_Click(object sender, EventArgs e)
@@ -626,11 +627,13 @@ namespace XenAdmin.TabPages
         private void AddButton_Click(object sender, EventArgs e)
         {
             AddVdi();
+            UpdateButtons();
         }
 
         private void AttachButton_Click(object sender, EventArgs e)
         {
             AttachVdi();
+            UpdateButtons();
         }
 
         private void DeactivateButton_Click(object sender, EventArgs e)

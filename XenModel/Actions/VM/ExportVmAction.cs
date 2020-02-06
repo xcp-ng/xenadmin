@@ -108,10 +108,10 @@ namespace XenAdmin.Actions
                 Uri.EscapeDataString(this.VM.uuid),
                 Uri.EscapeDataString(this.RelatedTask.opaque_ref));
 
-            log.DebugFormat("Exporting {0} from {1} to {2}", VM.Name(), uriBuilder.ToString(), _filename);
+            log.DebugFormat("Exporting {0} to {1}", VM.Name(), _filename);
 
             // The DownloadFile call will block, so we need a separate thread to poll for task status.
-            Thread taskThread = new Thread((ThreadStart)progressPoll);
+            Thread taskThread = new Thread(progressPoll);
             taskThread.Name = "Progress polling thread for ExportVmAction for " + VM.Name().Ellipsise(20);
             taskThread.IsBackground = true;
             taskThread.Start();
@@ -146,8 +146,8 @@ namespace XenAdmin.Actions
                 if (!Win32.FlushFileBuffers(fs.SafeFileHandle))
                 {
                     Win32Exception exn = new Win32Exception(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
-                    log.ErrorFormat("FlushFileBuffers failed in ExportVmAction.\nNativeErrorCode={0}\nMessage={1}\nToString={2}",
-                        exn.NativeErrorCode, exn.Message, exn.ToString());
+                    log.Error(string.Format("FlushFileBuffers failed in ExportVmAction with NativeErrorCode={0}",
+                        exn.NativeErrorCode), exn);
                 }
             }
 
@@ -157,7 +157,7 @@ namespace XenAdmin.Actions
                 int i = 0;
                 long filesize = new FileInfo(tmpFile).Length / 50; //Div by 50 to save doing the * 50 in the callback
 
-                Export.verifyCallback callback = new Export.verifyCallback(delegate(uint size)
+                Export.verifyCallback callback = size =>
                     {
                         read += size;
                         i++;
@@ -169,7 +169,7 @@ namespace XenAdmin.Actions
                             PercentComplete = 50 + (int)(read / filesize);
                             i = 0;
                         }
-                    });
+                    };
 
                 try
                 {
@@ -179,7 +179,7 @@ namespace XenAdmin.Actions
                         this.Description = Messages.ACTION_EXPORT_VERIFY;
 
                         export = new Export();
-                        export.verify(fs, null, (Export.cancellingCallback)delegate() { return Cancelling; }, callback);
+                        export.verify(fs, null, () => Cancelling, callback);
                     }
                 }
                 catch (Exception e)
@@ -216,20 +216,19 @@ namespace XenAdmin.Actions
                 var fi = new FileInfo(tmpFile);
                 log.DebugFormat("Progress of the action until exception: {0}", PercentComplete);
                 log.DebugFormat("Size file exported until exception: {0}", fi.Length);
+
                 try
                 {
                     using (Stream stream = new FileStream(tmpFile, FileMode.Open, FileAccess.Read))
+                    using (var iterator = ArchiveFactory.Reader(ArchiveFactory.Type.Tar, stream))
                     {
-                        ArchiveIterator iterator = ArchiveFactory.Reader(ArchiveFactory.Type.Tar,
-                                                                                        stream);
                         while (iterator.HasNext())
-                        {
                             log.DebugFormat("Tar entry: {0} {1}", iterator.CurrentFileName(), iterator.CurrentFileSize());
-                        }
                     }
                 }
                 catch (Exception)
                 {}
+
                 log.DebugFormat("Deleting {0}", tmpFile);
                 File.Delete(tmpFile);
                 throw new Exception(Description);
@@ -252,9 +251,9 @@ namespace XenAdmin.Actions
         {
             using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
             {
-                using (Stream http = HTTPHelper.GET(uri, Connection, true, true))
+                using (Stream http = HTTPHelper.GET(uri, Connection, true))
                 {
-                    new Export().verify(http, fs, (Export.cancellingCallback)delegate() { return Cancelling; });
+                    new Export().verify(http, fs, () => Cancelling);
                 }
             }
         }

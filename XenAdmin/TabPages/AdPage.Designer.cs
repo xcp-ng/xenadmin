@@ -99,7 +99,7 @@ namespace XenAdmin.TabPages
             // 
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
             resources.ApplyResources(this.addToolStripMenuItem, "addToolStripMenuItem");
-            this.addToolStripMenuItem.Click += new System.EventHandler(this.buttonResolve_Click);
+            this.addToolStripMenuItem.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
             // toolStripMenuItemRemove
             // 
@@ -290,7 +290,7 @@ namespace XenAdmin.TabPages
             resources.ApplyResources(this.buttonAdd, "buttonAdd");
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.UseVisualStyleBackColor = true;
-            this.buttonAdd.Click += new System.EventHandler(this.buttonResolve_Click);
+            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
             // label1
             // 

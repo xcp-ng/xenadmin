@@ -44,8 +44,8 @@ namespace XenAdmin.Alerts
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly static object XenCenterAlertsLock = new object();
-        private readonly static ChangeableList<Alert> XenCenterAlerts = new ChangeableList<Alert>();
+        private static readonly object XenCenterAlertsLock = new object();
+        private static readonly ChangeableList<Alert> XenCenterAlerts = new ChangeableList<Alert>();
 
         public bool Dismissing;
 
@@ -62,12 +62,30 @@ namespace XenAdmin.Alerts
             }
         }
 
+        public static void AddAlertRange(IEnumerable<Alert> collection)
+        {
+            try
+            {
+                lock (XenCenterAlertsLock)
+                    XenCenterAlerts.AddRange(collection);
+            }
+            catch (Exception e)
+            {
+                log.Error("Failed to add incoming alerts", e);
+            }
+        }
+
         public static void RemoveAlert(Alert a)
         {
-            lock (XenCenterAlertsLock)
-                XenCenterAlerts.Remove(a);
-
-            log.InfoFormat("Removed {0}: {1} - {2}", a.GetType().Name, a.Title, a.Description);
+            try
+            {
+                lock (XenCenterAlertsLock)
+                    XenCenterAlerts.Remove(a);
+            }
+            catch (Exception e)
+            {
+                log.Error("Failed to remove alert. ", e);
+            }
         }
 
         public static void RemoveAlert(Predicate<Alert> predicate)
@@ -89,6 +107,21 @@ namespace XenAdmin.Alerts
         {
             lock (XenCenterAlertsLock)
                 return XenCenterAlerts.Find(predicate);
+        }
+
+        public static int FindAlertIndex(Predicate<Alert> predicate)
+        {
+            lock (XenCenterAlertsLock)
+                return XenCenterAlerts.FindIndex(predicate);
+        }
+
+        public static void RefreshAlertAt(int index)
+        {
+            lock (XenCenterAlertsLock)
+            {
+                if (index >= 0 && index < XenCenterAlerts.Count)
+                    XenCenterAlerts[index] = XenCenterAlerts[index]; // this will trigger the CollectionChanged event with CollectionChangeAction.Refresh
+            }
         }
 
         /// <summary>
@@ -181,18 +214,11 @@ namespace XenAdmin.Alerts
         /// <summary>
         /// When the Alert was raised.
         /// </summary>
-        public DateTime Timestamp
-        {
-            get
-            {
-                return _timestamp;
-            }
-        }
+        public DateTime Timestamp => _timestamp;
 
         /// <summary>
         /// Dismisses the Alert: marks it as dealt with in some way. May only be called once.
         /// </summary>
-        /// <param name="username">The name of whoever is dismissing the Alert. Must not be null.</param>
         public virtual void Dismiss()
         {
             RemoveAlert(this);
@@ -215,9 +241,9 @@ namespace XenAdmin.Alerts
             return false;
         }
 
-        public virtual string Name { get { return null; } }
+        public virtual string Name => null;
 
-        public virtual string WebPageLabel { get { return null; } }
+        public virtual string WebPageLabel => null;
 
         public abstract string Title { get; }
 
@@ -245,10 +271,7 @@ namespace XenAdmin.Alerts
         /// <summary>
         /// The text for the 'click here for help...' link.
         /// </summary>
-        public virtual string HelpLinkText
-        {
-            get { return Messages.ALERT_GENERIC_HELP; }
-        }
+        public virtual string HelpLinkText => Messages.ALERT_GENERIC_HELP;
 
         /// <summary>
         /// The helpid opened when the 'click here for help...' link is clicked.
@@ -350,9 +373,6 @@ namespace XenAdmin.Alerts
                                     where alert != null && !alert.Dismissing
                                     let con = alert.Connection
                                     select con).Distinct();
-
-            if (alertConnections.Count() == 0)
-                return false;
 
             return alertConnections.Any(AllowedToDismiss);
         }

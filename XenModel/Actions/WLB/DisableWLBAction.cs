@@ -89,7 +89,7 @@ namespace XenAdmin.Actions.Wlb
                     //Force disabling of WLB
                     XenAPI.Pool.set_wlb_enabled(this.Session, Pool.opaque_ref, false);
                     WlbServerState.SetState(this.Session, Pool, WlbServerState.ServerState.ConnectionError, (Failure)ex);
-                    log.Debug(string.Format(Messages.ACTION_WLB_DECONFIGURE_FAILED, Pool.Name(), ex.Message));
+                    log.Debug($"Disconnecting  Workload Balancing failed on pool {Pool.Name()}. Workload Balancing has been paused.", ex);
                     throw new Exception(string.Format(Messages.ACTION_WLB_DECONFIGURE_FAILED, Pool.Name(), ex.Message));
                 }
                 finally

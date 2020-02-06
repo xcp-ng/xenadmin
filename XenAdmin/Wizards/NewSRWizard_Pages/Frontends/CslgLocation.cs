@@ -46,8 +46,6 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
 {
     public partial class CslgLocation : XenTabPage
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private const string TARGET = "target";
         private const string USERNAME = "username";
         private const string PASSWORD = "password";

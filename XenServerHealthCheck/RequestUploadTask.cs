@@ -150,7 +150,7 @@ namespace XenServerHealthCheck
                         if ((!haveSuccessfulUpload) ||
                             (DateTime.Compare(lastSuccessfulUpload, LastFailedUpload) < 0))
                         {
-                            log.InfoFormat("Retry since retryInterval{0} - {1} > {2} meeted", LastFailedUpload, DateTime.UtcNow, retryInterval);
+                            log.InfoFormat("Retry since retryInterval{0} - {1} > {2} met", LastFailedUpload, DateTime.UtcNow, retryInterval);
                             needRetry = true;
                         }
                     }

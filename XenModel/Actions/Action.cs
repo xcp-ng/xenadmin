@@ -38,9 +38,21 @@ using XenAdmin.Core;
 
 namespace XenAdmin.Actions
 {
-    public class ActionBase
+    public interface IStatus
+    {
+        bool InProgress { get; }
+        bool IsCompleted { get; }
+        bool Succeeded { get; }
+        bool IsCancelled { get; }
+        bool IsError { get; }
+        bool IsIncomplete { get; }
+        bool IsQueued { get; }
+    }
+
+    public class ActionBase : IStatus
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        protected static readonly log4net.ILog AuditLog = log4net.LogManager.GetLogger("Audit");
 
         public string Title;
 
@@ -315,10 +327,12 @@ namespace XenAdmin.Actions
             }
         }
 
-        public bool Succeeded
-        {
-            get { return this.IsCompleted && this.Exception == null; }
-        }
+        public bool Succeeded => IsCompleted && Exception == null;
+        public bool IsCancelled => IsCompleted && !Succeeded && Exception is CancelledException;
+        public bool IsError => IsCompleted && !Succeeded && !(Exception is CancelledException);
+        public bool IsIncomplete => false;
+        public bool IsQueued => false;
+        public bool InProgress => !IsCompleted;
 
         public Exception Exception
         {
@@ -374,8 +388,7 @@ namespace XenAdmin.Actions
                 }
                 catch (Exception e)
                 {
-                    log.Debug(String.Format("Exception firing OnChanged for Action {0}", Title), e);
-                    log.Debug(e, e);
+                    log.Debug($"Exception firing OnChanged for Action {Title}.", e);
                 }
         }
 
@@ -389,26 +402,19 @@ namespace XenAdmin.Actions
                 }
                 catch (Exception ex)
                 {
-                    log.Debug(String.Format("Exception firing OnCompleted for Action {0}", Title), ex);
-                    log.Debug(ex, ex);
+                    log.Debug($"Exception firing OnCompleted for Action {Title}.", ex);
                 }
             }
         }
 
-        protected void MarkCompleted()
+        protected void MarkCompleted(Exception e = null)
         {
-            MarkCompletedCore();
-        }
+            if (e != null)
+            {
+                log.Debug(e, e);
+                Exception = e;
+            }
 
-        protected void MarkCompleted(Exception e)
-        {
-            log.Debug(e, e);
-            Exception = e;
-            MarkCompletedCore();
-        }
-
-        private void MarkCompletedCore()
-        {
             Finished = DateTime.Now;
             PercentComplete = 100;
             IsCompleted = true;
@@ -416,8 +422,6 @@ namespace XenAdmin.Actions
 
         #region Audit logging
 
-        protected static readonly log4net.ILog AuditLog = log4net.LogManager.GetLogger("Audit");
-        
         protected virtual void AuditLogStarted()
         {
             AuditLog.InfoFormat("Operation started: {0}", AuditDescription());

@@ -30,11 +30,7 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 
@@ -50,15 +46,14 @@ namespace XenAdmin.Dialogs
         {
             InitializeComponent();
 
-            OKAlwaysTooltipContainer.SetToolTip(Messages.PASSWORDS_REQUEST_ALWAYS_DISABLED_TOOLTIP_BODY);
-
-            bool p = Properties.Settings.Default.RequirePass;
-            OKAlwaysButton.Enabled = !p;
+            bool requirePass = Properties.Settings.Default.RequirePass;
+            OKAlwaysButton.Enabled = !requirePass;
+            tableLayoutPanel2.Visible = requirePass;
         }
 
         public string Application
         {
-            set { ApplicationLabel.Text = value; }
+            set => ApplicationLabel.Text = value;
         }
 
         private void PasswordsRequestDialog_Load(object sender, EventArgs e)

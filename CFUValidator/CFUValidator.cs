@@ -120,6 +120,10 @@ namespace CFUValidator
             Status = "Determining XenServer update required...";
             var updateAlerts = XenAdmin.Core.Updates.NewXenServerVersionAlerts(xenServerVersions).Where(alert => !alert.CanIgnore).ToList();
 
+            HfxEligibilityValidator hfxEligibilityValidator = new HfxEligibilityValidator(xenServerVersions);
+            Status = "Running hotfix eligibility check...";
+            RunHfxEligibilityValidator(hfxEligibilityValidator);
+
             Status = "Determining patches required...";
             var patchAlerts = XenAdmin.Core.Updates.NewXenServerPatchAlerts(xenServerVersions, xenServerPatches).Where(alert => !alert.CanIgnore).ToList();
 
@@ -133,9 +137,9 @@ namespace CFUValidator
 
             Status = "Running patch check(s), this may take some time...";
             RunValidators(validators);
-           
+            
             Status = "Generating summary...";
-            GeneratePatchSummary(patchAlerts, validators, updateAlerts, xcupdateAlerts);
+            GeneratePatchSummary(patchAlerts, validators, hfxEligibilityValidator, updateAlerts, xcupdateAlerts);
         }
 
         private void CheckProvidedVersionNumber(List<XenServerVersion> xenServerVersions)
@@ -190,18 +194,25 @@ namespace CFUValidator
             Status = "Validator checks complete";
         }
 
+        private void RunHfxEligibilityValidator(HfxEligibilityValidator validator)
+        {
+            validator.Validate();
+            Status = "Hotfix Eligibility Validator check complete";
+        }
+
         private void validator_StatusChanged(object sender, EventArgs e)
         {
             Status = sender as string;
         }
 
-        private void GeneratePatchSummary(List<XenServerPatchAlert> alerts, List<AlertFeatureValidator> validators,
+        private void GeneratePatchSummary(List<XenServerPatchAlert> alerts, List<AlertFeatureValidator> validators, HfxEligibilityValidator hfxEligibilityValidator,
                                           List<XenServerVersionAlert> updateAlerts, List<XenCenterUpdateAlert> xcupdateAlerts)
         {
             OuputComponent oc = new OutputTextOuputComponent(XmlLocation, ServerVersion);
             XenCenterUpdateDecorator xcud = new XenCenterUpdateDecorator(oc, xcupdateAlerts);
             XenServerUpdateDecorator xsud = new XenServerUpdateDecorator(xcud, updateAlerts);
-            PatchAlertDecorator pad = new PatchAlertDecorator(xsud, alerts);
+            HfxEligibilityValidatorDecorator hevd = new HfxEligibilityValidatorDecorator(xsud, hfxEligibilityValidator, "Hotfix eligibility check:");
+            PatchAlertDecorator pad = new PatchAlertDecorator(hevd, alerts);
             AlertFeatureValidatorDecorator afdCoreFields = new AlertFeatureValidatorDecorator(pad,
                                                                                               validators.First(v => v is CorePatchDetailsValidator),
                                                                                               "Core fields in patch checks:");
@@ -212,7 +223,7 @@ namespace CFUValidator
                                                                                                validators.First(v => v is ZipContentsValidator),
                                                                                                "Required patch zip content checks:");
 
-            if(CheckHotfixContents)
+            if (CheckHotfixContents)
                 Output = afdZipContents.Generate().Insert(0, Output).ToString();
             else
                 Output = afdPatchUrl.Generate().Insert(0, Output).ToString();

@@ -391,12 +391,12 @@ namespace XenAdmin.Dialogs
             Program.BeginInvoke(this, getAllCurrentConnections);
         }
 
-        void Connection_CachePopulated(object sender, EventArgs e)
+        void Connection_CachePopulated(IXenConnection conn)
         {
             Program.BeginInvoke(this, addConnectionsToComboBox);
         }
 
-        void connection_ConnectionStateChanged(object sender, EventArgs e)
+        void connection_ConnectionStateChanged(IXenConnection conn)
         {
             Program.BeginInvoke(this, addConnectionsToComboBox);
         }

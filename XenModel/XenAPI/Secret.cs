@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Secret : XenObject<Secret>
     {
+        #region Constructors
+
         public Secret()
         {
         }
@@ -59,13 +61,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Secret from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Secret(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Secret from a Proxy_Secret.
         /// </summary>
         /// <param name="proxy"></param>
         public Secret(Proxy_Secret proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -78,7 +94,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_Secret proxy)
+        internal void UpdateFrom(Proxy_Secret proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             value = proxy.value == null ? null : proxy.value;
@@ -92,17 +108,6 @@ namespace XenAPI
             result_.value = value ?? "";
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Secret from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Secret(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

@@ -32,10 +32,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using CookComputing.XmlRpc;
 using XenAdmin.Core;
 using XenAdmin.Network;
 using XenAPI;
@@ -45,7 +41,6 @@ namespace XenAdmin.Actions
 {
     public abstract class AsyncAction : CancellingAction
     {
-
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly Func<List<Role>, IXenConnection, string, SudoElevationResult> sudoDialog = XenAdminConfigManager.Provider.SudoDialogDelegate;
 
@@ -229,7 +224,6 @@ namespace XenAdmin.Actions
                     Failure.ParseRBACFailure(f, Connection, Session ?? Connection.Session);
                 }
                 log.Error(e);
-                log.Error(e.StackTrace);
                 AuditLogFailure();
                 MarkCompleted(e);
             }
@@ -247,9 +241,9 @@ namespace XenAdmin.Actions
                     {
                         Session.logout();
                     }
-                    catch(Failure ex)
+                    catch (Failure f)
                     {
-                        log.Debug("Session.logout() failed for Session uuid " + Session.opaque_ref, ex);
+                        log.Debug("Session.logout() failed. ", f);
                     }
                 }
 

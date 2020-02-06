@@ -67,10 +67,10 @@ namespace XenAdmin.Diagnostics.Checks
                         return new HostNotSafeToUpgradeWarning(this, Host, HostNotSafeToUpgradeReason.Default);
                 }
             }
-            catch (Failure failure)
+            catch (Exception exception)
             {
                 //note: handle the case when we get UNKNOWN_XENAPI_PLUGIN_FUNCTION - testSafe2Upgrade
-                log.WarnFormat("Plugin call prepare_host_upgrade.testSafe2Upgrade on {0} failed with {1}", Host.Name(), failure.Message);
+                log.Warn($"Plugin call prepare_host_upgrade.testSafe2Upgrade on {Host.Name()} threw an exception.", exception);
             }
 
             return null;

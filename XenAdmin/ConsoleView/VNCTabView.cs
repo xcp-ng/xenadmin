@@ -1057,7 +1057,7 @@ namespace XenAdmin.ConsoleView
                 fullscreenForm.Refresh();
         }
 
-        void Connection_BeforeConnectionEnd(object sender, EventArgs e)
+        void Connection_BeforeConnectionEnd(IXenConnection conn)
         {
             Program.Invoke(this, toggleFullscreen);
         }

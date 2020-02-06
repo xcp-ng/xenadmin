@@ -41,6 +41,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using XenAdmin.Dialogs;
 using System.Text;
+using XenAdmin.Alerts.Types;
 using XenCenterLib;
 
 namespace XenAdmin.Core
@@ -456,7 +457,7 @@ namespace XenAdmin.Core
 
                         XenServerPatch serverPatch = xenServerPatch;
 
-                        var noPatchHosts = hosts.Where(host => PatchCanBeInstalledOnHost(serverPatch, host, version));
+                        var noPatchHosts = hosts.Where(host => PatchCanBeInstalledOnHost(serverPatch, host)).ToList();
         
                         if (noPatchHosts.Count() == hosts.Count)
                             alert.IncludeConnection(xenConnection);
@@ -469,12 +470,14 @@ namespace XenAdmin.Core
             return alerts;
         }
 
-        private static bool PatchCanBeInstalledOnHost(XenServerPatch serverPatch, Host host, XenServerVersion patchApplicableVersion)
+        private static bool PatchCanBeInstalledOnHost(XenServerPatch serverPatch, Host host)
         {
             Debug.Assert(serverPatch != null);
             Debug.Assert(host != null);
 
-            if (Helpers.productVersionCompare(patchApplicableVersion.Version.ToString(), host.ProductVersion()) != 0)
+            // A patch is applicable to host if the patch is amongst the current version patches
+            var patchIsApplicable = GetServerVersions(host, XenServerVersions).Any(v => v.Patches.Contains(serverPatch));
+            if (!patchIsApplicable)
                 return false;
 
             // A patch can be installed on a host if:
@@ -828,9 +831,9 @@ namespace XenAdmin.Core
                 // Show the Upgrade alert for a host if:
                 // - the host version is older than this version AND
                 // - there is no patch (amongst the current version patches) that can update to this version OR, if there is a patch, the patch cannot be installed
-                var patchApplicable = patch != null && GetServerVersions(master, XenServerVersions).Any(v => v.Patches.Contains(patch));
+
                 var outOfDateHosts = hosts.Where(host => new Version(Helpers.HostProductVersion(host)) < version.Version
-                    && (!patchApplicable || !PatchCanBeInstalledOnHost(patch, host, version)));
+                    && (patch == null || !PatchCanBeInstalledOnHost(patch, host))).ToList();
 
                 if (outOfDateHosts.Count() == hosts.Count)
                     alert.IncludeConnection(xc);
@@ -940,6 +943,65 @@ namespace XenAdmin.Core
             if (string.IsNullOrEmpty(patchName))
                 return null;
             return FindPatchAlert(p => p.Name.Equals(patchName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public static hotfix_eligibility HotfixEligibility(Host host, out XenServerVersion xenServerVersion)
+        {
+            xenServerVersion = null;
+            if (XenServerVersions == null)
+                return hotfix_eligibility.all;
+
+            xenServerVersion = GetServerVersions(host, XenServerVersions).FirstOrDefault();
+
+            return xenServerVersion?.HotfixEligibility ?? hotfix_eligibility.all;
+        }
+
+        public static void CheckHotfixEligibility(IXenConnection connection)
+        {
+            var master = Helpers.GetMaster(connection);
+            if (master == null)
+                return;
+
+            var hotfixEligibility = HotfixEligibility(master, out var xenServerVersion);
+
+            if (!HotfixEligibilityAlert.IsAlertNeeded(hotfixEligibility, xenServerVersion, !master.IsFreeLicenseOrExpired()))
+            {
+                Alert.RemoveAlert(a => a is HotfixEligibilityAlert && connection.Equals(a.Connection));
+                return;
+            }
+
+            var alertIndex = Alert.FindAlertIndex(a => a is HotfixEligibilityAlert alert && connection.Equals(alert.Connection) && xenServerVersion == alert.Version);
+            if (alertIndex == -1)
+            {
+                Alert.RemoveAlert(a => a is HotfixEligibilityAlert && connection.Equals(a.Connection)); // ensure that there is no other alert for this connection
+                Alert.AddAlert(new HotfixEligibilityAlert(connection, xenServerVersion));
+            }
+            else
+                Alert.RefreshAlertAt(alertIndex);
+        }
+
+        public static void CheckHotfixEligibility()
+        {
+            var alerts = new List<HotfixEligibilityAlert>();
+         
+            foreach (var connection in ConnectionsManager.XenConnectionsCopy)
+            {
+                if (!connection.IsConnected)
+                    continue;
+
+                var master = Helpers.GetMaster(connection);
+                if (master == null)
+                    continue;
+                
+                var hotfixEligibility = HotfixEligibility(master, out var xenServerVersion);
+                if (!HotfixEligibilityAlert.IsAlertNeeded(hotfixEligibility, xenServerVersion, !master.IsFreeLicenseOrExpired()))
+                    continue;
+
+                alerts.Add(new HotfixEligibilityAlert(connection, xenServerVersion));
+            }
+
+            Alert.RemoveAlert(a => a is HotfixEligibilityAlert);
+            Alert.AddAlertRange(alerts);
         }
     }
 }

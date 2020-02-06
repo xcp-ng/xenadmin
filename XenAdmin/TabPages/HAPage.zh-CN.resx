@@ -371,12 +371,6 @@
   <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 10</value>
   </data>
-  <data name="tableLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 18, 46</value>
-  </data>
-  <data name="tableLayoutPanel1.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>900, 500</value>
-  </data>
   <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>

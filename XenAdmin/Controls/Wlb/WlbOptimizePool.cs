@@ -609,8 +609,7 @@ namespace XenAdmin.Controls.Wlb
                 catch (Exception e)
                 {
                     statusLabel.Text = Messages.WLB_OPT_LOADING_ERROR;
-                    log.ErrorFormat("There was an error calling retrieve_wlb_recommendations on pool {0}", _pool.name_label);
-                    log.Error(e, e);
+                    log.Error($"There was an error calling retrieve_wlb_recommendations on pool {_pool.name_label}.", e);
                 }
 
                 finally

@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,15 @@ namespace XenAPI
     [JsonConverter(typeof(vif_ipv6_configuration_modeConverter))]
     public enum vif_ipv6_configuration_mode
     {
-        None, Static, unknown
+        /// <summary>
+        /// Follow the default IPv6 configuration of the guest (this is guest-dependent)
+        /// </summary>
+        None,
+        /// <summary>
+        /// Static IPv6 address configuration
+        /// </summary>
+        Static,
+        unknown
     }
 
     public static class vif_ipv6_configuration_mode_helper
@@ -71,4 +78,4 @@ namespace XenAPI
             writer.WriteValue(((vif_ipv6_configuration_mode)value).StringOf());
         }
     }
-}
+}

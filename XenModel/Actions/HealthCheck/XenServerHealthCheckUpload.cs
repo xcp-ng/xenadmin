@@ -119,7 +119,7 @@ namespace XenServerHealthCheck
             }
             catch (Exception e)
             {
-                log.ErrorFormat("Exception while initiating a new CIS upload: {0}", e);
+                log.Error("Exception while initiating a new CIS upload: ", e);
             }
 
             // Fail to initialize the upload request
@@ -165,7 +165,7 @@ namespace XenServerHealthCheck
             }
             catch (Exception e)
             {
-                log.ErrorFormat("Failed to upload the chunk. The exception was: {0}", e);
+                log.Error("Failed to upload the chunk. The exception was: ", e);
             }
 
             return false;

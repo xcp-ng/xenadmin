@@ -33,7 +33,7 @@ using System;
 using NUnit.Framework;
 using XenAdmin.Alerts;
 using XenAdmin.Core;
-using XenAdminTests.UnitTests.UnitTestHelper;
+
 
 namespace XenAdminTests.UnitTests.AlertTests
 {
@@ -43,18 +43,21 @@ namespace XenAdminTests.UnitTests.AlertTests
         [Test]
         public void VerifyStoredDataWithDefaultConstructor()
         {
-            IUnitTestVerifier validator = new VerifyGetters(new XenCenterUpdateAlert(new XenCenterVersion("6.0.2", "xc", true, false, "http://url", new DateTime(2011, 12, 09).ToString())));
+            var version = new XenCenterVersion("6.0.2", "xc", true, false, "http://url",
+                new DateTime(2011, 12, 09).ToString());
 
-            validator.Verify(new AlertClassUnitTestData
-            {
-                AppliesTo = XenAdmin.Branding.BRAND_CONSOLE,
-                FixLinkText = "Go to Web Page",
-                HelpID = "XenCenterUpdateAlert",
-                Description = "xc is now available. Download the new version from the " + XenAdmin.Branding.COMPANY_NAME_SHORT + " website.",
-                HelpLinkText = "Help",
-                Title = "xc is now available",
-                Priority = "Priority5"
-            });
+            ClassVerifiers.VerifyGetters(new XenCenterUpdateAlert(version),
+                new AlertClassUnitTestData
+                {
+                    AppliesTo = XenAdmin.Branding.BRAND_CONSOLE,
+                    FixLinkText = "Go to Web Page",
+                    HelpID = "XenCenterUpdateAlert",
+                    Description = "xc is now available. Download the new version from the "
+                                  + XenAdmin.Branding.COMPANY_NAME_SHORT + " website.",
+                    HelpLinkText = "Help",
+                    Title = "xc is now available",
+                    Priority = "Priority5"
+                });
         }
     }
 }

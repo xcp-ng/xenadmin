@@ -92,11 +92,8 @@
     <Setting Name="useOnlineSchema" Type="System.String" Scope="Application">
       <Value Profile="(Default)">false</Value>
     </Setting>
-    <Setting Name="RequiredValidations" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Version, Files, Cpu, Memory, Networks, Capability, Schema</Value>
-    </Setting>
-    <Setting Name="enforceValidation" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="RequiredValidations" Type="System.Byte" Scope="Application">
+      <Value Profile="(Default)">127</Value>
     </Setting>
     <Setting Name="vmwNamespacePrefix" Type="System.String" Scope="Application">
       <Value Profile="(Default)">vmwovf</Value>
@@ -264,11 +261,35 @@
     <Setting Name="xenVDIKey" Type="System.String" Scope="Application">
       <Value Profile="(Default)">vdi=</Value>
     </Setting>
-    <Setting Name="VMwareNamespacePrefix" Type="System.String" Scope="User">
+    <Setting Name="VMwareNamespacePrefix" Type="System.String" Scope="Application">
       <Value Profile="(Default)">vmw</Value>
     </Setting>
-    <Setting Name="VMwareNamespace" Type="System.String" Scope="User">
+    <Setting Name="VMwareNamespace" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://www.vmware/schema/ovf</Value>
+    </Setting>
+    <Setting Name="LogLevel" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Audit, Error, Warning</Value>
+    </Setting>
+    <Setting Name="LogFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">XenApplianceWizard.log</Value>
+    </Setting>
+    <Setting Name="LogType" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Audit, Console</Value>
+    </Setting>
+    <Setting Name="LogSource" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">XenLocalOVF</Value>
+    </Setting>
+    <Setting Name="LogPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ApplicationData</Value>
+    </Setting>
+    <Setting Name="LogFormat" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Plain//Stamp</Value>
+    </Setting>
+    <Setting Name="LogForwarding" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">off//XenOvfLogFwd.dll,XenOvfLogFwd.Log4Net</Value>
+    </Setting>
+    <Setting Name="LogSubPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">[Citrix]\[XenCenter]\logs</Value>
     </Setting>
   </Settings>
 </SettingsFile>

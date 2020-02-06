@@ -50,40 +50,22 @@ namespace XenAdmin
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public Func<List<Role>, IXenConnection, string, AsyncAction.SudoElevationResult> SudoDialogDelegate
-        {
-            get { return SudoDialog; }
-        }
+        public Func<List<Role>, IXenConnection, string, AsyncAction.SudoElevationResult> SudoDialogDelegate => SudoDialog;
 
-        public int ConnectionTimeout
-        {
-            get { return Properties.Settings.Default.ConnectionTimeout; }
-        }
+        public int ConnectionTimeout => Properties.Settings.Default.ConnectionTimeout;
 
         public Session CreateActionSession(Session session, IXenConnection connection)
         {
             return SessionFactory.DuplicateSession(session, connection, ConnectionTimeout);
         }
 
-        public bool Exiting
-        {
-            get { return Program.Exiting; }
-        }
+        public bool Exiting => Program.Exiting;
 
-        public bool ForcedExiting
-        {
-            get { return Program.ForcedExiting; }
-        }
+        public bool ForcedExiting => Program.ForcedExiting;
 
-        public string XenCenterUUID
-        {
-            get { return Program.XenCenterUUID; }
-        }
+        public string XenCenterUUID => Program.XenCenterUUID;
 
-        public bool DontSudo
-        {
-            get { return Registry.DontSudo; }
-        }
+        public bool DontSudo => Registry.DontSudo;
 
         public IWebProxy GetProxyFromSettings(IXenConnection connection)
         {
@@ -163,7 +145,7 @@ namespace XenAdmin
 
         public string GetLogFile()
         {
-            return Program.GetLogFile_();
+            return Program.GetLogFile();
         }
 
         public void UpdateServerHistory(string hostnameWithPort)
@@ -193,10 +175,7 @@ namespace XenAdmin
 
         }
 
-        public bool ShowHiddenVMs
-        {
-            get { return XenAdmin.Properties.Settings.Default.ShowHiddenVMs; }
-        }
+        public bool ShowHiddenVMs => Properties.Settings.Default.ShowHiddenVMs;
 
         public PluginManager PluginManager;
 

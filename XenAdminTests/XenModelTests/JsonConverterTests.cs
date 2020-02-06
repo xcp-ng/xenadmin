@@ -40,7 +40,7 @@ using Newtonsoft.Json;
 
 namespace XenAdminTests.XenModelTests
 {
-    [TestFixture, Category(TestCategories.UICategoryB)]
+    [TestFixture, Category(TestCategories.Unit)]
     public class ConverterTests
     {
         #region Private methods

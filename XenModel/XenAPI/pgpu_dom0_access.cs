@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,23 @@ namespace XenAPI
     [JsonConverter(typeof(pgpu_dom0_accessConverter))]
     public enum pgpu_dom0_access
     {
-        enabled, disable_on_reboot, disabled, enable_on_reboot, unknown
+        /// <summary>
+        /// dom0 can access this device as normal
+        /// </summary>
+        enabled,
+        /// <summary>
+        /// On host reboot dom0 will be blocked from accessing this device
+        /// </summary>
+        disable_on_reboot,
+        /// <summary>
+        /// dom0 cannot access this device
+        /// </summary>
+        disabled,
+        /// <summary>
+        /// On host reboot dom0 will be allowed to access this device
+        /// </summary>
+        enable_on_reboot,
+        unknown
     }
 
     public static class pgpu_dom0_access_helper
@@ -75,4 +90,4 @@ namespace XenAPI
             writer.WriteValue(((pgpu_dom0_access)value).StringOf());
         }
     }
-}
+}

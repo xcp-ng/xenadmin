@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,31 @@ namespace XenAPI
     [JsonConverter(typeof(on_crash_behaviourConverter))]
     public enum on_crash_behaviour
     {
-        destroy, coredump_and_destroy, restart, coredump_and_restart, preserve, rename_restart, unknown
+        /// <summary>
+        /// destroy the VM state
+        /// </summary>
+        destroy,
+        /// <summary>
+        /// record a coredump and then destroy the VM state
+        /// </summary>
+        coredump_and_destroy,
+        /// <summary>
+        /// restart the VM
+        /// </summary>
+        restart,
+        /// <summary>
+        /// record a coredump and then restart the VM
+        /// </summary>
+        coredump_and_restart,
+        /// <summary>
+        /// leave the crashed VM paused
+        /// </summary>
+        preserve,
+        /// <summary>
+        /// rename the crashed VM and start a new copy
+        /// </summary>
+        rename_restart,
+        unknown
     }
 
     public static class on_crash_behaviour_helper
@@ -79,4 +102,4 @@ namespace XenAPI
             writer.WriteValue(((on_crash_behaviour)value).StringOf());
         }
     }
-}
+}

@@ -194,6 +194,9 @@ namespace XenAdmin.Wizards.HAWizard_Pages
 
         private void DeregisterEvents()
         {
+            if (connection == null)
+                return;
+
             // Remove listeners
             connection.Cache.DeregisterCollectionChanged<VM>(VM_CollectionChangedWithInvoke);
 

@@ -32,22 +32,16 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 using XenAdmin.Actions;
 using XenAdmin.Actions.Wlb;
 using XenAdmin.Commands;
-using XenAdmin.Controls;
 using XenAdmin.Core;
 using XenAdmin.Wlb;
 using XenAdmin.Dialogs;
 using XenAdmin.Dialogs.Wlb;
-using XenAdmin.Network;
-using XenAdmin.Help;
-using XenAdmin.TabPages;
 using XenAPI;
 
 
@@ -97,6 +91,8 @@ namespace XenAdmin.TabPages
 
             RefreshControls();
         }
+
+        public override string HelpID => "TabPageWLB";
 
         #region ControlEvents
 

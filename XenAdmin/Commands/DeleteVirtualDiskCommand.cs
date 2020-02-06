@@ -45,8 +45,6 @@ namespace XenAdmin.Commands
 {
     class DeleteVirtualDiskCommand : Command
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        
         /// <summary>
         /// Allows auto unplug and delete on running VMs
         /// </summary>

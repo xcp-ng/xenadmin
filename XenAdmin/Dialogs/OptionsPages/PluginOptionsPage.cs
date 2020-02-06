@@ -73,9 +73,10 @@ namespace XenAdmin.Dialogs.OptionsPages
 
         public static void Log()
         {
-            log.Info(string.Format("=== DisabledPlugins: {0}", Properties.Settings.Default.DisabledPlugins.Length == 0
-                                                                  ? "<None>"
-                                                                  : string.Join(",", Properties.Settings.Default.DisabledPlugins)));
+            log.InfoFormat("=== DisabledPlugins: {0}",
+                Properties.Settings.Default.DisabledPlugins.Length == 0
+                    ? "<None>"
+                    : string.Join(",", Properties.Settings.Default.DisabledPlugins));
         }
 
         #region Private methods

@@ -30,10 +30,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-
 using XenCenterLib.Archive;
 
 
@@ -47,27 +44,24 @@ namespace XenAdmin.Actions
         /// The folder containing the raw files as downloaded from the server
         /// </summary>
         private readonly string _inputTempFolder;
+
+        /// <summary>
+        /// Temporary folder in which we assemble the log files from the server
+        /// before repackaging them in a single zip file.
+        /// </summary>
+        private string _extractTempDir;
+
         /// <summary>
         /// The destination zip file for the repackaged server log files
         /// </summary>
         private readonly string _destFile;
 
         /// <summary>
-        /// A dictionary mapping file to original modification time.  The filepath used is the full path
-        /// within the staging directory (extractTempDir) where we put all the files before repacking them.
-        /// The modification time either comes from the source tarball (if downloaded from a server), or
-        /// the source file (if copying a local file).
-        /// </summary>
-        private readonly Dictionary<string, DateTime> ModTimes = new Dictionary<string, DateTime>();
-
-        private long bytesToCompress = 1;
-
-        /// <summary>
-        ///  Constructor to zip downloaded file action
+        ///  Creates a new instance of the action for zipping downloaded server log files
         /// </summary>
         /// <param name="tempFolder">Temporary folder to store the downloaded logs</param>
         /// <param name="destFile">The target file to store the compressed result</param>
-        /// <param name="suppressHistory">Whether to suppress history in the event tab</param>
+        /// <param name="suppressHistory">Whether to suppress history in the Events TabPage</param>
         public ZipStatusReportAction(string tempFolder, string destFile, bool suppressHistory=true)
             : base(null, Messages.BUGTOOL_SAVING, Messages.BUGTOOL_SAVING, suppressHistory)
         {
@@ -77,335 +71,147 @@ namespace XenAdmin.Actions
 
         protected override void Run()
         {
-            // The directory in which we assemble the log files from the server before repackaging them
-            // in a single zip file.
-            string extractTempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            do
+            {
+                _extractTempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            } while (Directory.Exists(_extractTempDir));
+
+            Directory.CreateDirectory(_extractTempDir);
 
             try
             {
                 // Calculate total bytes to save
-                long bytesToExtract = 1, bytesExtracted = 0;
-                foreach (string inputFile in Directory.GetFiles(_inputTempFolder))
-                {
+                long bytesToCompress = 0, bytesToExtract = 0, bytesExtracted = 0;
+
+                var files = Directory.GetFiles(_inputTempFolder);
+
+                foreach (string inputFile in files)
                     bytesToExtract += new FileInfo(inputFile).Length;
-                }
 
-                // Create temp dir for extracted stuff
-                if (Directory.Exists(extractTempDir))
-                {
-                    Directory.Delete(extractTempDir);
-                }
-                Directory.CreateDirectory(extractTempDir);
-
-                // Extract each of the raw server files to the temp extraction directory
-                foreach (string inputFile in Directory.GetFiles(_inputTempFolder))
+                foreach (string inputFile in files)
                 {
                     if (inputFile.ToLowerInvariant().EndsWith(".tar"))
                     {
-                        // Un-tar it. SharpZipLib doesn't account for illegal filenames or characters in
-                        // filenames (e.g. ':'in Windows), so first we stream the tar to a new tar,
-                        // sanitizing any bad filenames as we go.
+                        // Sanitize and un-tar each of the raw server tars to the temp extraction directory
 
-                        // We also need to record the modification times of all the files, so that we can
-                        // restore them into the final zip.
-                        
                         string outFilename = inputFile.Substring(0, inputFile.Length - 4);
                         if (outFilename.Length == 0)
                             outFilename = Path.GetRandomFileName();
-                        string outputDir = Path.Combine(extractTempDir, Path.GetFileName(outFilename));
+                        string outputDir = Path.Combine(_extractTempDir, Path.GetFileName(outFilename));
 
                         string sanitizedTar = Path.GetTempFileName();
+                        TarSanitization.SanitizeTarForWindows(inputFile, sanitizedTar, CheckCancellation);
 
-                        using (ArchiveIterator tarIterator = ArchiveFactory.Reader(ArchiveFactory.Type.Tar, File.OpenRead(inputFile)))
+                        using (FileStream fs = File.OpenRead(sanitizedTar))
+                        using (ArchiveIterator tarIterator = ArchiveFactory.Reader(ArchiveFactory.Type.Tar, fs))
                         {
-                            using (ArchiveWriter tarWriter = ArchiveFactory.Writer(ArchiveFactory.Type.Tar, File.OpenWrite(sanitizedTar)))
-                            {
-                                Dictionary<string, string> usedNames = new Dictionary<string, string>();
-                                while (tarIterator.HasNext())
-                                {
-                                    if (Cancelling)
-                                    {
-                                        throw new CancelledException();
-                                    }
-
-                                    using( MemoryStream ms = new MemoryStream() )
-                                    {
-                                        tarIterator.ExtractCurrentFile(ms);
-                                        string saneName = SanitizeTarName(tarIterator.CurrentFileName(), usedNames);
-                                        tarWriter.Add(ms, saneName);
-                                        ModTimes[Path.Combine(outputDir, saneName)] = tarIterator.CurrentFileModificationTime();
-                                    }
-
-                                }
-                            }
+                            Directory.CreateDirectory(outputDir);
+                            tarIterator.ExtractAllContents(outputDir);
+                            bytesToCompress += Core.Helpers.GetDirSize(new DirectoryInfo(outputDir));
                         }
 
-                        // Now extract the sanitized tar
-                        using(FileStream fs = File.OpenRead(sanitizedTar))
+                        try
                         {
-                            using (ArchiveIterator tarIterator = ArchiveFactory.Reader(ArchiveFactory.Type.Tar, fs))
-                            {
-                                Directory.CreateDirectory(outputDir);
-                                tarIterator.ExtractAllContents(outputDir);
-                                bytesToCompress += Core.Helpers.GetDirSize(new DirectoryInfo(outputDir));
-                            }
+                            File.Delete(sanitizedTar);
+                        }
+                        catch
+                        {
                         }
                     }
                     else
                     {
                         // Just copy vanilla input files unmodified to the temp directory
-                        string outputFile = Path.Combine(extractTempDir, Path.GetFileName(inputFile));
+                        string outputFile = Path.Combine(_extractTempDir, Path.GetFileName(inputFile));
                         File.Copy(inputFile, outputFile);
-                        ModTimes[outputFile] = new FileInfo(inputFile).LastWriteTimeUtc;
                         bytesToCompress += new FileInfo(outputFile).Length;
                     }
 
                     bytesExtracted += new FileInfo(inputFile).Length;
                     File.Delete(inputFile);
-                    this.PercentComplete = (int)(50.0 * bytesExtracted / bytesToExtract);
-
-                    if (Cancelling)
-                    {
-                        throw new CancelledException();
-                    }
+                    PercentComplete = (int)(50.0 * bytesExtracted / bytesToExtract);
+                    CheckCancellation();
                 }
 
                 // Now zip up all the temporarily extracted files into a single zip file for the user
-                log.DebugFormat("Packing {0} of bug report files into zip file {1}",
+                log.DebugFormat("Packing {0} of bug report files into zip file {1}", 
                     Util.DiskSizeString(bytesToCompress), _destFile);
 
-                LogDescriptionChanges = false;
-                try
-                {
-
-                    ZipToOutputFile(extractTempDir);
-                    PercentComplete = 100;
-
-                    // Only cleanup files if it succeeded (or cancelled)
-                    CleanupFiles(extractTempDir);
-                }
-                finally
-                {
-                    LogDescriptionChanges = true;
-                }
-
-                if (Cancelling)
-                    throw new CancelledException();
+                ZipToOutputFile(_extractTempDir, CheckCancellation, p => PercentComplete = 50 + p / 2);
+                CleanupFiles();
+                PercentComplete = 100;
             }
             catch (CancelledException)
             {
-                CleanupFiles(extractTempDir, true);
-
+                CleanupFiles(true);
                 throw;
             }
             catch (Exception exn)
             {
-                ZipToOutputFile(_inputTempFolder);
-                PercentComplete = 100;
-                log.ErrorFormat("An exception was trapped while creating a server status report: " + exn.Message);
+                try
+                {
+                    log.Error("Failed to package sanitized server status report: ", exn);
+                    log.Debug("Attempting to package raw downloaded server files.");
+                    ZipToOutputFile(_inputTempFolder, CheckCancellation);
+                }
+                catch(CancelledException)
+                {
+                    CleanupFiles(true);
+                    throw;
+                }
+                catch
+                {
+                    log.Debug("Failed to package raw downloaded server files.");
+                }
+
                 throw new Exception(Messages.STATUS_REPORT_ZIP_FAILED);
             }
         }
 
-        private void ZipToOutputFile(string folderToZip)
+        private void CheckCancellation()
         {
-            using (ArchiveWriter zip = ArchiveFactory.Writer(ArchiveFactory.Type.Zip, File.OpenWrite(_destFile)))
-            {
-                zip.CreateArchive(folderToZip);
-            }
+            if (Cancelling)
+                throw new CancelledException();
         }
 
-        private void CleanupFiles(string extractTempDir, bool deleteDestFile = false)
+        private void ZipToOutputFile(string folderToZip, Action cancellingDelegate = null, Action<int> progressDelegate = null)
         {
-            // We completed successfully: delete temporary files
-            log.Debug("Deleting temporary files");
+            using (ArchiveWriter zip = ArchiveFactory.Writer(ArchiveFactory.Type.Zip, File.OpenWrite(_destFile)))
+                zip.CreateArchive(folderToZip, cancellingDelegate, progressDelegate);
+        }
+
+        private void CleanupFiles(bool deleteDestFile = false)
+        {
             try
             {
-                // Delete temp directory of raw server files to-be-decompressed
+                log.Debug("Deleting temporary directory with raw downloaded server files");
                 Directory.Delete(_inputTempFolder, true);
             }
             catch (Exception exn)
             {
-                log.Warn("Could not delete temporary decompressed files directory", exn);
+                log.Warn("Could not delete temporary directory with raw downloaded server files", exn);
             }
 
             try
             {
-                // Try to remove temp decompressed files dir
-                Directory.Delete(extractTempDir, true);
+                log.Debug("Deleting directory with temporarily extracted files");
+                Directory.Delete(_extractTempDir, true);
             }
             catch (Exception exn)
             {
-                log.Warn("Could not delete temporary extracted files directory", exn);
+                log.Warn("Could not delete directory with temporarily extracted files", exn);
             }
 
             try
             {
                 if (deleteDestFile)
                 {
+                    log.Debug("Deleting destination zip file");
                     File.Delete(_destFile);
                 }
             }
             catch (Exception ex)
             {
-                log.Warn("Could not delete destination file", ex);
-            }
-        }
-
-        /// <summary>
-        /// Maps file/directory names that are illegal under Windows to 'sanitized' versions. The usedNames
-        /// parameter ensures this is done consistently within a directory tree.
-        /// 
-        /// The dictionary is used by SanitizeTarName() to ensure names are consistently sanitized. e.g.:
-        /// dir1: -> dir1_
-        /// dir1? -> dir1_ (1)
-        /// dir1_ -> dir1_ (2)
-        /// dir1:/file -> dir1_/file
-        /// dir1?/file -> dir1_ (1)/file
-        ///
-        /// Pass the same dictionary to each invocation to get unique outputs within the same tree.
-        /// </summary>
-        private static string SanitizeTarName(string path, Dictionary<string, string> usedNames)
-        {
-            string sanitizedPath = "";
-            Stack<string> bitsToEscape = new Stack<string>();
-            // Trim any trailing slashes (usually indicates path is a directory)
-            path = path.TrimEnd(new char[] { '/' });
-            // Take members off the end of the path until we have a name that already is
-            // a key in our dictionary, or until we have the empty string.
-            while (!usedNames.ContainsKey(path) && path.Length > 0)
-            {
-                string[] bits = path.Split(new char[] { '/' });
-                string lastBit = bits[bits.Length - 1];
-                int lengthOfLastBit = lastBit.Length;
-                bitsToEscape.Push(lastBit);
-                path = path.Substring(0, path.Length - lengthOfLastBit);
-                path = path.TrimEnd(new char[] { '/' });
-            }
-
-            if (usedNames.ContainsKey(path))
-            {
-                sanitizedPath = usedNames[path];
-            }
-
-            // Now for each member in the path, look up the escaping of that member if it exists; otherwise
-            // generate a new, unique escaping. Then append the escaped member to the end of the sanitized
-            // path and continue.
-            foreach (string member in bitsToEscape)
-            {
-                System.Diagnostics.Trace.Assert(member.Length > 0);
-                string sanitizedMember = SanitizeTarPathMember(member);
-                sanitizedPath = Path.Combine(sanitizedPath, sanitizedMember);
-                path = path + Path.DirectorySeparatorChar + member;
-
-                // Note: even if sanitizedMember == member, we must add it to the dictionary, since
-                // tar permits names that differ only in case, while Windows does not. We must e.g.:
-                // abc -> abc
-                // aBC -> aBC (1)
-                
-                if (usedNames.ContainsKey(path))
-                {
-                    // We have already generated an escaping for this path prefix: use it
-                    sanitizedPath = usedNames[path];
-                    continue;
-                }
-
-                // Generate the unique mapping
-                string pre = sanitizedPath;
-                int i = 1;
-                while (DictionaryContainsIgnoringCase(usedNames, sanitizedPath))
-                {
-                    sanitizedPath = string.Format("{0} ({1})", pre, i);
-                    i++;
-                }
-
-                usedNames.Add(path, sanitizedPath);
-            }
-            return sanitizedPath;
-        }
-
-        private static bool DictionaryContainsIgnoringCase(Dictionary<string, string> dict, string value)
-        {
-            foreach (string v in dict.Values)
-            {
-                if (v.ToUpperInvariant() == value.ToUpperInvariant())
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        // See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/fileio/fs/naming_a_file.asp
-        private static readonly string[] forbiddenNames = { "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" };
-        public static string SanitizeTarPathMember(string member)
-        {
-            // Strip any whitespace, or Windows will do it for us, and we might generate non-unique names
-            member = member.Trim();
-
-            foreach (string reserved in forbiddenNames)
-            {
-                // Names can't be any of com1, com2, or com1.xyz, com2.abc etc.
-                if (member.ToUpperInvariant() == reserved.ToUpperInvariant()
-                    || member.ToUpperInvariant().StartsWith(reserved.ToUpperInvariant() + "."))
-                {
-                    member = "_" + member;
-                }
-            }
-
-            // Allow only 31 < c < 126, excluding  < > : " / \ | ? *
-            StringBuilder sb = new StringBuilder(member.Length);
-            foreach (char c in member.ToCharArray())
-            {
-                if (c > 31 && c < 127 && !IsCharExcluded(c))
-                {
-                    sb.Append(c);
-                }
-                else
-                {
-                    sb.Append("_");
-                }
-            }
-            member = sb.ToString();
-
-            // Windows also seems not to like filenames ending '.'
-            if (member.EndsWith("."))
-            {
-                member = member.Substring(0, member.Length - 1) + "_";
-            }
-
-            // Don't allow empty filename
-            if (member.Length == 0)
-            {
-                member = "_";
-            }
-
-            return member;
-        }
-
-        private static readonly char[] excludedChars = new char[] { '<', '>', ':', '"', '/', '\\', '|', '?', '*' };
-        private static bool IsCharExcluded(char c)
-        {
-            foreach (char excluded in excludedChars)
-            {
-                if (c == excluded)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Copies the specified number of bytes from one stream to another via the provided buffer.
-        /// </summary>
-        private static void CopyStream(Stream inputStream, Stream outputStream, long bytesToCopy, byte[] buf)
-        {
-            while (bytesToCopy > 0)
-            {
-                int bytesRead = inputStream.Read(buf, 0, Math.Min(bytesToCopy > int.MaxValue ? int.MaxValue : (int)bytesToCopy, buf.Length));
-                outputStream.Write(buf, 0, bytesRead);
-                bytesToCopy -= bytesRead;
+                log.Warn("Could not delete destination zip file", ex);
             }
         }
 

@@ -30,27 +30,18 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-
-using XenAdmin.Core;
 using XenAdmin.CustomFields;
-using XenAdmin.SettingsPanels;
-using XenAdmin.XenSearch;
 using XenAdmin.Network;
 
 namespace XenAdmin.Dialogs
 {
     public partial class NewCustomFieldDialog : XenDialogBase
     {
-        public NewCustomFieldDialog(IXenConnection c)
+        public NewCustomFieldDialog(IXenConnection conn)
+            :base(conn)
         {
             InitializeComponent();
-            this.connection = c;
+
             okButton.Enabled = !string.IsNullOrEmpty(NameTextBox.Text);
             TypeComboBox.SelectedIndex = 0;
         }

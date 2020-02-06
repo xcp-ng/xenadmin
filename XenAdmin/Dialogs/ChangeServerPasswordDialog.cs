@@ -30,42 +30,42 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-
 using XenAdmin.Actions;
+using XenAdmin.Core;
+using XenAPI;
 
 
 namespace XenAdmin.Dialogs
 {
     public partial class ChangeServerPasswordDialog : XenDialogBase
     {
-        private readonly XenAPI.Host host;
-        private readonly XenAPI.Pool pool;
+        private readonly Host host;
+        private readonly Pool pool;
 
-        public ChangeServerPasswordDialog(XenAPI.Host host)
+        public ChangeServerPasswordDialog(Host host)
         {
             InitializeComponent();
             
             this.host = host;
 
-            host.PropertyChanged += new PropertyChangedEventHandler(Server_PropertyChanged);
+            host.PropertyChanged += Server_PropertyChanged;
 
             UpdateText();
-            checkConfirmEnablement();
+            UpdateButtons();
         }
 
-        public ChangeServerPasswordDialog(XenAPI.Pool pool)
+        public ChangeServerPasswordDialog(Pool pool)
         {
             InitializeComponent();
 
             this.pool = pool;
 
-            pool.PropertyChanged += new PropertyChangedEventHandler(Server_PropertyChanged);
+            pool.PropertyChanged += Server_PropertyChanged;
 
             UpdateText();
-            checkConfirmEnablement();
+            UpdateButtons();
         }
 
         private void Server_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -84,15 +84,15 @@ namespace XenAdmin.Dialogs
 
             if (host != null)
             {
-                XenAPI.Pool thePool = Core.Helpers.GetPoolOfOne(host.Connection);
+                Pool thePool = Helpers.GetPoolOfOne(host.Connection);
                 name = thePool.Name();
             }
 
             if (pool != null)
                 name = pool.Name();
 
-            this.Text = string.Format(Messages.CHANGEPASS_DIALOG_TITLE, name);
-            ServerNameLabel.Text = string.Format(Messages.CHANGEPASS_ROOT_PASS, name);
+            this.Text = string.Format(Messages.CHANGEPASS_DIALOG_TITLE, name.Ellipsise(30));
+            ServerNameLabel.Text = string.Format(Messages.CHANGEPASS_ROOT_PASS, name.Ellipsise(30));
         }
 
         private void okButton_Click(object sender, EventArgs e)
@@ -113,8 +113,7 @@ namespace XenAdmin.Dialogs
             // Check new passwords match
             if (!newPassBox.Text.Equals(confirmBox.Text))
             {
-                newPasswordError.Visible = true;
-                newPasswordError.Error = Messages.PASSWORDS_DONT_MATCH;
+                newPasswordError.ShowError(Messages.PASSWORDS_DONT_MATCH);
                 newPassBox.Focus();
                 newPassBox.SelectAll();
                 return;
@@ -125,46 +124,48 @@ namespace XenAdmin.Dialogs
                     : new ChangeHostPasswordAction(host.Connection, oldPassBox.Text.ToCharArray(), newPassBox.Text.ToCharArray());
             action.RunAsync();
 
-            this.DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
             Close();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            DialogResult = DialogResult.Cancel;
             Close();
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
             if (host != null)
-                host.PropertyChanged -= new PropertyChangedEventHandler(Server_PropertyChanged);
+                host.PropertyChanged -= Server_PropertyChanged;
             if (pool != null)
-                pool.PropertyChanged -= new PropertyChangedEventHandler(Server_PropertyChanged);
+                pool.PropertyChanged -= Server_PropertyChanged;
             base.OnClosing(e);
         }
 
         private void oldPassBox_TextChanged(object sender, EventArgs e)
         {
             currentPasswordError.Visible = false;
-            checkConfirmEnablement();
+            UpdateButtons();
         }
 
         private void newPassBox_TextChanged(object sender, EventArgs e)
         {
             newPasswordError.Visible = false;
-            checkConfirmEnablement();
+            UpdateButtons();
         }
 
         private void confirmBox_TextChanged(object sender, EventArgs e)
         {
             newPasswordError.Visible = false;
-            checkConfirmEnablement();
+            UpdateButtons();
         }
 
-        private void checkConfirmEnablement()
+        private void UpdateButtons()
         {
-            okButton.Enabled = oldPassBox.Text != "" && newPassBox.Text != "" && confirmBox.Text != "";
+            okButton.Enabled = !string.IsNullOrEmpty(oldPassBox.Text) &&
+                               !string.IsNullOrEmpty(newPassBox.Text) &&
+                               !string.IsNullOrEmpty(confirmBox.Text);
         }
     }
 }

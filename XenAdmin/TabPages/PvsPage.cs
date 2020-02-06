@@ -70,6 +70,8 @@ namespace XenAdmin.TabPages
             base.Text = Messages.PVS_TAB_TITLE;
         }
 
+        public override string HelpID => "TabPagePvs";
+
         public IXenConnection Connection
         {
             get
@@ -379,7 +381,7 @@ namespace XenAdmin.TabPages
                     var vm = row.Tag as VM;
                     if (vm != null && vm.Equals(sender))
                     {
-                        row.Cells["columnVM"].Value = vm.Name();
+                        row.Cells[columnVM.Name].Value = vm.Name();
                         break;
                     }
                 }

@@ -37,6 +37,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
+using XenAdmin.Help;
 using XenAdmin.Network;
 
 
@@ -45,7 +46,7 @@ namespace XenAdmin.Controls
     public delegate void XenTabPageStatusChanged(XenTabPage sender);
 
     [Designer(typeof(ParentControlDesigner))]
-    public partial class XenTabPage : UserControl
+    public partial class XenTabPage : UserControl, IControlWithHelp
     {
         public IXenConnection Connection;
 
@@ -107,7 +108,7 @@ namespace XenAdmin.Controls
         /// <summary>
         /// Note that most derived classes override the getter to return a fixed string
         /// </summary>
-        public virtual string HelpID { get { return ""; } }
+        public virtual string HelpID => "";
 
         public virtual string NextText(bool isLastPage)
         {

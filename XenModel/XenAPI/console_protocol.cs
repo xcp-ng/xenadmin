@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,19 @@ namespace XenAPI
     [JsonConverter(typeof(console_protocolConverter))]
     public enum console_protocol
     {
-        vt100, rfb, rdp, unknown
+        /// <summary>
+        /// VT100 terminal
+        /// </summary>
+        vt100,
+        /// <summary>
+        /// Remote FrameBuffer protocol (as used in VNC)
+        /// </summary>
+        rfb,
+        /// <summary>
+        /// Remote Desktop Protocol
+        /// </summary>
+        rdp,
+        unknown
     }
 
     public static class console_protocol_helper
@@ -73,4 +84,4 @@ namespace XenAPI
             writer.WriteValue(((console_protocol)value).StringOf());
         }
     }
-}
+}

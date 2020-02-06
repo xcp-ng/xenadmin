@@ -184,7 +184,7 @@ namespace XenAdmin.XenSearch
             {
                 Session session = host.Connection.Session;
                 if (session != null)
-                    return AllValues(HTTPHelper.GET(GetUri(session, host), host.Connection, true, false));
+                    return AllValues(HTTPHelper.GET(GetUri(session, host), host.Connection, true));
             }
             catch (Exception e)
             {

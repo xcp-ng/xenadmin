@@ -175,46 +175,31 @@ namespace XenAdmin.SettingsPanels
 
         public void SetXenObjects(IXenObject orig, IXenObject clone)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
-        public bool ValidToSave
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
+        public bool ValidToSave => throw new NotImplementedException();
 
         public void ShowLocalValidationMessages()
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
         public void Cleanup()
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
-        public bool HasChanged
-        {
-            get 
-            {
-                return _hasChanged || wlbOptModeScheduler1.HasChanged; 
-            }
-        }
+        public bool HasChanged => _hasChanged || wlbOptModeScheduler1.HasChanged;
 
         #endregion
 
         #region IVerticalTab Members
 
 
-        public string SubText
-        {
-            get { return Messages.WLB_OPTIMIZATION_MODE_SUBTEXT; }
-        }
+        public string SubText => Messages.WLB_OPTIMIZATION_MODE_SUBTEXT;
 
-        public Image Image
-        {
-            get { return Properties.Resources._000_Optimize_h32bit_16; }
-        }
+        public Image Image => Properties.Resources._000_Optimize_h32bit_16;
 
         #endregion
 

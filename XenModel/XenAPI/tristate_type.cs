@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,19 @@ namespace XenAPI
     [JsonConverter(typeof(tristate_typeConverter))]
     public enum tristate_type
     {
-        yes, no, unspecified, unknown
+        /// <summary>
+        /// Known to be true
+        /// </summary>
+        yes,
+        /// <summary>
+        /// Known to be false
+        /// </summary>
+        no,
+        /// <summary>
+        /// Unknown or unspecified
+        /// </summary>
+        unspecified,
+        unknown
     }
 
     public static class tristate_type_helper
@@ -73,4 +84,4 @@ namespace XenAPI
             writer.WriteValue(((tristate_type)value).StringOf());
         }
     }
-}
+}

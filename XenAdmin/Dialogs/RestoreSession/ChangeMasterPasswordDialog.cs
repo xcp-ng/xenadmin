@@ -30,8 +30,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using XenCenterLib;
 
@@ -40,25 +38,17 @@ namespace XenAdmin.Dialogs.RestoreSession
 {
     public partial class ChangeMasterPasswordDialog : XenDialogBase
     {
-        private byte[] OldProposedPassword;
-        private byte[] passHash;
+        private readonly byte[] OldProposedPassword;
 
         public ChangeMasterPasswordDialog(byte[] proposedPassword)
         {
             InitializeComponent();
             OldProposedPassword = proposedPassword;
             currentPasswordError.Visible = false;
-            currentPasswordError.Error = Messages.PASSWORD_INCORRECT;
             newPasswordError.Visible = false;
         }
 
-        public byte[] NewPassword
-        {
-            get
-            {
-                return passHash;
-            }
-        }
+        public byte[] NewPassword { get; private set; }
 
         private void currentTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -77,41 +67,25 @@ namespace XenAdmin.Dialogs.RestoreSession
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(masterTextBox.Text) && masterTextBox.Text == reEnterMasterTextBox.Text)
-            {
-                if (Settings.PassCorrect(currentTextBox.Text,OldProposedPassword))
-                {
-                    passHash = EncryptionUtils.ComputeHash(masterTextBox.Text);
-                    DialogResult = DialogResult.OK;
-                    Close();
-                }
-                else
-                {
-                    currentPasswordError.Visible = true;
-                    currentTextBox.Focus();
-                    currentTextBox.SelectAll();
-                }
-            }
-            else if (masterTextBox.Text != reEnterMasterTextBox.Text)
-            {
-                newPasswordError.Error = Messages.PASSWORDS_DONT_MATCH;
-                newPasswordError.Visible = true;
-                masterTextBox.Focus();
-                masterTextBox.SelectAll();
-            }
-            else
-            {
-                newPasswordError.Error = Messages.PASSWORDS_EMPTY;
-                newPasswordError.Visible = true;
-                masterTextBox.Focus();
-                masterTextBox.SelectAll();
-            }
-        }
+            var oldPasswordCorrect = Settings.PassCorrect(currentTextBox.Text, OldProposedPassword);
 
-        private void cancelButton_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
+            if (oldPasswordCorrect && !string.IsNullOrEmpty(masterTextBox.Text) &&
+                masterTextBox.Text == reEnterMasterTextBox.Text)
+            {
+                NewPassword = EncryptionUtils.ComputeHash(masterTextBox.Text);
+                DialogResult = DialogResult.OK;
+                return;
+            }
+
+            if (!oldPasswordCorrect)
+                currentPasswordError.ShowError(Messages.PASSWORD_INCORRECT);
+            else if (masterTextBox.Text != reEnterMasterTextBox.Text)
+                newPasswordError.ShowError(Messages.PASSWORDS_DONT_MATCH);
+            else
+                newPasswordError.ShowError(Messages.PASSWORDS_EMPTY);
+
+            currentTextBox.Focus();
+            currentTextBox.SelectAll();
         }
     }
 }

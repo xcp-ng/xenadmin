@@ -37,46 +37,33 @@ using XenAdmin.Controls.DataGridViewEx;
 using XenAPI;
 using XenAdmin.Dialogs;
 using XenAdmin.Actions.GPU;
-using System.Text.RegularExpressions;
+
 
 namespace XenAdmin.Controls.GPU
 {
     public partial class GpuConfiguration : XenDialogBase
     {
-        private List<PGPU> PGpuList { get; set; }
+        private List<PGPU> PGpuList { get; }
 
-        internal override string HelpName
-        {
-            get
-            {
-                return "GpuConfigurationDialog";
-            }
-        }
+        internal override string HelpName => "GpuConfigurationDialog";
 
         private GpuConfiguration()
         {
             InitializeComponent();
         }
 
-        public GpuConfiguration(IEnumerable<PGPU> pGpuList)
-            : this()
+        public GpuConfiguration(List<PGPU> pGpuList)
+            : base(pGpuList[0].Connection)
         {
-            if (pGpuList == null)
-                throw new ArgumentNullException("pGpuList");
-            if (pGpuList.Count() == 0)
-                throw new ArgumentOutOfRangeException("pGpuList", "pGpuList list should not be empty");
-            if (pGpuList.ElementAt(0) == null)
-                throw new ArgumentOutOfRangeException("pGpuList[0]", "first element of the pGpuList list should not be null");
+            InitializeComponent();
 
             PGpuList = pGpuList.ToList();
-            connection = PGpuList[0].Connection;
             PopulateGrid(pGpuList);
         }
 
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-
             SetWindowTitle();
         }
 
@@ -91,17 +78,16 @@ namespace XenAdmin.Controls.GPU
             {
                 if (pGpu.supported_VGPU_types != null)
                 {
-                    dataGridViewEx1.Rows.AddRange((from supportedVGpuTypeRef in pGpu.supported_VGPU_types
-                                                   let supportedVGpuType = pGpu.Connection.Resolve(supportedVGpuTypeRef)
-                                                   let enabled = pGpu.enabled_VGPU_types.Contains(supportedVGpuTypeRef)
-                                                   let isInUse = pGpuList.Any(p => p.Connection.ResolveAll(p.resident_VGPUs).Any(v => v.type.opaque_ref == supportedVGpuTypeRef.opaque_ref))
-                                                   orderby supportedVGpuType descending 
-                                                   
-                                                   select new VGpuDetailWithCheckBoxRow(supportedVGpuTypeRef, supportedVGpuType, enabled, isInUse)
-                                                   )
-                                                   .ToArray());
+                    var rows = from supportedVGpuTypeRef in pGpu.supported_VGPU_types
+                        let supportedVGpuType = pGpu.Connection.Resolve(supportedVGpuTypeRef)
+                        let enabled = pGpu.enabled_VGPU_types.Contains(supportedVGpuTypeRef)
+                        let isInUse = pGpuList.Any(p => p.Connection.ResolveAll(p.resident_VGPUs).Any(v => v.type.opaque_ref == supportedVGpuTypeRef.opaque_ref))
+                        orderby supportedVGpuType descending
+                        select new VGpuDetailWithCheckBoxRow(supportedVGpuTypeRef, supportedVGpuType, enabled, isInUse);
+
+                    dataGridViewEx1.Rows.AddRange(rows.Cast<DataGridViewRow>().ToArray());
                 }
-                SetCheckedValues();
+
                 HideColumnIfEmpty(MaxResolutionColumn);
                 HideColumnIfEmpty(MaxDisplaysColumn);
             }
@@ -112,11 +98,6 @@ namespace XenAdmin.Controls.GPU
             }
         }
 
-        private void SetCheckedValues()
-        {
-            dataGridViewEx1.Rows.Cast<VGpuDetailWithCheckBoxRow>().ToList().ForEach(r => r.Enabled = !r.IsReadOnly);
-        }
-        
         private void okButton_Click(object sender, System.EventArgs e)
         {
             var updatedEnabledVGpuListByPGpu = new Dictionary<PGPU, List<XenRef<VGPU_type>>>();
@@ -139,9 +120,14 @@ namespace XenAdmin.Controls.GPU
             Close();
         }
 
-        private void dataGridViewEx1_SelectionChanged(object sender, System.EventArgs e)
+        private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridViewEx1.ClearSelection();
+            if (e.ColumnIndex != CheckBoxColumn.Index || e.RowIndex < 0 || e.RowIndex >= dataGridViewEx1.RowCount)
+                return;
+
+            if (dataGridViewEx1.Rows[e.RowIndex] is VGpuDetailWithCheckBoxRow row && row.Enabled &&
+                row.Cells[e.ColumnIndex] is DataGridViewCheckBoxCell clickedCell)
+                clickedCell.Value = !(bool)clickedCell.Value;
         }
 
         private void SetWindowTitle()
@@ -152,8 +138,8 @@ namespace XenAdmin.Controls.GPU
                 : String.Format(Messages.GPU_GROUP_NAME_AND_NO_OF_GPUS, name, PGpuList.Count);
 
             rubricLabel.Text = PGpuList.Count == 1
-                                   ? Messages.GPU_RUBRIC_PLEASE_SELECT_WHICH_GPU_ONE
-                                   : Messages.GPU_RUBRIC_PLEASE_SELECT_WHICH_GPU_MULTIPLE;
+                ? Messages.GPU_RUBRIC_PLEASE_SELECT_WHICH_GPU_ONE
+                : Messages.GPU_RUBRIC_PLEASE_SELECT_WHICH_GPU_MULTIPLE;
         }
 
         private void HideColumnIfEmpty(DataGridViewColumn column)
@@ -161,56 +147,57 @@ namespace XenAdmin.Controls.GPU
             bool columnEmpty = true;
             foreach (DataGridViewRow row in dataGridViewEx1.Rows)
             {
-                var value = row.Cells[column.Name].Value;
-                if (!String.IsNullOrEmpty((string)value))
+                var value = row.Cells[column.Name].Value as string;
+                if (!string.IsNullOrEmpty(value))
                 {
                     columnEmpty = false;
                     break;
                 }
             }
             if (columnEmpty)
-                dataGridViewEx1.Columns[column.Name].Visible = false;
+                column.Visible = false;
         }
     }
 
     class VGpuDetailWithCheckBoxRow : DataGridViewExRow
     {
         private readonly bool allowed;
-        private readonly DataGridViewCheckBoxCell checkBoxCell = new DataGridViewCheckBoxCell(false);
+        private readonly bool isInUse;
+
+        private readonly DataGridViewCheckBoxCell checkBoxCell = new DataGridViewCheckBoxCell()
+        {
+            ThreeState = false,
+            TrueValue = true,
+            FalseValue = false,
+            ValueType = typeof(bool)
+        };
         private readonly DataGridViewTextBoxCell nameColumn = new DataGridViewTextBoxCell();
         private readonly DataGridViewTextBoxCell vGpusPerGpuColumn = new DataGridViewTextBoxCell();
         private readonly DataGridViewTextBoxCell maxResolutionColumn = new DataGridViewTextBoxCell();
         private readonly DataGridViewTextBoxCell maxDisplaysColumn = new DataGridViewTextBoxCell();
         private readonly DataGridViewTextBoxCell videoRamColumn = new DataGridViewTextBoxCell();
 
-        public VGPU_type VGpuType { get; private set; }
-        public XenRef<VGPU_type> VGpuTypeRef { get; private set; }
-        public bool IsReadOnly { get; private set; }
+        public VGPU_type VGpuType { get; }
+        public XenRef<VGPU_type> VGpuTypeRef { get; }
 
-        public bool NeedsSave
-        {
-            get { return (allowed != CheckBoxChecked); }
-        }
-
-        public bool CheckBoxChecked
-        {
-            get { return (bool)checkBoxCell.Value; }
-        }
+        public bool NeedsSave => allowed != CheckBoxChecked;
+        public bool CheckBoxChecked => (bool)checkBoxCell.Value;
 
         public VGpuDetailWithCheckBoxRow(XenRef<VGPU_type> vGpuTypeRef, VGPU_type vGpuType, bool allowed, bool isInUse)
         {
             VGpuTypeRef = vGpuTypeRef;
             VGpuType = vGpuType;
             this.allowed = allowed;
-            IsReadOnly = isInUse && allowed;
+            this.isInUse = isInUse;
 
-            SetCells();
             Cells.AddRange(checkBoxCell, nameColumn, vGpusPerGpuColumn, maxResolutionColumn, maxDisplaysColumn, videoRamColumn);
-            SetupCheckBoxCell();
+            SetCells();
         }
 
         private void SetCells()
         {
+            checkBoxCell.Value = allowed;
+
             bool isPassThru = VGpuType.IsPassthrough();
 
             nameColumn.Value = isPassThru ? Messages.VGPU_PASSTHRU_TOSTRING : VGpuType.model_name;
@@ -234,13 +221,12 @@ namespace XenAdmin.Controls.GPU
             videoRamColumn.Value = VGpuType.framebuffer_size != 0 ? Util.MemorySizeStringSuitableUnits(VGpuType.framebuffer_size, true) : string.Empty;
         }
 
-        private void SetupCheckBoxCell()
+        protected override void OnDataGridViewChanged()
         {
-            checkBoxCell.TrueValue = true;
-            checkBoxCell.FalseValue = false;
-            checkBoxCell.ValueType = typeof(bool);
-            checkBoxCell.Value = allowed;
-            checkBoxCell.ReadOnly = IsReadOnly;
+            base.OnDataGridViewChanged();
+
+            if (DataGridView != null && isInUse && allowed)
+                Enabled = false;
         }
     }
 }

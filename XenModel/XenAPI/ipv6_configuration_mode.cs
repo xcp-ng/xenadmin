@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,23 @@ namespace XenAPI
     [JsonConverter(typeof(ipv6_configuration_modeConverter))]
     public enum ipv6_configuration_mode
     {
-        None, DHCP, Static, Autoconf, unknown
+        /// <summary>
+        /// Do not acquire an IPv6 address
+        /// </summary>
+        None,
+        /// <summary>
+        /// Acquire an IPv6 address by DHCP
+        /// </summary>
+        DHCP,
+        /// <summary>
+        /// Static IPv6 address configuration
+        /// </summary>
+        Static,
+        /// <summary>
+        /// Router assigned prefix delegation IPv6 allocation
+        /// </summary>
+        Autoconf,
+        unknown
     }
 
     public static class ipv6_configuration_mode_helper
@@ -75,4 +90,4 @@ namespace XenAPI
             writer.WriteValue(((ipv6_configuration_mode)value).StringOf());
         }
     }
-}
+}

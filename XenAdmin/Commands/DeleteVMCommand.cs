@@ -113,18 +113,7 @@ namespace XenAdmin.Commands
             return selection.AllItemsAre<VM>() && selection.AtLeastOneXenObjectCan<VM>(CanExecute);
         }
 
-        public override string MenuText
-        {
-            get
-            {
-                if (GetSelection().Count > 1)
-                {
-                    return Messages.MAINWINDOW_DELETE_OBJECTS;
-                }
-
-                return Messages.MAINWINDOW_DELETE_VM;
-            }
-        }
+        public override string MenuText => Messages.MAINWINDOW_DELETE_OBJECTS;
 
         protected virtual string ErrorDialogText
         {

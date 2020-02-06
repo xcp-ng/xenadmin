@@ -60,7 +60,7 @@ namespace XenAdmin
 
         public override object GetGroup(IXenObject o)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
         public VirtualTreeNode RootNode
@@ -107,7 +107,7 @@ namespace XenAdmin
             else
                 filter = new GroupQuery(new[] { search.Query.QueryFilter, Query }, GroupQuery.GroupQueryType.And);
 
-            return new Search(new Query(scope, filter), Grouping, false, "", null, null, new Sort[] { });
+            return new Search(new Query(scope, filter), Grouping, "", null, null, new Sort[] { });
         }
     }
 

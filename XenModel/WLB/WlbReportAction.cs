@@ -96,7 +96,7 @@ namespace XenAdmin.Actions.Wlb
                 uriBuilder.Query = uriBuilder.Query.Substring(1) + string.Format("&{0}={1}", k, v);
             }
 
-            log.DebugFormat("Downloading report {0} from {1}", report, uriBuilder.ToString());
+            log.DebugFormat("Downloading report {0}.", report);
 
             // The DownloadFile call will block, so we need a separate thread to poll for task status.
             Thread taskThread = new Thread((ThreadStart)progressPoll);
@@ -175,7 +175,7 @@ namespace XenAdmin.Actions.Wlb
             byte[] buf = new byte[BUFSIZE];
             using (MemoryStream ms = new MemoryStream())
             {
-                using (Stream http = HTTPHelper.GET(uri, Connection, false, true))
+                using (Stream http = HTTPHelper.GET(uri, Connection, false))
                 {
                     while (true)
                     {

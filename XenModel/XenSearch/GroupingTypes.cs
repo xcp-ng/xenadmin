@@ -43,8 +43,6 @@ namespace XenAdmin.XenSearch
 {
     public abstract class Grouping
     {
-        protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         public readonly Grouping subgrouping;
 
         protected Grouping(Grouping subgrouping)

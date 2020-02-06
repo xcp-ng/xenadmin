@@ -61,8 +61,7 @@ namespace XenServerHealthCheck
             }
             catch (Exception e)
             {
-                log.DebugFormat(@"Failed to read {0}\{1} from registry", HEALTH_CHECK_LOCAL_KEYS, k);
-                log.Debug(e, e);
+                log.Debug($"Failed to read {HEALTH_CHECK_LOCAL_KEYS}\\{k} from registry", e);
                 return null;
             }
         }
@@ -95,8 +94,7 @@ namespace XenServerHealthCheck
             }
             catch (Exception e)
             {
-                log.DebugFormat(@"Failed to read {0}\{1} from registry}.", HEALTH_CHECK_LOCAL_KEYS, k);
-                log.Debug(e, e);
+                log.Debug($"Failed to read {HEALTH_CHECK_LOCAL_KEYS}\\{k} from registry.", e);
                 return 0;
             }
         }

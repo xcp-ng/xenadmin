@@ -45,10 +45,10 @@ namespace XenAPI
 
         internal Event(Proxy_Event proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
 
-        internal void UpdateFromProxy(Proxy_Event proxy)
+        internal void UpdateFrom(Proxy_Event proxy)
         {
             id = long.Parse(proxy.id);
         }
@@ -175,6 +175,14 @@ namespace XenAPI
     {
         public Event[] events;
         public Dictionary<string, int> valid_ref_counts;
+        public string token;
+    }
+
+    [XmlRpcMissingMapping(MappingAction.Ignore)]
+    public class Events : IEventCollection
+    {
+        public Proxy_Event[] events;
+        public Object valid_ref_counts;
         public string token;
     }
 

@@ -40,7 +40,6 @@ using XenAdmin.Actions;
 using XenAdmin.Network;
 
 
-
 namespace XenAdmin.Commands
 {
     /// <summary>
@@ -48,7 +47,6 @@ namespace XenAdmin.Commands
     /// </summary>
     internal abstract class VMOperationToolStripMenuItem : CommandToolStripMenuItem
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly vm_operations _operation;
         private readonly bool _resumeAfter;
 

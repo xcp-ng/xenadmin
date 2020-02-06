@@ -117,26 +117,68 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="warningsTable.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="warningsTable.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="addButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="addButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="addButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>778, 41</value>
+  </data>
+  <data name="addButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 27</value>
+  </data>
+  <data name="addButton.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="addButton.Text" xml:space="preserve">
+    <value>&amp;Add...</value>
+  </data>
+  <data name="&gt;&gt;addButton.Name" xml:space="preserve">
+    <value>addButton</value>
+  </data>
+  <data name="&gt;&gt;addButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;addButton.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;addButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="labelRubric.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
   <data name="labelRubric.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="labelRubric.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 3</value>
+    <value>3, 0</value>
   </data>
   <data name="labelRubric.Size" type="System.Drawing.Size, System.Drawing">
-    <value>623, 38</value>
+    <value>850, 38</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="labelRubric.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="labelRubric.Text" xml:space="preserve">
-    <value>You can improve graphics performance by assigning a virtual graphics processing unit to this VM.</value>
+    <value>You can improve graphics performance by assigning one or more virtual graphics processing units to this VM.</value>
   </data>
   <data name="&gt;&gt;labelRubric.Name" xml:space="preserve">
     <value>labelRubric</value>
@@ -145,16 +187,235 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;labelRubric.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;labelRubric.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="DeviceColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="DeviceColumn.HeaderText" xml:space="preserve">
+    <value>PCI slot number </value>
+  </data>
+  <data name="DeviceColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="DeviceColumn.Width" type="System.Int32, mscorlib">
+    <value>123</value>
+  </data>
+  <metadata name="NameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="NameColumn.HeaderText" xml:space="preserve">
+    <value>Virtual GPU type</value>
+  </data>
+  <data name="NameColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <metadata name="VGPUsPerGPUColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="VGPUsPerGPUColumn.HeaderText" xml:space="preserve">
+    <value>Virtual GPUs per GPU</value>
+  </data>
+  <data name="VGPUsPerGPUColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="VGPUsPerGPUColumn.Width" type="System.Int32, mscorlib">
+    <value>154</value>
+  </data>
+  <metadata name="MaxResolutionColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="MaxResolutionColumn.HeaderText" xml:space="preserve">
+    <value>Max resolution</value>
+  </data>
+  <data name="MaxResolutionColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="MaxResolutionColumn.Width" type="System.Int32, mscorlib">
+    <value>113</value>
+  </data>
+  <metadata name="MaxDisplaysColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="MaxDisplaysColumn.HeaderText" xml:space="preserve">
+    <value>Max displays</value>
+  </data>
+  <data name="MaxDisplaysColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <metadata name="VideoRAMColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="VideoRAMColumn.HeaderText" xml:space="preserve">
+    <value>Video RAM</value>
+  </data>
+  <data name="VideoRAMColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="VideoRAMColumn.Width" type="System.Int32, mscorlib">
+    <value>90</value>
+  </data>
+  <data name="gpuGrid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="gpuGrid.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="gpuGrid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 41</value>
+  </data>
+  <data name="gpuGrid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>769, 199</value>
+  </data>
+  <data name="gpuGrid.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="warningsTable.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="&gt;&gt;gpuGrid.Name" xml:space="preserve">
+    <value>gpuGrid</value>
+  </data>
+  <data name="&gt;&gt;gpuGrid.Type" xml:space="preserve">
+    <value>XenAdmin.Controls.DataGridViewEx.DataGridViewEx, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;gpuGrid.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;gpuGrid.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="deleteButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="deleteButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="deleteButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>778, 74</value>
+  </data>
+  <data name="deleteButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 27</value>
+  </data>
+  <data name="deleteButton.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="deleteButton.Text" xml:space="preserve">
+    <value>&amp;Delete</value>
+  </data>
+  <data name="&gt;&gt;deleteButton.Name" xml:space="preserve">
+    <value>deleteButton</value>
+  </data>
+  <data name="&gt;&gt;deleteButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;deleteButton.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;deleteButton.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>856, 562</value>
+  </data>
+  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="addButton" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="labelRubric" Row="0" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="gpuGrid" Row="1" RowSpan="2" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="warningsTable" Row="3" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="deleteButton" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,Absolute,172,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="labelMulti.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <data name="warningsTable.ColumnCount" type="System.Int32, mscorlib">
-    <value>2</value>
+  <data name="labelMulti.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelMulti.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="labelMulti.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 217</value>
+  </data>
+  <data name="labelMulti.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 10</value>
+  </data>
+  <data name="labelMulti.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>584, 999</value>
+  </data>
+  <data name="labelMulti.Size" type="System.Drawing.Size, System.Drawing">
+    <value>584, 17</value>
+  </data>
+  <data name="labelMulti.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="labelMulti.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;labelMulti.Name" xml:space="preserve">
+    <value>labelMulti</value>
+  </data>
+  <data name="&gt;&gt;labelMulti.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelMulti.Parent" xml:space="preserve">
+    <value>warningsTable</value>
+  </data>
+  <data name="&gt;&gt;labelMulti.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="imgMulti.ErrorImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="imgMulti.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="imgMulti.InitialImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="imgMulti.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 217</value>
+  </data>
+  <data name="imgMulti.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="imgMulti.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="imgMulti.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;imgMulti.Name" xml:space="preserve">
+    <value>imgMulti</value>
+  </data>
+  <data name="&gt;&gt;imgMulti.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;imgMulti.Parent" xml:space="preserve">
+    <value>warningsTable</value>
+  </data>
+  <data name="&gt;&gt;imgMulti.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="imgRDP.ErrorImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
@@ -166,10 +427,10 @@
     <value />
   </data>
   <data name="imgRDP.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 29</value>
+    <value>3, 33</value>
   </data>
   <data name="imgRDP.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 16</value>
+    <value>20, 20</value>
   </data>
   <data name="imgRDP.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -187,7 +448,7 @@
     <value>warningsTable</value>
   </data>
   <data name="&gt;&gt;imgRDP.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="labelRDP.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -199,7 +460,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelRDP.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 29</value>
+    <value>29, 33</value>
   </data>
   <data name="labelRDP.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 10</value>
@@ -208,7 +469,7 @@
     <value>586, 999</value>
   </data>
   <data name="labelRDP.Size" type="System.Drawing.Size, System.Drawing">
-    <value>584, 39</value>
+    <value>586, 51</value>
   </data>
   <data name="labelRDP.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -229,7 +490,7 @@
     <value>warningsTable</value>
   </data>
   <data name="&gt;&gt;labelRDP.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="imgNeedDriver.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -238,10 +499,10 @@
     <value />
   </data>
   <data name="imgNeedDriver.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 81</value>
+    <value>3, 97</value>
   </data>
   <data name="imgNeedDriver.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 19</value>
+    <value>20, 20</value>
   </data>
   <data name="imgNeedDriver.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -256,7 +517,7 @@
     <value>warningsTable</value>
   </data>
   <data name="&gt;&gt;imgNeedDriver.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="labelNeedDriver.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -268,13 +529,13 @@
     <value>NoControl</value>
   </data>
   <data name="labelNeedDriver.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 81</value>
+    <value>29, 97</value>
   </data>
   <data name="labelNeedDriver.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 10</value>
   </data>
   <data name="labelNeedDriver.Size" type="System.Drawing.Size, System.Drawing">
-    <value>584, 13</value>
+    <value>818, 17</value>
   </data>
   <data name="labelNeedDriver.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -292,7 +553,7 @@
     <value>warningsTable</value>
   </data>
   <data name="&gt;&gt;labelNeedDriver.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="imgNeedGpu.ErrorImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
@@ -304,10 +565,10 @@
     <value />
   </data>
   <data name="imgNeedGpu.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 107</value>
+    <value>3, 127</value>
   </data>
   <data name="imgNeedGpu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 16</value>
+    <value>20, 20</value>
   </data>
   <data name="imgNeedGpu.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -325,7 +586,7 @@
     <value>warningsTable</value>
   </data>
   <data name="&gt;&gt;imgNeedGpu.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="labelNeedGpu.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -337,13 +598,13 @@
     <value>NoControl</value>
   </data>
   <data name="labelNeedGpu.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 107</value>
+    <value>29, 127</value>
   </data>
   <data name="labelNeedGpu.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 10</value>
   </data>
   <data name="labelNeedGpu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>584, 13</value>
+    <value>818, 17</value>
   </data>
   <data name="labelNeedGpu.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -364,7 +625,7 @@
     <value>warningsTable</value>
   </data>
   <data name="&gt;&gt;labelNeedGpu.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="imgStopVM.ErrorImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
@@ -376,10 +637,10 @@
     <value />
   </data>
   <data name="imgStopVM.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 133</value>
+    <value>3, 157</value>
   </data>
   <data name="imgStopVM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 16</value>
+    <value>20, 20</value>
   </data>
   <data name="imgStopVM.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -397,7 +658,7 @@
     <value>warningsTable</value>
   </data>
   <data name="&gt;&gt;imgStopVM.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="labelStopVM.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -409,7 +670,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelStopVM.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 133</value>
+    <value>29, 157</value>
   </data>
   <data name="labelStopVM.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 10</value>
@@ -418,13 +679,13 @@
     <value>584, 999</value>
   </data>
   <data name="labelStopVM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>584, 13</value>
+    <value>584, 17</value>
   </data>
   <data name="labelStopVM.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="labelStopVM.Text" xml:space="preserve">
-    <value>The virtual GPU can only be changed when the VM is shut down.</value>
+    <value>The virtual GPUs can only be changed when the VM is shut down.</value>
   </data>
   <data name="labelStopVM.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -439,7 +700,7 @@
     <value>warningsTable</value>
   </data>
   <data name="&gt;&gt;labelStopVM.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="imgHA.ErrorImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
@@ -451,10 +712,10 @@
     <value />
   </data>
   <data name="imgHA.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 159</value>
+    <value>3, 187</value>
   </data>
   <data name="imgHA.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 16</value>
+    <value>20, 20</value>
   </data>
   <data name="imgHA.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -472,7 +733,7 @@
     <value>warningsTable</value>
   </data>
   <data name="&gt;&gt;imgHA.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="labelHA.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -484,7 +745,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelHA.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 159</value>
+    <value>29, 187</value>
   </data>
   <data name="labelHA.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 10</value>
@@ -493,13 +754,13 @@
     <value>584, 999</value>
   </data>
   <data name="labelHA.Size" type="System.Drawing.Size, System.Drawing">
-    <value>584, 13</value>
+    <value>584, 17</value>
   </data>
   <data name="labelHA.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="labelHA.Text" xml:space="preserve">
-    <value>The virtual GPU cannot be changed because the VM is currently protected by HA.</value>
+    <value>The virtual GPUs cannot be changed because the VM is currently protected by HA.</value>
   </data>
   <data name="labelHA.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -514,13 +775,13 @@
     <value>warningsTable</value>
   </data>
   <data name="&gt;&gt;labelHA.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="imgExperimental.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
   </data>
   <data name="imgExperimental.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 16</value>
+    <value>20, 20</value>
   </data>
   <data name="imgExperimental.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -538,7 +799,7 @@
     <value>warningsTable</value>
   </data>
   <data name="&gt;&gt;imgExperimental.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>12</value>
   </data>
   <data name="labelExperimental.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -547,13 +808,13 @@
     <value>True</value>
   </data>
   <data name="labelExperimental.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 3</value>
+    <value>29, 3</value>
   </data>
   <data name="labelExperimental.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 10</value>
   </data>
   <data name="labelExperimental.Size" type="System.Drawing.Size, System.Drawing">
-    <value>584, 13</value>
+    <value>818, 17</value>
   </data>
   <data name="labelExperimental.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -574,16 +835,22 @@
     <value>warningsTable</value>
   </data>
   <data name="&gt;&gt;labelExperimental.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>13</value>
+  </data>
+  <data name="warningsTable.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="warningsTable.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 95</value>
+    <value>3, 246</value>
+  </data>
+  <data name="warningsTable.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 150</value>
   </data>
   <data name="warningsTable.RowCount" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="warningsTable.Size" type="System.Drawing.Size, System.Drawing">
-    <value>612, 212</value>
+    <value>850, 313</value>
   </data>
   <data name="warningsTable.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -595,142 +862,61 @@
     <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;warningsTable.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;warningsTable.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="warningsTable.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="imgRDP" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelRDP" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="imgNeedDriver" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelNeedDriver" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="imgNeedGpu" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelNeedGpu" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="imgStopVM" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelStopVM" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="imgHA" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelHA" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="imgExperimental" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelExperimental" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="tableLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;labelGpuType.Name" xml:space="preserve">
-    <value>labelGpuType</value>
-  </data>
-  <data name="&gt;&gt;labelGpuType.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;labelGpuType.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;labelGpuType.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;comboBoxGpus.Name" xml:space="preserve">
-    <value>comboBoxGpus</value>
-  </data>
-  <data name="&gt;&gt;comboBoxGpus.Type" xml:space="preserve">
-    <value>XenAdmin.Controls.VgpuComboBox, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;comboBoxGpus.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;comboBoxGpus.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 44</value>
-  </data>
-  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>521, 27</value>
-  </data>
-  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="labelGpuType" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="comboBoxGpus" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="labelGpuType.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="labelGpuType.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="labelGpuType.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="labelGpuType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 7</value>
-  </data>
-  <data name="labelGpuType.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 10, 3</value>
-  </data>
-  <data name="labelGpuType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 13</value>
-  </data>
-  <data name="labelGpuType.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="labelGpuType.Text" xml:space="preserve">
-    <value>&amp;GPU type:</value>
-  </data>
-  <data name="&gt;&gt;labelGpuType.Name" xml:space="preserve">
-    <value>labelGpuType</value>
-  </data>
-  <data name="&gt;&gt;labelGpuType.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;labelGpuType.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;labelGpuType.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="comboBoxGpus.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="comboBoxGpus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>72, 3</value>
-  </data>
-  <data name="comboBoxGpus.MaxDropDownItems" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="comboBoxGpus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>445, 21</value>
-  </data>
-  <data name="comboBoxGpus.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;comboBoxGpus.Name" xml:space="preserve">
-    <value>comboBoxGpus</value>
-  </data>
-  <data name="&gt;&gt;comboBoxGpus.Type" xml:space="preserve">
-    <value>XenAdmin.Controls.VgpuComboBox, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;comboBoxGpus.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;comboBoxGpus.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="labelMulti" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="imgMulti" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="imgRDP" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelRDP" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="imgNeedDriver" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelNeedDriver" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="imgNeedGpu" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelNeedGpu" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="imgStopVM" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelStopVM" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="imgHA" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelHA" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="imgExperimental" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelExperimental" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,100,AutoSize,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>96, 96</value>
+    <value>120, 120</value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>631, 450</value>
+    <value>856, 562</value>
+  </data>
+  <data name="&gt;&gt;DeviceColumn.Name" xml:space="preserve">
+    <value>DeviceColumn</value>
+  </data>
+  <data name="&gt;&gt;DeviceColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NameColumn.Name" xml:space="preserve">
+    <value>NameColumn</value>
+  </data>
+  <data name="&gt;&gt;NameColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;VGPUsPerGPUColumn.Name" xml:space="preserve">
+    <value>VGPUsPerGPUColumn</value>
+  </data>
+  <data name="&gt;&gt;VGPUsPerGPUColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MaxResolutionColumn.Name" xml:space="preserve">
+    <value>MaxResolutionColumn</value>
+  </data>
+  <data name="&gt;&gt;MaxResolutionColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MaxDisplaysColumn.Name" xml:space="preserve">
+    <value>MaxDisplaysColumn</value>
+  </data>
+  <data name="&gt;&gt;MaxDisplaysColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;VideoRAMColumn.Name" xml:space="preserve">
+    <value>VideoRAMColumn</value>
+  </data>
+  <data name="&gt;&gt;VideoRAMColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>GpuEditPage</value>

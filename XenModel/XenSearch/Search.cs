@@ -49,7 +49,6 @@ namespace XenAdmin.XenSearch
 
         private readonly Query query;
         private readonly Grouping grouping;
-        private bool showSearch;
 
         private IXenConnection connection;
 
@@ -64,22 +63,20 @@ namespace XenAdmin.XenSearch
         private String uuid;
         private int items;
 
-        public Search(Query query, Grouping grouping, bool showSearch, String name,
-            String uuid, bool defaultSearch)
-            : this(query, grouping, showSearch, name, uuid, null, new Sort[] { })
+        public Search(Query query, Grouping grouping, string name, string uuid, bool defaultSearch)
+            : this(query, grouping, name, uuid, null, new Sort[] { })
         {
             this.defaultSearch = defaultSearch;
         }
 
-        public Search(Query query, Grouping grouping, bool showSearch, String name,
-            String uuid, List<KeyValuePair<String, int>> columns, Sort[] sorting)
+        public Search(Query query, Grouping grouping, string name, 
+            string uuid, List<KeyValuePair<string, int>> columns, Sort[] sorting)
         {
             if (query == null)
                 this.query = new Query(null, null);
             else
                 this.query = query;
             this.grouping = grouping;
-            this.showSearch = showSearch;
             this.name = name;
             this.uuid = uuid; // This can be null
             this.columns = columns;
@@ -128,18 +125,6 @@ namespace XenAdmin.XenSearch
             get
             {
                 return (FolderForNavigator == null ? Grouping : null);
-            }
-        }
-
-        public bool ShowSearch
-        {
-            get
-            {
-                return showSearch;
-            }
-            set
-            {
-                showSearch = value;
             }
         }
 
@@ -373,7 +358,7 @@ namespace XenAdmin.XenSearch
             else
                 filter = new GroupQuery(new QueryFilter[] { Query.QueryFilter, addFilter }, GroupQuery.GroupQueryType.And);
 
-            return new Search(new Query(scope, filter), Grouping, ShowSearch, "", "", Columns, Sorting);
+            return new Search(new Query(scope, filter), Grouping, "", "", Columns, Sorting);
         }
 
         /// <summary>
@@ -405,8 +390,7 @@ namespace XenAdmin.XenSearch
             }
             catch (Exception e)
             {
-                log.DebugFormat("Exception loading search from file '{0}'", filename);
-                log.Debug(e, e);
+                log.Debug($"Exception loading search from file '{filename}'", e);
                 return null;
             }
         }
@@ -468,7 +452,7 @@ namespace XenAdmin.XenSearch
                 GroupQuery groupQuery = new GroupQuery(queryFilters.ToArray(), GroupQuery.GroupQueryType.Or);
                 Query query = new Query(GetOverviewScope(), groupQuery);
 
-                return new Search(query, grouping, false, Messages.SEARCH_TITLE_OVERVIEW, null, false);
+                return new Search(query, grouping, Messages.SEARCH_TITLE_OVERVIEW, null, false);
             }
         }
 
@@ -503,7 +487,7 @@ namespace XenAdmin.XenSearch
                 QueryFilter hostQuery = new RecursiveXMOListPropertyQuery<Host>(PropertyNames.host, uuidQuery);
 
                 Query query = new Query(scope, hostQuery);
-                return new Search(query, hostGrouping, false, String.Format(Messages.SEARCH_TITLE_HOST, Helpers.GetName(value)), null, false);
+                return new Search(query, hostGrouping, String.Format(Messages.SEARCH_TITLE_HOST, Helpers.GetName(value)), null, false);
             }
             else if (value is Pool)
             {
@@ -514,7 +498,7 @@ namespace XenAdmin.XenSearch
                 QueryFilter poolQuery = new RecursiveXMOPropertyQuery<Pool>(PropertyNames.pool, uuidQuery);
 
                 Query query = new Query(scope, poolQuery);
-                return new Search(query, poolGrouping, false, String.Format(Messages.SEARCH_TITLE_POOL, Helpers.GetName(value)), null, false);
+                return new Search(query, poolGrouping, String.Format(Messages.SEARCH_TITLE_POOL, Helpers.GetName(value)), null, false);
             }
             else if (value is Folder)
             {
@@ -530,7 +514,7 @@ namespace XenAdmin.XenSearch
                 Grouping poolGrouping = new XenModelObjectPropertyGrouping<Pool>(PropertyNames.pool, hostGrouping);
 
                 return new Search(new Query(scope, null),
-                    poolGrouping, false, String.Format(Messages.SEARCH_TITLE_OVERVIEW), null, false);
+                    poolGrouping, String.Format(Messages.SEARCH_TITLE_OVERVIEW), null, false);
             }
         }
 
@@ -593,7 +577,7 @@ namespace XenAdmin.XenSearch
         {
             Query tagQuery = new Query(null, new StringListContainsQuery(PropertyNames.tags, tag, true));
            
-            return new Search(tagQuery, null, false, String.Format(Messages.OBJECTS_WITH_TAG, tag), null, false);
+            return new Search(tagQuery, null, String.Format(Messages.OBJECTS_WITH_TAG, tag), null, false);
         }
 
         public static Search SearchForFolder(string path)
@@ -607,7 +591,7 @@ namespace XenAdmin.XenSearch
             string[] pathParts = Folders.PointToPath(path);
             string name = ((pathParts.Length == 0 || (pathParts.Length == 1 && pathParts[pathParts.Length - 1] == String.Empty)) ?
                 Messages.FOLDERS : pathParts[pathParts.Length - 1]);
-            return new Search(q, grouping, false, name, null, false);
+            return new Search(q, grouping, name, null, false);
         }
 
         public static Search SearchForAllFolders()
@@ -616,59 +600,59 @@ namespace XenAdmin.XenSearch
             FolderGrouping grouping = new FolderGrouping((Grouping)null);
             Sort sort = new Sort("name", true);
             Sort[] sorts = { sort };
-            return new Search(query, grouping, false, "", "", null, sorts);
+            return new Search(query, grouping, "", "", null, sorts);
         }
 
         public static Search SearchForAllTypes()
         {
             Query query = new Query(new QueryScope(ObjectTypes.AllExcFolders), null);
-            return new Search(query, null, false, "", null, false);
+            return new Search(query, null, "", null, false);
         }
 
         public static Search SearchForTags()
         {
             var tagsQuery = new ListEmptyQuery<String>(PropertyNames.tags, false);
             Query query = new Query(new QueryScope(ObjectTypes.AllIncFolders), tagsQuery);
-            return new Search(query, null, false, "", null, false);
+            return new Search(query, null, "", null, false);
         }
 
         public static Search SearchForFolders()
         {
             var foldersQuery = new NullQuery<Folder>(PropertyNames.folder, false);
             Query query = new Query(new QueryScope(ObjectTypes.AllIncFolders), foldersQuery);
-            return new Search(query, null, false, "", null, false);
+            return new Search(query, null, "", null, false);
         }
 
         public static Search SearchForCustomFields()
         {
             var fieldsQuery = new BooleanQuery(PropertyNames.has_custom_fields, true);
             Query query = new Query(new QueryScope(ObjectTypes.AllIncFolders), fieldsQuery);
-            return new Search(query, null, false, "", null, false);
+            return new Search(query, null, "", null, false);
         }
 
         public static Search SearchForVapps()
         {
             var vAppsQuery = new BooleanQuery(PropertyNames.in_any_appliance, true);
             Query query = new Query(new QueryScope(ObjectTypes.AllIncFolders), vAppsQuery);
-            return new Search(query, null, false, "", null, false);
+            return new Search(query, null, "", null, false);
         }
 
         public static Search SearchForFolderGroup(Grouping grouping, object parent, object v)
         {
             return new Search(new Query(new QueryScope(ObjectTypes.AllIncFolders), grouping.GetSubquery(parent, v)),
-                              grouping.GetSubgrouping(v), false, grouping.GetGroupName(v), "", false);
+                              grouping.GetSubgrouping(v), grouping.GetGroupName(v), "", false);
         }
 
         public static Search SearchForNonVappGroup(Grouping grouping, object parent, object v)
         {
             return new Search(new Query(new QueryScope(ObjectTypes.AllExcFolders), grouping.GetSubquery(parent, v)),
-                              grouping.GetSubgrouping(v), false, grouping.GetGroupName(v), "", false);
+                              grouping.GetSubgrouping(v), grouping.GetGroupName(v), "", false);
         }
 
         public static Search SearchForVappGroup(Grouping grouping, object parent, object v)
         {
             return new Search(new Query(new QueryScope(ObjectTypes.VM), grouping.GetSubquery(parent, v)),
-                              grouping.GetSubgrouping(v), false, grouping.GetGroupName(v), "", false);
+                              grouping.GetSubgrouping(v), grouping.GetGroupName(v), "", false);
         }
 
         private static Dictionary<String, Search> searches =new Dictionary<string, Search>();
@@ -793,7 +777,7 @@ namespace XenAdmin.XenSearch
                     new QueryScope(ObjectTypes.VM),
                     null),
                 new PropertyGrouping<String>(PropertyNames.os_name, null),
-                false, Messages.DEFAULT_SEARCH_VMS_BY_OS, "dead-beef-1234-vmsbyos", true
+                Messages.DEFAULT_SEARCH_VMS_BY_OS, "dead-beef-1234-vmsbyos", true
             );
 
             searches["dead-beef-1234-vmsbyos"] = VMsByOS;
@@ -809,7 +793,7 @@ namespace XenAdmin.XenSearch
                             new EnumPropertyQuery<VM.VirtualisationStatus>(PropertyNames.virtualisation_status, VM.VirtualisationStatus.IO_DRIVERS_INSTALLED | VM.VirtualisationStatus.MANAGEMENT_INSTALLED, false)
                         }, GroupQuery.GroupQueryType.And)),
                 new PropertyGrouping<VM.VirtualisationStatus>(PropertyNames.virtualisation_status, null),
-                false, Messages.DEFAULT_SEARCH_VMS_WO_XS_TOOLS, "dead-beef-1234-vmswotools", true
+                Messages.DEFAULT_SEARCH_VMS_WO_XS_TOOLS, "dead-beef-1234-vmswotools", true
             );
 
             searches["dead-beef-1234-vmswotools"] = VMsWithoutTools;
@@ -821,7 +805,7 @@ namespace XenAdmin.XenSearch
                     new QueryScope(ObjectTypes.VM),
                     null),
                 new PropertyGrouping<vm_power_state>(PropertyNames.power_state, null),
-                false, Messages.DEFAULT_SEARCH_VMS_BY_POWERSTATE, "dead-beef-1234-vmsbyps", true
+                Messages.DEFAULT_SEARCH_VMS_BY_POWERSTATE, "dead-beef-1234-vmsbyps", true
             );
 
             searches["dead-beef-1234-vmsbyps"] = VMsByPowerState;
@@ -833,7 +817,7 @@ namespace XenAdmin.XenSearch
                     new QueryScope(ObjectTypes.VM),
                     null),
                 new XenModelObjectPropertyGrouping<XenAPI.Network>(PropertyNames.networks, null),
-                false, Messages.DEFAULT_SEARCH_VMS_BY_NETWORK, "dead-beef-1234-vmsbynet", true
+                Messages.DEFAULT_SEARCH_VMS_BY_NETWORK, "dead-beef-1234-vmsbynet", true
             );
 
             searches["dead-beef-1234-vmsbynet"] = VMsByNetwork;
@@ -841,8 +825,8 @@ namespace XenAdmin.XenSearch
 			//VMs by vApps
 
             Search VMsByAppliance = new Search(new Query(new QueryScope(ObjectTypes.VM), new BooleanQuery(PropertyNames.in_any_appliance, true)),
-        	                                   new XenModelObjectPropertyGrouping<VM_appliance>(PropertyNames.appliance, null),
-        	                                   false, Messages.DEFAULT_SEARCH_VMS_BY_APPLIANCE, "dead-beef-1234-vmsbyappliance", true);
+                new XenModelObjectPropertyGrouping<VM_appliance>(PropertyNames.appliance, null),
+                Messages.DEFAULT_SEARCH_VMS_BY_APPLIANCE, "dead-beef-1234-vmsbyappliance", true);
 
         	searches["dead-beef-1234-vmsbyappliance"] = VMsByAppliance;
 
@@ -853,7 +837,7 @@ namespace XenAdmin.XenSearch
                     null,
                     new ListEmptyQuery<String>(PropertyNames.tags, false)),
                 new PropertyGrouping<String>(PropertyNames.tags, null),
-                false, Messages.DEFAULT_SEARCH_OBJECTS_BY_TAG, "dead-beef-1234-objbytags", true
+                Messages.DEFAULT_SEARCH_OBJECTS_BY_TAG, "dead-beef-1234-objbytags", true
             );
 
             searches["dead-beef-1234-objbytags"] = ObjByTag;
@@ -865,7 +849,6 @@ namespace XenAdmin.XenSearch
                 new XenModelObjectPropertyGrouping<Pool>(PropertyNames.pool,
                     new XenModelObjectPropertyGrouping<Host>(PropertyNames.host,
                         new XenModelObjectPropertyGrouping<VM>(PropertyNames.vm, null))),
-                false,
                 Messages.DEFAULT_SEARCH_SNAPSHOTS_BY_VM,
                 "dead-beef-1234-snapshotsbyvm",
                 true);

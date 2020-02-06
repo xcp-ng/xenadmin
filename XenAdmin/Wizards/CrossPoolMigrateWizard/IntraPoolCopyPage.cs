@@ -49,44 +49,31 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
         }
 
         private bool _buttonNextEnabled;
-        private bool _buttonPreviousEnabled;
 
-        public bool CloneVM
-        {
-            get { return !tableLayoutPanelSrPicker.Enabled || CloneRadioButton.Checked; }
-        }
+        public bool CloneVM => !tableLayoutPanelSrPicker.Enabled || CloneRadioButton.Checked;
 
-        public SR SelectedSR
-        {
-            get { return srPicker1.SR; }
-        }
+        public SR SelectedSR => srPicker1.SR;
 
-        public string NewVmName
-        {
-            get { return NameTextBox.Text; }
-        }
+        public string NewVmName => NameTextBox.Text;
 
-        public string NewVMmDescription
-        {
-            get { return DescriptionTextBox.Text; }
-        }
+        public string NewVMmDescription => DescriptionTextBox.Text;
 
         #region Base class (XenTabPage) overrides
 
         /// <summary>
         /// Gets the page's title (headline)
         /// </summary>
-        public override string PageTitle { get { return Messages.CPM_WIZARD_INTRA_POOL_COPY_TITLE; } }
+        public override string PageTitle => Messages.CPM_WIZARD_INTRA_POOL_COPY_TITLE;
 
         /// <summary>
         /// Gets the page's label in the (left hand side) wizard progress panel
         /// </summary>
-        public override string Text { get { return Messages.CPM_WIZARD_INTRA_POOL_COPY_TAB_TITLE; } }
+        public override string Text => Messages.CPM_WIZARD_INTRA_POOL_COPY_TAB_TITLE;
 
         /// <summary>
         /// Gets the value by which the help files section for this page is identified
         /// </summary>
-        public override string HelpID { get { return "IntraPoolCopy"; } }
+        public override string HelpID => "IntraPoolCopy";
 
         protected override bool ImplementsIsDirty()
         {
@@ -95,7 +82,7 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
 
         protected override void PageLoadedCore(PageLoadedDirection direction)
         {
-            SetButtonsEnabled(true);
+            UpdateButtons();
         }
 
         public override void PopulatePage()
@@ -154,43 +141,37 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
             return _buttonNextEnabled;
         }
 
-        public override bool EnablePrevious()
-        {
-            return _buttonPreviousEnabled;
-        }
-
         protected override void PageLeaveCore(PageLoadedDirection direction, ref bool cancel)
         {
-            var l = new List<VM>();
-            l.Add(TheVM);
+            if (direction != PageLoadedDirection.Forward)
+                return;
+
+            var l = new List<VM> {TheVM};
             if (!CrossPoolMigrateWizard.AllVMsAvailable(l))
-            {
                 cancel = true;
-                SetButtonsEnabled(false);
-            }
         }
         #endregion
 
-        private void SetButtonsEnabled(bool enabled)
+        private void UpdateButtons()
         {
-            _buttonNextEnabled = enabled;
-            _buttonPreviousEnabled = enabled;
+            if (string.IsNullOrEmpty(NameTextBox.Text.Trim()))
+                _buttonNextEnabled = false;
+            else if (CopyRadioButton.Checked)
+                _buttonNextEnabled = srPicker1.SR != null;
+            else
+                _buttonNextEnabled = true;
+
             OnPageUpdated();
         }
 
-        private void srPicker1_SrSelectionChanged(object obj)
+        private void srPicker1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            EnableMoveButton();
+            UpdateButtons();
         }
 
         private void NameTextBox_TextChanged(object sender, EventArgs e)
         {
-            EnableMoveButton();
-        }
-
-        private void EnableMoveButton()
-        {
-            _buttonNextEnabled = NameTextBox.Text.Trim().Length > 0 && srPicker1.SR != null;
+            UpdateButtons();
         }
 
         private static string GetDefaultCopyName(VM vmToCopy)
@@ -207,6 +188,7 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
         {
             // Since the radiobuttons aren't in the same panel, we have to do manual mutual exclusion
             CopyRadioButton.Checked = !CloneRadioButton.Checked;
+            UpdateButtons();
         }
 
         private void CopyRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -214,6 +196,7 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
             tableLayoutPanelSrPicker.Enabled = CopyRadioButton.Checked;
             // Since the radiobuttons aren't in the same panel, we have to do manual mutual exclusion
             CloneRadioButton.Checked = !CopyRadioButton.Checked;
+            UpdateButtons();
         }
     }
 }

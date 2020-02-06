@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Host : XenObject<Host>
     {
+        #region Constructors
+
         public Host()
         {
         }
@@ -106,7 +108,8 @@ namespace XenAPI
             List<XenRef<Pool_update>> updates_requiring_reboot,
             List<XenRef<Feature>> features,
             string iscsi_iqn,
-            bool multipathing)
+            bool multipathing,
+            string uefi_certificates)
         {
             this.uuid = uuid;
             this.name_label = name_label;
@@ -166,6 +169,19 @@ namespace XenAPI
             this.features = features;
             this.iscsi_iqn = iscsi_iqn;
             this.multipathing = multipathing;
+            this.uefi_certificates = uefi_certificates;
+        }
+
+        /// <summary>
+        /// Creates a new Host from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Host(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
         }
 
         /// <summary>
@@ -174,8 +190,10 @@ namespace XenAPI
         /// <param name="proxy"></param>
         public Host(Proxy_Host proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -241,9 +259,10 @@ namespace XenAPI
             features = update.features;
             iscsi_iqn = update.iscsi_iqn;
             multipathing = update.multipathing;
+            uefi_certificates = update.uefi_certificates;
         }
 
-        internal void UpdateFromProxy(Proxy_Host proxy)
+        internal void UpdateFrom(Proxy_Host proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -303,6 +322,7 @@ namespace XenAPI
             features = proxy.features == null ? null : XenRef<Feature>.Create(proxy.features);
             iscsi_iqn = proxy.iscsi_iqn == null ? null : proxy.iscsi_iqn;
             multipathing = (bool)proxy.multipathing;
+            uefi_certificates = proxy.uefi_certificates == null ? null : proxy.uefi_certificates;
         }
 
         public Proxy_Host ToProxy()
@@ -366,18 +386,8 @@ namespace XenAPI
             result_.features = features == null ? new string[] {} : Helper.RefListToStringArray(features);
             result_.iscsi_iqn = iscsi_iqn ?? "";
             result_.multipathing = multipathing;
+            result_.uefi_certificates = uefi_certificates ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Host from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Host(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>
@@ -504,6 +514,8 @@ namespace XenAPI
                 iscsi_iqn = Marshalling.ParseString(table, "iscsi_iqn");
             if (table.ContainsKey("multipathing"))
                 multipathing = Marshalling.ParseBool(table, "multipathing");
+            if (table.ContainsKey("uefi_certificates"))
+                uefi_certificates = Marshalling.ParseString(table, "uefi_certificates");
         }
 
         public bool DeepEquals(Host other, bool ignoreCurrentOperations)
@@ -572,7 +584,8 @@ namespace XenAPI
                 Helper.AreEqual2(this._updates_requiring_reboot, other._updates_requiring_reboot) &&
                 Helper.AreEqual2(this._features, other._features) &&
                 Helper.AreEqual2(this._iscsi_iqn, other._iscsi_iqn) &&
-                Helper.AreEqual2(this._multipathing, other._multipathing);
+                Helper.AreEqual2(this._multipathing, other._multipathing) &&
+                Helper.AreEqual2(this._uefi_certificates, other._uefi_certificates);
         }
 
         internal static List<Host> ProxyArrayToObjectList(Proxy_Host[] input)
@@ -652,6 +665,10 @@ namespace XenAPI
                 if (!Helper.AreEqual2(_multipathing, server._multipathing))
                 {
                     Host.set_multipathing(session, opaqueRef, _multipathing);
+                }
+                if (!Helper.AreEqual2(_uefi_certificates, server._uefi_certificates))
+                {
+                    Host.set_uefi_certificates(session, opaqueRef, _uefi_certificates);
                 }
 
                 return null;
@@ -1511,6 +1528,20 @@ namespace XenAPI
                 return session.JsonRpcClient.host_get_multipathing(session.opaque_ref, _host);
             else
                 return (bool)session.proxy.host_get_multipathing(session.opaque_ref, _host ?? "").parse();
+        }
+
+        /// <summary>
+        /// Get the uefi_certificates field of the given host.
+        /// First published in Unreleased.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        public static string get_uefi_certificates(Session session, string _host)
+        {
+            if (session.JsonRpcClient != null)
+                return session.JsonRpcClient.host_get_uefi_certificates(session.opaque_ref, _host);
+            else
+                return session.proxy.host_get_uefi_certificates(session.opaque_ref, _host ?? "").parse();
         }
 
         /// <summary>
@@ -3338,6 +3369,36 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Sets the UEFI certificates on a host
+        /// First published in Unreleased.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The certificates to apply to a host</param>
+        public static void set_uefi_certificates(Session session, string _host, string _value)
+        {
+            if (session.JsonRpcClient != null)
+                session.JsonRpcClient.host_set_uefi_certificates(session.opaque_ref, _host, _value);
+            else
+                session.proxy.host_set_uefi_certificates(session.opaque_ref, _host ?? "", _value ?? "").parse();
+        }
+
+        /// <summary>
+        /// Sets the UEFI certificates on a host
+        /// First published in Unreleased.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The certificates to apply to a host</param>
+        public static XenRef<Task> async_set_uefi_certificates(Session session, string _host, string _value)
+        {
+          if (session.JsonRpcClient != null)
+              return session.JsonRpcClient.async_host_set_uefi_certificates(session.opaque_ref, _host, _value);
+          else
+              return XenRef<Task>.Create(session.proxy.async_host_set_uefi_certificates(session.opaque_ref, _host ?? "", _value ?? "").parse());
+        }
+
+        /// <summary>
         /// Return a list of all the hosts known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
@@ -4466,5 +4527,24 @@ namespace XenAPI
             }
         }
         private bool _multipathing = false;
+
+        /// <summary>
+        /// The UEFI certificates allowing Secure Boot
+        /// First published in Unreleased.
+        /// </summary>
+        public virtual string uefi_certificates
+        {
+            get { return _uefi_certificates; }
+            set
+            {
+                if (!Helper.AreEqual(value, _uefi_certificates))
+                {
+                    _uefi_certificates = value;
+                    Changed = true;
+                    NotifyPropertyChanged("uefi_certificates");
+                }
+            }
+        }
+        private string _uefi_certificates = "";
     }
 }

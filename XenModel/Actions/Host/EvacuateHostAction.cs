@@ -201,8 +201,7 @@ namespace XenAdmin.Actions
             }
             catch (Exception e)
             {
-                log.ErrorFormat("There was an exception putting the host {0} into maintenance mode.  Removing other_config key.", Host.opaque_ref);
-                log.Error(e, e);
+                log.Error($"There was an exception putting the host {Host.opaque_ref} into maintenance mode. Removing other_config key.", e);
                 Enable(isMaster ? 80 : 90, 100, false);
                 throw;
             }

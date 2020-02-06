@@ -106,11 +106,8 @@ namespace XenAdmin.Controls.CheckableDataGridView
             }
         }
 
-        private void cRow_CellDataUpdated(object sender, EventArgs e)
+        private void cRow_CellDataUpdated(CheckableDataGridViewRow row)
         {
-            CheckableDataGridViewRow row = sender as CheckableDataGridViewRow;
-            if(row == null)
-                return;
             UpdateRow(row, true);
         }
 

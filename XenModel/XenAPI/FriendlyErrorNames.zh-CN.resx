@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
+  <!-- 
+    Microsoft ResX Schema 
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
-
+    
     Example:
-
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,39 +26,39 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
-
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
+    
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
-  -->
+    -->
   <xsd:schema id="root" xmlns="" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element msdata:IsDataSet="true" name="root">
@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ACTIVATION_WHILE_NOT_FREE" xml:space="preserve">
     <value>仅当版本设置为“免费”时，才能应用激活密钥。</value>
@@ -628,7 +628,7 @@
     <value>值“{1}”对于字段“{0}”无效。</value>
   </data>
   <data name="IS_TUNNEL_ACCESS_PIF" xml:space="preserve">
-    <value>您尝试在隧道访问 PIF 之上创建 VLAN 或隧道 - 请改用基础传输 PIF。</value>
+    <value>无法在隧道访问 PIF 之上创建 VLAN 或隧道 - 请改为使用基础传输 PIF。</value>
   </data>
   <data name="JOINING_HOST_CANNOT_BE_MASTER_OF_OTHER_HOSTS" xml:space="preserve">
     <value>加入池的服务器不能已经是另一个池的主服务器。</value>
@@ -790,7 +790,7 @@
     <value>加入时无法访问任何其他群集主机</value>
   </data>
   <data name="NO_COMPATIBLE_CLUSTER_HOST" xml:space="preserve">
-    <value>主机没有具有兼容群集堆栈的 Cluster_host。</value>
+    <value>未在此主机或池上启用群集。</value>
   </data>
   <data name="NO_HOSTS_AVAILABLE" xml:space="preserve">
     <value>没有可用于完成指定操作的服务器。</value>
@@ -824,9 +824,6 @@
   </data>
   <data name="OUT_OF_SPACE" xml:space="preserve">
     <value>空间不足，无法上载更新</value>
-  </data>
-  <data name="PASSTHROUGH_NOT_ENABLED" xml:space="preserve">
-    <value>将 USB 直通连接到 VM 之前，必须将 passthrough_enabled 设置为 true。</value>
   </data>
   <data name="PATCH_ALREADY_APPLIED" xml:space="preserve">
     <value>已应用更新 {0}</value>
@@ -1328,6 +1325,9 @@
   <data name="SR_BACKEND_FAILURE_203" xml:space="preserve">
     <value>已达到活动的 FIST 点，导致进程异常退出</value>
   </data>
+  <data name="SR_BACKEND_FAILURE_204" xml:space="preserve">
+    <value>在叶子生长到超过快照拍摄之前的大小后放弃叶子合并</value>
+  </data>
   <data name="SR_BACKEND_FAILURE_220" xml:space="preserve">
     <value>设备配置请求缺少位置参数</value>
   </data>
@@ -1656,13 +1656,13 @@
     <value>尝试检测 iSCSI 目标/设备失败</value>
   </data>
   <data name="SR_BACKEND_FAILURE_84" xml:space="preserve">
-    <value>iScsi 目标与收到的 IQN 不匹配</value>
+    <value>iSCSI 目标与收到的 IQN 不匹配</value>
   </data>
   <data name="SR_BACKEND_FAILURE_85" xml:space="preserve">
     <value>尝试分离 iSCSI 失败</value>
   </data>
   <data name="SR_BACKEND_FAILURE_86" xml:space="preserve">
-    <value>尝试查询 iSCSi 守护程序失败</value>
+    <value>尝试查询 iSCSI 守护程序失败</value>
   </data>
   <data name="SR_BACKEND_FAILURE_87" xml:space="preserve">
     <value>必须提供 LUNid 或 LUNserial 值</value>
@@ -1773,7 +1773,7 @@
     <value>从服务器检索系统状态失败。</value>
   </data>
   <data name="TASK_CANCELLED" xml:space="preserve">
-    <value>以异步方式取消了请求。</value>
+    <value>请求已异步取消。</value>
   </data>
   <data name="TLS_CONNECTION_FAILED" xml:space="preserve">
     <value>在指定的地址和端口上无法使用 TLS 联系其他主机</value>
@@ -1926,7 +1926,7 @@
     <value>无法执行该操作，因为找不到指定的虚拟磁盘</value>
   </data>
   <data name="VDI_NEEDS_VM_FOR_MIGRATE" xml:space="preserve">
-    <value>您尝试迁移的 VDI 未连接到正在运行的 VM。</value>
+    <value>无法迁移未连接到正在运行的 VM 的 VDI。</value>
   </data>
   <data name="VDI_NOT_AVAILABLE" xml:space="preserve">
     <value>无法执行该操作，因为 VDI {0} 无法正确连接到 VM。</value>
@@ -1957,6 +1957,12 @@
   </data>
   <data name="VGPU_DESTINATION_INCOMPATIBLE" xml:space="preserve">
     <value>VGPU 与目标中的任何 PGPU 都不兼容。</value>
+  </data>
+  <data name="VGPU_GUEST_DRIVER_LIMIT" xml:space="preserve">
+    <value>来宾驱动程序不支持 VGPU 迁移。</value>
+  </data>
+  <data name="VGPU_TYPE_NOT_COMPATIBLE" xml:space="preserve">
+    <value>无法创建与 VM 上的现有类型不兼容的虚拟 GPU。</value>
   </data>
   <data name="VGPU_TYPE_NOT_COMPATIBLE_WITH_RUNNING_TYPE" xml:space="preserve">
     <value>VM 无法启动，因为所有 GPU 已全部使用或者正在运行其他类型的虚拟 GPU</value>
@@ -2040,7 +2046,7 @@
     <value>VM 意外终止</value>
   </data>
   <data name="VM_HAS_CHECKPOINT" xml:space="preserve">
-    <value>您尝试迁移的 VM 具有一个检查点。</value>
+    <value>无法迁移具有检查点的 VM。</value>
   </data>
   <data name="VM_HAS_NO_SUSPEND_VDI" xml:space="preserve">
     <value>无法恢复 VM，因为该 VM 没有挂起的 VDI</value>
@@ -2052,7 +2058,7 @@
     <value>无法执行此操作，因为 VM 具有一个或多个 SR-IOV VIF。</value>
   </data>
   <data name="VM_HAS_TOO_MANY_SNAPSHOTS" xml:space="preserve">
-    <value>您尝试迁移的 VM 具有多个快照。</value>
+    <value>无法迁移具有多个快照的 VM。</value>
   </data>
   <data name="VM_HAS_VGPU" xml:space="preserve">
     <value>无法执行此操作，因为 VM 具有一个或多个虚拟 GPU。</value>
@@ -2064,7 +2070,7 @@
     <value>在升级期间无法对旧版本的主机执行该 VM 操作。</value>
   </data>
   <data name="VM_HOST_INCOMPATIBLE_VERSION_MIGRATE" xml:space="preserve">
-    <value>您尝试将 VM 迁移到比源主机更早的目标主机。</value>
+    <value>无法将 VM 迁移到早于源主机的目标主机。</value>
   </data>
   <data name="VM_HOST_INCOMPATIBLE_VIRTUAL_HARDWARE_PLATFORM_VERSION" xml:space="preserve">
     <value>VM 的虚拟硬件平台版本与此主机不兼容。</value>
@@ -2137,6 +2143,9 @@
   </data>
   <data name="VM_OLD_PV_DRIVERS" xml:space="preserve">
     <value>尝试执行操作的 VM 需要更高版本的 PV Drivers。请升级 PV Drivers。</value>
+  </data>
+  <data name="VM_PCI_BUS_FULL" xml:space="preserve">
+    <value>VM 没有任何空闲的 PCI 插槽</value>
   </data>
   <data name="VM_PV_DRIVERS_IN_USE" xml:space="preserve">
     <value>VM PV Drivers 仍在使用中</value>
@@ -2235,7 +2244,7 @@
     <value>配置的 WLB 服务器名称无法在 DNS 中解析。</value>
   </data>
   <data name="WLB_URL_INVALID" xml:space="preserve">
-    <value>WLB URL 无效。请确保其格式为: &lt;ipaddress&gt;:&lt;port&gt;。将返回配置/指定的 URL。</value>
+    <value>WLB URL 无效。请确保其格式为: &lt;ipaddress&gt;:&lt;port&gt;。将返回配置的/指定的 URL。</value>
   </data>
   <data name="WLB_XENSERVER_AUTHENTICATION_FAILED" xml:space="preserve">
     <value>WLB 报告服务器拒绝了所配置的身份验证详细信息。</value>
@@ -2259,7 +2268,10 @@
     <value>找不到请求的插件。</value>
   </data>
   <data name="XENAPI_PLUGIN_FAILURE" xml:space="preserve">
-    <value>与该插件出现通信故障。</value>
+    <value>与插件通信时出现故障。</value>
+  </data>
+  <data name="XEN_INCOMPATIBLE" xml:space="preserve">
+    <value>Xen 的当前版本或其控制库与 Toolstack 不兼容。</value>
   </data>
   <data name="XEN_VSS_REQ_ERROR_ADDING_VOLUME_TO_SNAPSET_FAILED" xml:space="preserve">
     <value>要建立快照的一些卷无法添加到 VSS 快照集</value>

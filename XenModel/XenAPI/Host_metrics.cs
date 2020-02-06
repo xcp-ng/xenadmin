@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Host_metrics : XenObject<Host_metrics>
     {
+        #region Constructors
+
         public Host_metrics()
         {
         }
@@ -65,13 +67,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Host_metrics from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Host_metrics(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Host_metrics from a Proxy_Host_metrics.
         /// </summary>
         /// <param name="proxy"></param>
         public Host_metrics(Proxy_Host_metrics proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -87,7 +103,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_Host_metrics proxy)
+        internal void UpdateFrom(Proxy_Host_metrics proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             memory_total = proxy.memory_total == null ? 0 : long.Parse(proxy.memory_total);
@@ -107,17 +123,6 @@ namespace XenAPI
             result_.last_updated = last_updated;
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Host_metrics from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Host_metrics(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

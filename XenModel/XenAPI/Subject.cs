@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Subject : XenObject<Subject>
     {
+        #region Constructors
+
         public Subject()
         {
         }
@@ -61,13 +63,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Subject from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Subject(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Subject from a Proxy_Subject.
         /// </summary>
         /// <param name="proxy"></param>
         public Subject(Proxy_Subject proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -81,7 +97,7 @@ namespace XenAPI
             roles = update.roles;
         }
 
-        internal void UpdateFromProxy(Proxy_Subject proxy)
+        internal void UpdateFrom(Proxy_Subject proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             subject_identifier = proxy.subject_identifier == null ? null : proxy.subject_identifier;
@@ -97,17 +113,6 @@ namespace XenAPI
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             result_.roles = roles == null ? new string[] {} : Helper.RefListToStringArray(roles);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Subject from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Subject(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

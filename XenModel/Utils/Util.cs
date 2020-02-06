@@ -52,6 +52,7 @@ namespace XenAdmin
         public const long BINARY_MEGA = BINARY_KILO * BINARY_KILO;
         public const long BINARY_GIGA = BINARY_KILO * BINARY_MEGA;
         public const long BINARY_TERA = BINARY_KILO * BINARY_GIGA;
+        public const long BINARY_PETA = BINARY_KILO * BINARY_TERA;
 
         public const long DEC_KILO = 1000;
         public const long DEC_MEGA = DEC_KILO * DEC_KILO;
@@ -110,7 +111,7 @@ namespace XenAdmin
         /// <returns></returns>
         public static string MemorySizeStringSuitableUnits(double bytes, bool showPoint0Decimal, string formatStringWhenZero)
         {
-            if(bytes == 0)
+            if (bytes == 0)
             {
                 return string.Format(formatStringWhenZero, bytes);
             }
@@ -134,8 +135,7 @@ namespace XenAdmin
 
         public static string DiskSizeString(ulong bytes)
         {
-            string unit;
-            string value = ByteSizeString(bytes, 1, false, out unit);
+            string value = ByteSizeString(bytes, 1, false, out var unit);
             return string.Format(Messages.VAL_FORMAT, value, unit);
         }       
 	
@@ -154,8 +154,7 @@ namespace XenAdmin
 
     	public static string DiskSizeStringWithoutUnits(long bytes)
     	{
-    	    string unit;
-            return ByteSizeString(bytes, 1, false, out unit);
+    	    return ByteSizeString(bytes, 1, false, out _);
         }
 
         public static string MemorySizeStringVariousUnits(double bytes)
@@ -268,36 +267,39 @@ namespace XenAdmin
             return t.ToString("0");
         }
 
-        public static double ToGB(double bytes, int dp, RoundingBehaviour rounding)
+        private static double DecimalAdjustment(double value, RoundingBehaviour rounding, int decimalPlaces)
         {
-            double value = (double)bytes / BINARY_GIGA;
-            int decimalsAdjustment = (int)Math.Pow(10, dp);
+            int decimalsAdjustment = (int)Math.Pow(10, decimalPlaces);
             switch (rounding)
             {
                 case RoundingBehaviour.None:
                     return value;
                 case RoundingBehaviour.Down:
-                    return (Math.Floor(value * decimalsAdjustment) / decimalsAdjustment);                     
+                    return Math.Floor(value * decimalsAdjustment) / decimalsAdjustment;
                 case RoundingBehaviour.Up:
-                   return (Math.Ceiling(value * decimalsAdjustment) / decimalsAdjustment);
-                default:  // case RoundingBehaviour.Nearest:
-                    return (Math.Round(value, 1, MidpointRounding.AwayFromZero));
-            }          
+                    return Math.Ceiling(value * decimalsAdjustment) / decimalsAdjustment;
+                case RoundingBehaviour.Nearest:
+                default:
+                    return (Math.Round(value, decimalPlaces, MidpointRounding.AwayFromZero));
+            }
         }
 
-        public static double ToMB(double bytes, RoundingBehaviour rounding)
+        public static double ToTB(double bytes, RoundingBehaviour rounding, int decimalPlaces)
         {
-            switch (rounding)
-            {
-                case RoundingBehaviour.None:
-                    return bytes / BINARY_MEGA;
-                case RoundingBehaviour.Down:
-                    return Math.Floor(bytes / BINARY_MEGA);
-                case RoundingBehaviour.Up:
-                    return Math.Ceiling(bytes / BINARY_MEGA);
-                default:  // case RoundingBehaviour.Nearest:
-                    return Math.Round(bytes / BINARY_MEGA, MidpointRounding.AwayFromZero);
-            }
+            double value = bytes / BINARY_TERA;
+            return DecimalAdjustment(value, rounding, decimalPlaces);
+        }
+
+        public static double ToGB(double bytes, RoundingBehaviour rounding, int decimalPlaces)
+        {
+            double value = bytes / BINARY_GIGA;
+            return DecimalAdjustment(value, rounding, decimalPlaces);
+        }
+
+        public static double ToMB(double bytes, RoundingBehaviour rounding, int decimalPlaces = 0)
+        {
+            double value = bytes / BINARY_MEGA;
+            return DecimalAdjustment(value, rounding, decimalPlaces);
         }
 
         public static double CorrectRoundingErrors(double amount)
@@ -305,7 +307,7 @@ namespace XenAdmin
             // Special case to cope with choosing an amount that's a multiple of 0.1G but not 0.5G --
             // sending it to the server as the nearest byte and getting it back later --
             // and finding it's fractionally changed, messing up our spinner permitted ranges.
-            double amountRounded = ToGB(amount, 1, RoundingBehaviour.Nearest) * BINARY_GIGA;
+            double amountRounded = ToGB(amount, RoundingBehaviour.Nearest, 1) * BINARY_GIGA;
             double roundingDiff = amountRounded - amount;
             if (roundingDiff > -1.0 && roundingDiff < 1.0)  // within 1 byte: although I think it will always be positive in the case we want to correct
                 return amountRounded;
@@ -501,7 +503,7 @@ namespace XenAdmin
         }
 
         /// <summary>
-        /// Get the first node with name 'value' and returns its innerText. Used for gettings results of CGSL async actions.
+        /// Get the first node with name 'value' and returns its innerText. Used for getting results of CGSL async actions.
         /// </summary>
         /// <param name="xml">The XML.</param>
         /// <returns>The contents of the first node with name 'value'.</returns>

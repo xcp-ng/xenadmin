@@ -83,7 +83,6 @@
             resources.ApplyResources(this.allowedTypesLabel, "allowedTypesLabel");
             this.allowedTypesLabel.AutoEllipsis = true;
             this.allowedTypesLabel.BackColor = System.Drawing.Color.Transparent;
-            this.allowedTypesLabel.MinimumSize = new System.Drawing.Size(0, 16);
             this.allowedTypesLabel.Name = "allowedTypesLabel";
             // 
             // pGpuLabel
@@ -91,7 +90,6 @@
             resources.ApplyResources(this.pGpuLabel, "pGpuLabel");
             this.pGpuLabel.AutoEllipsis = true;
             this.pGpuLabel.BackColor = System.Drawing.Color.Transparent;
-            this.pGpuLabel.MinimumSize = new System.Drawing.Size(0, 16);
             this.pGpuLabel.Name = "pGpuLabel";
             // 
             // pGpuPictureBox

@@ -29,37 +29,40 @@
  * SUCH DAMAGE.
  */
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Xml;
 
 using XenAPI;
-
 using XenAdmin.Core;
 
 namespace XenAdmin.Plugins
 {
     internal class PowerShellCmd : ShellCmd
     {
-        public readonly bool Debug;      // optional - "debug" attribute on the "PowerShellCmd" tag
-        public readonly string Function;   // optional - "function" attribute on the "PowerShellCmd" tag
+        /// <summary>
+        /// (Optional) "debug" attribute on the "PowerShellCmd" tag
+        /// </summary>
+        public readonly bool Debug;
+
+        /// <summary>
+        /// (Optional) "function" attribute on the "PowerShellCmd" tag
+        /// </summary>
+        public readonly string Function;
+
         public const string ATT_DEBUG = "debug";
         public const string ATT_FUNCTION = "function";
 
         public PowerShellCmd(XmlNode node, List<string> extraParams)
             : base(node, extraParams)
         {
-            Debug = Helpers.GetBoolXmlAttribute(node, ATT_DEBUG, false);
+            Debug = Helpers.GetBoolXmlAttribute(node, ATT_DEBUG);
             Function = Helpers.GetStringXmlAttribute(node, ATT_FUNCTION);
-
-            Registry.CheckPowershell();
         }
 
         public override Process CreateProcess(List<string> procParams, IList<IXenObject> targets)
         {
-            Registry.CheckPowershell();
+            Registry.AssertPowerShellInstalled();
 
             // get ourselves in the correct directory
             // put the parameters in the objInfoArray variable

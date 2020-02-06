@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Pool_patch : XenObject<Pool_patch>
     {
+        #region Constructors
+
         public Pool_patch()
         {
         }
@@ -73,13 +75,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Pool_patch from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Pool_patch(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Pool_patch from a Proxy_Pool_patch.
         /// </summary>
         /// <param name="proxy"></param>
         public Pool_patch(Proxy_Pool_patch proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -99,7 +115,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_Pool_patch proxy)
+        internal void UpdateFrom(Proxy_Pool_patch proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -127,17 +143,6 @@ namespace XenAPI
             result_.pool_update = pool_update ?? "";
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Pool_patch from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Pool_patch(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

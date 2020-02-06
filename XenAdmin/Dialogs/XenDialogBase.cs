@@ -35,10 +35,11 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using XenAdmin.Network;
 using XenAdmin.Core;
+using XenAdmin.Help;
 
 namespace XenAdmin.Dialogs
 {
-    public partial class XenDialogBase : Form
+    public partial class XenDialogBase : Form, IFormWithHelp
     {
         private static Dictionary<IXenConnection, List<XenDialogBase>> instances = new Dictionary<IXenConnection, List<XenDialogBase>>();
 
@@ -78,45 +79,35 @@ namespace XenAdmin.Dialogs
             }
         }
 
-        private IXenConnection _connection;
-        protected IXenConnection connection
-        {
-            get { return _connection; }
-            set
-            {
-                _connection = value;
-                if (_connection != null)
-                {
-                    AddInstance(_connection, this);
-                }
-            }
-        }
-
-        public XenDialogBase(IXenConnection connection)
-            : this()
-        {
-            this.connection = connection;
-        }
+        protected readonly IXenConnection connection;
 
         /// <summary>
-        /// Only use this ctor if you don't want your dialog to be 
-        /// closed when a connection disconnects.
+        /// The VS designer does not seem to understand optional parameters,
+        /// it needs the parameterless constructor
         /// </summary>
-        public XenDialogBase()
+        protected XenDialogBase()
         {
             InitializeComponent();
         }
 
-        private bool ownerActivatedOnClosed = true;
+        /// <summary>
+        /// If the connection is set, the dialog becomes a per-connection dialog,
+        /// which means it will close when the connection is disconnected
+        /// </summary>
+        protected XenDialogBase(IXenConnection conn)
+            : this()
+        {
+            connection = conn;
+
+            if (connection != null)
+                AddInstance(connection, this);
+        }
+
         /// <summary>
         /// Allow the XenDialogBase.OnClosed to set Owner.Activate() - this will push the Owner
         /// to the top of the windows stack stealing focus.
         /// </summary>
-        protected bool OwnerActivatedOnClosed
-        {
-            get { return ownerActivatedOnClosed; }
-            set { ownerActivatedOnClosed = value; }
-        }
+        protected bool OwnerActivatedOnClosed { get; set; } = true;
 
         protected override void OnClosed(EventArgs e)
         {
@@ -143,31 +134,25 @@ namespace XenAdmin.Dialogs
 
         public bool HasHelp()
         {
-            return Help.HelpManager.HasHelpFor(HelpName);
+            return HelpManager.TryGetTopicId(HelpName, out _);
         }
 
         private void XenDialogBase_HelpButtonClicked(object sender, CancelEventArgs e)
         {
-            Help.HelpManager.Launch(HelpName);
+            HelpManager.Launch(HelpName);
             e.Cancel = true;
         }
 
         private void XenDialogBase_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
-            Help.HelpManager.Launch(HelpName);
+            HelpManager.Launch(HelpName);
             hlpevent.Handled = true;
         }
 
         /// <summary>
         /// override if the reference in the help differs to the dialogs name
         /// </summary>
-        internal virtual string HelpName
-        {
-            get
-            {
-                return Name;
-            }
-        }
+        internal virtual string HelpName => Name;
 
         private void XenDialogBase_Shown(object sender, EventArgs e)
         {

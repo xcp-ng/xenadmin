@@ -60,11 +60,12 @@ namespace XenAdmin.Dialogs
             InitializeComponent();
         }
 
-        public NetworkingProperties(Host host,PIF selectedPIF):this()
+        public NetworkingProperties(Host host, PIF selectedPIF)
+            :base(host.Connection)
         {
+            InitializeComponent();
             Host = host;
             Pool = null;
-            connection = host.Connection;
             ObjectName = Helpers.GetName(host);
             AllowManagementOnVLAN = !Helpers.FeatureForbidden(connection, Host.RestrictManagementOnVLAN);
 
@@ -75,10 +76,11 @@ namespace XenAdmin.Dialogs
 
 
 
-        public NetworkingProperties(Pool pool,PIF selectedPIF):this()
+        public NetworkingProperties(Pool pool, PIF selectedPIF)
+            : base(pool.Connection)
         {
+            InitializeComponent();
             Pool = pool;
-            connection = pool.Connection;
             ObjectName = Helpers.GetName(Pool);
             AllowManagementOnVLAN = !Helpers.FeatureForbidden(connection, Host.RestrictManagementOnVLAN);
 

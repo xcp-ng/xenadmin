@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class PUSB : XenObject<PUSB>
     {
+        #region Constructors
+
         public PUSB()
         {
         }
@@ -79,13 +81,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new PUSB from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public PUSB(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new PUSB from a Proxy_PUSB.
         /// </summary>
         /// <param name="proxy"></param>
         public PUSB(Proxy_PUSB proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -108,7 +124,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_PUSB proxy)
+        internal void UpdateFrom(Proxy_PUSB proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             USB_group = proxy.USB_group == null ? null : XenRef<USB_group>.Create(proxy.USB_group);
@@ -142,17 +158,6 @@ namespace XenAPI
             result_.passthrough_enabled = passthrough_enabled;
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new PUSB from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public PUSB(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

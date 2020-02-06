@@ -69,6 +69,7 @@ namespace XenAdmin.TabPages
             UpdateActionEnablement();
 
             m_alertCollectionChangedWithInvoke = Program.ProgramInvokeHandler(AlertsCollectionChanged);
+            RegisterCheckForUpdatesEvents();
 
             toolStripSplitButtonDismiss.DefaultItem = tsmiDismissAll;
             toolStripSplitButtonDismiss.Text = tsmiDismissAll.Text;
@@ -91,8 +92,11 @@ namespace XenAdmin.TabPages
         {
             Alert.DeregisterAlertCollectionChanged(m_alertCollectionChangedWithInvoke);
         }
+
+        public override string HelpID => "AlertSummaryDialog";
+
         #endregion
-        
+
         private void SetFilterLabel()
         {
             toolStripLabelFiltersOnOff.Text = FilterIsOn
@@ -225,7 +229,7 @@ namespace XenAdmin.TabPages
             }
             catch (Exception e)
             {
-                log.ErrorFormat("Encountered exception when building list: {0}", e);
+                log.Error("Encountered exception when building list.", e);
             }
             finally
             {
@@ -600,6 +604,7 @@ namespace XenAdmin.TabPages
             switch (e.Action)
             {
                 case CollectionChangeAction.Add:
+                case CollectionChangeAction.Refresh:
                     Rebuild(); // rebuild entire alert list to ensure filtering and sorting
                     break;
                 case CollectionChangeAction.Remove:
@@ -743,8 +748,8 @@ namespace XenAdmin.TabPages
             {
                 using (var dlog = new ThreeButtonDialog(
                     new ThreeButtonDialog.Details(null, Messages.ALERT_EXPORT_ALL_OR_FILTERED),
-                    new ThreeButtonDialog.TBDButton(Messages.ALERT_EXPORT_ALL_BUTTON, DialogResult.Yes),
-                    new ThreeButtonDialog.TBDButton(Messages.ALERT_EXPORT_FILTERED_BUTTON, DialogResult.No, ThreeButtonDialog.ButtonType.NONE),
+                    new ThreeButtonDialog.TBDButton(Messages.EXPORT_ALL_BUTTON, DialogResult.Yes),
+                    new ThreeButtonDialog.TBDButton(Messages.EXPORT_FILTERED_BUTTON, DialogResult.No, ThreeButtonDialog.ButtonType.NONE),
                     ThreeButtonDialog.ButtonCancel))
                 {
                     var result = dlog.ShowDialog(this);
@@ -780,7 +785,7 @@ namespace XenAdmin.TabPages
                 string.Format(Messages.EXPORTED_SYSTEM_ALERTS, fileName),
                 delegate
                 {
-                    using (StreamWriter stream = new StreamWriter(fileName, false, UTF8Encoding.UTF8))
+                    using (StreamWriter stream = new StreamWriter(fileName, false, Encoding.UTF8))
                     {
                         stream.WriteLine("{0},{1},{2},{3},{4}", Messages.TITLE,
                                          Messages.SEVERITY, Messages.DESCRIPTION,
@@ -833,5 +838,22 @@ namespace XenAdmin.TabPages
 
             Clip.SetClipboardText(alert.GetUpdateDetailsCSVQuotes());
         }
+
+        #region CheckForUpdates events
+        private void RegisterCheckForUpdatesEvents()
+        {
+            Updates.CheckForUpdatesCompleted += CheckForUpdatesCompleted;
+        }
+
+        private void DeregisterCheckForUpdatesEvents()
+        {
+            Updates.CheckForUpdatesCompleted -= CheckForUpdatesCompleted;
+        }
+
+        private void CheckForUpdatesCompleted(bool succeeded, string errorMessage)
+        {
+            Updates.CheckHotfixEligibility();
+        }
+        #endregion
     }
 }

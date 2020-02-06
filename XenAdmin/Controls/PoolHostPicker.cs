@@ -180,12 +180,12 @@ namespace XenAdmin.Controls
             }
         }
 
-        void xc_CachePopulated(object sender, EventArgs e)
+        void xc_CachePopulated(IXenConnection conn)
         {
             Program.Invoke(this, buildList);
         }
 
-        void xc_ConnectionStateChanged(object sender, EventArgs e)
+        void xc_ConnectionStateChanged(IXenConnection conn)
         {
             Program.Invoke(this, buildList);
         }

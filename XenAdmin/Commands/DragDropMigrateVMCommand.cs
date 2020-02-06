@@ -29,16 +29,12 @@
  * SUCH DAMAGE.
  */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using XenAdmin.Controls;
 using XenAPI;
 using XenAdmin.Core;
-using System.Collections.ObjectModel;
 using System.Windows.Forms;
-using XenAdmin.Actions;
 using XenAdmin.Dialogs;
 using System.Drawing;
 using XenAdmin.Actions.VMActions;
@@ -91,11 +87,11 @@ namespace XenAdmin.Commands
                                 }
                             }
 
-                            if (targetHost != draggedVMHome && VMOperationHostCommand.VmCpuFeaturesIncompatibleWithHost(targetHost, draggedVM))
-                            {
-                                // target host does not offer some of the CPU features that the VM currently sees
+                            if (Helpers.productVersionCompare(Helpers.HostProductVersion(targetHost), Helpers.HostProductVersion(draggedVMHome)) < 0)
+                                return Messages.OLDER_THAN_CURRENT_SERVER;
+
+                            if (targetHost != draggedVMHome && VMOperationHostCommand.VmCpuIncompatibleWithHost(targetHost, draggedVM))
                                 return Messages.MIGRATION_NOT_ALLOWED_CPU_FEATURES;
-                            }
                         }
                     }
                 }
@@ -181,11 +177,11 @@ namespace XenAdmin.Commands
                             return false;
                         }
 
-                        if (VMOperationHostCommand.VmCpuFeaturesIncompatibleWithHost(targetHost, draggedVM))
-                        {
-                            // target host does not offer some of the CPU features that the VM currently sees
+                        if (Helpers.productVersionCompare(Helpers.HostProductVersion(targetHost), Helpers.HostProductVersion(draggedVMHome)) < 0)
                             return false;
-                        }
+
+                        if (VMOperationHostCommand.VmCpuIncompatibleWithHost(targetHost, draggedVM))
+                            return false;
                     }
 
                     return true;

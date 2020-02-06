@@ -117,10 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
-  <data name="panel2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
   <data name="panel2.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -128,6 +124,7 @@
   <data name="panelReadCaching.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
   <data name="panelReadCaching.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
   </data>
@@ -137,6 +134,9 @@
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
   <data name="pdSectionReadCaching.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
+  </data>
+  <data name="pdSectionReadCaching.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
   </data>
   <data name="pdSectionReadCaching.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
@@ -204,6 +204,9 @@
   <data name="pdSectionDockerInfo.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
   </data>
+  <data name="pdSectionDockerInfo.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
+  </data>
   <data name="pdSectionDockerInfo.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
   </data>
@@ -269,6 +272,9 @@
   </data>
   <data name="pdSectionDockerVersion.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
+  </data>
+  <data name="pdSectionDockerVersion.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
   </data>
   <data name="pdSectionDockerVersion.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
@@ -336,6 +342,9 @@
   <data name="pdSectionStorageLinkSystemCapabilities.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
   </data>
+  <data name="pdSectionStorageLinkSystemCapabilities.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
+  </data>
   <data name="pdSectionStorageLinkSystemCapabilities.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
   </data>
@@ -401,6 +410,9 @@
   </data>
   <data name="pdSectionMultipathBoot.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
+  </data>
+  <data name="pdSectionMultipathBoot.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
   </data>
   <data name="pdSectionMultipathBoot.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
@@ -468,6 +480,9 @@
   <data name="pdStorageLink.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
   </data>
+  <data name="pdStorageLink.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
+  </data>
   <data name="pdStorageLink.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
   </data>
@@ -522,72 +537,6 @@
   <data name="&gt;&gt;panelStorageLink.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="panelUpdates.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="panelUpdates.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
-  </data>
-  <data name="pdSectionUpdates.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="pdSectionUpdates.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 5</value>
-  </data>
-  <data name="pdSectionUpdates.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 34</value>
-  </data>
-  <data name="pdSectionUpdates.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>1, 1, 1, 1</value>
-  </data>
-  <data name="pdSectionUpdates.SectionTitle" xml:space="preserve">
-    <value>更新</value>
-  </data>
-  <data name="pdSectionUpdates.Size" type="System.Drawing.Size, System.Drawing">
-    <value>712, 34</value>
-  </data>
-  <data name="pdSectionUpdates.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;pdSectionUpdates.Name" xml:space="preserve">
-    <value>pdSectionUpdates</value>
-  </data>
-  <data name="&gt;&gt;pdSectionUpdates.Type" xml:space="preserve">
-    <value>XenAdmin.Controls.PDSection, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;pdSectionUpdates.Parent" xml:space="preserve">
-    <value>panelUpdates</value>
-  </data>
-  <data name="&gt;&gt;pdSectionUpdates.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelUpdates.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="panelUpdates.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 528</value>
-  </data>
-  <data name="panelUpdates.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 5, 0, 5</value>
-  </data>
-  <data name="panelUpdates.Size" type="System.Drawing.Size, System.Drawing">
-    <value>712, 44</value>
-  </data>
-  <data name="panelUpdates.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;panelUpdates.Name" xml:space="preserve">
-    <value>panelUpdates</value>
-  </data>
-  <data name="&gt;&gt;panelUpdates.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelUpdates.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;panelUpdates.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="panelMemoryAndVCPUs.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -599,6 +548,9 @@
   </data>
   <data name="pdSectionVCPUs.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
+  </data>
+  <data name="pdSectionVCPUs.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
   </data>
   <data name="pdSectionVCPUs.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
@@ -652,7 +604,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;panelMemoryAndVCPUs.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="panelMultipathing.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -665,6 +617,9 @@
   </data>
   <data name="pdSectionMultipathing.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
+  </data>
+  <data name="pdSectionMultipathing.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
   </data>
   <data name="pdSectionMultipathing.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
@@ -718,7 +673,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;panelMultipathing.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="panelStatus.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -731,6 +686,9 @@
   </data>
   <data name="pdSectionStatus.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
+  </data>
+  <data name="pdSectionStatus.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
   </data>
   <data name="pdSectionStatus.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
@@ -784,7 +742,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;panelStatus.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>8</value>
   </data>
   <data name="panelHighAvailability.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -797,6 +755,9 @@
   </data>
   <data name="pdSectionHighAvailability.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
+  </data>
+  <data name="pdSectionHighAvailability.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
   </data>
   <data name="pdSectionHighAvailability.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
@@ -850,7 +811,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;panelHighAvailability.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>9</value>
   </data>
   <data name="panelBootOptions.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -863,6 +824,9 @@
   </data>
   <data name="pdSectionBootOptions.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
+  </data>
+  <data name="pdSectionBootOptions.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
   </data>
   <data name="pdSectionBootOptions.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
@@ -916,7 +880,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;panelBootOptions.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>10</value>
   </data>
   <data name="panelCPU.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -929,6 +893,9 @@
   </data>
   <data name="pdSectionCPU.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
+  </data>
+  <data name="pdSectionCPU.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
   </data>
   <data name="pdSectionCPU.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
@@ -982,139 +949,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;panelCPU.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="panelLicense.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="panelLicense.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
-  </data>
-  <data name="pdSectionLicense.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="pdSectionLicense.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 5</value>
-  </data>
-  <data name="pdSectionLicense.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 34</value>
-  </data>
-  <data name="pdSectionLicense.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>1, 1, 1, 1</value>
-  </data>
-  <data name="pdSectionLicense.SectionTitle" xml:space="preserve">
-    <value>许可证详细信息</value>
-  </data>
-  <data name="pdSectionLicense.Size" type="System.Drawing.Size, System.Drawing">
-    <value>712, 34</value>
-  </data>
-  <data name="pdSectionLicense.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;pdSectionLicense.Name" xml:space="preserve">
-    <value>pdSectionLicense</value>
-  </data>
-  <data name="&gt;&gt;pdSectionLicense.Type" xml:space="preserve">
-    <value>XenAdmin.Controls.PDSection, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;pdSectionLicense.Parent" xml:space="preserve">
-    <value>panelLicense</value>
-  </data>
-  <data name="&gt;&gt;pdSectionLicense.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelLicense.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="panelLicense.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 220</value>
-  </data>
-  <data name="panelLicense.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 5, 0, 5</value>
-  </data>
-  <data name="panelLicense.Size" type="System.Drawing.Size, System.Drawing">
-    <value>712, 44</value>
-  </data>
-  <data name="panelLicense.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;panelLicense.Name" xml:space="preserve">
-    <value>panelLicense</value>
-  </data>
-  <data name="&gt;&gt;panelLicense.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelLicense.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;panelLicense.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <data name="panelVersion.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="panelVersion.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
-  </data>
-  <data name="pdSectionVersion.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="pdSectionVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 5</value>
-  </data>
-  <data name="pdSectionVersion.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 34</value>
-  </data>
-  <data name="pdSectionVersion.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>1, 1, 1, 1</value>
-  </data>
-  <data name="pdSectionVersion.SectionTitle" xml:space="preserve">
-    <value>版本详细信息</value>
-  </data>
-  <data name="pdSectionVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>712, 34</value>
-  </data>
-  <data name="pdSectionVersion.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;pdSectionVersion.Name" xml:space="preserve">
-    <value>pdSectionVersion</value>
-  </data>
-  <data name="&gt;&gt;pdSectionVersion.Type" xml:space="preserve">
-    <value>XenAdmin.Controls.PDSection, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;pdSectionVersion.Parent" xml:space="preserve">
-    <value>panelVersion</value>
-  </data>
-  <data name="&gt;&gt;pdSectionVersion.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelVersion.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="panelVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 176</value>
-  </data>
-  <data name="panelVersion.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 5, 0, 5</value>
-  </data>
-  <data name="panelVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>712, 44</value>
-  </data>
-  <data name="panelVersion.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;panelVersion.Name" xml:space="preserve">
-    <value>panelVersion</value>
-  </data>
-  <data name="&gt;&gt;panelVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelVersion.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;panelVersion.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>11</value>
   </data>
   <data name="panelMemory.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1127,6 +962,9 @@
   </data>
   <data name="pdSectionMemory.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
+  </data>
+  <data name="pdSectionMemory.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
   </data>
   <data name="pdSectionMemory.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
@@ -1180,7 +1018,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;panelMemory.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>12</value>
   </data>
   <data name="panelManagementInterfaces.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1193,6 +1031,9 @@
   </data>
   <data name="pdSectionManagementInterfaces.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
+  </data>
+  <data name="pdSectionManagementInterfaces.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
   </data>
   <data name="pdSectionManagementInterfaces.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
@@ -1246,6 +1087,213 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;panelManagementInterfaces.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="panelUpdates.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="panelUpdates.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="pdSectionUpdates.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="pdSectionUpdates.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 5</value>
+  </data>
+  <data name="pdSectionUpdates.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
+  </data>
+  <data name="pdSectionUpdates.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 34</value>
+  </data>
+  <data name="pdSectionUpdates.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="pdSectionUpdates.SectionTitle" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="pdSectionUpdates.Size" type="System.Drawing.Size, System.Drawing">
+    <value>715, 34</value>
+  </data>
+  <data name="pdSectionUpdates.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;pdSectionUpdates.Name" xml:space="preserve">
+    <value>pdSectionUpdates</value>
+  </data>
+  <data name="&gt;&gt;pdSectionUpdates.Type" xml:space="preserve">
+    <value>XenAdmin.Controls.PDSection, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pdSectionUpdates.Parent" xml:space="preserve">
+    <value>panelUpdates</value>
+  </data>
+  <data name="&gt;&gt;pdSectionUpdates.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panelUpdates.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="panelUpdates.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 176</value>
+  </data>
+  <data name="panelUpdates.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 5</value>
+  </data>
+  <data name="panelUpdates.Size" type="System.Drawing.Size, System.Drawing">
+    <value>715, 44</value>
+  </data>
+  <data name="panelUpdates.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;panelUpdates.Name" xml:space="preserve">
+    <value>panelUpdates</value>
+  </data>
+  <data name="&gt;&gt;panelUpdates.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelUpdates.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;panelUpdates.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="panelVersion.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="panelVersion.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="pdSectionVersion.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="pdSectionVersion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 5</value>
+  </data>
+  <data name="pdSectionVersion.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
+  </data>
+  <data name="pdSectionVersion.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 34</value>
+  </data>
+  <data name="pdSectionVersion.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="pdSectionVersion.SectionTitle" xml:space="preserve">
+    <value>版本详细信息</value>
+  </data>
+  <data name="pdSectionVersion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>715, 34</value>
+  </data>
+  <data name="pdSectionVersion.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;pdSectionVersion.Name" xml:space="preserve">
+    <value>pdSectionVersion</value>
+  </data>
+  <data name="&gt;&gt;pdSectionVersion.Type" xml:space="preserve">
+    <value>XenAdmin.Controls.PDSection, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pdSectionVersion.Parent" xml:space="preserve">
+    <value>panelVersion</value>
+  </data>
+  <data name="&gt;&gt;pdSectionVersion.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panelVersion.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="panelVersion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 132</value>
+  </data>
+  <data name="panelVersion.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 5</value>
+  </data>
+  <data name="panelVersion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>715, 44</value>
+  </data>
+  <data name="panelVersion.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;panelVersion.Name" xml:space="preserve">
+    <value>panelVersion</value>
+  </data>
+  <data name="&gt;&gt;panelVersion.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelVersion.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;panelVersion.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="panelLicense.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="panelLicense.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="pdSectionLicense.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="pdSectionLicense.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 5</value>
+  </data>
+  <data name="pdSectionLicense.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
+  </data>
+  <data name="pdSectionLicense.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 34</value>
+  </data>
+  <data name="pdSectionLicense.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="pdSectionLicense.SectionTitle" xml:space="preserve">
+    <value>许可证详细信息</value>
+  </data>
+  <data name="pdSectionLicense.Size" type="System.Drawing.Size, System.Drawing">
+    <value>715, 34</value>
+  </data>
+  <data name="pdSectionLicense.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;pdSectionLicense.Name" xml:space="preserve">
+    <value>pdSectionLicense</value>
+  </data>
+  <data name="&gt;&gt;pdSectionLicense.Type" xml:space="preserve">
+    <value>XenAdmin.Controls.PDSection, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pdSectionLicense.Parent" xml:space="preserve">
+    <value>panelLicense</value>
+  </data>
+  <data name="&gt;&gt;pdSectionLicense.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panelLicense.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="panelLicense.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 88</value>
+  </data>
+  <data name="panelLicense.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 5</value>
+  </data>
+  <data name="panelLicense.Size" type="System.Drawing.Size, System.Drawing">
+    <value>715, 44</value>
+  </data>
+  <data name="panelLicense.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;panelLicense.Name" xml:space="preserve">
+    <value>panelLicense</value>
+  </data>
+  <data name="&gt;&gt;panelLicense.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelLicense.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;panelLicense.ZOrder" xml:space="preserve">
     <value>16</value>
   </data>
   <data name="panelCustomFields.AutoSize" type="System.Boolean, mscorlib">
@@ -1259,6 +1307,9 @@
   </data>
   <data name="pdSectionCustomFields.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
+  </data>
+  <data name="pdSectionCustomFields.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
   </data>
   <data name="pdSectionCustomFields.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
@@ -1326,6 +1377,9 @@
   <data name="pdSectionGeneral.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>
   </data>
+  <data name="pdSectionGeneral.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 9999999</value>
+  </data>
   <data name="pdSectionGeneral.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 34</value>
   </data>
@@ -1380,6 +1434,9 @@
   <data name="&gt;&gt;panelGeneral.ZOrder" xml:space="preserve">
     <value>18</value>
   </data>
+  <data name="panel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
   <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 39</value>
   </data>
@@ -1401,71 +1458,20 @@
   <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="buttonProperties.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 2</value>
+  <data name="tableLayoutPanelButtons.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="buttonProperties.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 2, 0, 0</value>
+  <data name="tableLayoutPanelButtons.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
   </data>
-  <data name="buttonProperties.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="buttonProperties.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="buttonProperties.Text" xml:space="preserve">
-    <value>属性(&amp;R)</value>
-  </data>
-  <data name="&gt;&gt;buttonProperties.Name" xml:space="preserve">
-    <value>buttonProperties</value>
-  </data>
-  <data name="&gt;&gt;buttonProperties.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;buttonProperties.Parent" xml:space="preserve">
-    <value>buttonPanel</value>
-  </data>
-  <data name="&gt;&gt;buttonProperties.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="buttonViewConsole.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="buttonViewConsole.Location" type="System.Drawing.Point, System.Drawing">
-    <value>80, 2</value>
-  </data>
-  <data name="buttonViewConsole.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 2, 0, 0</value>
-  </data>
-  <data name="buttonViewConsole.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 23</value>
-  </data>
-  <data name="buttonViewConsole.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="buttonViewConsole.Text" xml:space="preserve">
-    <value>查看控制台(&amp;C)</value>
-  </data>
-  <data name="&gt;&gt;buttonViewConsole.Name" xml:space="preserve">
-    <value>buttonViewConsole</value>
-  </data>
-  <data name="&gt;&gt;buttonViewConsole.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;buttonViewConsole.Parent" xml:space="preserve">
-    <value>buttonPanel</value>
-  </data>
-  <data name="&gt;&gt;buttonViewConsole.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="tableLayoutPanelButtons.ColumnCount" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
   <data name="buttonViewLog.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="buttonViewLog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 2</value>
-  </data>
-  <data name="buttonViewLog.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 2, 0, 0</value>
+    <value>180, 3</value>
   </data>
   <data name="buttonViewLog.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 23</value>
@@ -1483,46 +1489,100 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;buttonViewLog.Parent" xml:space="preserve">
-    <value>buttonPanel</value>
+    <value>tableLayoutPanelButtons</value>
   </data>
   <data name="&gt;&gt;buttonViewLog.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="buttonViewConsole.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="buttonViewConsole.Location" type="System.Drawing.Point, System.Drawing">
+    <value>84, 3</value>
+  </data>
+  <data name="buttonViewConsole.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 23</value>
+  </data>
+  <data name="buttonViewConsole.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="buttonViewConsole.Text" xml:space="preserve">
+    <value>查看控制台(&amp;C)</value>
+  </data>
+  <data name="&gt;&gt;buttonViewConsole.Name" xml:space="preserve">
+    <value>buttonViewConsole</value>
+  </data>
+  <data name="&gt;&gt;buttonViewConsole.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;buttonViewConsole.Parent" xml:space="preserve">
+    <value>tableLayoutPanelButtons</value>
+  </data>
+  <data name="&gt;&gt;buttonViewConsole.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="buttonProperties.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="buttonProperties.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="buttonProperties.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="buttonProperties.Text" xml:space="preserve">
+    <value>属性(&amp;R)</value>
+  </data>
+  <data name="&gt;&gt;buttonProperties.Name" xml:space="preserve">
+    <value>buttonProperties</value>
+  </data>
+  <data name="&gt;&gt;buttonProperties.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;buttonProperties.Parent" xml:space="preserve">
+    <value>tableLayoutPanelButtons</value>
+  </data>
+  <data name="&gt;&gt;buttonProperties.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="buttonPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+  <data name="linkLabelCollapse.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
   </data>
-  <data name="buttonPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>300, 28</value>
+  <data name="linkLabelCollapse.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="buttonPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="linkLabelCollapse.Location" type="System.Drawing.Point, System.Drawing">
+    <value>669, 8</value>
   </data>
-  <data name="&gt;&gt;buttonPanel.Name" xml:space="preserve">
-    <value>buttonPanel</value>
+  <data name="linkLabelCollapse.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 13</value>
   </data>
-  <data name="&gt;&gt;buttonPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="linkLabelCollapse.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
-  <data name="&gt;&gt;buttonPanel.Parent" xml:space="preserve">
-    <value>panel3</value>
+  <data name="linkLabelCollapse.Text" xml:space="preserve">
+    <value>全部折叠</value>
   </data>
-  <data name="&gt;&gt;buttonPanel.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;linkLabelCollapse.Name" xml:space="preserve">
+    <value>linkLabelCollapse</value>
+  </data>
+  <data name="&gt;&gt;linkLabelCollapse.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkLabelCollapse.Parent" xml:space="preserve">
+    <value>tableLayoutPanelButtons</value>
+  </data>
+  <data name="&gt;&gt;linkLabelCollapse.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="linkLabelExpand.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
   </data>
   <data name="linkLabelExpand.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="linkLabelExpand.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="linkLabelExpand.Location" type="System.Drawing.Point, System.Drawing">
-    <value>586, 0</value>
-  </data>
-  <data name="linkLabelExpand.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 0, 2, 0</value>
-  </data>
-  <data name="linkLabelExpand.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>65, 28</value>
+    <value>607, 8</value>
   </data>
   <data name="linkLabelExpand.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 17</value>
@@ -1533,9 +1593,6 @@
   <data name="linkLabelExpand.Text" xml:space="preserve">
     <value>全部展开</value>
   </data>
-  <data name="linkLabelExpand.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
-  </data>
   <data name="&gt;&gt;linkLabelExpand.Name" xml:space="preserve">
     <value>linkLabelExpand</value>
   </data>
@@ -1543,100 +1600,43 @@
     <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;linkLabelExpand.Parent" xml:space="preserve">
-    <value>panel3</value>
+    <value>tableLayoutPanelButtons</value>
   </data>
   <data name="&gt;&gt;linkLabelExpand.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="linkLabelCollapse.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="linkLabelCollapse.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="linkLabelCollapse.Location" type="System.Drawing.Point, System.Drawing">
-    <value>651, 0</value>
-  </data>
-  <data name="linkLabelCollapse.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>76, 28</value>
-  </data>
-  <data name="linkLabelCollapse.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 17</value>
-  </data>
-  <data name="linkLabelCollapse.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="linkLabelCollapse.Text" xml:space="preserve">
-    <value>全部折叠</value>
-  </data>
-  <data name="linkLabelCollapse.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
-  </data>
-  <data name="&gt;&gt;linkLabelCollapse.Name" xml:space="preserve">
-    <value>linkLabelCollapse</value>
-  </data>
-  <data name="&gt;&gt;linkLabelCollapse.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;linkLabelCollapse.Parent" xml:space="preserve">
-    <value>panel3</value>
-  </data>
-  <data name="&gt;&gt;linkLabelCollapse.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="panel3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panel3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="panel3.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>900, 28</value>
-  </data>
-  <data name="panel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>727, 28</value>
-  </data>
-  <data name="panel3.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;panel3.Name" xml:space="preserve">
-    <value>panel3</value>
-  </data>
-  <data name="&gt;&gt;panel3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel3.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;panel3.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="tableLayoutPanelButtons.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
   </data>
-  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="tableLayoutPanelButtons.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 10</value>
   </data>
-  <data name="panel1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 5, 0</value>
+  <data name="tableLayoutPanelButtons.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>900, 900</value>
   </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="tableLayoutPanelButtons.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanelButtons.Size" type="System.Drawing.Size, System.Drawing">
     <value>732, 29</value>
   </data>
-  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+  <data name="tableLayoutPanelButtons.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
-    <value>panel1</value>
+  <data name="&gt;&gt;tableLayoutPanelButtons.Name" xml:space="preserve">
+    <value>tableLayoutPanelButtons</value>
   </data>
-  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;tableLayoutPanelButtons.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;tableLayoutPanelButtons.Parent" xml:space="preserve">
     <value>pageContainerPanel</value>
   </data>
-  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;tableLayoutPanelButtons.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="tableLayoutPanelButtons.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="buttonViewLog" Row="0" RowSpan="1" Column="2" ColumnSpan="1" />&lt;Control Name="buttonViewConsole" Row="0" RowSpan="1" Column="1" ColumnSpan="1" />&lt;Control Name="buttonProperties" Row="0" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="linkLabelCollapse" Row="0" RowSpan="1" Column="5" ColumnSpan="1" />&lt;Control Name="linkLabelExpand" Row="0" RowSpan="1" Column="4" ColumnSpan="1" />&lt;/Controls>&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0,Percent,100,AutoSize,0,AutoSize,0" />&lt;Rows Styles="AutoSize,0" />&lt;/TableLayoutSettings></value>
   </data>
   <data name="pageContainerPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 78</value>

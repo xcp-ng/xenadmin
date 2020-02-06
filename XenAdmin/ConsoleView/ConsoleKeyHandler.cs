@@ -151,12 +151,25 @@ namespace XenAdmin.ConsoleView
                     AddKeyHandler(new Set<Keys>(Keys.RMenu, Keys.LShiftKey, Keys.U), methodInvoker);
                     AddKeyHandler(new Set<Keys>(Keys.RMenu, Keys.RShiftKey, Keys.U), methodInvoker);
 
+                    AddKeyHandler(new Set<Keys>(Keys.ShiftKey, Keys.Menu, Keys.U), methodInvoker);
+                    AddKeyHandler(new Set<Keys>(Keys.LShiftKey, Keys.LMenu, Keys.U), methodInvoker);
+                    AddKeyHandler(new Set<Keys>(Keys.RShiftKey, Keys.LMenu, Keys.U), methodInvoker);
+                    AddKeyHandler(new Set<Keys>(Keys.LShiftKey, Keys.RMenu, Keys.U), methodInvoker);
+                    AddKeyHandler(new Set<Keys>(Keys.RShiftKey, Keys.RMenu, Keys.U), methodInvoker);
+
                     AddKeyHandler(new Set<int>(ALT_SCAN, L_SHIFT_SCAN, U_SCAN), methodInvoker);
                     AddKeyHandler(new Set<int>(ALT2_SCAN, L_SHIFT_SCAN, U_SCAN), methodInvoker);
                     AddKeyHandler(new Set<int>(ALT_SCAN, R_SHIFT_SCAN, U_SCAN), methodInvoker);
                     AddKeyHandler(new Set<int>(ALT2_SCAN, R_SHIFT_SCAN, U_SCAN), methodInvoker);
                     AddKeyHandler(new Set<int>(ALT2_SCAN, R_SHIFT_SCAN, GR_SCAN, U_SCAN), methodInvoker);
                     AddKeyHandler(new Set<int>(ALT2_SCAN, L_SHIFT_SCAN, GR_SCAN, U_SCAN), methodInvoker);
+
+                    AddKeyHandler(new Set<int>(L_SHIFT_SCAN, ALT_SCAN, U_SCAN), methodInvoker);
+                    AddKeyHandler(new Set<int>(L_SHIFT_SCAN, ALT2_SCAN, U_SCAN), methodInvoker);
+                    AddKeyHandler(new Set<int>(R_SHIFT_SCAN, ALT_SCAN, U_SCAN), methodInvoker);
+                    AddKeyHandler(new Set<int>(R_SHIFT_SCAN, ALT2_SCAN, U_SCAN), methodInvoker);
+                    AddKeyHandler(new Set<int>(R_SHIFT_SCAN, ALT2_SCAN, GR_SCAN, U_SCAN), methodInvoker);
+                    AddKeyHandler(new Set<int>(L_SHIFT_SCAN, ALT2_SCAN, GR_SCAN, U_SCAN), methodInvoker);
                     break;
                 case ConsoleShortcutKey.F11:
                     AddKeyHandler(new Set<Keys>(Keys.F11), methodInvoker);
@@ -264,12 +277,25 @@ namespace XenAdmin.ConsoleView
                     RemoveKeyHandler(new Set<Keys>(Keys.RMenu, Keys.LShiftKey, Keys.U));
                     RemoveKeyHandler(new Set<Keys>(Keys.RMenu, Keys.RShiftKey, Keys.U));
 
+                    RemoveKeyHandler(new Set<Keys>(Keys.ShiftKey, Keys.Menu, Keys.U));
+                    RemoveKeyHandler(new Set<Keys>(Keys.LShiftKey, Keys.LMenu, Keys.U));
+                    RemoveKeyHandler(new Set<Keys>(Keys.RShiftKey, Keys.LMenu, Keys.U));
+                    RemoveKeyHandler(new Set<Keys>(Keys.LShiftKey, Keys.RMenu, Keys.U));
+                    RemoveKeyHandler(new Set<Keys>(Keys.RShiftKey, Keys.RMenu, Keys.U));
+
                     RemoveKeyHandler(new Set<int>(ALT_SCAN, L_SHIFT_SCAN, U_SCAN));
                     RemoveKeyHandler(new Set<int>(ALT2_SCAN, L_SHIFT_SCAN, U_SCAN));
                     RemoveKeyHandler(new Set<int>(ALT_SCAN, R_SHIFT_SCAN, U_SCAN));
                     RemoveKeyHandler(new Set<int>(ALT2_SCAN, R_SHIFT_SCAN, U_SCAN));
                     RemoveKeyHandler(new Set<int>(ALT2_SCAN, R_SHIFT_SCAN, GR_SCAN, U_SCAN));
                     RemoveKeyHandler(new Set<int>(ALT2_SCAN, L_SHIFT_SCAN, GR_SCAN, U_SCAN));
+
+                    RemoveKeyHandler(new Set<int>(L_SHIFT_SCAN, ALT_SCAN, U_SCAN));
+                    RemoveKeyHandler(new Set<int>(L_SHIFT_SCAN, ALT2_SCAN, U_SCAN));
+                    RemoveKeyHandler(new Set<int>(R_SHIFT_SCAN, ALT_SCAN, U_SCAN));
+                    RemoveKeyHandler(new Set<int>(R_SHIFT_SCAN, ALT2_SCAN, U_SCAN));
+                    RemoveKeyHandler(new Set<int>(R_SHIFT_SCAN, ALT2_SCAN, GR_SCAN, U_SCAN));
+                    RemoveKeyHandler(new Set<int>(L_SHIFT_SCAN, ALT2_SCAN, GR_SCAN, U_SCAN));
                     break;
                 case ConsoleShortcutKey.F11:
                     RemoveKeyHandler(new Set<Keys>(Keys.F11));

@@ -48,42 +48,24 @@ namespace XenServerHealthCheck
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public Func<List<Role>, IXenConnection, string, AsyncAction.SudoElevationResult> SudoDialogDelegate { get { return FakeSudoDialog; } }
+        public Func<List<Role>, IXenConnection, string, AsyncAction.SudoElevationResult> SudoDialogDelegate => FakeSudoDialog;
 
-        public int ConnectionTimeout
-        {
-            get { return Properties.Settings.Default.ConnectionTimeout; }
-        }
+        public int ConnectionTimeout => Properties.Settings.Default.ConnectionTimeout;
 
         public Session CreateActionSession(Session session, IXenConnection connection)
         {
             return SessionFactory.DuplicateSession(session, connection, ConnectionTimeout);
         }
 
-        public bool Exiting
-        {
-            get { return false; }
-        }
+        public bool Exiting => false;
 
-        public bool ForcedExiting
-        {
-            get { return false; }
-        }
+        public bool ForcedExiting => false;
 
-        public string XenCenterUUID
-        {
-            get { return ""; }
-        }
+        public string XenCenterUUID => "";
 
-        public bool DontSudo
-        {
-            get { return false; }
-        }
+        public bool DontSudo => false;
 
-        public bool ShowHiddenVMs
-        {
-            get { return false; }
-        }
+        public bool ShowHiddenVMs => false;
 
         public string GetXenCenterMetadata(bool isForXenCenter)
         {

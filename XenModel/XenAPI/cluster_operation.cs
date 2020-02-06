@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,27 @@ namespace XenAPI
     [JsonConverter(typeof(cluster_operationConverter))]
     public enum cluster_operation
     {
-        add, remove, enable, disable, destroy, unknown
+        /// <summary>
+        /// adding a new member to the cluster
+        /// </summary>
+        add,
+        /// <summary>
+        /// removing a member from the cluster
+        /// </summary>
+        remove,
+        /// <summary>
+        /// enabling any cluster member
+        /// </summary>
+        enable,
+        /// <summary>
+        /// disabling any cluster member
+        /// </summary>
+        disable,
+        /// <summary>
+        /// completely destroying a cluster
+        /// </summary>
+        destroy,
+        unknown
     }
 
     public static class cluster_operation_helper
@@ -77,4 +96,4 @@ namespace XenAPI
             writer.WriteValue(((cluster_operation)value).StringOf());
         }
     }
-}
+}

@@ -55,6 +55,8 @@ namespace XenAdmin.TabPages
             buttonPassthrough.Text = Messages.USBLIST_ENABLE_PASSTHROUGH_HOTKEY;
         }
 
+        public override string HelpID => "TabPageUSB";
+
         public IXenObject XenObject
         {
             get

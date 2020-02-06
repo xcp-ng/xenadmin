@@ -212,7 +212,7 @@ namespace XenAdmin.Dialogs
             VDI TheVDI = item.TheVDI;
 
             // Run this stuff off the event thread, since it involves a server call
-            System.Threading.ThreadPool.QueueUserWorkItem((System.Threading.WaitCallback)delegate(object o)
+            System.Threading.ThreadPool.QueueUserWorkItem(delegate
             {
                 // Get a spare userdevice
                 string[] uds = VM.get_allowed_VBD_devices(connection.DuplicateSession(), TheVM.opaque_ref);
@@ -221,14 +221,14 @@ namespace XenAdmin.Dialogs
                     Program.Invoke(Program.MainWindow, delegate()
                     {
                         using (var dlg = new ThreeButtonDialog(
-                           new ThreeButtonDialog.Details(
-                               SystemIcons.Error,
-                               FriendlyErrorNames.VBDS_MAX_ALLOWED, Messages.DISK_ATTACH)))
+                            new ThreeButtonDialog.Details(
+                                SystemIcons.Error,
+                                FriendlyErrorNames.VBDS_MAX_ALLOWED, Messages.DISK_ATTACH)))
                         {
                             dlg.ShowDialog(Program.MainWindow);
                         }
                     });
-                    // Give up
+
                     return;
                 }
                 string ud = uds[0];
@@ -246,10 +246,27 @@ namespace XenAdmin.Dialogs
                 vbd.unpluggable = true;
 
                 // Try to hot plug the VBD.
-                new VbdSaveAndPlugAction(TheVM, vbd, TheVDI.Name(), null, false,NewDiskDialog.ShowMustRebootBoxCD,NewDiskDialog.ShowVBDWarningBox).RunAsync();
+                var action = new VbdSaveAndPlugAction(TheVM, vbd, TheVDI.Name(), null, false);
+                action.ShowUserInstruction += Action_ShowUserInstruction;
+                action.RunAsync();
             });
 
             Close();
+        }
+
+        private void Action_ShowUserInstruction(string message)
+        {
+            Program.Invoke(Program.MainWindow, () =>
+            {
+                if (!Program.RunInAutomatedTestMode)
+                {
+                    using (var dlg = new ThreeButtonDialog(
+                        new ThreeButtonDialog.Details(SystemIcons.Information, message)))
+                    {
+                        dlg.ShowDialog(Program.MainWindow);
+                    }
+                }
+            });
         }
 
         private void CancelBtn_Click(object sender, EventArgs e)

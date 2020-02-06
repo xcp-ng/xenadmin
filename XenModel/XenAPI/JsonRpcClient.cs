@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -1027,6 +1026,13 @@ namespace XenAPI
             return Rpc<bool>("pool.get_igmp_snooping_enabled", new JArray(session, _pool ?? ""), serializer);
         }
 
+        public string pool_get_uefi_certificates(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("pool.get_uefi_certificates", new JArray(session, _pool ?? ""), serializer);
+        }
+
         public void pool_set_name_label(string session, string _pool, string _name_label)
         {
             var converters = new List<JsonConverter> {};
@@ -1179,6 +1185,13 @@ namespace XenAPI
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             Rpc("pool.set_live_patching_disabled", new JArray(session, _pool ?? "", _live_patching_disabled), serializer);
+        }
+
+        public void pool_set_uefi_certificates(string session, string _pool, string _uefi_certificates)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_uefi_certificates", new JArray(session, _pool ?? "", _uefi_certificates ?? ""), serializer);
         }
 
         public void pool_join(string session, string _master_address, string _master_username, string _master_password)
@@ -5857,6 +5870,13 @@ namespace XenAPI
             return Rpc<bool>("host.get_multipathing", new JArray(session, _host ?? ""), serializer);
         }
 
+        public string host_get_uefi_certificates(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("host.get_uefi_certificates", new JArray(session, _host ?? ""), serializer);
+        }
+
         public void host_set_name_label(string session, string _host, string _label)
         {
             var converters = new List<JsonConverter> {};
@@ -6723,6 +6743,20 @@ namespace XenAPI
             var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
             var serializer = CreateSerializer(converters);
             return Rpc<XenRef<Task>>("Async.host.set_multipathing", new JArray(session, _host ?? "", _value), serializer);
+        }
+
+        public void host_set_uefi_certificates(string session, string _host, string _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.set_uefi_certificates", new JArray(session, _host ?? "", _value ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_host_set_uefi_certificates(string session, string _host, string _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.set_uefi_certificates", new JArray(session, _host ?? "", _value ?? ""), serializer);
         }
 
         public List<XenRef<Host>> host_get_all(string session)
@@ -8858,6 +8892,13 @@ namespace XenAPI
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             return Rpc<long>("Bond.get_links_up", new JArray(session, _bond ?? ""), serializer);
+        }
+
+        public bool bond_get_auto_update_mac(string session, string _bond)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<bool>("Bond.get_auto_update_mac", new JArray(session, _bond ?? ""), serializer);
         }
 
         public void bond_set_other_config(string session, string _bond, Dictionary<string, string> _other_config)
@@ -11772,6 +11813,7 @@ namespace XenAPI
             return Rpc<Dictionary<XenRef<Message>, Message>>("message.get_all_records_where", new JArray(session, _expr ?? ""), serializer);
         }
 
+
         public Secret secret_get_record(string session, string _secret)
         {
             var converters = new List<JsonConverter> {};
@@ -12745,6 +12787,20 @@ namespace XenAPI
             return Rpc<Dictionary<string, string>>("VGPU.get_compatibility_metadata", new JArray(session, _vgpu ?? ""), serializer);
         }
 
+        public string vgpu_get_extra_args(string session, string _vgpu)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("VGPU.get_extra_args", new JArray(session, _vgpu ?? ""), serializer);
+        }
+
+        public XenRef<PCI> vgpu_get_pci(string session, string _vgpu)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<PCI>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<PCI>>("VGPU.get_PCI", new JArray(session, _vgpu ?? ""), serializer);
+        }
+
         public void vgpu_set_other_config(string session, string _vgpu, Dictionary<string, string> _other_config)
         {
             var converters = new List<JsonConverter> {new StringStringMapConverter()};
@@ -12764,6 +12820,13 @@ namespace XenAPI
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             Rpc("VGPU.remove_from_other_config", new JArray(session, _vgpu ?? "", _key ?? ""), serializer);
+        }
+
+        public void vgpu_set_extra_args(string session, string _vgpu, string _extra_args)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("VGPU.set_extra_args", new JArray(session, _vgpu ?? "", _extra_args ?? ""), serializer);
         }
 
         public XenRef<VGPU> vgpu_create(string session, string _vm, string _gpu_group, string _device, Dictionary<string, string> _other_config)
@@ -12939,6 +13002,13 @@ namespace XenAPI
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             return Rpc<bool>("VGPU_type.get_experimental", new JArray(session, _vgpu_type ?? ""), serializer);
+        }
+
+        public List<XenRef<VGPU_type>> vgpu_type_get_compatible_types_in_vm(string session, string _vgpu_type)
+        {
+            var converters = new List<JsonConverter> {new XenRefListConverter<VGPU_type>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<XenRef<VGPU_type>>>("VGPU_type.get_compatible_types_in_vm", new JArray(session, _vgpu_type ?? ""), serializer);
         }
 
         public List<XenRef<VGPU_type>> vgpu_type_get_all(string session)
@@ -14389,6 +14459,5 @@ namespace XenAPI
             var serializer = CreateSerializer(converters);
             return Rpc<Dictionary<XenRef<Cluster_host>, Cluster_host>>("Cluster_host.get_all_records", new JArray(session), serializer);
         }
-
     }
-}
+}

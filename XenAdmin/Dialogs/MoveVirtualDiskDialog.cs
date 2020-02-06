@@ -84,7 +84,7 @@ namespace XenAdmin.Dialogs
             get { return SrPicker.SRPickerType.MoveOrCopy; }
         }
 
-        private void srPicker1_SrSelectionChanged(object obj)
+        private void srPicker1_SelectedIndexChanged(object sender, EventArgs e)
         {
             updateButtons();
         }

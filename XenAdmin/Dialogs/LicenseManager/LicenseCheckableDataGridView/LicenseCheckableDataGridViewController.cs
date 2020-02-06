@@ -40,8 +40,6 @@ namespace XenAdmin.Controls
 {
     public class LicenseCheckableDataGridViewController : CheckableDataGridViewController
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private const int DefaultSortIndex = 4;
 
         public LicenseCheckableDataGridViewController()

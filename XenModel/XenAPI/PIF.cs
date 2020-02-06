@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class PIF : XenObject<PIF>
     {
+        #region Constructors
+
         public PIF()
         {
         }
@@ -123,13 +125,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new PIF from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public PIF(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new PIF from a Proxy_PIF.
         /// </summary>
         /// <param name="proxy"></param>
         public PIF(Proxy_PIF proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -174,7 +190,7 @@ namespace XenAPI
             PCI = update.PCI;
         }
 
-        internal void UpdateFromProxy(Proxy_PIF proxy)
+        internal void UpdateFrom(Proxy_PIF proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             device = proxy.device == null ? null : proxy.device;
@@ -252,17 +268,6 @@ namespace XenAPI
             result_.sriov_logical_PIF_of = sriov_logical_PIF_of == null ? new string[] {} : Helper.RefListToStringArray(sriov_logical_PIF_of);
             result_.PCI = PCI ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new PIF from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public PIF(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

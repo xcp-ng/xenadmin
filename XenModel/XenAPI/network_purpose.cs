@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,15 @@ namespace XenAPI
     [JsonConverter(typeof(network_purposeConverter))]
     public enum network_purpose
     {
-        nbd, insecure_nbd, unknown
+        /// <summary>
+        /// Network Block Device service using TLS
+        /// </summary>
+        nbd,
+        /// <summary>
+        /// Network Block Device service without integrity or confidentiality: NOT RECOMMENDED
+        /// </summary>
+        insecure_nbd,
+        unknown
     }
 
     public static class network_purpose_helper
@@ -71,4 +78,4 @@ namespace XenAPI
             writer.WriteValue(((network_purpose)value).StringOf());
         }
     }
-}
+}

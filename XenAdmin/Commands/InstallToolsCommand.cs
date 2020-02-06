@@ -132,7 +132,9 @@ namespace XenAdmin.Commands
                 }
                 if (dialogResult == DialogResult.Yes)
                 {
-                    CreateCdDriveAction createDriveAction = new CreateCdDriveAction(vm, true,NewDiskDialog.ShowMustRebootBoxCD,NewDiskDialog.ShowVBDWarningBox);
+                    //do not register the event ShowUserInstruction; we show explicitly a message afterwards
+                    var createDriveAction = new CreateCdDriveAction(vm);
+
                     using (var dlg = new ActionProgressDialog(createDriveAction, ProgressBarStyle.Marquee))
                     {
                         dlg.ShowDialog(Parent);
@@ -192,7 +194,9 @@ namespace XenAdmin.Commands
                     {
                         if (CanExecute(vm) && vm.FindVMCDROM() == null)
                         {
-                            CreateCdDriveAction createDriveAction = new CreateCdDriveAction(vm, true,NewDiskDialog.ShowMustRebootBoxCD,NewDiskDialog.ShowVBDWarningBox);
+                            //do not register the event ShowUserInstruction; we show explicitly a message afterwards
+                            var createDriveAction = new CreateCdDriveAction(vm);
+
                             using (var dlg = new ActionProgressDialog(createDriveAction, ProgressBarStyle.Marquee))
                             {
                                 dlg.ShowDialog(Parent);
@@ -246,7 +250,6 @@ namespace XenAdmin.Commands
             });
         }
 
-
         private void InstallToolsActionCompleted(ActionBase sender)
         {
             InstallPVToolsAction action = (InstallPVToolsAction)sender;
@@ -263,10 +266,7 @@ namespace XenAdmin.Commands
             if (!MainWindowCommandInterface.RunInAutomatedTestMode)
             {
                 using (var dlg = new ThreeButtonDialog(
-                    new ThreeButtonDialog.Details(
-                        SystemIcons.Information,
-                        Messages.NEW_DVD_DRIVE_REBOOT_TOOLS,
-                        Messages.NEW_DVD_DRIVE_CREATED)))
+                    new ThreeButtonDialog.Details(SystemIcons.Information, Messages.NEW_DVD_DRIVE_REBOOT_TOOLS)))
                 {
                     dlg.ShowDialog(Parent);
                 }

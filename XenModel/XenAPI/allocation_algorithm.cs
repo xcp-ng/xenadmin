@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,15 @@ namespace XenAPI
     [JsonConverter(typeof(allocation_algorithmConverter))]
     public enum allocation_algorithm
     {
-        breadth_first, depth_first, unknown
+        /// <summary>
+        /// vGPUs of a given type are allocated evenly across supporting pGPUs.
+        /// </summary>
+        breadth_first,
+        /// <summary>
+        /// vGPUs of a given type are allocated on supporting pGPUs until they are full.
+        /// </summary>
+        depth_first,
+        unknown
     }
 
     public static class allocation_algorithm_helper
@@ -71,4 +78,4 @@ namespace XenAPI
             writer.WriteValue(((allocation_algorithm)value).StringOf());
         }
     }
-}
+}

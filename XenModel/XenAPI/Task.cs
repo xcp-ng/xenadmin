@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Task : XenObject<Task>
     {
+        #region Constructors
+
         public Task()
         {
         }
@@ -87,13 +89,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Task from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Task(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Task from a Proxy_Task.
         /// </summary>
         /// <param name="proxy"></param>
         public Task(Proxy_Task proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -120,7 +136,7 @@ namespace XenAPI
             backtrace = update.backtrace;
         }
 
-        internal void UpdateFromProxy(Proxy_Task proxy)
+        internal void UpdateFrom(Proxy_Task proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -162,17 +178,6 @@ namespace XenAPI
             result_.subtasks = subtasks == null ? new string[] {} : Helper.RefListToStringArray(subtasks);
             result_.backtrace = backtrace ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Task from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Task(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

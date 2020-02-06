@@ -34,7 +34,9 @@ using System.Net;
 
 namespace XenAPI
 {
-    // An interface to allow mocking a web proxy
+    /// <summary>
+    /// An interface to allow mocking a web proxy
+    /// </summary>
     public interface IMockWebProxy : IWebProxy
     {
         Stream GetStream(Uri uri);

@@ -38,26 +38,28 @@ namespace XenAdmin.Wizards.NewVMWizard
             this.SizeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SharedColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeleteButton = new System.Windows.Forms.Button();
-            this.PropertiesButton = new System.Windows.Forms.Button();
+            this.EditButton = new System.Windows.Forms.Button();
             this.AddButton = new System.Windows.Forms.Button();
             this.DisklessVMRadioButton = new System.Windows.Forms.RadioButton();
             this.DisksRadioButton = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.DisksGridView)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // CloneCheckBox
             // 
             resources.ApplyResources(this.CloneCheckBox, "CloneCheckBox");
+            this.tableLayoutPanel1.SetColumnSpan(this.CloneCheckBox, 2);
             this.CloneCheckBox.Name = "CloneCheckBox";
             this.CloneCheckBox.UseVisualStyleBackColor = true;
             // 
             // DisksGridView
             // 
-            resources.ApplyResources(this.DisksGridView, "DisksGridView");
             this.DisksGridView.BackgroundColor = System.Drawing.SystemColors.Window;
             this.DisksGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.DisksGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DisksGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.DisksGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageColumn,
             this.NameColumn,
@@ -72,7 +74,9 @@ namespace XenAdmin.Wizards.NewVMWizard
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.DisksGridView.DefaultCellStyle = dataGridViewCellStyle1;
+            resources.ApplyResources(this.DisksGridView, "DisksGridView");
             this.DisksGridView.Name = "DisksGridView";
+            this.tableLayoutPanel1.SetRowSpan(this.DisksGridView, 3);
             this.DisksGridView.SelectionChanged += new System.EventHandler(this.DisksGridView_SelectionChanged);
             // 
             // ImageColumn
@@ -119,12 +123,12 @@ namespace XenAdmin.Wizards.NewVMWizard
             this.DeleteButton.UseVisualStyleBackColor = true;
             this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
-            // PropertiesButton
+            // EditButton
             // 
-            resources.ApplyResources(this.PropertiesButton, "PropertiesButton");
-            this.PropertiesButton.Name = "PropertiesButton";
-            this.PropertiesButton.UseVisualStyleBackColor = true;
-            this.PropertiesButton.Click += new System.EventHandler(this.PropertiesButton_Click);
+            resources.ApplyResources(this.EditButton, "EditButton");
+            this.EditButton.Name = "EditButton";
+            this.EditButton.UseVisualStyleBackColor = true;
+            this.EditButton.Click += new System.EventHandler(this.EditButton_Click);
             // 
             // AddButton
             // 
@@ -136,6 +140,7 @@ namespace XenAdmin.Wizards.NewVMWizard
             // DisklessVMRadioButton
             // 
             resources.ApplyResources(this.DisklessVMRadioButton, "DisklessVMRadioButton");
+            this.tableLayoutPanel1.SetColumnSpan(this.DisklessVMRadioButton, 3);
             this.DisklessVMRadioButton.Name = "DisklessVMRadioButton";
             this.DisklessVMRadioButton.TabStop = true;
             this.DisklessVMRadioButton.UseVisualStyleBackColor = true;
@@ -144,6 +149,7 @@ namespace XenAdmin.Wizards.NewVMWizard
             // DisksRadioButton
             // 
             resources.ApplyResources(this.DisksRadioButton, "DisksRadioButton");
+            this.tableLayoutPanel1.SetColumnSpan(this.DisksRadioButton, 3);
             this.DisksRadioButton.Name = "DisksRadioButton";
             this.DisksRadioButton.TabStop = true;
             this.DisksRadioButton.UseVisualStyleBackColor = true;
@@ -152,24 +158,32 @@ namespace XenAdmin.Wizards.NewVMWizard
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
+            this.tableLayoutPanel1.SetColumnSpan(this.label1, 3);
             this.label1.Name = "label1";
+            // 
+            // tableLayoutPanel1
+            // 
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.CloneCheckBox, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.DeleteButton, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.DisksGridView, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.EditButton, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.DisksRadioButton, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.AddButton, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.DisklessVMRadioButton, 0, 6);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // Page_Storage
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.Controls.Add(this.CloneCheckBox);
-            this.Controls.Add(this.DisksGridView);
-            this.Controls.Add(this.DeleteButton);
-            this.Controls.Add(this.PropertiesButton);
-            this.Controls.Add(this.AddButton);
-            this.Controls.Add(this.DisklessVMRadioButton);
-            this.Controls.Add(this.DisksRadioButton);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Page_Storage";
             ((System.ComponentModel.ISupportInitialize)(this.DisksGridView)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -179,7 +193,7 @@ namespace XenAdmin.Wizards.NewVMWizard
         private System.Windows.Forms.RadioButton DisksRadioButton;
         private System.Windows.Forms.RadioButton DisklessVMRadioButton;
         private System.Windows.Forms.Button AddButton;
-        private System.Windows.Forms.Button PropertiesButton;
+        private System.Windows.Forms.Button EditButton;
         private System.Windows.Forms.Button DeleteButton;
         private XenAdmin.Controls.DataGridViewEx.DataGridViewEx DisksGridView;
         private System.Windows.Forms.CheckBox CloneCheckBox;
@@ -188,5 +202,6 @@ namespace XenAdmin.Wizards.NewVMWizard
         private System.Windows.Forms.DataGridViewTextBoxColumn SrColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn SizeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn SharedColumn;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }

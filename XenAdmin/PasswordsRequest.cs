@@ -30,7 +30,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 using System.Diagnostics;
@@ -62,25 +61,27 @@ namespace XenAdmin
 
         internal static void HandleRequest(string destdir)
         {
-            Process this_process = Process.GetCurrentProcess();
-            Process parent = Processes.FindParent(this_process);
+            log.DebugFormat("Handling password request");
 
-            if (parent == null)
+            Process thisProcess = Process.GetCurrentProcess();
+            Process parentProcess = Processes.FindParent(thisProcess);
+
+            if (parentProcess == null)
             {
                 log.Warn("Cannot find parent process.  Ignoring request.");
                 return;
             }
 
-            WindowsIdentity parent_user = Processes.GetWindowsIdentity(parent);
-            WindowsIdentity this_user = Processes.GetWindowsIdentity(this_process);
+            WindowsIdentity parentUser = Processes.GetWindowsIdentity(parentProcess);
+            WindowsIdentity thisUser = Processes.GetWindowsIdentity(thisProcess);
 
-            if (parent_user == null || this_user == null)
+            if (parentUser == null || thisUser == null)
             {
                 log.Warn("Cannot find user details.  Ignoring request.");
                 return;
             }
 
-            if (parent_user.User != this_user.User)
+            if (parentUser.User != thisUser.User)
             {
                 log.Warn("Passwords requested from user different to us.  Ignoring request.");
                 return;
@@ -92,61 +93,52 @@ namespace XenAdmin
                 return;
             }
 
-            string exepath = Processes.GetExePath(parent);
+            string exePath = Processes.GetExePath(parentProcess);
 
-            string token;
-            string token_exepath;
-            string user_sid;
-            if (ParseToken(destdir, out token, out token_exepath, out user_sid))
+            if (ParseToken(destdir, out var token, out var tokenExePath, out var userSid))
             {
                 // Valid token.
-                if (token_exepath == exepath)
+                if (tokenExePath == exePath)
                 {
-                    if (user_sid == this_user.User.ToString())
+                    if (userSid == thisUser.User.ToString())
                     {
                         CompleteRequest(destdir, token);
                         return;
                     }
-                    else
-                    {
-                        // Valid token, but for the wrong user.  Fall through to reprompt.
-                        log.WarnFormat("Given token for user {0}, but running as {1}", user_sid, this_user.User);
-                    }
+
+                    log.WarnFormat("Valid token, but for the wrong user. Will re-prompt");
                 }
                 else
                 {
-                    // Valid token, but for the wrong app.  Fall through to reprompt.
-                    log.WarnFormat("Given token for {0}, but app is {1}", token_exepath, exepath);
+                    log.WarnFormat("Valid token, but for the wrong app. Will re-prompt");
                 }
             }
             else
             {
-                // Missing or invalid token.
+                log.Warn("Missing or invalid token.");
             }
 
-            PasswordsRequestDialog d = new PasswordsRequestDialog();
-            d.Application = exepath;
+            using (var d = new PasswordsRequestDialog { Application = exePath })
+                switch (d.ShowDialog())
+                {
+                    case DialogResult.OK:
+                        // Give passwords this time.
+                        CompleteRequest(destdir, null);
+                        break;
 
-            switch (d.ShowDialog())
-            {
-                case DialogResult.OK:
-                    // Give passwords this time.
-                    CompleteRequest(destdir, null);
-                    break;
+                    case DialogResult.Yes:
+                        // Give passwords always.
+                        CompleteRequest(destdir, GenerateToken(exePath, thisUser.User.ToString()));
+                        break;
 
-                case DialogResult.Yes:
-                    // Give passwords always.
-                    CompleteRequest(destdir, GenerateToken(exepath, this_user.User.ToString()));
-                    break;
+                    case DialogResult.Cancel:
+                        WriteXML(destdir, null, "cancelled");
+                        break;
 
-                case DialogResult.Cancel:
-                    WriteXML(destdir, null, "cancelled");
-                    break;
-
-                default:
-                    log.Error("Unexpected result from PasswordsRequestDialog!");
-                    return;
-            }
+                    default:
+                        log.Error("Unexpected result from PasswordsRequestDialog!");
+                        return;
+                }
         }
 
         private static bool ParseToken(string destdir, out string token, out string token_exepath, out string user_sid)

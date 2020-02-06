@@ -39,8 +39,6 @@ namespace XenAdmin.Network
 {
     public class NetworkingHelper
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         /// Returns the bond that the master is using as its management interface, or null if
         /// such a thing cannot be found.

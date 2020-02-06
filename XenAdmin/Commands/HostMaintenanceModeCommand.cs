@@ -107,27 +107,28 @@ namespace XenAdmin.Commands
 
         private void ExitMaintenanceMode(Host host)
         {
-            List<VM> vmsToUnEvacuate = new List<VM>();
-            vmsToUnEvacuate.AddRange(host.GetHaltedEvacuatedVMs());
-            vmsToUnEvacuate.AddRange(host.GetMigratedEvacuatedVMs());
-            vmsToUnEvacuate.AddRange(host.GetSuspendedEvacuatedVMs());
+            var vmsToRestore = new List<VM>();
+            vmsToRestore.AddRange(host.GetHaltedEvacuatedVMs());
+            vmsToRestore.AddRange(host.GetMigratedEvacuatedVMs());
+            vmsToRestore.AddRange(host.GetSuspendedEvacuatedVMs());
 
             List<VM> to_remove = new List<VM>();
-            foreach (VM vm in vmsToUnEvacuate)
+            foreach (VM vm in vmsToRestore)
             {
                 if (vm.resident_on == host.opaque_ref)
                     to_remove.Add(vm);
             }
             foreach (VM vm in to_remove)
             {
-                vmsToUnEvacuate.Remove(vm);
+                vmsToRestore.Remove(vm);
             }
 
             DialogResult result = DialogResult.No;
 
-            if (vmsToUnEvacuate.Count > 0 && !MainWindowCommandInterface.RunInAutomatedTestMode)
+            if (vmsToRestore.Count > 0 && !MainWindowCommandInterface.RunInAutomatedTestMode)
             {
-                result = new RestoreVMsDialog(vmsToUnEvacuate, host).ShowDialog();
+                using (var dlg = new ExitMaintenanceModeDialog(vmsToRestore, host))
+                    result = dlg.ShowDialog();
 
                 if (result == DialogResult.Cancel)
                     return;
@@ -140,7 +141,7 @@ namespace XenAdmin.Commands
             }
 
             MainWindowCommandInterface.CloseActiveWizards(host.Connection);
-            var action = new EnableHostAction(host, result == DialogResult.Yes,AddHostToPoolCommand.EnableNtolDialog);
+            var action = new EnableHostAction(host, result == DialogResult.Yes, AddHostToPoolCommand.EnableNtolDialog);
             action.Completed += Program.MainWindow.action_Completed;
             action.RunAsync();
         }

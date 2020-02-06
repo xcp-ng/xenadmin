@@ -32,9 +32,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
-using log4net;
 using XenAdmin.Network;
 using XenAPI;
 
@@ -43,7 +41,7 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
 {
     public abstract class PlanAction : IEquatable<PlanAction>
     {
-        protected static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private int _percentComplete;
         public event Action<PlanAction> OnProgressChange;
@@ -127,12 +125,11 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
             }
             catch (Exception e)
             {
-                Failure f = e as Failure;
-                if (f != null && f.ErrorDescription != null && f.ErrorDescription.Count > 1 && f.ErrorDescription[1].Contains(FriendlyErrorNames.SR_BACKEND_FAILURE_432))
+                if (e is Failure f && f.ErrorDescription != null && f.ErrorDescription.Count > 1 && f.ErrorDescription[1].Contains(FriendlyErrorNames.SR_BACKEND_FAILURE_432))
                 {
                     // ignore this exception (CA-62989) in order to allow the Upgrade wizard to continue
                     // upgrading all the hosts in a pool. The detached SRs will be reported on Finish
-                    log.Warn(Messages.STORAGELINK_SR_NEEDS_REATTACH, f);
+                    log.Warn("There is a StorageLink Gateway SR that needs to be reattached.", f);
                 }
                 else
                 {

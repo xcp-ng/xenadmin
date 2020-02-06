@@ -48,8 +48,6 @@ namespace XenAdmin.Dialogs.ScheduledSnapshots
 {
     public partial class ScheduledSnapshotsDialog: XenDialogBase
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private readonly Pool Pool;
         private bool updatingPolicies;
 

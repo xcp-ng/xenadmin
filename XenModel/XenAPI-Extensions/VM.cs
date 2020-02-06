@@ -331,6 +331,11 @@ namespace XenAPI
             HVM_boot_params = SetDictionaryKey(HVM_boot_params, "order", value.ToLower());
         }
 
+        public bool IsPvVm()
+        {
+            return is_a_real_vm() && !IsHVM() && !other_config.ContainsKey("pvcheckpass");
+        }
+
         public bool IsUEFIEnabled()
         {
             if (!IsHVM())
@@ -1467,6 +1472,11 @@ namespace XenAPI
             return BoolKey(other_config, "instant");
         }
 
+        public bool IsConversionVM()
+        {
+            return is_a_real_vm() && BoolKey(other_config, "conversionvm");
+        }
+
         public override string ToString()
         {
             return name_label;
@@ -1908,6 +1918,13 @@ namespace XenAPI
             return (platform != null) &&
                 platform.ContainsKey("device-model") &&
                 platform["device-model"] == "qemu-upstream-compat";
+        }
+        /// <summary>
+        /// Whether the VM's boot mode can be changed. A VM's boot mode cannot be changed once the VM has been started.
+        /// </summary>
+        public bool CanChangeBootMode()
+        {
+            return last_boot_CPU_flags == null || last_boot_CPU_flags.Count == 0;
         }
     }
 

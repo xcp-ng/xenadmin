@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class SDN_controller : XenObject<SDN_controller>
     {
+        #region Constructors
+
         public SDN_controller()
         {
         }
@@ -61,13 +63,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new SDN_controller from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public SDN_controller(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new SDN_controller from a Proxy_SDN_controller.
         /// </summary>
         /// <param name="proxy"></param>
         public SDN_controller(Proxy_SDN_controller proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -81,7 +97,7 @@ namespace XenAPI
             port = update.port;
         }
 
-        internal void UpdateFromProxy(Proxy_SDN_controller proxy)
+        internal void UpdateFrom(Proxy_SDN_controller proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             protocol = proxy.protocol == null ? (sdn_controller_protocol) 0 : (sdn_controller_protocol)Helper.EnumParseDefault(typeof(sdn_controller_protocol), (string)proxy.protocol);
@@ -97,17 +113,6 @@ namespace XenAPI
             result_.address = address ?? "";
             result_.port = port.ToString();
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new SDN_controller from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public SDN_controller(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

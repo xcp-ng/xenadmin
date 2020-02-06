@@ -325,7 +325,7 @@
     <value>8</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>Click Run Prechecks to begin running the upgrade prechecks.</value>
+    <value>Click Run Pre-checks to begin running the upgrade pre-checks.</value>
   </data>
   <data name="&gt;&gt;label6.Name" xml:space="preserve">
     <value>label6</value>

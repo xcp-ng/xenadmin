@@ -132,15 +132,8 @@ namespace XenAdmin.Diagnostics.Checks
             }
             catch (Failure f)
             {
-                log.Error(f.ToString());
-                if(f.ErrorDescription.Count>0)
-                    log.Error(f.ErrorDescription[0]);
-                if (f.ErrorDescription.Count > 1)
-                    log.Error(f.ErrorDescription[1]);
-                if (f.ErrorDescription.Count > 2)
-                    log.Error(f.ErrorDescription[2]);
-                if (f.ErrorDescription.Count > 3)
-                    log.Error(f.ErrorDescription[3]);
+                log.Error(string.Join(",", f.ErrorDescription.ToArray()), f);
+
                 // try and find problem from the xapi failure
                 Problem problem = FindProblem(f);
                 return problem ?? new PrecheckFailed(this, Host, f);
@@ -261,9 +254,9 @@ namespace XenAdmin.Diagnostics.Checks
                         var resultReclaimable = Host.call_plugin(Host.Connection.Session, Host.opaque_ref, "disk-space", "get_reclaimable_disk_space", args);
                         reclaimableDiskSpace = Convert.ToInt64(resultReclaimable);
                     }
-                    catch (Failure failure)
+                    catch (Exception exception)
                     {
-                        log.WarnFormat("Plugin call disk-space.get_reclaimable_disk_space on {0} failed with {1}", Host.Name(), failure.Message);
+                        log.WarnFormat("Plugin call disk-space.get_reclaimable_disk_space on {0} failed with {1}", Host.Name(), exception.Message);
                     }
 
                     diskSpaceReq = new DiskSpaceRequirements(DiskSpaceRequirements.OperationTypes.install, Host, Patch.Name(), requiredSpace, foundSpace, reclaimableDiskSpace);

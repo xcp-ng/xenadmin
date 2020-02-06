@@ -44,6 +44,8 @@ namespace XenAPI
     /// </summary>
     public partial class Cluster : XenObject<Cluster>
     {
+        #region Constructors
+
         public Cluster()
         {
         }
@@ -76,13 +78,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Cluster from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Cluster(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Cluster from a Proxy_Cluster.
         /// </summary>
         /// <param name="proxy"></param>
         public Cluster(Proxy_Cluster proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -104,7 +120,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_Cluster proxy)
+        internal void UpdateFrom(Proxy_Cluster proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             cluster_hosts = proxy.cluster_hosts == null ? null : XenRef<Cluster_host>.Create(proxy.cluster_hosts);
@@ -136,17 +152,6 @@ namespace XenAPI
             result_.cluster_config = Maps.convert_to_proxy_string_string(cluster_config);
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Cluster from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Cluster(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

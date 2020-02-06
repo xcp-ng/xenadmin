@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,15 @@ namespace XenAPI
     [JsonConverter(typeof(on_bootConverter))]
     public enum on_boot
     {
-        reset, persist, unknown
+        /// <summary>
+        /// When a VM containing this VDI is started, the contents of the VDI are reset to the state they were in when this flag was last set.
+        /// </summary>
+        reset,
+        /// <summary>
+        /// Standard behaviour.
+        /// </summary>
+        persist,
+        unknown
     }
 
     public static class on_boot_helper
@@ -71,4 +78,4 @@ namespace XenAPI
             writer.WriteValue(((on_boot)value).StringOf());
         }
     }
-}
+}

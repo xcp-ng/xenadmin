@@ -30,23 +30,15 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-
-using XenAdmin.Core;
 using XenAdmin.Controls;
-using XenAdmin.Dialogs;
 using XenAdmin.Commands;
-using System.Linq;
+using XenAdmin.Help;
 
 
 namespace XenAdmin.TabPages
 {
-    public partial class HomePage : DoubleBufferedPanel
+    public partial class HomePage : DoubleBufferedPanel, IControlWithHelp
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -97,5 +89,6 @@ namespace XenAdmin.TabPages
             }
         }
 
+        public string HelpID => "TabPageHome";
     }
 }

@@ -5,7 +5,6 @@ using XenAdmin.Core;
 namespace XenAdminTests.XenModelTests
 {
     [TestFixture, Category(TestCategories.Unit)]
-
     public class AddressTests
     {
         private readonly Dictionary<string, string> _simpleNetworks = new Dictionary<string, string>

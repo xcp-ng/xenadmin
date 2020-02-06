@@ -39,10 +39,8 @@ using Microsoft.Win32.SafeHandles;
 
 namespace XenCenterLib
 {
-    public class Win32
+    public static class Win32
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         [DllImport("kernel32.dll")]
         public static extern void SetLastError(uint dwErrCode);
 
@@ -491,25 +489,16 @@ namespace XenCenterLib
         /// Will return null if the disk parameters could not be determined.
         /// </summary>
         /// <param name="path">An absolute path</param>
-        /// <returns></returns>
+        /// <exception cref="Exception">May be thrown</exception>>
         public static DiskSpaceInfo GetDiskSpaceInfo(string path)
         {
-            try
-            {
-                string DriveLetter = Path.GetPathRoot(path).TrimEnd(new char[] { '\\' });
-                System.Management.ManagementObject o = new System.Management.ManagementObject(
-                    string.Format("Win32_LogicalDisk.DeviceID=\"{0}\"", DriveLetter));
-                string fsType = o.Properties["FileSystem"].Value.ToString();
-                bool isFAT = (fsType == "FAT" || fsType == "FAT32");
-                UInt64 freeBytes = UInt64.Parse(o.Properties["FreeSpace"].Value.ToString());
-                UInt64 totalBytes = UInt64.Parse(o.Properties["Size"].Value.ToString());
-                return new DiskSpaceInfo(freeBytes, totalBytes, isFAT);
-            }
-            catch (Exception exn)
-            {
-                log.Warn(exn, exn);
-                return null;
-            }
+            string DriveLetter = Path.GetPathRoot(path).TrimEnd('\\');
+            var o = new System.Management.ManagementObject($"Win32_LogicalDisk.DeviceID=\"{DriveLetter}\"");
+            string fsType = o.Properties["FileSystem"].Value.ToString();
+            bool isFAT = (fsType == "FAT" || fsType == "FAT32");
+            UInt64 freeBytes = UInt64.Parse(o.Properties["FreeSpace"].Value.ToString());
+            UInt64 totalBytes = UInt64.Parse(o.Properties["Size"].Value.ToString());
+            return new DiskSpaceInfo(freeBytes, totalBytes, isFAT);
         }
 
         public class DiskSpaceInfo
@@ -724,6 +713,7 @@ namespace XenCenterLib
 
         private const string _IID_IAuthenticate = "79eac9d0-baf9-11ce-8c82-00aa004ba90b";
         public static readonly Guid IID_IAuthenticate = new Guid(_IID_IAuthenticate);
+
         [ComImport, Guid(_IID_IAuthenticate),
          InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
          ComVisible(false)]
@@ -733,5 +723,46 @@ namespace XenCenterLib
             [PreserveSig]
             int Authenticate(ref IntPtr phwnd, ref IntPtr pszUsername, ref IntPtr pszPassword);
         }
+
+
+        #region Shell32.dll
+
+        /// <param name="pszPath">Note the API uses CoTaskMemAlloc</param>
+        [DllImport("shell32.dll")]
+        private static extern int SHGetKnownFolderPath([MarshalAs(UnmanagedType.LPStruct)] Guid rfid, uint dwFlags, IntPtr hToken, out IntPtr pszPath);
+
+        /// <summary>
+        /// Gets the full path for special folders that are not covered by the Environment.SpecialFolder enum
+        /// </summary>
+        /// <param name="folder">The Guid of the folder in question (look it up in the properties of class KnownFolders)</param>
+        /// <returns>The full path to the special folder path or string.Empty if we cannot retrieve it</returns>
+        public static string GetKnownFolderPath(Guid folder)
+        {
+            IntPtr pPath = IntPtr.Zero;
+            try
+            {
+                if (SHGetKnownFolderPath(folder, 0, IntPtr.Zero, out pPath) == 0)
+                    return Marshal.PtrToStringUni(pPath);
+            }
+            finally
+            {
+                if (pPath != IntPtr.Zero)
+                    Marshal.FreeCoTaskMem(pPath);
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// There are many known folders, add those needed as necessary.
+        /// Uuids listed at http://www.pinvoke.net/default.aspx/shell32.SHGetKnownFolderPath
+        /// </summary>
+        public static class KnownFolders
+        {
+            public static readonly Guid Downloads = Guid.Parse("374DE290-123F-4565-9164-39C4925E467B");
+        }
+
+
+        #endregion
     }
 }

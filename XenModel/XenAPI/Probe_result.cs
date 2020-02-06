@@ -44,6 +44,8 @@ namespace XenAPI
     /// </summary>
     public partial class Probe_result : XenObject<Probe_result>
     {
+        #region Constructors
+
         public Probe_result()
         {
         }
@@ -60,13 +62,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Probe_result from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Probe_result(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Probe_result from a Proxy_Probe_result.
         /// </summary>
         /// <param name="proxy"></param>
         public Probe_result(Proxy_Probe_result proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -80,7 +96,7 @@ namespace XenAPI
             extra_info = update.extra_info;
         }
 
-        internal void UpdateFromProxy(Proxy_Probe_result proxy)
+        internal void UpdateFrom(Proxy_Probe_result proxy)
         {
             configuration = proxy.configuration == null ? null : Maps.convert_from_proxy_string_string(proxy.configuration);
             complete = (bool)proxy.complete;
@@ -96,17 +112,6 @@ namespace XenAPI
             result_.sr = sr == null ? null : sr.ToProxy();
             result_.extra_info = Maps.convert_to_proxy_string_string(extra_info);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Probe_result from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Probe_result(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

@@ -100,6 +100,7 @@ namespace XenAdmin.TabPages
             // 
             // pictureBoxWarningTriangle
             // 
+            this.pictureBoxWarningTriangle.Image = global::XenAdmin.Properties.Resources._000_WarningAlert_h32bit_32;
             resources.ApplyResources(this.pictureBoxWarningTriangle, "pictureBoxWarningTriangle");
             this.pictureBoxWarningTriangle.Name = "pictureBoxWarningTriangle";
             this.pictureBoxWarningTriangle.TabStop = false;

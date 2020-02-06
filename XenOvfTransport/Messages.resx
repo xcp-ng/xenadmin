@@ -214,7 +214,7 @@
     <value>Disconnecting virtual disk {0} ... </value>
   </data>
   <data name="FILES_TRANSPORT_SETUP" xml:space="preserve">
-    <value>Connecting virtual disk {0} ... </value>
+    <value>Connecting virtual disk {0}... </value>
   </data>
   <data name="FILE_MISSING" xml:space="preserve">
     <value>Failed to find {0}.</value>
@@ -226,7 +226,7 @@
     <value>Import: </value>
   </data>
   <data name="ISCSI_COPY_CANCELLED" xml:space="preserve">
-    <value>Cancelled transfer of virtual disk {0}.</value>
+    <value>Canceled transfer of virtual disk {0}.</value>
   </data>
   <data name="ISCSI_COPY_ERROR" xml:space="preserve">
     <value>Failed to transfer virtual disk {0}.</value>
@@ -250,7 +250,7 @@
     <value>Failed to start Transfer VM.</value>
   </data>
   <data name="ISCSI_VERIFY_CANCELLED" xml:space="preserve">
-    <value>Cancelled virtual disk verification after export.</value>
+    <value>Canceled virtual disk verification after export.</value>
   </data>
   <data name="ISCSI_VERIFY_ERROR" xml:space="preserve">
     <value>Failed to verify virtual disk {0}.</value>

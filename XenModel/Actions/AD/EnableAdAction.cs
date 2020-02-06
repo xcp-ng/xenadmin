@@ -74,7 +74,7 @@ namespace XenAdmin.Actions
 
         protected override void Run()
         {
-            log.DebugFormat("Enabling AD on pool '{0}'", Helpers.GetName(Connection).Ellipsise(50));
+            log.DebugFormat("Enabling AD on pool '{0}'", Helpers.GetName(Connection));
 
             Dictionary<string, string> config = new Dictionary<string, string>();
             config["domain"] = domain; // NB this line is now redundant, it is here to support the old now-superseded way of passing in the domain
@@ -111,9 +111,7 @@ namespace XenAdmin.Actions
                     if (!int.TryParse(m.Groups[1].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out errorId))
                         throw f;
 
-                    Win32Exception winErr = new Win32Exception(errorId);
-
-                    log.ErrorFormat("Received error from likewise when attempting to join domain: {0}", winErr);
+                    log.Error($"Received errorId {errorId} from likewise when attempting to join domain.", f);
                 }
                 XenRef<Host> hostref = new XenRef<Host>(f.ErrorDescription[1]);
                 Host host = Connection.Resolve(hostref);

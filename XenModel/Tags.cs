@@ -105,28 +105,11 @@ namespace XenAdmin.Model
             o.Do("remove_tags", session, o.opaque_ref, tag);
         }
 
-        private static void BeforeMajorChange(bool background)
-        {
-            var conn = (XenConnection)ConnectionsManager.XenConnectionsCopy[0];
-            if (conn != null)
-            {
-                conn.OnBeforeMajorChange(background);
-            }
-        }
-
-        private static void AfterMajorChange(bool background)
-        {
-            var conn = (XenConnection)ConnectionsManager.XenConnectionsCopy[0];
-            if (conn != null)
-            {
-                conn.OnAfterMajorChange(background);
-            }
-        }
-
         public static void RemoveTagGlobally(string tag)
         {
-            //Program.AssertOffEventThread();
-            BeforeMajorChange(true);
+            var conn = ConnectionsManager.XenConnectionsCopy[0] as XenConnection;
+            conn?.OnBeforeMajorChange(true);
+
             try
             {
                 foreach (IXenConnection connection in ConnectionsManager.XenConnectionsCopy)
@@ -150,14 +133,15 @@ namespace XenAdmin.Model
             }
             finally
             {
-               AfterMajorChange(true);
+                conn?.OnAfterMajorChange(true);
             }
         }
 
         public static void RenameTagGlobally(string oldTag, string newTag)
         {
-            //Program.AssertOffEventThread();
-            BeforeMajorChange(true);
+            var conn = ConnectionsManager.XenConnectionsCopy[0] as XenConnection;
+            conn?.OnBeforeMajorChange(true);
+
             try
             {
                 foreach (IXenConnection connection in ConnectionsManager.XenConnectionsCopy)
@@ -181,7 +165,7 @@ namespace XenAdmin.Model
             }
             finally
             {
-                AfterMajorChange(true);
+                conn?.OnAfterMajorChange(true);
             }
         }
 

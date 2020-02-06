@@ -46,12 +46,12 @@ namespace XenAdmin.Mappings
 		public string VmNameLabel { get; set; }
 
 		/// <summary>
-		/// OpaqueRef of the target
+		/// OpaqueRef of the target pool or host
 		/// </summary>
 		public object XenRef { get; set; }
 
 		/// <summary>
-		/// Name of the target
+		/// Name of the target pool or host
 		/// </summary>
 		public string TargetName { get; set; }
 

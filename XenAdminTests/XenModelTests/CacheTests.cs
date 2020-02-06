@@ -33,54 +33,53 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using XenAdmin.Core;
+using XenAdmin.Model;
 using XenAdmin.Network;
 using XenAPI;
-using XenAdmin.Model;
+using CacheEntry = System.Collections.Generic.KeyValuePair<XenAdmin.Core.ObjectChange, System.Func<XenAdmin.Network.ICache, bool>>;
+
 
 namespace XenAdminTests.XenModelTests
 {
-    [TestFixture]
+    [TestFixture, Category(TestCategories.Unit)]
     public class CacheTests
     {
-
-        public IEnumerable<KeyValuePair<ObjectChange, Func<ICache, bool>>> ObjectChanges
+        private static IEnumerable<CacheEntry> ObjectChanges
         {
             get
             {
-                //Each yield return is a test case
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(VM), "1", new VM()), (cache) => cache.VMs.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(Folder), "1", new Folder(null, "folder")), (cache) => cache.Folders.Length == 0);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(Host), "1", new Host()), (cache) => cache.Hosts.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(Pool), "1", new Pool()), (cache) => cache.Pools.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(VMPP), "1", new VMPP()), (cache) => cache.VMPPs.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(Network), "1", new Network()), (cache) => cache.Networks.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(VBD), "1", new VBD()), (cache) => cache.VBDs.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(Bond), "1", new Bond()), (cache) => cache.Bonds.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(VDI), "1", new VDI()), (cache) => cache.VDIs.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(PBD), "1", new PBD()), (cache) => cache.PBDs.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(Tunnel), "1", new Tunnel()), (cache) => cache.Tunnels.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(VIF), "1", new VIF()), (cache) => cache.VIFs.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(SM), "1", new SM()), (cache) => cache.SMs.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(Pool_patch), "1", new Pool_patch()), (cache) => cache.Pool_patches.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(SR), "1", new SR()), (cache) => cache.SRs.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(Message), "1", new Message()), (cache) => cache.Messages.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(Host_cpu), "1", new Host_cpu()), (cache) => cache.Host_cpus.Length == 1);
-                yield return new KeyValuePair<ObjectChange, Func<ICache, bool>>(new ObjectChange(typeof(Role), "1", new Role()), (cache) => cache.Roles.Length == 1);
-
+                yield return new CacheEntry(new ObjectChange(typeof(VM), "1", new VM()), cache => cache.VMs.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(Folder), "1", new Folder(null, "folder")), cache => cache.Folders.Length == 0);
+                yield return new CacheEntry(new ObjectChange(typeof(Host), "1", new Host()), cache => cache.Hosts.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(Pool), "1", new Pool()), cache => cache.Pools.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(VMSS), "1", new VMSS()), cache => cache.VMSSs.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(Network), "1", new Network()), cache => cache.Networks.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(VBD), "1", new VBD()), cache => cache.VBDs.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(Bond), "1", new Bond()), cache => cache.Bonds.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(VDI), "1", new VDI()), cache => cache.VDIs.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(PBD), "1", new PBD()), cache => cache.PBDs.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(Tunnel), "1", new Tunnel()), cache => cache.Tunnels.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(VIF), "1", new VIF()), cache => cache.VIFs.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(SM), "1", new SM()), cache => cache.SMs.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(Pool_patch), "1", new Pool_patch()), cache => cache.Pool_patches.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(SR), "1", new SR()), cache => cache.SRs.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(Message), "1", new Message()), cache => cache.Messages.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(Host_cpu), "1", new Host_cpu()), cache => cache.Host_cpus.Length == 1);
+                yield return new CacheEntry(new ObjectChange(typeof(Role), "1", new Role()), cache => cache.Roles.Length == 1);
             }
         }
+
         [Test]
-        public void TestsCacheCollectionsAfterUpdateFrom(
-           [ValueSourceAttribute("ObjectChanges")]  KeyValuePair<ObjectChange, Func<ICache, bool>> test)
+        public void TestsCacheCollectionsAfterUpdateFrom([ValueSource(nameof(ObjectChanges))]  CacheEntry test)
         {
             var changes = test.Key;
             Cache cache = new Cache();
             if (changes.type == typeof(Folder))
-                Assert.Throws<ArgumentException>(() => cache.UpdateFrom(new XenConnection(), new List<ObjectChange>() { changes }));
+                Assert.Throws<ArgumentException>(() => cache.UpdateFrom(new XenConnection(), new List<ObjectChange> { changes }));
             else
-                cache.UpdateFrom(new XenConnection(), new List<ObjectChange>() { changes });
-            Assert.IsTrue(test.Value(cache));
+                cache.UpdateFrom(new XenConnection(), new List<ObjectChange> { changes });
 
+            Assert.IsTrue(test.Value(cache));
         }
 
         [Test]
@@ -88,19 +87,17 @@ namespace XenAdminTests.XenModelTests
         {
             Cache cache = new Cache();
             Folder folder = new Folder(null, "folder") {opaque_ref = "1"};
-            cache.AddFolder(new XenRef<Folder>(folder.opaque_ref),folder);
-            Assert.IsTrue(cache.Folders.Length==1);
-            Assert.AreEqual(folder,cache.Resolve(new XenRef<Folder>(folder.opaque_ref)));
-            Assert.AreEqual(folder,cache.Folders[0]);
+            cache.AddFolder(new XenRef<Folder>(folder.opaque_ref), folder);
+            Assert.IsTrue(cache.Folders.Length == 1);
+            Assert.AreEqual(folder, cache.Resolve(new XenRef<Folder>(folder.opaque_ref)));
+            Assert.AreEqual(folder, cache.Folders[0]);
             //Check tryresolve
-            Folder result;
-            cache.TryResolve(new XenRef<Folder>(folder.opaque_ref), out result);
-            Assert.AreEqual(folder,result );
+            cache.TryResolve(new XenRef<Folder>(folder.opaque_ref), out var result);
+            Assert.AreEqual(folder, result);
             //Check Clear
             cache.Clear();
-            Assert.IsTrue(cache.Folders.Length==0);
+            Assert.IsTrue(cache.Folders.Length == 0);
         }
-
 
     }
 }

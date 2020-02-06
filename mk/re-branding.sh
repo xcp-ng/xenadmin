@@ -69,6 +69,7 @@ rebranding_global()
         -e "s#\[BRANDING_VERSION_7_0\]#${BRANDING_XC_PRODUCT_7_0_VERSION}#g" \
         -e "s#\[BRANDING_VERSION_7_1_2\]#${BRANDING_XC_PRODUCT_7_1_2_VERSION}#g" \
         -e "s#\[BRANDING_VERSION_8_0\]#${BRANDING_XC_PRODUCT_8_0_VERSION}#g" \
+		-e "s#\[BRANDING_VERSION_8_1\]#${BRANDING_XC_PRODUCT_8_1_VERSION}#g" \
         -e "s#\[BRANDING_XENSERVER_UPDATE_URL\]#${BRANDING_XENSERVER_UPDATE_URL}#g" \
         -e "s#\[BRANDING_PERF_ALERT_MAIL_LANGUAGE_DEFAULT\]#${BRANDING_PERF_ALERT_MAIL_LANGUAGE_DEFAULT}#g" \
         $1    
@@ -169,7 +170,6 @@ RESX_rebranding ${REPO}/XenOvfTransport/Messages
 rebranding_global ${REPO}/XenOvfTransport/app.config
 
 #mk
-rebranding_global ${REPO}/mk/ISO_files/AUTORUN.INF
 rebranding_global ${REPO}/mk/package-and-sign.sh
 
 #WixInstaller
@@ -181,10 +181,6 @@ branding_wxs "${REPO}/WixInstaller/XenCenter.l10n.diff ${REPO}/WixInstaller/XenC
 #XenAdminTests
 rebranding_global ${REPO}/XenAdminTests/TestResources/ContextMenuBuilderTestResults.xml
 rebranding_global ${REPO}/XenAdminTests/app.config
-rebranding_global ${REPO}/XenAdminTests/TestResources/state1.treeview.serverview.xml
-rebranding_global ${REPO}/XenAdminTests/TestResources/state1.treeview.orgview.xml
-rebranding_global ${REPO}/XenAdminTests/TestResources/searchresults.xml
-rebranding_global ${REPO}/XenAdminTests/TestResources/state3.xml
 rebranding_global ${REPO}/XenAdminTests/XenAdminTests.csproj
 echo cp ${REPO}/XenAdminTests/TestResources/succeed.[xsupdate] ${REPO}/XenAdminTests/TestResources/succeed.${BRANDING_UPDATE}
 cp ${REPO}/XenAdminTests/TestResources/succeed.[xsupdate] ${REPO}/XenAdminTests/TestResources/succeed.${BRANDING_UPDATE}
@@ -192,31 +188,5 @@ cp ${REPO}/XenAdminTests/TestResources/succeed.[xsupdate] ${REPO}/XenAdminTests/
 #XenServerHealthCheck
 rebranding_global ${REPO}/XenServerHealthCheck/Branding.cs
 rebranding_global ${REPO}/XenServerHealthCheck/app.config
-
-rebranding_CHM()
-{
-  for files in $1
-  do
-    sed -b -i -e "s#XenCenter.chm#${BRANDING_BRAND_CONSOLE}.chm#g" \
-        -e "s#XenCenter.ja.chm#${BRANDING_BRAND_CONSOLE}.ja.chm#g" \
-        -e "s#XenCenter.zh-CN.chm#${BRANDING_BRAND_CONSOLE}.zh-CN.chm#g" \
-      $files  
-  done  
-}
-
-if [ "XenCenter" != "${BRANDING_BRAND_CONSOLE}" ]
-then 
-  rebranding_CHM "${REPO}/XenAdmin/XenAdmin.csproj"
-  rebranding_CHM "${REPO}/XenModel/InvisibleMessages.zh-CN.resx ${REPO}/XenModel/InvisibleMessages.ja.resx ${REPO}/XenModel/InvisibleMessages.resx"
-  rm ${REPO}/XenAdmin/Help/XenCenter.chm ${REPO}/XenAdmin/Help/XenCenter.ja.chm ${REPO}/XenAdmin/Help/XenCenter.zh-CN.chm
-  mv ${REPO}/Branding/Help/*.chm ${REPO}/XenAdmin/Help/
-fi
-
-#Overwrite HomePage
-if [ -d ${REPO}/Branding/HomePage ]
-then 
-  rm ${REPO}/XenAdmin/HomePage*.mht
-  cp ${REPO}/Branding/HomePage/*.mht ${REPO}/XenAdmin/
-fi
 
 set +u

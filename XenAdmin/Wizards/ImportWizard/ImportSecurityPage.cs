@@ -61,17 +61,17 @@ namespace XenAdmin.Wizards.ImportWizard
 		/// <summary>
 		/// Gets the page's title (headline)
 		/// </summary>
-		public override string PageTitle { get { return Messages.IMPORT_SECURITY_PAGE_TITLE; } }
+        public override string PageTitle => Messages.IMPORT_SECURITY_PAGE_TITLE;
 
 		/// <summary>
 		/// Gets the page's label in the (left hand side) wizard progress panel
 		/// </summary>
-		public override string Text { get { return Messages.IMPORT_SECURITY_PAGE_TEXT; } }
+        public override string Text => Messages.IMPORT_SECURITY_PAGE_TEXT;
 
 		/// <summary>
 		/// Gets the value by which the help files section for this page is identified
 		/// </summary>
-		public override string HelpID { get { return "Security"; } }
+        public override string HelpID => "Security";
 
         protected override bool ImplementsIsDirty()
         {
@@ -102,7 +102,6 @@ namespace XenAdmin.Wizards.ImportWizard
             if (DisableStep)//defensive check
                 return;
 
-            m_tlpManifest.Enabled = m_hasManifest || m_hasSignature;
             m_linkCertificate.Visible = m_hasSignature;
 
             if (m_hasSignature)//check for signature first because m_hasManifest is True if m_hasSignature is True
@@ -131,9 +130,9 @@ namespace XenAdmin.Wizards.ImportWizard
 		/// </summary>
 		public string Password { get; private set; }
 
-		public bool VerifyManifest { get { return m_hasManifest && m_tlpManifest.Enabled && m_checkBoxVerify.Checked; } }
+        public bool VerifyManifest => m_hasManifest && m_checkBoxVerify.Checked;
 
-		public bool VerifySignature { get { return m_hasSignature && m_tlpManifest.Enabled && m_checkBoxVerify.Checked; } }
+        public bool VerifySignature => m_hasSignature && m_checkBoxVerify.Checked;
 
         /// <summary>
 		/// Package containing the selected OVF appliance.
@@ -163,9 +162,10 @@ namespace XenAdmin.Wizards.ImportWizard
             m_ctrlError.HideError();
 
 			try
-			{
-				X509Certificate2UI.DisplayCertificate(SelectedOvfPackage.Certificate);
-			}
+            {
+                using (var certificate = new X509Certificate2(SelectedOvfPackage.RawCertificate))
+                    X509Certificate2UI.DisplayCertificate(certificate);
+            }
 			catch (CryptographicException)
 			{
 				m_ctrlError.ShowError(Messages.IMPORT_SECURITY_PAGE_ERROR_MISSING_CERTIFICATE);

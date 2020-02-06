@@ -66,7 +66,9 @@ namespace XenAdmin.TabPages
             PBD_CollectionChangedWithInvoke=Program.ProgramInvokeHandler(PBD_CollectionChanged);
 
         }
-       
+
+        public override string HelpID => "TabPageStorage";
+
         /// <summary>
         /// Make sure you set this before you set the connection, 
         /// as the connection is the one which rebuilds the list

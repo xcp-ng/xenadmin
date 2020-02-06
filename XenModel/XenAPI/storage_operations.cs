@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,87 @@ namespace XenAPI
     [JsonConverter(typeof(storage_operationsConverter))]
     public enum storage_operations
     {
-        scan, destroy, forget, plug, unplug, update, vdi_create, vdi_introduce, vdi_destroy, vdi_resize, vdi_clone, vdi_snapshot, vdi_mirror, vdi_enable_cbt, vdi_disable_cbt, vdi_data_destroy, vdi_list_changed_blocks, vdi_set_on_boot, pbd_create, pbd_destroy, unknown
+        /// <summary>
+        /// Scanning backends for new or deleted VDIs
+        /// </summary>
+        scan,
+        /// <summary>
+        /// Destroying the SR
+        /// </summary>
+        destroy,
+        /// <summary>
+        /// Forgetting about SR
+        /// </summary>
+        forget,
+        /// <summary>
+        /// Plugging a PBD into this SR
+        /// </summary>
+        plug,
+        /// <summary>
+        /// Unplugging a PBD from this SR
+        /// </summary>
+        unplug,
+        /// <summary>
+        /// Refresh the fields on the SR
+        /// </summary>
+        update,
+        /// <summary>
+        /// Creating a new VDI
+        /// </summary>
+        vdi_create,
+        /// <summary>
+        /// Introducing a new VDI
+        /// </summary>
+        vdi_introduce,
+        /// <summary>
+        /// Destroying a VDI
+        /// </summary>
+        vdi_destroy,
+        /// <summary>
+        /// Resizing a VDI
+        /// </summary>
+        vdi_resize,
+        /// <summary>
+        /// Cloneing a VDI
+        /// </summary>
+        vdi_clone,
+        /// <summary>
+        /// Snapshotting a VDI
+        /// </summary>
+        vdi_snapshot,
+        /// <summary>
+        /// Mirroring a VDI
+        /// </summary>
+        vdi_mirror,
+        /// <summary>
+        /// Enabling changed block tracking for a VDI
+        /// </summary>
+        vdi_enable_cbt,
+        /// <summary>
+        /// Disabling changed block tracking for a VDI
+        /// </summary>
+        vdi_disable_cbt,
+        /// <summary>
+        /// Deleting the data of the VDI
+        /// </summary>
+        vdi_data_destroy,
+        /// <summary>
+        /// Exporting a bitmap that shows the changed blocks between two VDIs
+        /// </summary>
+        vdi_list_changed_blocks,
+        /// <summary>
+        /// Setting the on_boot field of the VDI
+        /// </summary>
+        vdi_set_on_boot,
+        /// <summary>
+        /// Creating a PBD for this SR
+        /// </summary>
+        pbd_create,
+        /// <summary>
+        /// Destroying one of this SR&apos;s PBDs
+        /// </summary>
+        pbd_destroy,
+        unknown
     }
 
     public static class storage_operations_helper
@@ -107,4 +186,4 @@ namespace XenAPI
             writer.WriteValue(((storage_operations)value).StringOf());
         }
     }
-}
+}

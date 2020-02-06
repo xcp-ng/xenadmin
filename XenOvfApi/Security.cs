@@ -203,30 +203,16 @@ namespace XenOvf
                 if (_cancelEncrypt) File.Delete(tempfile);
             }
         }
-        /// <summary>
-        /// Checks to see if an OVF is encrypted.
-        /// </summary>
-        /// <param name="ovfFilename">filename</param>
-        /// <returns>true = is encrypted, false = not encrypted</returns>
-        public bool HasEncryption(string ovfFilename)
-        {
-            EnvelopeType env = Load(ovfFilename);
-            return HasEncryption(env);
-        }
-        /// <summary>
-        /// Checks to see if an OVF is encrypted.
-        /// </summary>
-        /// <param name="ovfFilename">EnvelopeType OVF object</param>
-        /// <returns>true = is encrypted, false = not encrypted</returns>
-		public static bool HasEncryption(EnvelopeType ovfObj)
-        {
-			SecuritySection_Type[] security = FindSections<SecuritySection_Type>(ovfObj.Sections);
 
-            if (security != null && security.Length > 0)
-            {
-                return true;  // we now know that a security section is defined therefore something is encrypted.
-            }
-            return false;
+        /// <summary>
+        /// Checks to see if an OVF is encrypted by checking whether a security section is defined
+        /// </summary>
+        public static bool HasEncryption(EnvelopeType ovfObj)
+        {
+            if (ovfObj == null)
+                return false;
+            var security = FindSections<SecuritySection_Type>(ovfObj.Sections);
+            return security != null && security.Length > 0;
         }
         /// <summary>
         /// An ovf can contain both encrypted and non-encrypted file mixed together.
@@ -344,7 +330,7 @@ namespace XenOvf
                         {
                             if (xe.Name.Contains(":EncryptedData") || xe.Name.Contains(":EncrypteData"))
                             {
-                                CipherDataType cdt = (CipherDataType)Tools.Deserialize(xe.InnerXml, typeof(CipherDataType));
+                                CipherDataType cdt = Tools.Deserialize<CipherDataType>(xe.InnerXml);
                                 edt = new EncryptedDataType();
                                 edt.CipherData = cdt;
                             }
@@ -370,7 +356,7 @@ namespace XenOvf
                 }
 
             }
-            auditLog.Debug(isValid ? Messages.PASSWORD_SUCCESS : Messages.PASSWORD_FAILED);
+            log.Debug(isValid ? "Password is valid." : "Password is not valid.");
             return isValid;
         }
         /// <summary>
@@ -399,7 +385,7 @@ namespace XenOvf
             else if (result <= 128) { passStrength = 2; }   //= "Good;"; }
             else if (result > 128) { passStrength = 3; }    //= "Strong;"; }
 
-            return passStrength;;
+            return passStrength;
         }       
         #endregion
 
@@ -427,7 +413,7 @@ namespace XenOvf
 					stream.Position = 0;
 
 					using (StreamReader sr = new StreamReader(stream))
-						ovfenv = (EnvelopeType)Deserialize(sr.ReadToEnd());
+                        ovfenv = Tools.Deserialize<EnvelopeType>(sr.ReadToEnd());
 				}
 			}
 			catch (Exception ex)

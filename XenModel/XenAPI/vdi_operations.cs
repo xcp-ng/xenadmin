@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,75 @@ namespace XenAPI
     [JsonConverter(typeof(vdi_operationsConverter))]
     public enum vdi_operations
     {
-        clone, copy, resize, resize_online, snapshot, mirror, destroy, forget, update, force_unlock, generate_config, enable_cbt, disable_cbt, data_destroy, list_changed_blocks, set_on_boot, blocked, unknown
+        /// <summary>
+        /// Cloning the VDI
+        /// </summary>
+        clone,
+        /// <summary>
+        /// Copying the VDI
+        /// </summary>
+        copy,
+        /// <summary>
+        /// Resizing the VDI
+        /// </summary>
+        resize,
+        /// <summary>
+        /// Resizing the VDI which may or may not be online
+        /// </summary>
+        resize_online,
+        /// <summary>
+        /// Snapshotting the VDI
+        /// </summary>
+        snapshot,
+        /// <summary>
+        /// Mirroring the VDI
+        /// </summary>
+        mirror,
+        /// <summary>
+        /// Destroying the VDI
+        /// </summary>
+        destroy,
+        /// <summary>
+        /// Forget about the VDI
+        /// </summary>
+        forget,
+        /// <summary>
+        /// Refreshing the fields of the VDI
+        /// </summary>
+        update,
+        /// <summary>
+        /// Forcibly unlocking the VDI
+        /// </summary>
+        force_unlock,
+        /// <summary>
+        /// Generating static configuration
+        /// </summary>
+        generate_config,
+        /// <summary>
+        /// Enabling changed block tracking for a VDI
+        /// </summary>
+        enable_cbt,
+        /// <summary>
+        /// Disabling changed block tracking for a VDI
+        /// </summary>
+        disable_cbt,
+        /// <summary>
+        /// Deleting the data of the VDI
+        /// </summary>
+        data_destroy,
+        /// <summary>
+        /// Exporting a bitmap that shows the changed blocks between two VDIs
+        /// </summary>
+        list_changed_blocks,
+        /// <summary>
+        /// Setting the on_boot field of the VDI
+        /// </summary>
+        set_on_boot,
+        /// <summary>
+        /// Operations on this VDI are temporarily blocked
+        /// </summary>
+        blocked,
+        unknown
     }
 
     public static class vdi_operations_helper
@@ -101,4 +168,4 @@ namespace XenAPI
             writer.WriteValue(((vdi_operations)value).StringOf());
         }
     }
-}
+}

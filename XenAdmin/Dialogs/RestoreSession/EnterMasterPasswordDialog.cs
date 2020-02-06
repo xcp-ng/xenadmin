@@ -51,7 +51,6 @@ namespace XenAdmin.Dialogs.RestoreSession
             if (Settings.PassCorrect(masterTextBox.Text,TemporaryMasterPassword))
             {
                 DialogResult = DialogResult.OK;
-                Close();
             }
             else
             {

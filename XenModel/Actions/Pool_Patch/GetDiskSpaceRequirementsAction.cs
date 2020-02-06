@@ -233,7 +233,7 @@ namespace XenAdmin.Actions
 
         public string GetMessageForActionLink()
         {
-            return CanCleanup ? Messages.PATCHINGWIZARD_CLEANUP : Messages.PATCHINGWIZARD_MORE_INFO;
+            return CanCleanup ? Messages.PATCHINGWIZARD_CLEANUP : Messages.MORE_INFO;
         }
     }
 }

@@ -31,7 +31,6 @@
 
 using NUnit.Framework;
 using XenAdmin.Alerts;
-using XenAdminTests.UnitTests.UnitTestHelper;
 using XenAPI;
 
 namespace XenAdminTests.UnitTests.AlertTests
@@ -42,18 +41,17 @@ namespace XenAdminTests.UnitTests.AlertTests
         [Test]
         public void VerifyStoredDataWithDefaultConstructor()
         {
-            IUnitTestVerifier validator = new VerifyGetters(new MissingIqnAlert(new Host()));
-
-            validator.Verify(new AlertClassUnitTestData
-            {
-                AppliesTo = "",
-                FixLinkText = "Edit IQN",
-                HelpID = "MissingIqnAlert",
-                Description = " has no iSCSI-IQN. This could cause problems with iSCSI storage on this network.",
-                HelpLinkText = "Help",
-                Title = "iSCSI-IQN Missing",
-                Priority = "Priority3"
-            });
+            ClassVerifiers.VerifyGetters(new MissingIqnAlert(new Host()),
+                new AlertClassUnitTestData
+                {
+                    AppliesTo = "",
+                    FixLinkText = "Edit IQN",
+                    HelpID = "MissingIqnAlert",
+                    Description = " has no iSCSI-IQN. This could cause problems with iSCSI storage on this network.",
+                    HelpLinkText = "Help",
+                    Title = "iSCSI-IQN Missing",
+                    Priority = "Priority3"
+                });
         }
     }
 }

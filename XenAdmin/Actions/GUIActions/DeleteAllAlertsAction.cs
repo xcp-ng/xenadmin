@@ -32,7 +32,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using XenAdmin.Alerts;
 using XenAdmin.Network;
 using XenAdmin.Core;
@@ -44,7 +43,6 @@ namespace XenAdmin.Actions
     public class DeleteAllAlertsAction : AsyncAction
     {
         private readonly IEnumerable<Alert> Alerts;
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <param name="connection">May be null; this is expected for client-side alerts.</param>
         /// <param name="alerts"></param>

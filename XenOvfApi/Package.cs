@@ -32,78 +32,63 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
+using XenCenterLib;
 using XenCenterLib.Archive;
-using XenCenterLib.Compression;
+using XenOvf.Definitions;
+using XenOvf.Utilities;
 
 
 namespace XenOvf
 {
-    // Provides the properties of a digest for a file in the manifest of an OVF appliance.
+    /// <summary>
+    /// Provides the properties of a digest for a file in the manifest of an OVF/OVA appliance.
+    /// </summary>
     public class FileDigest
     {
-        // Construct from a line in the manifest.
+        /// <summary>
+        /// Creates a new instance from a line in the manifest.
+        /// </summary>
+        /// <param name="line"></param>
         public FileDigest(string line)
         {
-            var fields = line.Split(new char[] { '(', ')', '=' });
+            var fields = line.Split('(', ')', '=');
 
             // Expect the first field to be the security algorithm used to compute the hash of the file.
-            _AlgorithmName = fields[0].Trim();
+            AlgorithmName = fields[0].Trim();
 
             // Expect the second field to be the name of the file.
             Match nameMatch = new Regex(@"[\(](.*)[\)][=]").Match(line);
-            _Name = nameMatch.Success ? nameMatch.Groups[1].Value.Trim() : fields[1].Trim();
+            Name = nameMatch.Success ? nameMatch.Groups[1].Value.Trim() : fields[1].Trim();
 
             // Expect the last field to be the digest of the file.
-            _DigestAsString = fields[fields.Length - 1].Trim();
+            DigestAsString = fields[fields.Length - 1].Trim();
+            Digest = ToArray(DigestAsString);
         }
 
+        /// <summary>
+        /// Name of the file with the digest.
+        /// </summary>
+        public string Name { get; }
 
-        // Name of the file with the digest.
-        public string Name { get { return _Name; } }
-        private string _Name;
+        /// <summary>
+        /// Name of the algorithm to compute the digest. It must be recognized by HashAlgorithm.Create().
+        /// </summary>
+        public string AlgorithmName { get; }
 
+        public string DigestAsString { get; }
 
-        // Name of the algorithm to compute the digest.
-        // It must be recognized by HashAlgorithm.Create().
-        public string AlgorithmName { get { return _AlgorithmName; } }
-        private string _AlgorithmName;
+        public byte[] Digest{ get; }
 
-
-        // Algorithm to compute the digest.
-        public HashAlgorithm Algorithm
+        /// <summary>
+        /// Convert a hex string to a binary array.
+        /// </summary>
+        private static byte[] ToArray(string HexString)
         {
-            get
-            {
-                var hashAlgorithm = HashAlgorithm.Create(_AlgorithmName);
-
-                // Validate the algorithm.
-                if (hashAlgorithm == null)
-                    throw new ArgumentException(string.Format(Messages.SECURITY_NOT_SUPPORTED, _AlgorithmName));
-
-                return hashAlgorithm;
-            }
-        }
-
-
-        // Digest as a binary array.
-        public byte[] Digest { get { return ToArray(_DigestAsString); } }
-        private string _DigestAsString;
-        protected string DigestAsString
-        {
-            get { return _DigestAsString; }
-        }
-
-
-        public bool WasVerified { get { return _WasVerified; } }
-        private bool _WasVerified = false;
-
-        // Convert a hex string to a binary array.
-        public static byte[] ToArray(string HexString)
-        {
-            if ((HexString.Length % 2) > 0)
+            if (HexString.Length % 2 > 0)
             {
                 // The length is odd.
                 // Pad the hex string on the left with a space to interpret as a leading zero.
@@ -126,46 +111,24 @@ namespace XenOvf
 
             return array;
         }
-
-
-        // Verify the digest of the file content accessible from the given stream by comparing it to the stored digest.
-        public void Verify(Stream stream)
-        {
-            var computedDigest = Algorithm.ComputeHash(stream);
-
-            if (!System.Linq.Enumerable.SequenceEqual(Digest, computedDigest))
-            {
-                throw new Exception(string.Format(Messages.SECURITY_SIGNATURE_FAILED, Name));
-            }
-
-            _WasVerified = true;
-        }
-
-
-        // Verify the digest, when used as a signature, of the file content accessible from the given stream.
-        public void Verify(Stream stream, RSACryptoServiceProvider key)
-        {
-            var computedDigest = Algorithm.ComputeHash(stream);
-
-            if (!key.VerifyHash(computedDigest, CryptoConfig.MapNameToOID(_AlgorithmName), Digest))
-            {
-                throw new Exception(string.Format(Messages.SECURITY_SIGNATURE_FAILED, Name));
-            }
-        }
     }
 
 
-    // OVF Appliance in the form of a folder.
+    /// <summary>
+    /// OVF package, i.e. appliance in the form of a folder
+    /// </summary>
     internal class FolderPackage : Package
     {
+        private string _Folder;
+
         public FolderPackage(string path)
+            : base(path)
         {
-        	PackageSourceFile = path;
             _Folder = path;
 
             var extension = Path.GetExtension(path);
 
-            if (String.Compare(extension, Properties.Settings.Default.ovfFileExtension, true) == 0)
+            if (string.Compare(extension, Properties.Settings.Default.ovfFileExtension, true) == 0)
                 _Folder = Path.GetDirectoryName(path);
 
             if (_Folder == null)
@@ -175,45 +138,31 @@ namespace XenOvf
             }
         }
 
-        private string _Folder;
-
-
-        public override string DescriptorFileName 
-        { 
-            get 
-            { 
-                return Path.GetFileName(PackageSourceFile); 
-            } 
-        }
-
-
-        public override bool HasFile(string fileName)
-        {
-            try
-            {
-                using (var stream = File.OpenRead(Path.Combine(_Folder, fileName)))
-                {
-                    return true;
-                }
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
+        public override string DescriptorFileName => Path.GetFileName(PackageSourceFile);
 
         protected override byte[] ReadAllBytes(string fileName)
         {
-            return File.ReadAllBytes(Path.Combine(_Folder, fileName));
+            try
+            {
+                return File.ReadAllBytes(Path.Combine(_Folder, fileName));
+            }
+            catch
+            {
+                return null;
+            }
         }
-
 
         protected override string ReadAllText(string fileName)
         {
-            return File.ReadAllText(Path.Combine(_Folder, fileName));
+            try
+            {
+                return File.ReadAllText(Path.Combine(_Folder, fileName));
+            }
+            catch
+            {
+                return null;
+            }
         }
-
 
         public override void VerifyManifest()
         {
@@ -225,195 +174,17 @@ namespace XenOvf
             {
                 using (var stream = File.OpenRead(Path.Combine(_Folder, fileDigest.Name)))
                 {
-                    // Verify each manifest item.
-                    fileDigest.Verify(stream);
+                    if (!StreamUtilities.VerifyAgainstDigest(stream, stream.Length, fileDigest.AlgorithmName, fileDigest.Digest))
+                        throw new Exception(string.Format(Messages.SECURITY_SIGNATURE_FAILED, fileDigest.Name));
                 }
             }
         }
-    }
-
-
-    // Exposes a stream of entries within a tar for TarPackage.
-    internal class TarFileStream : IDisposable /*: Stream */
-    {
-        // Open a file within the tar.
-        public TarFileStream(string tarPath)
-        {
-            _tarStream = File.OpenRead(tarPath);
-
-            var extension = Path.GetExtension(tarPath);
-
-            // Check for a compressed archive.
-            if (String.Compare(extension, ".gz", true) == 0)
-            {
-                _compressionStream = CompressionFactory.Reader(CompressionFactory.Type.Gz, _tarStream);
-                _tarInputStream = ArchiveFactory.Reader(ArchiveFactory.Type.Tar, _compressionStream);
-            }
-            else if (String.Compare(extension, ".bz2", true) == 0)
-            {
-                _compressionStream = CompressionFactory.Reader(CompressionFactory.Type.Bz2, _tarStream);
-                _tarInputStream = ArchiveFactory.Reader(ArchiveFactory.Type.Tar, _compressionStream);
-            }
-            else
-            {
-                _tarInputStream = ArchiveFactory.Reader(ArchiveFactory.Type.Tar, _tarStream);
-            }
-        }
-
-
-        // An improvement would be to construct an enumerator for use with foreach.
-        public bool FindNextFile(string filePath)
-        {
-            // Emulate the simple pattern matching of Directory.GetFiles(string path, string pattern)
-            var regexPattern = new System.Text.StringBuilder(filePath);
-
-            // Escape any directory separators first.
-            regexPattern = regexPattern.Replace("\\", "\\\\");
-
-            // Escape any extension separator second.
-            regexPattern = regexPattern.Replace(".", "\\.");
-
-            // Translate any wildcards to their RegEx equivalents.
-            regexPattern = regexPattern.Replace("*", ".*");
-            regexPattern = regexPattern.Replace("?", ".?");
-
-            var regexPatternAsString = regexPattern.ToString();
-
-            while (MoveNext())
-            {
-                if (System.Text.RegularExpressions.Regex.IsMatch(Current, regexPatternAsString, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
-                    return true;
-            }
-
-            return false;
-        }
-
-        public byte[] ReadAllBytes()
-        {
-            MemoryStream ms = new MemoryStream();
-            _tarInputStream.ExtractCurrentFile(ms);
-            
-            if( ms.Length < 1 )
-                return null;
-
-            return ms.ToArray();
-        }
-
-
-        // Name of current file in the archive.
-        public string Current
-        {
-            get
-            {
-                return _tarInputStream.CurrentFileName();
-            }
-        }
-
-
-        public bool MoveNext()
-        {
-            return _tarInputStream.HasNext();
-        }
-
-
-        protected void Dispose(Boolean disposing)
-        {
-            if (disposing)
-            {
-                // TarInputStream does not implement Dispose(boolean).
-                _tarInputStream.Dispose();
-                if (_compressionStream != null)
-                    _compressionStream.Dispose();
-                _tarStream.Dispose();
-            }
-        }
-
-
-        private Stream _tarStream;
-
-        private Stream _compressionStream;
-
-        private ArchiveIterator _tarInputStream;
-
-        public void Close()
-        {
-            Dispose(true);
-        }
-
-        public void Dispose()
-        {
-            Close();
-        }
-
-    }
-
-
-    // OVF Appliance in the form of a tape archive (tar).
-    internal class TarPackage : Package
-    {
-        public TarPackage(string path)
-        {
-			PackageSourceFile = path;
-
-            _DirectoryCache = new Dictionary<string, byte[]>();
-        }
-        private Dictionary<string, byte[]> _DirectoryCache;
-
-
-        public override string DescriptorFileName
-        { 
-            get 
-            {
-                if (_DescriptorFileName != null)
-                    return _DescriptorFileName;
-
-                Load();
-
-                if (_DescriptorFileName != null)
-                {
-                    return _DescriptorFileName;
-                }
-
-                // Last resort is to search the whole archive.
-                var ovfFilePattern = "*" + Properties.Settings.Default.ovfFileExtension;
-
-                using (var stream = OpenRead(ovfFilePattern))
-                {
-                    _DescriptorFileName = stream.Current;
-                }
-
-                return _DescriptorFileName;
-            } 
-        }
-        private string _DescriptorFileName;
-
-
-        // Open a file within the tar.
-        protected TarFileStream OpenRead(string fileName)
-        {
-            var stream = new TarFileStream(PackageSourceFile);
-
-            if (!stream.FindNextFile(fileName))
-            {
-                stream.Close();
-                throw new FileNotFoundException(fileName);
-            }
-
-            return stream;
-        }
-
 
         public override bool HasFile(string fileName)
         {
             try
             {
-                if (_DirectoryCache.ContainsKey(fileName))
-                    return true;
-
-                using (var stream = OpenRead(fileName))
-                {
-                    return true;
-                }
+                return File.Exists(Path.Combine(_Folder, fileName));
             }
             catch
             {
@@ -421,203 +192,272 @@ namespace XenOvf
             }
         }
 
-
-        // Wrap calls to TarFileStream.MoveNext() to cache file names for HasFile().
-        private bool MoveNext(TarFileStream stream)
+        public override void ExtractToWorkingDir()
         {
-            var haveFile = stream.MoveNext();
+            WorkingDir = Path.GetDirectoryName(PackageSourceFile);
+        }
+    }
 
-            if (haveFile)
-                _DirectoryCache[stream.Current] = null;
+    /// <summary>
+    /// OVA package (may additionally be compressed), i.e. Appliance in the form of a tape archive (tar).
+    /// </summary>
+    internal class TarPackage : Package
+    {
+        private readonly Dictionary<string, byte[]> _DirectoryCache = new Dictionary<string, byte[]>();
+        private string _DescriptorFileName;
 
-            return haveFile;
+        private Stream _tarStream;
+        private ArchiveIterator _archiveIterator;
+        private readonly ArchiveFactory.Type _tarType = ArchiveFactory.Type.Tar;
+
+        public TarPackage(string path)
+            : base(path)
+        {
+            var extension = Path.GetExtension(PackageSourceFile);
+
+            if (string.Compare(extension, ".gz", true) == 0)
+                _tarType = ArchiveFactory.Type.TarGz;
+            else if (string.Compare(extension, ".bz2", true) == 0)
+                _tarType = ArchiveFactory.Type.TarBz2;
         }
 
+        public override string DescriptorFileName
+        {
+            get
+            {
+                if (_DescriptorFileName == null)
+                    Load();
+                return _DescriptorFileName;
+            }
+        }
 
         protected override byte[] ReadAllBytes(string fileName)
         {
-            byte[] buffer;
-
-            if ((_DirectoryCache.TryGetValue(fileName, out buffer)) && (buffer != null))
-            {
-                return buffer;
-            }
-
-            using (var stream = OpenRead(fileName))
-            {
-                return (_DirectoryCache[stream.Current] = stream.ReadAllBytes());
-            }
+            if (!_DirectoryCache.ContainsKey(fileName))
+                Load();
+            return _DirectoryCache.TryGetValue(fileName, out byte[] buffer) ? buffer : null;
         }
-
 
         protected override string ReadAllText(string fileName)
         {
             var buffer = ReadAllBytes(fileName);
+            if (buffer == null)
+                return null;
 
             using (var stream = new MemoryStream(buffer))
             using (var reader = new StreamReader(stream))
-            {
                 return reader.ReadToEnd();
-            }
         }
 
-
+        /// <summary>
+        /// Load metadata files from an OVA package. Rules:
+        /// - Load the first file name with an ovf extension as the package descriptor
+        /// - Load the first manifest or certificate file that has the same base name as the descriptor
+        /// - Do not load any other files
+        /// In most cases the ovf file is first in the package, so all metadata files
+        /// can be read in one go. Otherwise, the package will have to be searched more times.
+        /// </summary>
         private void Load()
         {
-            using (var stream = new TarFileStream(PackageSourceFile))
+            try
             {
-                while (MoveNext(stream))
-                {
-                    var extension = Path.GetExtension(stream.Current);
+                Open();
 
-                    if ((_DescriptorFileName == null) && (String.Compare(extension, Properties.Settings.Default.ovfFileExtension, true) == 0))
+                while (_archiveIterator.HasNext())
+                {
+                    var extension = Path.GetExtension(_archiveIterator.CurrentFileName());
+
+                    if (_DescriptorFileName == null && string.Compare(extension, Properties.Settings.Default.ovfFileExtension, true) == 0)
                     {
-                        // Use the first file name with an ovf extension.
-                        _DescriptorFileName = stream.Current;
+                        _DescriptorFileName = _archiveIterator.CurrentFileName();
                     }
-                    else if (String.Compare(extension, Properties.Settings.Default.manifestFileExtension, true) == 0)
+                    else if (string.Compare(extension, Properties.Settings.Default.manifestFileExtension, true) == 0)
                     {
-                        // Skip a manifest file that does not have the base name as the descriptor.
-                        if ((_DescriptorFileName != null) && (String.Compare(stream.Current, ManifestFileName, true) != 0))
+                        if (_DescriptorFileName == null || string.Compare(_archiveIterator.CurrentFileName(), ManifestFileName, true) != 0)
                             continue;
                     }
-                    else if (String.Compare(extension, Properties.Settings.Default.certificateFileExtension, true) == 0)
+                    else if (string.Compare(extension, Properties.Settings.Default.certificateFileExtension, true) == 0)
                     {
-                        // Skip a certificate file that does not have the base name as the descriptor.
-                        if ((_DescriptorFileName != null) && (String.Compare(stream.Current, CertificateFileName, true) != 0))
+                        if (_DescriptorFileName == null || string.Compare(_archiveIterator.CurrentFileName(), CertificateFileName, true) != 0)
                             continue;
                     }
                     else
                     {
-                        // Stop loading because descriptor, manifest, and certificate files must precede all other files.
-                        break;
+                        //add other files to the directory cache without, obviously, loading them
+                        _DirectoryCache[_archiveIterator.CurrentFileName()] = null;
+                        continue;
                     }
 
-                    // Load this file.
-                    _DirectoryCache[stream.Current] = stream.ReadAllBytes();
+                    _DirectoryCache[_archiveIterator.CurrentFileName()] = ReadAllBytes();
                 }
+            }
+            finally
+            {
+                Close();
             }
         }
 
+        /// <summary>
+        /// Always remember to call Close after having used the opened package,
+        /// usually in a try-finally block
+        /// </summary>
+        private void Open()
+        {
+            _tarStream = File.OpenRead(PackageSourceFile);
+            _archiveIterator = ArchiveFactory.Reader(_tarType, _tarStream);
+        }
+
+        /// <summary>
+        /// Normally used in conjunction with Open in a try-finally block
+        /// </summary>
+        private void Close()
+        {
+            _archiveIterator?.Dispose();
+            _tarStream?.Dispose();
+        }
+
+        public override void CleanUpWorkingDir()
+        {
+            try
+            {
+                Directory.Delete(WorkingDir, true);
+            }
+            catch
+            {
+                //ignore
+            }
+        }
+
+        public override void ExtractToWorkingDir()
+        {
+            WorkingDir = OVF.ExtractArchive(PackageSourceFile);
+        }
 
         public override void VerifyManifest()
         {
-            // Verify the presence of a manifest.
-            var manifest = Manifest;
+            var manifest = new List<FileDigest>(Manifest);
 
-            int verifiedCount = 0;
-
-            using (var stream = new TarFileStream(PackageSourceFile))
+            try
             {
-                // For a tar package, it is more efficient to iterate the files in the order within the archive.
-                while (MoveNext(stream))
-                {
-                    // Find the manifest entry for the current tar entry.
-                    FileDigest fileDigest = manifest.Find(
-                        delegate(FileDigest aFileDigest)
-                        {
-                            return (String.Compare(aFileDigest.Name, stream.Current, true) == 0);
-                        });
+                Open();
 
-                    if (fileDigest == null)
+                // For a tar package, it is more efficient to iterate the files in the order within the archive.
+                while (_archiveIterator.HasNext())
+                {
+                    var extension = Path.GetExtension(_archiveIterator.CurrentFileName());
+                    if (string.Compare(extension, Properties.Settings.Default.manifestFileExtension, true) == 0 ||
+                        string.Compare(extension, Properties.Settings.Default.certificateFileExtension, true) == 0)
                         continue;
 
-                    // The manifest entry was found.
-                    // Verify its digest.
-                    fileDigest.Verify(new MemoryStream(stream.ReadAllBytes()));
+                    var fileDigest = manifest.Find(fd => string.Compare(fd.Name, _archiveIterator.CurrentFileName(), true) == 0);
 
-                    verifiedCount++;
-                }
-
-                foreach (var fileDigest in manifest)
-                {
-                    if (!fileDigest.WasVerified)
+                    if (fileDigest == null)
                     {
-                        // A manifest entry was missing.
-                        log.ErrorFormat(string.Format(Messages.FILE_MISSING, fileDigest.Name));
+                        log.ErrorFormat("File {0} contained in the appliance is not listed in the manifest.", _archiveIterator.CurrentFileName());
+                        throw new Exception(Messages.SECURITY_FILE_MISSING_FROM_MANIFEST);
                     }
-                }
 
-                if (verifiedCount != manifest.Count)
-                {
-                    // A manifest entry was missing.
-                    throw new Exception(Messages.SECURITY_FILE_MISSING);
+                    manifest.Remove(fileDigest);
+                    if (!_archiveIterator.VerifyCurrentFileAgainstDigest(fileDigest.AlgorithmName, fileDigest.Digest))
+                        throw new Exception(string.Format(Messages.SECURITY_SIGNATURE_FAILED, fileDigest.Name));
                 }
+            }
+            finally
+            {
+                Close();
+            }
+
+            if (manifest.Count > 0)
+            {
+                log.ErrorFormat("The following files are listed in the manifest but missing from the appliance: {0}",
+                    string.Join(", ", manifest.Select(fd => fd.Name)));
+                throw new Exception(Messages.SECURITY_FILE_MISSING_FROM_PACKAGE);
+            }
+        }
+
+        public override bool HasFile(string fileName)
+        {
+            try
+            {
+                return DescriptorFileName != null && _DirectoryCache.ContainsKey(fileName);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private byte[] ReadAllBytes()
+        {
+            using (var ms = new MemoryStream())
+            {
+                _archiveIterator.ExtractCurrentFile(ms);
+                return ms.Length > 0 ? ms.ToArray() : null;
             }
         }
     }
 
-    
-    // Abstract class to access any time of package.
+
+    /// <summary>
+    /// Abstract class to describe an OVF/OVA appliance.
+    /// </summary>
     public abstract class Package
     {
         protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        // Package factory.
+        // Cache these properties because they are expensive to get
+        private string _descriptorXml;
+        private byte[] _RawManifest;
+        private byte[] _RawCertificate;
+        private EnvelopeType _ovfEnvelope;
+
+        protected Package(string path)
+        {
+            PackageSourceFile = path;
+        }
+
         public static Package Create(string path)
         {
             var extension = Path.GetExtension(path);
 
-            if (String.Compare(extension, Properties.Settings.Default.ovfFileExtension, true) == 0)
-            {
+            if (string.Compare(extension, Properties.Settings.Default.ovfFileExtension, true) == 0)
                 return new FolderPackage(path);
-            }
 
             // Assume it is an archive.
             return new TarPackage(path);
         }
 
-
-        // Hide the constructor because only the factory can create a package.
-        protected Package() { }
-
-
         #region Properties
 
+        /// <summary>
+        /// According to the OVF specification, name of the *package* is base name of the descriptor file.
+        /// </summary>
+        public string Name => Path.GetFileNameWithoutExtension(DescriptorFileName);
 
-        // DescriptorFileName is a special property. 
-        // Access to the rest of the package depends on it.
-        // Abstract because the most efficient method to get it depends on the package type.
-        public abstract string DescriptorFileName { get; }
+        /// <summary>
+        /// According to the OVF specification, base name of the manifest file must be the same as the descriptor file.
+        /// </summary>
+        protected string ManifestFileName => Name + Properties.Settings.Default.manifestFileExtension;
 
-        // According to the OVF specification, name of the *package* is base name of the descriptor file.
-        public string Name 
-        { 
-            get 
-            { 
-                return Path.GetFileNameWithoutExtension(DescriptorFileName); 
-            } 
-        }
+        /// <summary>
+        /// According to the OVF specification, base name of the certificate file must be the same as the descriptor file.
+        /// </summary>
+        protected string CertificateFileName => Name + Properties.Settings.Default.certificateFileExtension;
 
-        // According to the OVF specification, base name of the manifest file must be the same as the descriptor file.
-        public string ManifestFileName 
-        { 
-            get 
-            { 
-                return (Name + Properties.Settings.Default.manifestFileExtension); 
-            } 
-        }
-
-        // According to the OVF specification, base name of the certificate file must be the same as the descriptor file.
-        public string CertificateFileName { get { return (Name + Properties.Settings.Default.certificateFileExtension); } }
-
-
-        // Contents of the OVF file.
-        public virtual string Descriptor
+        /// <summary>
+        /// Contents of the OVF file.
+        /// </summary>
+        public string DescriptorXml
         {
             get
             {
-                if (_Descriptor != null)
-                    return _Descriptor;
-
-                return (_Descriptor = ReadAllText(DescriptorFileName));
+                if (_descriptorXml == null)
+                    _descriptorXml = ReadAllText(DescriptorFileName);
+                return _descriptorXml;
             }
         }
-        // Cache this property because it is expensive to get.
-        private string _Descriptor;
 
-
-        public List<FileDigest> Manifest
+        protected List<FileDigest> Manifest
         {
             get
             {
@@ -636,99 +476,118 @@ namespace XenOvf
             }
         }
 
-
-        protected byte[] RawManifest
+        private byte[] RawManifest
         {
             get
             {
-                if (_RawManifest != null)
-                    return _RawManifest;
-
-                return (_RawManifest = ReadAllBytes(ManifestFileName));
+                if (_RawManifest == null)
+                    _RawManifest = ReadAllBytes(ManifestFileName);
+                return _RawManifest;
             }
         }
-        private byte[] _RawManifest;
 
-
-        public X509Certificate2 Certificate
+        public byte[] RawCertificate
         {
             get
             {
-                return (new X509Certificate2(RawCertificate));
+                if (_RawCertificate == null)
+                    _RawCertificate = ReadAllBytes(CertificateFileName);
+                return _RawCertificate;
             }
         }
 
+        public string PackageSourceFile { get; }
 
-        protected byte[] RawCertificate
+        public string WorkingDir { get; protected set; }
+
+        /// <summary>
+        /// May be null if no valid OVF file has been found
+        /// </summary>
+        public EnvelopeType OvfEnvelope
         {
             get
             {
-                if (_RawCertificate != null)
-                    return _RawCertificate;
-
-                return (_RawCertificate = ReadAllBytes(CertificateFileName));
+                if (_ovfEnvelope == null)
+                {
+                    try
+                    {
+                        _ovfEnvelope = Tools.DeserializeOvfXml(DescriptorXml);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error($"Failed to load OVF content from appliance {PackageSourceFile}", ex);
+                    }
+                }
+                return _ovfEnvelope;
             }
         }
-        private byte[] _RawCertificate;
-
-
-        public string PackageSourceFile { get; protected set; }
-
 
         #endregion
 
-
-        public virtual bool HasManifest()
+        public bool HasEncryption()
         {
-            return ((_RawManifest != null) || (HasFile(ManifestFileName)));
+            return OVF.HasEncryption(OvfEnvelope);
         }
 
-
-        public virtual bool HasSignature()
+        public bool HasManifest()
         {
-            return ((_RawCertificate != null) || (HasFile(CertificateFileName)));
+            return RawManifest != null;
         }
 
-
-        public virtual void VerifySignature()
+        public bool HasSignature()
         {
-            // Verify the certificate used to sign the package.
-            var certificate = Certificate;
+            return RawCertificate != null;
+        }
 
-            if (!certificate.Verify())
+        public void VerifySignature()
+        {
+            using (var certificate = new X509Certificate2(RawCertificate))
             {
-                throw new Exception(Messages.CERTIFICATE_IS_INVALID);
-            }
+                if (!certificate.Verify())
+                    throw new Exception(Messages.CERTIFICATE_IS_INVALID);
 
-            // Get the package signature from the certificate file.
-            FileDigest fileDigest = null;
+                // Get the package signature from the certificate file.
+                // This is the digest of the first file listed in the certificate file,
+                // hence we only need to read the first line
+                FileDigest fileDigest;
 
-            using (Stream stream = new MemoryStream(RawCertificate))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                // The package signature is the digest of the file identified on the first line in the certificate file.
-                fileDigest = new FileDigest(reader.ReadLine());
-            }
+                using (Stream stream = new MemoryStream(RawCertificate))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    fileDigest = new FileDigest(reader.ReadLine());
+                }
 
-            // Compare the stored signature to the computed signature.
-            // Do this independently to minimize the number of files opened concurrently.
-            using (Stream stream = new MemoryStream(RawManifest))
-            {
-                // Verify the signature using the public key.
-                fileDigest.Verify(stream, (RSACryptoServiceProvider)certificate.PublicKey.Key);
+                // Verify the stored signature against the computed signature using the certificate's public key.
+                // Do this independently to minimize the number of files opened concurrently.
+                using (Stream stream = new MemoryStream(RawManifest))
+                {
+                    if (!StreamUtilities.VerifyAgainstDigest(stream, stream.Length, fileDigest.AlgorithmName, fileDigest.Digest, certificate.PublicKey.Key as RSACryptoServiceProvider))
+                        throw new Exception(string.Format(Messages.SECURITY_SIGNATURE_FAILED, fileDigest.Name));
+                }
             }
         }
 
-        #region Package methods to specialize
+        public virtual void CleanUpWorkingDir()
+        {
+        }
 
-        public abstract bool HasFile(string name);
+        #region Abstract members
+
+        /// <summary>
+        /// The full name of the OVF file within the package
+        /// </summary>
+        public abstract string DescriptorFileName { get; }
 
         protected abstract byte[] ReadAllBytes(string fileName);
 
         protected abstract string ReadAllText(string fileName);
 
-        // Abstract because the file enumerator method varies by package type.
         public abstract void VerifyManifest();
+
+        public abstract bool HasFile(string fileName);
+
+        /// <returns>The directory with the extracted files</returns>
+        public abstract void ExtractToWorkingDir();
 
         #endregion
     }

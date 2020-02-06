@@ -83,8 +83,7 @@ namespace XenAdmin.Actions.DR
             else
             {
                 log.DebugFormat("Metadata session is NULL. Cannot recover {0} to Pool {1}",
-                                Helpers.GetName(xenObject).Ellipsise(50), 
-                                Helpers.GetName(Pool).Ellipsise(50));
+                                Helpers.GetName(xenObject), Helpers.GetName(Pool));
             }
             Description = String.Format(Messages.ACTION_DR_RECOVER_DONE, xenObject.Name());
         }

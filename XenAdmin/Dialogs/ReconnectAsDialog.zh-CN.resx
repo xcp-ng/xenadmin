@@ -159,11 +159,11 @@
   <data name="&gt;&gt;pictureBoxAdPicture.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="labelUsername.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
   <data name="labelUsername.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="labelUsername.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
   </data>
   <data name="labelUsername.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
@@ -195,17 +195,14 @@
   <data name="&gt;&gt;labelUsername.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="textBoxUsername.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
+  <data name="textBoxUsername.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
   </data>
   <data name="textBoxUsername.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="textBoxUsername.Location" type="System.Drawing.Point, System.Drawing">
-    <value>105, 84</value>
-  </data>
-  <data name="textBoxUsername.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 20, 3</value>
+    <value>110, 93</value>
   </data>
   <data name="textBoxUsername.Size" type="System.Drawing.Size, System.Drawing">
     <value>336, 23</value>
@@ -225,11 +222,11 @@
   <data name="&gt;&gt;textBoxUsername.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="labelPassword.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
   <data name="labelPassword.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="labelPassword.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
   </data>
   <data name="labelPassword.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
@@ -261,17 +258,14 @@
   <data name="&gt;&gt;labelPassword.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="textBoxPassword.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
+  <data name="textBoxPassword.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
   </data>
   <data name="textBoxPassword.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="textBoxPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>127, 124</value>
-  </data>
-  <data name="textBoxPassword.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 20, 3</value>
+    <value>110, 122</value>
   </data>
   <data name="textBoxPassword.Size" type="System.Drawing.Size, System.Drawing">
     <value>314, 23</value>
@@ -290,6 +284,12 @@
   </data>
   <data name="&gt;&gt;textBoxPassword.ZOrder" xml:space="preserve">
     <value>5</value>
+  </data>
+  <data name="flowLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="flowLayoutPanel1.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
   </data>
   <data name="buttonCancel.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
@@ -415,7 +415,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="pictureBoxAdPicture" Row="0" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="labelBlurb" Row="0" RowSpan="1" Column="1" ColumnSpan="2" />&lt;Control Name="labelUsername" Row="1" RowSpan="1" Column="1" ColumnSpan="1" />&lt;Control Name="textBoxUsername" Row="1" RowSpan="1" Column="2" ColumnSpan="1" />&lt;Control Name="labelPassword" Row="2" RowSpan="1" Column="1" ColumnSpan="1" />&lt;Control Name="textBoxPassword" Row="2" RowSpan="1" Column="2" ColumnSpan="1" />&lt;Control Name="flowLayoutPanel1" Row="3" RowSpan="1" Column="2" ColumnSpan="1" />&lt;/Controls>&lt;Columns Styles="Absolute,52,AutoSize,0,Percent,100" />&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,Absolute,20" />&lt;/TableLayoutSettings></value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="pictureBoxAdPicture" Row="0" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="labelBlurb" Row="0" RowSpan="1" Column="1" ColumnSpan="2" />&lt;Control Name="labelUsername" Row="1" RowSpan="1" Column="1" ColumnSpan="1" />&lt;Control Name="textBoxUsername" Row="1" RowSpan="1" Column="2" ColumnSpan="1" />&lt;Control Name="labelPassword" Row="2" RowSpan="1" Column="1" ColumnSpan="1" />&lt;Control Name="textBoxPassword" Row="2" RowSpan="1" Column="2" ColumnSpan="1" />&lt;Control Name="flowLayoutPanel1" Row="3" RowSpan="1" Column="2" ColumnSpan="1" />&lt;/Controls>&lt;Columns Styles="AutoSize,0,AutoSize,0,Percent,100" />&lt;Rows Styles="Percent,100,AutoSize,0,AutoSize,0,AutoSize,0" />&lt;/TableLayoutSettings></value>
   </data>
   <data name="labelBlurb.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -424,10 +424,7 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="labelBlurb.Location" type="System.Drawing.Point, System.Drawing">
-    <value>58, 6</value>
-  </data>
-  <data name="labelBlurb.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>6, 6, 6, 6</value>
+    <value>41, 0</value>
   </data>
   <data name="labelBlurb.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>397, 80</value>
@@ -469,6 +466,9 @@
   </data>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
+  </data>
+  <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>以其他用户身份重新连接</value>

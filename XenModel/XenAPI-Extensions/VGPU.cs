@@ -38,5 +38,33 @@ namespace XenAPI
             var vGPUType = Connection.Resolve(type);
             return vGPUType == null || vGPUType.IsPassthrough();
         }
+
+        public bool IsExperimental()
+        {
+            var vGpuType = Connection.Resolve(type);
+            return vGpuType != null && vGpuType.experimental;
+        }
+
+        public string VGpuTypeDescription()
+        {
+            var gpuGroup = Connection.Resolve(GPU_group);
+            if (gpuGroup != null)
+            {
+                if (gpuGroup.HasVGpu())
+                {
+                    var vGpuType = Connection.Resolve(type);
+                    if (vGpuType != null)
+                    {
+                        return vGpuType.Description();
+                    }
+                }
+                else
+                {
+                    return gpuGroup.Name();
+                }
+            }
+
+            return string.Empty;
+        }
     }
 }

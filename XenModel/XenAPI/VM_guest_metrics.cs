@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class VM_guest_metrics : XenObject<VM_guest_metrics>
     {
+        #region Constructors
+
         public VM_guest_metrics()
         {
         }
@@ -81,13 +83,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new VM_guest_metrics from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public VM_guest_metrics(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new VM_guest_metrics from a Proxy_VM_guest_metrics.
         /// </summary>
         /// <param name="proxy"></param>
         public VM_guest_metrics(Proxy_VM_guest_metrics proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -111,7 +127,7 @@ namespace XenAPI
             PV_drivers_detected = update.PV_drivers_detected;
         }
 
-        internal void UpdateFromProxy(Proxy_VM_guest_metrics proxy)
+        internal void UpdateFrom(Proxy_VM_guest_metrics proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             os_version = proxy.os_version == null ? null : Maps.convert_from_proxy_string_string(proxy.os_version);
@@ -147,17 +163,6 @@ namespace XenAPI
             result_.can_use_hotplug_vif = tristate_type_helper.ToString(can_use_hotplug_vif);
             result_.PV_drivers_detected = PV_drivers_detected;
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new VM_guest_metrics from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public VM_guest_metrics(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

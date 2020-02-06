@@ -493,7 +493,7 @@
     <value>True</value>
   </metadata>
   <data name="colImage.HeaderText" xml:space="preserve">
-    <value />
+    <value/>
   </data>
   <data name="colImage.Width" type="System.Int32, mscorlib">
     <value>5</value>
@@ -601,7 +601,7 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pictureBoxStatus" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelHaStatus" Row="0" RowSpan="1" Column="1" ColumnSpan="5" /&gt;&lt;Control Name="labelProtectionLevel" Row="2" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="m_dropDownButtonRestartPriority" Row="2" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;Control Name="labelStartOrder" Row="3" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="nudOrder" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="labelStartDelay" Row="4" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="nudStartDelay" Row="4" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="labelStartDelayUnits" Row="4" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="linkLabelTellMeMore" Row="5" RowSpan="1" Column="0" ColumnSpan="5" /&gt;&lt;Control Name="haNtolIndicator" Row="2" RowSpan="4" Column="5" ColumnSpan="1" /&gt;&lt;Control Name="dataGridViewVms" Row="1" RowSpan="1" Column="0" ColumnSpan="6" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,Percent,100,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="pictureBoxStatus" Row="0" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="labelHaStatus" Row="0" RowSpan="1" Column="1" ColumnSpan="5" />&lt;Control Name="labelProtectionLevel" Row="2" RowSpan="1" Column="0" ColumnSpan="2" />&lt;Control Name="m_dropDownButtonRestartPriority" Row="2" RowSpan="1" Column="2" ColumnSpan="2" />&lt;Control Name="labelStartOrder" Row="3" RowSpan="1" Column="0" ColumnSpan="3" />&lt;Control Name="nudOrder" Row="3" RowSpan="1" Column="3" ColumnSpan="1" />&lt;Control Name="labelStartDelay" Row="4" RowSpan="1" Column="0" ColumnSpan="3" />&lt;Control Name="nudStartDelay" Row="4" RowSpan="1" Column="3" ColumnSpan="1" />&lt;Control Name="labelStartDelayUnits" Row="4" RowSpan="1" Column="4" ColumnSpan="1" />&lt;Control Name="linkLabelTellMeMore" Row="5" RowSpan="1" Column="0" ColumnSpan="5" />&lt;Control Name="haNtolIndicator" Row="2" RowSpan="4" Column="5" ColumnSpan="1" />&lt;Control Name="dataGridViewVms" Row="1" RowSpan="1" Column="0" ColumnSpan="6" />&lt;/Controls>&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100" />&lt;Rows Styles="AutoSize,0,Percent,100,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Absolute,20" />&lt;/TableLayoutSettings></value>
   </data>
   <data name="button1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>

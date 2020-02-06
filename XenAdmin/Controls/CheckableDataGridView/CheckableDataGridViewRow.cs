@@ -40,14 +40,9 @@ namespace XenAdmin.Controls.CheckableDataGridView
     {
         public virtual IXenObject XenObject { get; private set; }
 
-        public delegate void CellTextUpdatedEvent(object sender, EventArgs e);
-        public event CellTextUpdatedEvent CellDataUpdated;
+        public event Action<CheckableDataGridViewRow> CellDataUpdated;
 
-        public CheckableDataGridViewRow() : this(null)
-        {
-        }
-
-        protected CheckableDataGridViewRow(IXenObject xenObject)
+        protected CheckableDataGridViewRow(IXenObject xenObject = null)
         {
             XenObject = xenObject;
         }
@@ -91,10 +86,7 @@ namespace XenAdmin.Controls.CheckableDataGridView
         /// <summary>
         /// Override this if you cells data is loaded after it is first drawn
         /// </summary>
-        public virtual bool CellDataLoaded
-        {
-            get { return true; }
-        }
+        public virtual bool CellDataLoaded => true;
 
         public virtual void BeginCellUpdate(){}
 
@@ -131,8 +123,7 @@ namespace XenAdmin.Controls.CheckableDataGridView
 
         protected void TriggerCellTextUpdatedEvent()
         {
-            if (CellDataUpdated != null)
-                CellDataUpdated(this, EventArgs.Empty);
+            CellDataUpdated?.Invoke(this);
         }
     }
 }

@@ -37,8 +37,6 @@ namespace XenAdmin.Actions
 {
     public class PoolPatchCleanAction : AsyncAction
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private readonly Pool_patch patch;
 
         public PoolPatchCleanAction(Pool pool, Pool_patch patch, bool suppressHistory)

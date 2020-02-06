@@ -195,7 +195,7 @@ namespace XenAdmin
             MarkEventsReadyToFire(false);
         }
 
-        private static void connection_ConnectionStateChanged(object sender, EventArgs e)
+        private static void connection_ConnectionStateChanged(IXenConnection conn)
         {
             InvokeHelper.Invoke(delegate
             {

@@ -29,9 +29,7 @@
  * SUCH DAMAGE.
  */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using XenAdmin.Controls;
 using XenAdmin.Wizards.GenericPages;
 using XenAPI;
@@ -40,52 +38,52 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
 {
     class CrossPoolMigrateNetworkingPage : SelectMultipleVMNetworkPage
     {
-        private readonly bool templatesOnly = false;
+        private readonly bool templatesOnly;
         private readonly WizardMode wizardMode;
 
         public CrossPoolMigrateNetworkingPage(bool templatesOnly, WizardMode wizardMode)
         {
             this.templatesOnly = templatesOnly;
             this.wizardMode = wizardMode;
-
-            InitializeText();
         }
         
         /// <summary>
         /// Gets the page's title (headline)
         /// </summary>
-        public override string PageTitle { get { return Messages.CPM_WIZARD_SELECT_NETWORK_PAGE_TITLE; } }
+        public override string PageTitle => Messages.CPM_WIZARD_SELECT_NETWORK_PAGE_TITLE;
 
         /// <summary>
         /// Gets the page's label in the (left hand side) wizard progress panel
         /// </summary>
-        public override string Text { get { return Messages.CPM_WIZARD_SELECT_NETWORK_PAGE_TEXT; } }
+        public override string Text => Messages.CPM_WIZARD_SELECT_NETWORK_PAGE_TEXT;
 
-        public override string IntroductionText
+        protected override string IntroductionText
         {
             get 
             {
                 if (templatesOnly)
                 {
-                    return 
-                        VmMappings != null && VmMappings.Count > 1 ? Messages.CPM_WIZARD_NETWORKING_INTRO_TEMPLATE : Messages.CPM_WIZARD_NETWORKING_INTRO_TEMPLATE_SINGLE;
+                    return VmMappings != null && VmMappings.Count > 1
+                        ? Messages.CPM_WIZARD_NETWORKING_INTRO_TEMPLATE
+                        : Messages.CPM_WIZARD_NETWORKING_INTRO_TEMPLATE_SINGLE;
                 }
                 else
                 {
-                    return 
-                        VmMappings != null && VmMappings.Count > 1 ? Messages.CPM_WIZARD_NETWORKING_INTRO : Messages.CPM_WIZARD_NETWORKING_INTRO_SINGLE;
+                    return VmMappings != null && VmMappings.Count > 1
+                        ? Messages.CPM_WIZARD_NETWORKING_INTRO
+                        : Messages.CPM_WIZARD_NETWORKING_INTRO_SINGLE;
                 }
             }
         }
 
-        public override string TableIntroductionText { get { return Messages.CPM_WIZARD_VM_SELECTION_INTRODUCTION; } }
+        protected override string TableIntroductionText => Messages.CPM_WIZARD_VM_SELECTION_INTRODUCTION;
 
         /// <summary>
         /// Gets the value by which the help files section for this page is identified
         /// </summary>
-        public override string HelpID { get { return wizardMode == WizardMode.Copy ? "NetworkingCopyMode" : "Networking"; } }
+        public override string HelpID => wizardMode == WizardMode.Copy ? "NetworkingCopyMode" : "Networking";
 
-        public override NetworkResourceContainer NetworkData(string sysId)
+        protected override NetworkResourceContainer NetworkData(string sysId)
         {
             VM vm = Connection.Resolve(new XenRef<VM>(sysId));
 
@@ -98,6 +96,9 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
 
         protected override bool AllowSriovNetwork(XenAPI.Network network, string sysId)
         {
+            if (sysId == null)
+                return false;
+
             VM vm = Connection.Resolve(new XenRef<VM>(sysId));
             if (vm == null)
                 return false;
@@ -118,12 +119,9 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard
             }
         }
 
-        protected override string NetworkColumnHeaderText
-        {
-            get
-            {
-                return templatesOnly ? Messages.CPS_WIZARD_NETWORKING_NETWORK_COLUMN_TEMPLATE : Messages.CPS_WIZARD_NETWORKING_NETWORK_COLUMN_VM;
-            }
-        }
+        protected override string NetworkColumnHeaderText =>
+            templatesOnly
+                ? Messages.CPS_WIZARD_NETWORKING_NETWORK_COLUMN_TEMPLATE
+                : Messages.CPS_WIZARD_NETWORKING_NETWORK_COLUMN_VM;
     }
 }

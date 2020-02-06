@@ -276,7 +276,7 @@ namespace XenAdmin.SettingsPanels
             {
                 // add "restart" priorities only is vm is agile
                 if (VM.HaPriorityIsRestart(vm.Connection, restartPriority) &&
-                    (!vmIsAgile || GpuGroup != null || VgpuType != null))
+                    (!vmIsAgile || VGpus != null && VGpus.Count > 0))
                     continue;
                 m_comboBoxProtectionLevel.Items.Add(new PriorityWrapper(restartPriority));
             }
@@ -402,9 +402,7 @@ namespace XenAdmin.SettingsPanels
 
 		public VM.HA_Restart_Priority SelectedPriority { get; private set; }
 
-        public GPU_group GpuGroup { private get; set; }
-
-        public VGPU_type VgpuType { private get; set; }
+        public List<VGPU> VGpus{ private get; set; }
 
 		private bool IsHaEditable()
 		{

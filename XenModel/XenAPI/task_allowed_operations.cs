@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,15 @@ namespace XenAPI
     [JsonConverter(typeof(task_allowed_operationsConverter))]
     public enum task_allowed_operations
     {
-        cancel, destroy, unknown
+        /// <summary>
+        /// refers to the operation &quot;cancel&quot;
+        /// </summary>
+        cancel,
+        /// <summary>
+        /// refers to the operation &quot;destroy&quot;
+        /// </summary>
+        destroy,
+        unknown
     }
 
     public static class task_allowed_operations_helper
@@ -71,4 +78,4 @@ namespace XenAPI
             writer.WriteValue(((task_allowed_operations)value).StringOf());
         }
     }
-}
+}

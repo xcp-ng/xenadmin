@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class DR_task : XenObject<DR_task>
     {
+        #region Constructors
+
         public DR_task()
         {
         }
@@ -57,13 +59,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new DR_task from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public DR_task(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new DR_task from a Proxy_DR_task.
         /// </summary>
         /// <param name="proxy"></param>
         public DR_task(Proxy_DR_task proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -75,7 +91,7 @@ namespace XenAPI
             introduced_SRs = update.introduced_SRs;
         }
 
-        internal void UpdateFromProxy(Proxy_DR_task proxy)
+        internal void UpdateFrom(Proxy_DR_task proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             introduced_SRs = proxy.introduced_SRs == null ? null : XenRef<SR>.Create(proxy.introduced_SRs);
@@ -87,17 +103,6 @@ namespace XenAPI
             result_.uuid = uuid ?? "";
             result_.introduced_SRs = introduced_SRs == null ? new string[] {} : Helper.RefListToStringArray(introduced_SRs);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new DR_task from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public DR_task(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

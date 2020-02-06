@@ -44,6 +44,8 @@ namespace XenAPI
     /// </summary>
     public partial class Sr_stat : XenObject<Sr_stat>
     {
+        #region Constructors
+
         public Sr_stat()
         {
         }
@@ -66,13 +68,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Sr_stat from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Sr_stat(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Sr_stat from a Proxy_Sr_stat.
         /// </summary>
         /// <param name="proxy"></param>
         public Sr_stat(Proxy_Sr_stat proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -89,7 +105,7 @@ namespace XenAPI
             health = update.health;
         }
 
-        internal void UpdateFromProxy(Proxy_Sr_stat proxy)
+        internal void UpdateFrom(Proxy_Sr_stat proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -111,17 +127,6 @@ namespace XenAPI
             result_.clustered = clustered;
             result_.health = sr_health_helper.ToString(health);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Sr_stat from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Sr_stat(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

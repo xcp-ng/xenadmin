@@ -31,31 +31,40 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using XenAdmin.Model;
-using System.Windows.Forms;
 using System.Xml;
 using XenAdmin.Core;
-using XenAdmin.Actions;
-using XenAPI;
-using XenAdmin.Network;
 using System.Resources;
-using System.Drawing;
 using XenAdmin.Commands;
 
 
 namespace XenAdmin.Plugins
 {
     /// <summary>
-    /// Class to describe a menu item which is added to Xencenter via a plugin and is used to launch a plugin command.
+    /// Class to describe a menu item which is added to XenCenter via a plugin and is used to launch a plugin command.
     /// </summary>
     internal class MenuItemFeature : Feature
     {
-        private readonly ParentMenuItemFeature _parentFeature;
-        private readonly PluginMenu _menu;                   // required - "menu" attribute on the "MenuItem" tag
-        private readonly PluginSerializationLevel _serialization;  // optional - "serialized" attribute on the "MenuItem" tag
-        private readonly ShellCmd _shellCmd;                            // required - One child tag specifying a command - either "Shell", "PowerShell" or "XenServerPowerShell"
-        private readonly PluginContextMenu _contextMenu = PluginContextMenu.none; // optional - "contextmenu", context menu you would like this item to appear under
+        public readonly ParentMenuItemFeature ParentFeature;
+
+        /// <summary>
+        /// (Mandatory) "menu" attribute on the "MenuItem" tag
+        /// </summary>
+        public readonly PluginMenu Menu;
+
+        /// <summary>
+        /// (Optional) "serialized" attribute on the "MenuItem" tag
+        /// </summary>
+        public readonly PluginSerializationLevel Serialized;
+
+        /// <summary>
+        /// (Mandatory) A child tag specifying a command - either "Shell", "PowerShell" or "XenServerPowerShell"
+        /// </summary>
+        public readonly ShellCmd ShellCmd;
+
+        /// <summary>
+        /// (Optional) "contextmenu"; the context menu you would like this item to appear under
+        /// </summary>
+        public readonly PluginContextMenu ContextMenu;
 
         public const string ELEMENT_NAME = "MenuItem";
         public const string TYPE_SHELL = "Shell";
@@ -67,31 +76,27 @@ namespace XenAdmin.Plugins
         public const string ATT_SERIALIZED = "serialized";
         public const string ATT_PARAM = "param";
 
-        public MenuItemFeature(ResourceManager resourceManager, XmlNode node, PluginDescriptor plugin)
-            : this(resourceManager, node, plugin, null)
-        {
-        }
 
-        public MenuItemFeature(ResourceManager resourceManager, XmlNode node, PluginDescriptor plugin, ParentMenuItemFeature parentFeature)
+        public MenuItemFeature(ResourceManager resourceManager, XmlNode node, PluginDescriptor plugin, ParentMenuItemFeature parentFeature = null)
             : base(resourceManager, node, plugin)
         {
-            _parentFeature = parentFeature;
-            _menu = Helpers.GetEnumXmlAttribute<PluginMenu>(node, ATT_MENU, PluginMenu.none);
-            _contextMenu = Helpers.GetEnumXmlAttribute<PluginContextMenu>(node, ATT_CONTEXT_MENU, GetContextMenuFromMenu(_menu));
-            _serialization = Helpers.GetEnumXmlAttribute<PluginSerializationLevel>(node, ATT_SERIALIZED, PluginSerializationLevel.none);
+            ParentFeature = parentFeature;
+            Menu = Helpers.GetEnumXmlAttribute(node, ATT_MENU, PluginMenu.none);
+            ContextMenu = Helpers.GetEnumXmlAttribute(node, ATT_CONTEXT_MENU, GetContextMenuFromMenu(Menu));
+            Serialized = Helpers.GetEnumXmlAttribute(node, ATT_SERIALIZED, PluginSerializationLevel.none);
 
             foreach (XmlNode child in node.ChildNodes)
             {   
                 switch (child.Name)
                 {
                     case TYPE_SHELL:
-                        _shellCmd = new ShellCmd(child, paramsFromXML(child));
+                        ShellCmd = new ShellCmd(child, paramsFromXML(child));
                         break;
                     case TYPE_POWERSHELL:
-                        _shellCmd = new PowerShellCmd(child, paramsFromXML(child));
+                        ShellCmd = new PowerShellCmd(child, paramsFromXML(child));
                         break;
                     case TYPE_XENSERVER_POWERSHELL:
-                        _shellCmd = new XenServerPowershellCmd(child, paramsFromXML(child));
+                        ShellCmd = new XenServerPowershellCmd(child, paramsFromXML(child));
                         break;
                 }
                 return;
@@ -100,7 +105,7 @@ namespace XenAdmin.Plugins
 
         public override string CheckForError()
         {
-            if (_menu == PluginMenu.none)
+            if (Menu == PluginMenu.none)
                 return string.Format(Messages.CANNOT_PARSE_NODE_PARAM, node.Name, ATT_MENU);
 
             if (node.ChildNodes.Count != 1)
@@ -133,65 +138,26 @@ namespace XenAdmin.Plugins
 
         public MenuItemFeatureCommand GetCommand(IMainWindow mainWindow, IEnumerable<SelectedItem> selection)
         {
-            return new MenuItemFeatureCommand(mainWindow, selection, this, Search, _serialization);
-        }
-
-
-        public ParentMenuItemFeature ParentFeature
-        {
-            get
-            {
-                return _parentFeature;
-            }
-        }
-
-        public PluginMenu Menu
-        {
-            get
-            {
-                return _menu;
-            }
-        }
-
-        public PluginContextMenu ContextMenu
-        {
-            get
-            {
-                return _contextMenu;
-            }
-        }
-
-        public ShellCmd ShellCmd
-        {
-            get
-            {
-                return _shellCmd;
-            }
+            return new MenuItemFeatureCommand(mainWindow, selection, this, Search, Serialized);
         }
 
         public static PluginContextMenu GetContextMenuFromMenu(PluginMenu menu)
         {
-            if (menu == PluginMenu.pool)
+            switch (menu)
             {
-                return PluginContextMenu.pool;
+                case PluginMenu.pool:
+                    return PluginContextMenu.pool;
+                case PluginMenu.server:
+                    return PluginContextMenu.server;
+                case PluginMenu.storage:
+                    return PluginContextMenu.storage;
+                case PluginMenu.templates:
+                    return PluginContextMenu.template;
+                case PluginMenu.vm:
+                    return PluginContextMenu.vm;
+                default:
+                    return PluginContextMenu.none;
             }
-            else if (menu == PluginMenu.server)
-            {
-                return PluginContextMenu.server;
-            }
-            else if (menu == PluginMenu.storage)
-            {
-                return PluginContextMenu.storage;
-            }
-            else if (menu == PluginMenu.templates)
-            {
-                return PluginContextMenu.template;
-            }
-            else if (menu == PluginMenu.vm)
-            {
-                return PluginContextMenu.vm;
-            }
-            return PluginContextMenu.none;
         }
 
     }

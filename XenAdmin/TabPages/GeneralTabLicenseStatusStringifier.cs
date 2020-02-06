@@ -48,10 +48,10 @@ namespace XenAdmin.TabPages
         {
             get
             {
-                if (Status != null && Status.LicencedHost != null && Status.LicenseExpiresIn != null
+                if (Status != null && Status.LicensedHost != null && Status.LicenseExpiresIn != null
                     && !LicenseStatus.IsInfinite(Status.LicenseExpiresIn))
                 {
-                    return HelpersGUI.DateTimeToString(Status.LicencedHost.LicenseExpiryUTC().ToLocalTime(),
+                    return HelpersGUI.DateTimeToString(Status.LicensedHost.LicenseExpiryUTC().ToLocalTime(),
                         Messages.DATEFORMAT_DMY_LONG, true);
                 }
 

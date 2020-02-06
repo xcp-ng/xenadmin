@@ -1,6 +1,6 @@
 ﻿namespace XenAdmin.Dialogs
 {
-    partial class RestoreVMsDialog
+    partial class ExitMaintenanceModeDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RestoreVMsDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExitMaintenanceModeDialog));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanelBody = new System.Windows.Forms.TableLayoutPanel();
             this.labelBlurb = new System.Windows.Forms.Label();

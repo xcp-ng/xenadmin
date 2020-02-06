@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class PVS_proxy : XenObject<PVS_proxy>
     {
+        #region Constructors
+
         public PVS_proxy()
         {
         }
@@ -63,13 +65,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new PVS_proxy from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public PVS_proxy(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new PVS_proxy from a Proxy_PVS_proxy.
         /// </summary>
         /// <param name="proxy"></param>
         public PVS_proxy(Proxy_PVS_proxy proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -84,7 +100,7 @@ namespace XenAPI
             status = update.status;
         }
 
-        internal void UpdateFromProxy(Proxy_PVS_proxy proxy)
+        internal void UpdateFrom(Proxy_PVS_proxy proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             site = proxy.site == null ? null : XenRef<PVS_site>.Create(proxy.site);
@@ -102,17 +118,6 @@ namespace XenAPI
             result_.currently_attached = currently_attached;
             result_.status = pvs_proxy_status_helper.ToString(status);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new PVS_proxy from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public PVS_proxy(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

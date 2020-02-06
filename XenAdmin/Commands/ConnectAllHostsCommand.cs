@@ -66,15 +66,14 @@ namespace XenAdmin.Commands
                         {
                             c.CachePopulated += c_CachePopulated;
                         }
-                        XenConnectionUI.BeginConnect(c, false, null, false);
+                        XenConnectionUI.BeginConnect(c, false, Program.MainWindow, false);
                     });
                 }
             }
         }
 
-        private void c_CachePopulated(object sender, EventArgs e)
+        private void c_CachePopulated(IXenConnection c)
         {
-            IXenConnection c = (IXenConnection)sender;
             c.CachePopulated -= c_CachePopulated;
 
             MainWindowCommandInterface.TrySelectNewObjectInTree(c, false, true, false);

@@ -185,7 +185,7 @@ namespace XenAdmin.Wizards.GenericPages
                 Cells.Add(_nameCell);
                 Cells.Add(_descriptionCell);
                 Cells.Add(_currentGroupCell);
-                if (VMGroup<T>.isQuescingSupported)
+                if (VMGroup<T>.IsQuiescingSupported(vm.Connection))
                 {
                     _quiesce_supported = new DataGridViewTextBoxCell();
                     Cells.Add(_quiesce_supported);
@@ -200,7 +200,7 @@ namespace XenAdmin.Wizards.GenericPages
                 _descriptionCell.Value = Vm.Description();
                 T group = Vm.Connection.Resolve(VMGroup<T>.VmToGroup(Vm));
                 _currentGroupCell.Value = group == null ? Messages.NONE : group.Name();
-                if(VMGroup<T>.isQuescingSupported)
+                if(VMGroup<T>.IsQuiescingSupported(Vm.Connection))
                 {
                     if (Vm.allowed_operations.Contains((vm_operations.snapshot_with_quiesce)) && !Helpers.FeatureForbidden(Vm, Host.RestrictVss))
                     {
@@ -222,7 +222,7 @@ namespace XenAdmin.Wizards.GenericPages
         private T _group = null;
         private void RefreshTab(T group)
         {
-            ColumnQuiesceSupported.Visible = VMGroup<T>.isQuescingSupported;
+            ColumnQuiesceSupported.Visible = VMGroup<T>.IsQuiescingSupported(Pool?.Connection);
             _group = group;
             if (Pool != null)
             {

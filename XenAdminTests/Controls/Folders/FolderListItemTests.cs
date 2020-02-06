@@ -29,7 +29,7 @@
  * SUCH DAMAGE.
  */
 
-using System.Collections.Generic;
+
 using System.Drawing;
 using System.Windows.Forms;
 using NUnit.Framework;
@@ -37,39 +37,37 @@ using XenAdmin.Controls;
 
 namespace XenAdminTests.Controls.Folders
 {
-    public class FolderListItemTests : UnitTester_TestFixture
+    [TestFixture, Category(TestCategories.Unit)]
+    public class FolderListItemTests
     {
+        private Control parent;
 
-        //TODO: Seems to fail on the build machine - commented out temporarily
-        //[Test, TestCaseSource("PathNameTestData")]
-        public void CalculatePreferedSizes(TestData tc)
+        [SetUp]
+        public void TestSetup()
         {
-            FolderListItem item = new FolderListItem(tc.Path, FolderListItem.AllowSearch.None, false){MaxWidth = 50};
-            Control parent = new Control {Font = new Font(FontFamily.GenericMonospace, 10)};
-            item.Parent = parent;
-            Assert.That(item.PreferredSize.Width, Is.EqualTo(tc.ExpectedWidth), "Width");
-            Assert.That(item.Path, Is.EqualTo(tc.Path), "Path");
+            parent = new Control { Font = new Font(FontFamily.GenericMonospace, 10) };
+        }
+
+        [TearDown]
+        public void TestTearDown()
+        {
             parent.Dispose();
         }
 
-        public class TestData
+        [Test]
+        [TestCase("", ExpectedResult = 43)]
+        [TestCase("mypath", ExpectedResult = 44)]
+        [TestCase("mypathmypathmypathmypathmypathmypathmypathmypathmypathmypathmypath", ExpectedResult = 454)]
+        public int CalculatePreferedSizes(string path)
         {
-            public string Path { get; set; }
-            public int ExpectedWidth { get; set; }
-        }
-
-        private IEnumerable<TestData> PathNameTestData
-        {
-            get
+            var item = new FolderListItem(path, FolderListItem.AllowSearch.None, false)
             {
-                yield return new TestData { Path = "", ExpectedWidth = 43};
-                yield return new TestData { Path = "mypath", ExpectedWidth = 44 };
-                yield return new TestData
-                                 {
-                                     Path = "mypathmypathmypathmypathmypathmypathmypathmypathmypathmypathmypath",
-                                     ExpectedWidth = 454
-                                 };
-            }
+                MaxWidth = 50,
+                Parent = parent
+            };
+
+            Assert.AreEqual(path, item.Path);
+            return item.PreferredSize.Width;
         }
     }
 }

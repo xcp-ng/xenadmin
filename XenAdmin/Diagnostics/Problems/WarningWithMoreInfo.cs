@@ -41,7 +41,7 @@ namespace XenAdmin.Diagnostics.Problems
         {
         }
         
-        public override string HelpMessage => Messages.PATCHINGWIZARD_MORE_INFO;
+        public override string HelpMessage => Messages.MORE_INFO;
 
         protected override Actions.AsyncAction CreateAction(out bool cancelled)
         {

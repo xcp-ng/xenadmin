@@ -30,8 +30,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using XenCenterLib;
 
@@ -40,21 +38,13 @@ namespace XenAdmin.Dialogs.RestoreSession
 {
     public partial class SetMasterPasswordDialog : XenDialogBase
     {
-        private byte[] passHash;
-
         public SetMasterPasswordDialog()
         {
             InitializeComponent();
             newPasswordError.Visible = false;
         }
 
-        public byte[] NewPassword
-        {
-            get
-            {
-                return passHash;
-            }
-        }
+        public byte[] NewPassword { get; private set; }
 
         private void masterTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -70,29 +60,18 @@ namespace XenAdmin.Dialogs.RestoreSession
         {
             if (!string.IsNullOrEmpty(masterTextBox.Text) && masterTextBox.Text == reEnterMasterTextBox.Text)
             {
-                passHash = EncryptionUtils.ComputeHash(masterTextBox.Text);
+                NewPassword = EncryptionUtils.ComputeHash(masterTextBox.Text);
                 DialogResult = DialogResult.OK;
-                Close();
+                return;
             }
-            else if (masterTextBox.Text != reEnterMasterTextBox.Text)
-            {
-                newPasswordError.Error = Messages.PASSWORDS_DONT_MATCH;
-                newPasswordError.Visible = true;
-                masterTextBox.Focus();
-                masterTextBox.SelectAll();
-            }
-            else
-            {
-                newPasswordError.Error = Messages.PASSWORDS_EMPTY;
-                newPasswordError.Visible = true;
-                masterTextBox.Focus();
-                masterTextBox.SelectAll();
-            }
-        }
 
-        private void cancelButton_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
+            if (masterTextBox.Text != reEnterMasterTextBox.Text)
+                newPasswordError.ShowError(Messages.PASSWORDS_DONT_MATCH);
+            else
+                newPasswordError.ShowError(Messages.PASSWORDS_EMPTY);
+
+            masterTextBox.Focus();
+            masterTextBox.SelectAll();
         }
     }
 }

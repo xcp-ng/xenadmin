@@ -46,7 +46,7 @@ namespace XenAdmin.Dialogs.Network
         public UnknownCertificateDialog(X509Certificate certificate,string hostname)
         {
             InitializeComponent();
-            AutoAcceptCheckBox.Enabled = Registry.AlwaysShowSSLCertificates != SSLCertificateTypes.All;
+            AutoAcceptCheckBox.Enabled = Registry.SSLCertificateTypes != SSLCertificateTypes.All;
             _hostname = hostname;
             Certificate = certificate;
 

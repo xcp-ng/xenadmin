@@ -31,9 +31,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using XenAdmin.Controls;
 using XenAdmin.Controls.Common;
 using XenCenterLib;
@@ -49,16 +49,16 @@ namespace XenAdmin.Wizards.ImportWizard
 	/// </summary>
 	internal partial class ImportOptionsPage : XenTabPage
 	{
-        private SR m_selectedIsoSr;
-		private string m_isoFilename;
 		private IEnumerable<Host> m_hostTargets;
         private bool m_buttonNextEnabled;
-	    private bool m_fixupISOInLibrary;
-        private List<SR> m_srsWithRegisteredEvents = new List<SR>();
+        private readonly List<SR> m_srsWithRegisteredEvents = new List<SR>();
+        private readonly CollectionChangeEventHandler PBD_CollectionChangedWithInvoke;
 
 		public ImportOptionsPage()
 		{
 			InitializeComponent();
+            m_radioButtonDontRunOSFixups.Checked = true;
+            PBD_CollectionChangedWithInvoke = Program.ProgramInvokeHandler(PBD_CollectionChanged);
             m_ctrlError.HideError();
 		}
 
@@ -67,43 +67,29 @@ namespace XenAdmin.Wizards.ImportWizard
 		/// <summary>
 		/// Gets the page's title (headline)
 		/// </summary>
-		public override string PageTitle
-		{
-			get { return Messages.IMPORT_OPTIONS_PAGE_TITLE; }
-		}
+        public override string PageTitle => Messages.IMPORT_OPTIONS_PAGE_TITLE;
 
 		/// <summary>
 		/// Gets the page's label in the (left hand side) wizard progress panel
 		/// </summary>
-		public override string Text
-		{
-			get { return Messages.IMPORT_OPTIONS_PAGE_TEXT; }
-		}
+        public override string Text => Messages.IMPORT_OPTIONS_PAGE_TEXT;
 
-        protected override bool ImplementsIsDirty()
+        protected override void PageLoadedCore(PageLoadedDirection direction)
         {
-            return true;
-        }
+            PopulateComboBox();
 
-        public override void PopulatePage()
-		{
-            var isoName = Path.GetFileName(XenOvf.Properties.Settings.Default.xenLinuxFixUpDisk);
-			VDI theVdi = Connection.Cache.VDIs.FirstOrDefault(vdi => vdi != null && vdi.name_label == isoName);
-
-            m_fixupISOInLibrary = theVdi != null;
-            if (m_fixupISOInLibrary) //found existing fixup ISO on an ISO SR
+            Connection.Cache.RegisterCollectionChanged<PBD>(PBD_CollectionChangedWithInvoke);
+            foreach (PBD pbd in Connection.Cache.PBDs)
             {
-                PopulateComboBox(Connection.Resolve(theVdi.SR));
+                pbd.PropertyChanged -= server_PropertyChanged;
+                pbd.PropertyChanged += server_PropertyChanged;
             }
-            else //iso has not been placed on an ISO SR
-			{
-                GetFixupIsoInfo();
-                PopulateComboBox();
-			}
-
-            ResetSelectedIsoSr();
-            m_radioButtonDontRunOSFixups.Checked = true;
 		}
+
+        protected override void PageLeaveCore(PageLoadedDirection direction, ref bool cancel)
+        {
+            DeregisterEvents();
+        }
 
         public override bool EnableNext()
         {
@@ -114,11 +100,14 @@ namespace XenAdmin.Wizards.ImportWizard
 
 		#region Accessors
 
-		public bool RunFixups { get { return m_radioButtonRunOSFixups.Checked; } }
+        public bool RunFixups => m_radioButtonRunOSFixups.Checked;
 
-		public SR SelectedIsoSR { get { return m_selectedIsoSr; } }
+        public SR SelectedIsoSR { get; private set; }
 
-		public Dictionary<string, VmMapping> VmMappings { set { m_hostTargets = from VmMapping mapping in value.Values select Connection.Resolve(mapping.XenRef as XenRef<Host>); } }
+        public Dictionary<string, VmMapping> VmMappings
+        {
+            set { m_hostTargets = from VmMapping mapping in value.Values select Connection.Resolve(mapping.XenRef as XenRef<Host>); }
+        }
 
 		#endregion
 
@@ -128,10 +117,13 @@ namespace XenAdmin.Wizards.ImportWizard
         /// Performs certain checks on the pages's input data and shows/hides an error accordingly
         /// </summary>
         /// <param name="checks">The checks to perform</param>
-        private void PerformCheck(params CheckDelegate[] checks)
+        private bool PerformCheck(params CheckDelegate[] checks)
         {
-            m_buttonNextEnabled = m_ctrlError.PerformCheck(checks);
+            var success = m_ctrlError.PerformCheck(checks);
+            m_buttonNextEnabled = success;
+            m_pictureBoxInfo.Visible = m_labelFixupISOInfo.Visible = success;
             OnPageUpdated();
+            return success;
         }
 
 		private bool IsIsoSrSelectable(SR sr)
@@ -144,10 +136,16 @@ namespace XenAdmin.Wizards.ImportWizard
 
         private void DeregisterEvents()
         {
-            foreach (var sr in m_srsWithRegisteredEvents)
+            if (Connection != null)
             {
-                sr.PropertyChanged -= sr_PropertyChanged;
+                Connection.Cache.DeregisterCollectionChanged<PBD>(PBD_CollectionChangedWithInvoke);
+
+                foreach (PBD pbd in Connection.Cache.PBDs)
+                    pbd.PropertyChanged -= server_PropertyChanged;
             }
+
+            foreach (var sr in m_srsWithRegisteredEvents)
+                sr.PropertyChanged -= server_PropertyChanged;
         }
 
         private string GetSRDropDownItemDisplayString(SR sr)
@@ -157,119 +155,176 @@ namespace XenAdmin.Wizards.ImportWizard
 
         private void PopulateComboBox()
         {
-            PopulateComboBox(null);
-        }
-
-        private void PopulateComboBox(SR selectedSR)
-		{
-			var availableSRs = new List<SR>();
-
-            foreach (var sr in Connection.Cache.SRs)
-			{
-                if (IsIsoSrSelectable(sr))
-                {
-                    if (!m_srsWithRegisteredEvents.Contains(sr))
-                        m_srsWithRegisteredEvents.Add(sr);
-
-                    sr.PropertyChanged -= sr_PropertyChanged;
-                    sr.PropertyChanged += sr_PropertyChanged;
-                    
-                    availableSRs.Add(sr);
-                }
-			}
-
-			try
-			{
+            try
+            {
                 m_comboBoxISOLibraries.SuspendLayout();
+                int selectedIndex = m_comboBoxISOLibraries.SelectedIndex;
+
+                foreach (var item in m_comboBoxISOLibraries.Items)
+                {
+                    if (item is ToStringWrapper<SR> wrapper && wrapper.item != null)
+                        wrapper.item.PropertyChanged -= server_PropertyChanged;
+                }
                 m_comboBoxISOLibraries.Items.Clear();
+
                 m_comboBoxISOLibraries.Items.Add(new ToStringWrapper<SR>(null, Messages.IMPORT_OPTIONS_PAGE_CHOOSE_ISO_SR));
-                SetSelectedIndexWithoutEvent(0);
-
-				foreach (var sr in availableSRs)
-				{
-				    int index = m_comboBoxISOLibraries.Items.Add(new ToStringWrapper<SR>(sr, GetSRDropDownItemDisplayString));
-                    if (selectedSR != null && selectedSR.Equals(sr))
-                        SetSelectedIndexWithoutEvent(index);
-				}
-
                 m_comboBoxISOLibraries.Items.Add(new ToStringWrapper<SR>(null, Messages.IMPORT_OPTIONS_PAGE_NEW_ISO_LIBRARY));
-			}
+
+                var isoName = OVF.GetISOFixupFileName();
+
+                var availableSRs = Connection.Cache.SRs;
+                foreach (var sr in availableSRs)
+                {
+                    if (!IsIsoSrSelectable(sr))
+                        continue;
+
+                    int index = AddReplaceSrItem(sr);
+                    if (selectedIndex < 0)
+                    {
+                        foreach (var vdiRef in sr.VDIs)
+                        {
+                            var vdi = Connection.Resolve(vdiRef);
+                            if (vdi != null && vdi.name_label == isoName)
+                            {
+                                selectedIndex = index;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (m_comboBoxISOLibraries.SelectedIndex < 0)
+                    SetSelectedIndexProgrammatically(selectedIndex < 0 ? 0 : selectedIndex);
+            }
 			finally
 			{
                 m_comboBoxISOLibraries.ResumeLayout();
 			}
 		}
 
-		private void GetFixupIsoInfo()
-		{
-            m_isoFilename = OVF.GetISOFixupFileName();
-        }
-
-		/// <summary>
-		/// Checks fixup ISO exists in the XenCenter installation directory
-		/// </summary>
 		private bool CheckFixupIsoInXencenterInstallation(out string error)
 		{
 			error = string.Empty;
 
-            if (m_radioButtonDontRunOSFixups.Checked || m_fixupISOInLibrary || !string.IsNullOrEmpty(m_isoFilename))
+            var theVdi = Connection.Cache.VDIs.FirstOrDefault(vdi => vdi != null && vdi.name_label == OVF.GetISOFixupFileName());
+
+            if (theVdi != null || File.Exists(OVF.GetISOFixupPath()))
                 return true;
             
 			error = Messages.IMPORT_OPTIONS_PAGE_ERROR_NO_FIXUP_ISO_INSTALLED;
 		    return false;
 		}
 
-		private bool CheckSelectedFixupValid(out string error)
-		{
-			error = String.Empty;
+        private bool CheckCanCreateVdiOnIsoSr(out string error)
+        {
+            error = string.Empty;
 
-		    return m_radioButtonDontRunOSFixups.Checked || m_selectedIsoSr != null;
-		}
+            SM sm = null;
+            if (SelectedIsoSR != null)
+                sm = SM.GetByType(Connection, SelectedIsoSR.type);
 
-		private void sr_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-            if (e.PropertyName != "name_label" && e.PropertyName != "physical_size" &&
-                e.PropertyName != "physical_utilisation")
+            if (sm != null && sm.capabilities.Contains("VDI_CREATE"))
+                return true;
+
+            error = Messages.IMPORT_OPTIONS_PAGE_CANNOT_USE_SELECTED_ISO_LIBRARY;
+            return false;
+        }
+
+		private void PBD_CollectionChanged(object sender, CollectionChangeEventArgs e)
+        {
+            if (!(e.Element is PBD pbd))
                 return;
 
-			var sr = sender as SR;
-			if (sr == null)
+            switch (e.Action)
+            {
+                case CollectionChangeAction.Add:
+                    pbd.PropertyChanged -= server_PropertyChanged;
+                    pbd.PropertyChanged += server_PropertyChanged;
+                    break;
+                case CollectionChangeAction.Remove:
+                    pbd.PropertyChanged -= server_PropertyChanged;
+                    break;
+            }
+        }
+
+        private void server_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+            if (e.PropertyName != "name_label" && e.PropertyName != "physical_size" &&
+                e.PropertyName != "physical_utilisation" &&
+                e.PropertyName != "currently_attached")
+                return;
+
+            var sr = sender is PBD pbd ? Connection.Resolve(pbd.SR) : sender as SR;
+            if (sr == null)
 				return;
 
-			bool selectable = IsIsoSrSelectable(sr);
-		    var existingItems =
-		        m_comboBoxISOLibraries.Items.OfType<ToStringWrapper<SR>>().Where(wrapper => sr.Equals(wrapper.item));
-            if (existingItems.Count() == 1)
-			{
-                if (selectable)
-                    Program.Invoke(this, () =>
-                                             {
-                                                 var wrapper = existingItems.First();
-                                                 m_comboBoxISOLibraries.SuspendLayout();
-                                                 try
-                                                 {
-                                                     int index = m_comboBoxISOLibraries.Items.IndexOf(wrapper);
-                                                     int selectedIndex = m_comboBoxISOLibraries.SelectedIndex;
-                                                     m_comboBoxISOLibraries.Items.RemoveAt(index);
-                                                     m_comboBoxISOLibraries.Items.Insert(index, new ToStringWrapper<SR>(sr, GetSRDropDownItemDisplayString));
-                                                     SetSelectedIndexWithoutEvent(selectedIndex);
-                                                 }
-                                                 finally
-                                                 {
-                                                     m_comboBoxISOLibraries.ResumeLayout();
-                                                 }
-                                             });
-                else
-                    Program.Invoke(this, PopulateComboBox);
-			}
-			else if (selectable)
-			{
-				Program.Invoke(this, PopulateComboBox);
-			}
-		}
+            if (IsIsoSrSelectable(sr))
+                AddReplaceSrItem(sr);
+            else
+                RemoveSrItem(sr);
+        }
 
-        private void SetSelectedIndexWithoutEvent(int newIndex)
+        private int FindSrItem(SR sr)
         {
+            var existing = m_comboBoxISOLibraries.Items.OfType<ToStringWrapper<SR>>().Where(wrapper => sr.Equals(wrapper.item)).ToList();
+            return existing.Count > 0 ? m_comboBoxISOLibraries.Items.IndexOf(existing.First()) : -1;
+        }
+
+        private int AddReplaceSrItem(SR sr)
+        {
+            try
+            {
+                m_comboBoxISOLibraries.SuspendLayout();
+
+                int selectedIndex = m_comboBoxISOLibraries.SelectedIndex;
+                int index = FindSrItem(sr);
+
+                if (index < 0)
+                {
+                    if (!m_srsWithRegisteredEvents.Contains(sr))
+                        m_srsWithRegisteredEvents.Add(sr);
+
+                    sr.PropertyChanged -= server_PropertyChanged;
+                    sr.PropertyChanged += server_PropertyChanged;
+
+                    index = m_comboBoxISOLibraries.Items.Count - 1;
+                }
+                else
+                {
+                    m_comboBoxISOLibraries.Items.RemoveAt(index);
+                }
+
+                m_comboBoxISOLibraries.Items.Insert(index, new ToStringWrapper<SR>(sr, GetSRDropDownItemDisplayString));
+                SetSelectedIndexProgrammatically(selectedIndex);
+                return index;
+            }
+            finally
+            {
+                m_comboBoxISOLibraries.ResumeLayout();
+            }
+        }
+
+        private void RemoveSrItem(SR sr)
+        {
+            int index = FindSrItem(sr);
+            if (index < 0)
+                return;
+
+            sr.PropertyChanged -= server_PropertyChanged;
+            m_comboBoxISOLibraries.Items.RemoveAt(index);
+
+            if (m_comboBoxISOLibraries.SelectedIndex < 0)
+                SetSelectedIndexProgrammatically(0);
+        }
+
+        private void SetSelectedIndexProgrammatically(int newIndex)
+        {
+            if (m_radioButtonRunOSFixups.Checked)
+            {
+                m_comboBoxISOLibraries.SelectedIndex = newIndex;
+                return;
+            }
+
             m_comboBoxISOLibraries.SelectedIndexChanged -= m_comboBoxISOLibraries_SelectedIndexChanged;
             try
             {
@@ -281,42 +336,53 @@ namespace XenAdmin.Wizards.ImportWizard
             }
         }
 
-        private bool IsNewISOLibraryItem(ToStringWrapper<SR> wrapper)
+        private bool IsNewISOLibraryItem()
         {
-            return (wrapper.Equals(m_comboBoxISOLibraries.Items[m_comboBoxISOLibraries.Items.Count - 1]) &&
-                    wrapper.ToStringProperty.Equals(Messages.IMPORT_OPTIONS_PAGE_NEW_ISO_LIBRARY));
+            return m_comboBoxISOLibraries.SelectedItem is ToStringWrapper<SR> wrapper &&
+                   wrapper.Equals(m_comboBoxISOLibraries.Items[m_comboBoxISOLibraries.Items.Count - 1]) &&
+                   wrapper.ToStringProperty.Equals(Messages.IMPORT_OPTIONS_PAGE_NEW_ISO_LIBRARY);
         }
 
-        private void OpenNewSRWizard()
+        private void ValidateSelection()
         {
-            SetSelectedIndexWithoutEvent(0);
-            ResetControlsAfterSelectedIndexChanged();
-
-            NewSRWizard wizard = new NewSRWizard(Connection);
-			wizard.CheckNFSISORadioButton();
-
-            if (wizard.ShowDialog() == DialogResult.OK)
-                PopulateComboBox();
-        }
-
-        private void ResetSelectedIsoSr()
-        {
-            ToStringWrapper<SR> wrapper = m_comboBoxISOLibraries.SelectedItem as ToStringWrapper<SR>;
-            m_selectedIsoSr = wrapper != null ? wrapper.item : null;
-        }
-
-        private void ResetControlsAfterSelectedIndexChanged()
-        {
-            ResetSelectedIsoSr();
-            PerformCheck(CheckFixupIsoInXencenterInstallation, CheckSelectedFixupValid);
-
-            if (!m_ctrlError.Visible)
+            if (m_radioButtonDontRunOSFixups.Checked)
             {
-                m_pictureBoxInfo.Visible = m_selectedIsoSr != null;
-                m_labelFixupISOInfo.Visible = m_selectedIsoSr != null;
-                if (m_labelFixupISOInfo.Visible)
-                    m_labelFixupISOInfo.Text = Messages.IMPORT_OPTIONS_PAGE_USE_SELECTED_ISO_LIBRARY;
+                m_buttonNextEnabled = true;
+                m_pictureBoxInfo.Visible = m_labelFixupISOInfo.Visible = m_ctrlError.Visible = false;
+                OnPageUpdated();
+                return;
             }
+
+            SelectedIsoSR = m_radioButtonRunOSFixups.Checked && m_comboBoxISOLibraries.SelectedItem is ToStringWrapper<SR> wrapper
+                ? wrapper.item
+                : null;
+
+            if (!PerformCheck((out string error) =>
+            {
+                error = null;
+                return SelectedIsoSR != null;
+            }))
+                return;
+
+            if (!PerformCheck(CheckFixupIsoInXencenterInstallation))
+                return;
+
+            var isoName = OVF.GetISOFixupFileName();
+
+            foreach (var vdiRef in SelectedIsoSR.VDIs)
+            {
+                var vdi = Connection.Resolve(vdiRef);
+                if (vdi != null && vdi.name_label == isoName)
+                {
+                    m_labelFixupISOInfo.Text = Messages.IMPORT_OPTIONS_PAGE_FOUND_EXISTING_ISO;
+                    return;
+                }
+            }
+
+            if (!PerformCheck(CheckCanCreateVdiOnIsoSr))
+                return;
+
+            m_labelFixupISOInfo.Text = Messages.IMPORT_OPTIONS_PAGE_USE_SELECTED_ISO_LIBRARY;
         }
 
         #endregion
@@ -325,54 +391,29 @@ namespace XenAdmin.Wizards.ImportWizard
 
         private void m_comboBoxISOLibraries_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ToStringWrapper<SR> wrapper = m_comboBoxISOLibraries.SelectedItem as ToStringWrapper<SR>;
-            if (wrapper == null)
-                return;
+            if (!m_radioButtonRunOSFixups.Checked)
+                m_radioButtonRunOSFixups.Checked = true;
 
-            if (IsNewISOLibraryItem(wrapper))
+            ValidateSelection();
+
+            if (IsNewISOLibraryItem())
             {
-                OpenNewSRWizard();
-                return;
+                var wizard = new NewSRWizard(Connection);
+                wizard.CheckNFSISORadioButton();
+                wizard.ShowDialog();
             }
-
-            ResetControlsAfterSelectedIndexChanged();
         }
 
         private void m_radioButtonRunOSFixups_CheckedChanged(object sender, EventArgs e)
         {
             if (m_radioButtonRunOSFixups.Checked)
-            {
-                m_labelLocationFixupISO.Enabled = true;
-                PerformCheck(CheckFixupIsoInXencenterInstallation, CheckSelectedFixupValid);
-
-                if (!m_ctrlError.Visible)
-                {
-                    SR sr = m_selectedIsoSr;
-                    m_comboBoxISOLibraries.Enabled = !m_fixupISOInLibrary || sr == null;
-                    if (sr != null)
-                    {
-                        m_pictureBoxInfo.Visible = true;
-                        m_labelFixupISOInfo.Visible = true;
-                        m_labelFixupISOInfo.Text = m_fixupISOInLibrary
-                                                       ? Messages.IMPORT_OPTIONS_PAGE_FOUND_EXISTING_ISO
-                                                       : Messages.IMPORT_OPTIONS_PAGE_USE_SELECTED_ISO_LIBRARY;
-                    }
-                }
-                IsDirty = true;
-            }
+                ValidateSelection();
         }
 
         private void m_radioButtonDontRunOSFixups_CheckedChanged(object sender, EventArgs e)
         {
             if (m_radioButtonDontRunOSFixups.Checked)
-            {
-                m_labelLocationFixupISO.Enabled = false;
-                m_comboBoxISOLibraries.Enabled = false;
-                m_pictureBoxInfo.Visible = false;
-                m_labelFixupISOInfo.Visible = false;
-
-                PerformCheck(CheckFixupIsoInXencenterInstallation);
-            }
+                ValidateSelection();
         }
 
         #endregion

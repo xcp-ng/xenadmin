@@ -262,7 +262,7 @@
     <value>7</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>ネット上の [XenCenter] プラグイン</value>
+    <value>[XenCenter] プラグインをオンラインで検索</value>
   </data>
   <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
     <value>linkLabel1</value>
@@ -301,7 +301,7 @@
     <value>1</value>
   </data>
   <data name="refreshButton.Text" xml:space="preserve">
-    <value>Plugins フォルダのスキャン(&amp;S)</value>
+    <value>Plug-ins フォルダのスキャン(&amp;S)</value>
   </data>
   <data name="&gt;&gt;refreshButton.Name" xml:space="preserve">
     <value>refreshButton</value>
@@ -364,7 +364,7 @@
     <value>1</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Plugins フォルダのスキャン中... お待ちください。</value>
+    <value>Plug-ins フォルダのスキャン中... お待ちください。</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>

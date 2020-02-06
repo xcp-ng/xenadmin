@@ -210,6 +210,9 @@
   <data name="Description-host.system_status-network-status" xml:space="preserve">
     <value>网络接口、路由表和防火墙的当前状态</value>
   </data>
+  <data name="Description-host.system_status-NVIDIA-logs" xml:space="preserve">
+    <value>包含有助于诊断 NVIDIA 的图形驱动程序问题的日志和详细信息。</value>
+  </data>
   <data name="Description-host.system_status-oem" xml:space="preserve">
     <value>收集特定于 OEM 提供商的数据。</value>
   </data>
@@ -292,13 +295,13 @@
     <value>无法识别 XML 节点“{0}”。</value>
   </data>
   <data name="Exception-PowerShellExecutionPolicyRestricted" xml:space="preserve">
-    <value>PowerShell“ExecutionPolicy”等于“受限制”时，无法加载 XenServerPSSnapIn。</value>
+    <value>PowerShell“ExecutionPolicy”设置为“受限制”时，无法加载 XenServerPSModule。</value>
   </data>
   <data name="Exception-PowerShellNotPresent" xml:space="preserve">
-    <value>必须安装 Powershell 才能使用 Powershell 插件。可以从 Microsoft 网站下载 Powershell。</value>
+    <value>必须安装 PowerShell 才能使用 PowerShell 插件。可以从 Microsoft Web 站点下载 PowerShell。</value>
   </data>
   <data name="Exception-PowerShellSnapInNotPresent" xml:space="preserve">
-    <value>必须安装 XenServerPSSnapIn 才能使用 [XenServer] PowerShell 命令。可以在 SDK 中找到 XenServerPSSnapIn。</value>
+    <value>必须安装 XenServerPSModule 才能使用 [XenServer] PowerShell 命令。可以在 SDK 中找到 XenServerPSModule。</value>
   </data>
   <data name="Exception-SearchParseFailed" xml:space="preserve">
     <value>无法解析插件“{1}”的搜索“{0}”。</value>
@@ -662,6 +665,9 @@
   </data>
   <data name="Label-host.system_status-network-status" xml:space="preserve">
     <value>网络状态</value>
+  </data>
+  <data name="Label-host.system_status-NVIDIA-logs" xml:space="preserve">
+    <value>NVIDIA 图形驱动程序日志</value>
   </data>
   <data name="Label-host.system_status-oem" xml:space="preserve">
     <value>OEM 专有日志</value>

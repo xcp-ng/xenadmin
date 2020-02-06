@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,27 @@ namespace XenAPI
     [JsonConverter(typeof(task_status_typeConverter))]
     public enum task_status_type
     {
-        pending, success, failure, cancelling, cancelled, unknown
+        /// <summary>
+        /// task is in progress
+        /// </summary>
+        pending,
+        /// <summary>
+        /// task was completed successfully
+        /// </summary>
+        success,
+        /// <summary>
+        /// task has failed
+        /// </summary>
+        failure,
+        /// <summary>
+        /// task is being cancelled
+        /// </summary>
+        cancelling,
+        /// <summary>
+        /// task has been cancelled
+        /// </summary>
+        cancelled,
+        unknown
     }
 
     public static class task_status_type_helper
@@ -77,4 +96,4 @@ namespace XenAPI
             writer.WriteValue(((task_status_type)value).StringOf());
         }
     }
-}
+}

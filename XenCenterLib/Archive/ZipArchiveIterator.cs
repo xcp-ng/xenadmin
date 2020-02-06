@@ -36,40 +36,22 @@ using Ionic.Zip;
 
 namespace XenCenterLib.Archive
 {
-    public class ExtractProgressChangedEventArgs : EventArgs
-    {
-        private readonly long bytesIn;
-        private readonly long totalBytes;
-
-        public ExtractProgressChangedEventArgs(long bytesTransferred, long totalBytesToTransfer)
-        {
-            bytesIn = bytesTransferred;
-            totalBytes = totalBytesToTransfer;
-        }
-
-        public long BytesTransferred
-        {
-            get { return bytesIn; }
-        }
-
-        public long TotalBytesToTransfer
-        {
-            get { return totalBytes; }
-        }
-    }
-
     public class DotNetZipZipIterator : ArchiveIterator
     {
-        private ZipFile zipFile = null;
-        private IEnumerator<ZipEntry> enumerator = null;
+        private ZipFile zipFile;
+        private IEnumerator<ZipEntry> enumerator;
         private ZipEntry zipEntry;
         private bool disposed;
 
-        public event EventHandler<ExtractProgressChangedEventArgs> CurrentFileExtractProgressChanged;
-        public event EventHandler<EventArgs> CurrentFileExtractCompleted;
+        /// <summary>
+        /// delegate params: long bytesTransferred, long totalBytesToTransfer
+        /// </summary>
+        public event Action<long, long> CurrentFileExtractProgressChanged;
+        public event Action CurrentFileExtractCompleted;
 
-        public DotNetZipZipIterator()
+        public DotNetZipZipIterator(Stream inputStream)
         {
+            Initialise(inputStream);
             disposed = false;
         }
 
@@ -79,24 +61,17 @@ namespace XenCenterLib.Archive
             {
                 case ZipProgressEventType.Extracting_EntryBytesWritten:
                     {
-                        EventHandler<ExtractProgressChangedEventArgs> handler = CurrentFileExtractProgressChanged;
-                        if (handler != null)
-                            handler(this, new ExtractProgressChangedEventArgs(e.BytesTransferred, e.TotalBytesToTransfer));
+                        var handler = CurrentFileExtractProgressChanged;
+                        handler?.Invoke(e.BytesTransferred, e.TotalBytesToTransfer);
                     }
                     break;
                 case ZipProgressEventType.Extracting_AfterExtractEntry:
                     {
-                        EventHandler<EventArgs> handler = CurrentFileExtractCompleted;
-                        if (handler != null)
-                            handler(this, e);
+                        var handler = CurrentFileExtractCompleted;
+                        handler?.Invoke();
                     }
                     break;
             }
-        }
-
-        public DotNetZipZipIterator(Stream inputStream) : this()
-        {
-            Initialise(inputStream);
         }
 
         private void Initialise(Stream zipStream)

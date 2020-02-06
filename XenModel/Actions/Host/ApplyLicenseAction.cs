@@ -45,16 +45,8 @@ namespace XenAdmin.Actions
 
         private readonly bool ActivateFreeLicense;
 
-        public ApplyLicenseAction(Network.IXenConnection connection, Host host, string filepath)
-            : base(connection, string.Format(Messages.APPLYLICENSE_TITLE, host.Name()), Messages.APPLYLICENSE_PREP)
-        {
-            this.Host = host;
-            this.Filepath = filepath;
-            this.ActivateFreeLicense = false;
-        }
-
-        public ApplyLicenseAction(Network.IXenConnection connection, Host host, string filepath, bool activateFreeLicense)
-            : base(connection, string.Format(Messages.APPLYLICENSE_TITLE, host.Name()), Messages.APPLYLICENSE_PREP)
+        public ApplyLicenseAction(Host host, string filepath, bool activateFreeLicense = false)
+            : base(host.Connection, string.Format(Messages.APPLYLICENSE_TITLE, host.Name()), Messages.APPLYLICENSE_PREP)
         {
             this.Host = host;
             this.Filepath = filepath;

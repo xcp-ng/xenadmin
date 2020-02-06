@@ -60,7 +60,7 @@ namespace XenAdmin.Controls.GPU
 
         private readonly IXenObject xenObject;
 
-        private Dictionary<PGPU, CheckBox> pGpus = new Dictionary<PGPU, CheckBox>();
+        private readonly Dictionary<PGPU, CheckBox> pGpus = new Dictionary<PGPU, CheckBox>();
 
         private readonly bool vGpuCapability;
 
@@ -179,19 +179,6 @@ namespace XenAdmin.Controls.GPU
             }
         }
 
-        public List<PGPU> SelectedPGPUs
-        {
-            get
-            {
-                if (pGpus.Count == 0)
-                    return null;
-
-                return pGpus.Count > 1 
-                    ? (from kvp in pGpus where kvp.Value != null && kvp.Value.Checked select kvp.Key).ToList() 
-                    : new List<PGPU> {pGpus.Keys.ElementAt(0)};
-            }
-        }
-
         private void selectAllButton_Click(object sender, EventArgs e)
         {
             foreach (var checkBox in pGpus.Values.Where(checkBox => checkBox != null))
@@ -210,15 +197,23 @@ namespace XenAdmin.Controls.GPU
 
         private void editButton_Click(object sender, EventArgs e)
         {
-            new GpuConfiguration(SelectedPGPUs).ShowDialog(Program.MainWindow);
+            if (pGpus.Count == 0)
+                return;
+
+            var selectedPGPUs = pGpus.Count > 1
+                ? (from kvp in pGpus where kvp.Value != null && kvp.Value.Checked select kvp.Key).ToList()
+                : new List<PGPU> {pGpus.Keys.ElementAt(0)};
+
+            using (var dlog = new GpuConfiguration(selectedPGPUs))
+                dlog.ShowDialog(Program.MainWindow);
         }
 
         private void CheckedChanged(object sender, EventArgs e)
         {
             editButton.Enabled = clearAllButton.Enabled =
-                (pGpus.Values.Where(checkBox => checkBox != null).Any(checkBox => checkBox.Checked));
+                pGpus.Values.Any(checkBox => checkBox != null && checkBox.Checked);
             selectAllButton.Enabled =
-                (pGpus.Values.Where(checkBox => checkBox != null).Any(checkBox => !checkBox.Checked));
+                pGpus.Values.Any(checkBox => checkBox != null && !checkBox.Checked);
         }
 
         #region Allowed vGpu types

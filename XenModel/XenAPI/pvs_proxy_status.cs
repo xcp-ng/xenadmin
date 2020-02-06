@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,27 @@ namespace XenAPI
     [JsonConverter(typeof(pvs_proxy_statusConverter))]
     public enum pvs_proxy_status
     {
-        stopped, initialised, caching, incompatible_write_cache_mode, incompatible_protocol_version, unknown
+        /// <summary>
+        /// The proxy is not currently running
+        /// </summary>
+        stopped,
+        /// <summary>
+        /// The proxy is setup but has not yet cached anything
+        /// </summary>
+        initialised,
+        /// <summary>
+        /// The proxy is currently caching data
+        /// </summary>
+        caching,
+        /// <summary>
+        /// The PVS device is configured to use an incompatible write-cache mode
+        /// </summary>
+        incompatible_write_cache_mode,
+        /// <summary>
+        /// The PVS protocol in use is not compatible with the PVS proxy
+        /// </summary>
+        incompatible_protocol_version,
+        unknown
     }
 
     public static class pvs_proxy_status_helper
@@ -77,4 +96,4 @@ namespace XenAPI
             writer.WriteValue(((pvs_proxy_status)value).StringOf());
         }
     }
-}
+}

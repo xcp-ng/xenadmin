@@ -211,7 +211,7 @@ namespace CommandLib
                     http.Close();
                     return doRPC(method, redirect, tCLIprotocol, headers);
                 default:
-                    tCLIprotocol.dGlobalError("Received an error message from the server doing an HTTP " + method + " " + uri.PathAndQuery + " : " + response);
+                    tCLIprotocol.dGlobalError(string.Format("Received error code {0} from the server doing an HTTP {1}", code, method));
                     http.Close();
                     return null;
             }

@@ -45,8 +45,6 @@ namespace XenAdmin.Controls
 {
     public partial class PDSection : UserControl
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         #region Private fields
 
         /// <summary>

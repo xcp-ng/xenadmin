@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class USB_group : XenObject<USB_group>
     {
+        #region Constructors
+
         public USB_group()
         {
         }
@@ -65,13 +67,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new USB_group from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public USB_group(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new USB_group from a Proxy_USB_group.
         /// </summary>
         /// <param name="proxy"></param>
         public USB_group(Proxy_USB_group proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -87,7 +103,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_USB_group proxy)
+        internal void UpdateFrom(Proxy_USB_group proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -107,17 +123,6 @@ namespace XenAPI
             result_.VUSBs = VUSBs == null ? new string[] {} : Helper.RefListToStringArray(VUSBs);
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new USB_group from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public USB_group(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

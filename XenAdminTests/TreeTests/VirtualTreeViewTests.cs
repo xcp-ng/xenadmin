@@ -32,12 +32,11 @@
 using System.Windows.Forms;
 using NUnit.Framework;
 using XenAdmin.Controls;
-using System;
 using System.Drawing;
 
 namespace XenAdminTests.TreeTests
 {
-    [TestFixture, Category(TestCategories.UICategoryB)]
+    [TestFixture, Category(TestCategories.Unit)]
     public class VirtualTreeViewTests
     {
         private VirtualTreeView _vtv;
@@ -56,7 +55,14 @@ namespace XenAdminTests.TreeTests
             _tv = _vtv;
 
             // ensure handle is created. Some tests fail if you don't do this.
-            IntPtr h = _vtv.Handle;
+            Assert.NotNull(_vtv.Handle);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            if (_vtv != null)
+                _vtv.Dispose();
         }
 
         [Test]
@@ -248,7 +254,7 @@ namespace XenAdminTests.TreeTests
             VirtualTreeNode newRoot = new VirtualTreeNode("newRoot");
             newRoot.Nodes.Add(new VirtualTreeNode("newChild"));
 
-            _vtv.UpdateRootNodes(new VirtualTreeNode[] { newRoot });
+            _vtv.UpdateRootNodes(new [] { newRoot });
 
             Assert.AreEqual(1, _vtv.Nodes.Count, "Virtual nodes weren't correctly updated.");
             Assert.AreEqual(1, _vtv.Nodes[0].Nodes.Count, "Virtual nodes weren't correctly updated.");
@@ -277,7 +283,7 @@ namespace XenAdminTests.TreeTests
             newRoot.BackColor = Color.Beige;
             newRoot.ForeColor = Color.Bisque;
 
-            _vtv.UpdateRootNodes(new VirtualTreeNode[] { newRoot });
+            _vtv.UpdateRootNodes(new [] { newRoot });
 
             //Assert.IsNotNull(_vtv.Nodes[0].ImageIndexFetcher, "ImageIndexFetcher");
             Assert.AreEqual(3, _vtv.Nodes[0].ImageIndex);
@@ -318,7 +324,7 @@ namespace XenAdminTests.TreeTests
             newRoot.Nodes.Add(new VirtualTreeNode("newChild"));
             newRoot.Nodes[0].Nodes.Add(new VirtualTreeNode("newGrandChild"));
 
-            _vtv.UpdateRootNodes(new VirtualTreeNode[] { newRoot });
+            _vtv.UpdateRootNodes(new [] { newRoot });
 
             Assert.AreEqual(1, _vtv.Nodes.Count);
             Assert.AreEqual(1, _vtv.Nodes[0].Nodes.Count);
@@ -340,7 +346,7 @@ namespace XenAdminTests.TreeTests
             _vtv.Nodes[0].Nodes.Add(new VirtualTreeNode("child2"));
             _vtv.Nodes[0].Nodes.Add(new VirtualTreeNode("child3"));
 
-            _vtv.UpdateRootNodes(new VirtualTreeNode[] { new VirtualTreeNode("newRoot") });
+            _vtv.UpdateRootNodes(new [] { new VirtualTreeNode("newRoot") });
 
             Assert.AreEqual(0, _vtv.Nodes[0].Nodes.Count, "The last virtual child node wasn't removed");
             Assert.AreEqual(0, _tv.Nodes[0].Nodes.Count, "The last real child node wasn't removed");
@@ -365,7 +371,7 @@ namespace XenAdminTests.TreeTests
             rootNode.Nodes[0].Nodes.Add(new VirtualTreeNode("grandchild"));
             rootNode.Nodes[0].Nodes[0].Nodes.Add(new VirtualTreeNode("grandgrandchild"));
 
-            _vtv.UpdateRootNodes(new VirtualTreeNode[] { rootNode });
+            _vtv.UpdateRootNodes(new [] { rootNode });
             _vtv.EndUpdate();
 
             // expand all nodes so that all DummyNodes are replaced.
@@ -375,7 +381,7 @@ namespace XenAdminTests.TreeTests
             VirtualTreeNode rootNode2 = new VirtualTreeNode("root2");
             rootNode2.Nodes.Add(new VirtualTreeNode("child2"));
             rootNode2.Nodes[0].Nodes.Add(new VirtualTreeNode("grandchild2"));
-            _vtv.UpdateRootNodes(new VirtualTreeNode[] { rootNode2 });
+            _vtv.UpdateRootNodes(new [] { rootNode2 });
             _vtv.EndUpdate();
 
             // collapse all so the next merge doesn't replace DummyNodes.
@@ -387,7 +393,7 @@ namespace XenAdminTests.TreeTests
             rootNode3.Nodes[0].Nodes.Add(new VirtualTreeNode("grandchild3"));
             rootNode3.Nodes[0].Nodes[0].Nodes.Add(new VirtualTreeNode("grandgrandchild3"));
 
-            _vtv.UpdateRootNodes(new VirtualTreeNode[] { rootNode3 });
+            _vtv.UpdateRootNodes(new [] { rootNode3 });
             _vtv.EndUpdate();
             _vtv.Nodes[0].Expand();
             _vtv.Nodes[0].Nodes[0].Expand();

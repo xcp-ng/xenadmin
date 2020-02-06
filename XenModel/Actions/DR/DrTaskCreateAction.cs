@@ -39,8 +39,6 @@ namespace XenAdmin.Actions.DR
 {
     public class DrTaskCreateAction : AsyncAction
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private readonly ScannedDeviceInfo _deviceInfo;
 
         /// <summary>

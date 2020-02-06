@@ -1,4 +1,4 @@
-/* Copyright (c) Citrix Systems, Inc. 
+﻿/* Copyright (c) Citrix Systems, Inc. 
  * All rights reserved. 
  * 
  * Redistribution and use in source and binary forms, 
@@ -36,7 +36,6 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Text;
@@ -69,7 +68,7 @@ namespace XenAdmin
 {
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [ComVisibleAttribute(true)]
-    public partial class MainWindow : Form, ISynchronizeInvoke, IMainWindow
+    public partial class MainWindow : Form, ISynchronizeInvoke, IMainWindow, IFormWithHelp
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -630,9 +629,8 @@ namespace XenAdmin
             }
         }
 
-        private void connection_CachePopulatedOnStartup(object sender, EventArgs e)
+        private void connection_CachePopulatedOnStartup(IXenConnection c)
         {
-            IXenConnection c = (IXenConnection)sender;
             c.CachePopulated -= connection_CachePopulatedOnStartup;
             if (expandTreeNodesOnStartup)
                 TrySelectNewNode(c, false, true, false);
@@ -640,9 +638,8 @@ namespace XenAdmin
             Program.Invoke(this, ShowAboutDialogOnStartup);
         }
 
-        private void Connection_ConnectionStateChangedOnStartup(object sender, EventArgs e)
+        private void Connection_ConnectionStateChangedOnStartup(IXenConnection c)
         {
-            IXenConnection c = (IXenConnection)sender;
             c.ConnectionStateChanged -= Connection_ConnectionStateChangedOnStartup;
 
             Program.Invoke(Program.MainWindow, delegate
@@ -668,7 +665,7 @@ namespace XenAdmin
         }
 
         private bool Launched = false;
-        internal void ProcessCommand(ArgType argType, string[] args)
+        internal void ProcessCommand(ArgType argType, params string[] args)
         {
             switch (argType)
             {
@@ -694,11 +691,15 @@ namespace XenAdmin
                     break;
                 case ArgType.Connect:
                     log.DebugFormat("Connecting to server '{0}'", args[0]);
-                    IXenConnection connection = new XenConnection();
-                    connection.Hostname = args[0];
-                    connection.Port = ConnectionsManager.DEFAULT_XEN_PORT;
-                    connection.Username = args[1];
-                    connection.Password = args[2];
+
+                    var connection = new XenConnection
+                    {
+                        Hostname = args[0],
+                        Port = ConnectionsManager.DEFAULT_XEN_PORT,
+                        Username = args.Length > 1 ? args[1] : "",
+                        Password = args.Length > 2 ? args[2] : ""
+                    };
+
                     if (ConnectionsManager.XenConnectionsContains(connection))
                         break;
 
@@ -839,11 +840,8 @@ namespace XenAdmin
         /// In many cases this is already covered (e.g. if the user explicitly disconnects). This method ensures we also
         /// do it when we unexpectedly lose the connection.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void connection_ClearingCache(object sender, EventArgs e)
+        private void connection_ClearingCache(IXenConnection connection)
         {
-            IXenConnection connection = (IXenConnection)sender;
             CloseActiveWizards(connection);
             Alert.RemoveAlert(alert => alert.Connection != null && alert.Connection.Equals(connection));
             Updates.CheckServerPatches();
@@ -852,12 +850,8 @@ namespace XenAdmin
             RequestRefreshTreeView();
         }
 
-        void connection_CachePopulated(object sender, EventArgs e)
+        void connection_CachePopulated(IXenConnection connection)
         {
-            IXenConnection connection = sender as IXenConnection;
-            if (connection == null)
-                return;
-
             Host master = Helpers.GetMaster(connection);
             if (master == null)
                 return;
@@ -965,6 +959,7 @@ namespace XenAdmin
                 licenseTimer.CheckActiveServerLicense(connection, false);
 
             // XCP-ng Center: Disable HealthCheck (https://github.com/xcp-ng/xenadmin/issues/144)
+            Updates.CheckHotfixEligibility(connection);
             //if (Properties.Settings.Default.ShowHealthCheckEnrollmentReminder)
             //    ThreadPool.QueueUserWorkItem(CheckHealthCheckEnrollment, connection);
             //ThreadPool.QueueUserWorkItem(HealthCheck.CheckForAnalysisResults, connection);
@@ -1131,6 +1126,7 @@ namespace XenAdmin
                 case "license_params":
                     UpdateHeader();
                     UpdateToolbars();
+                    Updates.CheckHotfixEligibility(host.Connection);
                     break;
                 case "other_config":
                     // other_config may contain HideFromXenCenter
@@ -1201,18 +1197,18 @@ namespace XenAdmin
             RequestRefreshTreeView();
         }
 
-        private void Connection_ConnectionClosed(object sender, EventArgs e)
+        private void Connection_ConnectionClosed(IXenConnection conn)
         {
             RequestRefreshTreeView();
             gc();
         }
 
         // called whenever our connection with the Xen server fails (i.e., after we've successfully logged in)
-        private void Connection_ConnectionLost(object sender, EventArgs e)
+        private void Connection_ConnectionLost(IXenConnection conn)
         {
             if (Program.Exiting)
                 return;
-            Program.Invoke(this, () => CloseActiveWizards((IXenConnection)sender));
+            Program.Invoke(this, () => CloseActiveWizards(conn));
             RequestRefreshTreeView();
             gc();
         }
@@ -1222,7 +1218,7 @@ namespace XenAdmin
             GC.Collect();
         }
 
-        void connection_ConnectionReconnecting(object sender, EventArgs e)
+        void connection_ConnectionReconnecting(IXenConnection conn)
         {
             if (Program.Exiting)
                 return;
@@ -1546,7 +1542,7 @@ namespace XenAdmin
             if (SearchMode)
                 return;
 
-            if (o == null)
+            if (o == null || !Properties.Settings.Default.RememberLastSelectedTab)
             {
                 selectedOverviewTab = p;
             }
@@ -1558,7 +1554,7 @@ namespace XenAdmin
 
         private TabPage GetLastSelectedPage(object o)
         {
-            return o == null
+            return o == null || !Properties.Settings.Default.RememberLastSelectedTab
                 ? selectedOverviewTab
                 : selectedTabs.ContainsKey(o) ? selectedTabs[o] : null;
         }
@@ -1664,6 +1660,7 @@ namespace XenAdmin
             localStorageToolStripMenuItem.Checked = Properties.Settings.Default.LocalSRsVisible;
             ShowHiddenObjectsToolStripMenuItem.Checked = Properties.Settings.Default.ShowHiddenVMs;
             connectDisconnectToolStripMenuItem.Enabled = ConnectionsManager.XenConnectionsCopy.Count > 0;
+            conversionToolStripMenuItem.Available = conn != null && conn.Cache.VMs.Any(v => v.IsConversionVM());
         }
 
         private void xenSourceOnTheWebToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1735,7 +1732,12 @@ namespace XenAdmin
 
         private void DoLicenseAction(Host host, string filePath)
         {
-            ApplyLicenseAction action = new ApplyLicenseAction(host.Connection, host, filePath);
+            //null can happen if the application is started from, say,
+            //double clicking on a license file without any connections on the tree
+            if (host == null)
+                return;
+
+            var action = new ApplyLicenseAction(host, filePath);
             using (var actionProgress = new ActionProgressDialog(action, ProgressBarStyle.Marquee))
             {
                 actionProgress.Text = Messages.INSTALL_LICENSE_KEY;
@@ -1920,14 +1922,11 @@ namespace XenAdmin
                         // Otherwise, find the top-level parent (= pool or standalone server) and show the search restricted to that
                         // In the case of multiselect, if all the selections are within one pool (or standalone server), then show that report.
                         // Otherwise show everything, as on the XenCenter node.
+                        //   show the default search.
                         var connection = SelectionManager.Selection.GetConnectionOfAllItems(); // null for cross-pool selection
-                        if (connection != null)
+                        if (connection == null)
                         {
-                            //If ShowJustHostInSearch is enabled and only one live host is selected, we show the search for the host only
-                            if (Properties.Settings.Default.ShowJustHostInSearch && SelectionManager.Selection.Count == 1 
-                                && SelectionManager.Selection.FirstIsLiveHost)
-                            {
-                                SearchPage.XenObject = SelectionManager.Selection.FirstAsXenObject;
+                            SearchPage.XenObject = null;
                             }
                             else
                             {
@@ -1935,10 +1934,7 @@ namespace XenAdmin
                                 SearchPage.XenObject = pool ?? (IXenObject)Helpers.GetMaster(connection); // pool or standalone server
                             }
                         }
-                        else
-                            SearchPage.XenObject = null;
                     }
-                }
                 else if (t == TabPageHA)
                 {
                     HAPage.XenObject = SelectionManager.Selection.FirstAsXenObject;
@@ -2219,8 +2215,7 @@ namespace XenAdmin
                 {
                     dlg.ShowDialog(this);
                 }
-                log.Error("Couldn't save settings");
-                log.Error(ex, ex);
+                log.Error("Could not save settings.", ex);
             }
             base.OnClosing(e);
         }
@@ -2240,34 +2235,29 @@ namespace XenAdmin
         {
             Program.Invoke(Program.MainWindow, delegate
             {
-                // Close and remove any active wizards for any VMs
-                foreach (VM vm in connection.Cache.VMs)
+                var vms = connection.Cache.VMs;
+                foreach (var kvp in activeXenModelObjectWizards)
                 {
-                    CloseActiveWizards(vm);
+                    if (kvp.Key is VM vm && vms.Contains(vm))
+                    {
+                        if (kvp.Value is Form wizard && !wizard.IsDisposed)
+                            wizard.Close();
+                // Close and remove any active wizards for any VMs
+                        activeXenModelObjectWizards.Remove(vm);
                 }
-                closeActivePoolWizards(connection);
-            });
         }
 
-        /// <summary>
-        /// Closes all per-Connection wizards.
-        /// </summary>
-        /// <param name="connection"></param>
-        private void closeActivePoolWizards(IXenConnection connection)
+                if (activePoolWizards.TryGetValue(connection, out IList<Form> wizards))
         {
-            IList<Form> wizards;
-            if (activePoolWizards.TryGetValue(connection, out wizards))
-            {
                 foreach (var wizard in wizards)
                 {
                     if (!wizard.IsDisposed)
-                    {
                         wizard.Close();
                     }
-                }
 
                 activePoolWizards.Remove(connection);
             }
+            });
         }
 
         /// <summary>
@@ -2278,13 +2268,11 @@ namespace XenAdmin
         {
             Program.Invoke(Program.MainWindow, delegate
             {
-                Form wizard;
-                if (activeXenModelObjectWizards.TryGetValue(obj, out wizard))
+                if (activeXenModelObjectWizards.TryGetValue(obj, out Form wizard))
                 {
                     if (!wizard.IsDisposed)
-                    {
                         wizard.Close();
-                    }
+
                     activeXenModelObjectWizards.Remove(obj);
                 }
             });
@@ -2308,14 +2296,15 @@ namespace XenAdmin
         /// <param name="connection">The connection.  May be null, in which case the wizard
         /// is not addded to any dictionary.  This should happen iff this is the New Pool Wizard.</param>
         /// <param name="wizard">The new wizard to show. May not be null.</param>
-        public void ShowPerConnectionWizard(IXenConnection connection, Form wizard)
+        /// <param name="parentForm">The form owning the wizard to be launched.</param>
+        public void ShowPerConnectionWizard(IXenConnection connection, Form wizard, Form parentForm = null)
         {
             if (connection != null)
             {
 
                 if (activePoolWizards.ContainsKey(connection))
                 {
-                    var w = activePoolWizards[connection].Where(x => x.GetType() == wizard.GetType()).FirstOrDefault();
+                    var w = activePoolWizards[connection].FirstOrDefault(x => x.GetType() == wizard.GetType());
                     if (w != null && !w.IsDisposed)
                     {
                         if (w.WindowState == FormWindowState.Minimized)
@@ -2340,7 +2329,7 @@ namespace XenAdmin
 
             if (!wizard.Disposing && !wizard.IsDisposed && !Program.Exiting)
             {
-                wizard.Show(this);
+                wizard.Show(parentForm ?? this);
             }
         }
 
@@ -2431,57 +2420,6 @@ namespace XenAdmin
 
         #region Help
 
-        private string TabHelpID()
-        {
-            string modelObj = getSelectedXenModelObjectType();
-
-            if (TheTabControl.SelectedTab == TabPageHome)
-                return "TabPageHome" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageSearch)
-                return "TabPageSearch" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageConsole)
-                return "TabPageConsole" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageCvmConsole)
-                return "TabPageCvmConsole" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageGeneral)
-                return "TabPageSettings" + modelObj;
-            if (TheTabControl.SelectedTab == TabPagePhysicalStorage || TheTabControl.SelectedTab == TabPageStorage || TheTabControl.SelectedTab == TabPageSR)
-                return "TabPageStorage" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageNetwork)
-                return "TabPageNetwork" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageNICs)
-                return "TabPageNICs" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageWLB)
-                return "TabPageWLB" + modelObj;
-            if (TheTabControl.SelectedTab == TabPagePeformance)
-                return "TabPagePerformance" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageHA)
-                return "TabPageHA" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageHAUpsell)
-                return "TabPageHAUpsell" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageSnapshots)
-                return "TabPageSnapshots" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageBallooning)
-                return "TabPageBallooning" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageAD)
-                return "TabPageAD" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageADUpsell)
-                return "TabPageADUpsell" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageWLBUpsell)
-                return "TabPageWLBUpsell";
-            if (TheTabControl.SelectedTab == TabPageGPU)
-                return "TabPageGPU" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageDockerProcess)
-                return "TabPageDockerProcess" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageDockerDetails)
-                return "TabPageDockerDetails" + modelObj;
-            if (TheTabControl.SelectedTab == TabPagePvs)
-                return "TabPagePvs" + modelObj;
-            if (TheTabControl.SelectedTab == TabPageUSB)
-                return "TabPageUSB" + modelObj;
-            return "TabPageUnknown";
-        }
-
         private string getSelectedXenModelObjectType()
         {
             // for now, since there are few topics which depend on the selected object we shall just check the special cases
@@ -2515,29 +2453,6 @@ namespace XenAdmin
             return "";
         }
 
-        public void ShowHelpTOC()
-        {
-            ShowHelpTopic(null);
-        }
-
-        public void ShowHelpTopic(string topicID)
-        {
-            var helpTopicUrl = HelpManager.ProduceUrl(
-                topicID,
-                InvisibleMessages.HELP_URL,
-                InvisibleMessages.LOCALE,
-                $"{Branding.XENCENTER_VERSION}.{Program.Version.Revision}",
-                "ui_link",
-                Messages.XENCENTER);
-             
-            if (!string.IsNullOrEmpty(helpTopicUrl))
-                Program.OpenURL(helpTopicUrl);
-
-            // record help usage
-            Properties.Settings.Default.HelpLastUsed = DateTime.UtcNow.ToString("u");
-            Settings.TrySaveSettings();
-        }
-
         public void MainWindow_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
             // CA-28064. MessageBox hack to kill the hlpevent it passes to MainWindows.
@@ -2547,7 +2462,7 @@ namespace XenAdmin
 
         private void helpTopicsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowHelpTOC();
+            HelpManager.Launch("TOC");
         }
 
         private void helpContextMenuItem_Click(object sender, EventArgs e)
@@ -2557,24 +2472,35 @@ namespace XenAdmin
 
         private void LaunchHelp()
         {
-            if (alertPage.Visible)
-                Help.HelpManager.Launch("AlertSummaryDialog");
-            else if (updatesPage.Visible)
-                Help.HelpManager.Launch("ManageUpdatesDialog");
-            else if (eventsPage.Visible)
-                Help.HelpManager.Launch("EventsPane");
-            else
+            if (TheTabControl.SelectedTab.Tag is TabPageFeature tpf && tpf.HasHelp)
             {
-                if (TheTabControl.SelectedTab.Tag is TabPageFeature && ((TabPageFeature)TheTabControl.SelectedTab.Tag).HasHelp)
-                    ((TabPageFeature)TheTabControl.SelectedTab.Tag).LaunchHelp();
-                else
-                    Help.HelpManager.Launch(TabHelpID());
+                tpf.LaunchHelp();
+                return;
             }
+
+            HelpManager.Launch(TabHelpID());
+        }
+
+        private string TabHelpID()
+        {
+            if (alertPage.Visible)
+                return alertPage.HelpID;
+
+            if (updatesPage.Visible)
+                return updatesPage.HelpID;
+
+            if (eventsPage.Visible)
+                return eventsPage.HelpID;
+
+            if (TheTabControl.SelectedTab.Controls.Count > 0 && TheTabControl.SelectedTab.Controls[0] is IControlWithHelp ctrl)
+                return ctrl.HelpID + getSelectedXenModelObjectType();
+
+            return "TOC";
         }
 
         public bool HasHelp()
         {
-            return Help.HelpManager.HasHelpFor(TabHelpID());
+            return HelpManager.TryGetTopicId(TabHelpID(), out _);
         }
 
         private void viewApplicationLogToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3083,7 +3009,6 @@ namespace XenAdmin
 
             History.PopulateForwardDropDown(button);
         }
-
 
         private void LicenseManagerMenuItem_Click(object sender, EventArgs e)
         {

@@ -210,6 +210,9 @@
   <data name="Description-host.system_status-network-status" xml:space="preserve">
     <value>ネットワーク インターフェイス、ルーティング テーブル、ファイアウォールの現在の状態</value>
   </data>
+  <data name="Description-host.system_status-NVIDIA-logs" xml:space="preserve">
+    <value>NVIDIA グラフィック ドライバーの問題を診断するのに役立つログと詳細が含まれています。</value>
+  </data>
   <data name="Description-host.system_status-oem" xml:space="preserve">
     <value>OEM プロバイダ固有のデータを収集します。</value>
   </data>
@@ -292,13 +295,13 @@
     <value>XML ノード '{0}' を認識できませんでした。</value>
   </data>
   <data name="Exception-PowerShellExecutionPolicyRestricted" xml:space="preserve">
-    <value>PowerShell の 'ExecutionPolicy' が 'Restricted' の場合、XenServerPSSnapIn を読み込めません。</value>
+    <value>PowerShell の 'ExecutionPolicy' が 'Restricted' の場合、XenServerPSModule を読み込めません。</value>
   </data>
   <data name="Exception-PowerShellNotPresent" xml:space="preserve">
     <value>PowerShell プラグインを使用するには、PowerShell をインストールしておく必要があります。PowerShell は、Microsoft 社の Web サイトからダウンロードできます。</value>
   </data>
   <data name="Exception-PowerShellSnapInNotPresent" xml:space="preserve">
-    <value>[XenServer] PowerShell コマンドを使用するには、XenServerPSSnapIn をインストールしておく必要があります。XenServerPSSnapIn は SDK に含まれています。</value>
+    <value>[XenServer] PowerShell コマンドを使用するには、XenServerPSModule をインストールしておく必要があります。XenServerPSModule は SDK に含まれています。</value>
   </data>
   <data name="Exception-SearchParseFailed" xml:space="preserve">
     <value>プラグイン '{1}' の検索 '{0}' を構文解析できません。</value>
@@ -520,7 +523,7 @@
     <value>停止</value>
   </data>
   <data name="Label-VM.power_state-Paused" xml:space="preserve">
-    <value>ポーズ</value>
+    <value>一時停止</value>
   </data>
   <data name="Label-VM.power_state-Running" xml:space="preserve">
     <value>実行中</value>
@@ -662,6 +665,9 @@
   </data>
   <data name="Label-host.system_status-network-status" xml:space="preserve">
     <value>ネットワークの状態</value>
+  </data>
+  <data name="Label-host.system_status-NVIDIA-logs" xml:space="preserve">
+    <value>NVIDIA グラフィック ドライバー ログ</value>
   </data>
   <data name="Label-host.system_status-oem" xml:space="preserve">
     <value>OEM 固有のログ</value>

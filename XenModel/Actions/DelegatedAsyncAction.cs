@@ -39,30 +39,15 @@ using XenAPI;
 
 namespace XenAdmin.Actions
 {
-    // An action which just runs a delegate.
-    // It is bad style to use this for more than the very simplest delegate: preferably just a single API call.
-    // Anything more complicated should be turned into a proper action of its own.
-
+    /// <summary>
+    /// An action which just runs a delegate.
+    /// It is bad style to use this for more than the very simplest delegate: preferably just a single API call.
+    /// Anything more complicated should be turned into a proper action of its own.
+    /// </summary>
     public class DelegatedAsyncAction : AsyncAction
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private readonly Action<Session> invoker;
         private readonly string endDescription;
-
-        public DelegatedAsyncAction(IXenConnection connection, string title, string startDescription, string endDescription,
-            Action<Session> invoker)
-            : this(connection, title, startDescription, endDescription, invoker, false)
-        {
-        }
-
-        public DelegatedAsyncAction(IXenConnection connection, string title, string startDescription, string endDescription,
-            Action<Session> invoker, bool suppressHistory)
-            : base(connection, title, startDescription, suppressHistory)
-        {
-            this.endDescription = endDescription;
-            this.invoker = invoker;
-        }
 
         public DelegatedAsyncAction(IXenConnection connection, string title, string startDescription, string endDescription,
             Action<Session> invoker, params string[] rbacMethods)
@@ -72,8 +57,10 @@ namespace XenAdmin.Actions
 
         public DelegatedAsyncAction(IXenConnection connection, string title, string startDescription, string endDescription,
             Action<Session> invoker, bool suppressHistory, params string[] rbacMethods)
-            : this(connection, title, startDescription, endDescription, invoker, suppressHistory)
+            : base(connection, title, startDescription, suppressHistory)
         {
+            this.endDescription = endDescription;
+            this.invoker = invoker;
             ApiMethodsToRoleCheck = new RbacMethodList(rbacMethods);
         }
 

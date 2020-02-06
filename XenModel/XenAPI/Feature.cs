@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Feature : XenObject<Feature>
     {
+        #region Constructors
+
         public Feature()
         {
         }
@@ -67,13 +69,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Feature from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Feature(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Feature from a Proxy_Feature.
         /// </summary>
         /// <param name="proxy"></param>
         public Feature(Proxy_Feature proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -90,7 +106,7 @@ namespace XenAPI
             host = update.host;
         }
 
-        internal void UpdateFromProxy(Proxy_Feature proxy)
+        internal void UpdateFrom(Proxy_Feature proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -112,17 +128,6 @@ namespace XenAPI
             result_.version = version ?? "";
             result_.host = host ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Feature from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Feature(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

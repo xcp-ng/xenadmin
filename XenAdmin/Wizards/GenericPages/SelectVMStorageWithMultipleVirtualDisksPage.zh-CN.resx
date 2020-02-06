@@ -154,7 +154,7 @@
     <value>0</value>
   </data>
   <data name="m_labelIntro.Text" xml:space="preserve">
-    <value>将所导入 VM 中的虚拟磁盘放在目标池或独立服务器中的存储库(SR)上。</value>
+    <value>将要导入的 VM 中的虚拟磁盘放在目标池或独立服务器中的存储库(SR)上。</value>
   </data>
   <data name="&gt;&gt;m_labelIntro.Name" xml:space="preserve">
     <value>m_labelIntro</value>

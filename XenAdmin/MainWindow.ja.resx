@@ -1195,7 +1195,7 @@
     <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="TitleLabel" Row="0" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="LicenseStatusTitleLabel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" />&lt;Control Name="toolTipContainer1" Row="0" RowSpan="1" Column="3" ColumnSpan="1" />&lt;/Controls>&lt;Columns Styles="AutoSize,0,AutoSize,0,Percent,100,AutoSize,0" />&lt;Rows Styles="Percent,100" />&lt;/TableLayoutSettings></value>
   </data>
   <data name="TitleBackPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 3</value>
+    <value>0, 0</value>
   </data>
   <data name="TitleBackPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>759, 24</value>
@@ -2079,6 +2079,12 @@
   <data name="wlbDisconnectToolStripMenuItem.Text" xml:space="preserve">
     <value>ワークロード バランス サーバーの切断(&amp;B)</value>
   </data>
+  <data name="conversionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>277, 22</value>
+  </data>
+  <data name="conversionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Conversion Manager(&amp;E)...</value>
+  </data>
   <data name="toolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
     <value>274, 6</value>
   </data>
@@ -2095,7 +2101,7 @@
     <value>277, 22</value>
   </data>
   <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
-    <value>プールの削除(&amp;D)</value>
+    <value>スタンドアロン サーバーにする(&amp;E)</value>
   </data>
   <data name="toolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing">
     <value>274, 6</value>
@@ -2240,6 +2246,12 @@
   </data>
   <data name="addServerToPoolMenuItem.Text" xml:space="preserve">
     <value>プールへの追加(&amp;P)</value>
+  </data>
+  <data name="menuItemRemoveFromPool.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 22</value>
+  </data>
+  <data name="menuItemRemoveFromPool.Text" xml:space="preserve">
+    <value>プールから削除(&amp;P)</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
     <value>209, 6</value>
@@ -3995,6 +4007,18 @@
   </data>
   <data name="&gt;&gt;statusProgressBar.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuItemRemoveFromPool.Name" xml:space="preserve">
+    <value>menuItemRemoveFromPool</value>
+  </data>
+  <data name="&gt;&gt;menuItemRemoveFromPool.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;conversionToolStripMenuItem.Name" xml:space="preserve">
+    <value>conversionToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;conversionToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainWindow</value>

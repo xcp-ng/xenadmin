@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,15 @@ namespace XenAPI
     [JsonConverter(typeof(vbd_modeConverter))]
     public enum vbd_mode
     {
-        RO, RW, unknown
+        /// <summary>
+        /// only read-only access will be allowed
+        /// </summary>
+        RO,
+        /// <summary>
+        /// read-write access will be allowed
+        /// </summary>
+        RW,
+        unknown
     }
 
     public static class vbd_mode_helper
@@ -71,4 +78,4 @@ namespace XenAPI
             writer.WriteValue(((vbd_mode)value).StringOf());
         }
     }
-}
+}

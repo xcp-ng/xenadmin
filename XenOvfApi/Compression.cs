@@ -33,7 +33,7 @@ using System;
 using System.IO;
 using XenCenterLib.Compression;
 using XenOvf.Definitions;
-using XenOvf.Utilities;
+
 
 namespace XenOvf
 {
@@ -168,8 +168,7 @@ namespace XenOvf
                 {
 					if (ex is OperationCanceledException)
 						throw;
-                    log.WarnFormat("Uncompression issue: {0}", ex);
-                    log.Warn("Previous warning may be ok, continuing with import, failures continue then this is the issue");
+                    log.Warn("Ignoring uncompression issue: ", ex);
                 }
                 finally
                 {
@@ -252,15 +251,15 @@ namespace XenOvf
                     }
                     catch (EndOfStreamException eose)
                     {
-                        log.ErrorFormat("End of Stream: {0}", eose.Message);
+                        log.Error("End of Stream: ", eose);
                     }
                     catch (Exception ex)
                     {
 						if (ex is OperationCanceledException)
 							throw;
-                        var message = string.Format(Messages.COMPRESS_FAILED, filename);
-                        log.ErrorFormat("{0} {1}", message, ex.Message);
-                        throw new Exception(message, ex);
+
+                        log.Error("Compression failure", ex);
+                        throw new Exception(string.Format(Messages.COMPRESS_FAILED, filename), ex);
                     }
                     finally
                     {

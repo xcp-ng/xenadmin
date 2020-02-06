@@ -31,9 +31,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using System.Windows.Forms;
 
 using XenAdmin.Actions;
@@ -51,76 +48,109 @@ namespace XenAdmin.Controls
         private ToolStripMenuItem toolStripMenuItemInProgress;
         private ToolStripMenuItem toolStripMenuItemError;
         private ToolStripMenuItem toolStripMenuItemCancelled;
+        private ToolStripMenuItem toolStripMenuItemQueued;
+        private ToolStripMenuItem toolStripMenuItemIncomplete;
         private ToolStripMenuItem toolStripMenuItemAll;
 
         public FilterStatusToolStripDropDownButton()
         {
+            toolStripMenuItemQueued = new ToolStripMenuItem
+            {
+                Text = Messages.STATUS_FILTER_QUEUED,
+                Checked = true,
+                CheckOnClick = true
+            };
             toolStripMenuItemComplete = new ToolStripMenuItem
-                                            {
-                                                Text = Messages.STATUS_FILTER_COMPLETE,
-                                                Checked = true,
-                                                CheckOnClick = true
-                                            };
+            {
+                Text = Messages.STATUS_FILTER_COMPLETE,
+                Checked = true,
+                CheckOnClick = true
+            };
             toolStripMenuItemInProgress = new ToolStripMenuItem
-                                              {
-                                                  Text = Messages.STATUS_FILTER_IN_PROGRESS,
-                                                  Checked = true,
-                                                  CheckOnClick = true
-                                              };
+            {
+                Text = Messages.STATUS_FILTER_IN_PROGRESS,
+                Checked = true,
+                CheckOnClick = true
+            };
             toolStripMenuItemError = new ToolStripMenuItem
-                                         {
-                                             Text = Messages.STATUS_FILTER_ERROR,
-                                             Checked = true,
-                                             CheckOnClick = true
-                                         };
+            {
+                Text = Messages.STATUS_FILTER_ERROR,
+                Checked = true,
+                CheckOnClick = true
+            };
             toolStripMenuItemCancelled = new ToolStripMenuItem
-                {
-                    Text = Messages.STATUS_FILTER_CANCEL,
-                    Checked = true,
-                    CheckOnClick = true
-                };
-            toolStripMenuItemAll = new ToolStripMenuItem
-                {
-                    Text = Messages.FILTER_SHOW_ALL,
-                    Enabled = false
-                };
-            DropDownItems.AddRange(new ToolStripItem[]
-                                       {
-                                           toolStripMenuItemComplete,
-                                           toolStripMenuItemInProgress,
-                                           toolStripMenuItemError,
-                                           toolStripMenuItemCancelled,
-                                           new ToolStripSeparator(),
-                                           toolStripMenuItemAll
-                                       });
+            {
+                Text = Messages.STATUS_FILTER_CANCEL,
+                Checked = true,
+                CheckOnClick = true
+            };
 
+            toolStripMenuItemIncomplete = new ToolStripMenuItem
+            {
+                Text = Messages.STATUS_FILTER_INCOMPLETE,
+                Checked = true,
+                CheckOnClick = true
+            };
+            toolStripMenuItemAll = new ToolStripMenuItem
+            {
+                Text = Messages.FILTER_SHOW_ALL,
+                Enabled = false
+            };
+
+            DropDownItems.AddRange(new ToolStripItem[]
+            {
+                toolStripMenuItemQueued,
+                toolStripMenuItemComplete,
+                toolStripMenuItemInProgress,
+                toolStripMenuItemError,
+                toolStripMenuItemCancelled,
+                toolStripMenuItemIncomplete,
+                new ToolStripSeparator(),
+                toolStripMenuItemAll
+            });
+
+            toolStripMenuItemQueued.CheckedChanged += Item_CheckedChanged;
             toolStripMenuItemComplete.CheckedChanged += Item_CheckedChanged;
             toolStripMenuItemInProgress.CheckedChanged += Item_CheckedChanged;
             toolStripMenuItemError.CheckedChanged += Item_CheckedChanged;
             toolStripMenuItemCancelled.CheckedChanged += Item_CheckedChanged;
+            toolStripMenuItemIncomplete.CheckedChanged += Item_CheckedChanged;
         }
 
-        public bool HideByStatus(ActionBase action)
+        public bool HideByStatus(IStatus iStatus)
         {
-            bool cancelled = action.IsCompleted && !action.Succeeded && (action.Exception is CancelledException);
-            bool error = action.IsCompleted && !action.Succeeded && !(action.Exception is CancelledException);
-
-            return !((toolStripMenuItemComplete.Checked && action.Succeeded)
-                || (toolStripMenuItemError.Checked && error)
-                || (toolStripMenuItemInProgress.Checked && !action.IsCompleted)
-                || (toolStripMenuItemCancelled.Checked && cancelled));
+            return !(toolStripMenuItemComplete.Checked && iStatus.Succeeded
+                || toolStripMenuItemError.Checked && iStatus.IsError
+                || toolStripMenuItemInProgress.Checked && iStatus.InProgress
+                || toolStripMenuItemCancelled.Checked && iStatus.IsCancelled
+                || toolStripMenuItemIncomplete.Checked && iStatus.IsIncomplete
+                || toolStripMenuItemQueued.Checked && iStatus.IsQueued);
         }
 
-        public bool FilterIsOn
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool ImplementsQueued
         {
-            get
-            {
-                return !toolStripMenuItemComplete.Checked
-                    || !toolStripMenuItemInProgress.Checked
-                    || !toolStripMenuItemError.Checked
-                    || !toolStripMenuItemCancelled.Checked;
-            }
+            get => toolStripMenuItemQueued.Visible;
+            set => toolStripMenuItemQueued.Visible = value;
         }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool ImplementsIncomplete
+        {
+            get => toolStripMenuItemIncomplete.Visible;
+            set => toolStripMenuItemIncomplete.Visible = value;
+        }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool FilterIsOn =>
+            !toolStripMenuItemComplete.Checked
+            || !toolStripMenuItemInProgress.Checked
+            || !toolStripMenuItemError.Checked
+            || !toolStripMenuItemCancelled.Checked
+            || !toolStripMenuItemIncomplete.Checked
+            || !toolStripMenuItemQueued.Checked;
 
         protected override void OnDropDownItemClicked(ToolStripItemClickedEventArgs e)
         {
@@ -133,6 +163,8 @@ namespace XenAdmin.Controls
                 toolStripMenuItemInProgress.Checked = true;
                 toolStripMenuItemError.Checked = true;
                 toolStripMenuItemCancelled.Checked = true;
+                toolStripMenuItemIncomplete.Checked = true;
+                toolStripMenuItemQueued.Checked = true;
                 internalUpdating = false;
 
                 Item_CheckedChanged(null, null);

@@ -250,7 +250,7 @@
     <value>6</value>
   </data>
   <data name="checkBoxViewPrecheckFailuresOnly.Text" xml:space="preserve">
-    <value>&amp;Hide successful prechecks</value>
+    <value>&amp;Hide successful pre-checks</value>
   </data>
   <data name="&gt;&gt;checkBoxViewPrecheckFailuresOnly.Name" xml:space="preserve">
     <value>checkBoxViewPrecheckFailuresOnly</value>

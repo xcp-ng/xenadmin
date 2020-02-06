@@ -213,7 +213,7 @@ namespace XenServerHealthCheck
             }
             catch (Exception e)
             {
-                log.ErrorFormat("Exception while writing {0} file: {1}", fileName, e);
+                log.Error($"Exception while writing {fileName} file:", e);
             }
             finally
             {

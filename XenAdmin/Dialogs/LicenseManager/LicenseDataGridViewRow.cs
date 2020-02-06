@@ -32,8 +32,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using XenAdmin.Controls;
 using XenAdmin.Controls.CheckableDataGridView;
 using XenAdmin.Core;
 using XenAPI;
@@ -52,12 +50,8 @@ namespace XenAdmin.Dialogs
 
         private readonly ILicenseStatus licenseStatus;
 
-        public LicenseDataGridViewRow() : this(null)
-        {
-            
-        }
-
-        public LicenseDataGridViewRow(IXenObject xenObject) : this(xenObject, new LicenseStatus(xenObject))
+        public LicenseDataGridViewRow(IXenObject xenObject = null)
+            : this(xenObject, new LicenseStatus(xenObject))
         {
         }
 
@@ -73,9 +67,9 @@ namespace XenAdmin.Dialogs
             licenseStatus.BeginUpdate();
         }
 
-        private void licenseStatus_ItemUpdated(object sender, EventArgs e)
+        private void licenseStatus_ItemUpdated()
         {
-            Program.Invoke(Program.MainWindow, TriggerCellTextUpdatedEvent);
+            Program.Invoke(DataGridView?.Parent, TriggerCellTextUpdatedEvent);
         }
 
         public override Queue<object> CellText
@@ -390,13 +384,6 @@ namespace XenAdmin.Dialogs
                 disposed = true;
             }
             base.Dispose(disposing);
-        }
-
-        protected void TriggerRefreshAllEvent()
-        {
-            var view = DataGridView as LicenseCheckableDataGridView;
-            if (view != null)
-                view.TriggerRefreshAllEvent();
         }
     }
 }

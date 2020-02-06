@@ -1847,14 +1847,8 @@
   <data name="ALERT_DOM0_MEMORY_SUB_TEXT" xml:space="preserve">
     <value>当控制域内存使用量 {1} 分钟内超过 {0} 时:</value>
   </data>
-  <data name="ALERT_EXPORT_ALL_BUTTON" xml:space="preserve">
-    <value>全部导出(&amp;A)</value>
-  </data>
   <data name="ALERT_EXPORT_ALL_OR_FILTERED" xml:space="preserve">
     <value>您已对警报列表应用过滤器。您想从每个已连接的服务器中导出所有警报，还是仅导出已选择查看的警报?</value>
-  </data>
-  <data name="ALERT_EXPORT_FILTERED_BUTTON" xml:space="preserve">
-    <value>仅导出可见警报(&amp;V)</value>
   </data>
   <data name="ALERT_GENERIC_HELP" xml:space="preserve">
     <value>帮助</value>
@@ -2000,10 +1994,10 @@
     <value>许可证详细信息</value>
   </data>
   <data name="ASSIGN_VMSS_POLICY" xml:space="preserve">
-    <value>将 VM 分配至快照计划(&amp;O)</value>
+    <value>分配给快照计划(&amp;L)</value>
   </data>
   <data name="ASSIGN_VMSS_POLICY_CONTEXT_MENU" xml:space="preserve">
-    <value>将 VM 分配至快照计划</value>
+    <value>分配给快照计划(&amp;L)</value>
   </data>
   <data name="ASSIGN_VMSS_POLICY_NOAMP" xml:space="preserve">
     <value>将 VM 分配至快照计划...</value>
@@ -2150,6 +2144,9 @@
   </data>
   <data name="BIOS_BOOT" xml:space="preserve">
     <value>BIOS 引导</value>
+  </data>
+  <data name="BIOS_BOOT_MODE_UNSUPPORTED_WARNING" xml:space="preserve">
+    <value>选定模板不支持 BIOS 引导模式。</value>
   </data>
   <data name="BIOS_STRINGS_COPIED" xml:space="preserve">
     <value>已复制 BIOS 字符串</value>
@@ -2607,6 +2604,9 @@
   <data name="CHECKING_PREPARE_TO_UPGRADE_DESCRIPTION" xml:space="preserve">
     <value>主机升级准备情况检查</value>
   </data>
+  <data name="CHECKING_PV_GUESTS" xml:space="preserve">
+    <value>正在检查来宾兼容性</value>
+  </data>
   <data name="CHECKING_ROLE" xml:space="preserve">
     <value>正在检查角色...</value>
   </data>
@@ -2706,6 +2706,9 @@
   <data name="COMPRESSING_FILES" xml:space="preserve">
     <value>正在压缩设备文件...</value>
   </data>
+  <data name="CONFIGURE_HA" xml:space="preserve">
+    <value>配置高可用性</value>
+  </data>
   <data name="CONFIGURE_HA_ELLIPSIS" xml:space="preserve">
     <value>配置高可用性(&amp;C)...</value>
   </data>
@@ -2719,7 +2722,7 @@
     <value>确认</value>
   </data>
   <data name="CONFIRMATIONS_DETAIL" xml:space="preserve">
-    <value>确认消除通知</value>
+    <value>确认解除警告或通知</value>
   </data>
   <data name="CONFIRM_CHANGE_CONTROL_DOMAIN_MEMORY" xml:space="preserve">
     <value>更改控制域内存将导致服务器重新启动。
@@ -3135,7 +3138,6 @@
   </data>
   <data name="CONNECTION_RESTRICTED_MESSAGE" xml:space="preserve">
     <value>与服务器 {0} 的连接受到限制，因为已经与另一个 XE 速成版服务器({1})建立连接</value>
-    <comment>Message shown when user attempts to connect to a second XE Express host from the UI</comment>
   </data>
   <data name="CONNECTION_RESTRICTED_MESSAGE_LONG" xml:space="preserve">
     <value>与服务器 {0} 的连接受到限制 - 已与 [Citrix XenServer] Express Edition 服务器({1})建立连接。
@@ -3143,7 +3145,7 @@
 一次只能连接到一个 [Citrix XenServer] Express Edition 服务器。要了解许可证的升级方法，请单击下面的链接。</value>
   </data>
   <data name="CONNECTION_RESTRICTED_NOTICE_TITLE" xml:space="preserve">
-    <value>由于许可证限制，无法连接 {0}</value>
+    <value>由于服务器上的许可证限制，无法连接到 {0}</value>
     <comment>Title of notice shown when connection to a host is restricted by license</comment>
   </data>
   <data name="CONNECTION_RETRYING_SLAVE" xml:space="preserve">
@@ -3244,6 +3246,259 @@
   </data>
   <data name="CONTROL_DOM_ON_HOST" xml:space="preserve">
     <value>主机 {0} 上的控制域</value>
+  </data>
+  <data name="CONVERSION_CANCEL_CONFIRM" xml:space="preserve">
+    <value>是否确实要取消此转换?</value>
+  </data>
+  <data name="CONVERSION_CANCEL_FAILURE" xml:space="preserve">
+    <value>无法取消转换。请参阅日志了解详细信息。</value>
+  </data>
+  <data name="CONVERSION_CANNOT_FIND_VPX" xml:space="preserve">
+    <value>找不到 Conversion Manager 虚拟设备。</value>
+  </data>
+  <data name="CONVERSION_CANNOT_OBTAIN_VPX_IP" xml:space="preserve">
+    <value>无法获取 Conversion Manager 虚拟设备的 IP 地址。</value>
+  </data>
+  <data name="CONVERSION_CLEAR_HISTORY_CONFIRM" xml:space="preserve">
+    <value>此操作将从 Conversion Manager 虚拟设备历史记录中清除所有已完成的转换。
+
+此操作无法撤消。是否确实要继续?</value>
+  </data>
+  <data name="CONVERSION_CLEAR_HISTORY_FAILURE" xml:space="preserve">
+    <value>无法清除转换历史记录。请参阅日志了解详细信息。</value>
+  </data>
+  <data name="CONVERSION_CONNECTING_VMWARE" xml:space="preserve">
+    <value>正在连接到 VMware 服务器...</value>
+  </data>
+  <data name="CONVERSION_CONNECTING_VMWARE_FAILURE" xml:space="preserve">
+    <value>无法连接到 VMware 服务器。请参阅日志了解详细信息。</value>
+  </data>
+  <data name="CONVERSION_CONNECTING_VMWARE_SUCCESS" xml:space="preserve">
+    <value>已成功连接到 VMware 服务器</value>
+  </data>
+  <data name="CONVERSION_CONNECTING_VPX_INTERRUPTION" xml:space="preserve">
+    <value>与 Conversion Manager 虚拟设备的连接已断开。将在 {0} 秒内重新连接。</value>
+  </data>
+  <data name="CONVERSION_CONNECTING_VPX_SUCCESS" xml:space="preserve">
+    <value>已连接到 Conversion Manager 虚拟设备。</value>
+  </data>
+  <data name="CONVERSION_CREATE_FAILURE" xml:space="preserve">
+    <value>无法开始新转换。请参阅日志了解详细信息。</value>
+  </data>
+  <data name="CONVERSION_CREDENTIALS_PAGE_TEXT" xml:space="preserve">
+    <value>VMware 服务器</value>
+  </data>
+  <data name="CONVERSION_CREDENTIALS_PAGE_TITLE" xml:space="preserve">
+    <value>连接到 VMware 服务器</value>
+  </data>
+  <data name="CONVERSION_DETAIL_CONVERSION_ID" xml:space="preserve">
+    <value>转换 ID</value>
+  </data>
+  <data name="CONVERSION_DETAIL_DESCRIPTION" xml:space="preserve">
+    <value>说明</value>
+  </data>
+  <data name="CONVERSION_DETAIL_DISK_WRITE" xml:space="preserve">
+    <value>磁盘写入</value>
+  </data>
+  <data name="CONVERSION_DETAIL_DURATION" xml:space="preserve">
+    <value>持续时间</value>
+  </data>
+  <data name="CONVERSION_DETAIL_FINISH_TIME" xml:space="preserve">
+    <value>完成时间</value>
+  </data>
+  <data name="CONVERSION_DETAIL_GET_FAILURE" xml:space="preserve">
+    <value>无法刷新转换。请参阅日志了解详细信息。</value>
+  </data>
+  <data name="CONVERSION_DETAIL_NETWORK_READ" xml:space="preserve">
+    <value>网络读取</value>
+  </data>
+  <data name="CONVERSION_DETAIL_NETWORK_READ_COMPRESSED" xml:space="preserve">
+    <value>{0} (压缩后)</value>
+  </data>
+  <data name="CONVERSION_DETAIL_START_TIME" xml:space="preserve">
+    <value>开始时间</value>
+  </data>
+  <data name="CONVERSION_DETAIL_STATUS" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="CONVERSION_DETAIL_TARGET_SR" xml:space="preserve">
+    <value>目标 SR</value>
+  </data>
+  <data name="CONVERSION_EXPORT" xml:space="preserve">
+    <value>将转换导出到 {0}</value>
+  </data>
+  <data name="CONVERSION_EXPORTED" xml:space="preserve">
+    <value>已将转换导出到 {0}</value>
+  </data>
+  <data name="CONVERSION_EXPORTING" xml:space="preserve">
+    <value>正在将转换导出到 {0}...</value>
+  </data>
+  <data name="CONVERSION_EXPORT_ALL_OR_FILTERED" xml:space="preserve">
+    <value>您已将过滤器应用到转换列表。要导出所有转换，还是仅导出您选择查看的转换?</value>
+  </data>
+  <data name="CONVERSION_INITIALIZING_VPX" xml:space="preserve">
+    <value>正在初始化 Conversion Manager 虚拟设备...</value>
+  </data>
+  <data name="CONVERSION_INITIALIZING_VPX_FAILURE" xml:space="preserve">
+    <value>无法初始化 Conversion Manager 虚拟设备。请查看日志了解详细信息。</value>
+  </data>
+  <data name="CONVERSION_LOG_SAVE" xml:space="preserve">
+    <value>将转换日志保存到 {0}</value>
+  </data>
+  <data name="CONVERSION_LOG_SAVED" xml:space="preserve">
+    <value>已将转换日志保存到 {0}</value>
+  </data>
+  <data name="CONVERSION_LOG_SAVE_TITLE" xml:space="preserve">
+    <value>保存转换日志</value>
+  </data>
+  <data name="CONVERSION_LOG_SAVING" xml:space="preserve">
+    <value>正在将转换日志保存到 {0}</value>
+  </data>
+  <data name="CONVERSION_MANAGER_TITLE" xml:space="preserve">
+    <value>管理转换 - {0}</value>
+  </data>
+  <data name="CONVERSION_NETWORK_PAGE_BLURB" xml:space="preserve">
+    <value>映射要转换为目标池或独立服务器中的网络的 VMware VM 的虚拟以太网适配器。</value>
+  </data>
+  <data name="CONVERSION_NETWORK_PAGE_COLUMN_HEADER" xml:space="preserve">
+    <value>VMware 网络</value>
+  </data>
+  <data name="CONVERSION_NETWORK_PAGE_QUERYING_NETWORKS" xml:space="preserve">
+    <value>正在检索源网络数据...</value>
+  </data>
+  <data name="CONVERSION_NETWORK_PAGE_QUERYING_NETWORKS_FAILURE" xml:space="preserve">
+    <value>检索源网络数据失败</value>
+  </data>
+  <data name="CONVERSION_NETWORK_PAGE_TEXT" xml:space="preserve">
+    <value>网络连接</value>
+  </data>
+  <data name="CONVERSION_NETWORK_PAGE_TITLE" xml:space="preserve">
+    <value>(可选)选择 [XenServer] 网络以连接 VM</value>
+  </data>
+  <data name="CONVERSION_RBAC_RESTRICTION" xml:space="preserve">
+    <value>用户 {0} 的权限不足，无法运行 Conversion Manager。请使用具有以下角色之一的帐户登录:
+
+{1}</value>
+  </data>
+  <data name="CONVERSION_RETRY_FAILURE" xml:space="preserve">
+    <value>无法重试转换。请参阅日志了解详细信息。</value>
+  </data>
+  <data name="CONVERSION_SELECT_VPX_TITLE" xml:space="preserve">
+    <value>选择 Conversion Manager 虚拟设备 - {0}</value>
+  </data>
+  <data name="CONVERSION_STATUS_CANCELLED" xml:space="preserve">
+    <value>已取消</value>
+  </data>
+  <data name="CONVERSION_STATUS_CREATED" xml:space="preserve">
+    <value>已创建</value>
+  </data>
+  <data name="CONVERSION_STATUS_FAILED" xml:space="preserve">
+    <value>失败</value>
+  </data>
+  <data name="CONVERSION_STATUS_INCOMPLETE" xml:space="preserve">
+    <value>未完成</value>
+  </data>
+  <data name="CONVERSION_STATUS_QUEUED" xml:space="preserve">
+    <value>已排队</value>
+  </data>
+  <data name="CONVERSION_STATUS_RUNNING" xml:space="preserve">
+    <value>进行中</value>
+  </data>
+  <data name="CONVERSION_STATUS_SUCCESSFUL" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_FREE_SPACE" xml:space="preserve">
+    <value>可用空间 {0}</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_QUERYING_SRS" xml:space="preserve">
+    <value>正在检索可用 SR...</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_QUERYING_SRS_EMPTY" xml:space="preserve">
+    <value>没有可以容纳转换后的 VM 的磁盘的 SR 位置</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_QUERYING_SRS_FAILURE" xml:space="preserve">
+    <value>无法检索可用 SR</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_REQUIRED_SPACE" xml:space="preserve">
+    <value>所需空间 {0}</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_SR_OVERCOMMIT" xml:space="preserve">
+    <value>SR 过度使用</value>
+  </data> 
+  <data name="CONVERSION_STORAGE_PAGE_SR_TOO_SMALL" xml:space="preserve">
+    <value>此 SR 上的可用空间不足</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_TEXT" xml:space="preserve">
+    <value>存储</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_TITLE" xml:space="preserve">
+    <value>选择目标存储</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_USED_SPACE" xml:space="preserve">
+    <value>已用空间 {0}</value>
+  </data>
+  <data name="CONVERSION_SUMMARY_DATA_MAC" xml:space="preserve">
+    <value>保留 MAC 地址:</value>
+  </data>
+  <data name="CONVERSION_SUMMARY_DATA_NETWORK" xml:space="preserve">
+    <value>网络:</value>
+  </data>
+  <data name="CONVERSION_SUMMARY_DATA_SR" xml:space="preserve">
+    <value>存储:</value>
+  </data>
+  <data name="CONVERSION_SUMMARY_DATA_VMS" xml:space="preserve">
+    <value>要转换的 VM:</value>
+  </data>
+  <data name="CONVERSION_SUMMARY_DATA_VMWARE_SERVER" xml:space="preserve">
+    <value>VMware 服务器:</value>
+  </data>
+  <data name="CONVERSION_SUMMARY_PAGE_TEXT" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="CONVERSION_SUMMARY_PAGE_TITLE" xml:space="preserve">
+    <value>查看转换设置</value>
+  </data>
+  <data name="CONVERSION_TEMPLATE" xml:space="preserve">
+    <value>{0} (模板)</value>
+  </data>
+  <data name="CONVERSION_TRY_AGAIN" xml:space="preserve">
+    <value>重试(&amp;T)</value>
+  </data>
+  <data name="CONVERSION_VERSION_CHECK" xml:space="preserve">
+    <value>正在检查与 Conversion Manager 虚拟设备的兼容性...</value>
+  </data>
+  <data name="CONVERSION_VERSION_CHECK_FAILURE" xml:space="preserve">
+    <value>无法检索 Conversion Manager 虚拟设备版本。请查看日志了解详细信息。</value>
+  </data>
+  <data name="CONVERSION_VERSION_INCOMPATIBILITY" xml:space="preserve">
+    <value>[XenCenter] 与此版本的 Conversion Manager 虚拟设备不兼容。</value>
+  </data>
+  <data name="CONVERSION_VERSION_INCOMPATIBILITY_INFO" xml:space="preserve">
+    <value>您正在使用的 Conversion Manager 虚拟设备的版本早于 [BRANDING_VERSION_7_0]。可以使用旧版 Conversion Manager 控制台来设置和控制转换。但是，强烈建议您导入并配置与您的 [XenServer] 版本匹配的 Conversion Manager 虚拟设备。</value>
+  </data>
+  <data name="CONVERSION_VM_PAGE_TEXT" xml:space="preserve">
+    <value>虚拟机</value>
+  </data>
+  <data name="CONVERSION_VM_PAGE_TITLE" xml:space="preserve">
+    <value>选择要转换的 VM</value>
+  </data>
+  <data name="CONVERSION_VPX_OBTAIN_IP" xml:space="preserve">
+    <value>正在获取 Conversion Manager 虚拟设备的 IP 地址...</value>
+  </data>
+  <data name="CONVERSION_VPX_RESUME" xml:space="preserve">
+    <value>正在恢复 Conversion Manager 虚拟设备...</value>
+  </data>
+  <data name="CONVERSION_VPX_START" xml:space="preserve">
+    <value>正在启动 Conversion Manager 虚拟设备...</value>
+  </data>
+  <data name="CONVERSION_VPX_UNKNOWN_POWER_STATE" xml:space="preserve">
+    <value>无法推断 Conversion Manager 虚拟设备的电源状态。</value>
+  </data>
+  <data name="CONVERSION_VPX_UNPAUSE" xml:space="preserve">
+    <value>正在取消暂停 Conversion Manager 虚拟设备...</value>
+  </data>
+  <data name="CONVERSION_WIZARD_TEXT" xml:space="preserve">
+    <value>新转换</value>
   </data>
   <data name="CONVERT" xml:space="preserve">
     <value>转换(&amp;C)</value>
@@ -4225,8 +4480,11 @@
   <data name="DISK_TOO_BIG" xml:space="preserve">
     <value>可用空间不足，无法供此磁盘使用</value>
   </data>
+  <data name="DISK_TOO_BIG_MAX_SIZE" xml:space="preserve">
+    <value>磁盘大小不能超过 {0}。</value>
+  </data>
   <data name="DISK_TOO_SMALL" xml:space="preserve">
-    <value>磁盘大小至少需要达到 {0} {1}</value>
+    <value>磁盘大小至少需要达到 {0}。</value>
   </data>
   <data name="DISMISS_ALL_CONFIRM_BUTTON" xml:space="preserve">
     <value>全部消除(&amp;A)</value>
@@ -4242,6 +4500,9 @@
   </data>
   <data name="DISPLAY_DETAILS" xml:space="preserve">
     <value>显示选项</value>
+  </data>
+  <data name="DMC" xml:space="preserve">
+    <value>动态内存控制</value>
   </data>
   <data name="DMC_UNAVAILABLE_LICENSE_RESTRICTION" xml:space="preserve">
     <value>由于服务器上存在许可证限制，因此，动态内存控制(DMC)不可用。</value>
@@ -4988,6 +5249,9 @@
   <data name="ERROR_DEACTIVATING_MULTIPLE_VDIS_TITLE" xml:space="preserve">
     <value>停用虚拟磁盘时出错</value>
   </data>
+  <data name="ERROR_DESTINATION_DIR_NON_EXIST" xml:space="preserve">
+    <value>目标目录不存在。</value>
+  </data>
   <data name="ERROR_DESTROYING_STORAGE_ITEMS_MESSAGE" xml:space="preserve">
     <value>无法销毁以下存储:</value>
   </data>
@@ -5270,6 +5534,9 @@
   <data name="EXPORT_ALL" xml:space="preserve">
     <value>全部导出</value>
   </data>
+  <data name="EXPORT_ALL_BUTTON" xml:space="preserve">
+    <value>全部导出(&amp;A)</value>
+  </data>
   <data name="EXPORT_APPLIANCE" xml:space="preserve">
     <value>导出 OVF/OVA 包</value>
   </data>
@@ -5281,9 +5548,6 @@
   </data>
   <data name="EXPORT_APPLIANCE_PAGE_ERROR_INVALID_DIR" xml:space="preserve">
     <value>目标目录无效。</value>
-  </data>
-  <data name="EXPORT_APPLIANCE_PAGE_ERROR_NON_EXIST_DIR" xml:space="preserve">
-    <value>目标目录不存在。</value>
   </data>
   <data name="EXPORT_APPLIANCE_PAGE_ERROR_PERMISSIONS" xml:space="preserve">
     <value>您没有目标目录的写权限。</value>
@@ -5323,6 +5587,9 @@
   </data>
   <data name="EXPORT_EULA_PAGE_TOOLTIP" xml:space="preserve">
     <value>已达到最大 EULA 数({0})。</value>
+  </data>
+  <data name="EXPORT_FILTERED_BUTTON" xml:space="preserve">
+    <value>仅导出可见警报(&amp;V)</value>
   </data>
   <data name="EXPORT_OPTIONS_PAGE_TEXT" xml:space="preserve">
     <value>高级选项</value>
@@ -5811,10 +6078,10 @@
     <value>通过为 VM 分配专用的图形处理器(GPU)可以提高图形性能。但在该服务器中未检测到 GPU，因此，此选项当前不可用。</value>
   </data>
   <data name="GPU_RUBRIC_PLEASE_SELECT_WHICH_GPU_MULTIPLE" xml:space="preserve">
-    <value>选择允许在这些 GPU 上使用的虚拟 GPU 类型:</value>
+    <value>选择允许在这些 GPU 上使用的虚拟 GPU 类型。</value>
   </data>
   <data name="GPU_RUBRIC_PLEASE_SELECT_WHICH_GPU_ONE" xml:space="preserve">
-    <value>选择允许在此 GPU 上使用的虚拟 GPU 类型:</value>
+    <value>选择允许在此 GPU 上使用的虚拟 GPU 类型。</value>
   </data>
   <data name="GRAPHS_CANNOT_ADD_VM_HALTED" xml:space="preserve">
     <value>无法在 VM“{0}”上添加新的性能图表，因为该 VM 未运行。</value>
@@ -5975,6 +6242,9 @@
   <data name="HA_CONFIGURE_NOW" xml:space="preserve">
     <value>立即配置高可用性...</value>
   </data>
+  <data name="HA_CONFIGURE_NO_STATEFILE" xml:space="preserve">
+    <value>无法为池“{0}”配置高可用性，因为在池中找不到高可用性状态文件 VDI。</value>
+  </data>
   <data name="HA_CONFIRM_FORCESHUTDOWN_VM" xml:space="preserve">
     <value>所选 VM 当前受高可用性保护。是否确实要强制关闭该 VM? 该操作将取消该 VM 的所有运行中的任务，并会导致数据丢失。</value>
   </data>
@@ -5995,6 +6265,9 @@
   </data>
   <data name="HA_CURRENT_CAPACITY" xml:space="preserve">
     <value>当前故障容量:</value>
+  </data>
+  <data name="HA_DISABLE_NO_STATEFILE" xml:space="preserve">
+    <value>无法为池“{0}”禁用高可用性，因为在池中找不到高可用性状态文件 VDI。</value>
   </data>
   <data name="HA_DISABLE_QUERY" xml:space="preserve">
     <value>是否确实要为池“{0}”禁用高可用性?</value>
@@ -6121,7 +6394,7 @@
     <value>{0} - 池被过度使用</value>
   </data>
   <data name="HA_OVERCOMMIT_BLURB" xml:space="preserve">
-    <value>如果池被过度使用，将无法保证容许指定的服务器故障数。
+    <value>如果过度使用，池将无法保证容许指定的服务器故障数量。
 
 请降低保护级别，或者将更多服务器联机以增加支持的容错量。</value>
   </data>
@@ -6482,16 +6755,16 @@
     <value>必须重新启动服务器“{0}”以完成还原进程。</value>
   </data>
   <data name="HOST_REMOVED_MANY_CRASHDUMPS" xml:space="preserve">
-    <value>已从 {1} 删除 {0} 个故障转储</value>
+    <value>已从 {1} 中删除 {0} 个故障转储</value>
   </data>
   <data name="HOST_REMOVED_ONE_CRASHDUMP" xml:space="preserve">
-    <value>已从 {0} 删除 1 个故障转储</value>
+    <value>已从 {0} 中删除 1 个故障转储</value>
   </data>
   <data name="HOST_REMOVING_CRASHDUMP" xml:space="preserve">
-    <value>正在从 {2} 删除 {1} 个故障转储中的第 {0} 个</value>
+    <value>正在从 {2} 中删除 {0} 个故障转储，共 {1} 个</value>
   </data>
   <data name="HOST_REMOVING_CRASHDUMPS_TITLE" xml:space="preserve">
-    <value>正在从 {0} 删除故障转储</value>
+    <value>正在从 {0} 中删除故障转储</value>
   </data>
   <data name="HOST_RESTORED" xml:space="preserve">
     <value>服务器“{0}”已还原。</value>
@@ -6513,6 +6786,60 @@
   </data>
   <data name="HOTFIX_CHECK" xml:space="preserve">
     <value>修补程序检查</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_DESCRIPTION_APPROACHING_EOL" xml:space="preserve">
+    <value>{0} 将于 {1} 达到生命周期已结束状态。在此日期之后，{2} 将不再有资格获得支持，并且我们不会再为此版本发布更多修补程序。请升级到受支持的最新版本。</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_DESCRIPTION_APPROACHING_EOL_FREE" xml:space="preserve">
+    <value>{0} 将于 {1} 达到生命周期已结束状态。在此日期之后将不再发布更多修补程序。请升级到最新的 CR。</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_DESCRIPTION_CU" xml:space="preserve">
+    <value>新的累积更新可用于 {0}。在 {1} 之后，将不会有更多的修补程序面向 {2} 发布。请更新到最新的累积更新。</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_DESCRIPTION_EOL" xml:space="preserve">
+    <value>{0} 已于 {1} 达到生命周期已结束状态，并且不再有资格获得支持。在此日期之后将不再发布更多修补程序。请升级到受支持的最新版本。</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_DESCRIPTION_EOL_FREE" xml:space="preserve">
+    <value>{0} 已于 {1} 达到生命周期已结束状态。在此日期之后将不再发布更多修补程序。请升级到最新的 CR。</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_DESCRIPTION_FREE" xml:space="preserve">
+    <value>{0} 已于 {1} 达到速成版客户的生命周期已结束状态。您不再有资格获得此日期之后发布的修补程序。请升级到最新的 CR。</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_TITLE_APPROACHING_EOL" xml:space="preserve">
+    <value>{0} 将于 {1} 达到生命周期已结束状态</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_TITLE_CU" xml:space="preserve">
+    <value>新的累积更新可用</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_TITLE_EOL" xml:space="preserve">
+    <value>{0} 已达到生命周期已结束状态</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_TITLE_FREE" xml:space="preserve">
+    <value>{0} 已达到速成版客户的生命周期已结束状态</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_CU" xml:space="preserve">
+    <value>在 {0} 之后不再发布更多修补程序</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_CU_NO_DATE" xml:space="preserve">
+    <value>新的累积更新可用</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_EOL" xml:space="preserve">
+    <value>{0} 生命周期已结束。不再有资格获得支持</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_EOL_FREE" xml:space="preserve">
+    <value>{0} 生命周期已结束</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_EOL_FREE_NO_DATE" xml:space="preserve">
+    <value>生命周期已结束</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_EOL_NO_DATE" xml:space="preserve">
+    <value>生命周期已结束。不再有资格获得支持</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_FREE" xml:space="preserve">
+    <value>没有资格获得 {0} 之后发布的修补程序</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_FREE_NO_DATE" xml:space="preserve">
+    <value>速成版客户的生命周期已结束</value>
   </data>
   <data name="HOURLY_SCHEDULE_FORMAT" xml:space="preserve">
     <value>每小时；在每小时的第 {0} 分钟</value>
@@ -6601,6 +6928,9 @@
   <data name="IMPORT_INCOMPLETE_FILES" xml:space="preserve">
     <value>导出的文件不完整，或格式无法识别。</value>
   </data>
+  <data name="IMPORT_OPTIONS_PAGE_CANNOT_USE_SELECTED_ISO_LIBRARY" xml:space="preserve">
+    <value>修复 ISO 无法复制到选定的 SR</value>
+  </data>
   <data name="IMPORT_OPTIONS_PAGE_CHOOSE_ISO_SR" xml:space="preserve">
     <value>[选择一个 ISO SR]</value>
   </data>
@@ -6641,16 +6971,13 @@
     <value>验证清单文件内容(&amp;V)</value>
   </data>
   <data name="IMPORT_SECURITY_PAGE_VERIFY_CONTENT_DESCRIPTION" xml:space="preserve">
-    <value>验证清单文件与设备文件是否匹配。仅当设备具有清单文件时才会激活该选项。</value>
+    <value>设备具有清单文件。您可以选择验证清单是否与设备文件匹配。</value>
   </data>
   <data name="IMPORT_SECURITY_PAGE_VERIFY_PRODUCER" xml:space="preserve">
     <value>验证数字签名(&amp;V)</value>
   </data>
   <data name="IMPORT_SECURITY_PAGE_VERIFY_PRODUCER_DESCRIPTION" xml:space="preserve">
-    <value>验证设备的数字签名是否有效。仅当设备已经过数字签名后才会激活该选项。</value>
-  </data>
-  <data name="IMPORT_SELECT_APPLIANCE_PAGE_ERROR_CORRUPT_OVA" xml:space="preserve">
-    <value>OVA 文件已破坏或包含无效数据。</value>
+    <value>已对设备进行数字签名。您可以选择验证设备的数字签名是否有效。</value>
   </data>
   <data name="IMPORT_SELECT_APPLIANCE_PAGE_ERROR_INVALID_PATH" xml:space="preserve">
     <value>路径包含无效字符。</value>
@@ -6713,7 +7040,8 @@
     <value>只有 OVF/OVA 包可以作为 vApp 导入。</value>
   </data>
   <data name="IMPORT_SOURCE_PAGE_FILETYPES" xml:space="preserve">
-    <value>所有导入选项(*.ovf;*.ova;*.ova.gz;*.vhd;*.vmdk;*.xva;ova.xml)|*.ovf;*.ova;*.ova.gz;*.vhd;*.vmdk;*.xva;ova.xml|OVF/OVA 包文件(*.ovf;*.ova;*.ova.gz)|*.ovf;*.ova*;*.ova.gz|虚拟硬盘映像(*.vhd;*.vmdk;)|*.vhd;*.vmdk;|XVA 文件(*.xva)|*.xva|XVA 版本 1|ova.xml</value>
+    <value>所有导入选项
+(*.ovf;*.ova;*.ova.gz;*.vhd;*.vmdk;*.xva;*.xva.gz;ova.xml)|*.ovf;*.ova;*.ova.gz;*.vhd;*.vmdk;*.xva;*.xva.gz;ova.xml|OVF/OVA 包文件(*.ovf;*.ova;*.ova.gz)|*.ovf;*.ova*;*.ova.gz|虚拟硬盘图像(*.vhd;*.vmdk;)|*.vhd;*.vmdk;|XVA 文件(*.xva;*.xva.gz)|*.xva;*.xva.gz|XVA 版本 1|ova.xml</value>
   </data>
   <data name="IMPORT_SOURCE_PAGE_FILETYPES_OVF_ONLY" xml:space="preserve">
     <value>OVF/OVA 包文件(*.ovf;*.ova;*.ova.gz)|*.ovf;*.ova*;*.ova.gz</value>
@@ -6790,9 +7118,6 @@
   <data name="IMPORT_VM_SELECT_HOME_SERVER" xml:space="preserve">
     <value>为新 VM 选择主服务器</value>
   </data>
-  <data name="IMPORT_VM_SELECT_SR" xml:space="preserve">
-    <value>选择将用来为新 VM 存储虚拟磁盘的存储库</value>
-  </data>
   <data name="IMPORT_VM_VIFS" xml:space="preserve">
     <value>为新 VM 配置虚拟网络接口</value>
   </data>
@@ -6830,13 +7155,13 @@
     <value>无法解压缩文件 {0}。请参阅日志了解详细信息。</value>
   </data>
   <data name="IMPORT_WIZARD_NETWORKING_INTRO" xml:space="preserve">
-    <value>将所导入 VM 中的虚拟网络接口映射到目标池或独立服务器中的网络。</value>
+    <value>将要导入的 VM 中的虚拟网络接口映射到目标池或独立服务器中的网络。</value>
   </data>
   <data name="IMPORT_WIZARD_SPECIFIC_SR_RADIO" xml:space="preserve">
     <value>将导入的虚拟磁盘放在指定的目标 SR 上(&amp;S):</value>
   </data>
   <data name="IMPORT_WIZARD_STORAGE_INSTRUCTIONS" xml:space="preserve">
-    <value>将所导入 VM 中的虚拟磁盘放在目标池或独立服务器中的存储库(SR)上。</value>
+    <value>将要导入的 VM 中的虚拟磁盘放在目标池或独立服务器中的存储库(SR)上。</value>
   </data>
   <data name="IMPORT_WIZARD_TEMPLATE_SR_HINT_TEXT" xml:space="preserve">
     <value>为导入模板选择存储库。</value>
@@ -6845,7 +7170,7 @@
     <value>正在解压缩文件 {0}，请稍候...</value>
   </data>
   <data name="IMPORT_WIZARD_VM_SELECTION_INTRODUCTION" xml:space="preserve">
-    <value>所导入 VM 中的虚拟网络接口(&amp;V):</value>
+    <value>所导入的 VM 中的虚拟网络接口(&amp;V):</value>
   </data>
   <data name="IMPORT_WIZARD_VM_SR_HINT_TEXT" xml:space="preserve">
     <value>为导入的虚拟机选择存储库。</value>
@@ -6974,10 +7299,7 @@
     <value>主机名无效</value>
   </data>
   <data name="INVALID_NUMBER" xml:space="preserve">
-    <value>数值无效</value>
-  </data>
-  <data name="INVALID_OVF" xml:space="preserve">
-    <value>这似乎不是有效的 OVF 文件。</value>
+    <value>磁盘大小无效</value>
   </data>
   <data name="INVALID_PARAMETER" xml:space="preserve">
     <value>参数无效</value>
@@ -7082,9 +7404,6 @@ SCSI ID: {2}
   <data name="JOINING_AD" xml:space="preserve">
     <value>请输入具有足够的向域“{0}”中添加服务器权限的用户名和密码。</value>
   </data>
-  <data name="KEEP_WAITING_BUTTON_LABEL" xml:space="preserve">
-    <value>继续等待(&amp;K)</value>
-  </data>
   <data name="LABEL_ATTEMPT" xml:space="preserve">
     <value>正在尝试连接 {0}...</value>
   </data>
@@ -7108,6 +7427,9 @@ SCSI ID: {2}
   </data>
   <data name="LAUNCH_LICENSE_MANAGER" xml:space="preserve">
     <value>许可证管理器</value>
+  </data>
+  <data name="LEARN_MORE" xml:space="preserve">
+    <value>了解更多</value>
   </data>
   <data name="LEAVING_AD" xml:space="preserve">
     <value>输入具有足够的从 AD 中删除计算机帐户权限的用户名和密码。即使无法删除计算机帐户，也将禁用身份验证。</value>
@@ -7357,9 +7679,6 @@ Premium 功能已启用</value>
   <data name="LOCAL_STORAGE_CANNOT_BE_SEEN" xml:space="preserve">
     <value>从该服务器无法看到您选择的 {0} 本地的存储</value>
   </data>
-  <data name="LOCAL_TO_LOCAL_MOVE" xml:space="preserve">
-    <value>无法在本地 SR 之间移动虚拟磁盘</value>
-  </data>
   <data name="LOCATION_LABEL" xml:space="preserve">
     <value>位置:</value>
   </data>
@@ -7487,6 +7806,9 @@ SCSI ID: {2}
   <data name="MAINWINDOW_CONTEXT_UPDATING" xml:space="preserve">
     <value>{0} (正在更新...)</value>
   </data>
+  <data name="MAINWINDOW_CONVERSION_MANAGER_MENU_ITEM" xml:space="preserve">
+    <value>Conversion Manager(&amp;E)...</value>
+  </data>
   <data name="MAINWINDOW_CONVERT_VM_TO_TEMPLATE" xml:space="preserve">
     <value>转换为模板(&amp;T)...</value>
   </data>
@@ -7518,7 +7840,7 @@ SCSI ID: {2}
     <value>Ctrl+Y</value>
   </data>
   <data name="MAINWINDOW_DELETE_OBJECTS" xml:space="preserve">
-    <value>删除(&amp;L)...</value>
+    <value>删除(&amp;D)...</value>
   </data>
   <data name="MAINWINDOW_DELETE_POOL" xml:space="preserve">
     <value>拆分为独立服务器(&amp;E)</value>
@@ -7531,9 +7853,6 @@ SCSI ID: {2}
   </data>
   <data name="MAINWINDOW_DELETE_TEMPLATE" xml:space="preserve">
     <value>删除模板(&amp;D)...</value>
-  </data>
-  <data name="MAINWINDOW_DELETE_VM" xml:space="preserve">
-    <value>删除 VM(&amp;D)...</value>
   </data>
   <data name="MAINWINDOW_DESTROY_SR" xml:space="preserve">
     <value>销毁(&amp;O)...</value>
@@ -7982,12 +8301,6 @@ SCSI ID: {2}
   <data name="MESSAGEBOX_FORGET_SR_CONTINUE_YES_BUTTON_LABEL" xml:space="preserve">
     <value>是，忘记(&amp;Y)</value>
   </data>
-  <data name="MESSAGEBOX_HELP_TOPICS" xml:space="preserve">
-    <value>正在启动帮助主题 {0} ({1})。</value>
-  </data>
-  <data name="MESSAGEBOX_HELP_TOPIC_NOT_FOUND" xml:space="preserve">
-    <value>帮助主题 {0} 不存在。</value>
-  </data>
   <data name="MESSAGEBOX_LOAD_CORRUPTED" xml:space="preserve">
     <value>您所保存的设置可能已损坏。请将更改还原为 {0} 或删除该文件以返回默认值。</value>
   </data>
@@ -8116,6 +8429,9 @@ SCSI ID: {2}
   </data>
   <data name="MOREONE_VM_SELECTED" xml:space="preserve">
     <value>已选择 {0} 个 VM</value>
+  </data>
+  <data name="MORE_INFO" xml:space="preserve">
+    <value>更多信息...</value>
   </data>
   <data name="MOVED" xml:space="preserve">
     <value>已移动</value>
@@ -8370,9 +8686,6 @@ SCSI ID: {2}
   </data>
   <data name="NEWDISKWIZARD_MESSAGE" xml:space="preserve">
     <value>需要先关闭并重新启动 VM 才能访问新磁盘。</value>
-  </data>
-  <data name="NEWDISKWIZARD_MESSAGE_TITLE" xml:space="preserve">
-    <value>已创建磁盘</value>
   </data>
   <data name="NEWER_GUI_AVAILABLE" xml:space="preserve">
     <value>有更新版本的 [XenCenter] 可用。请与支持代表联系。</value>
@@ -8915,8 +9228,20 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="NEWVMWIZARD_STORAGEPAGE_DISK_DESCRIPTION" xml:space="preserve">
     <value>由模板设置程序创建</value>
   </data>
+  <data name="NEWVMWIZARD_STORAGEPAGE_DEFAULT_LOCAL" xml:space="preserve">
+    <value>没有主服务器的 VM 在默认 SR“{0}”上不能有磁盘。</value>
+  </data>
+  <data name="NEWVMWIZARD_STORAGEPAGE_DEFAULT_NOSPACE" xml:space="preserve">
+    <value>默认 SR“{0}”的可用空间不足，无法存储新 VM 的磁盘。</value>
+  </data>
   <data name="NEWVMWIZARD_STORAGEPAGE_NAME" xml:space="preserve">
     <value>存储</value>
+  </data>
+  <data name="NEWVMWIZARD_STORAGEPAGE_SUGGESTED_LOCAL" xml:space="preserve">
+    <value>没有主服务器的 VM 在模板({0})建议的 SR 上不能有磁盘。</value>
+  </data>
+  <data name="NEWVMWIZARD_STORAGEPAGE_SUGGESTED_NOSPACE" xml:space="preserve">
+    <value>模板({0})建议的 SR 的可用空间不足，无法存储新 VM 的磁盘。</value>
   </data>
   <data name="NEWVMWIZARD_STORAGEPAGE_NOSTORAGE" xml:space="preserve">
     <value>&lt;没有合适的存储&gt;</value>
@@ -8929,6 +9254,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="NEWVMWIZARD_STORAGEPAGE_VDINAME" xml:space="preserve">
     <value>{0} {1}</value>
+  </data>
+  <data name="NEWVMWIZARD_STORAGEPAGE_XC_SELECTION" xml:space="preserve">
+    <value>[XenCenter] 为您选择了不同的 SR。</value>
   </data>
   <data name="NEWVMWIZARD_TEMPLATEPAGE_CENTOS" xml:space="preserve">
     <value>CentOS</value>
@@ -8984,6 +9312,12 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="NEWVMWIZARD_TEMPLATEPAGE_WINDOWS" xml:space="preserve">
     <value>Windows</value>
   </data>
+  <data name="NEWVMWIZARD_VGPUPAGE_MULTIPLE_VGPU_INFO" xml:space="preserve">
+    <value>选定的虚拟 GPU 类型支持多个实例。</value>
+  </data>
+  <data name="NEWVMWIZARD_VGPUPAGE_SINGLE_VGPU_INFO" xml:space="preserve">
+    <value>选定的虚拟 GPU 类型不支持多个实例。</value>
+  </data>
   <data name="NEWVMWIZARD_VGPUPAGE_TITLE" xml:space="preserve">
     <value>分配虚拟 GPU</value>
   </data>
@@ -9013,9 +9347,6 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="NEW_DVD_DRIVES_REQUIRED" xml:space="preserve">
     <value>在要安装 [Citrix VM Tools] 的 VM 中，至少有一个 VM 没有 DVD 驱动器。是否要为需要 DVD 驱动器的每个 VM 创建新 DVD 驱动器?</value>
-  </data>
-  <data name="NEW_DVD_DRIVE_CREATED" xml:space="preserve">
-    <value>已创建 DVD 驱动器</value>
   </data>
   <data name="NEW_DVD_DRIVE_CREATE_TITLE" xml:space="preserve">
     <value>正在 VM {0} 上创建新 DVD 驱动器</value>
@@ -9106,7 +9437,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
 强烈建议您首先单击“取消”并将最新版本的软件包应用到所有服务器，然后再创建池。</value>
   </data>
   <data name="NEW_SCHEDULE" xml:space="preserve">
-    <value>新建计划(&amp;N)...</value>
+    <value>新建快照计划(&amp;N)...</value>
   </data>
   <data name="NEW_SEARCH" xml:space="preserve">
     <value>新搜索</value>
@@ -9489,15 +9820,6 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="OVERVIEW_UNITS" xml:space="preserve">
     <value>(平均/最大KB/秒)</value>
   </data>
-  <data name="OVF_CREATED" xml:space="preserve">
-    <value>由 [XenCenter] 磁盘映像导入创建</value>
-  </data>
-  <data name="OVF_DISK_CAPTION" xml:space="preserve">
-    <value>虚拟磁盘</value>
-  </data>
-  <data name="OVF_NET_DESCRIPTION" xml:space="preserve">
-    <value>虚拟网络</value>
-  </data>
   <data name="PARENT_FOLDER" xml:space="preserve">
     <value>父文件夹</value>
   </data>
@@ -9533,9 +9855,6 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="PASSWORDS_EMPTY" xml:space="preserve">
     <value>密码不能为空</value>
-  </data>
-  <data name="PASSWORDS_REQUEST_ALWAYS_DISABLED_TOOLTIP_BODY" xml:space="preserve">
-    <value>已设置主密码，因此“始终提供密码”不可用。</value>
   </data>
   <data name="PASSWORD_INCORRECT" xml:space="preserve">
     <value>键入的密码不正确</value>
@@ -9575,6 +9894,12 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_TITLE" xml:space="preserve">
     <value>上载并安装更新</value>
   </data>
+  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_WARNING_MANY" xml:space="preserve">
+    <value>某些自动更新过程已完成，但出现警告。</value>
+  </data>
+  <data name="PATCHINGWIZARD_AUTOUPDATINGPAGE_WARNING_ONE" xml:space="preserve">
+    <value>自动更新过程已完成，但出现警告。</value>
+  </data>
   <data name="PATCHINGWIZARD_CLEANUP" xml:space="preserve">
     <value>清理...</value>
   </data>
@@ -9601,9 +9926,6 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="PATCHINGWIZARD_MODEPAGE_TITLE" xml:space="preserve">
     <value>选择更新模式</value>
-  </data>
-  <data name="PATCHINGWIZARD_MORE_INFO" xml:space="preserve">
-    <value>更多信息...</value>
   </data>
   <data name="PATCHINGWIZARD_PATCHINGPAGE_POOL_RESOLVE" xml:space="preserve">
     <value>解决池问题</value>
@@ -9660,7 +9982,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>预检查失败。</value>
   </data>
   <data name="PATCHINGWIZARD_PRECHECKPAGE_FIRSTLINE" xml:space="preserve">
-    <value>执行更新预检查是为了确认更新 {0} 能够在服务器上应用。</value>
+    <value>执行更新预检查是为了确认更新“{0}”可以应用于服务器。</value>
   </data>
   <data name="PATCHINGWIZARD_PRECHECKPAGE_FIRSTLINE_AUTOMATED_UPDATES_MODE" xml:space="preserve">
     <value>已执行预检查，以验证自动更新是否能够继续。</value>
@@ -9737,6 +10059,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_PATCH_NOT_APPLICABLE" xml:space="preserve">
     <value>更新不适用</value>
   </data>
+  <data name="PATCHINGWIZARD_SELECTSERVERPAGE_PATCH_NOT_APPLICABLE_OR_INVALID" xml:space="preserve">
+    <value>更新不适用或文件包含无效数据。</value>
+  </data>
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_RUBRIC_AUTOMATED_MODE" xml:space="preserve">
     <value>选择要更新的一个或多个池或独立服务器。
 无法通过自动更新更新的服务器在此列表中显示为已禁用。</value>
@@ -9777,6 +10102,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="PATCHINGWIZARD_SINGLEUPDATE_FAILURE_PER_POOL_ONE" xml:space="preserve">
     <value>安装更新 {0} 过程中出现以下错误:</value>
   </data>
+  <data name="PATCHINGWIZARD_SINGLEUPDATE_MANUAL_POST_UPDATE" xml:space="preserve">
+    <value>请执行以下列表中所有待处理的更新后任务:</value>
+  </data>
   <data name="PATCHINGWIZARD_SINGLEUPDATE_SUCCESS_MANY" xml:space="preserve">
     <value>已成功在所有选定的服务器上安装更新 {0}。</value>
   </data>
@@ -9785,6 +10113,12 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="PATCHINGWIZARD_SINGLEUPDATE_TITLE" xml:space="preserve">
     <value>[XenCenter] 现在正在您的系统中安装更新 {0}。</value>
+  </data>
+  <data name="PATCHINGWIZARD_SINGLEUPDATE_WARNING_MANY" xml:space="preserve">
+    <value>更新 {0} 的安装已完成，但在某些选定的服务器上出现警告。</value>
+  </data>
+  <data name="PATCHINGWIZARD_SINGLEUPDATE_WARNING_ONE" xml:space="preserve">
+    <value>更新 {0} 的安装已完成，但出现警告。</value>
   </data>
   <data name="PATCHINGWIZARD_SINGLEUPLOAD_CANCELLATION" xml:space="preserve">
     <value>上载过程已取消。</value>
@@ -9814,6 +10148,12 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="PATCHINGWIZARD_SINGLEUPLOAD_TITLE" xml:space="preserve">
     <value>[XenCenter] 现在正在执行将您的更新上载到上一步骤中指定的服务器所需的操作。请等待完成这些操作，然后单击“下一步”继续进行安装。</value>
+  </data>
+  <data name="PATCHINGWIZARD_SINGLEUPLOAD_WARNING_MANY" xml:space="preserve">
+    <value>更新 {0} 的上载已完成，但在某些选定的服务器上出现警告。</value>
+  </data>
+  <data name="PATCHINGWIZARD_SINGLEUPLOAD_WARNING_ONE" xml:space="preserve">
+    <value>更新 {0} 的上载已完成，但出现警告。</value>
   </data>
   <data name="PATCHINGWIZARD_UPLOADPAGE_TEXT" xml:space="preserve">
     <value>上载</value>
@@ -9983,11 +10323,17 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="PLAN_ACTION_ERROR" xml:space="preserve">
     <value> 错误。</value>
   </data>
+  <data name="PLAN_ACTION_FAILURE_NO_HOSTS_AVAILABLE" xml:space="preserve">
+    <value>无法撤消服务器“{0}”，因为没有可用的服务器来容纳从此服务器迁移的所有 VM。请在安装更新后重新启动等待重新启动的其他服务器，然后按“重试”继续执行此过程。</value>
+  </data>
   <data name="PLAN_ACTION_FAILURE_NOT_ENOUGH_MEMORY" xml:space="preserve">
     <value>服务器“{0}”无法撤离，因为其他服务器上没有足够的可用内存以迁移此服务器中的所有 VM。请暂停或关闭某些 VM，然后按“重试”以恢复该过程。</value>
   </data>
   <data name="PLAN_ACTION_STATUS_INSTALLING_XENSERVER" xml:space="preserve">
     <value>正在“{0}”上安装 [XenServer]...</value>
+  </data>
+  <data name="PLAN_ACTION_STATUS_INSTALLING_XENSERVER_VERSION" xml:space="preserve">
+    <value>正在“{1}”上安装 [XenServer]...</value>
   </data>
   <data name="PLAN_ACTION_STATUS_RECONNECTING_STORAGE" xml:space="preserve">
     <value>正在重新连接存储...</value>
@@ -10004,7 +10350,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>插件</value>
   </data>
   <data name="PLUGINS_DESC" xml:space="preserve">
-    <value>调整 [XenCenter] 插件的设置</value>
+    <value>调整 [XenCenter] 的插件的设置</value>
   </data>
   <data name="PLUGINS_MENU_ITEMS_ONLY_ONE_CHILD_ALLOWED" xml:space="preserve">
     <value>菜单项功能必须只有一个命令 XML 节点作为子项</value>
@@ -10131,6 +10477,12 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="POOL_HAS_NO_SHARED_STORAGE" xml:space="preserve">
     <value>该池无共享存储</value>
+  </data>
+  <data name="POOL_HAS_PV_GUEST_UPDATE_WARNING" xml:space="preserve">
+    <value>{0}: 截至 [XenServer] [BRANDING_VERSION_8_1]，已放弃对半虚拟化的(PV)来宾的支持。单击“了解更多”可查看支持的来宾操作系统列表。 </value>
+  </data>
+  <data name="POOL_HAS_PV_GUEST_UPGRADE_WARNING" xml:space="preserve">
+    <value>{0}: 截至 [XenServer] [BRANDING_VERSION_8_1]，已放弃对半虚拟化的(PV)来宾的支持。单击“了解更多”可查看支持的来宾操作系统列表。 </value>
   </data>
   <data name="POOL_IS_PARTIALLY_LICENSED" xml:space="preserve">
     <value>池获得部分许可</value>
@@ -10335,6 +10687,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="PV_DRIVERS_OUT_OF_DATE_UNKNOWN_VERSION" xml:space="preserve">
     <value>[Citrix VM Tools] 已过期</value>
+  </data>
+  <data name="PV_GUESTS_CHECK_DESCRIPTION" xml:space="preserve">
+    <value>来宾兼容性检查</value>
   </data>
   <data name="QOS_LIMIT_INVALID" xml:space="preserve">
     <value>QoS 限制必须介于 1 和 2147483647 之间(或者留空)。</value>
@@ -10566,7 +10921,10 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>删除服务器(&amp;R)...</value>
   </data>
   <data name="REMOVE_SERVER_FROM_POOL_CONTEXT_MENU_ITEM_TEXT" xml:space="preserve">
-    <value>从池中删除服务器(&amp;P)</value>
+    <value>从池中删除(&amp;P)</value>
+  </data>
+  <data name="REMOVE_SERVER_MENU_ITEM" xml:space="preserve">
+    <value>删除服务器(&amp;M)</value>
   </data>
   <data name="REMOVE_SNAPSHOT" xml:space="preserve">
     <value>删除快照</value>
@@ -10849,11 +11207,10 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>滚动池升级过程已成功完成。</value>
   </data>
   <data name="ROLLING_UPGRADE_TIMEOUT" xml:space="preserve">
-    <value>仍在等待升级完成。
-
-请检查服务器控制台是否存在错误。
-    
-如果升级仍在运行，请单击“继续等待”，如果出现错误，请单击“取消”。</value>
+    <value>仍在等待“{0}”上的 [XenServer] 完成安装。请检查服务器控制台中是否存在错误。如果安装仍在运行，请继续等待...</value>
+  </data>
+  <data name="ROLLING_UPGRADE_TIMEOUT_VERSION" xml:space="preserve">
+    <value>仍在等待“{1}”上的 [XenServer] {0} 完成安装。请检查服务器控制台中是否存在错误。如果安装仍在运行，请继续等待...</value>
   </data>
   <data name="ROLLING_UPGRADE_TITLE_MODE" xml:space="preserve">
     <value>升级模式</value>
@@ -10872,6 +11229,12 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="ROLLING_UPGRADE_UPGRADE_NOT_COMPLETED" xml:space="preserve">
     <value>滚动池升级未完成。</value>
+  </data>
+  <data name="ROLLING_UPGRADE_WARNING_MANY" xml:space="preserve">
+    <value>一个或多个滚动池升级过程已完成，但出现警告。</value>
+  </data>
+  <data name="ROLLING_UPGRADE_WARNING_ONE" xml:space="preserve">
+    <value>滚动池升级过程已完成，但出现警告。</value>
   </data>
   <data name="RPU_WIZARD_ERROR_SKIP_MSG" xml:space="preserve">
     <value>可能已跳过 {0}。</value>
@@ -11459,6 +11822,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>初始分配: {0}
 增量分配: {1}</value>
   </data>
+  <data name="SR_DISKSIZE_EXCEEDS_DISK_MAX_SIZE" xml:space="preserve">
+    <value>无法在此 SR 上创建大于 {0} 的磁盘。</value>
+  </data>
   <data name="SR_DOES_NOT_NEED_UPGRADE" xml:space="preserve">
     <value>该 SR 不需要升级。</value>
   </data>
@@ -11476,9 +11842,6 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="SR_IS_LOCAL" xml:space="preserve">
     <value>没有主服务器的 VM 不能在本地存储中包含磁盘</value>
-  </data>
-  <data name="SR_PICKER_DISKSIZE_EXCEEDS_DISK_MAX_SIZE" xml:space="preserve">
-    <value>无法在此 SR 上创建大于 {0} 的磁盘。</value>
   </data>
   <data name="SR_PICKER_DISK_TOO_BIG" xml:space="preserve">
     <value>磁盘大小({0})超过 SR 大小({1})</value>
@@ -11564,7 +11927,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>启动关闭的 VM</value>
   </data>
   <data name="START_TIME" xml:space="preserve">
-    <value>启动时间</value>
+    <value>开始时间</value>
   </data>
   <data name="START_UPGRADE" xml:space="preserve">
     <value>开始升级(&amp;U)</value>
@@ -11587,8 +11950,14 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="STATUS_FILTER_ERROR" xml:space="preserve">
     <value>错误</value>
   </data>
+  <data name="STATUS_FILTER_INCOMPLETE" xml:space="preserve">
+    <value>未完成</value>
+  </data>
   <data name="STATUS_FILTER_IN_PROGRESS" xml:space="preserve">
     <value>进行中</value>
+  </data>
+  <data name="STATUS_FILTER_QUEUED" xml:space="preserve">
+    <value>已排队</value>
   </data>
   <data name="STATUS_REPORT_ENTER_CREDENTIALS_MESSAGE" xml:space="preserve">
     <value>输入您的 MyCitrix 凭据(请参阅 {0})。这些凭据将仅用于在 [Citrix] Insight Services 中进行一次身份验证，不会存储在此计算机或您的服务器上。</value>
@@ -11979,6 +12348,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="TVM_PAGE_TITLE" xml:space="preserve">
     <value>配置传输 VM 的网络连接选项</value>
   </data>
+  <data name="TXT_DESCRIPTION" xml:space="preserve">
+    <value>文本文件</value>
+  </data>
   <data name="TYPE" xml:space="preserve">
     <value>类型</value>
   </data>
@@ -12139,7 +12511,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>{0}: 无法迁移 VM“{1}”</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_LICENSE_REASON" xml:space="preserve">
-    <value>{0}: 由于许可证限制，无法迁移 VM“{1}”。</value>
+    <value>{0}: 由于服务器上的许可证限制，无法迁移 VM“{1}”。</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_NO_GPU" xml:space="preserve">
     <value>{0}: 无法迁移 VM“{1}”，因为该 VM 连接了虚拟 GPU，并且其他服务器上没有合适的 GPU 可用。</value>
@@ -12215,6 +12587,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="UPDATES_WIZARD_INVALID_FILE" xml:space="preserve">
     <value>此文件不是有效的更新文件。</value>
   </data>
+  <data name="UPDATES_WIZARD_INVALID_ISO_FILE" xml:space="preserve">
+    <value>选定的 ISO 文件已损坏或包含无效数据。</value>
+  </data>
   <data name="UPDATES_WIZARD_LOCAL_CD" xml:space="preserve">
     <value>{0}: VM“{1}”的驱动器中有本地 CD/DVD。</value>
   </data>
@@ -12289,6 +12664,12 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   </data>
   <data name="UPDATES_WIZARD_REBOOT_NEEDED" xml:space="preserve">
     <value>{0}: 需要在应用更新后重新启动此服务器。</value>
+  </data>
+  <data name="UPDATES_WIZARD_REBOOT_NEEDED_LIVEPATCH_DISABLED" xml:space="preserve">
+    <value>{0}: 应用更新后需要重新启动此服务器，因为实时修补功能处于禁用状态。</value>
+  </data>
+  <data name="UPDATES_WIZARD_REBOOT_NEEDED_LIVEPATCH_RESTRICTED" xml:space="preserve">
+    <value>{0}: 应用更新后需要重新启动此服务器，因为它未获得实时修补许可。</value>
   </data>
   <data name="UPDATES_WIZARD_REMOVING_UPDATE" xml:space="preserve">
     <value>正在从 {1} 中删除更新安装文件 {0}... </value>
@@ -12484,6 +12865,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="UPSELL_BLURB_ALERTS" xml:space="preserve">
     <value>升级您的服务器许可证以启用警报和报告功能。基于电子邮件的性能和错误警报将在错误情况或性能问题对关键服务产生影响之前，抢先将这些情况或问题通知给管理员。</value>
   </data>
+  <data name="UPSELL_BLURB_CONVERSION" xml:space="preserve">
+    <value>升级您的服务器许可证以启用 Conversion Manager。此功能通过将 VMware 虚拟机成批移动到 [XenServer] 环境，帮助您将工作负载从 VMware 迁移到 [XenServer]。</value>
+  </data>
   <data name="UPSELL_BLURB_CPM" xml:space="preserve">
     <value>升级您的服务器许可证以启用 VM 实时迁移。通过此功能，您能够在同一池中的服务器之间或跨池迁移共享存储或本地存储上正在运行的 VM，而不会导致 VM 停机。 </value>
   </data>
@@ -12664,10 +13048,10 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>s</value>
   </data>
   <data name="VAL_TERB" xml:space="preserve">
-    <value>TiB</value>
+    <value>TB</value>
   </data>
   <data name="VAL_TERRATE" xml:space="preserve">
-    <value>TiBps</value>
+    <value>TBps</value>
   </data>
   <data name="VAL_WATT" xml:space="preserve">
     <value>W</value>
@@ -12732,11 +13116,20 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="VGPU_DESCRIPTION_MANY" xml:space="preserve">
     <value>{0} 虚拟 GPU (每个 GPU {1} 个，{2}，{3} 个显示器)</value>
   </data>
+  <data name="VGPU_DESCRIPTION_MANY_MULTIPLE_VGPU_SUPPORT" xml:space="preserve">
+    <value>{0} 虚拟 GPU (每个 GPU {1}，{2}，{3} 个显示器，支持多 vGPU)</value>
+  </data>
   <data name="VGPU_DESCRIPTION_ONE" xml:space="preserve">
     <value>{0} 虚拟 GPU (每个 GPU {1} 个，{2}，{3} 个显示器)</value>
   </data>
+  <data name="VGPU_DESCRIPTION_ONE_MULTIPLE_VGPU_SUPPORT" xml:space="preserve">
+    <value>{0} 虚拟 GPU (每个 GPU {1}，{2}，{3} 个显示器，支持多 vGPU)</value>
+  </data>
   <data name="VGPU_DESCRIPTION_ZEROES" xml:space="preserve">
     <value>{0} 虚拟 GPU (每个 GPU {1} 个)</value>
+  </data>
+  <data name="VGPU_DESCRIPTION_ZEROES_MULTIPLE_VGPU_SUPPORT" xml:space="preserve">
+    <value>{0} 虚拟 GPU (每个 GPU {1}，支持多 vGPU)</value>
   </data>
   <data name="VGPU_PASSTHRU_TOSTRING" xml:space="preserve">
     <value>在整个 GPU 中直通</value>
@@ -12844,7 +13237,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>{0}。{1}: {2}</value>
   </data>
   <data name="VMSS_CONTEXT_MENU" xml:space="preserve">
-    <value>快照计划(&amp;O)...</value>
+    <value>VM 快照计划(&amp;O)...</value>
   </data>
   <data name="VMSS_EMAIL_CHECKBOX_TEXT" xml:space="preserve">
     <value>发送与快照计划作业警报有关的电子邮件通知(&amp;E)</value>
@@ -13985,6 +14378,12 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="XENSERVER_6_5" xml:space="preserve">
     <value>[XenServer] [BRANDING_VERSION_6_5]</value>
   </data>
+  <data name="XENSERVER_8_1" xml:space="preserve">
+    <value>[XenServer] [BRANDING_VERSION_8_1]</value>
+  </data>
+  <data name="XENSERVER_LEGACY" xml:space="preserve">
+    <value>[Legacy XenServer product]</value>
+  </data>
   <data name="XENSERVER_TEMPLATES" xml:space="preserve">
     <value>[XenServer] 模板</value>
   </data>
@@ -14012,7 +14411,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>{0} (隐藏)</value>
   </data>
   <data name="X_IS_DEPRECATED_IN_X" xml:space="preserve">
-    <value>“{0}”功能在 {1} 中已弃用，在将来的版本中可能不提供</value>
+    <value>{0} 功能在 {1} 中已弃用，并且可能会在将来的版本中停用</value>
   </data>
   <data name="X_IS_REMOVED_IN_X" xml:space="preserve">
     <value>“{0}”功能在 {1} 及更高版本中不提供</value>

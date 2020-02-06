@@ -45,15 +45,15 @@ namespace XenAdmin.Dialogs
         /// </summary>
         /// <param name="site">May not be null.</param>
         public PvsSiteDialog(PVS_site site)
+            : base(site?.Connection)
         {
-            System.Diagnostics.Trace.Assert(site != null);
-            connection = site.Connection;
+            System.Diagnostics.Debug.Assert(site != null);
             pvsSite = site;
 
             InitializeComponent();
             Text = string.Format(Messages.PVS_SITE_DIALOG_TITLE, pvsSite.Name().Ellipsise(50));
 
-            System.Diagnostics.Trace.Assert(gridView.Columns.Count > 0);
+            System.Diagnostics.Debug.Assert(gridView.Columns.Count > 0);
             gridView.Columns[0].DefaultCellStyle.NullValue = null;
 
             RegisterEventHandlers();

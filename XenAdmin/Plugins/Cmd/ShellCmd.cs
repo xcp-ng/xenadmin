@@ -67,7 +67,7 @@ namespace XenAdmin.Plugins
             this.node = node;
             Filename = Helpers.GetStringXmlAttribute(node, ATT_FILENAME);
             Window = Helpers.GetBoolXmlAttribute(node, ATT_WINDOW, true);
-            LogOutput = Helpers.GetBoolXmlAttribute(node, ATT_LOG_OUTPUT, false);
+            LogOutput = Helpers.GetBoolXmlAttribute(node, ATT_LOG_OUTPUT);
             _disposeTime = Helpers.GetFloatXmlAttribute(node, ATT_DISPOSE_TIME, 20.0f);
             // The required methods to run this plugin are a comma separated list of strings that can be parsed by the RbacMethodList class
             requiredMethods = new RbacMethodList(Helpers.GetStringXmlAttribute(node, ATT_REQUIRED_METHODS, "").Split(','));

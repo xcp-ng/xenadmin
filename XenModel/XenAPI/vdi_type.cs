@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,51 @@ namespace XenAPI
     [JsonConverter(typeof(vdi_typeConverter))]
     public enum vdi_type
     {
-        system, user, ephemeral, suspend, crashdump, ha_statefile, metadata, redo_log, rrd, pvs_cache, cbt_metadata, unknown
+        /// <summary>
+        /// a disk that may be replaced on upgrade
+        /// </summary>
+        system,
+        /// <summary>
+        /// a disk that is always preserved on upgrade
+        /// </summary>
+        user,
+        /// <summary>
+        /// a disk that may be reformatted on upgrade
+        /// </summary>
+        ephemeral,
+        /// <summary>
+        /// a disk that stores a suspend image
+        /// </summary>
+        suspend,
+        /// <summary>
+        /// a disk that stores VM crashdump information
+        /// </summary>
+        crashdump,
+        /// <summary>
+        /// a disk used for HA storage heartbeating
+        /// </summary>
+        ha_statefile,
+        /// <summary>
+        /// a disk used for HA Pool metadata
+        /// </summary>
+        metadata,
+        /// <summary>
+        /// a disk used for a general metadata redo-log
+        /// </summary>
+        redo_log,
+        /// <summary>
+        /// a disk that stores SR-level RRDs
+        /// </summary>
+        rrd,
+        /// <summary>
+        /// a disk that stores PVS cache data
+        /// </summary>
+        pvs_cache,
+        /// <summary>
+        /// Metadata about a snapshot VDI that has been deleted: the set of blocks that changed between some previous version of the disk and the version tracked by the snapshot.
+        /// </summary>
+        cbt_metadata,
+        unknown
     }
 
     public static class vdi_type_helper
@@ -89,4 +132,4 @@ namespace XenAPI
             writer.WriteValue(((vdi_type)value).StringOf());
         }
     }
-}
+}

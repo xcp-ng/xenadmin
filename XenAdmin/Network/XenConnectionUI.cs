@@ -62,8 +62,7 @@ namespace XenAdmin.Network
             if (interactive)
             {
                 // CA-214953 - Focus on this connection's dialog, if one exists, otherwise create one
-                ConnectingToServerDialog dlg;
-                if (connectionDialogs.TryGetValue(connection, out dlg))
+                if (connectionDialogs.TryGetValue(connection, out ConnectingToServerDialog dlg))
                 {
                     UnregisterEventHandlers(connection);
                     if (dlg.WindowState == FormWindowState.Minimized)
@@ -79,15 +78,15 @@ namespace XenAdmin.Network
                 ((XenConnection)connection).BeginConnect(initiateMasterSearch, PromptForNewPassword);
         }
 
-        public static bool PromptForNewPassword(IXenConnection connection, string oldPassword)
+        private static bool PromptForNewPassword(IXenConnection connection, string oldPassword)
         {
             bool result = false;
-            Program.Invoke(Program.MainWindow, delegate()
-                                                   {
-                                                       // show an altered version of the add server dialog with the hostname greyed out
-                                                       AddServerDialog dialog = new AddServerDialog(connection, true);
-                                                       result = dialog.ShowDialog(Program.MainWindow) == DialogResult.OK;
-                                                   });
+            Program.Invoke(Program.MainWindow, () =>
+            {
+                // show an altered version of the add server dialog with the hostname greyed out
+                using (var dialog = new AddServerDialog(connection, true))
+                    result = dialog.ShowDialog(Program.MainWindow) == DialogResult.OK;
+            });
             return result;
         }
 
@@ -104,26 +103,32 @@ namespace XenAdmin.Network
             connection.ConnectionStateChanged -= Connection_ConnectionStateChanged;
         }
 
-        internal static void Connection_ConnectionResult(object sender, ConnectionResultEventArgs e)
+        private static void Connection_ConnectionResult(object sender, ConnectionResultEventArgs e)
         {
-            // Show connection error
+            if (!(sender is IXenConnection conn))
+                return;
+
+            Form ownerForm = Program.MainWindow;
+
+            if (connectionDialogs.TryGetValue(conn, out var dlg))
+            {
+                var form = dlg.GetOwnerForm();
+                if (form != null)
+                    ownerForm = form;
+
+                dlg.CloseConnectingDialog();
+            }
+
             if (e.Connected || e.Error == null)
                 return;
 
-            IXenConnection connection = (IXenConnection)sender;
-
-            Program.Invoke(Program.MainWindow,
-                           delegate()
-                               {
-                                   ShowConnectingDialogError_(Program.MainWindow, connection, e.Error);
-                               });
+            Program.Invoke(Program.MainWindow, () => ShowConnectingDialogError(ownerForm, conn, e.Error));
         }
 
-        internal static void ShowConnectingDialogError_(Form owner, IXenConnection connection, Exception error)
+        private static void ShowConnectingDialogError(Form owner, IXenConnection connection, Exception error)
         {
-            if (error is ExpressRestriction)
+            if (error is ExpressRestriction e)
             {
-                ExpressRestriction e = (ExpressRestriction)error;
                 Program.Invoke(Program.MainWindow, delegate()
                 {
                     new LicenseWarningDialog(e.HostName, e.ExistingHostName).ShowDialog(owner);
@@ -131,9 +136,8 @@ namespace XenAdmin.Network
                 return;
             }
 
-            if (error is Failure)
+            if (error is Failure f)
             {
-                Failure f = (Failure)error;
                 if (f.ErrorDescription[0] == Failure.HOST_IS_SLAVE)
                 {
                     string oldHost = connection.Name;
@@ -206,12 +210,10 @@ namespace XenAdmin.Network
                     AddError(owner, connection, string.IsNullOrEmpty(f.Message) ? Messages.ERROR_UNKNOWN : f.Message, string.Empty);
                 }
             }
-            else if (error is WebException)
+            else if (error is WebException w)
             {
-                if (((XenConnection)connection).SupressErrors)
+                if (((XenConnection)connection).SuppressErrors)
                     return;
-
-                WebException w = (WebException)error;
 
                 var solutionCheckXenServer = 
                     Properties.Settings.Default.ProxySetting != (int)HTTPHelper.ProxyStyle.DirectConnection ? Messages.SOLUTION_CHECK_XENSERVER_WITH_PROXY : Messages.SOLUTION_CHECK_XENSERVER;
@@ -259,14 +261,12 @@ namespace XenAdmin.Network
                 // If you're using the DbProxy
                 AddError(owner, connection, string.Format(string.Format(Messages.ERROR_FILE_NOT_FOUND, ((XenConnection)connection).Hostname), connection.Name), Messages.SOLUTION_UNKNOWN);
             }
-            else if (error is ConnectionExists)
+            else if (error is ConnectionExists c)
             {
                 ConnectionsManager.ClearCacheAndRemoveConnection(connection);
 
                 if (!Program.RunInAutomatedTestMode)
                 {
-                    ConnectionExists c = error as ConnectionExists;
-
                     using (var dlg = new ThreeButtonDialog(
                        new ThreeButtonDialog.Details(
                            SystemIcons.Information,
@@ -291,7 +291,7 @@ namespace XenAdmin.Network
             }
             else
             {
-                if (((XenConnection)connection).SupressErrors)
+                if (((XenConnection)connection).SuppressErrors)
                     return;
 
                 AddError(owner, connection, string.Format(Messages.ERROR_UNKNOWN, ((XenConnection)connection).Hostname), Messages.SOLUTION_UNKNOWN);
@@ -344,19 +344,13 @@ namespace XenAdmin.Network
             }
         }
 
-        private static void Connection_ConnectionStateChanged(object sender, EventArgs e)
+        private static void Connection_ConnectionStateChanged(IXenConnection conn)
         {
-            // Close dialogs on termination
-            IXenConnection connection = (IXenConnection)sender;
-
-            if (connection.IsConnected)
+            if (conn.IsConnected)
                 return;
 
-            Program.Invoke(Program.MainWindow,
-                           delegate()
-                           {
-                               XenDialogBase.CloseAll(connection);
-                           });
+            // Close dialogs on termination
+            Program.Invoke(Program.MainWindow, () => XenDialogBase.CloseAll(conn));
         }
     }
 }

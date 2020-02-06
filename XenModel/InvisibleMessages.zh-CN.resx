@@ -168,6 +168,9 @@
   <data name="PRIVACY" xml:space="preserve">
     <value>http://citrix.com/English/aboutCitrix/legal/privacyStatement.asp?ntref=hp_nav_US</value>
   </data>
+  <data name="PV_GUESTS_CHECK_URL" xml:space="preserve">
+    <value>https://docs.citrix.com/zh-cn/citrix-hypervisor/system-requirements/guest-os-support.html</value>
+  </data>
   <data name="XEN_SEARCH" xml:space="preserve">
     <value>xensearch</value>
   </data>
@@ -193,6 +196,12 @@
     <value>https://www.citrix.com/products/citrix-hypervisor/get-started.html</value>
   </data>
   <data name="HELP_URL" xml:space="preserve">
-    <value>http://docs.citrix.com/{0}/xencenter/current-release/{1}.html?utm_campaign={2}&amp;utm_medium={3}&amp;utm_source={4}</value>
+    <value>http://docs.citrix.com/zh-cn/xencenter/</value>
+  </data>
+  <data name="HELP_URL_QUERY" xml:space="preserve">
+    <value>?utm_campaign={0}&amp;utm_medium=ui_link&amp;utm_source={1}</value>
+  </data>
+  <data name="DEPRECATION_URL" xml:space="preserve">
+    <value>http://docs.citrix.com/zh-cn/citrix-hypervisor/whats-new/removed-features.html</value>
   </data>
 </root>

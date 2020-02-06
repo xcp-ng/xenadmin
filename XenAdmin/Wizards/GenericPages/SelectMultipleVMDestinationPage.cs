@@ -412,7 +412,8 @@ namespace XenAdmin.Wizards.GenericPages
                             cb.Items.Add(item);
                             item.ParentComboBox = cb;
                             item.PreferAsSelectedItem = m_selectedObject != null && m_selectedObject.opaque_ref == host.opaque_ref ||
-                                                 target.Item.opaque_ref == host.opaque_ref;
+                                                 target.Item.opaque_ref == host.opaque_ref || 
+                                                 sortedHosts.Count == 1;
                             item.ReasonUpdated += DelayLoadedGridComboBoxItem_ReasonChanged;
                             item.LoadAsync();
                         }
@@ -538,6 +539,9 @@ namespace XenAdmin.Wizards.GenericPages
 	            try
 	            {
 	                var selectedValue = cb.Value;
+	                if (cb.DataGridView == null)
+	                    return;
+
                     cb.DataGridView.RefreshEdit();
 	                if (item.Enabled && item.PreferAsSelectedItem)
 	                    cb.Value = item;
@@ -564,12 +568,12 @@ namespace XenAdmin.Wizards.GenericPages
 			Program.BeginInvoke(this, PopulateComboBox);
 		}
 
-		private void xenConnection_CachePopulated(object sender, EventArgs e)
+		private void xenConnection_CachePopulated(IXenConnection conn)
         {
 			Program.Invoke(this, PopulateComboBox);
         }
 
-		private void xenConnection_ConnectionStateChanged(object sender, EventArgs e)
+		private void xenConnection_ConnectionStateChanged(IXenConnection conn)
 		{
 			Program.Invoke(this, PopulateComboBox);
 		}
@@ -641,6 +645,8 @@ namespace XenAdmin.Wizards.GenericPages
 		{
 			m_dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
 			IsDirty = true;
+            if (!m_buttonNextEnabled)
+                SetButtonNextEnabled(true);
 		}
 
 		#endregion

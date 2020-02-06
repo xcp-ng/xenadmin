@@ -30,73 +30,58 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using System.Reflection;
+using NUnit.Framework;
 using XenAdmin.Plugins;
-using XenAdmin;
+
 
 namespace XenAdminTests.PluginTests
 {
-    internal class TestPluginLoader : IDisposable
+    public abstract class TestPluginLoader
     {
-        private readonly string _name;
-        private readonly string _xml;
-        private readonly PluginManager _pluginManager;
-        private string _fullFolder;
+        protected string _allPluginsFolder;
+        protected PluginManager _pluginManager;
 
-        public TestPluginLoader(string name, PluginManager pluginManager)
+        protected abstract string pluginName { get; }
+
+        [TearDown]
+        public void TearDown()
         {
-            _name = name;
-            _pluginManager = pluginManager;
-        }
+            _pluginManager.Dispose();
 
-        public TestPluginLoader(string name, PluginManager pluginManager, string xml)
-            : this(name, pluginManager)
-        {
-            _xml = xml;
-        }
-
-        public void Load()
-        {
-            string tempPath = Path.GetTempPath();
-            string pluginsFolder = Guid.NewGuid().ToString();
-            string vendorDir = "plugin-vendor";
-
-            _fullFolder = tempPath + "\\" + pluginsFolder + "\\" + vendorDir + "\\" + _name;
-            string fullFile = _fullFolder + "\\" + _name + ".xcplugin.xml";
-
-            Directory.CreateDirectory(_fullFolder);
-
-            if (_xml == null)
+            try
             {
-                Assembly assembly = Assembly.GetExecutingAssembly();
-                Stream s = assembly.GetManifestResourceStream("XenAdminTests.TestResources.PluginResources." + _name + ".xcplugin.xml");
-
-                byte[] bytes = new byte[s.Length];
-                s.Read(bytes, 0, bytes.Length);
-
-                File.WriteAllBytes(fullFile, bytes);
+                Directory.Delete(_allPluginsFolder, true);
             }
-            else
+            catch
             {
-                File.WriteAllText(fullFile, _xml);
-            }
-
-            _pluginManager.LoadPlugins(tempPath + "\\" + pluginsFolder);
-        }
-
-        #region IDisposable Members
-
-        public void Dispose()
-        {
-            if (Directory.Exists(_fullFolder))
-            {
-                Directory.Delete(_fullFolder, true);
+                //ignore
             }
         }
 
-        #endregion
+        [SetUp]
+        public virtual void Setup()
+        {
+            Assert.That(pluginName, Is.Not.Null.And.Not.Empty, "Either set pluginName or override this Setup");
+
+           _pluginManager = new PluginManager();
+
+            _allPluginsFolder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            var pluginFolder = Path.Combine(_allPluginsFolder, "plugin-vendor", pluginName);
+            var pluginFile = Path.Combine(pluginFolder, $"{pluginName}.xcplugin.xml");
+
+            Directory.CreateDirectory(pluginFolder);
+
+            var pluginSource = TestUtils.GetTestResource($"PluginResources\\{pluginName}.xcplugin.xml");
+
+            using (var fs = new FileStream(pluginSource, FileMode.Open))
+            using (var sr = new StreamReader(fs))
+            {
+                var content = sr.ReadToEnd();
+                File.WriteAllText(pluginFile, content);
+            }
+
+            _pluginManager.LoadPlugins(_allPluginsFolder);
+        }
     }
 }

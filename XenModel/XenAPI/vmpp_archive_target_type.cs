@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,19 @@ namespace XenAPI
     [JsonConverter(typeof(vmpp_archive_target_typeConverter))]
     public enum vmpp_archive_target_type
     {
-        none, cifs, nfs, unknown
+        /// <summary>
+        /// No target config
+        /// </summary>
+        none,
+        /// <summary>
+        /// CIFS target config
+        /// </summary>
+        cifs,
+        /// <summary>
+        /// NFS target config
+        /// </summary>
+        nfs,
+        unknown
     }
 
     public static class vmpp_archive_target_type_helper
@@ -73,4 +84,4 @@ namespace XenAPI
             writer.WriteValue(((vmpp_archive_target_type)value).StringOf());
         }
     }
-}
+}

@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,23 @@ namespace XenAPI
     [JsonConverter(typeof(domain_typeConverter))]
     public enum domain_type
     {
-        hvm, pv, pv_in_pvh, unspecified, unknown
+        /// <summary>
+        /// HVM; Fully Virtualised
+        /// </summary>
+        hvm,
+        /// <summary>
+        /// PV: Paravirtualised
+        /// </summary>
+        pv,
+        /// <summary>
+        /// PV inside a PVH container
+        /// </summary>
+        pv_in_pvh,
+        /// <summary>
+        /// Not specified or unknown domain type
+        /// </summary>
+        unspecified,
+        unknown
     }
 
     public static class domain_type_helper
@@ -75,4 +90,4 @@ namespace XenAPI
             writer.WriteValue(((domain_type)value).StringOf());
         }
     }
-}
+}

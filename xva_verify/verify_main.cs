@@ -34,78 +34,81 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-class MainClass
+namespace xva_verify
 {
-    public static void Main(string[] args)
+    class MainClass
     {
-        Export.verbose_debugging = true;
-        if (args.Length < 1 || args.Length > 2)
+        public static void Main(string[] args)
         {
-            var sb = new StringBuilder();
-            sb.AppendLine();
-            sb.AppendLine("Usage").AppendLine();
-            sb.AppendLine("  xva_verify <archive> [copy]").AppendLine();
-            sb.AppendLine("where").AppendLine();
-            sb.AppendLine("  <archive>  The name of the archive file to verify. Use '-' to read from stdin.");
-            sb.AppendLine("  copy       If specified, a copy of the archive file is created.").AppendLine();
-
-            Console.WriteLine(sb.ToString());
-            Environment.Exit(1);
-        }
-
-        try
-        {
-            string filename = args[0];
-
-            Stream g = null;
-            if (args.Length == 2)
-                g = new FileStream(args[1], FileMode.Create);
-
-            Stream f = args[0].Equals("-")
-                ? Console.OpenStandardInput()
-                : new FileStream(filename, FileMode.Open, FileAccess.Read);
-
-            // check for gzip compression ( only on seekable inputs - i.e. not the stdin stream )
-            if (f.CanSeek)
+            Export.verbose_debugging = true;
+            if (args.Length < 1 || args.Length > 2)
             {
-                try
-                {
-                    GZipStream zip = new GZipStream(f, CompressionMode.Decompress);
-                    // try reading a byte
-                    zip.ReadByte();
+                var sb = new StringBuilder();
+                sb.AppendLine();
+                sb.AppendLine("Usage").AppendLine();
+                sb.AppendLine("  xva_verify <archive> [<copy>]").AppendLine();
+                sb.AppendLine("where").AppendLine();
+                sb.AppendLine("  <archive>  The name of the archive file to verify. Use '-' to read from stdin.");
+                sb.AppendLine("  <copy>     If specified, a copy of the archive file is created with this name.").AppendLine();
 
-                    // success - reset stream, use the gunzipped stream from now on
-                    f.Seek(0, SeekOrigin.Begin);
-                    f = new GZipStream(f, CompressionMode.Decompress);
-                }
-                catch (InvalidDataException)
-                {
-                    // just reset the stream - Exception means the stream is not compressed
-                    f.Seek(0, SeekOrigin.Begin);
-                }
+                Console.WriteLine(sb.ToString());
+                Environment.Exit(1);
             }
-            
-            new Export().verify(f, g, () => false);
-        }
-        catch (UnauthorizedAccessException)
-        {
-            Console.WriteLine("Permission denied, check access rights to file");
-        }
-        catch (FileNotFoundException)
-        {
-            Console.WriteLine("File not found, verify filename is correct");
-        }
-        catch (IOException)
-        {
-            Console.WriteLine("IO Exception, file may be truncated.");
-        }
-        catch (BlockChecksumFailed)
-        {
-            Console.WriteLine("Verification failed, file appears to be corrupt");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
+
+            try
+            {
+                string filename = args[0];
+
+                Stream g = null;
+                if (args.Length == 2)
+                    g = new FileStream(args[1], FileMode.Create);
+
+                Stream f = args[0].Equals("-")
+                    ? Console.OpenStandardInput()
+                    : new FileStream(filename, FileMode.Open, FileAccess.Read);
+
+                // check for gzip compression (only on seekable inputs - i.e. not the stdin stream )
+                if (f.CanSeek)
+                {
+                    try
+                    {
+                        GZipStream zip = new GZipStream(f, CompressionMode.Decompress);
+                        // try reading a byte
+                        zip.ReadByte();
+
+                        // success - reset stream, use the gunzipped stream from now on
+                        f.Seek(0, SeekOrigin.Begin);
+                        f = new GZipStream(f, CompressionMode.Decompress);
+                    }
+                    catch(InvalidDataException)
+                    {
+                        // just reset the stream - Exception means the stream is not compressed
+                        f.Seek(0, SeekOrigin.Begin);
+                    }
+                }
+
+                new Export().verify(f, g, () => false);
+            }
+            catch(UnauthorizedAccessException)
+            {
+                Console.WriteLine("Permission denied, check access rights to file");
+            }
+            catch(FileNotFoundException)
+            {
+                Console.WriteLine("File not found, verify filename is correct");
+            }
+            catch(IOException)
+            {
+                Console.WriteLine("IO Exception, file may be truncated.");
+            }
+            catch(BlockChecksumFailed)
+            {
+                Console.WriteLine("Verification failed, file appears to be corrupt");
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

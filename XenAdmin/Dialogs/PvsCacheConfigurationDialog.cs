@@ -47,11 +47,11 @@ namespace XenAdmin.Dialogs
     public partial class PvsCacheConfigurationDialog : VerticallyTabbedDialog
     {
         public PvsCacheConfigurationDialog(IXenConnection connection)
+            :base(connection)
         {
             InitializeComponent();
 
-            System.Diagnostics.Trace.Assert(connection != null);
-            this.connection = connection;
+            System.Diagnostics.Debug.Assert(connection != null);
 
             Text = string.Format(Messages.PVS_CACHE_CONFIG_DIALOG_TITLE, connection.Name);
 

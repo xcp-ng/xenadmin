@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,19 @@ namespace XenAPI
     [JsonConverter(typeof(vusb_operationsConverter))]
     public enum vusb_operations
     {
-        attach, plug, unplug, unknown
+        /// <summary>
+        /// Attempting to attach this VUSB to a VM
+        /// </summary>
+        attach,
+        /// <summary>
+        /// Attempting to plug this VUSB into a VM
+        /// </summary>
+        plug,
+        /// <summary>
+        /// Attempting to hot unplug this VUSB
+        /// </summary>
+        unplug,
+        unknown
     }
 
     public static class vusb_operations_helper
@@ -73,4 +84,4 @@ namespace XenAPI
             writer.WriteValue(((vusb_operations)value).StringOf());
         }
     }
-}
+}

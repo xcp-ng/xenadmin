@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class VM : XenObject<VM>
     {
+        #region Constructors
+
         public VM()
         {
         }
@@ -223,13 +225,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new VM from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public VM(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new VM from a Proxy_VM.
         /// </summary>
         /// <param name="proxy"></param>
         public VM(Proxy_VM proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -324,7 +340,7 @@ namespace XenAPI
             NVRAM = update.NVRAM;
         }
 
-        internal void UpdateFromProxy(Proxy_VM proxy)
+        internal void UpdateFrom(Proxy_VM proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             allowed_operations = proxy.allowed_operations == null ? null : Helper.StringArrayToEnumList<vm_operations>(proxy.allowed_operations);
@@ -502,17 +518,6 @@ namespace XenAPI
             result_.domain_type = domain_type_helper.ToString(domain_type);
             result_.NVRAM = Maps.convert_to_proxy_string_string(NVRAM);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new VM from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public VM(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

@@ -44,6 +44,8 @@ namespace XenAPI
     /// </summary>
     public partial class Cluster_host : XenObject<Cluster_host>
     {
+        #region Constructors
+
         public Cluster_host()
         {
         }
@@ -70,13 +72,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Cluster_host from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Cluster_host(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Cluster_host from a Proxy_Cluster_host.
         /// </summary>
         /// <param name="proxy"></param>
         public Cluster_host(Proxy_Cluster_host proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -95,7 +111,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_Cluster_host proxy)
+        internal void UpdateFrom(Proxy_Cluster_host proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             cluster = proxy.cluster == null ? null : XenRef<Cluster>.Create(proxy.cluster);
@@ -121,17 +137,6 @@ namespace XenAPI
             result_.current_operations = Maps.convert_to_proxy_string_cluster_host_operation(current_operations);
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Cluster_host from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Cluster_host(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

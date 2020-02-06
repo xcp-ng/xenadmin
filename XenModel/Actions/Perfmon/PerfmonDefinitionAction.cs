@@ -193,12 +193,12 @@ namespace XenAdmin.Actions
                         }
                         catch (Exception ex)
                         {
-                            log.DebugFormat("Perfmon refresh failed ({0}). Alerts will start being produced within half an hour.", ex.Message);
+                            log.Debug("Perfmon refresh failed. Alerts will start being produced within half an hour.", ex);
                         }
                     }
                     else
                     {
-                        log.DebugFormat("Perfmon refresh failed ({0}). Alerts will start being produced within half an hour.", e.Message);
+                        log.Debug("Perfmon refresh failed. Alerts will start being produced within half an hour.", e);
                     }
                 }
             }

@@ -53,7 +53,7 @@ namespace XenAdmin.Diagnostics.Problems.HostProblem
 
         public override string Description => _shortMessage;
        
-        public override string HelpMessage => Messages.PATCHINGWIZARD_MORE_INFO;
+        public override string HelpMessage => Messages.MORE_INFO;
 
         protected override Actions.AsyncAction CreateAction(out bool cancelled)
         {

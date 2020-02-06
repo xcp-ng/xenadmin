@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,19 @@ namespace XenAPI
     [JsonConverter(typeof(bond_modeConverter))]
     public enum bond_mode
     {
-        balance_slb, active_backup, lacp, unknown
+        /// <summary>
+        /// Source-level balancing
+        /// </summary>
+        balance_slb,
+        /// <summary>
+        /// Active/passive bonding: only one NIC is carrying traffic
+        /// </summary>
+        active_backup,
+        /// <summary>
+        /// Link aggregation control protocol
+        /// </summary>
+        lacp,
+        unknown
     }
 
     public static class bond_mode_helper
@@ -73,4 +84,4 @@ namespace XenAPI
             writer.WriteValue(((bond_mode)value).StringOf());
         }
     }
-}
+}

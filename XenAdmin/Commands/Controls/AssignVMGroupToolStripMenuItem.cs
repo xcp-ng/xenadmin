@@ -68,9 +68,6 @@ namespace XenAdmin.Commands
 
             T[] groups = VMGroup<T>.GroupsInCache(Command.GetSelection()[0].Connection.Cache);
 
-            if (groups.Length > 0)
-                base.DropDownItems.Add(new ToolStripSeparator());
-
             Array.Sort(groups);
 
             for (int index = 0, offset = 0; index < groups.Length; index++)
@@ -101,6 +98,8 @@ namespace XenAdmin.Commands
                     itemGroup.Checked = true;
                 base.DropDownItems.Add(itemGroup);
             }
+            if (base.DropDownItems.Count > 1)
+                base.DropDownItems.Insert(1, new ToolStripSeparator());
         }
 
         [Browsable(false)]

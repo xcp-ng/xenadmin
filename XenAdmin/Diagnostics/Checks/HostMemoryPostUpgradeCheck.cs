@@ -95,9 +95,10 @@ namespace XenAdmin.Diagnostics.Checks
                 var result = Host.call_plugin(Host.Connection.Session, Host.opaque_ref, "prepare_host_upgrade.py", "getDom0DefaultMemory", installMethodConfig);
                 return long.TryParse(result, out dom0MemoryAfterUpgrade);
             }
-            catch (Failure failure)
+            catch (Exception exception)
             {
-                log.WarnFormat("Plugin call prepare_host_upgrade.getDom0DefaultMemory on {0} failed with {1}", Host.Name(), failure.Message);
+                var failure = exception as Failure;
+                log.WarnFormat("Plugin call prepare_host_upgrade.getDom0DefaultMemory on {0} failed with {1}({2})", Host.Name(), exception.Message, failure?.ErrorDescription.Count>3? failure.ErrorDescription[3]:"");
                 return false;
             }
         }
@@ -114,16 +115,9 @@ namespace XenAdmin.Diagnostics.Checks
                 productVersion = version.ContainsKey("product-version") ? (string)version["product-version"] : null;
                 return platformVersion != null || productVersion != null;
             }
-            catch (Failure failure)
-            {
-                log.WarnFormat("Plugin call prepare_host_upgrade.getVersion on {0} failed with {1}", Host.Name(), failure.Message);
-                
-                return false;
-            }
             catch (Exception exception)
             {
-                log.WarnFormat("Exception while trying to get the upgrade version: {0}", exception.Message);
-
+                log.WarnFormat("Plugin call prepare_host_upgrade.getVersion on {0} failed with {1}", Host.Name(), exception.Message);
                 return false;
             }
         }

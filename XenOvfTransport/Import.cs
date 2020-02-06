@@ -38,7 +38,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -64,8 +63,6 @@ namespace XenOvfTransport
     public class Import : XenOvfTransportBase
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static readonly log4net.ILog auditLog = log4net.LogManager.GetLogger("Audit");
-        private static readonly log4net.ILog traceLog = log4net.LogManager.GetLogger("Trace");
 
         private const long KB = 1024;
         private const long MB = (KB * 1024);
@@ -101,36 +98,14 @@ namespace XenOvfTransport
         private ulong AdditionalSpace = 20 * GB;
         private int vifDeviceIndex = 0;  // used to count number of Networks attached and to be used as the device number.
         private string _currentfilename = null;
-        private bool _metadataonly = false;
         private Exception _downloadexception = null;
         private ulong _filedownloadsize = 0;
         private int xvadisk = 0;
         private AutoResetEvent uridownloadcomplete = new AutoResetEvent(false);
-        private string _appliancename = null;
 
-        public string ApplianceName
-        {
-            get
-            {
-                return _appliancename;
-            }
-            set
-            {
-                _appliancename = value;
-            }
-        }
+        public string ApplianceName { get; set; }
 
-        public bool MetaDataOnly
-        {
-            get
-            {
-                return _metadataonly;
-            }
-            set
-            {
-                _metadataonly = value;
-            }
-		}
+        public bool MetaDataOnly { get; set; }
 
 		#region Constructors
 
@@ -144,48 +119,9 @@ namespace XenOvfTransport
 
 		#region PUBLIC
 
-        public void Process(string ovfFileName)
-        {
-
-            Process(ovfFileName, null);
-        }
-
-        public void Process(string ovfFileName, string passcode)
-        {
-            if (XenSession == null)
-                throw new InvalidOperationException(Messages.ERROR_NOT_CONNECTED);
-
-            string ovfpath = Path.GetDirectoryName(ovfFileName);
-            string ovffilename = Path.GetFileName(ovfFileName);
-            string ovfname = Path.GetFileNameWithoutExtension(ovfFileName);
-            
-            string openovf = Path.Combine(ovfpath, string.Format(@"{0}.ovf", ovfname));
-
-            if (!File.Exists(ovfFileName))
-                throw new FileNotFoundException(string.Format(Messages.FILE_MISSING, ovfFileName));
-
-            if (Path.GetExtension(ovffilename).ToLower().EndsWith("ova", StringComparison.InvariantCulture) ||
-                Path.GetExtension(ovffilename).ToLower().EndsWith("gz", StringComparison.InvariantCulture))
-            {
-                log.InfoFormat("Import.Process: Opening OVF Archive: {0}", ovfFileName);
-                OVF.OpenOva(ovfpath, ovffilename);
-                if (!File.Exists(openovf))
-                {
-                    throw new FileNotFoundException(string.Format(Messages.FILE_MISSING, openovf));
-                }
-            }
-
-            EnvelopeType ovfEnv = OVF.Load(openovf);
-            Process(ovfEnv, ovfpath, passcode);
-        }
-        
         public void Process(EnvelopeType ovfObj, string pathToOvf, string passcode)
         {
-            Process(XenSession, ovfObj, pathToOvf, passcode);
-        }
-
-		public void Process(Session xenSession, EnvelopeType ovfObj, string pathToOvf, string passcode)
-        {
+            var xenSession = XenSession;
             if (xenSession == null)
                 throw new InvalidOperationException(Messages.ERROR_NOT_CONNECTED);
 
@@ -271,15 +207,15 @@ namespace XenOvfTransport
             {
                //FIND/SET THE NAME OF THE VM
 				ovfname = OVF.FindSystemName(ovfObj, vSystem.id);
-                auditLog.DebugFormat("Import: {0}, {1}", ovfname, pathToOvf);
+                log.DebugFormat("Import: {0}, {1}", ovfname, pathToOvf);
 
 				VirtualHardwareSection_Type vhs = OVF.FindVirtualHardwareSectionByAffinity(ovfObj, vSystem.id, "xen");
 
                 XenRef<VM> vmRef = DefineSystem(xenSession, vhs, ovfname);
                 if (vmRef == null)
                 {
-                    log.Error(Messages.ERROR_CREATE_VM_FAILED);
-                    throw new ImportException(Messages.ERROR_CREATE_VM_FAILED);
+                    log.Error("Failed to create a VM");
+                    throw new Exception(Messages.ERROR_CREATE_VM_FAILED);
 				}
 
 				HideSystem(xenSession, vmRef);
@@ -334,18 +270,28 @@ namespace XenOvfTransport
 
                 #region Set vgpu
                 
-                GPU_group gpuGroup;              
-                VGPU_type vgpuType;
-                FindGpuGroupAndVgpuType(xenSession, vhs, out gpuGroup, out vgpuType);
-
-                if (gpuGroup != null)
+                List<Tuple<GPU_group, VGPU_type> >vgpus = FindGpuGroupAndVgpuType(xenSession, vhs);
+                foreach (var item in vgpus)
                 {
-                    var other_config = new Dictionary<string, string>();
+                    GPU_group gpuGroup = item.Item1;
+                    VGPU_type vgpuType = item.Item2;
+                    if (gpuGroup != null)
+                    {
+                        var other_config = new Dictionary<string, string>();
 
-                    if (Helpers.FeatureForbidden(xenSession, Host.RestrictVgpu))
-                        VGPU.create(xenSession, vmRef.opaque_ref, gpuGroup.opaque_ref, "0", other_config);
-                    else if (vgpuType != null)
-                        VGPU.create(xenSession, vmRef.opaque_ref, gpuGroup.opaque_ref, "0", other_config, vgpuType.opaque_ref);
+                        if (Helpers.FeatureForbidden(xenSession, Host.RestrictVgpu))
+                        {
+                            // The host does not support vGPU feature, so we create passthrough (default vGPU type) vGPU type
+                            // for the VM. However, passthrough vGPU type does not support multiple at this moment, so we only
+                            // create one vGPU for the VM and ignore the others. The limitation need to be released if multiple
+                            // passthrough can be supported
+                            log.Debug("The host license does not support vGPU, create one passthrough vGPU for the VM");
+                            VGPU.create(xenSession, vmRef.opaque_ref, gpuGroup.opaque_ref, "0", other_config);
+                            break;
+                        }
+                        else if (vgpuType != null)
+                            VGPU.create(xenSession, vmRef.opaque_ref, gpuGroup.opaque_ref, "0", other_config, vgpuType.opaque_ref);
+                    }
                 }
 
                 #endregion
@@ -395,8 +341,8 @@ namespace XenOvfTransport
 
                     if (installSection != null && installSection.Length == 1)
                     {
-                        OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.MarqueeOn, "Import", Messages.START_POST_INSTALL_INSTRUCTIONS));
-                        OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.ImportProgress, "Import", Messages.START_POST_INSTALL_INSTRUCTIONS));
+                        OnUpdate(new XenOvfTransportEventArgs(TransportStep.Import, Messages.START_POST_INSTALL_INSTRUCTIONS));
+                        OnUpdate(new XenOvfTransportEventArgs(TransportStep.Import, Messages.START_POST_INSTALL_INSTRUCTIONS));
                         HandleInstallSection(xenSession, vmRef, installSection[0]);
                     }
                     ShowSystem(xenSession, vmRef);
@@ -429,26 +375,19 @@ namespace XenOvfTransport
                 {
 					if (ex is OperationCanceledException)
 						throw;
-                    log.Error(Messages.ERROR_IMPORT_FAILED);
+                    log.Error("Import failed", ex);
                     throw new Exception(Messages.ERROR_IMPORT_FAILED, ex);
                 }
             }
 
-            OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.MarqueeOff, "Import", ""));
-            int _processId = System.Diagnostics.Process.GetCurrentProcess().Id;
-            string _touchFile = Path.Combine(pathToOvf, "xen__" + _processId);
-			//added check again as Delete needs write permissions and even if the file does not exist import will fail if the user has read only permissions
-			if (File.Exists(_touchFile))
-				File.Delete(_touchFile);
-
-            OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.ImportThreadComplete, "Import", Messages.COMPLETED_IMPORT));
+            OnUpdate(new XenOvfTransportEventArgs(TransportStep.Import, Messages.COMPLETED_IMPORT));
         }
 
     	#endregion
 
         #region PRIVATE
 		
-		private void http_UpdateHandler(XenOvfTranportEventArgs e)
+		private void http_UpdateHandler(XenOvfTransportEventArgs e)
 		{
 			OnUpdate(e);
 		}
@@ -460,8 +399,8 @@ namespace XenOvfTransport
                 ConfigureForXenServer(xenSession, vm);
 
             // Run the VM for the requested duration if this appliance had its own install section -- one not added to fixup for XenServer.
-            if (((installsection.Info == null)) ||
-                ((installsection.Info != null) && (installsection.Info.Value.CompareTo("ConfigureForXenServer") != 0)))
+            if (installsection.Info == null ||
+                installsection.Info != null && installsection.Info.Value.CompareTo("ConfigureForXenServer") != 0)
                 InstallSectionStartVirtualMachine(xenSession, vm, installsection.initialBootStopDelay);
         }
 
@@ -510,6 +449,8 @@ namespace XenOvfTransport
 
         private void InstallSectionStartVirtualMachine(Session xenSession, XenRef<VM> vm, int initialBootStopDelayAsSeconds)
         {
+            log.InfoFormat("Running fixup on VM with opaque_ref {0}", vm.opaque_ref);
+
             // Start the VM.
             if (VM.get_power_state(xenSession, vm) != vm_power_state.Running)
                 VM.start(xenSession, vm, false, true);
@@ -536,8 +477,17 @@ namespace XenOvfTransport
             }
 
             // Ensure it is off.
-            if (VM.get_power_state(xenSession, vm) != vm_power_state.Halted)
+            if (VM.get_power_state(xenSession, vm) == vm_power_state.Halted)
+                return;
+
+            try
+            {
                 VM.hard_shutdown(xenSession, vm);
+            }
+            catch (Exception e)
+            {
+                log.InfoFormat("Unable to hard-shutdown VM {0}. Will ignore error: {1}", vm.opaque_ref, e.Message);
+            }
         }
 
 
@@ -581,12 +531,12 @@ namespace XenOvfTransport
                         if (passcode != null)
                         {
                             var statusMessage = string.Format(Messages.START_FILE_DECRYPTION, filename);
-                            OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.MarqueeOn, "Security", statusMessage));
-                            log.Debug(statusMessage);
+                            OnUpdate(new XenOvfTransportEventArgs(TransportStep.Security, statusMessage));
+                            log.Debug($"Decrypting {filename}");
                             OVF.DecryptToTempFile(EncryptionClass, filename, version, passcode, encryptfilename);
                             sourcefile = encryptfilename;
                             statusMessage += Messages.COMPLETE;
-                            OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.MarqueeOff, "Security", statusMessage));
+                            OnUpdate(new XenOvfTransportEventArgs(TransportStep.Security, statusMessage));
                         }
                         #endregion 
 
@@ -606,13 +556,13 @@ namespace XenOvfTransport
                                 ext = Path.GetExtension(uncompressedfilename);
                             }
                             var statusMessage = string.Format(Messages.START_FILE_EXPANSION, filename);
-                            OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.MarqueeOn, "Compression", statusMessage));
+                            OnUpdate(new XenOvfTransportEventArgs(TransportStep.Compression, statusMessage));
                         	var ovfCompressor = new OvfCompressor();
 							ovfCompressor.UncompressFile(sourcefile, uncompressedfilename, compression);
                             if (File.Exists(encryptfilename)) { File.Delete(encryptfilename); }
                             sourcefile = uncompressedfilename;
                             statusMessage += Messages.COMPLETE;
-                            OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.MarqueeOff, "Compression", statusMessage));
+                            OnUpdate(new XenOvfTransportEventArgs(TransportStep.Compression, statusMessage));
                         }
                         #endregion
 
@@ -642,7 +592,7 @@ namespace XenOvfTransport
                             dataStream = null;
 
                             string manifest = wimDisk.Manifest;
-                            Wim_Manifest wimManifest = (Wim_Manifest)Tools.Deserialize(manifest, typeof(Wim_Manifest));
+                            Wim_Manifest wimManifest = Tools.Deserialize<Wim_Manifest>(manifest);
                             ulong imagesize = wimManifest.Image[wimDisk.BootImage].TotalBytes; // <----<<< Image data size
                             wimFileCount = wimManifest.Image[wimDisk.BootImage].FileCount;
                             dataCapacity = (long)(imagesize + AdditionalSpace);
@@ -681,7 +631,7 @@ namespace XenOvfTransport
                     }
                     catch (Exception ex)
                     {
-                        log.Error(Messages.ISCSI_ERROR_CANNOT_OPEN_DISK);
+                        log.Error("Failed to open virtual disk", ex);
                         throw new Exception(Messages.ISCSI_ERROR_CANNOT_OPEN_DISK, ex);
                     }
                 }
@@ -692,7 +642,7 @@ namespace XenOvfTransport
             }
             else
             {
-                log.Error(Messages.ERROR_FILE_NAME_NULL);
+                log.Error("The file to import was not provided");
                 throw new InvalidDataException(Messages.ERROR_FILE_NAME_NULL);
             }
             #endregion
@@ -719,9 +669,9 @@ namespace XenOvfTransport
                     }
 
                     if (freespace <= dataCapacity)
-                    { 
+                    {
+                        log.Error($"SR {sruuid} does not have {vhdDisk.Capacity} bytes of free space to import virtual disk {filename}.");
                         string message = string.Format(Messages.NOT_ENOUGH_SPACE_IN_SR, sruuid, Convert.ToString(vhdDisk.Capacity), filename);
-                        log.Error(message);
                         throw new IOException(message);
                     }
                 }
@@ -745,7 +695,7 @@ namespace XenOvfTransport
                             {
                                 for (int i = 0; i < wimDisk.ImageCount; i++)
                                 {
-                                    Wim_Manifest wimManifest = (Wim_Manifest)Tools.Deserialize(wimDisk.Manifest, typeof(Wim_Manifest));
+                                    Wim_Manifest wimManifest = Tools.Deserialize<Wim_Manifest>(wimDisk.Manifest);
                                     wimFileCount = wimManifest.Image[i].FileCount;
                                     int wimArch = wimManifest.Image[i].Windows.Architecture;
                                     vdiRef.Add(UploadiSCSIbyWimFile(xenSession, sruuid, vmname, wimDisk, i, dataCapacity, wimFileCount, wimArch, ""));
@@ -760,7 +710,7 @@ namespace XenOvfTransport
                         }
                     default:
                 		{
-                            log.Error(Messages.UNSUPPORTED_TRANSPORT);
+                            log.Error($"Unsupported transfer type {useTransport.ToString()}");
                             throw new InvalidDataException(Messages.UNSUPPORTED_TRANSPORT);
                         }
                 }
@@ -804,12 +754,10 @@ namespace XenOvfTransport
             log.DebugFormat("OVF.Import.ImportFile leave: created {0} VDIs", vdiRef.Count);
             return vdiRef;
         }
+
         private XenRef<VDI> UploadiSCSI(Session xenSession, string sruuid, string label, Stream filestream, long capacity, string description, string vdiuuid)
         {
-            log.Debug("OVF.Import.UploadiSCSI Enter");
-            log.DebugFormat("OVF.Import.UploadiSCSI SRUUID: {0}", sruuid);
-            log.DebugFormat("OVF.Import.UploadiSCSI Label: {0}", label);
-            log.DebugFormat("OVF.Import.UploadiSCSI Capacity: {0}", capacity);
+            log.Debug($"OVF.Import.UploadiSCSI SRUUID: {sruuid}, Label: {label}, Capacity: {capacity}");
 
             XenRef<VDI> vdiRef = null;
 
@@ -827,7 +775,7 @@ namespace XenOvfTransport
                 
 
             #region UPLOAD iSCSI STREAM
-            OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileStart, "Import", string.Format(Messages.FILES_TRANSPORT_SETUP, _currentfilename)));
+            OnUpdate(new XenOvfTransportEventArgs(TransportStep.Import, string.Format(Messages.FILES_TRANSPORT_SETUP, _currentfilename)));
         	m_iscsi = new iSCSI
         	        	{
         	        		UpdateHandler = iscsi_UpdateHandler,
@@ -846,13 +794,13 @@ namespace XenOvfTransport
             {
 				if (ex is OperationCanceledException)
 					throw;
-                log.ErrorFormat("{0} {1}", Messages.ERROR_ISCSI_UPLOAD_FAILED, ex.Message);
+                log.Error("Failed to import a virtual disk over iSCSI. ", ex);
                 vdiRef = null;
                 throw new Exception(Messages.ERROR_ISCSI_UPLOAD_FAILED, ex);
             }
             finally
             {
-                OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileStart, "Import", string.Format(Messages.FILES_TRANSPORT_CLEANUP,_currentfilename)));
+                OnUpdate(new XenOvfTransportEventArgs(TransportStep.Import, string.Format(Messages.FILES_TRANSPORT_CLEANUP,_currentfilename)));
 				m_iscsi.Disconnect(xenSession);
             }
             #endregion
@@ -863,11 +811,8 @@ namespace XenOvfTransport
 
         private XenRef<VDI> UploadiSCSIbyWimFile(Session xenSession, string sruuid, string label, WimFile wimDisk, int imageindex, long capacity, ulong wimFileCount, int arch, string description)
         {
-            log.Debug("OVF.Import.UploadiSCSIbyWimFile Enter");
-            log.DebugFormat("OVF.Import.UploadiSCSIbyWimFile SRUUID: {0}", sruuid);
-            log.DebugFormat("OVF.Import.UploadiSCSIbyWimFile Label: {0}", label);
-            log.DebugFormat("OVF.Import.UploadiSCSIbyWimFile ImageIndex: {0}", imageindex);
-            log.DebugFormat("OVF.Import.UploadiSCSIbyWimFile Capacity: {0}", capacity);
+            log.Debug($"OVF.Import.UploadiSCSIbyWimFile SRUUID: {sruuid}, Label: {label}, ImageIndex: {imageindex}, Capacity: {capacity}");
+
             string vdilabel = string.Format("{0}{1}", label, imageindex);
             XenRef<VDI> vdiRef = CreateVDI(xenSession, sruuid, vdilabel, capacity, description);
 
@@ -886,11 +831,11 @@ namespace XenOvfTransport
             }
             else
             {
-                log.WarnFormat("Refernce VHD not found [{0}]", Properties.Settings.Default.ReferenceVHDName);
+                log.WarnFormat("Reference VHD not found [{0}]", Properties.Settings.Default.ReferenceVHDName);
             }
 
             #region UPLOAD iSCSI STREAM
-            OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileStart, "Import", string.Format(Messages.FILES_TRANSPORT_SETUP, _currentfilename)));
+            OnUpdate(new XenOvfTransportEventArgs(TransportStep.Import, string.Format(Messages.FILES_TRANSPORT_SETUP, _currentfilename)));
 			m_iscsi = new iSCSI
 			{
 				UpdateHandler = iscsi_UpdateHandler,
@@ -911,7 +856,7 @@ namespace XenOvfTransport
                 else
                 {
                     log.WarnFormat("System will not be bootable, cannot find [{0}] to extract master boot record.", vhdfile);
-                    OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileStart, "Import", Messages.WARNING_TARGET_NOT_BOOTABLE));
+                    OnUpdate(new XenOvfTransportEventArgs(TransportStep.Import, Messages.WARNING_TARGET_NOT_BOOTABLE));
                 }
 				m_iscsi.ScsiDisk.Signature = new Random().Next();
 
@@ -944,13 +889,13 @@ namespace XenOvfTransport
             {
 				if (ex is OperationCanceledException)
 					throw;
-                log.ErrorFormat("{0} {1}", Messages.ERROR_ISCSI_UPLOAD_FAILED, ex.Message);
+                log.Error("Failed to import a virtual disk over iSCSI.", ex);
                 vdiRef = null;
                 throw new Exception(Messages.ERROR_ISCSI_UPLOAD_FAILED, ex);
             }
             finally
             {
-                OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileStart, "Import", string.Format(Messages.FILES_TRANSPORT_CLEANUP, _currentfilename)));
+                OnUpdate(new XenOvfTransportEventArgs(TransportStep.Import, string.Format(Messages.FILES_TRANSPORT_CLEANUP, _currentfilename)));
 				m_iscsi.Disconnect(xenSession);
             }
             #endregion
@@ -959,7 +904,7 @@ namespace XenOvfTransport
             return vdiRef;
         }
 
-		private void iscsi_UpdateHandler(XenOvfTranportEventArgs e)
+		private void iscsi_UpdateHandler(XenOvfTransportEventArgs e)
 		{
 			OnUpdate(e);
 		}
@@ -982,19 +927,18 @@ namespace XenOvfTransport
                 is_a_snapshot = false
             };
 
-            XenRef<VDI> vdiRef = null;
             try
             {
                 // Note that XenServer will round the capacity up to the nearest multiple of a 2 MB block.
-                vdiRef = VDI.create(xenSession, vdi);
+                var vdiRef = VDI.create(xenSession, vdi);
+                log.Debug("Import.CeateVDI::VDI Created");
+                return vdiRef;
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("{0} {1}", Messages.ERROR_CANNOT_CREATE_VDI, ex.Message);
+                log.Error("Failed to create VDI. ", ex);
                 throw new Exception(Messages.ERROR_CANNOT_CREATE_VDI, ex);
             }
-            log.Debug("Import.CeateVDI::VDI Created");
-            return vdiRef;
         }
 
         private void FileCopy(iSCSI iscsi, DiscDirectoryInfo[] DirInfos, WimFileSystem w, NtfsFileSystem ntfs)
@@ -1021,13 +965,14 @@ namespace XenOvfTransport
                 }
                 else
                 {
-                    traceLog.InfoFormat("Directory ReparsePoint {0}", dir.FullName);
+                    log.InfoFormat("Directory ReparsePoint {0}", dir.FullName);
                     ReparsePoint rp = w.GetReparsePoint(dir.FullName);
                     ntfs.CreateDirectory(dir.FullName);
                     ntfs.SetReparsePoint(dir.FullName, rp);
                 }
             }
         }
+
         private void FileCopy(iSCSI iscsi, DiscFileInfo[] FileInfos, WimFileSystem w, NtfsFileSystem ntfs)
         {
             foreach (DiscFileInfo file in FileInfos)
@@ -1056,12 +1001,13 @@ namespace XenOvfTransport
                 }
                 else
                 {
-                    traceLog.InfoFormat("Reparse Point: {0}", file.FullName);
+                    log.InfoFormat("Reparse Point: {0}", file.FullName);
                     ReparsePoint rp = w.GetReparsePoint(file.FullName);
                     ntfs.SetReparsePoint(file.FullName, rp);
                 }
             }
         }
+
         private bool IsExcluded(string path)
         {
             string pathUpper = path.ToUpperInvariant();
@@ -1079,10 +1025,7 @@ namespace XenOvfTransport
 
         private XenRef<VDI> UploadRawVDI(Session xenSession, string sruuid, string label, Stream filestream, long capacity, string description)
         {
-            log.Debug("OVF.Import.UploadRawVDI Enter");
-            log.DebugFormat("OVF.Import.UpdoadRadVDI SRUUID: {0}", sruuid);
-            log.DebugFormat("OVF.Import.UpdoadRadVDI Label: {0}", label);
-            log.DebugFormat("OVF.Import.UpdoadRadVDI Capacity: {0}", capacity);
+            log.Debug($"OVF.Import.UploadRawVDI SRUUID: {sruuid}, Label: {label}, Capacity: {capacity}");
 
             #region CREATE A VDI
 
@@ -1107,13 +1050,14 @@ namespace XenOvfTransport
             try
             {
                 vdiRef = VDI.create(xenSession, vdi);
+                log.Debug("Import.UploadRawVDI::VDI Created");
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("{0} {1}", Messages.ERROR_CANNOT_CREATE_VDI, ex.Message);
+                log.Error("Failed to create VDI", ex);
                 throw new Exception(Messages.ERROR_CANNOT_CREATE_VDI, ex);
             }
-            log.Debug("Import.UploadRawVDI::VDI Created");
+
             #endregion
 
             #region UPLOAD HTTP STREAM
@@ -1128,13 +1072,23 @@ namespace XenOvfTransport
             headers.Add("User-Agent", "XenP2VClient/1.5");
             try
             {
-                http.Put(filestream, _XenServer, p2VUri, headers, 0, capacity, false);
+                http.Put(filestream, _uri, p2VUri, headers, 0, capacity, false);
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("{0} {1}", Messages.ERROR_HTTP_UPLOAD_FAILED, ex.Message);
+                log.Error("Failed to import a virtual disk over HTTP. ", ex);
                 if (vdiRef != null)
-                    RemoveVDI(xenSession, vdiRef);
+                {
+                    try
+                    {
+                        VDI.destroy(xenSession, vdi.opaque_ref);
+                    }
+                    catch (Exception e)
+                    {
+                        log.Error("Failed to remove a virtual disk image (VDI). ", e);
+                        throw new Exception(Messages.ERROR_REMOVE_VDI_FAILED, e);
+                    }
+                }
                 vdiRef = null;
                 throw new Exception(Messages.ERROR_HTTP_UPLOAD_FAILED, ex);
             }
@@ -1147,6 +1101,7 @@ namespace XenOvfTransport
             return vdiRef;
 
         }
+
         private XenRef<VM> DefineSystem(Session xenSession, VirtualHardwareSection_Type system, string ovfName)
         {
             // Set Defaults:
@@ -1293,6 +1248,10 @@ namespace XenOvfTransport
 	                    case "nvram":
 		                    newVm.NVRAM = SplitStringIntoDictionary(xcsd.Value.Value);
 		                    break;
+                        case "vgpu":
+                            // Skip vGPUs here and do not put vGPUs into the hashtable,
+                            // as the vGPUs are updated in #region Set vgpu
+                            break;
                         default:
                             hashtable.Add(key, xcsd.Value.Value);
                             break;
@@ -1309,57 +1268,61 @@ namespace XenOvfTransport
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("{0} {1}", Messages.ERROR_CREATE_VM_FAILED, ex.Message);
+                log.Error("Failed to create a virtual machine (VM).", ex);
                 throw new Exception(Messages.ERROR_CREATE_VM_FAILED, ex);
             }
         }
 
         public static Regex VGPU_REGEX = new Regex("^GPU_types={(.*)};VGPU_type_vendor_name=(.*);VGPU_type_model_name=(.*);$");
+
         public static Regex PVS_SITE_REGEX = new Regex("^PVS_SITE={uuid=(.*)};$");
 
-        private void FindGpuGroupAndVgpuType(Session xenSession, VirtualHardwareSection_Type system, out GPU_group gpuGroup, out VGPU_type vgpuType)
+        private List<Tuple<GPU_group, VGPU_type>> FindGpuGroupAndVgpuType(Session xenSession, VirtualHardwareSection_Type system)
         {
-            gpuGroup = null;
-            vgpuType = null;
+            List<Tuple<GPU_group, VGPU_type>> vgpus = new List<Tuple<GPU_group, VGPU_type>>();
 
             var data = system.VirtualSystemOtherConfigurationData;
             if (data == null)
-                return;
+                return vgpus;
 
-            var datum = data.FirstOrDefault(s => s.Name == "vgpu");
-            if (datum == null)
-                return;
+            var datum = data.Where(s => s.Name == "vgpu");
 
-            Match m = VGPU_REGEX.Match(datum.Value.Value);
-            if (!m.Success)
-                return;
+            foreach (var item in datum)
+            {
+                Match m = VGPU_REGEX.Match(item.Value.Value);
+                if (!m.Success)
+                    continue;
+                var types = m.Groups[1].Value.Split(';');
 
-            var types = m.Groups[1].Value.Split(';');
+                var gpuGroups = GPU_group.get_all_records(xenSession);
+                var gpuKvp = gpuGroups.FirstOrDefault(g =>
+                    g.Value.supported_VGPU_types.Count > 0 &&
+                    g.Value.GPU_types.Length == types.Length &&
+                    g.Value.GPU_types.Intersect(types).Count() == types.Length);
 
-            var gpuGroups = GPU_group.get_all_records(xenSession);
-            var gpuKvp = gpuGroups.FirstOrDefault(g =>
-                g.Value.supported_VGPU_types.Count > 0 &&
-                g.Value.GPU_types.Length == types.Length &&
-                g.Value.GPU_types.Intersect(types).Count() == types.Length);
+                if (gpuKvp.Equals(default(KeyValuePair<XenRef<GPU_group>, GPU_group>)))
+                    continue;
 
-            if (gpuKvp.Equals(default(KeyValuePair<XenRef<GPU_group>, GPU_group>)))
-                return;
+                var gpuGroup = gpuKvp.Value;
+                VGPU_type vgpuType = null;
 
-            gpuGroup = gpuKvp.Value;
-            gpuGroup.opaque_ref = gpuKvp.Key.opaque_ref;
+                gpuGroup.opaque_ref = gpuKvp.Key.opaque_ref;
 
-            string vendorName = m.Groups[2].Value;
-            string modelName = m.Groups[3].Value;
+                string vendorName = m.Groups[2].Value;
+                string modelName = m.Groups[3].Value;
 
-            var vgpuTypes = VGPU_type.get_all_records(xenSession);
-            var vgpuKey = vgpuTypes.FirstOrDefault(v =>
-                v.Value.vendor_name == vendorName && v.Value.model_name == modelName);
+                var vgpuTypes = VGPU_type.get_all_records(xenSession);
+                var vgpuKey = vgpuTypes.FirstOrDefault(v =>
+                    v.Value.vendor_name == vendorName && v.Value.model_name == modelName);
 
-            if (vgpuKey.Equals(default(KeyValuePair<XenRef<VGPU_type>, VGPU_type>)))
-                return;
-
-            vgpuType = vgpuKey.Value;
-            vgpuType.opaque_ref = vgpuKey.Key.opaque_ref;
+                if (!vgpuKey.Equals(default(KeyValuePair<XenRef<VGPU_type>, VGPU_type>)))
+                {
+                    vgpuType = vgpuKey.Value;
+                    vgpuType.opaque_ref = vgpuKey.Key.opaque_ref;
+                }
+                vgpus.Add(new Tuple<GPU_group, VGPU_type>(gpuGroup, vgpuType));
+            }
+            return vgpus;
         }
 
         private PVS_site FindPvsSite(Session xenSession, VirtualHardwareSection_Type system)
@@ -1393,24 +1356,9 @@ namespace XenOvfTransport
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("{0} {1}", Messages.ERROR_REMOVE_VM_FAILED, ex.Message);
+                log.Error("Failed to remove a virtual machine (VM). ", ex);
                 throw new Exception(Messages.ERROR_REMOVE_VM_FAILED, ex);
             }
-            return;
-        }
-        private void RemoveVDI(Session xenSession, XenRef<VDI> vdi)
-        {
-            try
-            {
-                log.Error("OVF.Import.RemoveVDI: Something went wrong deleting associated VDI");
-				VDI.destroy(xenSession, vdi.opaque_ref);
-            }
-            catch (Exception ex)
-            {
-                log.ErrorFormat("{0}, {1}", Messages.ERROR_REMOVE_VDI_FAILED, ex.Message);
-                throw new Exception(Messages.ERROR_REMOVE_VDI_FAILED, ex);
-            }
-            return;
         }
 
         private static Dictionary<string, string> SplitStringIntoDictionary(string inputStr)
@@ -1437,6 +1385,7 @@ namespace XenOvfTransport
 
             return hPlatform;
         }
+
         private void AddResourceSettingData(Session xenSession, XenRef<VM> vmRef, RASD_Type rasd, string pathToOvf, string filename, string compression, string version, string passcode)
         {
             switch (rasd.ResourceType.Value)
@@ -1569,7 +1518,7 @@ namespace XenOvfTransport
                         }
                         catch (Exception ex)
                         {
-                            log.ErrorFormat("{0} {1}", Messages.ERROR_CREATE_VIF_FAILED, ex.Message);
+                            log.Error("Failed to create a virtual network interface (VIF). ", ex);
                             throw new Exception(Messages.ERROR_CREATE_VIF_FAILED, ex);
                         }
                         #endregion
@@ -1581,7 +1530,7 @@ namespace XenOvfTransport
                 case 16: // DVD Drive
                     {
                         // We always attach as "EMPTY".
-                        // Currenlty Xen Server can only have ONE CD, so we must 
+                        // Currently Xen Server can only have ONE CD, so we must 
                         // Skip the others.
                         // If it's not necessary.. skip it.
 
@@ -1600,10 +1549,10 @@ namespace XenOvfTransport
 
                         if (!SkipCD)
                         {
-                            List<XenRef<VDI>> vdiRef = new List<XenRef<VDI>>();
+                            List<XenRef<VDI>> vdiRefs = new List<XenRef<VDI>>();
                             if (filename != null)
                             {
-                                #region IS THE ISO SR IN THE OVF?
+                                #region FIND THE ISO SR MAPPED IN THE OVF
                                 string isoUuid = null;
                                 if (rasd.Connection != null && rasd.Connection.Length > 0)
                                 {
@@ -1614,49 +1563,35 @@ namespace XenOvfTransport
                                         {
                                             if (vset.ToLower().StartsWith("sr="))
                                             {
-                                                isoUuid = vset.Substring(vset.LastIndexOf('=') + 1);
+                                                var srToFind = vset.Substring(vset.LastIndexOf('=') + 1);
+
                                                 try
                                                 {
-                                                    #region TRY IT AS UUID
-                                                    try
+                                                    XenRef<SR> srRef = SR.get_by_uuid(xenSession, srToFind);
+                                                    if (srRef != null && srRef != Helper.NullOpaqueRef)
                                                     {
-                                                        XenRef<SR> srref = SR.get_by_uuid(xenSession, isoUuid);
-                                                        if (srref == null)
-                                                        {
-                                                            isoUuid = null;
-                                                        }
-                                                        else
-                                                        {
-                                                            break;
-                                                        }
+                                                        isoUuid = srToFind;
+                                                        break;
                                                     }
-                                                    catch
-                                                    {
-                                                        traceLog.Debug("Import.AddResourceSettingData: iso sr uuid not found, trying name_label");
-                                                    }
-                                                    #endregion
-
-                                                    #region TRY IT AS NAME_LABEL
-                                                    try
-                                                    {
-                                                        List<XenRef<SR>> srrefList = SR.get_by_name_label(xenSession, isoUuid);
-                                                        if (srrefList != null && srrefList.Count > 0)
-                                                        {
-                                                            isoUuid = SR.get_uuid(xenSession, srrefList[0]);
-                                                            break;
-                                                        }
-                                                    }
-                                                    catch
-                                                    {
-                                                        traceLog.Debug("Import.AddResourceSettingData: iso sr uuid not found, looking for vdi...");
-                                                    }
-                                                    #endregion
                                                 }
-                                                catch (Exception ex)
+                                                catch
                                                 {
-                                                    log.WarnFormat("Import.AddResourceSettingData: could not find SR: {0}", ex.Message);
-                                                    isoUuid = null;
+                                                    log.Debug("Import.AddResourceSettingData: iso sr uuid not found, trying name_label");
                                                 }
+
+                                                try
+                                                {
+                                                    var srRecords = SR.get_all_records(xenSession);
+
+                                                    isoUuid = (from SR sr in srRecords.Values
+                                                        where sr.name_label == srToFind
+                                                        select sr.uuid).FirstOrDefault();
+                                                }
+                                                catch
+                                                {
+                                                    log.Debug("Import.AddResourceSettingData: iso sr uuid not found, looking for vdi...");
+                                                }
+
                                                 break;
                                             }
                                         }
@@ -1668,7 +1603,7 @@ namespace XenOvfTransport
                                 List<XenRef<VDI>> isoVDIlist = VDI.get_by_name_label(xenSession, filename);
                                 if (isoVDIlist.Count > 0)
                                 {
-                                    vdiRef.Add(isoVDIlist[0]);
+                                    vdiRefs.Add(isoVDIlist[0]);
                                 }
                                 else
                                 {
@@ -1696,21 +1631,21 @@ namespace XenOvfTransport
                                         _currentfilename = filename;
                                         try
                                         {
-                                            vdiRef = ImportFileProc(new TaskInfo(xenSession, this, filename, pathToOvf, filename, isoUuid, version, passcode, compression, "", null));
+                                            vdiRefs = ImportFile(xenSession, filename, pathToOvf, filename, compression, version, passcode, isoUuid, "", null);
                                         }
                                         catch (Exception ex)
                                         {
                                             if (ex is OperationCanceledException)
                                                 throw;
                                             var msg = string.Format(Messages.ERROR_ADDRESOURCESETTINGDATA_FAILED, Messages.ISO);
-                                            log.ErrorFormat("{0}, {1}", msg, ex.Message);
+                                            log.Error("Failed to add resource ISO.", ex);
                                             throw new Exception(msg, ex);
                                         }
                                         finally
                                         {
-                                            if (vdiRef == null || vdiRef.Count <= 0)
+                                            if (vdiRefs == null || vdiRefs.Count <= 0)
                                             {
-                                                log.Error(string.Format(Messages.ERROR_IMPORT_DISK_FAILED, filename, isoUuid));
+                                                log.ErrorFormat("Failed to import virtual disk from file {0} to storage repository {1}.", filename, isoUuid);
                                                 RemoveSystem(xenSession, vmRef);
                                             }
                                         }
@@ -1720,12 +1655,12 @@ namespace XenOvfTransport
                             }
                             else
                             {
-                                vdiRef.Add(XenRef<VDI>.Create(string.Empty));
+                                vdiRefs.Add(XenRef<VDI>.Create(string.Empty));
                             }
 
                             #region CREATE VBD CONNECTION
                          
-                            foreach (XenRef<VDI> currentVDI in vdiRef)
+                            foreach (XenRef<VDI> currentVDI in vdiRefs)
                             {
                                 var hashtable = new Hashtable();
 
@@ -1788,24 +1723,26 @@ namespace XenOvfTransport
                                     }
                                     catch (Exception ex)
                                     {
-                                        log.ErrorFormat("Import.AddResourceSettingData: {0}", ex.Message);
+                                        log.Error("Import.AddResourceSettingData: ", ex);
                                     }
                                 }
                                 else
                                 {
-                                    log.WarnFormat("Import:  ================== ATTENTION NEEDED =======================");
-                                    log.WarnFormat("Import:  Could not determine appropriate number of device placement.");
-                                    log.WarnFormat("Import:  Please Start, Logon, Shut down, System ({0})", vmRef);
-                                    log.WarnFormat("Import:  Then attach disks with labels ending with \"+\" to the device number defined before the +.");
-                                    log.Warn("Import:  ===========================================================");
-                                    OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.Progress, "Import", Messages.WARNING_ADMIN_REQUIRED));
+                                    log.WarnFormat(
+                                        "Import:  ================== ATTENTION NEEDED =======================" +
+                                        "Import:  Could not determine appropriate number of device placement." +
+                                        "Import:  Please Start, Logon, Shut down, System ({0})" +
+                                        "Import:  Then attach disks with labels ending with \"+\" to the device number defined before the +." +
+                                        "Import:  ===========================================================", vmRef);
+
+                                    OnUpdate(new XenOvfTransportEventArgs(TransportStep.Import, Messages.WARNING_ADMIN_REQUIRED));
                                 }
                             }
                             #endregion
 
                         }
                         #endregion
-                        OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.ImportProgress, "CD/DVD Drive",
+                        OnUpdate(new XenOvfTransportEventArgs(TransportStep.CdDvdDrive,
 							string.Format(Messages.DEVICE_ATTACHED, Messages.CD_DVD_DEVICE)));
                         log.Debug("Import.AddResourceSettingData: CD/DVD ROM Added");
 
@@ -1902,7 +1839,7 @@ namespace XenOvfTransport
                                     }
                                     catch
                                     {
-                                        traceLog.Debug("Import.AddResourceSettingData: SR missing... still looking..");
+                                        log.Debug("Import.AddResourceSettingData: SR missing... still looking..");
                                     }
                                     if (srref == null)
                                     {
@@ -1913,7 +1850,7 @@ namespace XenOvfTransport
                                         }
                                         catch
                                         {
-                                            traceLog.Debug("Import.AddResourceSettingData: SR missing... still looking..");
+                                            log.Debug("Import.AddResourceSettingData: SR missing... still looking..");
                                         }
                                         if (srlist != null && srlist.Count > 0)
                                         {
@@ -1932,7 +1869,7 @@ namespace XenOvfTransport
                                 {
                                     if (DefaultSRUUID == null)
                                     {
-                                        log.Error(Messages.ERROR_COULD_NOT_FIND_SR);
+                                        log.Error("The SR was not found and a default was not assigned.");
                                         throw new InvalidDataException(Messages.ERROR_COULD_NOT_FIND_SR);
                                     }
 
@@ -1943,7 +1880,7 @@ namespace XenOvfTransport
                                         XenRef<VDI> tempVDI = VDI.get_by_uuid(xenSession, vdiuuid);
                                         if (tempVDI == null)
                                         {
-                                            log.Error(Messages.ERROR_COULD_NOT_FIND_SR);
+                                            log.Error("The SR was not found and a default was not assigned.");
                                             throw new InvalidDataException(Messages.ERROR_COULD_NOT_FIND_SR);
                                         }
 
@@ -1967,27 +1904,26 @@ namespace XenOvfTransport
                                     if ((rasd.Description != null) && (!string.IsNullOrEmpty(rasd.Description.Value)))
                                         description = rasd.Description.Value;
 
-                                    vdiRef = ImportFileProc(new TaskInfo(xenSession, this, disklabel, pathToOvf, filename, sruuid, version, passcode, compression, description, vdiuuid));
+                                    vdiRef = ImportFile(xenSession, disklabel, pathToOvf, filename, compression, version, passcode, sruuid, description, vdiuuid);
                                 }
                                 catch (Exception ex)
                                 {
 									if (ex is OperationCanceledException)
 										throw;
 									var msg = string.Format(Messages.ERROR_ADDRESOURCESETTINGDATA_FAILED, Messages.DISK_DEVICE);
-                                    log.ErrorFormat("{0} {1}", msg, ex.Message);
+                                    log.Error("Failed to add resource Hard Disk Image.", ex);
                                     throw new InvalidDataException(msg, ex);
                                 }
                                 finally
                                 {
                                     if (vdiRef == null)
                                     {
-                                    	var msg = string.Format(Messages.ERROR_IMPORT_DISK_FAILED, filename, sruuid);
-                                        log.Error(msg);
+                                    	log.ErrorFormat("Failed to import virtual disk from file {0} to storage repository {1}.", filename, sruuid);
                                         RemoveSystem(xenSession, vmRef);
                                     }
                                 }
 
-                                log.DebugFormat("Import.AddResourceSettingData coung {0} VDIs", vdiRef.Count);
+                                log.DebugFormat("Import.AddResourceSettingData counts {0} VDIs", vdiRef.Count);
 
 
                                 foreach (XenRef<VDI> currentVDI in vdiRef)
@@ -2017,18 +1953,20 @@ namespace XenOvfTransport
                                         }
                                         catch (Exception ex)
                                         {
-                                            log.ErrorFormat("{0} {1}", Messages.ERROR_CREATE_VBD_FAILED, ex.Message);
+                                            log.Error("Failed to create a virtual block device (VBD).", ex);
                                             throw new Exception(Messages.ERROR_CREATE_VBD_FAILED, ex);
                                         }
                                     }
                                     else
                                     {
-                                        log.WarnFormat("Import:  ================== ATTENTION NEEDED =======================");
-                                        log.WarnFormat("Import:  Could not determine appropriate number for device placement.");
-                                        log.WarnFormat("Import:  Please Start, Logon, Shut down, System ({0})", vmName);
-                                        log.WarnFormat("Import:  Then manually attach disks with labels with {0}_# that are not attached to {0}", vmName);
-                                        log.WarnFormat("Import:  ===========================================================");
-                                        OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.Progress, "Import", Messages.WARNING_ADMIN_REQUIRED));
+                                        log.WarnFormat(
+                                            "Import:  ================== ATTENTION NEEDED =======================" +
+                                            "Import:  Could not determine appropriate number for device placement." +
+                                            "Import:  Please Start, Logon, Shut down, System ({0})" +
+                                            "Import:  Then manually attach disks with labels with {0}_# that are not attached to {0}" +
+                                            "Import:  ===========================================================",
+                                            vmName);
+                                        OnUpdate(new XenOvfTransportEventArgs(TransportStep.Import, Messages.WARNING_ADMIN_REQUIRED));
                                     }
                                 }
                             }
@@ -2055,8 +1993,7 @@ namespace XenOvfTransport
 
             if (allowedVBDs == null || allowedVBDs.Length <= 0)
             {
-                string message = string.Format("OVF.VerifyUserDevice: No more available devices, cannot add device: {0}", device);
-                log.Error(message);
+                log.ErrorFormat("OVF.VerifyUserDevice: No more available devices, cannot add device: {0}", device);
                 return device + "+";
             }
 
@@ -2321,78 +2258,9 @@ namespace XenOvfTransport
 
             return vdiref;
         }
-        private class TaskInfo
-        {
-            public Session xenSession;
-            public object _import;
-            public string NameLabel;
-            public string PathToOvf;
-            public string Filename;
-            public string Compression;
-            public string SRuuid;
-            public string Version;
-            public string Passcode;
-            public string Description;
-            public string VDIuuid;
-
-            public TaskInfo(Session xensession, object import, string namelabel, string pathToOvf, string filename, string sruuid,  string version, string passcode, string compression, string description, string vdiuuid)
-            {
-                xenSession = xensession;
-                _import = import;
-                NameLabel = namelabel;
-                PathToOvf = pathToOvf;
-                Filename = filename;
-                SRuuid = sruuid;
-                Passcode = passcode;
-                Compression = compression;
-                Version = version;
-                Description = description;
-                VDIuuid = vdiuuid;
-            }
-        }
-        private List<XenRef<VDI>> ImportFileProc(object args)
-        {
-            List<XenRef<VDI>> vdiRef = null;
-            if (args is TaskInfo)
-            {
-                log.InfoFormat("Import.ImportFileProc: ThreadID: {0}[{1}]", Thread.CurrentThread.Name, Thread.CurrentThread.ManagedThreadId);
-                TaskInfo ti = (TaskInfo)args;
-                try
-                {
-                    vdiRef = ((Import)ti._import).ImportFile(ti.xenSession, ti.NameLabel, ti.PathToOvf, ti.Filename, ti.Compression, ti.Version, ti.Passcode, ti.SRuuid, ti.Description, ti.VDIuuid);
-                }
-                catch (Exception ex)
-                {
-					if (ex is OperationCanceledException)
-						throw;
-                    log.Error(Messages.ERROR_IMPORT_FAILED);
-                    throw new Exception(Messages.ERROR_IMPORT_FAILED, ex);
-                }
-            }
-            log.Debug("OVF.ImportFileProc (worker thread) completed");
-            return vdiRef;
-        }
-        
-        private static bool IsNumber(string s)
-        {
-            Regex pattern = new Regex(@"[\d]");
-            if (pattern.IsMatch(s)) { return true; }
-            return false;
-        }
-        private static bool IsGUID(string expression)
-        {
-            if (expression != null)
-            {
-                Regex guidRegEx = new Regex(@"^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$");
-
-                return guidRegEx.IsMatch(expression);
-            }
-            return false;
-        }
 
         public bool IsKnownURIType(string filename)
         {
-            bool IsURI = false;
             string expression = Properties.Settings.Default.uriRegex;
             RegexStringValidator rsv = new RegexStringValidator(expression);
             if (rsv.CanValidate(filename.GetType()))
@@ -2400,17 +2268,15 @@ namespace XenOvfTransport
                 try
                 {
                     rsv.Validate(filename);
-                    IsURI = true;
-                    log.InfoFormat("Import.isURI: File: {0} is in URI format.", filename);
+                    log.InfoFormat("Import.isURI: File {0} is in URI format.", filename);
+                    return true;
                 }
                 catch
                 {
-                    log.InfoFormat("Import.isURI: File: {0} is not in URI format.", filename);
-                    IsURI = false;
+                    log.InfoFormat("Import.isURI: File {0} is not in URI format.", filename);
                 }
             }
-
-            return IsURI;
+            return false;
         }
         
         private void HideSystem(Session xenSession, XenRef<VM> vmRef)
@@ -2598,11 +2464,11 @@ namespace XenOvfTransport
             {
                 downloadupdatemsg = string.Format(Messages.ISCSI_COPY_PROGRESS, tmpfilename);
                 _downloadexception = null;
-                OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileStart, "Web Download Start", downloadupdatemsg, 0, _filedownloadsize));
+                OnUpdate(new XenOvfTransportEventArgs(TransportStep.Download, downloadupdatemsg, 0, _filedownloadsize));
                 WebClient wc = new WebClient();
                 wc.Proxy = XenAdmin.XenAdminConfigManager.Provider.GetProxyFromSettings(null, false);
-                wc.DownloadFileCompleted += new System.ComponentModel.AsyncCompletedEventHandler(wc_DownloadFileCompleted);
-                wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
+                wc.DownloadFileCompleted += wc_DownloadFileCompleted;
+                wc.DownloadProgressChanged += wc_DownloadProgressChanged;
                 wc.DownloadFileAsync(filetodownload, tmpfilename);
                 uridownloadcomplete.WaitOne();
                 if (_downloadexception != null)
@@ -2610,20 +2476,20 @@ namespace XenOvfTransport
                     if (!Path.GetExtension(tmpfilename).Equals(".pvp"))  // don't worry bout pvp files, we don't use them.
                         throw _downloadexception;
                 }
-                OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileComplete, "Web Download Completed", downloadupdatemsg, _filedownloadsize, _filedownloadsize));
+                OnUpdate(new XenOvfTransportEventArgs(TransportStep.Download, downloadupdatemsg, _filedownloadsize, _filedownloadsize));
             }
             return tmpfilename;
         }
 
         private void wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.FileProgress, "Web Download Update", downloadupdatemsg, (ulong)e.BytesReceived, (ulong)_filedownloadsize));
+            OnUpdate(new XenOvfTransportEventArgs(TransportStep.Download, downloadupdatemsg, (ulong)e.BytesReceived, (ulong)_filedownloadsize));
         }
         private void wc_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
             if (e.Error != null)
             {
-                log.ErrorFormat("DownloadFileAsync: {0} ", e.Error.Message);
+                log.Error("DownloadFileAsync failure.", e.Error);
                 _downloadexception = e.Error;
             }
             log.Info("DownloadFileAsync: completed");
@@ -2682,17 +2548,5 @@ namespace XenOvfTransport
         }
         #endregion
 
-    }
-
-    [Serializable]
-    public class ImportException : Exception
-    {
-        public ImportException() : base() { }
-
-        public ImportException(string message) : base(message) { }
-
-        public ImportException(string message, Exception exception) : base(message, exception) { }
- 
-        public ImportException(SerializationInfo serialinfo, StreamingContext context) : base(serialinfo, context) { }
     }
 }

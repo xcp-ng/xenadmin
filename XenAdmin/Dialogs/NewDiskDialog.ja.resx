@@ -117,197 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
-  <data name="DiskSizeNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="DiskSizeNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>73, 147</value>
-  </data>
-  <data name="DiskSizeNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 23</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
-  <data name="DiskSizeNumericUpDown.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
-  <data name="DiskSizeNumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="&gt;&gt;DiskSizeNumericUpDown.Name" xml:space="preserve">
-    <value>DiskSizeNumericUpDown</value>
-  </data>
-  <data name="&gt;&gt;DiskSizeNumericUpDown.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DiskSizeNumericUpDown.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;DiskSizeNumericUpDown.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
   <data name="tableLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
   <data name="tableLayoutPanel1.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
   </data>
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="tableLayoutPanelError.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="tableLayoutPanelError.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
-  </data>
-  <data name="tableLayoutPanelError.ColumnCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="labelError.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="labelError.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="labelError.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="labelError.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="labelError.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 4</value>
-  </data>
-  <data name="labelError.Size" type="System.Drawing.Size, System.Drawing">
-    <value>276, 15</value>
-  </data>
-  <data name="labelError.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="labelError.Text" xml:space="preserve">
-    <value>このディスクをサポートできる場所がありません</value>
-  </data>
-  <data name="&gt;&gt;labelError.Name" xml:space="preserve">
-    <value>labelError</value>
-  </data>
-  <data name="&gt;&gt;labelError.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;labelError.Parent" xml:space="preserve">
-    <value>tableLayoutPanelError</value>
-  </data>
-  <data name="&gt;&gt;labelError.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="pictureBoxError.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data mimetype="application/x-microsoft.net.object.bytearray.base64" name="pictureBoxError.Image" type="System.Drawing.Bitmap, System.Drawing">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAelJREFUOE+V
-        k11P1EAUhqftirf+lI3o/+hf4kYSLgjKBVy5K6KwREhBdgOExEJCMBjMGgFR+SgECBpZFwhEkOTwnOl0
-        U+CKkzzp1zzvnGmn5nZ1FEwIEcgt9F7oht0tHj6CuC/wZMkrSMM8lGNomDbZgznu9fJMx+hYp6Xl5Pqs
-        X5BzpFNowh/EQxewYx7IJoz6gYbUb4RwEat8lpv1NxzALmwj/oR1WIGK79tOMjnUtnXWv/CvPCBXyY78
-        Kj5tzZoUn8gl9xrlV/LZFGQJutPlhBoQLbK+Izerylr/m03ZRNyGK861znlWRV4wgVQ820WkAbKPmK31
-        AEFlLT1m8iXH6WK7jCB/gGlQ1wZka92iXV3rj1yIlspTxcfyFmkKZqBmbAdpQIK0Ad9h1Qa0t2bW0oAq
-        ATUb4MskRPmANaRv8JX1redkFZXsPCZkAnEMKrmAqOYF8gV5GS6SpCVMIryHCxdyykscsrIn/Z79CvYl
-        hj18kk/IH+EoGpczBk4glmhZW53l/ITgtXJZniO/hs7Abu90a3MSD7I55hH0DQ9DybWqAe9ApR54oUc/
-        3dJW1uLCbuUSIfp5qgjjLmAEYQg0oATdvp355lbWciFxF629ZH36koYR3jixl3vP0rbv/kz54uE9fmdj
-        rgGIa8PaA/xpMAAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="pictureBoxError.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pictureBoxError.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="pictureBoxError.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 16</value>
-  </data>
-  <data name="pictureBoxError.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxError.Name" xml:space="preserve">
-    <value>pictureBoxError</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxError.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxError.Parent" xml:space="preserve">
-    <value>tableLayoutPanelError</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxError.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanelError.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tableLayoutPanelError.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="tableLayoutPanelError.Location" type="System.Drawing.Point, System.Drawing">
-    <value>245, 144</value>
-  </data>
-  <data name="tableLayoutPanelError.RowCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanelError.Size" type="System.Drawing.Size, System.Drawing">
-    <value>379, 23</value>
-  </data>
-  <data name="tableLayoutPanelError.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanelError.Name" xml:space="preserve">
-    <value>tableLayoutPanelError</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanelError.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanelError.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanelError.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableLayoutPanelError.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="labelError" Row="0" RowSpan="1" Column="1" ColumnSpan="1" />&lt;Control Name="pictureBoxError" Row="0" RowSpan="1" Column="0" ColumnSpan="1" />&lt;/Controls>&lt;Columns Styles="AutoSize,0,Percent,100" />&lt;Rows Styles="AutoSize,0" />&lt;/TableLayoutSettings></value>
-  </data>
-  <data name="comboBoxUnits.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="comboBoxUnits.Items" xml:space="preserve">
-    <value>GB</value>
-  </data>
-  <data name="comboBoxUnits.Items1" xml:space="preserve">
-    <value>MB</value>
-  </data>
-  <data name="comboBoxUnits.Location" type="System.Drawing.Point, System.Drawing">
-    <value>190, 144</value>
-  </data>
-  <data name="comboBoxUnits.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 23</value>
-  </data>
-  <data name="comboBoxUnits.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;comboBoxUnits.Name" xml:space="preserve">
-    <value>comboBoxUnits</value>
-  </data>
-  <data name="&gt;&gt;comboBoxUnits.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;comboBoxUnits.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;comboBoxUnits.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="CloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
   <data name="CloseButton.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
@@ -333,7 +157,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CloseButton.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>0</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -366,7 +190,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>1</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -402,7 +226,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>2</value>
   </data>
   <data name="NameTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -432,7 +256,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;NameTextBox.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>3</value>
   </data>
   <data name="DescriptionTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -465,7 +289,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;DescriptionTextBox.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -498,7 +322,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>6</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -531,7 +355,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>7</value>
   </data>
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -567,7 +391,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>8</value>
   </data>
   <data name="OkButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -597,7 +421,43 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;OkButton.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>9</value>
+  </data>
+  <data name="diskSpinner1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="diskSpinner1.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="diskSpinner1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="diskSpinner1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="diskSpinner1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>76, 141</value>
+  </data>
+  <data name="diskSpinner1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="diskSpinner1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>551, 29</value>
+  </data>
+  <data name="diskSpinner1.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;diskSpinner1.Name" xml:space="preserve">
+    <value>diskSpinner1</value>
+  </data>
+  <data name="&gt;&gt;diskSpinner1.Type" xml:space="preserve">
+    <value>XenAdmin.Controls.DiskSpinner, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;diskSpinner1.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;diskSpinner1.ZOrder" xml:space="preserve">
+    <value>10</value>
   </data>
   <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -630,7 +490,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="tableLayoutPanelError" Row="4" RowSpan="1" Column="3" ColumnSpan="2" />&lt;Control Name="comboBoxUnits" Row="4" RowSpan="1" Column="2" ColumnSpan="1" />&lt;Control Name="CloseButton" Row="9" RowSpan="1" Column="4" ColumnSpan="1" />&lt;Control Name="label2" Row="2" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="label1" Row="4" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="NameTextBox" Row="2" RowSpan="1" Column="1" ColumnSpan="4" />&lt;Control Name="DescriptionTextBox" Row="3" RowSpan="1" Column="1" ColumnSpan="4" />&lt;Control Name="SrListBox" Row="5" RowSpan="1" Column="1" ColumnSpan="4" />&lt;Control Name="label3" Row="3" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="DiskSizeNumericUpDown" Row="4" RowSpan="1" Column="1" ColumnSpan="1" />&lt;Control Name="label4" Row="5" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="label6" Row="1" RowSpan="1" Column="0" ColumnSpan="5" />&lt;Control Name="OkButton" Row="9" RowSpan="1" Column="3" ColumnSpan="1" />&lt;/Controls>&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0,Percent,100,AutoSize,0" />&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100,Absolute,2,Absolute,2,AutoSize,0,AutoSize,0" />&lt;/TableLayoutSettings></value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="CloseButton" Row="6" RowSpan="1" Column="3" ColumnSpan="1" />&lt;Control Name="label2" Row="2" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="label1" Row="4" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="NameTextBox" Row="2" RowSpan="1" Column="1" ColumnSpan="3" />&lt;Control Name="DescriptionTextBox" Row="3" RowSpan="1" Column="1" ColumnSpan="3" />&lt;Control Name="SrListBox" Row="5" RowSpan="1" Column="1" ColumnSpan="3" />&lt;Control Name="label3" Row="3" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="label4" Row="5" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="label6" Row="1" RowSpan="1" Column="0" ColumnSpan="4" />&lt;Control Name="OkButton" Row="6" RowSpan="1" Column="2" ColumnSpan="1" />&lt;Control Name="diskSpinner1" Row="4" RowSpan="1" Column="1" ColumnSpan="3" />&lt;/Controls>&lt;Columns Styles="AutoSize,0,Percent,100,AutoSize,0,AutoSize,0" />&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100,AutoSize,0,Absolute,20,Absolute,20,Absolute,20" />&lt;/TableLayoutSettings></value>
   </data>
   <data name="SrListBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -666,7 +526,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;SrListBox.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>5</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

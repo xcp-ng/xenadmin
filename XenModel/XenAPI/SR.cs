@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class SR : XenObject<SR>
     {
+        #region Constructors
+
         public SR()
         {
         }
@@ -95,13 +97,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new SR from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public SR(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new SR from a Proxy_SR.
         /// </summary>
         /// <param name="proxy"></param>
         public SR(Proxy_SR proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -132,7 +148,7 @@ namespace XenAPI
             is_tools_sr = update.is_tools_sr;
         }
 
-        internal void UpdateFromProxy(Proxy_SR proxy)
+        internal void UpdateFrom(Proxy_SR proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -182,17 +198,6 @@ namespace XenAPI
             result_.clustered = clustered;
             result_.is_tools_sr = is_tools_sr;
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new SR from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public SR(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

@@ -446,17 +446,14 @@ namespace XenAdmin.Core
         /// <param name="conn">May be null, in which case true is returned.</param>
         public static bool NaplesOrGreater(IXenConnection conn)
         {
-            return conn == null || NaplesOrGreater(Helpers.GetMaster(conn));
+            return conn == null || NaplesOrGreater(GetMaster(conn));
         }
 
         /// Naples is ver. 3.0.0
         /// <param name="host">May be null, in which case true is returned.</param>
         public static bool NaplesOrGreater(Host host)
         {
-            if (host == null)
-                return true;
-
-            return NaplesOrGreater(HostPlatformVersion(host));
+            return host == null || NaplesOrGreater(HostPlatformVersion(host));
         }
 
         public static bool NaplesOrGreater(string platformVersion)
@@ -465,20 +462,39 @@ namespace XenAdmin.Core
         }
 
         /// <param name="conn">May be null, in which case true is returned.</param>
-        public static bool PlymouthOrGreater(IXenConnection conn)
+        public static bool QuebecOrGreater(IXenConnection conn)
         {
-            return conn == null || PlymouthOrGreater(GetMaster(conn));
+            return conn == null || QuebecOrGreater(GetMaster(conn));
         }
 
-        /// Plymouth platform version is 3.1.0
+        /// Quebec platform version is 3.1.0
         /// <param name="host">May be null, in which case true is returned.</param>
-        public static bool PlymouthOrGreater(Host host)
+        public static bool QuebecOrGreater(Host host)
         {
-            if (host == null)
-                return true;
+            return host == null || QuebecOrGreater(HostPlatformVersion(host));
+        }
 
-            string platform_version = HostPlatformVersion(host);
-            return platform_version != null && productVersionCompare(platform_version, "3.0.50") >= 0;
+        public static bool QuebecOrGreater(string platformVersion)
+        {
+            return platformVersion != null && productVersionCompare(platformVersion, "3.0.50") >= 0;
+        }
+
+        /// <param name="conn">May be null, in which case true is returned.</param>
+        public static bool StockholmOrGreater(IXenConnection conn)
+        {
+            return conn == null || StockholmOrGreater(Helpers.GetMaster(conn));
+        }
+
+        /// <param name="host">May be null, in which case true is returned.</param>
+        public static bool StockholmOrGreater(Host host)
+        {
+            return host == null || StockholmOrGreater(HostPlatformVersion(host));
+        }
+
+        /// Stockholm is ver. 3.2.0
+        public static bool StockholmOrGreater(string platformVersion)
+        {
+            return platformVersion != null && productVersionCompare(platformVersion, "3.1.50") >= 0;
         }
 
         // CP-3435: Disable Check for Updates in Common Criteria Certification project
@@ -869,12 +885,10 @@ namespace XenAdmin.Core
         /// <returns>The parsed double.</returns>
         public static double ParseStringToDouble(string toParse, double defaultValue)
         {
-            double doubleValue;
-            if (!double.TryParse(toParse, NumberStyles.Any, _nfi, out doubleValue))
-            {
-                doubleValue = defaultValue;
-            }
-            return doubleValue;
+            if (double.TryParse(toParse, NumberStyles.Any, _nfi, out var doubleValue))
+                return doubleValue;
+
+            return defaultValue;
         }
 
         /// <summary>
@@ -958,7 +972,7 @@ namespace XenAdmin.Core
         static Regex SrIORegex = new Regex("^(io_throughput|iops)_(read|write|total)_([a-f0-9]{8})$");
         static Regex SrOtherRegex = new Regex("^(latency|avgqu_sz|inflight|iowait)_([a-f0-9]{8})$");
         static Regex SrReadWriteRegex = new Regex("^((read|write)(_latency)?)_([a-f0-9]{8})$");
-        static Regex GpuRegex = new Regex(@"^gpu_((memory_(free|used))|power_usage|temperature|(utilisation_(compute|memory_io)))_(([a-fA-F0-9]{4}\/)?[a-fA-F0-9]{2}\/[0-1][a-fA-F0-9].[0-7])$");
+        static Regex GpuRegex = new Regex(@"^gpu_((memory_(free|used))|power_usage|temperature|(utilisation_(compute|memory_io)))_((([a-fA-F0-9]{4}\/)|([a-fA-F0-9]{8}\/))?[a-fA-F0-9]{2}\/[0-1][a-fA-F0-9].[0-7])$");
 
         public static string GetFriendlyDataSourceName(string name, IXenObject iXenObject)
         {
@@ -1120,10 +1134,16 @@ namespace XenAdmin.Core
             {
                 string pciId = m.Groups[6].Value.Replace(@"/", ":");
                 PGPU gpu = FindGpu(iXenObject, pciId);
+
+                if (gpu == null && string.IsNullOrEmpty(m.Groups[8].Value))
+                {
+                    pciId = pciId.Substring(4);
+                    gpu = FindGpu(iXenObject, pciId);
+                }
                 return gpu == null
-                           ? null
-                           : FormatFriendly(string.Format("Label-performance.gpu_{0}", m.Groups[1].Value),
-                                            gpu.Name(), pciId);
+                    ? null
+                    : FormatFriendly(string.Format("Label-performance.gpu_{0}", m.Groups[1].Value),
+                        gpu.Name(), pciId);
             }
 
             if (NetworkLatencyRegex.IsMatch(name))
@@ -1462,161 +1482,96 @@ namespace XenAdmin.Core
             return "";
         }
 
-        public static string GetStringXmlAttribute(XmlNode Node, string AttributeName)
+        /// <summary>
+        /// Retrieves a float value from an XML attribute.
+        /// Returns defaultValue if the attribute doesn't exist.
+        /// </summary>
+        public static string GetStringXmlAttribute(XmlNode node, string attributeName, string defaultValue = null)
         {
-            if (Node.Attributes[AttributeName] == null)
-                return null;
-            return Node.Attributes[AttributeName].Value;
-        }
+            if (node == null || node.Attributes == null || node.Attributes[attributeName] == null)
+                return defaultValue;
 
-        public static string GetStringXmlAttribute(XmlNode Node, string AttributeName, string Default)
-        {
-            if (Node.Attributes[AttributeName] == null)
-                return Default;
-            return Node.Attributes[AttributeName].Value;
+            return node.Attributes[attributeName].Value;
         }
 
         /// <summary>
-        /// Retrieves a true of false value from an XML attribute. Returns null-bool if the attribute doesnt exist or the
-        /// value is malformed.
+        /// Retrieves a true of false value from an XML attribute.
+        /// Returns defaultValue if the attribute doesn't exist or the value is malformed.
         /// </summary>
-        /// <param name="Node"></param>
-        /// <param name="AttributeName"></param>
-        /// <returns></returns>
-        public static bool? GetBoolXmlAttribute(XmlNode Node, string AttributeName)
+        public static bool GetBoolXmlAttribute(XmlNode node, string attributeName, bool defaultValue = false)
         {
-            bool b;
-            if (Node.Attributes[AttributeName] == null)
-                return null;
+            if (node == null || node.Attributes == null || node.Attributes[attributeName] == null)
+                return defaultValue;
 
-            if (bool.TryParse(Node.Attributes[AttributeName].Value, out b))
+            if (bool.TryParse(node.Attributes[attributeName].Value, out bool b))
                 return b;
 
-            return null;
+            return defaultValue;
         }
 
         /// <summary>
-        /// Retrieves a true of false value from an XML attribute. Returns Default if the attribute doesnt exist or the
-        /// value is malformed.
+        /// Retrieves a float value from an XML attribute.
+        /// Returns defaultValue if the attribute doesn't exist or the value is malformed.
         /// </summary>
-        /// <param name="Node"></param>
-        /// <param name="AttributeName"></param>
-        /// <returns></returns>
-        public static bool GetBoolXmlAttribute(XmlNode Node, string AttributeName, bool Default)
+        public static float GetFloatXmlAttribute(XmlNode node, string attributeName, float defaultValue)
         {
-            bool? b = GetBoolXmlAttribute(Node, AttributeName);
-            if (!b.HasValue)
-                return Default;
+            if (node == null || node.Attributes == null || node.Attributes[attributeName] == null)
+                return defaultValue;
 
-            return b.Value;
-        }
-
-        /// <summary>
-        /// Retrieves a float value from an XML attribute. Defaults to null-float if the attribute doesnt exist or the
-        /// value is malformed.
-        /// </summary>
-        /// <param name="Node"></param>
-        /// <param name="AttributeName"></param>
-        /// <returns></returns>
-        public static float? GetFloatXmlAttribute(XmlNode Node, string AttributeName)
-        {
-            float f;
-            if (Node.Attributes[AttributeName] == null)
-                return null;
-
-            if (float.TryParse(Node.Attributes[AttributeName].Value, out f))
+            if (float.TryParse(node.Attributes[attributeName].Value, out float f))
                 return f;
 
-            return null;
+            return defaultValue;
         }
 
         /// <summary>
-        /// Retrieves a float value from an XML attribute. Returns Default if the attribute doesnt exist or the
-        /// value is malformed.
+        /// Retrieves an int value from an XML attribute.
+        /// Returns defaultValue if the attribute doesn't exist or the value is malformed.
         /// </summary>
-        /// <param name="Node"></param>
-        /// <param name="AttributeName"></param>
-        /// <returns></returns>
-        public static float GetFloatXmlAttribute(XmlNode Node, string AttributeName, float Default)
+        public static int GetIntXmlAttribute(XmlNode node, string attributeName, int defaultValue)
         {
-            float? f = GetFloatXmlAttribute(Node, AttributeName);
-            if (!f.HasValue)
-                return Default;
+            if (node == null || node.Attributes == null || node.Attributes[attributeName] == null)
+                return defaultValue;
 
-            return f.Value;
-        }
-
-        /// <summary>
-        /// Retrieves an int value from an XML attribute. Defaults to null-int if the attribute doesnt exist or the
-        /// value is malformed.
-        /// </summary>
-        /// <param name="Node"></param>
-        /// <param name="AttributeName"></param>
-        /// <returns></returns>
-        public static int? GetIntXmlAttribute(XmlNode Node, string AttributeName)
-        {
-            int i;
-            if (Node.Attributes[AttributeName] == null)
-                return null;
-
-            if (int.TryParse(Node.Attributes[AttributeName].Value, out i))
+            if (int.TryParse(node.Attributes[attributeName].Value, out int i))
                 return i;
 
-            return null;
+            return defaultValue;
         }
 
         /// <summary>
-        /// Retrieves an int value from an XML attribute. Returns Default if the attribute doesnt exist or the
-        /// value is malformed.
+        /// Retrieves the string content of an XmlNode attribute.
         /// </summary>
-        /// <param name="Node"></param>
-        /// <param name="AttributeName"></param>
-        /// <returns></returns>
-        public static int GetIntXmlAttribute(XmlNode Node, string AttributeName, int Default)
+        /// <exception cref="I18NException">Thrown if the attribute is missing</exception>
+        public static string GetXmlAttribute(XmlNode node, string attributeName)
         {
-            int? i = GetIntXmlAttribute(Node, AttributeName);
-            if (!i.HasValue)
-                return Default;
+            if (node == null)
+                throw new I18NException(I18NExceptionType.XmlAttributeMissing, attributeName);
 
-            return i.Value;
+            if (node.Attributes == null || node.Attributes[attributeName] == null)
+                throw new I18NException(I18NExceptionType.XmlAttributeMissing, attributeName, node.Name);
+
+            return node.Attributes[attributeName].Value;
         }
 
         /// <summary>
-        /// Retrieves the string content of an XmlNode attribute or throws an I18NException if it missing.
+        /// Retrieves the enum content of an XmlNode attribute or defaultValue if it is missing. 
         /// </summary>
-        /// <param name="Node"></param>
-        /// <param name="Attribute"></param>
-        /// <returns></returns>
-        public static string GetXmlAttribute(XmlNode Node, string Attribute)
+        public static T GetEnumXmlAttribute<T>(XmlNode node, string attributeName, T defaultValue)
         {
-            if (Node.Attributes[Attribute] == null)
-                throw new I18NException(I18NExceptionType.XmlAttributeMissing, Attribute, Node.Name);
-            return Node.Attributes[Attribute].Value;
-        }
+            if (node == null || node.Attributes == null || node.Attributes[attributeName] == null)
+                return defaultValue;
 
-        /// <summary>
-        /// Retrieves the enum content of an XmlNode attribute or Default if it is missing. 
-        /// 
-        /// WARNING: Runtime check that typeof(T).IsEnum (Sorry! C# doesnt support Enum generics very well).
-        /// </summary>
-        /// <param name="Node"></param>
-        /// <param name="Attribute"></param>
-        /// <returns></returns>
-        public static T GetEnumXmlAttribute<T>(XmlNode Node, string Attribute, T Default)
-        {
-            if (Node.Attributes[Attribute] == null)
-                return Default;
-
-            System.Diagnostics.Trace.Assert(typeof(T).IsEnum, "Supplied type to GetEnumXmlAttribute is not an enum");
+            if (!typeof(T).IsEnum)
+                return defaultValue;
 
             try
             {
-                T result = (T)Enum.Parse(typeof(T), Node.Attributes[Attribute].Value);
-                return result;
+                return (T)Enum.Parse(typeof(T), node.Attributes[attributeName].Value);
             }
             catch
             {
-                return Default;
+                return defaultValue;
             }
         }
 
@@ -1847,21 +1802,6 @@ namespace XenAdmin.Core
        {
            var master = GetMaster(connection);
            return master != null && master.AppliedUpdates().Any(update => update.Name().ToLower().StartsWith("pvsaccelerator"));
-       }
-
-       /// <summary>
-       /// This method returns the disk space required (bytes) on the provided SR for the provided VDI.
-       /// </summary>
-       /// <returns>Disk size required in bytes.</returns>
-       public static long GetRequiredSpaceToCreateVdiOnSr(SR sr, VDI vdi)
-       {
-           if (sr == null)
-               throw new ArgumentNullException("sr");
-
-           if (vdi == null)
-               throw new ArgumentNullException("vdi");
-
-           return vdi.virtual_size;
        }
 
         public static string UrlEncode(this string str)

@@ -30,19 +30,15 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using XenAdmin.Controls;
 using XenAdmin.Model;
-using XenAPI;
 using XenAdmin;
-using XenAdmin.XenSearch;
 using XenAdmin.Network;
 
 namespace XenAdminTests.TreeTests
 {
-    [TestFixture, Category(TestCategories.UICategoryB)]
+    [TestFixture, Category(TestCategories.Unit)]
     public class FlickerFreeTreeViewTests
     {
         private FlickerFreeTreeView _tv;
@@ -53,13 +49,18 @@ namespace XenAdminTests.TreeTests
             _tv = new FlickerFreeTreeView();
 
             // ensure handle is created. Some tests fail if you don't do this.
-            IntPtr h = _tv.Handle;
+            Assert.NotNull(_tv.Handle);
         }
 
-        /// <summary>
-        /// Tests that the parent node of the selected nodes get selected when the selected nodes' tags disappear.
-        /// </summary>
+        [TearDown]
+        public void TearDown()
+        {
+           if (_tv != null)
+               _tv.Dispose();
+        }
+
         [Test]
+        [Description("Tests that the parent node of the selected nodes get selected when the selected nodes' tags disappear.")]
         public void TestParentNodeSelectedWhenSelectedNodeTagsChange()
         {
             // populate the tree-view with some folders
@@ -76,7 +77,7 @@ namespace XenAdminTests.TreeTests
             folders.Nodes.Add(new VirtualTreeNode("folder2") { Tag = new Folder(null, "folder2") });
 
             // set the 2 folders to be the selected nodes.
-            _tv.SelectedNodes.SetContents(new VirtualTreeNode[] { folders.Nodes[0], folders.Nodes[1] });
+            _tv.SelectedNodes.SetContents(new [] { folders.Nodes[0], folders.Nodes[1] });
 
             // now build up a new nodes tree
             VirtualTreeNode newRootNode = new VirtualTreeNode(Branding.BRAND_CONSOLE);
@@ -102,7 +103,7 @@ namespace XenAdminTests.TreeTests
             {
                 // merge the new node tree in.
                 _tv.BeginUpdate();
-                _tv.UpdateRootNodes(new VirtualTreeNode[] { newRootNode });
+                _tv.UpdateRootNodes(new [] { newRootNode });
                 _tv.EndUpdate();
                 Assert.GreaterOrEqual(count, 1, "SelectionsChanged should fire.");
             }
@@ -120,7 +121,7 @@ namespace XenAdminTests.TreeTests
             root.Nodes.Add(new VirtualTreeNode("2") { Tag = new Folder(null, "2") });
 
             _tv.BeginUpdate();
-            _tv.UpdateRootNodes(new VirtualTreeNode[] { root });
+            _tv.UpdateRootNodes(new [] { root });
             _tv.EndUpdate();
             _tv.SelectedNode = _tv.Nodes[0].Nodes[0];
 
@@ -129,7 +130,7 @@ namespace XenAdminTests.TreeTests
             root.Nodes.Add(new VirtualTreeNode("2") { Tag = new Folder(null, "2") });
 
             _tv.BeginUpdate();
-            _tv.UpdateRootNodes(new VirtualTreeNode[] { root });
+            _tv.UpdateRootNodes(new [] { root });
             _tv.EndUpdate();
 
             Assert.AreEqual("1", _tv.SelectedNode.Text);
@@ -143,7 +144,7 @@ namespace XenAdminTests.TreeTests
             root.Nodes.Add(new VirtualTreeNode("2") { Tag = new Folder(null, "2") });
 
             _tv.BeginUpdate();
-            _tv.UpdateRootNodes(new VirtualTreeNode[] { root });
+            _tv.UpdateRootNodes(new [] { root });
             _tv.EndUpdate();
             _tv.SelectedNode = _tv.Nodes[0].Nodes[0];
 
@@ -152,7 +153,7 @@ namespace XenAdminTests.TreeTests
             root.Nodes.Add(new VirtualTreeNode("1") { Tag = new Folder(null, "1") });
 
             _tv.BeginUpdate();
-            _tv.UpdateRootNodes(new VirtualTreeNode[] { root });
+            _tv.UpdateRootNodes(new [] { root });
             _tv.EndUpdate();
 
             Assert.AreEqual(1, _tv.SelectedNodes.Count, "Node didn't stay selected");
@@ -170,9 +171,9 @@ namespace XenAdminTests.TreeTests
             root.Nodes.Add(new VirtualTreeNode("4") { Tag = new Folder(null, "4") });
 
             _tv.BeginUpdate();
-            _tv.UpdateRootNodes(new VirtualTreeNode[] { root });
+            _tv.UpdateRootNodes(new [] { root });
             _tv.EndUpdate();
-            _tv.SelectedNodes.SetContents(new VirtualTreeNode[] { root.Nodes[0], root.Nodes[1] });
+            _tv.SelectedNodes.SetContents(new [] { root.Nodes[0], root.Nodes[1] });
 
             root = new VirtualTreeNode("root");
             root.Nodes.Add(new VirtualTreeNode("4") { Tag = new Folder(null, "4") });
@@ -181,7 +182,7 @@ namespace XenAdminTests.TreeTests
             root.Nodes.Add(new VirtualTreeNode("1") { Tag = new Folder(null, "1") });
 
             _tv.BeginUpdate();
-            _tv.UpdateRootNodes(new VirtualTreeNode[] { root });
+            _tv.UpdateRootNodes(new [] { root });
             _tv.EndUpdate();
 
             Assert.AreEqual(2, _tv.SelectedNodes.Count, "Nodes didn't stay selected");
@@ -204,15 +205,15 @@ namespace XenAdminTests.TreeTests
             root.Nodes.Add(new VirtualTreeNode("3") { Tag = new Folder(null, "3") { Connection = con3 } });
 
             _tv.BeginUpdate();
-            _tv.UpdateRootNodes(new VirtualTreeNode[] { root });
+            _tv.UpdateRootNodes(new [] { root });
             _tv.EndUpdate();
-            _tv.SelectedNodes.SetContents(new VirtualTreeNode[] { root.Nodes[0], root.Nodes[1] });
+            _tv.SelectedNodes.SetContents(new [] { root.Nodes[0], root.Nodes[1] });
 
             root = new VirtualTreeNode("root");
             root.Nodes.Add(new VirtualTreeNode("3") { Tag = new Folder(null, "3") { Connection = con3 } });
 
             _tv.BeginUpdate();
-            _tv.UpdateRootNodes(new VirtualTreeNode[] { root });
+            _tv.UpdateRootNodes(new [] { root });
             _tv.EndUpdate();
 
             Assert.AreEqual(1, _tv.SelectedNodes.Count, "Nodes didn't stay selected");

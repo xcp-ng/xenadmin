@@ -106,7 +106,7 @@ public static class SettingsUpdate
         }
         catch (Exception ex)
         {
-            log.DebugFormat("Exception while updating settings: {0}", ex.Message);
+            log.Debug("Exception while updating settings.", ex);
         }
     }
 }

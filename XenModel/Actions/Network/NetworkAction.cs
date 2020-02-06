@@ -41,8 +41,6 @@ namespace XenAdmin.Actions
 {
     public class NetworkAction : AsyncAction
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private enum network_actions { create, destroy, update };
 
         private XenAPI.Network networkClone;

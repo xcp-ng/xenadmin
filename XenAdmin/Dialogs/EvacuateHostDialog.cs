@@ -814,8 +814,6 @@ namespace XenAdmin.Dialogs
             catch (Exception e)
             {
                 log.Debug("Exception processing exception", e);
-                log.Debug(e, e);
-
                 AddDefaultSuspendOperation(vmRef);
             }
         }

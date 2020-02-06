@@ -93,7 +93,9 @@ namespace XenAdmin.TabPages
             }            
         }
 
-        private void licenseStatus_ItemUpdated(object sender, EventArgs e)
+        public override string HelpID => "TabPageSettings";
+
+        private void licenseStatus_ItemUpdated()
         {
             if (pdSectionLicense == null || licenseStatus == null)
                 return;
@@ -106,8 +108,7 @@ namespace XenAdmin.TabPages
 
                 pdSectionLicense.UpdateEntryValueWithKey(Messages.LICENSE_STATUS, ss.ExpiryStatus, true);
 
-            Pool p = xenObject as Pool;
-            if (p != null)
+                if (xenObject is Pool p)
                 {
                     var additionalString = PoolAdditionalLicenseString();
                     pdSectionGeneral.UpdateEntryValueWithKey(
@@ -167,10 +168,27 @@ namespace XenAdmin.TabPages
                 if (value == null)
                     return;
 
-                RegisterLicenseStatusUpdater(value);
-
-                if (xenObject != value)
+                if (value.Equals(xenObject))
                 {
+                    BuildList();
+                    return;
+                }
+
+                if (licenseStatus != null)
+                {
+                    licenseStatus.ItemUpdated -= licenseStatus_ItemUpdated;
+                    licenseStatus.Dispose();
+                    //set this to null to prevent updates if the object is not a host or pool
+                    licenseStatus = null;
+                }
+
+                if (value.Connection != null && value.Connection.IsConnected && (value is Host || value is Pool))
+                {
+                    licenseStatus = new LicenseStatus(value);
+                    licenseStatus.ItemUpdated += licenseStatus_ItemUpdated;
+                    licenseStatus.BeginUpdate();
+                }
+
                     UnregisterHandlers();
 
                     xenObject = value;
@@ -185,28 +203,7 @@ namespace XenAdmin.TabPages
 
                         ResetExpandState();
                 }
-                else
-                {
-                    BuildList();
                 }
-            }
-        }
-
-        private void RegisterLicenseStatusUpdater(IXenObject xenObject)
-        {
-            if (licenseStatus != null)
-                licenseStatus.ItemUpdated -= licenseStatus_ItemUpdated;
-
-            if (xenObject.Connection != null && !xenObject.Connection.IsConnected)
-                return;
-
-            if (xenObject is Host || xenObject is Pool)
-            {
-                licenseStatus = new LicenseStatus(xenObject);
-                licenseStatus.ItemUpdated += licenseStatus_ItemUpdated;
-                licenseStatus.BeginUpdate();
-            }
-        }
 
         private void pdSection_ExpandedChanged(PDSection pdSection)
         {
@@ -375,8 +372,7 @@ namespace XenAdmin.TabPages
         private void PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
 
-            if (e.PropertyName == "state" ||
-                e.PropertyName == "last_updated")
+            if (e.PropertyName == "state" || e.PropertyName == "last_updated")
             {
                 return;
             }
@@ -1105,7 +1101,15 @@ namespace XenAdmin.TabPages
             if (!Helpers.ElyOrGreater(host) && host.software_version.ContainsKey("build_number"))
                 pdSectionVersion.AddEntry(Messages.SOFTWARE_VERSION_BUILD_NUMBER, host.software_version["build_number"]);
             if (host.software_version.ContainsKey("product_version"))
+            {
+                var hotfixEligibilityString = AdditionalVersionString(host);
+                if (string.IsNullOrEmpty(hotfixEligibilityString))
                 pdSectionVersion.AddEntry(Messages.SOFTWARE_VERSION_PRODUCT_VERSION, host.ProductVersionText());
+                else
+                    pdSectionVersion.AddEntry(Messages.SOFTWARE_VERSION_PRODUCT_VERSION,
+                        string.Format(Messages.MAINWINDOW_CONTEXT_REASON, host.ProductVersionText(), hotfixEligibilityString),
+                        Color.Red);
+            }
             if (host.software_version.ContainsKey("dbv"))
                 pdSectionVersion.AddEntry("DBV", host.software_version["dbv"]);
         }
@@ -1350,7 +1354,13 @@ namespace XenAdmin.TabPages
                 {
                     if (p.IsPoolFullyUpgraded())
                     {
+                        var hotfixEligibilityString = AdditionalVersionString(master);
+                        if (string.IsNullOrEmpty(hotfixEligibilityString))
                         s.AddEntry(Messages.SOFTWARE_VERSION_PRODUCT_VERSION, master.ProductVersionText());
+                        else
+                            s.AddEntry(Messages.SOFTWARE_VERSION_PRODUCT_VERSION, 
+                                string.Format(Messages.MAINWINDOW_CONTEXT_REASON, master.ProductVersionText(), hotfixEligibilityString),
+                                Color.Red);
                     }
                     else
                     {
@@ -1400,6 +1410,46 @@ namespace XenAdmin.TabPages
             }
             else
                 return string.Empty;
+        }
+
+        private string AdditionalVersionString(Host host)
+        {
+            var hotfixEligibility = Updates.HotfixEligibility(host, out var xenServerVersion);
+            var unlicensed = host.IsFreeLicenseOrExpired();
+
+            switch (hotfixEligibility)
+            {
+                // premium
+                case hotfix_eligibility.premium when unlicensed && xenServerVersion.HotfixEligibilityPremiumDate != DateTime.MinValue:
+                    return string.Format(Messages.HOTFIX_ELIGIBILITY_WARNING_FREE, HelpersGUI.DateTimeToString(xenServerVersion.HotfixEligibilityPremiumDate.ToLocalTime(), Messages.DATEFORMAT_DMY, true));
+                case hotfix_eligibility.premium when unlicensed:
+                    return Messages.HOTFIX_ELIGIBILITY_WARNING_FREE_NO_DATE;
+
+                // cu
+                case hotfix_eligibility.cu when unlicensed && xenServerVersion.HotfixEligibilityPremiumDate != DateTime.MinValue:
+                    return string.Format(Messages.HOTFIX_ELIGIBILITY_WARNING_FREE, HelpersGUI.DateTimeToString(xenServerVersion.HotfixEligibilityPremiumDate.ToLocalTime(), Messages.DATEFORMAT_DMY, true));
+                case hotfix_eligibility.cu when unlicensed:
+                    return Messages.HOTFIX_ELIGIBILITY_WARNING_FREE_NO_DATE;
+
+                case hotfix_eligibility.cu when xenServerVersion.HotfixEligibilityNoneDate != DateTime.MinValue:
+                    return string.Format(Messages.HOTFIX_ELIGIBILITY_WARNING_CU, HelpersGUI.DateTimeToString(xenServerVersion.HotfixEligibilityNoneDate.ToLocalTime(), Messages.DATEFORMAT_DMY, true));
+                case hotfix_eligibility.cu:
+                    return Messages.HOTFIX_ELIGIBILITY_WARNING_CU_NO_DATE;
+
+                // none
+                case hotfix_eligibility.none when unlicensed && xenServerVersion.EolDate != DateTime.MinValue:
+                    return string.Format(Messages.HOTFIX_ELIGIBILITY_WARNING_EOL_FREE, HelpersGUI.DateTimeToString(xenServerVersion.EolDate.ToLocalTime(), Messages.DATEFORMAT_DMY, true));
+                case hotfix_eligibility.none when xenServerVersion.EolDate != DateTime.MinValue:
+                    return string.Format(Messages.HOTFIX_ELIGIBILITY_WARNING_EOL, HelpersGUI.DateTimeToString(xenServerVersion.EolDate.ToLocalTime(), Messages.DATEFORMAT_DMY, true));
+                case hotfix_eligibility.none when unlicensed:
+                    return Messages.HOTFIX_ELIGIBILITY_WARNING_EOL_FREE_NO_DATE;
+                case hotfix_eligibility.none:
+                    return Messages.HOTFIX_ELIGIBILITY_WARNING_EOL_NO_DATE;
+                
+                // default
+                default:
+                    return string.Empty;
+            }
         }
 
         private static void GenerateVirtualisationStatusForGeneralBox(PDSection s, VM vm)

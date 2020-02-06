@@ -55,6 +55,8 @@ namespace XenAdmin.TabPages
             PIF_CollectionChangedWithInvoke = Program.ProgramInvokeHandler(PIF_CollectionChanged);
         }
 
+        public override string HelpID => "TabPageNICs";
+
         private readonly CollectionChangeEventHandler PIF_CollectionChangedWithInvoke;
 
         public Host Host

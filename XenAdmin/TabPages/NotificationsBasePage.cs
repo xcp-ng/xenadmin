@@ -29,11 +29,13 @@
  * SUCH DAMAGE.
  */
 
+
 using System.Windows.Forms;
+using XenAdmin.Help;
 
 namespace XenAdmin.TabPages
 {
-    public class NotificationsBasePage: UserControl
+    public class NotificationsBasePage : UserControl, IControlWithHelp
     {
         protected virtual void RefreshPage()
         { }
@@ -56,5 +58,7 @@ namespace XenAdmin.TabPages
             Visible = false;
             DeregisterEventHandlers();
         }
+
+        public virtual string HelpID => "";
     }
 }

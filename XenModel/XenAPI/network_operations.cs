@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,11 @@ namespace XenAPI
     [JsonConverter(typeof(network_operationsConverter))]
     public enum network_operations
     {
-        attaching, unknown
+        /// <summary>
+        /// Indicates this network is attaching to a VIF or PIF
+        /// </summary>
+        attaching,
+        unknown
     }
 
     public static class network_operations_helper
@@ -69,4 +72,4 @@ namespace XenAPI
             writer.WriteValue(((network_operations)value).StringOf());
         }
     }
-}
+}

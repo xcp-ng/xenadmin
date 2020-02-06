@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,199 @@ namespace XenAPI
     [JsonConverter(typeof(vm_operationsConverter))]
     public enum vm_operations
     {
-        snapshot, clone, copy, create_template, revert, checkpoint, snapshot_with_quiesce, provision, start, start_on, pause, unpause, clean_shutdown, clean_reboot, hard_shutdown, power_state_reset, hard_reboot, suspend, csvm, resume, resume_on, pool_migrate, migrate_send, get_boot_record, send_sysrq, send_trigger, query_services, shutdown, call_plugin, changing_memory_live, awaiting_memory_live, changing_dynamic_range, changing_static_range, changing_memory_limits, changing_shadow_memory, changing_shadow_memory_live, changing_VCPUs, changing_VCPUs_live, changing_NVRAM, assert_operation_valid, data_source_op, update_allowed_operations, make_into_template, import, export, metadata_export, reverting, destroy, unknown
+        /// <summary>
+        /// refers to the operation &quot;snapshot&quot;
+        /// </summary>
+        snapshot,
+        /// <summary>
+        /// refers to the operation &quot;clone&quot;
+        /// </summary>
+        clone,
+        /// <summary>
+        /// refers to the operation &quot;copy&quot;
+        /// </summary>
+        copy,
+        /// <summary>
+        /// refers to the operation &quot;create_template&quot;
+        /// </summary>
+        create_template,
+        /// <summary>
+        /// refers to the operation &quot;revert&quot;
+        /// </summary>
+        revert,
+        /// <summary>
+        /// refers to the operation &quot;checkpoint&quot;
+        /// </summary>
+        checkpoint,
+        /// <summary>
+        /// refers to the operation &quot;snapshot_with_quiesce&quot;
+        /// </summary>
+        snapshot_with_quiesce,
+        /// <summary>
+        /// refers to the operation &quot;provision&quot;
+        /// </summary>
+        provision,
+        /// <summary>
+        /// refers to the operation &quot;start&quot;
+        /// </summary>
+        start,
+        /// <summary>
+        /// refers to the operation &quot;start_on&quot;
+        /// </summary>
+        start_on,
+        /// <summary>
+        /// refers to the operation &quot;pause&quot;
+        /// </summary>
+        pause,
+        /// <summary>
+        /// refers to the operation &quot;unpause&quot;
+        /// </summary>
+        unpause,
+        /// <summary>
+        /// refers to the operation &quot;clean_shutdown&quot;
+        /// </summary>
+        clean_shutdown,
+        /// <summary>
+        /// refers to the operation &quot;clean_reboot&quot;
+        /// </summary>
+        clean_reboot,
+        /// <summary>
+        /// refers to the operation &quot;hard_shutdown&quot;
+        /// </summary>
+        hard_shutdown,
+        /// <summary>
+        /// refers to the operation &quot;power_state_reset&quot;
+        /// </summary>
+        power_state_reset,
+        /// <summary>
+        /// refers to the operation &quot;hard_reboot&quot;
+        /// </summary>
+        hard_reboot,
+        /// <summary>
+        /// refers to the operation &quot;suspend&quot;
+        /// </summary>
+        suspend,
+        /// <summary>
+        /// refers to the operation &quot;csvm&quot;
+        /// </summary>
+        csvm,
+        /// <summary>
+        /// refers to the operation &quot;resume&quot;
+        /// </summary>
+        resume,
+        /// <summary>
+        /// refers to the operation &quot;resume_on&quot;
+        /// </summary>
+        resume_on,
+        /// <summary>
+        /// refers to the operation &quot;pool_migrate&quot;
+        /// </summary>
+        pool_migrate,
+        /// <summary>
+        /// refers to the operation &quot;migrate_send&quot;
+        /// </summary>
+        migrate_send,
+        /// <summary>
+        /// refers to the operation &quot;get_boot_record&quot;
+        /// </summary>
+        get_boot_record,
+        /// <summary>
+        /// refers to the operation &quot;send_sysrq&quot;
+        /// </summary>
+        send_sysrq,
+        /// <summary>
+        /// refers to the operation &quot;send_trigger&quot;
+        /// </summary>
+        send_trigger,
+        /// <summary>
+        /// refers to the operation &quot;query_services&quot;
+        /// </summary>
+        query_services,
+        /// <summary>
+        /// refers to the operation &quot;shutdown&quot;
+        /// </summary>
+        shutdown,
+        /// <summary>
+        /// refers to the operation &quot;call_plugin&quot;
+        /// </summary>
+        call_plugin,
+        /// <summary>
+        /// Changing the memory settings
+        /// </summary>
+        changing_memory_live,
+        /// <summary>
+        /// Waiting for the memory settings to change
+        /// </summary>
+        awaiting_memory_live,
+        /// <summary>
+        /// Changing the memory dynamic range
+        /// </summary>
+        changing_dynamic_range,
+        /// <summary>
+        /// Changing the memory static range
+        /// </summary>
+        changing_static_range,
+        /// <summary>
+        /// Changing the memory limits
+        /// </summary>
+        changing_memory_limits,
+        /// <summary>
+        /// Changing the shadow memory for a halted VM.
+        /// </summary>
+        changing_shadow_memory,
+        /// <summary>
+        /// Changing the shadow memory for a running VM.
+        /// </summary>
+        changing_shadow_memory_live,
+        /// <summary>
+        /// Changing VCPU settings for a halted VM.
+        /// </summary>
+        changing_VCPUs,
+        /// <summary>
+        /// Changing VCPU settings for a running VM.
+        /// </summary>
+        changing_VCPUs_live,
+        /// <summary>
+        /// Changing NVRAM for a halted VM.
+        /// </summary>
+        changing_NVRAM,
+        /// <summary>
+        /// 
+        /// </summary>
+        assert_operation_valid,
+        /// <summary>
+        /// Add, remove, query or list data sources
+        /// </summary>
+        data_source_op,
+        /// <summary>
+        /// 
+        /// </summary>
+        update_allowed_operations,
+        /// <summary>
+        /// Turning this VM into a template
+        /// </summary>
+        make_into_template,
+        /// <summary>
+        /// importing a VM from a network stream
+        /// </summary>
+        import,
+        /// <summary>
+        /// exporting a VM to a network stream
+        /// </summary>
+        export,
+        /// <summary>
+        /// exporting VM metadata to a network stream
+        /// </summary>
+        metadata_export,
+        /// <summary>
+        /// Reverting the VM to a previous snapshotted state
+        /// </summary>
+        reverting,
+        /// <summary>
+        /// refers to the act of uninstalling the VM
+        /// </summary>
+        destroy,
+        unknown
     }
 
     public static class vm_operations_helper
@@ -163,4 +354,4 @@ namespace XenAPI
             writer.WriteValue(((vm_operations)value).StringOf());
         }
     }
-}
+}

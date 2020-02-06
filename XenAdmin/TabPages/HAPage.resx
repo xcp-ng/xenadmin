@@ -135,7 +135,7 @@
     <value>3, 3</value>
   </data>
   <data name="pictureBoxWarningTriangle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 39</value>
+    <value>32, 32</value>
   </data>
   <data name="pictureBoxWarningTriangle.TabIndex" type="System.Int32, mscorlib">
     <value>33</value>
@@ -160,7 +160,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelStatus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>56, 0</value>
+    <value>41, 0</value>
   </data>
   <data name="labelStatus.Size" type="System.Drawing.Size, System.Drawing">
     <value>770, 39</value>
@@ -192,7 +192,7 @@ Click Configure HA to enable HA for this pool and allow your virtual machines to
     <value>1</value>
   </data>
   <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>829, 45</value>
+    <value>814, 39</value>
   </data>
   <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -276,7 +276,7 @@ Click Configure HA to enable HA for this pool and allow your virtual machines to
     <value>Fill</value>
   </data>
   <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 54</value>
+    <value>3, 48</value>
   </data>
   <data name="flowLayoutPanel1.MaximumSize" type="System.Drawing.Size, System.Drawing">
     <value>900, 100</value>
@@ -312,7 +312,7 @@ Click Configure HA to enable HA for this pool and allow your virtual machines to
     <value>1</value>
   </data>
   <data name="tableLatencies.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 252</value>
+    <value>3, 246</value>
   </data>
   <data name="tableLatencies.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
@@ -342,7 +342,7 @@ Click Configure HA to enable HA for this pool and allow your virtual machines to
     <value>Fill</value>
   </data>
   <data name="customListPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 112</value>
+    <value>3, 106</value>
   </data>
   <data name="customListPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 20, 3, 3</value>
@@ -370,12 +370,6 @@ Click Configure HA to enable HA for this pool and allow your virtual machines to
   </data>
   <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 10</value>
-  </data>
-  <data name="tableLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 18, 46</value>
-  </data>
-  <data name="tableLayoutPanel1.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>900, 500</value>
   </data>
   <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
     <value>3</value>

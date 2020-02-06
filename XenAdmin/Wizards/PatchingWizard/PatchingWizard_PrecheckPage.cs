@@ -43,6 +43,7 @@ using XenAdmin.Diagnostics.Checks;
 using XenAdmin.Diagnostics.Problems;
 using XenAdmin.Diagnostics.Problems.HostProblem;
 using XenAdmin.Dialogs;
+using XenAdmin.Network;
 using XenAPI;
 using CheckGroup = System.Collections.Generic.KeyValuePair<string, System.Collections.Generic.List<XenAdmin.Diagnostics.Checks.Check>>;
 
@@ -101,7 +102,7 @@ namespace XenAdmin.Wizards.PatchingWizard
             get { return "UpdatePrechecks"; }
         }
 
-        void Connection_ConnectionStateChanged(object sender, EventArgs e)
+        void Connection_ConnectionStateChanged(IXenConnection conn)
         {
             Program.Invoke(this, RefreshRechecks);
         }
@@ -348,12 +349,6 @@ namespace XenAdmin.Wizards.PatchingWizard
         {
             var groups = new List<CheckGroup>();
 
-            //XenCenter version check
-            if (UpdateAlert != null && UpdateAlert.NewServerVersion != null)
-            {
-                groups.Add(new CheckGroup(Messages.CHECKING_XENCENTER_VERSION, new List<Check> {new XenCenterVersionCheck(UpdateAlert.NewServerVersion)}));
-            }
-
             //HostLivenessCheck checks
             var livenessChecks = new List<Check>();
             foreach (Host host in applicableServers)
@@ -391,6 +386,8 @@ namespace XenAdmin.Wizards.PatchingWizard
             }
 
             groups.Add(new CheckGroup(Messages.CHECKING_STORAGE_CONNECTIONS_STATUS, pbdChecks));
+
+            XenServerVersion highestNewVersion = null;
 
             //Disk space, reboot required and can evacuate host checks for automated and version updates
             if (WizardMode != WizardMode.SingleUpdate)
@@ -442,16 +439,36 @@ namespace XenAdmin.Wizards.PatchingWizard
                                 : new List<XenServerPatch>();
 
                             rebootChecks.Add(new HostNeedsRebootCheck(host, restartHostPatches));
-                            if (restartHostPatches.Any(p => !p.ContainsLivepatch))
+
+                            if (restartHostPatches.Count > 0 && (restartHostPatches.Any(p => !p.ContainsLivepatch) ||
+                                                                 Helpers.FeatureForbidden(host.Connection, Host.RestrictLivePatching) ||
+                                                                 Helpers.GetPoolOfOne(host.Connection)?.live_patching_disabled == true))
                                 evacuateChecks.Add(new AssertCanEvacuateCheck(host));
+
+                            foreach (var p in us[host])
+                            {
+                                var newVersion = Updates.XenServerVersions.FirstOrDefault(v => v.PatchUuid != null && v.PatchUuid.Equals(p.Uuid, StringComparison.OrdinalIgnoreCase)); 
+                                if (newVersion != null && (highestNewVersion == null || newVersion.Version > highestNewVersion.Version))
+                                    highestNewVersion = newVersion;
+                            }
+
                         }
                     }
                 }
+                
                 groups.Add(new CheckGroup(Messages.PATCHINGWIZARD_PRECHECKPAGE_CHECKING_DISK_SPACE, diskChecks));
                 if (rebootChecks.Count > 0)
                     groups.Add(new CheckGroup(Messages.CHECKING_SERVER_NEEDS_REBOOT, rebootChecks));
                 if (evacuateChecks.Count > 0)
                     groups.Add(new CheckGroup(Messages.CHECKING_CANEVACUATE_STATUS, evacuateChecks));
+            }
+
+            //XenCenter version check
+            if (highestNewVersion != null || UpdateAlert?.NewServerVersion != null)
+            {
+                // add XenCenter version check as the first group
+                groups.Insert(0, new CheckGroup(Messages.CHECKING_XENCENTER_VERSION,
+                    new List<Check> { new XenCenterVersionCheck(highestNewVersion ?? UpdateAlert.NewServerVersion) }));
             }
 
             //GFS2 check for version updates
@@ -473,6 +490,19 @@ namespace XenAdmin.Wizards.PatchingWizard
                 
             }
 
+            //PVGuestsCheck checks
+            if (highestNewVersion != null || UpdateAlert?.NewServerVersion != null)
+            {
+                var pvChecks = new List<Check>();
+                foreach (var pool in SelectedPools.Where(p => Helpers.NaplesOrGreater(p.Connection)))
+                {
+                    if (pool.Connection.Resolve(pool.master) != null)
+                        pvChecks.Add(new PVGuestsCheck(pool, false));
+                }
+                if (pvChecks.Count > 0)
+                    groups.Add(new CheckGroup(Messages.CHECKING_PV_GUESTS, pvChecks));
+            }
+            
             return groups;
         }
 

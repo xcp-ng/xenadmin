@@ -42,6 +42,9 @@ namespace XenAdmin.Wizards.NewPolicyWizard
             this.quiesceCheckBox = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanelVssRemoved = new System.Windows.Forms.TableLayoutPanel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanelVss = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanelCheckpoint = new System.Windows.Forms.TableLayoutPanel();
@@ -51,6 +54,8 @@ namespace XenAdmin.Wizards.NewPolicyWizard
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWarning)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVSS)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanelVssRemoved.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanelVss.SuspendLayout();
             this.tableLayoutPanelCheckpoint.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkpointInfoPictureBox)).BeginInit();
@@ -78,7 +83,7 @@ namespace XenAdmin.Wizards.NewPolicyWizard
             // 
             // pictureBoxWarning
             // 
-            this.pictureBoxWarning.Image = global::XenAdmin.Properties.Resources._000_Alert2_h32bit_16;
+            this.pictureBoxWarning.Image = global::XenAdmin.Properties.Resources._000_Info3_h32bit_16;
             resources.ApplyResources(this.pictureBoxWarning, "pictureBoxWarning");
             this.pictureBoxWarning.Name = "pictureBoxWarning";
             this.pictureBoxWarning.TabStop = false;
@@ -126,16 +131,36 @@ namespace XenAdmin.Wizards.NewPolicyWizard
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.label3, 1, 6);
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanelVssRemoved, 1, 5);
+            this.tableLayoutPanel2.Controls.Add(this.label3, 1, 7);
             this.tableLayoutPanel2.Controls.Add(this.radioButtonDiskOnly, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel1, 1, 8);
-            this.tableLayoutPanel2.Controls.Add(this.radioButtonDiskAndMemory, 0, 5);
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel1, 1, 9);
+            this.tableLayoutPanel2.Controls.Add(this.radioButtonDiskAndMemory, 0, 6);
             this.tableLayoutPanel2.Controls.Add(this.label2, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.quiesceCheckBox, 1, 3);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanelVss, 1, 4);
             this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanelCheckpoint, 1, 7);
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanelCheckpoint, 1, 8);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            // 
+            // tableLayoutPanelVssRemoved
+            // 
+            resources.ApplyResources(this.tableLayoutPanelVssRemoved, "tableLayoutPanelVssRemoved");
+            this.tableLayoutPanelVssRemoved.Controls.Add(this.label6, 1, 0);
+            this.tableLayoutPanelVssRemoved.Controls.Add(this.pictureBox1, 0, 0);
+            this.tableLayoutPanelVssRemoved.Name = "tableLayoutPanelVssRemoved";
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::XenAdmin.Properties.Resources._000_Alert2_h32bit_16;
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.TabStop = false;
             // 
             // tableLayoutPanelVss
             // 
@@ -181,6 +206,9 @@ namespace XenAdmin.Wizards.NewPolicyWizard
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVSS)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.tableLayoutPanelVssRemoved.ResumeLayout(false);
+            this.tableLayoutPanelVssRemoved.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tableLayoutPanelVss.ResumeLayout(false);
             this.tableLayoutPanelVss.PerformLayout();
             this.tableLayoutPanelCheckpoint.ResumeLayout(false);
@@ -208,5 +236,8 @@ namespace XenAdmin.Wizards.NewPolicyWizard
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelCheckpoint;
         private System.Windows.Forms.PictureBox checkpointInfoPictureBox;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelVssRemoved;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

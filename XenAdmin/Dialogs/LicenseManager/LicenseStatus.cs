@@ -32,7 +32,8 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
-using XenAdmin.Utils;
+using System.Threading;
+using XenAdmin.Network;
 using XenAPI;
 
 namespace XenAdmin.Dialogs
@@ -44,15 +45,17 @@ namespace XenAdmin.Dialogs
         TimeSpan LicenseExpiresIn { get; }
         TimeSpan LicenseExpiresExactlyIn { get; }
         DateTime? ExpiryDate { get; }
-        event LicenseStatus.StatusUpdatedEvent ItemUpdated;
+        event Action ItemUpdated;
         bool Updated { get; }
         void BeginUpdate();
-        Host LicencedHost { get; }
+        Host LicensedHost { get; }
         string LicenseEntitlements { get; }
     }
 
     public class LicenseStatus : ILicenseStatus
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public enum HostState
         {
             Unknown,
@@ -66,14 +69,11 @@ namespace XenAdmin.Dialogs
             Unavailable
         }
 
-        private readonly EventHandlerList events = new EventHandlerList();
-        protected EventHandlerList Events { get { return events; } }
+        private readonly EventHandlerList _events = new EventHandlerList();
+
         private const string StatusUpdatedEventKey = "LicenseStatusStatusUpdatedEventKey";
 
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public Host LicencedHost { get; private set; }
-        private readonly AsyncServerTime serverTime = new AsyncServerTime();
-        public delegate void StatusUpdatedEvent(object sender, EventArgs e);
+        public Host LicensedHost { get; private set; }
 
         public static bool IsInfinite(TimeSpan span)
         {
@@ -85,9 +85,9 @@ namespace XenAdmin.Dialogs
             return span.TotalDays < 30;
         }
 
-        private IXenObject XenObject { get; set; }
+        private IXenObject XenObject { get; }
 
-        public bool Updated { get; set; }
+        public bool Updated { get; private set; }
 
         public LicenseStatus(IXenObject xo)
         {
@@ -95,13 +95,10 @@ namespace XenAdmin.Dialogs
             XenObject = xo;
 
             if (XenObject is Host host)
-                LicencedHost = host;
+                LicensedHost = host;
             if (XenObject is Pool pool)
                 SetMinimumLicenseValueHost(pool);
 
-            serverTime.ServerTimeObtained -= ServerTimeUpdatedEventHandler;
-            serverTime.ServerTimeObtained += ServerTimeUpdatedEventHandler;
-            
             if (XenObject != null)
             {
                 XenObject.Connection.ConnectionStateChanged -= Connection_ConnectionStateChanged;
@@ -109,9 +106,9 @@ namespace XenAdmin.Dialogs
             }
         }
 
-        void Connection_ConnectionStateChanged(object sender, EventArgs e)
+        private void Connection_ConnectionStateChanged(IXenConnection conn)
         {
-            if (LicencedHost != null)
+            if (LicensedHost != null)
             {
                 TriggerStatusUpdatedEvent();
             }
@@ -119,15 +116,15 @@ namespace XenAdmin.Dialogs
 
         private void SetMinimumLicenseValueHost(Pool pool)
         {
-            LicencedHost = pool.Connection.Resolve(pool.master);
+            LicensedHost = pool.Connection.Resolve(pool.master);
 
-            if(LicencedHost == null)
+            if(LicensedHost == null)
                 return;
 
             foreach (Host host in pool.Connection.Cache.Hosts)
             {
-                if(host.LicenseExpiryUTC() < LicencedHost.LicenseExpiryUTC())
-                    LicencedHost = host;
+                if(host.LicenseExpiryUTC() < LicensedHost.LicenseExpiryUTC())
+                    LicensedHost = host;
             }
         }
 
@@ -141,37 +138,52 @@ namespace XenAdmin.Dialogs
         public void BeginUpdate()
         {
             SetDefaultOptions();
-            serverTime.Fetch(LicencedHost);
+            ThreadPool.QueueUserWorkItem(GetServerTime, LicensedHost);
         }
 
-        private void ServerTimeUpdatedEventHandler()
+        private void GetServerTime(object state)
         {
-            if (LicencedHost != null)
+            Host host = state as Host;
+            if (host?.Connection?.Session == null)
             {
-                CalculateLicenseState();
-                TriggerStatusUpdatedEvent();
+                log.Error("Will not fetch server time: host or connection could not be resolved");
+                return;
             }
-        }
 
-        protected void CalculateLicenseState()
-        {
-            LicenseExpiresExactlyIn = CalculateLicenceExpiresIn();
-            CurrentState = CalculateCurrentState();
-            Updated = true;
+            try
+            {
+                //Note we're using the get_servertime call which returns the UTC time
+                var serverTime = Host.get_servertime(host.Connection.Session, host.opaque_ref);
+
+                if (LicensedHost != null)
+                {
+                    //ServerTime is UTC
+                    DateTime currentRefTime = serverTime;
+                    LicenseExpiresExactlyIn = LicensedHost.LicenseExpiryUTC().Subtract(currentRefTime);
+
+                    CurrentState = CalculateCurrentState();
+                    Updated = true;
+
+                    TriggerStatusUpdatedEvent();
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error($"Failed to fetch server time for host {host.name_label}: ", e);
+            }
         }
 
         private void TriggerStatusUpdatedEvent()
         {
-            StatusUpdatedEvent handler = Events[StatusUpdatedEventKey] as StatusUpdatedEvent;
-            if (handler != null)
-                handler.Invoke(this, EventArgs.Empty);
+            if (_events[StatusUpdatedEventKey] is Action handler)
+                handler.Invoke();
         }
 
         private bool InRegularGrace
         {
             get
             {
-                return LicencedHost.license_params != null && LicencedHost.license_params.ContainsKey("grace") && LicenseExpiresIn.Ticks > 0 && LicencedHost.license_params["grace"] == "regular grace";
+                return LicensedHost.license_params != null && LicensedHost.license_params.ContainsKey("grace") && LicenseExpiresIn.Ticks > 0 && LicensedHost.license_params["grace"] == "regular grace";
             }
         }
 
@@ -179,15 +191,8 @@ namespace XenAdmin.Dialogs
         {
             get
             {
-                return LicencedHost.license_params != null && LicencedHost.license_params.ContainsKey("grace") && LicenseExpiresIn.Ticks > 0 && LicencedHost.license_params["grace"] == "upgrade grace";
+                return LicensedHost.license_params != null && LicensedHost.license_params.ContainsKey("grace") && LicenseExpiresIn.Ticks > 0 && LicensedHost.license_params["grace"] == "upgrade grace";
             }
-        }
-
-        protected virtual TimeSpan CalculateLicenceExpiresIn()
-        {
-            //ServerTime is UTC
-            DateTime currentRefTime = serverTime.ServerTime;
-            return LicencedHost.LicenseExpiryUTC().Subtract(currentRefTime);
         }
 
         internal static bool PoolIsMixedFreeAndExpiring(IXenObject xenObject)
@@ -232,8 +237,7 @@ namespace XenAdmin.Dialogs
 
         internal static bool PoolHasMixedLicenses(IXenObject xenObject)
         {
-            var pool = xenObject as Pool;
-            if (pool != null)
+            if (xenObject is Pool pool)
             {
                 if (xenObject.Connection.Cache.Hosts.Length == 1)
                     return false;
@@ -290,13 +294,13 @@ namespace XenAdmin.Dialogs
         }
 
         #region ILicenseStatus Members
-        public event StatusUpdatedEvent ItemUpdated
+        public event Action ItemUpdated
         {
-            add { Events.AddHandler(StatusUpdatedEventKey, value); }
-            remove { Events.RemoveHandler(StatusUpdatedEventKey, value); }
+            add => _events.AddHandler(StatusUpdatedEventKey, value);
+            remove => _events.RemoveHandler(StatusUpdatedEventKey, value);
         }
 
-        public Host.Edition LicenseEdition { get { return Host.GetEdition(LicencedHost.edition); } }
+        public Host.Edition LicenseEdition => Host.GetEdition(LicensedHost.edition);
 
         public HostState CurrentState { get; private set; }
 
@@ -317,8 +321,8 @@ namespace XenAdmin.Dialogs
         {
             get
             {
-                if (LicencedHost.license_params != null && LicencedHost.license_params.ContainsKey("expiry"))
-                    return LicencedHost.LicenseExpiryUTC().ToLocalTime();
+                if (LicensedHost.license_params != null && LicensedHost.license_params.ContainsKey("expiry"))
+                    return LicensedHost.LicenseExpiryUTC().ToLocalTime();
                 return null;
             }
         }
@@ -371,13 +375,10 @@ namespace XenAdmin.Dialogs
             {
                 if(disposing)
                 {
-                    if (serverTime != null)
-                        serverTime.ServerTimeObtained -= ServerTimeUpdatedEventHandler;
-
                     if (XenObject != null && XenObject.Connection != null)
                         XenObject.Connection.ConnectionStateChanged -= Connection_ConnectionStateChanged;
 
-                    Events.Dispose();
+                    _events.Dispose();
                 }
                 disposed = true;
             }

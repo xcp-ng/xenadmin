@@ -53,7 +53,9 @@ namespace XenAdmin.ServerDBs
         {
             _tables = new TableDictionary(this);
 
-            using (StreamReader stream = url.StartsWith("http") ? new StreamReader(HTTPHelper.GET(new Uri(url), connection, true, true)) : new StreamReader(url))
+            using (StreamReader stream = url.StartsWith("http")
+                ? new StreamReader(HTTPHelper.GET(new Uri(url), connection, true))
+                : new StreamReader(url))
             {
                 StatusReportXmlDocReader reader = new StatusReportXmlDocReader();
                 XmlDocument doc = new XmlDocument();

@@ -168,14 +168,9 @@ namespace XenAdmin.ConsoleView
             if (rdpControl == null)
                 return;
 
-            Log.DebugFormat("Connecting RDPClient{0} using server '{1}', width '{2}' and height '{3}'",
-                rdpClient9 == null ? "6" : "9",
-                rdpIP,
-                w,
-                h);
-
             if (rdpClient9 == null)
             {
+                Log.Debug($"Connecting RDPClient6 using server '{rdpIP}', width '{w}' and height '{h}'");
                 rdpClient6.Server = rdpIP;
                 rdpClient6.DesktopWidth = w;
                 rdpClient6.DesktopHeight = h;
@@ -183,6 +178,7 @@ namespace XenAdmin.ConsoleView
             }
             else
             {
+                Log.Debug($"Connecting RDPClient9 using server '{rdpIP}', width '{w}' and height '{h}'");
                 rdpClient9.Server = rdpIP;
                 rdpClient9.DesktopWidth = w;
                 rdpClient9.DesktopHeight = h;

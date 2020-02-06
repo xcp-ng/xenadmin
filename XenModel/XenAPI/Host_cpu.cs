@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Host_cpu : XenObject<Host_cpu>
     {
+        #region Constructors
+
         public Host_cpu()
         {
         }
@@ -79,13 +81,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Host_cpu from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Host_cpu(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Host_cpu from a Proxy_Host_cpu.
         /// </summary>
         /// <param name="proxy"></param>
         public Host_cpu(Proxy_Host_cpu proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -108,7 +124,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_Host_cpu proxy)
+        internal void UpdateFrom(Proxy_Host_cpu proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             host = proxy.host == null ? null : XenRef<Host>.Create(proxy.host);
@@ -142,17 +158,6 @@ namespace XenAPI
             result_.utilisation = utilisation;
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Host_cpu from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Host_cpu(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

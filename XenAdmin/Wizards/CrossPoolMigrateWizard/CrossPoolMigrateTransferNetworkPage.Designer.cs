@@ -30,27 +30,19 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CrossPoolMigrateTransferNetworkPage));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.networkComboBox = new XenAdmin.Controls.NetworkComboBox();
             this.blurbText = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.blurbText, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.networkComboBox, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.networkComboBox, 1, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // label1
             // 
@@ -59,17 +51,18 @@
             // 
             // networkComboBox
             // 
+            resources.ApplyResources(this.networkComboBox, "networkComboBox");
             this.networkComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.networkComboBox.FormattingEnabled = true;
             this.networkComboBox.IncludeOnlyEnabledNetworksInComboBox = false;
             this.networkComboBox.IncludeOnlyNetworksWithIPAddresses = false;
             this.networkComboBox.IncludePoolNameInComboBox = false;
-            resources.ApplyResources(this.networkComboBox, "networkComboBox");
             this.networkComboBox.Name = "networkComboBox";
             // 
             // blurbText
             // 
             resources.ApplyResources(this.blurbText, "blurbText");
+            this.tableLayoutPanel1.SetColumnSpan(this.blurbText, 2);
             this.blurbText.Name = "blurbText";
             // 
             // CrossPoolMigrateTransferNetworkPage
@@ -80,8 +73,6 @@
             this.Name = "CrossPoolMigrateTransferNetworkPage";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -91,11 +82,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private XenAdmin.Controls.NetworkComboBox networkComboBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label blurbText;
-
-
-
     }
 }
 

@@ -169,13 +169,13 @@ namespace XenAdmin.Controls.MainWindowControls
             }
         }
 
-        private void Connection_BeforeMajorChange(object sender, ConnectionMajorChangeEventArgs e)
+        private void Connection_BeforeMajorChange(IXenConnection conn, bool background)
         {
             try
             {
                 Program.Invoke(this, () =>
                 {
-                    if (!e.Background)
+                    if (!background)
                     {
                         if (inMajorChange)
                             return;
@@ -187,11 +187,10 @@ namespace XenAdmin.Controls.MainWindowControls
             catch (Exception exn)
             {
                 log.Error(exn, exn);
-                // Can do nothing more about this.
             }
         }
 
-        private void Connection_AfterMajorChange(object sender, ConnectionMajorChangeEventArgs e)
+        private void Connection_AfterMajorChange(IXenConnection conn, bool background)
         {
             try
             {
@@ -199,14 +198,13 @@ namespace XenAdmin.Controls.MainWindowControls
                 {
                     ResumeRefreshTreeView();
 
-                    if (!e.Background)
+                    if (!background)
                         inMajorChange = false;
                 });
             }
             catch (Exception exn)
             {
                 log.Error(exn, exn);
-                // Can do nothing more about this.
             }
         }
 
@@ -254,7 +252,6 @@ namespace XenAdmin.Controls.MainWindowControls
             catch (Exception e)
             {
                 log.Debug("Exception thrown by target of MajorChange.", e);
-                log.Debug(e, e);
                 throw;
             }
             finally

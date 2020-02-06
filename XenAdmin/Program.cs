@@ -41,9 +41,11 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
+using System.Linq;
 using XenAdmin.Core;
 using XenAdmin.Network;
 using XenAdmin.Dialogs;
+using XenAdmin.Help;
 using XenAdmin.XenSearch;
 using XenAPI;
 using XenCenterLib;
@@ -221,7 +223,6 @@ namespace XenAdmin
             Search.InitSearch(Branding.Search);
             TreeSearch.InitSearch();
             
-            ArgType argType = ArgType.None;
             AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             Application.ThreadException -= Application_ThreadException;
@@ -301,41 +302,24 @@ namespace XenAdmin
             logSystemDetails();
             OptionsDialog.Log();
 
-            if (Args.Length > 0)
-                log.InfoFormat("Args[0]: {0}", Args[0]);
-
-            List<string> sanitizedArgs = new List<string>(Args);
             // Remove the '--wait' argument, which may have been passed to the splash screen
-            sanitizedArgs.Remove("--wait");
-            string[] args = null;
-            if (sanitizedArgs.Count > 1)
-            {
-                argType = ParseFileArgs(sanitizedArgs, out args);
+            var sanitizedArgs = Args.Where(ar => ar != "--wait").ToArray();
 
-                if (argType == ArgType.Passwords)
-                {
-                    log.DebugFormat("Handling password request using '{0}'", args[0]);
-                    try
-                    {
-                        PasswordsRequest.HandleRequest(args[0]);
-                    }
-                    catch (Exception exn)
-                    {
-                        log.Fatal(exn, exn);
-                    }
-                    Application.Exit();
-                    return;
-                }
-            }
-            else if (sanitizedArgs.Count == 1 && sanitizedArgs[0] == "messageboxtest")
+            var firstArgType = ParseFileArgs(sanitizedArgs, out string[] tailArgs);
+
+            if (firstArgType == ArgType.Passwords)
             {
-                new MessageBoxTest().ShowDialog();
+                try
+                {
+                    PasswordsRequest.HandleRequest(tailArgs[0]);
+                }
+                catch (Exception exn)
+                {
+                    log.Fatal(exn, exn);
+                }
+
                 Application.Exit();
                 return;
-            }
-            else if (sanitizedArgs.Count > 0)
-            {
-                log.Warn("Unrecognised command line options");
             }
 
             try
@@ -350,39 +334,65 @@ namespace XenAdmin
             Application.ApplicationExit -= Application_ApplicationExit;
             Application.ApplicationExit += Application_ApplicationExit;
 
-            MainWindow mainWindow = new MainWindow(argType, args);
+            //set the help version before launching the main window;
+            //the call starts a different thread so it won't delay the main window launch;
+            //in most cases it is expected to have returned by the time the users request help;
+            //if they do before it has returned, the thread requesting help will wait for it
+            HelpManager.SetHelpVersion();
 
+            MainWindow mainWindow = new MainWindow(firstArgType, tailArgs);
             Application.Run(mainWindow);
 
             log.Info("Application main thread exited");
         }
 
-        private static ArgType ParseFileArgs(List<string> args, out string[] filePath)
+        private static ArgType ParseFileArgs(string[] args, out string[] tailArgs)
         {
-            filePath = new string[args.Count - 1];
-            for (int i = 0; i < filePath.Length; i++)
-                filePath[i] = args[i + 1];
+            tailArgs = new string[0];
+
+            if (args == null || args.Length < 2)
+            {
+                log.Warn("Too few args passed in via command line");
+                return ArgType.None;
+            }
+
+            var firstArgType = ArgType.None;
 
             switch (args[0])
             {
                 case "import":
-                    return ArgType.Import;
+                    firstArgType = ArgType.Import;
+                    break;
                 case "license":
-                    return ArgType.License;
+                    firstArgType = ArgType.License;
+                    break;
                 case "restore":
-                    return ArgType.Restore;
+                    firstArgType = ArgType.Restore;
+                    break;
                 case "update":
-                    return ArgType.Update;
+                    firstArgType = ArgType.Update;
+                    break;
                 case "search":
-                    return ArgType.XenSearch;
+                    firstArgType = ArgType.XenSearch;
+                    break;
                 case "passwords":
-                    return ArgType.Passwords;
+                    firstArgType = ArgType.Passwords;
+                    break;
                 case "connect":
-                    return ArgType.Connect;
+                    firstArgType = ArgType.Connect;
+                    break;
                 default:
-                    log.Warn("Unrecognised command line options");
-                    return ArgType.None;
+                    log.Warn("Wrong syntax or unknown command line options.");
+                    break;
             }
+
+            if (firstArgType != ArgType.None)
+            {
+                log.InfoFormat("Command line option passed in: {0}", firstArgType.ToString());
+                tailArgs = args.Skip(1).ToArray();
+            }
+
+            return firstArgType;
         }
 
         /// <summary>
@@ -406,62 +416,39 @@ namespace XenAdmin
             pipe = new NamedPipes.Pipe(pipe_path);
 
             log.InfoFormat(@"Successfully created pipe '{0}' - proceeding to launch XenCenter", pipe_path);
+
             pipe.Read += delegate(object sender, NamedPipes.PipeReadEventArgs e)
             {
                 MainWindow m = MainWindow;
                 if (m == null || RunInAutomatedTestMode)
-                {
                     return;
-                }
+
                 Invoke(m, delegate
                 {
-                    log.InfoFormat(@"Received data from pipe '{0}': {1}", pipe_path, e.Message);
+                    var bits = e.Message.Split(' ').Where(ar => ar != "--wait").ToArray();
 
-                    ArgType argType = ArgType.None;
-                    string[] other_args;
-                    string file_arg = "";
-                    string[] bits = e.Message.Split(new char[] { ' ' }, 3);
-                    if (bits.Length == 2)
-                    {
-                        List<string> args = new List<string>();
-                        args.Add(bits[0]);
-                        args.Add(bits[1]);
-                        argType = ParseFileArgs(args, out other_args);
-                        file_arg = other_args[0];
+                    var firstArgType = ParseFileArgs(bits, out string[] tailArgs);
 
-                        if (argType == ArgType.Passwords)
-                        {
-                            log.Error("Refusing to accept passwords request down pipe.  Use XenCenterMain.exe directly");
-                            return;
-                        }
-                        else if (argType == ArgType.Connect)
-                        {
-                            log.Error("Connect not supported down pipe. Use XenCenterMain.exe directly");
-                            return;
-                        }
-                        else if (argType == ArgType.None)
-                        {
-                            return;
-                        }
-                    }
-                    else if (e.Message.Length > 0)
+                    if (firstArgType == ArgType.Passwords)
                     {
-                        log.Error("Could not process data received from pipe.");
+                        log.Error("Refusing to accept passwords request down pipe.  Use XenCenterMain.exe directly");
                         return;
                     }
+                    if (firstArgType == ArgType.Connect)
+                    {
+                        log.Error("Connect not supported down pipe. Use XenCenterMain.exe directly");
+                        return;
+                    }
+                    if (firstArgType == ArgType.None)
+                        return;
+
+                    // The C++ splash screen passes its command line as a literal string.
+                    // This means we will get an e.Message like
+                    //      open "C:\Documents and Settings\foo.xva"
+                    // INCLUDING the double quotes, thus we need to trim them
 
                     m.WindowState = FormWindowState.Normal;
-
-                    // Note slight hack: the C++ splash screen passes its command line as a
-                    // literal string. This means we will get an e.Message e.g.
-                    //      open "C:\Documents and Settings\foo.xva"
-                    // INCLUDING double quotes. Thus we trim the quotes below.
-                    if (file_arg.Length > 1 && file_arg.StartsWith("\"") && file_arg.EndsWith("\""))
-                    {
-                        file_arg = file_arg.Substring(1, file_arg.Length - 2);
-                    }
-
-                    m.ProcessCommand(argType, new string[] { file_arg });
+                    m.ProcessCommand(firstArgType, tailArgs[0].Trim('"'));
                 });
             };
             pipe.BeginRead();
@@ -575,7 +562,7 @@ namespace XenAdmin
                 }
                 else
                 {
-                    string filepath = GetLogFile();
+                    string filepath = GetLogFile() ?? Messages.MESSAGEBOX_LOGFILE_MISSING;
 
                     using (var d = new ThreeButtonDialog(
                        new ThreeButtonDialog.Details(
@@ -715,7 +702,7 @@ namespace XenAdmin
         private static void FatalError()
         {
             string msg = String.Format(Messages.MESSAGEBOX_PROGRAM_UNEXPECTED,
-                HelpersGUI.DateTimeToString(DateTime.Now, "yyyy-MM-dd HH:mm:ss", false), GetLogFile_());
+                HelpersGUI.DateTimeToString(DateTime.Now, "yyyy-MM-dd HH:mm:ss", false), GetLogFile());
 
             var msgWithStackTrace = string.Format("{0}\n{1}", msg, Environment.StackTrace);
             log.Fatal(msgWithStackTrace);
@@ -748,7 +735,7 @@ namespace XenAdmin
 
         public static void ViewLogFiles()
         {
-            string s = GetLogFile_();
+            string s = GetLogFile();
             if (s == null)
             {
                 using (var dlg = new ThreeButtonDialog(new ThreeButtonDialog.Details(SystemIcons.Error, Messages.MESSAGEBOX_LOGFILE_MISSING, Messages.XENCENTER)))
@@ -762,13 +749,7 @@ namespace XenAdmin
             }
         }
 
-        private static string GetLogFile()
-        {
-            string s = GetLogFile_();
-            return s ?? "MISSING LOG FILE!";
-        }
-
-        public static string GetLogFile_()
+        public static string GetLogFile()
         {
             foreach (log4net.Appender.IAppender appender in log.Logger.Repository.GetAppenders())
             {
@@ -1072,7 +1053,7 @@ namespace XenAdmin
 
         public static void OpenURL(string url)
         {
-            if (RunInAutomatedTestMode)
+            if (RunInAutomatedTestMode || string.IsNullOrEmpty(url))
                 return;
             try
             {

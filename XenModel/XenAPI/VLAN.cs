@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class VLAN : XenObject<VLAN>
     {
+        #region Constructors
+
         public VLAN()
         {
         }
@@ -63,13 +65,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new VLAN from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public VLAN(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new VLAN from a Proxy_VLAN.
         /// </summary>
         /// <param name="proxy"></param>
         public VLAN(Proxy_VLAN proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -84,7 +100,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_VLAN proxy)
+        internal void UpdateFrom(Proxy_VLAN proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             tagged_PIF = proxy.tagged_PIF == null ? null : XenRef<PIF>.Create(proxy.tagged_PIF);
@@ -102,17 +118,6 @@ namespace XenAPI
             result_.tag = tag.ToString();
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new VLAN from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public VLAN(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

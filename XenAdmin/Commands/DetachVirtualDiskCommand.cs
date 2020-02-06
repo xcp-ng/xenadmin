@@ -43,7 +43,6 @@ namespace XenAdmin.Commands
 {
     class DetachVirtualDiskCommand : Command
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private VM targetVM = null;
 

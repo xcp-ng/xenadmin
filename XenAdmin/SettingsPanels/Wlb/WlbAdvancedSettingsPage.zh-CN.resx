@@ -151,7 +151,7 @@
     <value>36</value>
   </data>
   <data name="labelAuditTrail.Text" xml:space="preserve">
-    <value>选择为池审核跟踪报告收集的数据量。请注意，级别越高，在 WLB 服务器上需要使用的磁盘空间和内存量越大。</value>
+    <value>选择为池审计跟踪报告收集的数据量。请注意，级别越高，在 WLB 服务器上需要使用的磁盘空间和内存量越大。</value>
   </data>
   <data name="&gt;&gt;labelAuditTrail.Name" xml:space="preserve">
     <value>labelAuditTrail</value>
@@ -205,7 +205,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="sectionHeaderLabelAuditTrail.LabelText" xml:space="preserve">
-    <value>池审核跟踪报告精度(&amp;P)</value>
+    <value>池审计跟踪报告精度(&amp;P)</value>
   </data>
   <data name="sectionHeaderLabelAuditTrail.LinePadding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -262,7 +262,7 @@
     <value>34</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>指定池审核跟踪报告的高级设置。</value>
+    <value>指定池审计跟踪报告的高级设置。</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>

@@ -35,7 +35,8 @@ using XenAPI;
 
 namespace XenAdminTests.XenModelTests
 {
-    public class HostExtensionTests : UnitTester_TestFixture
+    [TestFixture, Category(TestCategories.Unit)]
+    public class HostExtensionTests
     {
         [Test]
         [TestCase("0", 0)]

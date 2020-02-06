@@ -255,7 +255,6 @@ namespace XenAdmin.Core
             catch (Exception ex)
             {
                 log.Error("Exception while trying to set clipboard text.", ex);
-                log.Error(ex, ex);
             }
         }
     }

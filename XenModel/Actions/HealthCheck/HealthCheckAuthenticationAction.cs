@@ -33,7 +33,6 @@ using System;
 using System.IO;
 using System.Net;
 using System.Runtime.Serialization;
-using XenAPI;
 using System.Web.Script.Serialization;
 
 namespace XenAdmin.Actions
@@ -131,14 +130,14 @@ namespace XenAdmin.Actions
             }
             catch (WebException e)
             {
-                log.InfoFormat("WebException while getting identity token from {0}. Exception Message: {1} ", identityTokenDomainName, e.Message);
+                log.Info($"WebException while getting identity token from {identityTokenDomainName}.", e);
                 if (e.Status == WebExceptionStatus.ProtocolError && ((HttpWebResponse) e.Response).StatusCode == HttpStatusCode.Forbidden)
                     throw new HealthCheckAuthenticationException(Messages.HEALTH_CHECK_AUTHENTICATION_INVALID_CREDENTIALS, e);
                 throw;
             }
             catch (Exception e) 
             {
-                log.InfoFormat("Exception while getting identity token from {0}. Exception Message: {1} ", identityTokenDomainName, e.Message);
+                log.Info($"Exception while getting identity token from {identityTokenDomainName}.", e);
                 throw;
             }
         }
@@ -165,7 +164,7 @@ namespace XenAdmin.Actions
             }
             catch (Exception e)
             {
-                log.InfoFormat("Exception while getting upload grant token from {0}. Exception Message: {1} ", uploadGrantTokenDomainName, e.Message);
+                log.Info($"Exception while getting upload grant token from {uploadGrantTokenDomainName}.", e);
                 throw;
             }
         }
@@ -185,7 +184,7 @@ namespace XenAdmin.Actions
             }
             catch (Exception e)
             {
-                log.InfoFormat("Exception while getting upload token from {0}. Exception Message: {1} ", uploadTokenDomainName, e.Message);
+                log.Info($"Exception while getting upload token from {uploadTokenDomainName}.", e);
                 throw;
             }
         }
@@ -205,7 +204,7 @@ namespace XenAdmin.Actions
             }
             catch (Exception e)
             {
-                log.InfoFormat("Exception while getting diagnostic token from {0}. Exception Message: {1} ", diagnosticTokenDomainName, e.Message);
+                log.Info($"Exception while getting diagnostic token from {diagnosticTokenDomainName}.", e);
                 throw;
             }
         }

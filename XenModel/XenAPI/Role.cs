@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Role : XenObject<Role>
     {
+        #region Constructors
+
         public Role()
         {
         }
@@ -61,13 +63,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Role from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Role(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Role from a Proxy_Role.
         /// </summary>
         /// <param name="proxy"></param>
         public Role(Proxy_Role proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -81,7 +97,7 @@ namespace XenAPI
             subroles = update.subroles;
         }
 
-        internal void UpdateFromProxy(Proxy_Role proxy)
+        internal void UpdateFrom(Proxy_Role proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -97,17 +113,6 @@ namespace XenAPI
             result_.name_description = name_description ?? "";
             result_.subroles = subroles == null ? new string[] {} : Helper.RefListToStringArray(subroles);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Role from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Role(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

@@ -190,7 +190,7 @@
     <value>2</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>&amp;Available plugins:</value>
+    <value>&amp;Available plug-ins:</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -226,7 +226,7 @@
     <value>0</value>
   </data>
   <data name="labelIntro.Text" xml:space="preserve">
-    <value>Plugins can be used to extend [XenCenter]'s functionality.</value>
+    <value>Plug-ins can be used to extend [XenCenter]'s functionality.</value>
   </data>
   <data name="&gt;&gt;labelIntro.Name" xml:space="preserve">
     <value>labelIntro</value>
@@ -262,7 +262,7 @@
     <value>7</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Find [XenCenter] plugins online</value>
+    <value>Find [XenCenter] plug-ins online</value>
   </data>
   <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
     <value>linkLabel1</value>
@@ -301,7 +301,7 @@
     <value>1</value>
   </data>
   <data name="refreshButton.Text" xml:space="preserve">
-    <value>&amp;Scan Plugins Folder</value>
+    <value>&amp;Scan Plug-ins Folder</value>
   </data>
   <data name="&gt;&gt;refreshButton.Name" xml:space="preserve">
     <value>refreshButton</value>
@@ -364,7 +364,7 @@
     <value>1</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Scanning plugins folder... please wait.</value>
+    <value>Scanning plug-ins folder... please wait.</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -424,7 +424,7 @@
     <value>8</value>
   </data>
   <data name="labelNoPlugins.Text" xml:space="preserve">
-    <value>No plugins found.</value>
+    <value>No plug-ins found.</value>
   </data>
   <data name="&gt;&gt;labelNoPlugins.Name" xml:space="preserve">
     <value>labelNoPlugins</value>
@@ -460,7 +460,7 @@
     <value>4</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Plugin details:</value>
+    <value>Plug-in details:</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>

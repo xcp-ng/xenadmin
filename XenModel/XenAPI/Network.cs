@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Network : XenObject<Network>
     {
+        #region Constructors
+
         public Network()
         {
         }
@@ -85,13 +87,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Network from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Network(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Network from a Proxy_Network.
         /// </summary>
         /// <param name="proxy"></param>
         public Network(Proxy_Network proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -117,7 +133,7 @@ namespace XenAPI
             purpose = update.purpose;
         }
 
-        internal void UpdateFromProxy(Proxy_Network proxy)
+        internal void UpdateFrom(Proxy_Network proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -157,17 +173,6 @@ namespace XenAPI
             result_.assigned_ips = Maps.convert_to_proxy_XenRefVIF_string(assigned_ips);
             result_.purpose = purpose == null ? new string[] {} : Helper.ObjectListToStringArray(purpose);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Network from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Network(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

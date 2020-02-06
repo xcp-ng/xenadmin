@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class VGPU : XenObject<VGPU>
     {
+        #region Constructors
+
         public VGPU()
         {
         }
@@ -58,7 +60,9 @@ namespace XenAPI
             XenRef<VGPU_type> type,
             XenRef<PGPU> resident_on,
             XenRef<PGPU> scheduled_to_be_resident_on,
-            Dictionary<string, string> compatibility_metadata)
+            Dictionary<string, string> compatibility_metadata,
+            string extra_args,
+            XenRef<PCI> PCI)
         {
             this.uuid = uuid;
             this.VM = VM;
@@ -70,6 +74,20 @@ namespace XenAPI
             this.resident_on = resident_on;
             this.scheduled_to_be_resident_on = scheduled_to_be_resident_on;
             this.compatibility_metadata = compatibility_metadata;
+            this.extra_args = extra_args;
+            this.PCI = PCI;
+        }
+
+        /// <summary>
+        /// Creates a new VGPU from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public VGPU(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
         }
 
         /// <summary>
@@ -78,8 +96,10 @@ namespace XenAPI
         /// <param name="proxy"></param>
         public VGPU(Proxy_VGPU proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -97,9 +117,11 @@ namespace XenAPI
             resident_on = update.resident_on;
             scheduled_to_be_resident_on = update.scheduled_to_be_resident_on;
             compatibility_metadata = update.compatibility_metadata;
+            extra_args = update.extra_args;
+            PCI = update.PCI;
         }
 
-        internal void UpdateFromProxy(Proxy_VGPU proxy)
+        internal void UpdateFrom(Proxy_VGPU proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             VM = proxy.VM == null ? null : XenRef<VM>.Create(proxy.VM);
@@ -111,6 +133,8 @@ namespace XenAPI
             resident_on = proxy.resident_on == null ? null : XenRef<PGPU>.Create(proxy.resident_on);
             scheduled_to_be_resident_on = proxy.scheduled_to_be_resident_on == null ? null : XenRef<PGPU>.Create(proxy.scheduled_to_be_resident_on);
             compatibility_metadata = proxy.compatibility_metadata == null ? null : Maps.convert_from_proxy_string_string(proxy.compatibility_metadata);
+            extra_args = proxy.extra_args == null ? null : proxy.extra_args;
+            PCI = proxy.PCI == null ? null : XenRef<PCI>.Create(proxy.PCI);
         }
 
         public Proxy_VGPU ToProxy()
@@ -126,18 +150,9 @@ namespace XenAPI
             result_.resident_on = resident_on ?? "";
             result_.scheduled_to_be_resident_on = scheduled_to_be_resident_on ?? "";
             result_.compatibility_metadata = Maps.convert_to_proxy_string_string(compatibility_metadata);
+            result_.extra_args = extra_args ?? "";
+            result_.PCI = PCI ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new VGPU from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public VGPU(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>
@@ -168,6 +183,10 @@ namespace XenAPI
                 scheduled_to_be_resident_on = Marshalling.ParseRef<PGPU>(table, "scheduled_to_be_resident_on");
             if (table.ContainsKey("compatibility_metadata"))
                 compatibility_metadata = Maps.convert_from_proxy_string_string(Marshalling.ParseHashTable(table, "compatibility_metadata"));
+            if (table.ContainsKey("extra_args"))
+                extra_args = Marshalling.ParseString(table, "extra_args");
+            if (table.ContainsKey("PCI"))
+                PCI = Marshalling.ParseRef<PCI>(table, "PCI");
         }
 
         public bool DeepEquals(VGPU other)
@@ -186,7 +205,9 @@ namespace XenAPI
                 Helper.AreEqual2(this._type, other._type) &&
                 Helper.AreEqual2(this._resident_on, other._resident_on) &&
                 Helper.AreEqual2(this._scheduled_to_be_resident_on, other._scheduled_to_be_resident_on) &&
-                Helper.AreEqual2(this._compatibility_metadata, other._compatibility_metadata);
+                Helper.AreEqual2(this._compatibility_metadata, other._compatibility_metadata) &&
+                Helper.AreEqual2(this._extra_args, other._extra_args) &&
+                Helper.AreEqual2(this._PCI, other._PCI);
         }
 
         internal static List<VGPU> ProxyArrayToObjectList(Proxy_VGPU[] input)
@@ -210,6 +231,10 @@ namespace XenAPI
                 if (!Helper.AreEqual2(_other_config, server._other_config))
                 {
                     VGPU.set_other_config(session, opaqueRef, _other_config);
+                }
+                if (!Helper.AreEqual2(_extra_args, server._extra_args))
+                {
+                    VGPU.set_extra_args(session, opaqueRef, _extra_args);
                 }
 
                 return null;
@@ -384,6 +409,34 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Get the extra_args field of the given VGPU.
+        /// First published in Unreleased.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        public static string get_extra_args(Session session, string _vgpu)
+        {
+            if (session.JsonRpcClient != null)
+                return session.JsonRpcClient.vgpu_get_extra_args(session.opaque_ref, _vgpu);
+            else
+                return session.proxy.vgpu_get_extra_args(session.opaque_ref, _vgpu ?? "").parse();
+        }
+
+        /// <summary>
+        /// Get the PCI field of the given VGPU.
+        /// First published in Unreleased.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        public static XenRef<PCI> get_PCI(Session session, string _vgpu)
+        {
+            if (session.JsonRpcClient != null)
+                return session.JsonRpcClient.vgpu_get_pci(session.opaque_ref, _vgpu);
+            else
+                return XenRef<PCI>.Create(session.proxy.vgpu_get_pci(session.opaque_ref, _vgpu ?? "").parse());
+        }
+
+        /// <summary>
         /// Set the other_config field of the given VGPU.
         /// First published in XenServer 6.0.
         /// </summary>
@@ -427,6 +480,21 @@ namespace XenAPI
                 session.JsonRpcClient.vgpu_remove_from_other_config(session.opaque_ref, _vgpu, _key);
             else
                 session.proxy.vgpu_remove_from_other_config(session.opaque_ref, _vgpu ?? "", _key ?? "").parse();
+        }
+
+        /// <summary>
+        /// Set the extra_args field of the given VGPU.
+        /// First published in Unreleased.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <param name="_extra_args">New value to set</param>
+        public static void set_extra_args(Session session, string _vgpu, string _extra_args)
+        {
+            if (session.JsonRpcClient != null)
+                session.JsonRpcClient.vgpu_set_extra_args(session.opaque_ref, _vgpu, _extra_args);
+            else
+                session.proxy.vgpu_set_extra_args(session.opaque_ref, _vgpu ?? "", _extra_args ?? "").parse();
         }
 
         /// <summary>
@@ -743,5 +811,44 @@ namespace XenAPI
             }
         }
         private Dictionary<string, string> _compatibility_metadata = new Dictionary<string, string>() {};
+
+        /// <summary>
+        /// Extra arguments for vGPU and passed to demu
+        /// First published in Unreleased.
+        /// </summary>
+        public virtual string extra_args
+        {
+            get { return _extra_args; }
+            set
+            {
+                if (!Helper.AreEqual(value, _extra_args))
+                {
+                    _extra_args = value;
+                    Changed = true;
+                    NotifyPropertyChanged("extra_args");
+                }
+            }
+        }
+        private string _extra_args = "";
+
+        /// <summary>
+        /// Device passed trough to VM, either as full device or SR-IOV virtual function
+        /// First published in Unreleased.
+        /// </summary>
+        [JsonConverter(typeof(XenRefConverter<PCI>))]
+        public virtual XenRef<PCI> PCI
+        {
+            get { return _PCI; }
+            set
+            {
+                if (!Helper.AreEqual(value, _PCI))
+                {
+                    _PCI = value;
+                    Changed = true;
+                    NotifyPropertyChanged("PCI");
+                }
+            }
+        }
+        private XenRef<PCI> _PCI = new XenRef<PCI>("OpaqueRef:NULL");
     }
 }

@@ -53,8 +53,9 @@ namespace XenAdmin.TabPages
             PGPU_CollectionChangedWithInvoke = Program.ProgramInvokeHandler(PGPU_CollectionChanged);
         }
 
-
         private readonly CollectionChangeEventHandler PGPU_CollectionChangedWithInvoke;
+
+        public override string HelpID => "TabPageGPU";
 
         private IXenObject xenObject;
         List<PGPU> pGPUs = new List<PGPU>();

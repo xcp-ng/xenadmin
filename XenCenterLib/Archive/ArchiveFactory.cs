@@ -64,13 +64,13 @@ namespace XenCenterLib.Archive
             if (archiveType == Type.Tar)
                 return new SharpZipTarArchiveIterator(packagedData);
             if (archiveType == Type.TarGz)
-                return new SharpZipTarArchiveIterator(CompressionFactory.Reader(CompressionFactory.Type.Gz, packagedData));
+                return new SharpZipTarArchiveIterator(packagedData, CompressionFactory.Type.Gz);
             if (archiveType == Type.TarBz2)
-                return new SharpZipTarArchiveIterator(CompressionFactory.Reader(CompressionFactory.Type.Bz2, packagedData));
+                return new SharpZipTarArchiveIterator(packagedData, CompressionFactory.Type.Bz2);
             if (archiveType == Type.Zip)
                 return new DotNetZipZipIterator(packagedData);
 
-            throw new NotSupportedException(String.Format("Type: {0} is not supported by ArchiveIterator", archiveType));
+            throw new NotSupportedException($"Type {archiveType} is not supported by ArchiveIterator");
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace XenCenterLib.Archive
             if (archiveType == Type.Zip)
                 return new DotNetZipZipWriter(targetPackage);
 
-            throw new NotSupportedException( String.Format( "Type: {0} is not supported by ArchiveWriter", archiveType ) );
+            throw new NotSupportedException($"Type {archiveType} is not supported by ArchiveWriter");
         }
     }
 }

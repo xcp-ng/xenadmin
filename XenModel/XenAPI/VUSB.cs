@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class VUSB : XenObject<VUSB>
     {
+        #region Constructors
+
         public VUSB()
         {
         }
@@ -67,13 +69,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new VUSB from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public VUSB(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new VUSB from a Proxy_VUSB.
         /// </summary>
         /// <param name="proxy"></param>
         public VUSB(Proxy_VUSB proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -90,7 +106,7 @@ namespace XenAPI
             currently_attached = update.currently_attached;
         }
 
-        internal void UpdateFromProxy(Proxy_VUSB proxy)
+        internal void UpdateFrom(Proxy_VUSB proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             allowed_operations = proxy.allowed_operations == null ? null : Helper.StringArrayToEnumList<vusb_operations>(proxy.allowed_operations);
@@ -112,17 +128,6 @@ namespace XenAPI
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             result_.currently_attached = currently_attached;
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new VUSB from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public VUSB(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

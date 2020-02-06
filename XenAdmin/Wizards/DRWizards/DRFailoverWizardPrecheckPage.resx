@@ -139,7 +139,7 @@
     <value>13</value>
   </data>
   <data name="checkBoxViewPrecheckFailuresOnly.Text" xml:space="preserve">
-    <value>&amp;View only precheck failures/issues</value>
+    <value>&amp;View only pre-check failures/issues</value>
   </data>
   <data name="&gt;&gt;checkBoxViewPrecheckFailuresOnly.Name" xml:space="preserve">
     <value>checkBoxViewPrecheckFailuresOnly</value>
@@ -217,7 +217,7 @@
     <value>14</value>
   </data>
   <data name="labelPrecheckStatus.Text" xml:space="preserve">
-    <value>Failover prechecks completed: {0} issues found</value>
+    <value>Failover pre-checks completed: {0} issues found</value>
   </data>
   <data name="&gt;&gt;labelPrecheckStatus.Name" xml:space="preserve">
     <value>labelPrecheckStatus</value>
@@ -391,7 +391,7 @@
     <value>7</value>
   </data>
   <data name="labelPrechecksFirstLine.Text" xml:space="preserve">
-    <value>Failover prechecks are performed to ensure that the selected vApps and VMs can be failed over. Please take appropriate action to resolve any issues. </value>
+    <value>Failover pre-checks are performed to ensure that the selected vApps and VMs can be failed over. Please take appropriate action to resolve any issues. </value>
   </data>
   <data name="&gt;&gt;labelPrechecksFirstLine.Name" xml:space="preserve">
     <value>labelPrechecksFirstLine</value>
@@ -451,7 +451,7 @@
     <value>0</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>You need to resolve the issues found during prechecks before you can continue.</value>
+    <value>You need to resolve the issues found during pre-checks before you can continue.</value>
   </data>
   <data name="label1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>

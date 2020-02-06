@@ -34,27 +34,31 @@ using XenAdmin;
 
 namespace XenAdminTests.StringExtensionsTests
 {
-    class TruncateStringTest : UnitTester_TestFixture
+    [Category(TestCategories.Unit)]
+    class TruncateStringTest
     {
+        [TestCase(0, ExpectedResult = "")]
+        [TestCase(1, ExpectedResult = "a")]
+        [TestCase(2, ExpectedResult = "ab")]
+        [TestCase(3, ExpectedResult = "abc")]
+        [TestCase(4, ExpectedResult = "abcd")]
+        [TestCase(5, ExpectedResult = "abcde")]
         [Test]
-        public void RunTest()
+        public string LatinCharactersTest(int size)
         {
-            string s1 = "abcde";
-            string s2 = "短𠀁𪛕";  // The first character is 2 bytes, but the other two are 4-byte characters (UTF-16 surrogate pairs).
+            return "abcde".Truncate(size);
+        }
 
-            Assert.AreEqual("", s1.Truncate(0));
-            Assert.AreEqual("a", s1.Truncate(1));
-            Assert.AreEqual("ab", s1.Truncate(2));
-            Assert.AreEqual("abc", s1.Truncate(3));
-            Assert.AreEqual("abcd", s1.Truncate(4));
-            Assert.AreEqual("abcde", s1.Truncate(5));
-
-            Assert.AreEqual("", s2.Truncate(0));
-            Assert.AreEqual("短", s2.Truncate(1));
-            Assert.AreEqual("短", s2.Truncate(2));
-            Assert.AreEqual("短𠀁", s2.Truncate(3));
-            Assert.AreEqual("短𠀁", s2.Truncate(4));
-            Assert.AreEqual("短𠀁𪛕", s2.Truncate(5));
+        [TestCase(0, ExpectedResult = "")]
+        [TestCase(1, ExpectedResult = "短")]
+        [TestCase(2, ExpectedResult = "短")]
+        [TestCase(3, ExpectedResult = "短𠀁")]
+        [TestCase(4, ExpectedResult = "短𠀁")]
+        [TestCase(5, ExpectedResult = "短𠀁𪛕")]
+        [Test]
+        public string Utf16SurrogatePairsTest(int size)
+        {
+            return "短𠀁𪛕".Truncate(size); // The first character is 2 bytes, but the other two are 4-byte characters (UTF-16 surrogate pairs).
         }
     }
 }

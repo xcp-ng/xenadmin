@@ -45,7 +45,6 @@ namespace XenAdmin.Actions
 {
     public class DownloadUpdatesXmlAction : AsyncAction
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private const string XenCenterVersionsNode = "xencenterversions";
         private const string XenServerVersionsNode = "serverversions";
         private const string PatchesNode = "patches";
@@ -252,6 +251,11 @@ namespace XenAdmin.Actions
                     string patchUuid = "";
                     bool presentAsUpdate = false;
                     string minXcVersion = "";
+                    string hotfixEligibility = "";
+                    string hotfixEligibilityPremiumDate = "";
+                    string hotfixEligibilityNoneDate = "";
+                    string eolDate = "";
+
 
                     foreach (XmlAttribute attrib in version.Attributes)
                     {
@@ -275,6 +279,14 @@ namespace XenAdmin.Actions
                             presentAsUpdate = attrib.Value.ToUpperInvariant() == bool.TrueString.ToUpperInvariant();
                         else if (attrib.Name == "minimum-xc-version")
                             minXcVersion = attrib.Value;
+                        else if (attrib.Name == "hotfix-eligibility")
+                            hotfixEligibility = attrib.Value;
+                        else if (attrib.Name == "hotfix-eligibility-premium-date")
+                            hotfixEligibilityPremiumDate = attrib.Value;
+                        else if (attrib.Name == "hotfix-eligibility-none-date")
+                            hotfixEligibilityNoneDate = attrib.Value;
+                        else if (attrib.Name == "eol-date")
+                            eolDate = attrib.Value;
                     }
 
                     List<XenServerPatch> patches = new List<XenServerPatch>();
@@ -310,7 +322,7 @@ namespace XenAdmin.Actions
                     }
 
                     XenServerVersions.Add(new XenServerVersion(version_oem, name, is_latest, is_latest_cr, url, patches, minimalPatches, timestamp,
-                                                               buildNumber, patchUuid, presentAsUpdate, minXcVersion));
+                                                               buildNumber, patchUuid, presentAsUpdate, minXcVersion, hotfixEligibility, hotfixEligibilityPremiumDate, hotfixEligibilityNoneDate, eolDate));
                 }
             }
         }

@@ -65,7 +65,7 @@ namespace XenAdmin.Dialogs
             // pictureBoxAdPicture
             // 
             resources.ApplyResources(this.pictureBoxAdPicture, "pictureBoxAdPicture");
-            this.pictureBoxAdPicture.Image = global::XenAdmin.Properties.Resources._000_User_h32bit_16;
+            this.pictureBoxAdPicture.Image = global::XenAdmin.Properties.Resources._000_User_h32bit_32;
             this.pictureBoxAdPicture.Name = "pictureBoxAdPicture";
             this.pictureBoxAdPicture.TabStop = false;
             // 
@@ -94,9 +94,9 @@ namespace XenAdmin.Dialogs
             // 
             // flowLayoutPanel1
             // 
+            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
             this.flowLayoutPanel1.Controls.Add(this.buttonCancel);
             this.flowLayoutPanel1.Controls.Add(this.buttonOK);
-            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             // 
             // buttonCancel

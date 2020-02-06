@@ -29,9 +29,6 @@
  * SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using XenAdmin.Network;
 using XenAPI;
 
@@ -39,8 +36,6 @@ namespace XenAdmin.Actions
 {
     public class DestroyMessageAction : PureAsyncAction
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private readonly string OpaqueRef;
 
         public DestroyMessageAction(IXenConnection connection, string messageopaqueref)

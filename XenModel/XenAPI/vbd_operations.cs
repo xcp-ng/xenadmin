@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,39 @@ namespace XenAPI
     [JsonConverter(typeof(vbd_operationsConverter))]
     public enum vbd_operations
     {
-        attach, eject, insert, plug, unplug, unplug_force, pause, unpause, unknown
+        /// <summary>
+        /// Attempting to attach this VBD to a VM
+        /// </summary>
+        attach,
+        /// <summary>
+        /// Attempting to eject the media from this VBD
+        /// </summary>
+        eject,
+        /// <summary>
+        /// Attempting to insert new media into this VBD
+        /// </summary>
+        insert,
+        /// <summary>
+        /// Attempting to hotplug this VBD
+        /// </summary>
+        plug,
+        /// <summary>
+        /// Attempting to hot unplug this VBD
+        /// </summary>
+        unplug,
+        /// <summary>
+        /// Attempting to forcibly unplug this VBD
+        /// </summary>
+        unplug_force,
+        /// <summary>
+        /// Attempting to pause a block device backend
+        /// </summary>
+        pause,
+        /// <summary>
+        /// Attempting to unpause a block device backend
+        /// </summary>
+        unpause,
+        unknown
     }
 
     public static class vbd_operations_helper
@@ -83,4 +114,4 @@ namespace XenAPI
             writer.WriteValue(((vbd_operations)value).StringOf());
         }
     }
-}
+}

@@ -168,6 +168,9 @@
   <data name="INVALID_DATA_IN_OVF" xml:space="preserve">
     <value>无法反序列化 OVF 描述符。</value>
   </data>
+  <data name="NETWORK_NAME" xml:space="preserve">
+    <value>网络 {0}</value>
+  </data>
   <data name="OVF_CANNOT_FIND_SECTION" xml:space="preserve">
     <value>找不到类型为 {0} 且 ID 为 {1} 的部分。</value>
   </data>
@@ -186,6 +189,9 @@
   <data name="OVF_COULD_NOT_OPEN_STREAM" xml:space="preserve">
     <value>无法打开 {0}。</value>
   </data>
+  <data name="OVF_CREATED" xml:space="preserve">
+    <value>由 [XenCenter] 磁盘映像导入创建</value>
+  </data>
   <data name="OVF_DEPLOYMENT_CFG_SECTION_MISSING" xml:space="preserve">
     <value>找不到部署配置部分。</value>
   </data>
@@ -195,6 +201,9 @@
   <data name="OVF_DEVICE_OUT_OF_RANGE" xml:space="preserve">
     <value>设备编号 {0} 小于零或大于 15。</value>
   </data>
+  <data name="OVF_DISK_CAPTION" xml:space="preserve">
+    <value>虚拟磁盘</value>
+  </data>
   <data name="OVF_DISK_SECTION_MISSING" xml:space="preserve">
     <value>找不到磁盘部分。</value>
   </data>
@@ -203,6 +212,9 @@
   </data>
   <data name="OVF_INSTALL_SECTION_MISSING" xml:space="preserve">
     <value>找不到安装部分。</value>
+  </data>
+  <data name="OVF_NET_DESCRIPTION" xml:space="preserve">
+    <value>虚拟网络</value>
   </data>
   <data name="OVF_POST_INSTALL_MISSING" xml:space="preserve">
     <value>找不到安装后部分。</value>
@@ -291,11 +303,14 @@
   <data name="SECURITY_FAILURE" xml:space="preserve">
     <value>安全故障</value>
   </data>
-  <data name="SECURITY_FILE_MISSING" xml:space="preserve">
-    <value>找不到清单中所列的文件。请参阅日志获取缺少文件的列表。</value>
+  <data name="SECURITY_FILE_MISSING_FROM_MANIFEST" xml:space="preserve">
+    <value>设备包含清单中未列出的文件。请参阅日志了解详细信息。</value>
+  </data>
+  <data name="SECURITY_FILE_MISSING_FROM_PACKAGE" xml:space="preserve">
+    <value>设备中缺少清单中列出的一个或多个文件。请参阅日志了解详细信息。</value>
   </data>
   <data name="SECURITY_NOT_SUPPORTED" xml:space="preserve">
-    <value>不支持安全方法 {0}。</value>
+    <value>{0} 不是有效的哈希算法。</value>
   </data>
   <data name="SECURITY_SECTION_INVALID" xml:space="preserve">
     <value>安全部分无效。</value>
@@ -306,23 +321,23 @@
   <data name="UNKNOWN" xml:space="preserve">
     <value>未知</value>
   </data>
-  <data name="VALIDATION_FAILURE" xml:space="preserve">
-    <value>OVF 包 {0} 无效。</value>
-  </data>
-  <data name="VALIDATION_FILE_NOTFOUND" xml:space="preserve">
-    <value>找不到引用部分中所列的文件 {0}。</value>
-  </data>
-  <data name="VALIDATION_INVALID_CPU_EXCEEDS_LIMIT" xml:space="preserve">
+  <data name="VALIDATION_CPU_EXCEEDS_LIMIT" xml:space="preserve">
     <value>处理器数 {0} 超出上限 {1}。</value>
   </data>
-  <data name="VALIDATION_INVALID_CPU_QUANTITY" xml:space="preserve">
-    <value>处理器数 {0} 无效。</value>
+  <data name="VALIDATION_CPU_INVALID_QUANTITY" xml:space="preserve">
+    <value>处理器数量无效。</value>
   </data>
-  <data name="VALIDATION_INVALID_FILETYPE" xml:space="preserve">
+  <data name="VALIDATION_FILE_INVALID_LINKAGE" xml:space="preserve">
+    <value>磁盘链接(文件到 RASD)对 {0} 不存在。</value>
+  </data>
+  <data name="VALIDATION_FILE_NOT_FOUND" xml:space="preserve">
+    <value>找不到引用部分中所列的文件 {0}。</value>
+  </data>
+  <data name="VALIDATION_FILE_UNSUPPORTED_EXTENSION" xml:space="preserve">
     <value>文件 {0} 的扩展名不受支持。</value>
   </data>
   <data name="VALIDATION_INVALID_INSTANCEID" xml:space="preserve">
-    <value>实例 ID 为空。</value>
+    <value>内存中有一个空 InstanceID，将创建一个新 InstanceID。</value>
   </data>
   <data name="VALIDATION_INVALID_MEMORY_ALLOCATIONUNITS" xml:space="preserve">
     <value>内存分配单元无效。</value>
@@ -330,11 +345,11 @@
   <data name="VALIDATION_INVALID_MEMORY_QUANTITY" xml:space="preserve">
     <value>内存量无效。</value>
   </data>
-  <data name="VALIDATION_INVALID_TYPE" xml:space="preserve">
-    <value>OVF 信封项目的类型未知。</value>
+  <data name="VALIDATION_INVALID_OVF" xml:space="preserve">
+    <value>此设备不包含有效的 OVF 文件。</value>
   </data>
-  <data name="VALIDATION_INVALID_VERSION" xml:space="preserve">
-    <value>OVF 版本号 {0} 无效。</value>
+  <data name="VALIDATION_INVALID_TYPE" xml:space="preserve">
+    <value>无法识别 OVF 信封项目类型“{0}”。</value>
   </data>
   <data name="VALIDATION_NETWORK_NO_DEVICE" xml:space="preserve">
     <value>网络未连接设备。</value>
@@ -343,10 +358,16 @@
     <value>无法识别 ID 为 {0} 且名称为 {1} 的必需资源。</value>
   </data>
   <data name="VALIDATION_SCHEMA_FAILED" xml:space="preserve">
-    <value>OVF 描述符无效。</value>
+    <value>OVF 描述符不符合 OVF XML 架构。</value>
   </data>
   <data name="VALIDATION_UNKNOWN_HARDWARE_TYPE" xml:space="preserve">
-    <value>虚拟硬件类型 {0} 无效。</value>
+    <value>找到意外的虚拟硬件类型“{0}”。</value>
+  </data>
+  <data name="VALIDATION_VERSION_INVALID" xml:space="preserve">
+    <value>OVF 版本“{0}”不受支持。</value>
+  </data>
+  <data name="VALIDATION_VERSION_UNSET" xml:space="preserve">
+    <value>未设置 OVF 版本。假设版本为 1.0.0。</value>
   </data>
   <data name="VENDOR_PROMPT" xml:space="preserve">
     <value>供应商:</value>
@@ -356,5 +377,8 @@
   </data>
   <data name="VERSION_PROMPT" xml:space="preserve">
     <value>版本:</value>
+  </data>
+  <data name="VIRTUAL_MACHINE" xml:space="preserve">
+    <value>虚拟机</value>
   </data>
 </root>

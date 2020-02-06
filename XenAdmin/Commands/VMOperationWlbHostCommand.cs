@@ -41,7 +41,6 @@ namespace XenAdmin.Commands
 {
     internal partial class VMOperationWlbHostCommand : VMOperationCommand
     {
-        private readonly static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly string _menuText;
         private readonly Image _menuImage;
         private readonly Image _secondImage;

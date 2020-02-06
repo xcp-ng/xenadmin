@@ -58,9 +58,9 @@ namespace XenAdmin.Dialogs.HealthCheck
         internal override string HelpName { get { return "HealthCheckSettingsDialog"; } }
 
         public HealthCheckSettingsDialog(Pool pool, bool enrollNow)
+            :base(pool.Connection)
         {
             this.pool = pool;
-            this.connection = pool.Connection;
             healthCheckSettings = pool.HealthCheckSettings();
             if (enrollNow)
                 healthCheckSettings.Status = HealthCheckStatus.Enabled;

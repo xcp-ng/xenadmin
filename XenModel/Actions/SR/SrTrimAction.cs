@@ -57,7 +57,7 @@ namespace XenAdmin.Actions
 
             if (host == null)
             {
-                log.WarnFormat("Plugin call trim.do_trim({0}) is not possible. Reason: {1}", SR.uuid, Messages.SR_TRIM_NO_STORAGE_HOST_ERROR);
+                log.WarnFormat("Plugin call trim.do_trim({0}) is not possible. Reason: Cannot reclaim freed space, because the SR is detached.", SR.uuid);
                 Exception = new Exception(Messages.SR_TRIM_NO_STORAGE_HOST_ERROR);
                 return;
             }

@@ -38,6 +38,8 @@ using XenAdmin.Core;
 using XenAdmin.Dialogs;
 using XenAdmin.Wizards;
 using System.Collections.ObjectModel;
+using System.Drawing;
+using System.Linq;
 
 
 namespace XenAdmin.Commands
@@ -47,6 +49,8 @@ namespace XenAdmin.Commands
     /// </summary>
     internal class HACommand : Command
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// Initializes a new instance of this Command. The parameter-less constructor is required if 
         /// this Command is to be attached to a ToolStrip menu item or button. It should not be used in any other scenario.
@@ -88,8 +92,27 @@ namespace XenAdmin.Commands
             }
             else if (pool.ha_enabled)
             {
-                // Show VM restart priority editor
-                MainWindowCommandInterface.ShowPerConnectionWizard(connection, new EditVmHaPrioritiesDialog(pool));
+                if (pool.ha_statefiles.Any(sf => pool.Connection.Resolve(new XenRef<VDI>(sf)) != null))
+                {
+                    // Show VM restart priority editor
+                    MainWindowCommandInterface.ShowPerConnectionWizard(connection, new EditVmHaPrioritiesDialog(pool));
+                }
+                else
+                {
+                    log.ErrorFormat("Cannot resolve HA statefile VDI (pool {0} has {1} statefiles).",
+                        pool.Name(), pool.ha_statefiles.Length);
+
+                    using (var dlg = new ThreeButtonDialog(
+                        new ThreeButtonDialog.Details(
+                            SystemIcons.Error,
+                            string.Format(Messages.HA_CONFIGURE_NO_STATEFILE, Helpers.GetName(pool).Ellipsise(30)),
+                            Messages.CONFIGURE_HA),
+                        "HADisable",
+                        ThreeButtonDialog.ButtonOK))
+                    {
+                        dlg.ShowDialog(Program.MainWindow);
+                    }
+                }
             }
             else
             {
@@ -105,26 +128,24 @@ namespace XenAdmin.Commands
 
         protected override bool CanExecuteCore(SelectedItemCollection selection)
         {
-            if (selection.Count == 1)
-            {
-                Pool poolAncestor = selection[0].PoolAncestor;
-                bool inPool = poolAncestor != null;
+            if (selection.Count != 1)
+                return false;
 
-                if (inPool )
-                {
-                    Host master = Helpers.GetMaster(poolAncestor.Connection);
+            Pool poolAncestor = selection[0].PoolAncestor;
+            if (poolAncestor == null || poolAncestor.Locked)
+                return false;
 
-                    if (master == null || HelpersGUI.FindActiveHaAction(poolAncestor.Connection) != null || poolAncestor.Locked)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            if (poolAncestor.Connection ==  null || !poolAncestor.Connection.IsConnected)
+                return false;
+
+            if (HelpersGUI.FindActiveHaAction(poolAncestor.Connection) != null)
+                return false;
+
+            Host master = Helpers.GetMaster(poolAncestor.Connection);
+            if (master == null)
+                return false;
+
+            return true;
         }
 
         protected override string GetCantExecuteReasonCore(IXenObject item)

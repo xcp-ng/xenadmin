@@ -88,11 +88,11 @@ namespace XenAdmin.Wizards.ImportWizard
 
         public EnvelopeType SelectedOvfEnvelope { private get; set; }
 
-        public override string IntroductionText { get { return Messages.IMPORT_WIZARD_NETWORKING_INTRO; } }
+        protected override string IntroductionText => Messages.IMPORT_WIZARD_NETWORKING_INTRO;
 
-        public override string TableIntroductionText { get { return Messages.IMPORT_WIZARD_VM_SELECTION_INTRODUCTION; } }
+        protected override string TableIntroductionText => Messages.IMPORT_WIZARD_VM_SELECTION_INTRODUCTION;
 
-        public override NetworkResourceContainer NetworkData(string sysId)
+        protected override NetworkResourceContainer NetworkData(string sysId)
         {
             return new OvfNetworkResourceContainer(sysId, SelectedOvfEnvelope);
         }

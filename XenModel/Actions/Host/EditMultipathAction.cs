@@ -96,7 +96,6 @@ namespace XenAdmin.Actions
                 unplugException = e;
 
                 log.Debug("Error occurred unplugging pbds", e);
-                log.Debug(e, e);
 
                 throw;
             }
@@ -116,7 +115,6 @@ namespace XenAdmin.Actions
                             plugException = e;
 
                         log.Debug("Error occurred replugging pbds", e);
-                        log.Debug(e, e);
                     }
                 }
 

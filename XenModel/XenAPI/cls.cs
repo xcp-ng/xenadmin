@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,39 @@ namespace XenAPI
     [JsonConverter(typeof(clsConverter))]
     public enum cls
     {
-        VM, Host, SR, Pool, VMPP, VMSS, PVS_proxy, VDI, unknown
+        /// <summary>
+        /// VM
+        /// </summary>
+        VM,
+        /// <summary>
+        /// Host
+        /// </summary>
+        Host,
+        /// <summary>
+        /// SR
+        /// </summary>
+        SR,
+        /// <summary>
+        /// Pool
+        /// </summary>
+        Pool,
+        /// <summary>
+        /// VMPP
+        /// </summary>
+        VMPP,
+        /// <summary>
+        /// VMSS
+        /// </summary>
+        VMSS,
+        /// <summary>
+        /// PVS_proxy
+        /// </summary>
+        PVS_proxy,
+        /// <summary>
+        /// VDI
+        /// </summary>
+        VDI,
+        unknown
     }
 
     public static class cls_helper
@@ -83,4 +114,4 @@ namespace XenAPI
             writer.WriteValue(((cls)value).StringOf());
         }
     }
-}
+}

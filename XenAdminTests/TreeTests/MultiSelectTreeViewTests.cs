@@ -30,15 +30,13 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using XenAdmin.Controls;
-using System.Windows.Forms;
+
 
 namespace XenAdminTests.TreeTests
 {
-    [TestFixture, Category(TestCategories.UICategoryB)]
+    [TestFixture, Category(TestCategories.Unit)]
     public class MultiSelectTreeViewTests
     {
         private MultiSelectTreeView _tv;
@@ -49,7 +47,14 @@ namespace XenAdminTests.TreeTests
             _tv = new MultiSelectTreeView();
 
             // ensure handle is created. Some tests fail if you don't do this.
-            IntPtr h = _tv.Handle;
+           Assert.NotNull(_tv.Handle);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            if (_tv != null)
+                _tv.Dispose();
         }
 
         /// <summary>
@@ -72,14 +77,14 @@ namespace XenAdminTests.TreeTests
             {
                 _tv.Nodes.Add(new MultiSelectTreeNode("0"));
                 _tv.Nodes.Add(new MultiSelectTreeNode("1"));
-                _tv.SelectedNodes.SetContents(new MultiSelectTreeNode[] { _tv.Nodes[0], _tv.Nodes[1] });
+                _tv.SelectedNodes.SetContents(new [] { _tv.Nodes[0], _tv.Nodes[1] });
                 
                 Assert.AreEqual(1, count, "SelectionsChanged should only have fired once");
 
                 _tv.Nodes.Add(new MultiSelectTreeNode("2"));
                 _tv.Nodes.Add(new MultiSelectTreeNode("3"));
                 
-                _tv.SelectedNodes.SetContents(new MultiSelectTreeNode[] { _tv.Nodes[2], _tv.Nodes[3] });
+                _tv.SelectedNodes.SetContents(new [] { _tv.Nodes[2], _tv.Nodes[3] });
                 Assert.AreEqual(2, count, "SelectionsChanged should only have fired twice");
             }
             finally

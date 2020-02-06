@@ -219,9 +219,8 @@ namespace XenAdmin.Dialogs
                 XenConnectionUI.BeginConnect(conn, true, Owner, false);
         }
 
-        private void conn_CachePopulated(object sender, EventArgs e)
+        private void conn_CachePopulated(IXenConnection conn)
         {
-            IXenConnection conn = (IXenConnection)sender;
             conn.CachePopulated -= conn_CachePopulated;
             OnCachePopulated(conn);
         }
@@ -333,12 +332,6 @@ namespace XenAdmin.Dialogs
         private void labelError_TextChanged(object sender, EventArgs e)
         {
             pictureBoxError.Visible = labelError.Visible = (labelError.Text != "");
-        }
-
-        private void AddServerDialog_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (connection != null)
-                XenConnectionUI.connectionDialogs.Remove(connection);
         }
     }
 }

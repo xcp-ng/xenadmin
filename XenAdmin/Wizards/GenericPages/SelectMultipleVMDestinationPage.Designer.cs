@@ -34,7 +34,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectMultipleVMDestinationPage));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.m_labelIntro = new XenAdmin.Controls.Common.AutoHeightLabel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.m_comboBoxConnection = new XenAdmin.Controls.EnableableComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -45,7 +44,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelWarning = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_dataGridView)).BeginInit();
             this.tableLayoutPanelWarning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -55,7 +53,8 @@
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.m_labelIntro, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.m_comboBoxConnection, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.m_dataGridView, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanelWarning, 0, 4);
@@ -64,14 +63,8 @@
             // m_labelIntro
             // 
             resources.ApplyResources(this.m_labelIntro, "m_labelIntro");
+            this.tableLayoutPanel1.SetColumnSpan(this.m_labelIntro, 2);
             this.m_labelIntro.Name = "m_labelIntro";
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.m_comboBoxConnection, 1, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // label1
             // 
@@ -90,6 +83,7 @@
             // label2
             // 
             resources.ApplyResources(this.label2, "label2");
+            this.tableLayoutPanel1.SetColumnSpan(this.label2, 2);
             this.label2.Name = "label2";
             // 
             // m_dataGridView
@@ -104,6 +98,7 @@
             this.m_dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.m_colVmName,
             this.m_colTarget});
+            this.tableLayoutPanel1.SetColumnSpan(this.m_dataGridView, 2);
             resources.ApplyResources(this.m_dataGridView, "m_dataGridView");
             this.m_dataGridView.Name = "m_dataGridView";
             this.m_dataGridView.RowHeadersVisible = false;
@@ -126,6 +121,7 @@
             // tableLayoutPanelWarning
             // 
             resources.ApplyResources(this.tableLayoutPanelWarning, "tableLayoutPanelWarning");
+            this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanelWarning, 2);
             this.tableLayoutPanelWarning.Controls.Add(this.pictureBox1, 0, 0);
             this.tableLayoutPanelWarning.Controls.Add(this.labelWarning, 1, 0);
             this.tableLayoutPanelWarning.Name = "tableLayoutPanelWarning";
@@ -150,8 +146,6 @@
             this.Name = "SelectMultipleVMDestinationPage";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_dataGridView)).EndInit();
             this.tableLayoutPanelWarning.ResumeLayout(false);
             this.tableLayoutPanelWarning.PerformLayout();
@@ -166,7 +160,6 @@
 		private XenAdmin.Controls.Common.AutoHeightLabel m_labelIntro;
 		private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView m_dataGridView;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 		private System.Windows.Forms.Label label1;
         private XenAdmin.Controls.EnableableComboBox m_comboBoxConnection;
         private System.Windows.Forms.DataGridViewTextBoxColumn m_colVmName;

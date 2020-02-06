@@ -12,7 +12,7 @@ namespace XenOvfTransport.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -20,15 +20,6 @@ namespace XenOvfTransport.Properties {
         public static Settings Default {
             get {
                 return defaultInstance;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("XenServer P2V (Orela) Server")]
-        public string p2vTemplate {
-            get {
-                return ((string)(this["p2vTemplate"]));
             }
         }
         
@@ -101,15 +92,6 @@ namespace XenOvfTransport.Properties {
         public string xenISOTools {
             get {
                 return ((string)(this["xenISOTools"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("XenServer Tools")]
-        public string xenTools {
-            get {
-                return ((string)(this["xenTools"]));
             }
         }
         
@@ -204,15 +186,6 @@ namespace XenOvfTransport.Properties {
         public string iSCSITransferVM {
             get {
                 return ((string)(this["iSCSITransferVM"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("XenServer Transfer")]
-        public string iSCSITransferVMName {
-            get {
-                return ((string)(this["iSCSITransferVMName"]));
             }
         }
         
@@ -344,6 +317,33 @@ namespace XenOvfTransport.Properties {
         public int FixupPollTimeAsMs {
             get {
                 return ((int)(this["FixupPollTimeAsMs"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("[XenServer product] P2V (Orela) Server")]
+        public string p2vTemplate {
+            get {
+                return ((string)(this["p2vTemplate"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("[Citrix VM Tools]")]
+        public string xenTools {
+            get {
+                return ((string)(this["xenTools"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("[XenServer product] Transfer")]
+        public string iSCSITransferVMName {
+            get {
+                return ((string)(this["iSCSITransferVMName"]));
             }
         }
     }

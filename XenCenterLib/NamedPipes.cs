@@ -335,13 +335,10 @@ namespace XenCenterLib
 
                 // Close pipe handle to destroy it
                 if (CloseHandle(Handle))
-                {
                     log.Debug("Closed NamedPipe handle");
-                }
                 else
-                {
-                    log.Warn(new Win32Exception("CloseHandle() in NamedPipes failed", new Win32Exception()));
-                }
+                    log.Warn("CloseHandle() in NamedPipes failed", new Win32Exception());
+
                 log.Debug("NamedPipe thread exited");
             }
 

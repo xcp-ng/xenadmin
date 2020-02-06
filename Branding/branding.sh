@@ -53,7 +53,7 @@ do
   fi
 done
 
-for hfx in RPU004
+for hfx in RPU004 RPU005
 do
   if [ -d "${hfx}" ]; then
     latest=$(ls ${hfx} | /usr/bin/sort -n | tail -n 1)
@@ -101,6 +101,7 @@ BRANDING_XC_PRODUCT_6_5_VERSION=6.5
 BRANDING_XC_PRODUCT_7_0_VERSION=7.0
 BRANDING_XC_PRODUCT_7_1_2_VERSION=7.1.2
 BRANDING_XC_PRODUCT_8_0_VERSION=8.0
+BRANDING_XC_PRODUCT_8_1_VERSION=8.1
 BRANDING_XENSERVER_UPDATE_URL="https://updates.xensource.com/XenServer/updates.xml"
 BRANDING_HIDDEN_FEATURES=""
 BRANDING_ADDITIONAL_FEATURES=""

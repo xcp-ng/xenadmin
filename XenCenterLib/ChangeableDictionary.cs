@@ -105,7 +105,6 @@ namespace XenCenterLib
                 catch (Exception e)
                 {
                     log.Debug("Exception firing batchCollectionChanged cache.", e);
-                    log.Debug(e, e);
 #if DEBUG
                     if (System.Diagnostics.Debugger.IsAttached)
                         throw;
@@ -129,23 +128,14 @@ namespace XenCenterLib
             return dictionary.ContainsKey(key);
         }
 
-        public ICollection<TKey> Keys
-        {
-            get { return dictionary.Keys; }
-        }
+        public ICollection<TKey> Keys => dictionary.Keys;
 
         public bool TryGetValue(TKey key, out TValue value)
         {
             return dictionary.TryGetValue(key, out value);
         }
 
-        public ICollection<TValue> Values
-        {
-            get
-            {
-                return dictionary.Values;
-            }
-        }
+        public ICollection<TValue> Values => dictionary.Values;
 
         #endregion
 
@@ -153,7 +143,7 @@ namespace XenCenterLib
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -166,23 +156,17 @@ namespace XenCenterLib
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
-        public int Count
-        {
-            get { return dictionary.Count; }
-        }
+        public int Count => dictionary.Count;
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
@@ -226,28 +210,16 @@ namespace XenCenterLib
             return (IDictionaryEnumerator)GetEnumerator();
         }
 
-        bool IDictionary.IsFixedSize
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
+        bool IDictionary.IsFixedSize => throw new NotImplementedException();
 
-        ICollection IDictionary.Keys
-        {
-            get { return dictionary.Keys; }
-        }
+        ICollection IDictionary.Keys => dictionary.Keys;
 
         void IDictionary.Remove(object key)
         {
             Remove((TKey)key);
         }
 
-        ICollection IDictionary.Values
-        {
-            get
-            {
-                return dictionary.Values;
-            }
-        }
+        ICollection IDictionary.Values => dictionary.Values;
 
         object IDictionary.this[object key]
         {
@@ -267,23 +239,14 @@ namespace XenCenterLib
 
         void ICollection.CopyTo(Array array, int index)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
-        int ICollection.Count
-        {
-            get { return dictionary.Count; }
-        }
+        int ICollection.Count => dictionary.Count;
 
-        bool ICollection.IsSynchronized
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
+        bool ICollection.IsSynchronized => throw new NotImplementedException();
 
-        object ICollection.SyncRoot
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
+        object ICollection.SyncRoot => throw new NotImplementedException();
 
         #endregion
     }

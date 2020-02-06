@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class PVS_cache_storage : XenObject<PVS_cache_storage>
     {
+        #region Constructors
+
         public PVS_cache_storage()
         {
         }
@@ -65,13 +67,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new PVS_cache_storage from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public PVS_cache_storage(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new PVS_cache_storage from a Proxy_PVS_cache_storage.
         /// </summary>
         /// <param name="proxy"></param>
         public PVS_cache_storage(Proxy_PVS_cache_storage proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -87,7 +103,7 @@ namespace XenAPI
             VDI = update.VDI;
         }
 
-        internal void UpdateFromProxy(Proxy_PVS_cache_storage proxy)
+        internal void UpdateFrom(Proxy_PVS_cache_storage proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             host = proxy.host == null ? null : XenRef<Host>.Create(proxy.host);
@@ -107,17 +123,6 @@ namespace XenAPI
             result_.size = size.ToString();
             result_.VDI = VDI ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new PVS_cache_storage from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public PVS_cache_storage(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

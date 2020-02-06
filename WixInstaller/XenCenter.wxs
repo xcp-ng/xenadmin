@@ -72,7 +72,7 @@
                             <!-- DLLs -->
                             <File Id="CommandLibDLL" Source="..\XenAdmin\bin\Release\CommandLib.dll" />
                             <File Id="CookComputingDLL" Source="..\XenAdmin\bin\Release\CookComputing.XmlRpcV2.dll" />
-                            <File Id="NewtonsoftJsonDLL" Source="..\XenAdmin\bin\Release\Newtonsoft.Json.dll" />
+                            <File Id="NewtonsoftJsonDLL" Source="..\XenAdmin\bin\Release\Newtonsoft.Json.CH.dll" />
                             <File Id="log4netDLL" Source="..\XenAdmin\bin\Release\log4net.dll" />
                             <File Id="SharpZipLibDLL" Source="..\XenAdmin\bin\Release\ICSharpCode.SharpZipLib.dll" />
                             <File Id="IonicZipDLL" Source="..\XenAdmin\bin\Release\Ionic.Zip.dll" />
@@ -155,6 +155,7 @@
                         <Component Id="UpdateFiles" Guid="[BRANDING_XSUPDATE_FILE_GUID]">
                             <File Id="hotfixDundee" Source="..\Branding\Hotfixes\RPU003.[xsupdate]" />
                             <File Id="hotfixEly" Source="..\Branding\Hotfixes\RPU004.iso" />
+                            <File Id="hotfixNaples" Source="..\Branding\Hotfixes\RPU005.iso" />
                         </Component>
                         <?if "$(env.Branding)"="XenCenter"?>
 						<!-- TestResources -->
@@ -201,7 +202,7 @@
 								<File Id="HealthCheck_XenServerHealthCheck.exe" Name="XenServerHealthCheck.exe" KeyPath="yes" Source="..\XenServerHealthCheck\bin\Release\XenServerHealthCheck.exe" />
 								<File Id="HealthCheck_CommandLib.dll" Name="CommandLib.dll" Source="..\XenServerHealthCheck\bin\Release\CommandLib.dll" />
 								<File Id="HealthCheck_CookComputing.XmlRpcV2.dll" Name="CookComputing.XmlRpcV2.dll" Source="..\XenServerHealthCheck\bin\Release\CookComputing.XmlRpcV2.dll" />
-								<File Id="HealthCheck_NewtonsoftJsonDLL" Source="..\XenServerHealthCheck\bin\Release\Newtonsoft.Json.dll" />
+								<File Id="HealthCheck_NewtonsoftJsonDLL" Source="..\XenServerHealthCheck\bin\Release\Newtonsoft.Json.CH.dll" />
 								<File Id="HealthCheck_ICSharpCode.SharpZipLib.dll" Name="ICSharpCode.SharpZipLib.dll" Source="..\XenServerHealthCheck\bin\Release\ICSharpCode.SharpZipLib.dll" />
 								<File Id="HealthCheck_Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="..\XenServerHealthCheck\bin\Release\Ionic.Zip.dll" />
 								<File Id="HealthCheck_log4net.dll" Name="log4net.dll" Source="..\XenServerHealthCheck\bin\Release\log4net.dll" />

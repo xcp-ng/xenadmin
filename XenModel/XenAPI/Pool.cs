@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Pool : XenObject<Pool>
     {
+        #region Constructors
+
         public Pool()
         {
         }
@@ -84,7 +86,8 @@ namespace XenAPI
             Dictionary<string, string> cpu_info,
             bool policy_no_vendor_device,
             bool live_patching_disabled,
-            bool igmp_snooping_enabled)
+            bool igmp_snooping_enabled,
+            string uefi_certificates)
         {
             this.uuid = uuid;
             this.name_label = name_label;
@@ -122,6 +125,19 @@ namespace XenAPI
             this.policy_no_vendor_device = policy_no_vendor_device;
             this.live_patching_disabled = live_patching_disabled;
             this.igmp_snooping_enabled = igmp_snooping_enabled;
+            this.uefi_certificates = uefi_certificates;
+        }
+
+        /// <summary>
+        /// Creates a new Pool from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Pool(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
         }
 
         /// <summary>
@@ -130,8 +146,10 @@ namespace XenAPI
         /// <param name="proxy"></param>
         public Pool(Proxy_Pool proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -175,9 +193,10 @@ namespace XenAPI
             policy_no_vendor_device = update.policy_no_vendor_device;
             live_patching_disabled = update.live_patching_disabled;
             igmp_snooping_enabled = update.igmp_snooping_enabled;
+            uefi_certificates = update.uefi_certificates;
         }
 
-        internal void UpdateFromProxy(Proxy_Pool proxy)
+        internal void UpdateFrom(Proxy_Pool proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -215,6 +234,7 @@ namespace XenAPI
             policy_no_vendor_device = (bool)proxy.policy_no_vendor_device;
             live_patching_disabled = (bool)proxy.live_patching_disabled;
             igmp_snooping_enabled = (bool)proxy.igmp_snooping_enabled;
+            uefi_certificates = proxy.uefi_certificates == null ? null : proxy.uefi_certificates;
         }
 
         public Proxy_Pool ToProxy()
@@ -256,18 +276,8 @@ namespace XenAPI
             result_.policy_no_vendor_device = policy_no_vendor_device;
             result_.live_patching_disabled = live_patching_disabled;
             result_.igmp_snooping_enabled = igmp_snooping_enabled;
+            result_.uefi_certificates = uefi_certificates ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Pool from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Pool(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>
@@ -350,6 +360,8 @@ namespace XenAPI
                 live_patching_disabled = Marshalling.ParseBool(table, "live_patching_disabled");
             if (table.ContainsKey("igmp_snooping_enabled"))
                 igmp_snooping_enabled = Marshalling.ParseBool(table, "igmp_snooping_enabled");
+            if (table.ContainsKey("uefi_certificates"))
+                uefi_certificates = Marshalling.ParseString(table, "uefi_certificates");
         }
 
         public bool DeepEquals(Pool other, bool ignoreCurrentOperations)
@@ -396,7 +408,8 @@ namespace XenAPI
                 Helper.AreEqual2(this._cpu_info, other._cpu_info) &&
                 Helper.AreEqual2(this._policy_no_vendor_device, other._policy_no_vendor_device) &&
                 Helper.AreEqual2(this._live_patching_disabled, other._live_patching_disabled) &&
-                Helper.AreEqual2(this._igmp_snooping_enabled, other._igmp_snooping_enabled);
+                Helper.AreEqual2(this._igmp_snooping_enabled, other._igmp_snooping_enabled) &&
+                Helper.AreEqual2(this._uefi_certificates, other._uefi_certificates);
         }
 
         internal static List<Pool> ProxyArrayToObjectList(Proxy_Pool[] input)
@@ -472,6 +485,10 @@ namespace XenAPI
                 if (!Helper.AreEqual2(_live_patching_disabled, server._live_patching_disabled))
                 {
                     Pool.set_live_patching_disabled(session, opaqueRef, _live_patching_disabled);
+                }
+                if (!Helper.AreEqual2(_uefi_certificates, server._uefi_certificates))
+                {
+                    Pool.set_uefi_certificates(session, opaqueRef, _uefi_certificates);
                 }
 
                 return null;
@@ -1012,6 +1029,20 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Get the uefi_certificates field of the given pool.
+        /// First published in Unreleased.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_pool">The opaque_ref of the given pool</param>
+        public static string get_uefi_certificates(Session session, string _pool)
+        {
+            if (session.JsonRpcClient != null)
+                return session.JsonRpcClient.pool_get_uefi_certificates(session.opaque_ref, _pool);
+            else
+                return session.proxy.pool_get_uefi_certificates(session.opaque_ref, _pool ?? "").parse();
+        }
+
+        /// <summary>
         /// Set the name_label field of the given pool.
         /// First published in XenServer 4.0.
         /// </summary>
@@ -1342,6 +1373,21 @@ namespace XenAPI
                 session.JsonRpcClient.pool_set_live_patching_disabled(session.opaque_ref, _pool, _live_patching_disabled);
             else
                 session.proxy.pool_set_live_patching_disabled(session.opaque_ref, _pool ?? "", _live_patching_disabled).parse();
+        }
+
+        /// <summary>
+        /// Set the uefi_certificates field of the given pool.
+        /// First published in Unreleased.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_pool">The opaque_ref of the given pool</param>
+        /// <param name="_uefi_certificates">New value to set</param>
+        public static void set_uefi_certificates(Session session, string _pool, string _uefi_certificates)
+        {
+            if (session.JsonRpcClient != null)
+                session.JsonRpcClient.pool_set_uefi_certificates(session.opaque_ref, _pool, _uefi_certificates);
+            else
+                session.proxy.pool_set_uefi_certificates(session.opaque_ref, _pool ?? "", _uefi_certificates ?? "").parse();
         }
 
         /// <summary>
@@ -3377,5 +3423,24 @@ namespace XenAPI
             }
         }
         private bool _igmp_snooping_enabled = false;
+
+        /// <summary>
+        /// The UEFI certificates allowing Secure Boot
+        /// First published in Unreleased.
+        /// </summary>
+        public virtual string uefi_certificates
+        {
+            get { return _uefi_certificates; }
+            set
+            {
+                if (!Helper.AreEqual(value, _uefi_certificates))
+                {
+                    _uefi_certificates = value;
+                    Changed = true;
+                    NotifyPropertyChanged("uefi_certificates");
+                }
+            }
+        }
+        private string _uefi_certificates = "";
     }
 }

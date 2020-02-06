@@ -32,63 +32,57 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using XenAdmin;
 using XenAdmin.Alerts;
 
 namespace XenAdminTests.LicensingTests
 {
-    [TestFixture, Category(TestCategories.UICategoryB)]
+    [TestFixture, Category(TestCategories.Unit)]
     public class LicenceTimerTests
     {
-        private Dictionary<TimeSpan, string> sharedResults = new Dictionary<TimeSpan, string>()
-                                                               {
-                                                                   {new TimeSpan(3650, 0, 0, 0), "121 months"},
-                                                                   {new TimeSpan(365, 0, 0, 0), "12 months"},
-                                                                   {new TimeSpan(90, 0, 0, 0), "3 months"},
-                                                                   {new TimeSpan(34, 0, 0, 0), "34 days"},
-                                                                   {new TimeSpan(14, 0, 0, 0), "14 days"},
-                                                                   {new TimeSpan(7, 0, 0, 0), "7 days"},
-                                                                   {new TimeSpan(3, 0, 0, 0), "3 days"},
-                                                                   {new TimeSpan(2, 5, 0, 0), "2 days"},
-                                                                   {new TimeSpan(2, 0, 0, 0), "48 hours"},
-                                                                   {new TimeSpan(1, 0, 0, 0), "24 hours"},
-                                                                   {new TimeSpan(0, 1, 33, 0), "93 minutes"},
-                                                                   {new TimeSpan(0, 1, 0, 0), "60 minutes"},
-                                                                   {new TimeSpan(0, 0, 2, 0), "2 minutes"},
-                                                                   {new TimeSpan(0, 0, 1, 0), "1 minutes"},
-                                                                   {new TimeSpan(0, 0, 0, 25), "1 minutes"},
-                                                                   {new TimeSpan(0, 0, 0, 0), "0 minutes"},
-                                                                   {new TimeSpan(0, 0, 0, -1), String.Empty}
-                                                               };
+        private static Dictionary<TimeSpan, string> sharedResults = new Dictionary<TimeSpan, string>()
+        {
+            {new TimeSpan(3650, 0, 0, 0), "121 months"},
+            {new TimeSpan(365, 0, 0, 0), "12 months"},
+            {new TimeSpan(90, 0, 0, 0), "3 months"},
+            {new TimeSpan(34, 0, 0, 0), "34 days"},
+            {new TimeSpan(14, 0, 0, 0), "14 days"},
+            {new TimeSpan(7, 0, 0, 0), "7 days"},
+            {new TimeSpan(3, 0, 0, 0), "3 days"},
+            {new TimeSpan(2, 5, 0, 0), "2 days"},
+            {new TimeSpan(2, 0, 0, 0), "48 hours"},
+            {new TimeSpan(1, 0, 0, 0), "24 hours"},
+            {new TimeSpan(0, 1, 33, 0), "93 minutes"},
+            {new TimeSpan(0, 1, 0, 0), "60 minutes"},
+            {new TimeSpan(0, 0, 2, 0), "2 minutes"},
+            {new TimeSpan(0, 0, 1, 0), "1 minutes"},
+            {new TimeSpan(0, 0, 0, 25), "1 minutes"},
+            {new TimeSpan(0, 0, 0, 0), "0 minutes"},
+            {new TimeSpan(0, 0, 0, -1), ""}
+        };
+
+        private static Dictionary<TimeSpan, string> uncappedResults = new Dictionary<TimeSpan, string>(sharedResults)
+        {
+            {new TimeSpan(7300, 0, 0, 0), "243 months"}
+        };
+
+        private static Dictionary<TimeSpan, string> cappedResults = new Dictionary<TimeSpan, string>(sharedResults)
+        {
+            {new TimeSpan(7300, 0, 0, 0), "Unlimited"}
+        };
+
+
         [Test]
-        public void UncappedTimeToStringConversion()
+        [TestCaseSource(typeof(LicenceTimerTests), nameof(uncappedResults))]
+        public void UncappedTimeToStringConversion(KeyValuePair<TimeSpan, string> kvp)
         {
-            Dictionary<TimeSpan, string> uncappedResults = new Dictionary<TimeSpan, string>(sharedResults)
-                                                               {
-                                                                   {new TimeSpan(7300, 0, 0, 0), "243 months"}
-                                                               };
-            CheckTimeSpanToTextConversions(18, uncappedResults, false);
+            Assert.AreEqual(kvp.Value, LicenseAlert.GetLicenseTimeLeftString(kvp.Key, false));
         }
 
         [Test]
-        public void CappedTimeToStringConversion()
+        [TestCaseSource(typeof(LicenceTimerTests), nameof(cappedResults))]
+        public void CappedTimeToStringConversion(KeyValuePair<TimeSpan, string> kvp)
         {
-            Dictionary<TimeSpan, string> cappedResults = new Dictionary<TimeSpan, string>(sharedResults)
-                                                             {
-                                                                 {new TimeSpan(7300, 0, 0, 0), "Unlimited"}
-                                                             };
-            CheckTimeSpanToTextConversions(18, cappedResults, true);
+            Assert.AreEqual(kvp.Value, LicenseAlert.GetLicenseTimeLeftString(kvp.Key, true));
         }
-
-        private void CheckTimeSpanToTextConversions(int expectedNumberOfValuesToCheck, Dictionary<TimeSpan, string> valuesToCheck, bool capped)
-        {
-            Assert.AreEqual(expectedNumberOfValuesToCheck, valuesToCheck.Count);
-
-            foreach (KeyValuePair<TimeSpan, string > value in valuesToCheck)
-            {
-                Assert.AreEqual(value.Value, LicenseAlert.GetLicenseTimeLeftString(value.Key, capped));
-            }
-        }
-
     }
 }

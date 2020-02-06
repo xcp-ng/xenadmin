@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Console : XenObject<Console>
     {
+        #region Constructors
+
         public Console()
         {
         }
@@ -63,13 +65,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Console from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Console(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Console from a Proxy_Console.
         /// </summary>
         /// <param name="proxy"></param>
         public Console(Proxy_Console proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -84,7 +100,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_Console proxy)
+        internal void UpdateFrom(Proxy_Console proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             protocol = proxy.protocol == null ? (console_protocol) 0 : (console_protocol)Helper.EnumParseDefault(typeof(console_protocol), (string)proxy.protocol);
@@ -102,17 +118,6 @@ namespace XenAPI
             result_.VM = VM ?? "";
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Console from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Console(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

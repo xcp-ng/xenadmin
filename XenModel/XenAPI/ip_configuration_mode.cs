@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,19 @@ namespace XenAPI
     [JsonConverter(typeof(ip_configuration_modeConverter))]
     public enum ip_configuration_mode
     {
-        None, DHCP, Static, unknown
+        /// <summary>
+        /// Do not acquire an IP address
+        /// </summary>
+        None,
+        /// <summary>
+        /// Acquire an IP address by DHCP
+        /// </summary>
+        DHCP,
+        /// <summary>
+        /// Static IP address configuration
+        /// </summary>
+        Static,
+        unknown
     }
 
     public static class ip_configuration_mode_helper
@@ -73,4 +84,4 @@ namespace XenAPI
             writer.WriteValue(((ip_configuration_mode)value).StringOf());
         }
     }
-}
+}

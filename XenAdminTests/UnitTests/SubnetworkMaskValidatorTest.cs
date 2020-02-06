@@ -29,9 +29,6 @@
  * SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using XenCenterLib;
 
@@ -55,7 +52,7 @@ namespace XenAdminTests.UnitTests
                 )] string validValues)
 
         {
-            Assert.AreEqual(true, StringUtility.IsValidNetmask(validValues));
+            Assert.IsTrue(StringUtility.IsValidNetmask(validValues));
         }
 
         [Test, Sequential]
@@ -85,7 +82,7 @@ namespace XenAdminTests.UnitTests
                 " 255.255.128.0"
                 )] string invalidValues)
         {
-            Assert.AreEqual(false, StringUtility.IsValidNetmask(invalidValues));
+            Assert.IsFalse(StringUtility.IsValidNetmask(invalidValues));
         }
     }
 }

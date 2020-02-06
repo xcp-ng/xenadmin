@@ -30,97 +30,41 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace XenOvfTransport
 {
-    public enum XenOvfTranportEventType
+    public class XenOvfTransportEventArgs : EventArgs
     {
-        FileStart,
-        FileProgress,
-        FileComplete,
-        FileCancelled,
-        ImportStart,
-        ImportProgress,
-        ImportThreadComplete,
-        ImportComplete,
-        ImportCancelled,
-        ExportStart,
-        ExportProgress,
-        ExportThreadComplete,
-        ExportComplete,
-        ExportCancelled,
-        Progress,
-        MarqueeOn,
-        MarqueeOff,
-        Failure,
-        Unknown
+        public XenOvfTransportEventArgs(TransportStep step, string message)
+        {
+            Step = step;
+            Message = message;
+        }
+
+        public XenOvfTransportEventArgs(TransportStep step, string message, ulong transferred, ulong total)
+            : this(step, message)
+        {
+            Total = total;
+            Transferred = transferred;
+        }
+
+        public TransportStep Step { get; }
+
+        public string Message { get; }
+
+        public ulong Total { get; }
+
+        public ulong Transferred { get; }
     }
 
-    public class XenOvfTranportEventArgs : EventArgs
+    public enum TransportStep
     {
-        private XenOvfTranportEventType _type = XenOvfTranportEventType.Unknown;
-        private ulong _total;
-        private ulong _transfered;
-        private string _target;
-        private string _message;
-        private Exception _exception;
-
-        public XenOvfTranportEventArgs(XenOvfTranportEventType type, string target, string message)
-        {
-            _type = type;
-            _target = target;
-            _message = message;
-        }
-        public XenOvfTranportEventArgs(XenOvfTranportEventType type, string target, string message, Exception exception)
-        {
-            _type = type;
-            _target = target;
-            _message = message;
-            _exception = exception;
-        }
-
-        public XenOvfTranportEventArgs(XenOvfTranportEventType type, string target, string message, ulong transfered, ulong total)
-        {
-            _type = type;
-            _target = target;
-            _message = message;
-            _total = total;
-            _transfered = transfered;
-        }
-
-        public string Target
-        {
-            get { return _target; }
-        }
-
-        public string Message
-        {
-            get { return _message; }
-        }
-
-        public ulong Total
-        {
-            get { return _total; }
-        }
-
-        public ulong Transfered
-        {
-            get { return _transfered; }
-        }
-
-        public XenOvfTranportEventType Type
-        {
-            get { return _type; }
-        }
-
-        public Exception exception
-        {
-            get
-            {
-                return _exception;
-            }
-        }
+        Export,
+        Import,
+        Security,
+        Compression,
+        CdDvdDrive,
+        SendData,
+        Download
     }
 }

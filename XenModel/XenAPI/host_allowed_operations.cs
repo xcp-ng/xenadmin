@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,39 @@ namespace XenAPI
     [JsonConverter(typeof(host_allowed_operationsConverter))]
     public enum host_allowed_operations
     {
-        provision, evacuate, shutdown, reboot, power_on, vm_start, vm_resume, vm_migrate, unknown
+        /// <summary>
+        /// Indicates this host is able to provision another VM
+        /// </summary>
+        provision,
+        /// <summary>
+        /// Indicates this host is evacuating
+        /// </summary>
+        evacuate,
+        /// <summary>
+        /// Indicates this host is in the process of shutting itself down
+        /// </summary>
+        shutdown,
+        /// <summary>
+        /// Indicates this host is in the process of rebooting
+        /// </summary>
+        reboot,
+        /// <summary>
+        /// Indicates this host is in the process of being powered on
+        /// </summary>
+        power_on,
+        /// <summary>
+        /// This host is starting a VM
+        /// </summary>
+        vm_start,
+        /// <summary>
+        /// This host is resuming a VM
+        /// </summary>
+        vm_resume,
+        /// <summary>
+        /// This host is the migration target of a VM
+        /// </summary>
+        vm_migrate,
+        unknown
     }
 
     public static class host_allowed_operations_helper
@@ -83,4 +114,4 @@ namespace XenAPI
             writer.WriteValue(((host_allowed_operations)value).StringOf());
         }
     }
-}
+}

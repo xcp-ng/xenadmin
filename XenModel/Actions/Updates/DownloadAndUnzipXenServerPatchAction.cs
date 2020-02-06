@@ -50,8 +50,7 @@ namespace XenAdmin.Actions
 
     public class DownloadAndUnzipXenServerPatchAction : AsyncAction, IByteProgressAction
     {
-        private static readonly log4net.ILog log =
-            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private const int SLEEP_TIME_TO_CHECK_DOWNLOAD_STATUS_MS = 900;
         private const int SLEEP_TIME_BEFORE_RETRY_MS = 5000;
@@ -145,7 +144,11 @@ namespace XenAdmin.Actions
                         log.ErrorFormat(
                             "Error while downloading from '{0}'. Number of errors so far (including this): {1}. Trying maximum {2} times.",
                             address, errorCount, MAX_NUMBER_OF_TRIES);
-                        log.Error(patchDownloadError ?? new Exception(Messages.ERROR_UNKNOWN));
+
+                        if  (patchDownloadError == null)
+                            log.Error("An unknown error occurred.");
+                        else
+                            log.Error(patchDownloadError);
                     }
                 } while (errorCount < MAX_NUMBER_OF_TRIES && needToRetry);
             }
@@ -183,17 +186,17 @@ namespace XenAdmin.Actions
         private void ExtractFile()
         {
             ArchiveIterator iterator = null;
+            DotNetZipZipIterator zipIterator =  null;
+
             try
             {
                 using (Stream stream = new FileStream(outputFileName, FileMode.Open, FileAccess.Read))
                 {
                     iterator = ArchiveFactory.Reader(ArchiveFactory.Type.Zip, stream);
-                    DotNetZipZipIterator zipIterator = iterator as DotNetZipZipIterator;
+                    zipIterator = iterator as DotNetZipZipIterator;
+
                     if (zipIterator != null)
-                    {
-                        zipIterator.CurrentFileExtractProgressChanged +=
-                            archiveIterator_CurrentFileExtractProgressChanged;
-                    }
+                        zipIterator.CurrentFileExtractProgressChanged += archiveIterator_CurrentFileExtractProgressChanged;
 
                     while (iterator.HasNext())
                     {
@@ -215,25 +218,22 @@ namespace XenAdmin.Actions
                                 PatchPath = path;
 
                                 log.InfoFormat("Update file extracted to '{0}'", path);
-
                                 break;
                             }
                         }
-                    }
-
-                    if (zipIterator != null)
-                    {
-                        zipIterator.CurrentFileExtractProgressChanged -= archiveIterator_CurrentFileExtractProgressChanged;
                     }
                 }
             }
             catch (Exception e)
             {
-                log.ErrorFormat("Exception occurred when extracting downloaded archive: {0}", e.Message);
+                log.Error("Exception occurred when extracting downloaded archive.", e);
                 throw new Exception(Messages.DOWNLOAD_AND_EXTRACT_ACTION_EXTRACTING_ERROR);
             }
             finally
             {
+                if (zipIterator != null)
+                    zipIterator.CurrentFileExtractProgressChanged -= archiveIterator_CurrentFileExtractProgressChanged;
+
                 if (iterator != null)
                     iterator.Dispose();
 
@@ -283,7 +283,7 @@ namespace XenAdmin.Actions
                 }
                 catch (Exception e)
                 {
-                    log.ErrorFormat("Exception occurred when preparing archive: {0}", e.Message);
+                    log.Error("Exception occurred when preparing archive.", e);
                     throw;
                 }
             }
@@ -299,9 +299,9 @@ namespace XenAdmin.Actions
             MarkCompleted();
         }
 
-        void archiveIterator_CurrentFileExtractProgressChanged(object sender, ExtractProgressChangedEventArgs e)
+        void archiveIterator_CurrentFileExtractProgressChanged(long bytesTransferred, long totalBytesToTransfer)
         {
-            int pc = downloadUpdate ? 95 + (int)(5.0 * e.BytesTransferred / e.TotalBytesToTransfer) : (int)(100.0 * e.BytesTransferred / e.TotalBytesToTransfer);
+            int pc = downloadUpdate ? 95 + (int)(5.0 * bytesTransferred / totalBytesToTransfer) : (int)(100.0 * bytesTransferred / totalBytesToTransfer);
             PercentComplete = pc;
         }
 

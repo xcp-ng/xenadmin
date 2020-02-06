@@ -38,7 +38,7 @@ namespace XenAPI
 {
     // Note that the Role object represents both the high-level roles (such as "VM Operator" etc.)
     // and their subroles, i.e., the individual calls they are allowed to make (such as "vm.create").
-    public partial class Role : IComparable<Role>
+    public partial class Role
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public const string MR_ROLE_READ_ONLY = "read-only";
@@ -50,7 +50,12 @@ namespace XenAPI
 
         public string FriendlyName()
         {
-            return FriendlyNameManager.GetFriendlyName(String.Format("Role.{0}.NameLabel", this.name_label.ToLowerInvariant()));
+            return FriendlyNameManager.GetFriendlyName(string.Format("Role.{0}.NameLabel", name_label.ToLowerInvariant()));
+        }
+
+        public static string FriendlyName(string role)
+        {
+            return FriendlyNameManager.GetFriendlyName(string.Format("Role.{0}.NameLabel", role.ToLowerInvariant()));
         }
 
         public string FriendlyDescription()

@@ -65,7 +65,9 @@ namespace XenAdmin.Actions
         {
             int count = toAdd.Count + toRemove.Count;
             int done = 0;
-            log.DebugFormat("Adding {0} roles on subject '{1}'", toAdd.Count, (subject.DisplayName ?? subject.SubjectName ?? subject.subject_identifier).Ellipsise(50));
+            var subj = subject.DisplayName ?? subject.SubjectName ?? subject.subject_identifier;
+
+            log.DebugFormat("Adding {0} roles on subject '{1}'.", toAdd.Count, subj);
             foreach (Role r in toAdd)
             {
                 Subject.add_to_roles(Session, subject.opaque_ref, r.opaque_ref);
@@ -73,7 +75,7 @@ namespace XenAdmin.Actions
                 PercentComplete = (100 * done) / count;  
             }
 
-            log.DebugFormat("Removing {0} roles on subject '{1}'", toRemove.Count, (subject.DisplayName ?? subject.SubjectName ?? subject.subject_identifier).Ellipsise(50));
+            log.DebugFormat("Removing {0} roles on subject '{1}'.", toRemove.Count, subj);
             foreach (Role r in toRemove)
             {
                 Subject.remove_from_roles(Session, subject.opaque_ref, r.opaque_ref);

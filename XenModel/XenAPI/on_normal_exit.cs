@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,15 @@ namespace XenAPI
     [JsonConverter(typeof(on_normal_exitConverter))]
     public enum on_normal_exit
     {
-        destroy, restart, unknown
+        /// <summary>
+        /// destroy the VM state
+        /// </summary>
+        destroy,
+        /// <summary>
+        /// restart the VM
+        /// </summary>
+        restart,
+        unknown
     }
 
     public static class on_normal_exit_helper
@@ -71,4 +78,4 @@ namespace XenAPI
             writer.WriteValue(((on_normal_exit)value).StringOf());
         }
     }
-}
+}

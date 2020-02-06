@@ -51,11 +51,25 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
         protected override void RunWithSession(ref Session session)
         {
             string hostVersionBefore = CurrentHost.LongProductVersion();
-            log.InfoFormat("Host '{0}' upgrading from version '{1}'", CurrentHost.Name(), hostVersionBefore);
+
+            string productVersion = null;
+            try
+            {
+                var result = Host.call_plugin(session, HostXenRef.opaque_ref, "prepare_host_upgrade.py", "getVersion", _arguments);
+                var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                var version = (Dictionary<string, object>)serializer.DeserializeObject(result);
+                productVersion = version.ContainsKey("product-version") ? (string)version["product-version"] : null;
+            }
+            catch (Exception exception)
+            {
+                log.WarnFormat("Exception while trying to get the upgrade version: {0}", exception.Message);
+            }
+             
+            log.InfoFormat("Host '{0}' upgrading from version '{1}' to version '{2}'", CurrentHost.Name(), hostVersionBefore, productVersion ?? "unknown");
 
             string value = Host.call_plugin(session, HostXenRef.opaque_ref, "prepare_host_upgrade.py", "main", _arguments);
             if (value.ToLower() == "true")
-                Upgrade(ref session);
+                Upgrade(ref session, productVersion);
             else
                 throw new Exception(value);
 

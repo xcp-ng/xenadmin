@@ -2,9 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="XenOvfTransport.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="p2vTemplate" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">XenServer P2V (Orela) Server</Value>
-    </Setting>
     <Setting Name="xenP2VDiskName" Type="System.String" Scope="Application">
       <Value Profile="(Default)">P2V Automatically created.</Value>
     </Setting>
@@ -28,9 +25,6 @@
     </Setting>
     <Setting Name="xenISOTools" Type="System.String" Scope="Application">
       <Value Profile="(Default)">/var/opt/xen/iso_import</Value>
-    </Setting>
-    <Setting Name="xenTools" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">XenServer Tools</Value>
     </Setting>
     <Setting Name="XenFixupLabel" Type="System.String" Scope="Application">
       <Value Profile="(Default)">xenserver-linuxfixup-disk.iso</Value>
@@ -65,9 +59,6 @@
     </Setting>
     <Setting Name="iSCSITransferVM" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Transfer VM for VDI {0}</Value>
-    </Setting>
-    <Setting Name="iSCSITransferVMName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">XenServer Transfer</Value>
     </Setting>
     <Setting Name="TransferType" Type="System.String" Scope="Application">
       <Value Profile="(Default)">iSCSI</Value>
@@ -121,6 +112,15 @@
     </Setting>
     <Setting Name="FixupPollTimeAsMs" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="p2vTemplate" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">[XenServer product] P2V (Orela) Server</Value>
+    </Setting>
+    <Setting Name="xenTools" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">[Citrix VM Tools]</Value>
+    </Setting>
+    <Setting Name="iSCSITransferVMName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">[XenServer product] Transfer</Value>
     </Setting>
   </Settings>
 </SettingsFile>

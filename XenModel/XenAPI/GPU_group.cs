@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class GPU_group : XenObject<GPU_group>
     {
+        #region Constructors
+
         public GPU_group()
         {
         }
@@ -73,13 +75,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new GPU_group from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public GPU_group(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new GPU_group from a Proxy_GPU_group.
         /// </summary>
         /// <param name="proxy"></param>
         public GPU_group(Proxy_GPU_group proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -99,7 +115,7 @@ namespace XenAPI
             enabled_VGPU_types = update.enabled_VGPU_types;
         }
 
-        internal void UpdateFromProxy(Proxy_GPU_group proxy)
+        internal void UpdateFrom(Proxy_GPU_group proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -127,17 +143,6 @@ namespace XenAPI
             result_.supported_VGPU_types = supported_VGPU_types == null ? new string[] {} : Helper.RefListToStringArray(supported_VGPU_types);
             result_.enabled_VGPU_types = enabled_VGPU_types == null ? new string[] {} : Helper.RefListToStringArray(enabled_VGPU_types);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new GPU_group from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public GPU_group(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

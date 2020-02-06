@@ -41,7 +41,6 @@ namespace XenAdmin.Actions
     /// </summary>
     public class InstallPVToolsAction : AsyncAction
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly bool _searchHiddenIsOs;
 
         public InstallPVToolsAction(VM vm, bool searchHiddenISOs)

@@ -32,6 +32,7 @@
 using System;
 using XenAPI;
 using System.Collections.Generic;
+using System.Net;
 
 
 namespace XenAdmin.Network
@@ -46,18 +47,18 @@ namespace XenAdmin.Network
         bool ExpectDisruption { get; set; }
         int Port { get; set; }
         string FriendlyName { get; set; }
-        event EventHandler<EventArgs> BeforeConnectionEnd;
         bool CacheIsPopulated { get; }
-        event EventHandler<EventArgs> CachePopulated;
-        event EventHandler<EventArgs> ClearingCache;
-        event EventHandler<EventArgs> ConnectionClosed;
-        event EventHandler<EventArgs> ConnectionLost;
-        event EventHandler<EventArgs> ConnectionReconnecting;
+        event Action<IXenConnection> CachePopulated;
+        event Action<IXenConnection> ClearingCache;
+        event Action<IXenConnection> BeforeConnectionEnd;
+        event Action<IXenConnection> ConnectionClosed;
+        event Action<IXenConnection> ConnectionLost;
+        event Action<IXenConnection> ConnectionReconnecting;
         event EventHandler<ConnectionResultEventArgs> ConnectionResult;
-        event EventHandler<EventArgs> ConnectionStateChanged;
-        event EventHandler<ConnectionMessageChangedEventArgs> ConnectionMessageChanged;
-        event EventHandler<ConnectionMajorChangeEventArgs> BeforeMajorChange;
-        event EventHandler<ConnectionMajorChangeEventArgs> AfterMajorChange;
+        event Action<IXenConnection> ConnectionStateChanged;
+        event Action<IXenConnection, string> ConnectionMessageChanged;
+        event Action<IXenConnection, bool> BeforeMajorChange;
+        event Action<IXenConnection, bool> AfterMajorChange;
         Session DuplicateSession();
         Session DuplicateSession(int timeout);
         void EndConnect(bool resetState = true, bool exiting = false);
@@ -65,7 +66,7 @@ namespace XenAdmin.Network
         Session Connect(string user, string password);
         List<string> PoolMembers { get; set; }
         void LoadCache(Session session);
-        bool SupressErrors { get; set; }
+        bool SuppressErrors { get; set; }
         bool MasterMayChange { get; set; }
         bool SaveDisconnected { get; set; }
         string HostnameWithPort { get; }
@@ -86,6 +87,7 @@ namespace XenAdmin.Network
         string UriScheme { get; }
         string Version { get; set; }
         event EventHandler<EventArgs> XenObjectsUpdated;
+        NetworkCredential NetworkCredential { get; set; }
 
         /// <summary>
         /// Try to logout the given session. This will cause any threads blocking on Event.next() to get
@@ -117,26 +119,6 @@ namespace XenAdmin.Network
             this.Connected = connected;
             this.Reason = reason;
             this.Error = error;
-        }
-    }
-
-    public class ConnectionMessageChangedEventArgs : EventArgs
-    {
-        public string Message;
-
-        public ConnectionMessageChangedEventArgs(string message)
-        {
-            this.Message = message;
-        }
-    }
-
-    public class ConnectionMajorChangeEventArgs : EventArgs
-    {
-        public bool Background;
-
-        public ConnectionMajorChangeEventArgs(bool background)
-        {
-            this.Background = background;
         }
     }
 }

@@ -68,7 +68,7 @@ namespace XenAdmin.Commands
             foreach (Host host in selection.AsXenObjects<Host>())
             {
                 string msg = string.Format(Messages.MAINWINDOW_LOG_REMOVECONNECTION, host.Connection.Hostname);
-                log.Info(msg);
+                log.Info($"Removed connection to {host.Connection.Hostname}");
                 new ActionBase(msg, msg, false, true);
                 MainWindowCommandInterface.CloseActiveWizards(host.Connection);
                 host.Connection.EndConnect();

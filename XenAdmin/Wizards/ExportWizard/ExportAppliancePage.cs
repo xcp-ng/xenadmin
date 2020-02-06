@@ -109,8 +109,11 @@ namespace XenAdmin.Wizards.ExportWizard
 
         protected override void PageLoadedCore(PageLoadedDirection direction)
 		{
-			if (direction == PageLoadedDirection.Forward)
-				PerformCheck(CheckPathValid);
+            if (direction == PageLoadedDirection.Forward)
+            {
+                m_textBoxFolderName.Text = Win32.GetKnownFolderPath(Win32.KnownFolders.Downloads);
+                PerformCheck(CheckPathValid);
+            }
 		}
 
         protected override void PageLeaveCore(PageLoadedDirection direction, ref bool cancel)
@@ -211,7 +214,7 @@ namespace XenAdmin.Wizards.ExportWizard
 			if (Directory.Exists(ApplianceDirectory))
 				return true;
 
-			error = Messages.EXPORT_APPLIANCE_PAGE_ERROR_NON_EXIST_DIR;
+			error = Messages.ERROR_DESTINATION_DIR_NON_EXIST;
 			return false;
 		}
 
@@ -234,7 +237,11 @@ namespace XenAdmin.Wizards.ExportWizard
 
 		private void m_buttonBrowse_Click(object sender, EventArgs e)
 		{
-            using (FolderBrowserDialog dlog = new FolderBrowserDialog { Description = Messages.FOLDER_BROWSER_EXPORT_APPLIANCE })
+            using (var dlog = new FolderBrowserDialog
+            {
+                Description = Messages.FOLDER_BROWSER_EXPORT_APPLIANCE,
+                SelectedPath = ApplianceDirectory
+            })
 			{
 				if (dlog.ShowDialog() == DialogResult.OK)
 					m_textBoxFolderName.Text = dlog.SelectedPath;

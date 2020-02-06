@@ -48,8 +48,6 @@ namespace XenAdmin.Commands
     /// </summary>
     internal class RemoveHostFromPoolCommand : Command
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         /// Initializes a new instance of this Command. The parameter-less constructor is required if 
         /// this Command is to be attached to a ToolStrip menu item or button. It should not be used in any other scenario.
@@ -129,12 +127,12 @@ namespace XenAdmin.Commands
             RunMultipleActions(actions, Messages.REMOVING_SERVERS_FROM_POOL, Messages.POOLCREATE_REMOVING, Messages.POOLCREATE_REMOVED, true);
         }
 
-        private static bool CanExecute(Host host)
+        public static bool CanExecute(Host host)
         {
-            if (host != null && host.Connection != null )
+            if (host != null && host.Connection != null)
             {
                 Pool pool = Helpers.GetPool(host.Connection);
-                return pool != null && host.resident_VMs != null && host.resident_VMs.Count < 2 && host.IsLive();
+                return pool != null && host.opaque_ref != pool.master && host.resident_VMs != null && host.resident_VMs.Count < 2 && host.IsLive();
             }
             return false;
         }
@@ -201,7 +199,7 @@ namespace XenAdmin.Commands
 
                     if (socket.Connected)
                     {
-                        MainWindowCommandInterface.Invoke(() => XenConnectionUI.BeginConnect(connection, false, null, false));
+                        MainWindowCommandInterface.Invoke(() => XenConnectionUI.BeginConnect(connection, false, Program.MainWindow, false));
                         return;
                     }
                     i++;

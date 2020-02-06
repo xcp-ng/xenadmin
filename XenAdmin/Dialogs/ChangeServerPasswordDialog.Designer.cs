@@ -52,8 +52,8 @@ namespace XenAdmin.Dialogs
             // 
             // oldPassBox
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.oldPassBox, 2);
             resources.ApplyResources(this.oldPassBox, "oldPassBox");
+            this.tableLayoutPanel1.SetColumnSpan(this.oldPassBox, 2);
             this.oldPassBox.Name = "oldPassBox";
             this.oldPassBox.UseSystemPasswordChar = true;
             this.oldPassBox.TextChanged += new System.EventHandler(this.oldPassBox_TextChanged);
@@ -65,16 +65,16 @@ namespace XenAdmin.Dialogs
             // 
             // newPassBox
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.newPassBox, 2);
             resources.ApplyResources(this.newPassBox, "newPassBox");
+            this.tableLayoutPanel1.SetColumnSpan(this.newPassBox, 2);
             this.newPassBox.Name = "newPassBox";
             this.newPassBox.UseSystemPasswordChar = true;
             this.newPassBox.TextChanged += new System.EventHandler(this.newPassBox_TextChanged);
             // 
             // confirmBox
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.confirmBox, 2);
             resources.ApplyResources(this.confirmBox, "confirmBox");
+            this.tableLayoutPanel1.SetColumnSpan(this.confirmBox, 2);
             this.confirmBox.Name = "confirmBox";
             this.confirmBox.UseSystemPasswordChar = true;
             this.confirmBox.TextChanged += new System.EventHandler(this.confirmBox_TextChanged);
@@ -103,24 +103,23 @@ namespace XenAdmin.Dialogs
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.ServerNameLabel, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.OldPasswordLabel, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.oldPassBox, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.NewPasswordLabel, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.newPassBox, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.RetypeNewPasswordLabel, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.confirmBox, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.OldPasswordLabel, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.oldPassBox, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.NewPasswordLabel, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.newPassBox, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.RetypeNewPasswordLabel, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.confirmBox, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.okButton, 1, 7);
             this.tableLayoutPanel1.Controls.Add(this.cancelButton, 2, 7);
-            this.tableLayoutPanel1.Controls.Add(this.currentPasswordError, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.newPasswordError, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.noteLabel, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.currentPasswordError, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.newPasswordError, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.noteLabel, 0, 1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // ServerNameLabel
             // 
             resources.ApplyResources(this.ServerNameLabel, "ServerNameLabel");
             this.tableLayoutPanel1.SetColumnSpan(this.ServerNameLabel, 3);
-            this.ServerNameLabel.MaximumSize = new System.Drawing.Size(367, 32000);
             this.ServerNameLabel.Name = "ServerNameLabel";
             // 
             // currentPasswordError

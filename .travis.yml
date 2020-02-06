@@ -1,0 +1,5 @@
+language: c
+script:
+  - bash ./devtools/copyrightcheck/copyrightcheck.sh
+  - bash ./devtools/i18ncheck/i18ncheck.sh
+  - bash ./devtools/spellcheck/spellcheck.sh

@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Vdi_nbd_server_info : XenObject<Vdi_nbd_server_info>
     {
+        #region Constructors
+
         public Vdi_nbd_server_info()
         {
         }
@@ -63,13 +65,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Vdi_nbd_server_info from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Vdi_nbd_server_info(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Vdi_nbd_server_info from a Proxy_Vdi_nbd_server_info.
         /// </summary>
         /// <param name="proxy"></param>
         public Vdi_nbd_server_info(Proxy_Vdi_nbd_server_info proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -84,7 +100,7 @@ namespace XenAPI
             subject = update.subject;
         }
 
-        internal void UpdateFromProxy(Proxy_Vdi_nbd_server_info proxy)
+        internal void UpdateFrom(Proxy_Vdi_nbd_server_info proxy)
         {
             exportname = proxy.exportname == null ? null : proxy.exportname;
             address = proxy.address == null ? null : proxy.address;
@@ -102,17 +118,6 @@ namespace XenAPI
             result_.cert = cert ?? "";
             result_.subject = subject ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Vdi_nbd_server_info from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Vdi_nbd_server_info(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

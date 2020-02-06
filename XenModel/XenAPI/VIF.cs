@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class VIF : XenObject<VIF>
     {
+        #region Constructors
+
         public VIF()
         {
         }
@@ -107,13 +109,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new VIF from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public VIF(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new VIF from a Proxy_VIF.
         /// </summary>
         /// <param name="proxy"></param>
         public VIF(Proxy_VIF proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -150,7 +166,7 @@ namespace XenAPI
             ipv6_gateway = update.ipv6_gateway;
         }
 
-        internal void UpdateFromProxy(Proxy_VIF proxy)
+        internal void UpdateFrom(Proxy_VIF proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             allowed_operations = proxy.allowed_operations == null ? null : Helper.StringArrayToEnumList<vif_operations>(proxy.allowed_operations);
@@ -212,17 +228,6 @@ namespace XenAPI
             result_.ipv6_addresses = ipv6_addresses;
             result_.ipv6_gateway = ipv6_gateway ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new VIF from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public VIF(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

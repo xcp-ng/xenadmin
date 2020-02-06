@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -61,6 +62,7 @@
     <Compile Include="Archive\ArchiveFactory.cs" />
     <Compile Include="Archive\TarArchiveIterator.cs" />
     <Compile Include="Archive\TarArchiveWriter.cs" />
+    <Compile Include="Archive\TarSanitization.cs" />
     <Compile Include="Archive\ZipArchiveIterator.cs" />
     <Compile Include="Archive\ZipArchiveWriter.cs" />
     <Compile Include="Compression\BZip2Streams.cs" />
@@ -74,7 +76,6 @@
     <Compile Include="EncryptionUtils.cs" />
     <Compile Include="ComparableAddress.cs" />
     <Compile Include="ComparableList.cs" />
-    <Compile Include="HelpString.cs" />
     <Compile Include="INotifyCollectionChanged.cs" />
     <Compile Include="LimitedStack.cs" />
     <Compile Include="LockFreeQueue.cs" />

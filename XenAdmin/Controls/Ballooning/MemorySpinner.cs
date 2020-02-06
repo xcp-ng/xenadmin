@@ -106,7 +106,7 @@ namespace XenAdmin.Controls.Ballooning
             decimal newValue;
             if (Units == "GB")
             {
-                newValue = (decimal)Util.ToGB(value, 1, RoundingBehaviour.Nearest);
+                newValue = (decimal)Util.ToGB(value, RoundingBehaviour.Nearest, 1);
             }
             else
             {
@@ -134,12 +134,12 @@ namespace XenAdmin.Controls.Ballooning
         public static void CalcGBRanges(double minBytes, double maxBytes, out double minGB, out double maxGB)
         {
             // Round ranges inwards to avoid bugs like CA-34487 and CA-34996
-            minGB = Util.ToGB(minBytes, 1, RoundingBehaviour.Up);
-            maxGB = Util.ToGB(maxBytes, 1, RoundingBehaviour.Down);
+            minGB = Util.ToGB(minBytes, RoundingBehaviour.Up, 1);
+            maxGB = Util.ToGB(maxBytes, RoundingBehaviour.Down, 1);
             if (minGB > maxGB)  // just in case...
             {
-                minGB = Util.ToGB(minBytes, 1, RoundingBehaviour.None);
-                maxGB = Util.ToGB(maxBytes, 1, RoundingBehaviour.None);
+                minGB = Util.ToGB(minBytes, RoundingBehaviour.None, 1);
+                maxGB = Util.ToGB(maxBytes, RoundingBehaviour.None, 1);
             }
         }
 

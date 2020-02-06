@@ -44,7 +44,8 @@ namespace XenAdmin.Actions.OVFActions
 		protected string m_tvmIpAddress;
 		protected string m_tvmSubnetMask;
 		protected string m_tvmGateway;
-		protected XenOvfTransportBase m_transportAction;
+
+        protected abstract XenOvfTransportBase TransportAction { get; }
 
         private const int SLEEP_TIME = 900;
         private const int MAX_ITERATIONS = 60 * 60 * 24 / SLEEP_TIME * 1000; //iterations in 24h
@@ -89,7 +90,7 @@ namespace XenAdmin.Actions.OVFActions
             InitialiseTicker();
 	    }
 
-		protected void UpdateHandler(XenOvfTranportEventArgs e)
+		protected void UpdateHandler(XenOvfTransportEventArgs e)
 		{
 			if (!string.IsNullOrEmpty(e.Message))
 				Description = e.Message;
@@ -104,8 +105,8 @@ namespace XenAdmin.Actions.OVFActions
 		{
 			Description = Messages.CANCELING;
 
-			if (m_transportAction != null)
-				m_transportAction.Cancel = true;
+            if (TransportAction != null)
+                TransportAction.Cancel = true;
 		}
 
 	    private void InitialiseTicker()

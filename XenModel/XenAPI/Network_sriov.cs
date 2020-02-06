@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Network_sriov : XenObject<Network_sriov>
     {
+        #region Constructors
+
         public Network_sriov()
         {
         }
@@ -63,13 +65,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Network_sriov from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Network_sriov(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Network_sriov from a Proxy_Network_sriov.
         /// </summary>
         /// <param name="proxy"></param>
         public Network_sriov(Proxy_Network_sriov proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -84,7 +100,7 @@ namespace XenAPI
             configuration_mode = update.configuration_mode;
         }
 
-        internal void UpdateFromProxy(Proxy_Network_sriov proxy)
+        internal void UpdateFrom(Proxy_Network_sriov proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             physical_PIF = proxy.physical_PIF == null ? null : XenRef<PIF>.Create(proxy.physical_PIF);
@@ -102,17 +118,6 @@ namespace XenAPI
             result_.requires_reboot = requires_reboot;
             result_.configuration_mode = sriov_configuration_mode_helper.ToString(configuration_mode);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Network_sriov from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Network_sriov(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

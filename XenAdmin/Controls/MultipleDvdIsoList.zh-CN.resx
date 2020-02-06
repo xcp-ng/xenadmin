@@ -253,7 +253,7 @@
     <value>False</value>
   </data>
   <data name="cdChanger1.ItemHeight" type="System.Int32, mscorlib">
-    <value>15</value>
+    <value>18</value>
   </data>
   <data name="cdChanger1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 5</value>

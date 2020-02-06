@@ -51,22 +51,31 @@ namespace XenCenterLib.Archive
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing){ }
 
-        public void CreateArchive( string pathToArchive )
+        public void CreateArchive(string pathToArchive, Action cancellingDelegate = null, Action<int> progressDelegate = null)
         {
-            if( !Directory.Exists(pathToArchive) )
-                throw new FileNotFoundException( "The path " + pathToArchive + " does not exist" );
+            if (!Directory.Exists(pathToArchive))
+                throw new FileNotFoundException("The path " + pathToArchive + " does not exist");
 
-            foreach (string filePath in Directory.GetFiles(pathToArchive, "*.*", SearchOption.AllDirectories))
+            var files = Directory.GetFiles(pathToArchive, "*.*", SearchOption.AllDirectories);
+            for (var i = 0; i < files.Length; i++)
             {
+                string filePath = files[i];
+                cancellingDelegate?.Invoke();
+
                 using (FileStream fs = File.OpenRead(filePath))
                 {
-                    Add(fs, CleanRelativePathName(pathToArchive, filePath), File.GetCreationTime(filePath));  
+                    Add(fs, CleanRelativePathName(pathToArchive, filePath), File.GetCreationTime(filePath));
+                    progressDelegate?.Invoke((int)50.0 * i / files.Length);
                 }
             }
 
-            foreach (string dirPath in Directory.GetDirectories(pathToArchive, "*.*", SearchOption.AllDirectories))
+            var directories = Directory.GetDirectories(pathToArchive, "*.*", SearchOption.AllDirectories);
+            for (var j = 0; j < directories.Length; j++)
             {
+                string dirPath = directories[j];
+                cancellingDelegate?.Invoke();
                 AddDirectory(CleanRelativePathName(pathToArchive, dirPath), Directory.GetCreationTime(dirPath));
+                progressDelegate?.Invoke(50 + (int)50.0 * j / directories.Length);
             }
         }
 

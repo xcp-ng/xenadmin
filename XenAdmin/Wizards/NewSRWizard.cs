@@ -49,6 +49,8 @@ namespace XenAdmin.Wizards
 {
     public partial class NewSRWizard : XenWizardBase
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         #region Wizard pages
         private readonly NewSrWizardNamePage xenTabPageSrName;
         private readonly CIFS_ISO xenTabPageCifsIso;

@@ -47,8 +47,6 @@ namespace XenOvfTransport
     public class Export : XenOvfTransportBase
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private static readonly log4net.ILog auditLog = log4net.LogManager.GetLogger("Audit");
-        private static readonly log4net.ILog traceLog = log4net.LogManager.GetLogger("Trace");
 
         private const long KB = 1024;
         private const long MB = (KB * 1024);
@@ -76,7 +74,7 @@ namespace XenOvfTransport
                 string ovffilename = Path.Combine(targetPath, string.Format(@"{0}.ovf", ovfname));
                 OVF.SaveAs(ovfEnv, ovffilename);
             }
-        	OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.ExportThreadComplete, "Export", Messages.COMPLETED_EXPORT));
+        	OnUpdate(new XenOvfTransportEventArgs(TransportStep.Export, Messages.COMPLETED_EXPORT));
             return ovfEnv;
         }
 
@@ -92,7 +90,7 @@ namespace XenOvfTransport
 
             try
             {
-                auditLog.DebugFormat("Export: {0}, {1}", ovfname, targetPath);
+                log.DebugFormat("Export: {0}, {1}", ovfname, targetPath);
 
                 #region GET VM Reference
                 XenRef<VM> vmRef = null;
@@ -112,13 +110,13 @@ namespace XenOvfTransport
 					{
 						List<XenRef<VM>> vmRefs = VM.get_by_name_label(xenSession, vmUuid);
 						vmRef = vmRefs[0];
-					    traceLog.DebugFormat("{0} VM(s) found by label {1}", vmRefs.Count, vmUuid);
+                        log.DebugFormat("{0} VM(s) found by label {1}", vmRefs.Count, vmUuid);
                         if (vmRefs.Count > 1)
                             log.WarnFormat("Only exporting FIRST VM with name {0}", vmUuid);
 					}
 					catch
 					{
-						log.ErrorFormat(Messages.ERROR_VM_NOT_FOUND, vmUuid);
+						log.ErrorFormat("Failed to find VM {0}.", vmUuid);
 						throw;
 					}
                 }
@@ -129,8 +127,8 @@ namespace XenOvfTransport
                 if (vm.power_state != vm_power_state.Halted && vm.power_state != vm_power_state.Suspended)
                 {
                 	var message = string.Format(Messages.ERROR_VM_NOT_HALTED, vm.Name());
-                	OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.ExportProgress, "Export", message));
-                    log.Info(message);
+                	OnUpdate(new XenOvfTransportEventArgs(TransportStep.Export, message));
+                    log.Info($"VM {vm.Name()} ({vmRef.opaque_ref}) is neither halted nor suspended.");
                     throw new Exception(message);
                 }
 
@@ -259,7 +257,7 @@ namespace XenOvfTransport
                         }
                         catch (Exception ex)
                         {
-                            log.InfoFormat("Export: VBD Skipped: {0}: {1}", vbdref, ex.Message);
+                            log.Info($"Export: VBD {vbdref} Skipped.", ex);
                         }
                     }
                 }
@@ -336,9 +334,9 @@ namespace XenOvfTransport
                     OVF.AddOtherSystemSettingData(ovfEnv, vsId, "VM_has_vendor_device", vm.has_vendor_device.ToString(), OVF.GetContentMessage("OTHER_SYSTEM_SETTING_DESCRIPTION_1"));
                 }
 
-                if (vm.VGPUs.Count != 0)
+                foreach(XenRef<VGPU> gpuRef in vm.VGPUs)
                 {
-                    VGPU vgpu = VGPU.get_record(xenSession, vm.VGPUs[0]);
+                    VGPU vgpu = VGPU.get_record(xenSession, gpuRef);
 
                     if (vgpu != null)
                     {
@@ -352,7 +350,7 @@ namespace XenOvfTransport
                                             : string.Join(";", vgpuGroup.GPU_types));
                         sb.AppendFormat("VGPU_type_vendor_name={0};", vgpuType.vendor_name ?? "");
                         sb.AppendFormat("VGPU_type_model_name={0};", vgpuType.model_name ?? "");
-                        OVF.AddOtherSystemSettingData(ovfEnv, vsId, "vgpu", sb.ToString(), OVF.GetContentMessage("OTHER_SYSTEM_SETTING_DESCRIPTION_4"));
+                        OVF.AddOtherSystemSettingData(ovfEnv, vsId, "vgpu", sb.ToString(), OVF.GetContentMessage("OTHER_SYSTEM_SETTING_DESCRIPTION_4"), true);
                     }
                 }
 
@@ -393,7 +391,7 @@ namespace XenOvfTransport
             {
 				if (ex is OperationCanceledException)
 					throw;
-                log.Error(Messages.ERROR_EXPORT_FAILED);
+                log.Error("Export failed", ex);
                 throw new Exception(Messages.ERROR_EXPORT_FAILED, ex);
             }
             return ovfEnv;
@@ -428,11 +426,11 @@ namespace XenOvfTransport
                                            label, uuid, Thread.CurrentThread.ManagedThreadId);
                         }
 
-                        OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.MarqueeOn, "Export", string.Format(Messages.FILES_TRANSPORT_SETUP, uuid + ".vhd")));
+                        OnUpdate(new XenOvfTransportEventArgs(TransportStep.Export, string.Format(Messages.FILES_TRANSPORT_SETUP, uuid + ".vhd")));
 						
                         using (Stream source = m_iscsi.Connect(XenSession, uuid, true))
                         {
-                            OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.MarqueeOff, "Export", ""));
+                            OnUpdate(new XenOvfTransportEventArgs(TransportStep.Export, ""));
                             using (FileStream fs = new FileStream(destinationFilename, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None))
                             {
                                 // Create a geometry to give to DiscUtils.Vhd.Disk.InitializeDynamic() just so it doesn't override capacity
@@ -459,15 +457,13 @@ namespace XenOvfTransport
 						if (ex is OperationCanceledException)
 							throw;
                         var msg = string.Format(Messages.ISCSI_COPY_ERROR, destinationFilename);
-                        log.Error(msg);
-                        OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.Failure, "Export", msg, ex));
+                        log.Error($"Failed to transfer virtual disk {destinationFilename}", ex);
                         throw new Exception(msg, ex);
                     }
                     finally
                     {
-                        OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.MarqueeOn, "Export", string.Format(Messages.FILES_TRANSPORT_CLEANUP, uuid + ".vhd")));
+                        OnUpdate(new XenOvfTransportEventArgs(TransportStep.Export, string.Format(Messages.FILES_TRANSPORT_CLEANUP, uuid + ".vhd")));
 						m_iscsi.Disconnect(XenSession);
-                        OnUpdate(new XenOvfTranportEventArgs(XenOvfTranportEventType.MarqueeOff, "Export", ""));
                     }
                 }
             }
@@ -477,7 +473,7 @@ namespace XenOvfTransport
             }
         }
 
-		private void iscsi_UpdateHandler(XenOvfTranportEventArgs e)
+		private void iscsi_UpdateHandler(XenOvfTransportEventArgs e)
 		{
 			OnUpdate(e);
 		}

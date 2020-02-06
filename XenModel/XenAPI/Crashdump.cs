@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class Crashdump : XenObject<Crashdump>
     {
+        #region Constructors
+
         public Crashdump()
         {
         }
@@ -61,13 +63,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Crashdump from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Crashdump(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Crashdump from a Proxy_Crashdump.
         /// </summary>
         /// <param name="proxy"></param>
         public Crashdump(Proxy_Crashdump proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -81,7 +97,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_Crashdump proxy)
+        internal void UpdateFrom(Proxy_Crashdump proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             VM = proxy.VM == null ? null : XenRef<VM>.Create(proxy.VM);
@@ -97,17 +113,6 @@ namespace XenAPI
             result_.VDI = VDI ?? "";
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Crashdump from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Crashdump(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

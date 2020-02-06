@@ -41,23 +41,17 @@ namespace XenAdmin.Actions
     public class VbdSaveAndPlugAction : AsyncAction
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly Action _ShowMustRebootBoxCD;
-        private readonly Action _ShowVBDWarningBox;
-        private readonly XenAPI.VBD vbd;
 
-        private bool InstallingTools = false;
+        private readonly VBD vbd;
 
-        public VbdSaveAndPlugAction(VM vm, XenAPI.VBD vbd, string vdiName, XenAPI.Session session, bool installingTools, bool supress, Action showMustRebootBoxCD, Action showVBDWarningBox)
-            : this(vm, vbd, vdiName, session, supress,showMustRebootBoxCD,showVBDWarningBox)
+        /// <summary>
+        /// Subscribe to this even unless installing tools
+        /// </summary>
+        public event Action<string> ShowUserInstruction;
+
+        public VbdSaveAndPlugAction(VM vm, VBD vbd, string vdiName, Session session, bool suppress)
+            : base(vm.Connection, string.Format(Messages.ATTACHING_VIRTUAL_DISK, vdiName, vm.Name()), "", suppress)
         {
-            InstallingTools = installingTools;
-        }
-
-        public VbdSaveAndPlugAction(VM vm, XenAPI.VBD vbd, string vdiName, XenAPI.Session session, bool supress, Action showMustRebootBoxCD, Action showVBDWarningBox)
-            : base(vm.Connection, string.Format(Messages.ATTACHING_VIRTUAL_DISK, vdiName, vm.Name()), "", supress)
-        {
-            _ShowVBDWarningBox = showVBDWarningBox;
-            _ShowMustRebootBoxCD = showMustRebootBoxCD;
             VM = vm;
             this.vbd = vbd;
             // Preserve existing session if provided.
@@ -82,7 +76,7 @@ namespace XenAdmin.Actions
 
             // Then if we can plug the vbd in, do so...
             if (vbdServerRef != null && 
-                XenAPI.VBD.get_allowed_operations(Session, vbdServerRef).Contains(XenAPI.vbd_operations.plug))
+                VBD.get_allowed_operations(Session, vbdServerRef).Contains(vbd_operations.plug))
             {
 
                 log.DebugFormat("Attempting to hot plug VBD {0}.", vbd.uuid);
@@ -92,23 +86,13 @@ namespace XenAdmin.Actions
             }
             else
             {
-                XenAPI.VM vm = this.Connection.Resolve<XenAPI.VM>(vbd.VM);
-                if (vm != null && vm.power_state != XenAPI.vm_power_state.Halted)
+                VM vm = this.Connection.Resolve(vbd.VM);
+                if (vm != null && vm.power_state != vm_power_state.Halted)
                 {
-                    if (InstallingTools)
-                    {
-                        //Program.Invoke(Program.MainWindow, ShowMustRebootBox);
-                        // this is now done inside InstallToolsCommand
-                    }
-                    else if (vbd.type == XenAPI.vbd_type.CD)
-                    {
-                        _ShowMustRebootBoxCD();
-                    }
+                    if (vbd.type == vbd_type.CD)
+                        ShowUserInstruction?.Invoke(Messages.NEW_DVD_DRIVE_REBOOT);
                     else
-                    {
-                        // Plug could not happen straight away: show warning.
-                        _ShowVBDWarningBox();
-                    }
+                        ShowUserInstruction?.Invoke(Messages.NEWDISKWIZARD_MESSAGE);
                 }
             }
         }

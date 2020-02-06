@@ -40,6 +40,7 @@ using XenAPI;
 
 using XenOvf;
 using XenOvf.Definitions;
+using XenOvfTransport;
 
 namespace XenAdmin.Actions.OVFActions
 {
@@ -60,6 +61,7 @@ namespace XenAdmin.Actions.OVFActions
 		private readonly bool m_compressOVFfiles;
         private readonly bool m_shouldVerify;
 		private OvfCompressor m_compressor;
+        private Export m_transportAction;
 
 		#endregion
 
@@ -88,6 +90,8 @@ namespace XenAdmin.Actions.OVFActions
 				VM = m_vmsToExport.First();
 		}
 
+        protected override XenOvfTransportBase TransportAction => m_transportAction;
+
 		protected override void Run()
 		{
             base.Run();
@@ -108,14 +112,14 @@ namespace XenAdmin.Actions.OVFActions
 			EnvelopeType env;
 			try
 			{
-				m_transportAction = new XenOvfTransport.Export(uri, session)
+                m_transportAction = new Export(uri, session)
 				                    	{
 				                    		UpdateHandler = UpdateHandler,
 				                    		ShouldVerifyDisks = m_shouldVerify,
 				                    		Cancel = Cancelling //in case the Cancel button has already been pressed
 				                    	};
 				m_transportAction.SetTvmNetwork(m_networkUuid, m_isTvmIpStatic, m_tvmIpAddress, m_tvmSubnetMask, m_tvmGateway);
-				env = (m_transportAction as XenOvfTransport.Export).Process(appFolder, m_applianceFileName, (from VM vm in m_vmsToExport select vm.uuid).ToArray());
+                env = m_transportAction.Process(appFolder, m_applianceFileName, (from VM vm in m_vmsToExport select vm.uuid).ToArray());
 				PercentComplete = 60;
 			}
 			catch (OperationCanceledException)

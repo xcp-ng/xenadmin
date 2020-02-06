@@ -31,6 +31,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 using XenAdmin.Core;
@@ -95,16 +96,27 @@ namespace XenAdmin.Actions
             log.DebugFormat("Setting ha_host_failures_to_tolerate to {0}", failuresToTolerate);
             XenAPI.Pool.set_ha_host_failures_to_tolerate(this.Session, Pool.opaque_ref, failuresToTolerate);
 
-            List<XenRef<SR>> refs = new List<XenRef<SR>>();
-            foreach (SR sr in heartbeatSRs)
+            var refs = heartbeatSRs.Select(sr => new XenRef<SR>(sr.opaque_ref)).ToList();
+
+            try
             {
-                refs.Add(new XenRef<SR>(sr.opaque_ref));
+                log.Debug("Enabling HA for pool " + Pool.Name());
+                // NB the line below also performs a pool db sync
+                RelatedTask = XenAPI.Pool.async_enable_ha(this.Session, refs, new Dictionary<string, string>());
+                PollToCompletion(15, 100);
+                log.Debug("Success enabling HA on pool " + Pool.Name());
             }
-            log.Debug("Enabling HA for pool " + Pool.Name());
-            // NB the line below also performs a pool db sync
-            RelatedTask = XenAPI.Pool.async_enable_ha(this.Session, refs, new Dictionary<string, string>());
-            PollToCompletion(15, 100);
-            log.Debug("Success enabling HA on pool " + Pool.Name());
+            catch (Failure f)
+            {
+                if (f.ErrorDescription.Count > 1 && f.ErrorDescription[0] == "VDI_NOT_AVAILABLE")
+                {
+                    var vdi = Connection.Resolve(new XenRef<VDI>(f.ErrorDescription[1]));
+                    if (vdi != null)
+                        throw new Failure(string.Format(FriendlyErrorNames.VDI_NOT_AVAILABLE, vdi.uuid));
+                }
+
+                throw;
+            }
 
             this.Description = Messages.COMPLETED;
         }

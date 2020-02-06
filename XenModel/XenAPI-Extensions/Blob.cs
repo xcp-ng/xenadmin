@@ -41,8 +41,6 @@ namespace XenAPI
 
         public void Save(Stream inStream, Session session)
         {
-            //Program.AssertOffEventThread();
-
             if (session == null)
                 throw new IOException();
             UriBuilder uri = new UriBuilder();
@@ -53,16 +51,14 @@ namespace XenAPI
             uri.Query = String.Format("ref={0}&session_id={1}",
                 opaque_ref, Uri.EscapeDataString(session.opaque_ref));
 
-            using (Stream outStream = HTTPHelper.PUT(uri.Uri, inStream.Length, true, true))
+            using (Stream outStream = HTTPHelper.PUT(uri.Uri, inStream.Length, true))
             {
-                HTTP.CopyStream(inStream, outStream, null, delegate() { return XenAdminConfigManager.Provider.ForcedExiting; });
+                HTTP.CopyStream(inStream, outStream, null, () => XenAdminConfigManager.Provider.ForcedExiting);
             }
         }
 
         public Stream Load()
         {
-            //Program.AssertOffEventThread();
-
             Session session = Connection.Session;
             if (session == null)
                 throw new IOException();
@@ -74,7 +70,7 @@ namespace XenAPI
             uri.Query = String.Format("ref={0}&session_id={1}",
                 opaque_ref, Uri.EscapeDataString(session.opaque_ref));
 
-            return HTTPHelper.GET(uri.Uri, Connection, true, true);
+            return HTTPHelper.GET(uri.Uri, Connection, true);
         }
     }
 }

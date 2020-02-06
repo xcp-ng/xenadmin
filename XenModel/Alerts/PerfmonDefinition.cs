@@ -274,8 +274,7 @@ namespace XenAdmin.Alerts
                     }
                     catch (Exception e)
                     {
-                        log.DebugFormat("Exception unmarshalling perfmon definition '{0}'", node.OuterXml);
-                        log.Debug(e, e);
+                        log.Debug($"Exception unmarshalling perfmon definition '{node.OuterXml}'", e);
                     }
                 }
 

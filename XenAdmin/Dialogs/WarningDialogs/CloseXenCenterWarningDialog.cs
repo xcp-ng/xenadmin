@@ -44,17 +44,13 @@ namespace XenAdmin.Dialogs.WarningDialogs
 {
     public partial class CloseXenCenterWarningDialog : XenDialogBase
     {
-        public CloseXenCenterWarningDialog()
-            : this(null)
-        {}
-
-        public CloseXenCenterWarningDialog(IXenConnection connection)
+        public CloseXenCenterWarningDialog(IXenConnection connection = null)
+            :base(connection)
         {
             InitializeComponent();
 
             if (connection != null)
             {
-                this.connection = connection;
                 label2.Text = String.Format(Messages.DISCONNECT_WARNING, Helpers.GetName(connection).Ellipsise(50));
                 ExitButton.Text = Messages.DISCONNECT_ANYWAY;
                 DontExitButton.Text = Messages.DISCONNECT_CANCEL;
@@ -64,13 +60,7 @@ namespace XenAdmin.Dialogs.WarningDialogs
             BuildList();
         }
 
-        internal override string HelpName
-        {
-            get
-            {
-                return connection == null ? Name : "DisconnectServerWarningDialog";
-            }
-        }
+        internal override string HelpName => connection == null ? Name : "DisconnectServerWarningDialog";
 
         private void BuildList()
         {

@@ -36,6 +36,7 @@ using System.Security.Cryptography.X509Certificates;
 
 using XenAdmin.Core;
 using XenAdmin.Dialogs;
+using XenAdmin.Dialogs.RestoreSession;
 using XenAdmin.Network;
 using System.Configuration;
 using XenCenterLib;
@@ -350,16 +351,11 @@ namespace XenAdmin
             // close the splash screen before opening the password dialog (the dialog comes up behind the splash screen)
             Program.CloseSplash();
 
-            LoadSessionDialog dialog = new LoadSessionDialog(isRetry);
-            dialog.ShowDialog(Program.MainWindow);
-            if (dialog.DialogResult == DialogResult.OK)
-            {
-                return dialog.PasswordHash;
-            }
-            else
-            {
-                return null;
-            }
+            using (var dialog = new LoadSessionDialog(isRetry))
+                if (dialog.ShowDialog(Program.MainWindow) == DialogResult.OK)
+                    return dialog.PasswordHash;
+
+            return null;
         }
 
         /// <summary>
@@ -417,8 +413,7 @@ namespace XenAdmin
                     dlg.ShowDialog(Program.MainWindow);
                 }
 
-                log.Error("Could not save settings. Exiting application.");
-                log.Error(ex, ex);
+                log.Error("Could not save settings. Exiting application.", ex);
                 Application.Exit();
             }
 
@@ -519,6 +514,28 @@ namespace XenAdmin
                 Properties.Settings.Default.ServerHistory = history;
                 TrySaveSettings();
             }
+        }
+
+        public static AutoCompleteStringCollection GetVMwareServerHistory()
+        {
+            if (Properties.Settings.Default.VMwareServerHistory == null)
+                Properties.Settings.Default.VMwareServerHistory = new AutoCompleteStringCollection();
+
+            return Properties.Settings.Default.VMwareServerHistory;
+        }
+
+        public static void UpdateVMwareServerHistory(string server)
+        {
+            var history = GetVMwareServerHistory();
+            if (history.Contains(server))
+                return;
+
+            while (history.Count >= 20)
+                history.RemoveAt(0);
+
+            history.Add(server);
+            Properties.Settings.Default.VMwareServerHistory = history;
+            TrySaveSettings();
         }
 
         /// <summary>

@@ -47,8 +47,6 @@ namespace XenAdmin.TabPages
 {
     public partial class HistoryPage : NotificationsBasePage
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private const int MAX_HISTORY_ITEM = 1000;
 
         internal event Action<IXenObject> GoToXenObjectRequested;
@@ -57,6 +55,8 @@ namespace XenAdmin.TabPages
         {
             InitializeComponent();
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            toolStripDdbFilterStatus.ImplementsQueued = false;
+            toolStripDdbFilterStatus.ImplementsIncomplete = false;
             dataGridView.Sort(columnDate, ListSortDirection.Descending);
             toolStripTop.Renderer = new CustomToolStripRenderer();
             toolStripSplitButtonDismiss.DefaultItem = tsmiDismissAll;
@@ -85,6 +85,9 @@ namespace XenAdmin.TabPages
             foreach (var action in ConnectionsManager.History)
                 DeregisterActionEvents(action);
         }
+
+        public override string HelpID => "EventsPane";
+
         #endregion
 
         private void Action_NewAction(ActionBase action)

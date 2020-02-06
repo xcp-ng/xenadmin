@@ -160,9 +160,9 @@ namespace XenAdmin.Wizards.NewVMWizard
                 existingConfig = result;
                 errorRetrievingConfigParameters = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                log.Warn("Could not get the config drive parameters");
+                log.Warn("Could not get the config drive parameters.", ex);
                 errorRetrievingConfigParameters = true;
             }
         }

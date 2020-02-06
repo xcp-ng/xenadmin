@@ -63,8 +63,7 @@ namespace XenAdmin.Dialogs.Wlb
         // Due to localization, changed email regex from @"^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)*[A-Z0-9-]+$" 
         // to match anything with an @ sign in the middle
         private static readonly Regex emailRegex = new Regex(@"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*", RegexOptions.IgnoreCase);
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        
         #endregion
 
 

@@ -37,7 +37,6 @@ using System.Windows.Forms;
 using XenAdmin.Actions;
 using XenAdmin.Core;
 using XenAdmin.Dialogs;
-using XenAdmin.Network;
 using XenAPI;
 using XenAdmin.Actions.VMActions;
 
@@ -235,36 +234,49 @@ namespace XenAdmin.Commands
                     return;
                 }
 
-                IXenConnection connection = vm.Connection;
-                Session session = connection.DuplicateSession();
-                if (session != null)
+                var connection = vm.Connection;
+                Session session;
+                try
                 {
-                    var reasons = new Dictionary<IXenObject, string>();
-
-                    foreach (Host host in connection.Cache.Hosts)
-                    {
-                        reasons[host] = string.Empty;
-                        if (!isStart && VMOperationHostCommand.VmCpuFeaturesIncompatibleWithHost(host, vm))
-                        {
-                            reasons[host] = FriendlyErrorNames.VM_INCOMPATIBLE_WITH_THIS_HOST;
-                            continue;
-                        }
-                        try
-                        {
-                            VM.assert_can_boot_here(session, vm.opaque_ref, host.opaque_ref);
-                        }
-                        catch (Failure failure)
-                        {
-                            reasons[host] = failure.Message;
-                        }
-                    }
-
-                    Program.Invoke(Program.MainWindow, () =>
-                    {
-                        using (var dialog = new CommandErrorDialog(title, text, reasons))
-                            dialog.ShowDialog(Program.MainWindow);
-                    });
+                    session = connection.DuplicateSession();
+                    if (session == null)
+                        return;
                 }
+                catch (Exception)
+                {
+                    return;
+                }
+
+                var reasons = new Dictionary<IXenObject, string>();
+
+                foreach (Host host in connection.Cache.Hosts)
+                {
+                    reasons[host] = string.Empty;
+                    if (!isStart && VMOperationHostCommand.VmCpuIncompatibleWithHost(host, vm))
+                    {
+                        reasons[host] = FriendlyErrorNames.VM_INCOMPATIBLE_WITH_THIS_HOST;
+                        continue;
+                    }
+                    try
+                    {
+                        VM.assert_can_boot_here(session, vm.opaque_ref, host.opaque_ref);
+                    }
+                    catch (Failure failure)
+                    {
+                        reasons[host] = failure.Message;
+                    }
+                    catch (Exception e)
+                    {
+                        log.ErrorFormat("There was an error calling assert_can_boot_here on host {0}: {1}", host.Name(), e.Message);
+                        reasons[host] = Messages.HOST_MENU_UNKNOWN_ERROR;
+                    }
+                }
+
+                Program.Invoke(Program.MainWindow, () =>
+                {
+                    using (var dialog = new CommandErrorDialog(title, text, reasons))
+                        dialog.ShowDialog(Program.MainWindow);
+                });
             });
         }
 

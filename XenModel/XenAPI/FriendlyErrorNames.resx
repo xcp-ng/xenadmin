@@ -628,7 +628,7 @@
     <value>The value &apos;{1}&apos; is invalid for field &apos;{0}&apos;.</value>
   </data>
   <data name="IS_TUNNEL_ACCESS_PIF" xml:space="preserve">
-    <value>You tried to create a VLAN or tunnel on top of a tunnel access PIF - use the underlying transport PIF instead.</value>
+    <value>Cannot create a VLAN or tunnel on top of a tunnel access PIF - use the underlying transport PIF instead.</value>
   </data>
   <data name="JOINING_HOST_CANNOT_BE_MASTER_OF_OTHER_HOSTS" xml:space="preserve">
     <value>The server joining the pool cannot already be a master of another pool.</value>
@@ -790,7 +790,7 @@
     <value>No other cluster host was reachable when joining</value>
   </data>
   <data name="NO_COMPATIBLE_CLUSTER_HOST" xml:space="preserve">
-    <value>The host does not have a Cluster_host with a compatible cluster stack.</value>
+    <value>Clustering is not enabled on this host or pool.</value>
   </data>
   <data name="NO_HOSTS_AVAILABLE" xml:space="preserve">
     <value>There were no servers available to complete the specified operation.</value>
@@ -825,9 +825,6 @@
   <data name="OUT_OF_SPACE" xml:space="preserve">
     <value>There is not enough space to upload the update</value>
   </data>
-  <data name="PASSTHROUGH_NOT_ENABLED" xml:space="preserve">
-    <value>The passthrough_enabled must be true before passthrough usb to vm.</value>
-  </data>
   <data name="PATCH_ALREADY_APPLIED" xml:space="preserve">
     <value>The update {0} has already been applied</value>
   </data>
@@ -847,16 +844,16 @@
     <value>The Tools ISO must be ejected from all running VMs in the pool.</value>
   </data>
   <data name="PATCH_PRECHECK_FAILED_OUT_OF_SPACE" xml:space="preserve">
-    <value>The patch precheck stage failed: the server does not have enough space.</value>
+    <value>The patch pre-check stage failed: the server does not have enough space.</value>
   </data>
   <data name="PATCH_PRECHECK_FAILED_PREREQUISITE_MISSING" xml:space="preserve">
-    <value>The update precheck stage failed: prerequisite updates are missing.</value>
+    <value>The update pre-check stage failed: prerequisite updates are missing.</value>
   </data>
   <data name="PATCH_PRECHECK_FAILED_UNKNOWN_ERROR" xml:space="preserve">
-    <value>The update precheck stage failed with an unknown error.</value>
+    <value>The update pre-check stage failed with an unknown error.</value>
   </data>
   <data name="PATCH_PRECHECK_FAILED_VM_RUNNING" xml:space="preserve">
-    <value>The update precheck stage failed: there are one or more VMs still running on the server.  All VMs must be shut down or suspended before the update can be applied.</value>
+    <value>The update pre-check stage failed: there are one or more VMs still running on the server.  All VMs must be shut down or suspended before the update can be applied.</value>
   </data>
   <data name="PATCH_PRECHECK_FAILED_WRONG_SERVER_BUILD" xml:space="preserve">
     <value>The current build number ({1}) is incompatible with the update build number ({2}).</value>
@@ -1104,7 +1101,7 @@ Authorized Roles: {1}</value>
     <value>The management interface on a slave cannot be disabled because the slave would enter emergency mode.</value>
   </data>
   <data name="SM_PLUGIN_COMMUNICATION_FAILURE" xml:space="preserve">
-    <value>The SM plugin did not respond to a query.</value>
+    <value>The SM plug-in did not respond to a query.</value>
   </data>
   <data name="SR_ATTACH_FAILED" xml:space="preserve">
     <value>Attaching this SR failed.</value>
@@ -1327,6 +1324,9 @@ Authorized Roles: {1}</value>
   </data>
   <data name="SR_BACKEND_FAILURE_203" xml:space="preserve">
     <value>An active FIST point was reached that causes the process to exit abnormally</value>
+  </data>
+  <data name="SR_BACKEND_FAILURE_204" xml:space="preserve">
+    <value>Gave up on leaf coalesce after leaf grew bigger than before snapshot taken</value>
   </data>
   <data name="SR_BACKEND_FAILURE_220" xml:space="preserve">
     <value>The device configuration request is missing the Location parameter</value>
@@ -1656,13 +1656,13 @@ Authorized Roles: {1}</value>
     <value>The attempt to discover the iSCSI target/device failed</value>
   </data>
   <data name="SR_BACKEND_FAILURE_84" xml:space="preserve">
-    <value>The iScsi target and received IQNs do not match</value>
+    <value>The iSCSI target and received IQNs do not match</value>
   </data>
   <data name="SR_BACKEND_FAILURE_85" xml:space="preserve">
     <value>The attempt to detach the iSCSI failed</value>
   </data>
   <data name="SR_BACKEND_FAILURE_86" xml:space="preserve">
-    <value>The attempt to query the iSCSi daemon failed</value>
+    <value>The attempt to query the iSCSI daemon failed</value>
   </data>
   <data name="SR_BACKEND_FAILURE_87" xml:space="preserve">
     <value>Either LUNid or LUNserial value must be provided</value>
@@ -1773,7 +1773,7 @@ Authorized Roles: {1}</value>
     <value>Retrieving system status from the server failed.</value>
   </data>
   <data name="TASK_CANCELLED" xml:space="preserve">
-    <value>The request was asynchronously cancelled.</value>
+    <value>The request was asynchronously canceled.</value>
   </data>
   <data name="TLS_CONNECTION_FAILED" xml:space="preserve">
     <value>Cannot contact the other host using TLS on the specified address and port</value>
@@ -1818,22 +1818,22 @@ Authorized Roles: {1}</value>
     <value>The update cannot be applied for the following host(s).</value>
   </data>
   <data name="UPDATE_PRECHECK_FAILED_CONFLICT_PRESENT" xml:space="preserve">
-    <value>The update precheck stage failed: conflicting update(s) are present.</value>
+    <value>The update pre-check stage failed: conflicting update(s) are present.</value>
   </data>
   <data name="UPDATE_PRECHECK_FAILED_GPGKEY_NOT_IMPORTED" xml:space="preserve">
-    <value>The update precheck stage failed: RPM package validation requires a GPG key that is not present on the host.</value>
+    <value>The update pre-check stage failed: RPM package validation requires a GPG key that is not present on the host.</value>
   </data>
   <data name="UPDATE_PRECHECK_FAILED_OUT_OF_SPACE" xml:space="preserve">
-    <value>The update precheck stage failed: the server does not have enough space.</value>
+    <value>The update pre-check stage failed: the server does not have enough space.</value>
   </data>
   <data name="UPDATE_PRECHECK_FAILED_PREREQUISITE_MISSING" xml:space="preserve">
-    <value>The update precheck stage failed: prerequisite update(s) are missing.</value>
+    <value>The update pre-check stage failed: prerequisite update(s) are missing.</value>
   </data>
   <data name="UPDATE_PRECHECK_FAILED_UNKNOWN_ERROR" xml:space="preserve">
-    <value>The update precheck stage failed with an unknown error.</value>
+    <value>The update pre-check stage failed with an unknown error.</value>
   </data>
   <data name="UPDATE_PRECHECK_FAILED_WRONG_SERVER_VERSION" xml:space="preserve">
-    <value>The update precheck stage failed: the server is of an incorrect version.</value>
+    <value>The update pre-check stage failed: the server is of an incorrect version.</value>
   </data>
   <data name="USB_ALREADY_ATTACHED" xml:space="preserve">
     <value>The USB device is currently attached to a VM.</value>
@@ -1926,7 +1926,7 @@ Authorized Roles: {1}</value>
     <value>This operation cannot be performed because the specified virtual disk could not be found</value>
   </data>
   <data name="VDI_NEEDS_VM_FOR_MIGRATE" xml:space="preserve">
-    <value>You attempted to migrate a VDI which is not attached to a running VM.</value>
+    <value>Cannot migrate a VDI which is not attached to a running VM.</value>
   </data>
   <data name="VDI_NOT_AVAILABLE" xml:space="preserve">
     <value>This operation cannot be performed because VDI {0} could not be properly attached to the VM.</value>
@@ -1957,6 +1957,12 @@ Authorized Roles: {1}</value>
   </data>
   <data name="VGPU_DESTINATION_INCOMPATIBLE" xml:space="preserve">
     <value>The VGPU is not compatible with any PGPU in the destination.</value>
+  </data>
+  <data name="VGPU_GUEST_DRIVER_LIMIT" xml:space="preserve">
+    <value>The guest driver does not support VGPU migration.</value>
+  </data>
+  <data name="VGPU_TYPE_NOT_COMPATIBLE" xml:space="preserve">
+    <value>Cannot create a virtual GPU that is incompatible with the existing types on the VM.</value>
   </data>
   <data name="VGPU_TYPE_NOT_COMPATIBLE_WITH_RUNNING_TYPE" xml:space="preserve">
     <value>The VM cannot start because all GPUs are fully used or are running other types of virtual GPU</value>
@@ -2013,7 +2019,7 @@ Authorized Roles: {1}</value>
     <value>The BIOS strings for this VM have already been set and cannot be changed.</value>
   </data>
   <data name="VM_CALL_PLUGIN_RATE_LIMIT" xml:space="preserve">
-    <value>There is a minimal interval required between consecutive plugin calls made on the same VM, please wait before retry.</value>
+    <value>There is a minimal interval required between consecutive plug-in calls made on the same VM, please wait before retry.</value>
   </data>
   <data name="VM_CANNOT_DELETE_DEFAULT_TEMPLATE" xml:space="preserve">
     <value>You cannot delete the specified default template.</value>
@@ -2040,7 +2046,7 @@ Authorized Roles: {1}</value>
     <value>The VM unexpectedly halted</value>
   </data>
   <data name="VM_HAS_CHECKPOINT" xml:space="preserve">
-    <value>You attempted to migrate a VM which has a checkpoint.</value>
+    <value>Cannot migrate a VM which has a checkpoint.</value>
   </data>
   <data name="VM_HAS_NO_SUSPEND_VDI" xml:space="preserve">
     <value>VM cannot be resumed because it has no suspend VDI</value>
@@ -2052,7 +2058,7 @@ Authorized Roles: {1}</value>
     <value>This operation could not be performed, because the VM has one or more SR-IOV VIFs.</value>
   </data>
   <data name="VM_HAS_TOO_MANY_SNAPSHOTS" xml:space="preserve">
-    <value>You attempted to migrate a VM with more than one snapshot.</value>
+    <value>Cannot migrate a VM with more than one snapshot.</value>
   </data>
   <data name="VM_HAS_VGPU" xml:space="preserve">
     <value>This operation could not be performed, because the VM has one or more virtual GPUs.</value>
@@ -2064,7 +2070,7 @@ Authorized Roles: {1}</value>
     <value>This VM operation cannot be performed on an older-versioned host during an upgrade.</value>
   </data>
   <data name="VM_HOST_INCOMPATIBLE_VERSION_MIGRATE" xml:space="preserve">
-    <value>You attempted to migrate a VM to a destination host which is older than the source host.</value>
+    <value>Cannot migrate a VM to a destination host which is older than the source host.</value>
   </data>
   <data name="VM_HOST_INCOMPATIBLE_VIRTUAL_HARDWARE_PLATFORM_VERSION" xml:space="preserve">
     <value>The VM&apos;s Virtual Hardware Platform version is incompatible with this host.</value>
@@ -2091,7 +2097,7 @@ Authorized Roles: {1}</value>
     <value>The operation attempted is not valid for templates</value>
   </data>
   <data name="VM_IS_USING_NESTED_VIRT" xml:space="preserve">
-    <value>This operation is illegal because the VM is using nested virtualisation.</value>
+    <value>This operation is illegal because the VM is using nested virtualization.</value>
   </data>
   <data name="VM_LACKS_FEATURE" xml:space="preserve">
     <value>You attempted an operation on a VM which lacks the feature.</value>
@@ -2124,7 +2130,7 @@ Authorized Roles: {1}</value>
     <value>The specified VM is not currently resident on the specified server.</value>
   </data>
   <data name="VM_NO_CRASHDUMP_SR" xml:space="preserve">
-    <value>This VM does not have a crashdump SR specified.</value>
+    <value>This VM does not have a crash dump SR specified.</value>
   </data>
   <data name="VM_NO_EMPTY_CD_VBD" xml:space="preserve">
     <value>The VM has no empty CD drive (VBD).</value>
@@ -2137,6 +2143,9 @@ Authorized Roles: {1}</value>
   </data>
   <data name="VM_OLD_PV_DRIVERS" xml:space="preserve">
     <value>You attempted an operation on a VM which requires a more recent version of the PV drivers. Please upgrade your PV drivers.</value>
+  </data>
+  <data name="VM_PCI_BUS_FULL" xml:space="preserve">
+    <value>The VM does not have any free PCI slots</value>
   </data>
   <data name="VM_PV_DRIVERS_IN_USE" xml:space="preserve">
     <value>VM PV drivers still in use</value>
@@ -2235,7 +2244,7 @@ Authorized Roles: {1}</value>
     <value>The configured WLB server name failed to resolve in DNS.</value>
   </data>
   <data name="WLB_URL_INVALID" xml:space="preserve">
-    <value>The WLB URL is invalid. Ensure it is in format: &lt;ipaddress&gt;:&lt;port&gt;.  The configured/given URL is returned.</value>
+    <value>The WLB URL is invalid. Ensure it is in the format: &lt;ipaddress&gt;:&lt;port&gt;. The configured/given URL is returned.</value>
   </data>
   <data name="WLB_XENSERVER_AUTHENTICATION_FAILED" xml:space="preserve">
     <value>WLB reported that the server rejected its configured authentication details.</value>
@@ -2256,10 +2265,13 @@ Authorized Roles: {1}</value>
     <value>3rd party xapi hook failed</value>
   </data>
   <data name="XENAPI_MISSING_PLUGIN" xml:space="preserve">
-    <value>The requested plugin could not be found.</value>
+    <value>The requested plug-in could not be found.</value>
   </data>
   <data name="XENAPI_PLUGIN_FAILURE" xml:space="preserve">
-    <value>There was a failure communicating with the plugin.</value>
+    <value>There was a failure communicating with the plug-in.</value>
+  </data>
+  <data name="XEN_INCOMPATIBLE" xml:space="preserve">
+    <value>The current version of Xen or its control libraries is incompatible with the Toolstack.</value>
   </data>
   <data name="XEN_VSS_REQ_ERROR_ADDING_VOLUME_TO_SNAPSET_FAILED" xml:space="preserve">
     <value>Some volumes to be snapshot could not be added to the VSS snapshot set</value>
@@ -2274,13 +2286,13 @@ Authorized Roles: {1}</value>
     <value>Initialization of the VSS requester failed</value>
   </data>
   <data name="XEN_VSS_REQ_ERROR_NO_VOLUMES_SUPPORTED" xml:space="preserve">
-    <value>Could not find any volumes supported by the Vss Provider</value>
+    <value>Could not find any volumes supported by the VSS Provider</value>
   </data>
   <data name="XEN_VSS_REQ_ERROR_PREPARING_WRITERS" xml:space="preserve">
     <value>An attempt to prepare VSS writers for the snapshot failed</value>
   </data>
   <data name="XEN_VSS_REQ_ERROR_PROV_NOT_LOADED" xml:space="preserve">
-    <value>The Vss Provider is not loaded</value>
+    <value>The VSS Provider is not loaded</value>
   </data>
   <data name="XEN_VSS_REQ_ERROR_START_SNAPSHOT_SET_FAILED" xml:space="preserve">
     <value>An attempt to start a new VSS snapshot failed</value>

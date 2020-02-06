@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class VMPP : XenObject<VMPP>
     {
+        #region Constructors
+
         public VMPP()
         {
         }
@@ -93,13 +95,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new VMPP from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public VMPP(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new VMPP from a Proxy_VMPP.
         /// </summary>
         /// <param name="proxy"></param>
         public VMPP(Proxy_VMPP proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -129,7 +145,7 @@ namespace XenAPI
             recent_alerts = update.recent_alerts;
         }
 
-        internal void UpdateFromProxy(Proxy_VMPP proxy)
+        internal void UpdateFrom(Proxy_VMPP proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -177,17 +193,6 @@ namespace XenAPI
             result_.alarm_config = Maps.convert_to_proxy_string_string(alarm_config);
             result_.recent_alerts = recent_alerts;
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new VMPP from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public VMPP(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

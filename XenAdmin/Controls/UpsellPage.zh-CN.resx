@@ -136,7 +136,7 @@
     <value>3</value>
   </data>
   <data name="LearnMoreButton.Text" xml:space="preserve">
-    <value>了解详情(&amp;L)</value>
+    <value>了解更多(&amp;L)</value>
   </data>
   <data name="&gt;&gt;LearnMoreButton.Name" xml:space="preserve">
     <value>LearnMoreButton</value>

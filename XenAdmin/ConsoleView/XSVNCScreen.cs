@@ -1096,7 +1096,7 @@ namespace XenAdmin.ConsoleView
                 sesssionRef = activeSession.opaque_ref;
             }
 
-            Stream stream = HTTPHelper.CONNECT(uri, console.Connection, sesssionRef, false, true);
+            Stream stream = HTTPHelper.CONNECT(uri, console.Connection, sesssionRef, false);
 
             InvokeConnection(v, stream, console);
         }

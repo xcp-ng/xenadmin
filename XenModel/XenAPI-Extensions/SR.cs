@@ -152,11 +152,6 @@ namespace XenAPI
             return SM.GetByType(Connection, GetSRType(true).ToString());
         }
 
-        public string ConfigType()
-        {
-           return Get(sm_config, "type");
-        }
-
         private string I18N(string field_name, string field_value, bool with_host)
         {
             if (!other_config.ContainsKey("i18n-key"))
@@ -211,7 +206,6 @@ namespace XenAPI
         /// Iterating through the PBDs, this will return the storage host of the first PBD that is currently_attached.
         /// This will return null if there are no PBDs or none of them is currently_attached
         /// </summary>
-        /// <returns></returns>
         public Host GetFirstAttachedStorageHost()
         {
             if (PBDs.Count == 0)
@@ -262,11 +256,6 @@ namespace XenAPI
                    || typ == SRTypes.xfs;
         }
 
-        public bool ShowForgetWarning()
-        {
-            return GetSRType(false) != SRTypes.iso;
-        }
-
         /// <summary>
         /// Internal helper function. True if all the PBDs for this SR are currently_attached.
         /// </summary>
@@ -279,7 +268,6 @@ namespace XenAPI
         /// <summary>
         /// Internal helper function. True if any of the PBDs for this SR is currently_attached.
         /// </summary>
-        /// <returns></returns>
         private bool AnyPBDAttached()
         {
             return Connection.ResolveAll(this.PBDs).Any(pbd => pbd.currently_attached);
@@ -288,8 +276,6 @@ namespace XenAPI
         /// <summary>
         /// Returns true if there are any Running or Suspended VMs attached to VDIs on this SR.
         /// </summary>
-        /// <param name="connection"></param>
-        /// <returns></returns>
         public bool HasRunningVMs()
         {
             foreach (VDI vdi in Connection.ResolveAll(VDIs))
@@ -449,7 +435,6 @@ namespace XenAPI
         /// <summary>
         /// Returns true if a new VM may be created on this SR: the SR supports VDI_CREATE, has the right number of PBDs, and is not full.
         /// </summary>
-        /// <param name="myConnection">The IXenConnection whose cache this XenObject belongs to. May not be null.</param>
         /// <returns></returns>
         public bool CanCreateVmOn()
         {
@@ -462,7 +447,6 @@ namespace XenAPI
         /// <summary>
         /// Whether the underlying SR backend supports VDI_CREATE. Will return true even if the SR is full.
         /// </summary>
-        /// <returns></returns>
         public virtual bool SupportsVdiCreate()
         {
             // ISO SRs are deemed not to support VDI create in the GUI, even though the back end
@@ -581,10 +565,6 @@ namespace XenAPI
                     } 
                 }
                 results.Add(new SRInfo(uuid, size, aggr, name_label, name_description, pool_metadata_detected));
-                /*if (aggr != "")
-                    results.Add(new SRInfo(uuid, size, aggr));
-                else
-                    results.Add(new SRInfo(uuid, size));*/
             }
             return results;
         }
@@ -824,14 +804,6 @@ namespace XenAPI
             return current >= max;
         }
 
-        public Dictionary<String, String> GetDeviceConfig(IXenConnection connection)
-        {
-            foreach (PBD pbd in connection.ResolveAll(PBDs))
-                return pbd.device_config;
-
-            return null;
-        }
-
         public class SRInfo : IComparable<SRInfo>, IEquatable<SRInfo>
         {
             public readonly string UUID;
@@ -842,22 +814,8 @@ namespace XenAPI
             public readonly bool PoolMetadataDetected;
             public Dictionary<string, string> Configuration;
 
-            public SRInfo(string uuid)
-                : this(uuid, 0, "", "", "", false)
-            {
-            }
-
-            public SRInfo(string uuid, long size)
-                : this(uuid, size, "", "", "", false)
-            {
-            }
-
-            public SRInfo(string uuid, long size, string aggr)
-                : this(uuid, size, aggr, "", "", false)
-            {
-            }
-
-            public SRInfo(string uuid, long size, string aggr, string name, string description, bool poolMetadataDetected, Dictionary<string,string> configuration = null)
+            public SRInfo(string uuid, long size = 0, string aggr = "", string name = "", string description = "",
+                bool poolMetadataDetected = false, Dictionary<string,string> configuration = null)
             {
                 UUID = uuid;
                 Size = size;
@@ -984,10 +942,8 @@ namespace XenAPI
         }
 
         /// <summary>
-        /// Is an iSL type or legacy iSl adpater type
+        /// Is an iSL type or legacy iSl adapter type
         /// </summary>
-        /// <param name="sr"></param>
-        /// <returns></returns>
         public static bool IsIslOrIslLegacy(SR sr)
         {
             SRTypes currentType = sr.GetSRType(true);
@@ -997,18 +953,12 @@ namespace XenAPI
         /// <summary>
         /// Whether the underlying SR backend supports SR_TRIM
         /// </summary>
-        /// <returns></returns>
         public bool SupportsTrim()
         {
             System.Diagnostics.Trace.Assert(Connection != null, "Connection must not be null");
 
             SM sm = SM.GetByType(Connection, type);
             return sm != null && sm.features != null && sm.features.ContainsKey("SR_TRIM");
-        }
-
-        public long PercentageCommitted()
-        {
-            return (long)Math.Round(virtual_allocation/(double)physical_size*100.0);
         }
 
         #region IEquatable<SR> Members

@@ -30,16 +30,11 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-
 using XenAdmin.Actions;
 using XenAdmin.Controls;
-using XenAdmin.Core;
 using XenAPI;
 
 
@@ -47,8 +42,6 @@ namespace XenAdmin.Dialogs
 {
     public partial class EditVmHaPrioritiesDialog : XenDialogBase
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         /// Never null.
         /// </summary>
@@ -59,16 +52,13 @@ namespace XenAdmin.Dialogs
         /// </summary>
         private readonly long originalNtol;
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="pool">May not be null. HA must be turned off on the pool.</param>
         public EditVmHaPrioritiesDialog(Pool pool)
         {
             if (pool == null)
                 throw new ArgumentNullException("pool");
             if (!pool.ha_enabled)
-                throw new ArgumentException("You may only show the EditVmHaPrioritiesDialog for pools that already have HA turned on");
+                throw new ArgumentException("Can only configure HA for pools that already have HA turned on");
 
             this.pool = pool;
             InitializeComponent();
@@ -77,23 +67,6 @@ namespace XenAdmin.Dialogs
 
             pool.PropertyChanged += pool_PropertyChanged;
             originalNtol = pool.ha_host_failures_to_tolerate;
-
-            if (pool.ha_statefiles.Length != 1)
-            {
-                log.ErrorFormat("Cannot show dialog: pool {0} has {1} statefiles, but this dialog can only handle exactly 1. Closing dialog.",
-                    pool.Name(), pool.ha_statefiles.Length);
-                this.Close();
-                return;
-            }
-
-            XenRef<VDI> vdiRef = new XenRef<VDI>(pool.ha_statefiles[0]);
-            VDI vdi = pool.Connection.Resolve(vdiRef);
-            if (vdi == null)
-            {
-                log.Error("Could not resolve HA statefile reference. Closing dialog.");
-                this.Close();
-                return;
-            }
 
             pictureBoxWarningIcon.Image = SystemIcons.Warning.ToBitmap();
             Rebuild();

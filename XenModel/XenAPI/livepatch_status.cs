@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,19 @@ namespace XenAPI
     [JsonConverter(typeof(livepatch_statusConverter))]
     public enum livepatch_status
     {
-        ok_livepatch_complete, ok_livepatch_incomplete, ok, unknown
+        /// <summary>
+        /// An applicable live patch exists for every required component
+        /// </summary>
+        ok_livepatch_complete,
+        /// <summary>
+        /// An applicable live patch exists but it is not sufficient
+        /// </summary>
+        ok_livepatch_incomplete,
+        /// <summary>
+        /// There is no applicable live patch
+        /// </summary>
+        ok,
+        unknown
     }
 
     public static class livepatch_status_helper
@@ -73,4 +84,4 @@ namespace XenAPI
             writer.WriteValue(((livepatch_status)value).StringOf());
         }
     }
-}
+}

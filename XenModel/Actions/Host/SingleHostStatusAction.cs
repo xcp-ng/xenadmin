@@ -35,6 +35,7 @@ using System.Linq;
 using XenAdmin.Core;
 using XenAPI;
 using XenCenterLib;
+using XenCenterLib.Archive;
 
 namespace XenAdmin.Actions
 {
@@ -62,7 +63,7 @@ namespace XenAdmin.Actions
             Status = ReportStatus.compiling;
 
             string hostname = Helpers.GetName(host);
-            hostname = ZipStatusReportAction.SanitizeTarPathMember(hostname);
+            hostname = TarSanitization.SanitizeTarPathMember(hostname);
             if (hostname.Length > 20)
                 hostname = hostname.Truncate(20);
 

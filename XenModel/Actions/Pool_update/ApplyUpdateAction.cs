@@ -59,7 +59,7 @@ namespace XenAdmin.Actions
                 return;
 
             Description = string.Format(Messages.APPLYING_PATCH, update.Name(), host.Name());
-            log.Debug(Description);
+            log.DebugFormat("Applying update '{0}' to server '{1}'...", update.Name(), host.Name());
 
             var poolUpdates = new List<Pool_update>(Connection.Cache.Pool_updates);
             var poolUpdate = poolUpdates.FirstOrDefault(u => u != null && string.Equals(u.uuid, update.uuid, StringComparison.OrdinalIgnoreCase));

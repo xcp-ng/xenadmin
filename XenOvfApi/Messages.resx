@@ -168,6 +168,9 @@
   <data name="INVALID_DATA_IN_OVF" xml:space="preserve">
     <value>Failed to deserialize OVF descriptor.</value>
   </data>
+  <data name="NETWORK_NAME" xml:space="preserve">
+    <value>Network {0}</value>
+  </data>
   <data name="OVF_CANNOT_FIND_SECTION" xml:space="preserve">
     <value>Failed to find section with type {0} and id {1}.</value>
   </data>
@@ -186,6 +189,9 @@
   <data name="OVF_COULD_NOT_OPEN_STREAM" xml:space="preserve">
     <value>Failed to open {0}.</value>
   </data>
+  <data name="OVF_CREATED" xml:space="preserve">
+    <value>Created by [XenCenter] Disk Image Import</value>
+  </data>
   <data name="OVF_DEPLOYMENT_CFG_SECTION_MISSING" xml:space="preserve">
     <value>Failed to find deployment configuration section.</value>
   </data>
@@ -195,6 +201,9 @@
   <data name="OVF_DEVICE_OUT_OF_RANGE" xml:space="preserve">
     <value>Device number {0} is less than zero or greater than 15.</value>
   </data>
+  <data name="OVF_DISK_CAPTION" xml:space="preserve">
+    <value>Virtual Disk</value>
+  </data>
   <data name="OVF_DISK_SECTION_MISSING" xml:space="preserve">
     <value>Failed to find the disk section.</value>
   </data>
@@ -203,6 +212,9 @@
   </data>
   <data name="OVF_INSTALL_SECTION_MISSING" xml:space="preserve">
     <value>Failed to find the install section.</value>
+  </data>
+  <data name="OVF_NET_DESCRIPTION" xml:space="preserve">
+    <value>Virtual Network</value>
   </data>
   <data name="OVF_POST_INSTALL_MISSING" xml:space="preserve">
     <value>Failed to find the post-install section.</value>
@@ -291,11 +303,14 @@
   <data name="SECURITY_FAILURE" xml:space="preserve">
     <value>Security Failure</value>
   </data>
-  <data name="SECURITY_FILE_MISSING" xml:space="preserve">
-    <value>Failed to find files listed in the manifest. Please refer to the log for the list of missing files.</value>
+  <data name="SECURITY_FILE_MISSING_FROM_MANIFEST" xml:space="preserve">
+    <value>The appliance contains a file that is not listed in the manifest. Please see logs for details.</value>
+  </data>
+  <data name="SECURITY_FILE_MISSING_FROM_PACKAGE" xml:space="preserve">
+    <value>One or more of the files listed in the manifest are missing from the appliance. Please see logs for details.</value>
   </data>
   <data name="SECURITY_NOT_SUPPORTED" xml:space="preserve">
-    <value>Security method {0} is not supported.</value>
+    <value>{0} is not a valid hash algorithm.</value>
   </data>
   <data name="SECURITY_SECTION_INVALID" xml:space="preserve">
     <value>Security section is invalid.</value>
@@ -306,23 +321,23 @@
   <data name="UNKNOWN" xml:space="preserve">
     <value>Unknown</value>
   </data>
-  <data name="VALIDATION_FAILURE" xml:space="preserve">
-    <value>OVF package {0} is invalid.</value>
-  </data>
-  <data name="VALIDATION_FILE_NOTFOUND" xml:space="preserve">
-    <value>Failed to find file {0} listed in the reference section.</value>
-  </data>
-  <data name="VALIDATION_INVALID_CPU_EXCEEDS_LIMIT" xml:space="preserve">
+  <data name="VALIDATION_CPU_EXCEEDS_LIMIT" xml:space="preserve">
     <value>Processor quantity {0} exceeds the limit of {1}.</value>
   </data>
-  <data name="VALIDATION_INVALID_CPU_QUANTITY" xml:space="preserve">
-    <value>Processor quantity {0} is invalid.</value>
+  <data name="VALIDATION_CPU_INVALID_QUANTITY" xml:space="preserve">
+    <value>Processor quantity is invalid.</value>
   </data>
-  <data name="VALIDATION_INVALID_FILETYPE" xml:space="preserve">
+  <data name="VALIDATION_FILE_INVALID_LINKAGE" xml:space="preserve">
+    <value>Disk linkage (file to RASD) does not exist for {0}.</value>
+  </data>
+  <data name="VALIDATION_FILE_NOT_FOUND" xml:space="preserve">
+    <value>Failed to find file {0} listed in the reference section.</value>
+  </data>
+  <data name="VALIDATION_FILE_UNSUPPORTED_EXTENSION" xml:space="preserve">
     <value>File {0} has an unsupported extension.</value>
   </data>
   <data name="VALIDATION_INVALID_INSTANCEID" xml:space="preserve">
-    <value>InstanceId is empty.</value>
+    <value>Memory has an empty InstanceID, creating a new one.</value>
   </data>
   <data name="VALIDATION_INVALID_MEMORY_ALLOCATIONUNITS" xml:space="preserve">
     <value>Memory allocation unit is invalid.</value>
@@ -330,11 +345,11 @@
   <data name="VALIDATION_INVALID_MEMORY_QUANTITY" xml:space="preserve">
     <value>Memory quantity is invalid.</value>
   </data>
-  <data name="VALIDATION_INVALID_TYPE" xml:space="preserve">
-    <value>OVF envelope item has an unknown type.</value>
+  <data name="VALIDATION_INVALID_OVF" xml:space="preserve">
+    <value>This appliance does not contain a valid OVF file.</value>
   </data>
-  <data name="VALIDATION_INVALID_VERSION" xml:space="preserve">
-    <value>OVF version number {0} is invalid.</value>
+  <data name="VALIDATION_INVALID_TYPE" xml:space="preserve">
+    <value>OVF envelope item type '{0}' is not recognized.</value>
   </data>
   <data name="VALIDATION_NETWORK_NO_DEVICE" xml:space="preserve">
     <value>A network is not connected to a device.</value>
@@ -343,10 +358,16 @@
     <value>A required resource with id {0} and name {1} was not recognized.</value>
   </data>
   <data name="VALIDATION_SCHEMA_FAILED" xml:space="preserve">
-    <value>OVF descriptor is invalid.</value>
+    <value>OVF descriptor does not comply with the OVF XML schema.</value>
   </data>
   <data name="VALIDATION_UNKNOWN_HARDWARE_TYPE" xml:space="preserve">
-    <value>Virtual hardware type {0} is invalid.</value>
+    <value>Found unexpected virtual hardware type '{0}'.</value>
+  </data>
+  <data name="VALIDATION_VERSION_INVALID" xml:space="preserve">
+    <value>OVF version '{0}' is not supported.</value>
+  </data>
+  <data name="VALIDATION_VERSION_UNSET" xml:space="preserve">
+    <value>The OVF version is not set; assuming 1.0.0.</value>
   </data>
   <data name="VENDOR_PROMPT" xml:space="preserve">
     <value>Vendor:</value>
@@ -356,5 +377,8 @@
   </data>
   <data name="VERSION_PROMPT" xml:space="preserve">
     <value>Version:</value>
+  </data>
+  <data name="VIRTUAL_MACHINE" xml:space="preserve">
+    <value>Virtual Machine</value>
   </data>
 </root>

@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,23 @@ namespace XenAPI
     [JsonConverter(typeof(host_displayConverter))]
     public enum host_display
     {
-        enabled, disable_on_reboot, disabled, enable_on_reboot, unknown
+        /// <summary>
+        /// This host is outputting its console to a physical display device
+        /// </summary>
+        enabled,
+        /// <summary>
+        /// The host will stop outputting its console to a physical display device on next boot
+        /// </summary>
+        disable_on_reboot,
+        /// <summary>
+        /// This host is not outputting its console to a physical display device
+        /// </summary>
+        disabled,
+        /// <summary>
+        /// The host will start outputting its console to a physical display device on next boot
+        /// </summary>
+        enable_on_reboot,
+        unknown
     }
 
     public static class host_display_helper
@@ -75,4 +90,4 @@ namespace XenAPI
             writer.WriteValue(((host_display)value).StringOf());
         }
     }
-}
+}

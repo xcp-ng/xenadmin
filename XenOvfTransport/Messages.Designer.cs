@@ -19,7 +19,7 @@ namespace XenOvfTransport {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Messages {
@@ -367,7 +367,7 @@ namespace XenOvfTransport {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connecting virtual disk {0} ... .
+        ///   Looks up a localized string similar to Connecting virtual disk {0}... .
         /// </summary>
         internal static string FILES_TRANSPORT_SETUP {
             get {
@@ -385,7 +385,7 @@ namespace XenOvfTransport {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancelled transfer of virtual disk {0}..
+        ///   Looks up a localized string similar to Canceled transfer of virtual disk {0}..
         /// </summary>
         internal static string ISCSI_COPY_CANCELLED {
             get {
@@ -457,7 +457,7 @@ namespace XenOvfTransport {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancelled virtual disk verification after export..
+        ///   Looks up a localized string similar to Canceled virtual disk verification after export..
         /// </summary>
         internal static string ISCSI_VERIFY_CANCELLED {
             get {
@@ -538,7 +538,7 @@ namespace XenOvfTransport {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configuring virtual machine for [XenServer] ... .
+        ///   Looks up a localized string similar to Configuring virtual machine for the server ... .
         /// </summary>
         internal static string START_POST_INSTALL_INSTRUCTIONS {
             get {

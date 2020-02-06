@@ -64,31 +64,23 @@ namespace XenAdmin.Controls
             labelHostName.Text = Host.Name();
 
             // initialize cacheSize
-            SetupCacheSizeSpinner(OrigPvsCacheStorage == null ? DEFAULT_CACHE_SIZE_GB : (decimal)Util.ToGB(OrigPvsCacheStorage.size, 1, RoundingBehaviour.Nearest), 
+            SetupCacheSizeSpinner(OrigPvsCacheStorage == null ? DEFAULT_CACHE_SIZE_GB : (decimal)Util.ToGB(OrigPvsCacheStorage.size, RoundingBehaviour.Nearest, 1), 
                 MIN_CACHE_SIZE_GB, 
                 MAX_CACHE_SIZE_GB);
             origCacheSizeGb = numericUpDownCacheSize.Value;
 
-            PopulateCacheSrCombobox();
-            ReadOnly = OrigPvsCacheStorage != null && OrigPvsCacheStorage.IsInUse();
-            comboBoxCacheSr.Enabled = numericUpDownCacheSize.Enabled = !ReadOnly;
-        }
-
-        private void PopulateCacheSrCombobox()
-        {
             comboBoxCacheSr.Items.Clear();
 
             // add the "Not configured" item first
             var notConfiguredItem = new SrComboBoxItem(null, Messages.PVS_CACHE_NOT_CONFIGURED);
             comboBoxCacheSr.Items.Add(notConfiguredItem);
-            comboBoxCacheSr.SelectedItem = notConfiguredItem;
 
-            // add Memeory SR; if no memory SR  found, add a placeholder (we will create the memory SR in ConfigurePvsCacheAction)
-            var memorySr =
-                Host.Connection.Cache.SRs.FirstOrDefault(
-                    s => s.GetSRType(false) == SR.SRTypes.tmpfs && s.CanBeSeenFrom(Host));
-            
-            if (memorySr == null)
+            // add Memory SR; if no memory SR  found, add a placeholder (we will create the memory SR in ConfigurePvsCacheAction)
+            var memorySrs = Host.Connection.Cache.SRs.Where(s => s.GetSRType(false) == SR.SRTypes.tmpfs && s.CanBeSeenFrom(Host)).ToList();
+
+            SR memorySr = null;
+
+            if (memorySrs.Count == 0)
             {
                 // create a placeholder for the memory SR
                 memorySr = new SR
@@ -99,11 +91,20 @@ namespace XenAdmin.Controls
                     opaque_ref = Helper.NullOpaqueRef
                 };
             }
+            else
+            {
+                if (OrigPvsCacheStorage != null)
+                    memorySr = memorySrs.FirstOrDefault(sr => sr.opaque_ref == OrigPvsCacheStorage.SR.opaque_ref);
+
+                if (memorySr == null)
+                    memorySr = memorySrs.First();
+            }
 
             var enabled = Host.dom0_memory_extra() >= MIN_CACHE_SIZE_GB * Util.BINARY_GIGA;
             var label = enabled ? Messages.PVS_CACHE_MEMORY_ONLY : Messages.PVS_CACHE_MEMORY_ONLY_DISABLED;
             var memorySrItem = new SrComboBoxItem(memorySr, label, enabled);
             comboBoxCacheSr.Items.Add(memorySrItem);
+
             if (OrigPvsCacheStorage != null && memorySr.opaque_ref == OrigPvsCacheStorage.SR.opaque_ref)
                 comboBoxCacheSr.SelectedItem = memorySrItem;
 
@@ -117,6 +118,12 @@ namespace XenAdmin.Controls
                 if (OrigPvsCacheStorage != null && sr.opaque_ref == OrigPvsCacheStorage.SR.opaque_ref)
                     comboBoxCacheSr.SelectedItem = newItem;
             }
+
+            if (comboBoxCacheSr.SelectedItem == null)
+                comboBoxCacheSr.SelectedItem = notConfiguredItem;
+
+            ReadOnly = OrigPvsCacheStorage != null && OrigPvsCacheStorage.IsInUse();
+            comboBoxCacheSr.Enabled = numericUpDownCacheSize.Enabled = !ReadOnly;
         }
 
         private bool SrIsSuitableForPvsCache(SR sr)
@@ -195,7 +202,7 @@ namespace XenAdmin.Controls
             var selectedSr = CacheSr;
             if (selectedSr != null)
             {
-                var maxSize = (decimal)Util.ToGB(selectedSr.GetSRType(false) == SR.SRTypes.tmpfs ? Host.dom0_memory_extra() : selectedSr.FreeSpace(), 1, RoundingBehaviour.Down); 
+                var maxSize = (decimal)Util.ToGB(selectedSr.GetSRType(false) == SR.SRTypes.tmpfs ? Host.dom0_memory_extra() : selectedSr.FreeSpace(), RoundingBehaviour.Down, 1); 
                 maxSize = Math.Min(maxSize, MAX_CACHE_SIZE_GB);
 
                 if (maxSize != numericUpDownCacheSize.Maximum)

@@ -30,7 +30,6 @@
  */
 
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using XenAdmin.Actions;
 using XenAPI;
@@ -47,35 +46,26 @@ namespace XenAdmin.Dialogs
         {
             InitializeComponent();
             _VM = vm;
+            UpdateWarnings();
             diskRadioButton.Enabled = _VM.allowed_operations.Contains(vm_operations.snapshot);
-            pictureBoxSnapshotsInfo.Visible = !diskRadioButton.Enabled;
-            quiesceCheckBox.Enabled = _VM.allowed_operations.Contains(vm_operations.snapshot_with_quiesce) 
+            pictureBoxSnapshotsInfo.Visible = labelSnapshotInfo.Visible = !diskRadioButton.Enabled;
+            var quiesceAvailable = !Helpers.QuebecOrGreater(_VM.Connection);
+            quiesceCheckBox.Visible = quiesceAvailable;
+            quiesceCheckBox.Enabled = quiesceAvailable && _VM.allowed_operations.Contains(vm_operations.snapshot_with_quiesce) 
                 && !Helpers.FeatureForbidden(_VM, Host.RestrictVss);
-            pictureBoxQuiesceInfo.Visible = !quiesceCheckBox.Enabled;
+            pictureBoxQuiesceInfo.Visible = labelQuiesceInfo.Visible = quiesceAvailable && !quiesceCheckBox.Enabled;
             memoryRadioButton.Enabled = _VM.allowed_operations.Contains(vm_operations.checkpoint)
                 && !Helpers.FeatureForbidden(_VM, Host.RestrictCheckpoint);
-            CheckpointInfoPictureBox.Visible = !memoryRadioButton.Enabled;
+            CheckpointInfoPictureBox.Visible = labelCheckpointInfo.Visible = !memoryRadioButton.Enabled;
             UpdateOK();
         }
 
         /// <summary>
         /// Must be accessed on the GUI thread.
         /// </summary>
-        public string SnapshotName
-        {
-            get
-            {
-                return textBoxName.Text;
-            }
-        }
+        public string SnapshotName => textBoxName.Text;
 
-        public string SnapshotDescription
-        {
-            get
-            {
-                return textBoxDescription.Text;
-            }
-        }
+        public string SnapshotDescription => textBoxDescription.Text;
 
         public SnapshotType SnapshotType
         {
@@ -83,23 +73,22 @@ namespace XenAdmin.Dialogs
             {
                 if (quiesceCheckBox.Checked)
                     return SnapshotType.QUIESCED_DISK;
-                else if (diskRadioButton.Checked)
+                if (diskRadioButton.Checked)
                     return SnapshotType.DISK;
-                else
-                    return SnapshotType.DISK_AND_MEMORY;
+                return SnapshotType.DISK_AND_MEMORY;
             }
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
 
         private void textBoxName_TextChanged(object sender, EventArgs e)
@@ -109,7 +98,7 @@ namespace XenAdmin.Dialogs
 
         private void UpdateOK()
         {
-            buttonOk.Enabled = !String.IsNullOrEmpty(textBoxName.Text.Trim())&&(diskRadioButton.Enabled ||quiesceCheckBox.Enabled||memoryRadioButton.Enabled );
+            buttonOk.Enabled = !String.IsNullOrEmpty(textBoxName.Text.Trim()) && (diskRadioButton.Enabled || quiesceCheckBox.Enabled || memoryRadioButton.Enabled );
         }
 
         private void RadioButton_CheckedChanged(object sender, EventArgs e)
@@ -142,54 +131,29 @@ namespace XenAdmin.Dialogs
             }
         }
 
-        private void pictureBoxQuiesceInfo_Click(object sender, EventArgs e)
+        private void UpdateWarnings()
         {
-            string tt;
+            labelSnapshotInfo.Text = Messages.INFO_DISK_MODE;
+
             if (Helpers.FeatureForbidden(_VM, Host.RestrictVss))
-                tt = Messages.FIELD_DISABLED;
+                labelQuiesceInfo.Text = Messages.FIELD_DISABLED;
             else if (_VM.power_state != vm_power_state.Running)
-                tt = Messages.INFO_QUIESCE_MODE_POWER_STATE.Replace("\\n", "\n");
+                labelQuiesceInfo.Text = Messages.INFO_QUIESCE_MODE_POWER_STATE;
             else if (!_VM.GetVirtualisationStatus().HasFlag(VM.VirtualisationStatus.MANAGEMENT_INSTALLED))
-                tt = (_VM.HasNewVirtualisationStates() ? Messages.INFO_QUIESCE_MODE_NO_MGMNT : Messages.INFO_QUIESCE_MODE_NO_TOOLS).Replace("\\n", "\n");
+                labelQuiesceInfo.Text = _VM.HasNewVirtualisationStates()
+                    ? Messages.INFO_QUIESCE_MODE_NO_MGMNT
+                    : Messages.INFO_QUIESCE_MODE_NO_TOOLS;
             else
-                tt = Messages.INFO_QUIESCE_MODE.Replace("\\n","\n");  // This says that VSS must be enabled. This is a guess, because we can't tell whether it is or not.
-            toolTip.Show(tt ,pictureBoxQuiesceInfo, 20, 0);
-        }
+                labelQuiesceInfo.Text = Messages.INFO_QUIESCE_MODE; // This says that VSS must be enabled. This is a guess, because we can't tell whether it is or not.
 
-        private void pictureBoxQuiesceInfo_MouseLeave(object sender, EventArgs e)
-        {
-            toolTip.Hide(pictureBoxQuiesceInfo);
-        }
-
-        private void pictureBoxSnapshotsInfo_Click(object sender, EventArgs e)
-        {
-            toolTip.Show(Messages.INFO_DISK_MODE.Replace("\\n","\n"), pictureBoxSnapshotsInfo, 20, 0);
-        }
-
-        private void pictureBoxSnapshotsInfo_MouseLeave(object sender, EventArgs e)
-        {
-            toolTip.Hide(pictureBoxSnapshotsInfo);
-        }
-
-        private void CheckpointInfoPictureBox_Click(object sender, EventArgs e)
-        {
-            string tt;
             if (Helpers.FeatureForbidden(_VM, Host.RestrictCheckpoint))
-                tt = Messages.FIELD_DISABLED;
+                labelCheckpointInfo.Text = Messages.FIELD_DISABLED;
             else if (_VM.power_state != vm_power_state.Running)
-                tt = Messages.INFO_DISKMEMORY_MODE_POWER_STATE.Replace("\\n", "\n");
+                labelCheckpointInfo.Text = Messages.INFO_DISKMEMORY_MODE_POWER_STATE;
             else if (!_VM.GetVirtualisationStatus().HasFlag(VM.VirtualisationStatus.IO_DRIVERS_INSTALLED))
-                tt = (_VM.HasNewVirtualisationStates() ? Messages.INFO_DISKMEMORY_MODE_NO_IO_DRIVERS : Messages.INFO_DISKMEMORY_MODE_NO_TOOLS).Replace("\\n", "\n");
+                labelCheckpointInfo.Text = (_VM.HasNewVirtualisationStates() ? Messages.INFO_DISKMEMORY_MODE_NO_IO_DRIVERS : Messages.INFO_DISKMEMORY_MODE_NO_TOOLS);
             else
-                tt = Messages.INFO_DISKMEMORY_MODE_MISC.Replace("\\n", "\n");
-            toolTip.Show(tt, CheckpointInfoPictureBox, 20, 0);
+                labelCheckpointInfo.Text = Messages.INFO_DISKMEMORY_MODE_MISC;
         }
-
-        private void CheckpointInfoPictureBox_MouseLeave(object sender, EventArgs e)
-        {
-            toolTip.Hide(CheckpointInfoPictureBox);
-        }
-
-
     }
 }

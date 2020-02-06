@@ -135,7 +135,7 @@
     <value>2</value>
   </data>
   <data name="DynamicRadioButton.Text" xml:space="preserve">
-    <value>ホーム サーバーを指定しない(&amp;D) 必要なリソースを持つ任意のサーバー上で VM が起動します (共有ストレージ必須)。</value>
+    <value>ホーム サーバーを指定しない(&amp;D)。必要なリソースを持つ任意のサーバー上で VM が起動します (共有ストレージ必須)。</value>
   </data>
   <data name="DynamicRadioButton.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>TopLeft</value>

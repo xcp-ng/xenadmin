@@ -54,13 +54,12 @@ namespace XenAdmin.Actions
         private const string EmptyParameter = "null";
         private const string BlankParamter = "blank";
 
-        private static readonly string SnapInTrustedCertXml = 
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            Branding.COMPANY_NAME_SHORT, "\\XenServerPSSnapIn\\XenServer_Known_Certificates.xml");
+        private static readonly string SnapInTrustedCertXml =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                @"WindowsPowerShell\XenServer_Known_Certificates.xml");
 
-        private static readonly string SnapInTrustedCertXmlDir = 
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            Branding.COMPANY_NAME_SHORT, "\\XenServerPSSnapIn");
+        private static readonly string SnapInTrustedCertXmlDir =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "WindowsPowerShell");
 
         private readonly ReadOnlyCollection<IXenObject> _targets = new ReadOnlyCollection<IXenObject>(new List<IXenObject>());
         private readonly bool XenCenterNodeTarget = false;
@@ -122,9 +121,9 @@ namespace XenAdmin.Actions
                 }
                 _extAppProcess = _menuItemFeature.ShellCmd.CreateProcess(procParams, _targets);
 
-                _extAppProcess.OutputDataReceived += new DataReceivedEventHandler(_extAppProcess_OutputDataReceived);  
+                _extAppProcess.OutputDataReceived += _extAppProcess_OutputDataReceived;  
 
-                log.InfoFormat("Plugin process for {0} running with parameters {1}", _extAppProcess.StartInfo.FileName, _extAppProcess.StartInfo.Arguments);
+                log.InfoFormat("Starting plugin process for {0}.", _extAppProcess.StartInfo.FileName);
                 _extAppProcess.Start();
 
                 if (_extAppProcess.StartInfo.RedirectStandardError)
@@ -145,7 +144,7 @@ namespace XenAdmin.Actions
 
                     if (_extAppProcess.HasExited && _extAppProcess.ExitCode != 0)
                     {
-                        log.ErrorFormat("Plugin process for {0} running with parameters {1} exited with Exit Code: {2}", _extAppProcess.StartInfo.FileName, _extAppProcess.StartInfo.Arguments, _extAppProcess.ExitCode);
+                        log.ErrorFormat("Plugin process for {0} exited with exit code {1}", _extAppProcess.StartInfo.FileName, _extAppProcess.ExitCode);
                         throw new Exception(String.Format(Messages.EXTERNAL_PLUGIN_BAD_EXIT, _extAppProcess.ExitCode));
                     }
                 }

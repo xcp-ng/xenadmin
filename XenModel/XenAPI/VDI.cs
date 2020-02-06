@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class VDI : XenObject<VDI>
     {
+        #region Constructors
+
         public VDI()
         {
         }
@@ -117,13 +119,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new VDI from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public VDI(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new VDI from a Proxy_VDI.
         /// </summary>
         /// <param name="proxy"></param>
         public VDI(Proxy_VDI proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -165,7 +181,7 @@ namespace XenAPI
             cbt_enabled = update.cbt_enabled;
         }
 
-        internal void UpdateFromProxy(Proxy_VDI proxy)
+        internal void UpdateFrom(Proxy_VDI proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -237,17 +253,6 @@ namespace XenAPI
             result_.is_tools_iso = is_tools_iso;
             result_.cbt_enabled = cbt_enabled;
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new VDI from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public VDI(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

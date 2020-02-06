@@ -62,7 +62,6 @@ MSBUILD="MSBuild.exe /nologo /m /verbosity:minimal /p:Configuration=Release /p:T
 ${UNZIP} -d ${REPO}/XenOvfApi ${SCRATCH_DIR}/XenCenterOVF.zip
 cd ${REPO}
 $MSBUILD XenAdmin.sln
-$MSBUILD xe/Xe.csproj
 $MSBUILD /p:SolutionDir="${REPO}/XenAdmin" splash/splash.vcxproj
 
 #prepare wix
@@ -133,32 +132,15 @@ cp ${REPO}/XenAdminTests/bin/XenAdminTests.tgz ${OUTPUT_DIR}/XenAdminTests.tgz
 cd ${REPO}/CFUValidator/bin/Release && zip CFUValidator.zip ./{*.dll,CFUValidator.exe,XenCenterMain.exe}
 cp ${REPO}/CFUValidator/bin/Release/CFUValidator.zip ${OUTPUT_DIR}/CFUValidator.zip
 
+#now package the pdbs
+
 cp ${REPO}/XenAdmin/bin/Release/{CommandLib.pdb,${BRANDING_BRAND_CONSOLE}.pdb,XenCenterLib.pdb,XenCenterMain.pdb,XenCenterVNC.pdb,XenModel.pdb,XenOvf.pdb,XenOvfTransport.pdb} \
    ${REPO}/xe/bin/Release/xe.pdb \
    ${REPO}/xva_verify/bin/Release/xva_verify.pdb \
    ${REPO}/XenServerHealthCheck/bin/Release/XenServerHealthCheck.pdb \
    ${OUTPUT_DIR}
 
-ISO_DIR=${SCRATCH_DIR}/iso-staging
-mkdir_clean ${ISO_DIR}
-install -m 755 ${OUTPUT_DIR}/${BRANDING_BRAND_CONSOLE}.msi ${ISO_DIR}/${BRANDING_BRAND_CONSOLE}.msi
-cp ${REPO}/mk/ISO_files/AUTORUN.INF ${ISO_DIR}
-cp ${REPO}/Branding/Images/AppIcon.ico ${ISO_DIR}/${BRANDING_BRAND_CONSOLE}.ico
-#CP-18097
-tar cjf ${OUTPUT_DIR}/${BRANDING_BRAND_CONSOLE}.installer.tar.bz2 -C ${ISO_DIR} .
-
-L10N_ISO_DIR=${SCRATCH_DIR}/l10n-iso-staging
-mkdir_clean ${L10N_ISO_DIR}
-# -o root -g root
-install -m 755 ${OUTPUT_DIR}/${BRANDING_BRAND_CONSOLE}.l10n.msi ${L10N_ISO_DIR}/${BRANDING_BRAND_CONSOLE}.msi
-cp ${REPO}/mk/ISO_files/AUTORUN.INF ${L10N_ISO_DIR}
-cp ${REPO}/Branding/Images/AppIcon.ico ${L10N_ISO_DIR}/${BRANDING_BRAND_CONSOLE}.ico
-#CP-18097
-tar cjf ${OUTPUT_DIR}/${BRANDING_BRAND_CONSOLE}.installer.l10n.tar.bz2 -C ${L10N_ISO_DIR} .
-
-#now package the pdbs
 cd ${OUTPUT_DIR} && tar cjf XenCenter.Symbols.tar.bz2 --remove-files *.pdb
-
 
 echo "INFO:	Build phase succeeded at "
 date

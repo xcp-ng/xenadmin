@@ -104,6 +104,8 @@ namespace XenAdmin.TabPages
             InitializeComponent();
         }
 
+        public override string HelpID => "TabPageNetwork";
+
         protected override void OnVisibleChanged(EventArgs e)
         {
             if (refreshNeeded)

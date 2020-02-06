@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class User : XenObject<User>
     {
+        #region Constructors
+
         public User()
         {
         }
@@ -61,13 +63,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new User from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public User(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new User from a Proxy_User.
         /// </summary>
         /// <param name="proxy"></param>
         public User(Proxy_User proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -81,7 +97,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_User proxy)
+        internal void UpdateFrom(Proxy_User proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             short_name = proxy.short_name == null ? null : proxy.short_name;
@@ -97,17 +113,6 @@ namespace XenAPI
             result_.fullname = fullname ?? "";
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new User from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public User(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

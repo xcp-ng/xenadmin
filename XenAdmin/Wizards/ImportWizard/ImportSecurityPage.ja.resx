@@ -112,25 +112,19 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
   <data name="m_labelVerify.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="m_tlpManifest.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
-  <data name="m_tlpManifest.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
-  </data>
-  <data name="m_tlpManifest.ColumnCount" type="System.Int32, mscorlib">
+  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
   <data name="m_linkCertificate.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left</value>
   </data>
@@ -140,7 +134,7 @@
   <data name="m_linkCertificate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
   <data name="m_linkCertificate.Location" type="System.Drawing.Point, System.Drawing">
     <value>113, 19</value>
   </data>
@@ -163,10 +157,10 @@
     <value>m_linkCertificate</value>
   </data>
   <data name="&gt;&gt;m_linkCertificate.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;m_linkCertificate.Parent" xml:space="preserve">
-    <value>m_tlpManifest</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;m_linkCertificate.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -183,6 +177,9 @@
   <data name="m_checkBoxVerify.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 19</value>
   </data>
+  <data name="m_checkBoxVerify.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>6, 0, 0, 0</value>
+  </data>
   <data name="m_checkBoxVerify.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 18</value>
   </data>
@@ -196,72 +193,12 @@
     <value>m_checkBoxVerify</value>
   </data>
   <data name="&gt;&gt;m_checkBoxVerify.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;m_checkBoxVerify.Parent" xml:space="preserve">
-    <value>m_tlpManifest</value>
-  </data>
-  <data name="&gt;&gt;m_checkBoxVerify.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="m_tlpManifest.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="m_tlpManifest.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 29</value>
-  </data>
-  <data name="m_tlpManifest.RowCount" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="m_tlpManifest.Size" type="System.Drawing.Size, System.Drawing">
-    <value>509, 40</value>
-  </data>
-  <data name="m_tlpManifest.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;m_tlpManifest.Name" xml:space="preserve">
-    <value>m_tlpManifest</value>
-  </data>
-  <data name="&gt;&gt;m_tlpManifest.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;m_tlpManifest.Parent" xml:space="preserve">
     <value>tableLayoutPanel1</value>
   </data>
-  <data name="&gt;&gt;m_tlpManifest.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="m_tlpManifest.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="m_linkCertificate" Row="2" RowSpan="1" Column="1" ColumnSpan="1" />&lt;Control Name="m_labelVerify" Row="0" RowSpan="1" Column="0" ColumnSpan="2" />&lt;Control Name="m_checkBoxVerify" Row="2" RowSpan="1" Column="0" ColumnSpan="1" />&lt;/Controls>&lt;Columns Styles="AutoSize,0,Percent,100,Absolute,20,Absolute,20" />&lt;Rows Styles="AutoSize,0,Absolute,10,AutoSize,0,Absolute,20,Absolute,20" />&lt;/TableLayoutSettings></value>
-  </data>
-  <data name="m_labelVerify.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="m_labelVerify.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="m_labelVerify.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="m_labelVerify.Size" type="System.Drawing.Size, System.Drawing">
-    <value>503, 1</value>
-  </data>
-  <data name="m_labelVerify.TabIndex" type="System.Int32, mscorlib">
-    <value>62</value>
-  </data>
-  <data name="m_labelVerify.Text" xml:space="preserve">
-    <value>labelVerify</value>
-  </data>
-  <data name="&gt;&gt;m_labelVerify.Name" xml:space="preserve">
-    <value>m_labelVerify</value>
-  </data>
-  <data name="&gt;&gt;m_labelVerify.Type" xml:space="preserve">
-    <value>XenAdmin.Controls.Common.AutoHeightLabel, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;m_labelVerify.Parent" xml:space="preserve">
-    <value>m_tlpManifest</value>
-  </data>
-  <data name="&gt;&gt;m_labelVerify.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;m_checkBoxVerify.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="lblSecurityIntro.AutoSize" type="System.Boolean, mscorlib">
@@ -272,6 +209,9 @@
   </data>
   <data name="lblSecurityIntro.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
+  </data>
+  <data name="lblSecurityIntro.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 20</value>
   </data>
   <data name="lblSecurityIntro.Size" type="System.Drawing.Size, System.Drawing">
     <value>509, 1</value>
@@ -292,10 +232,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;lblSecurityIntro.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="m_ctrlError.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -331,7 +268,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;m_ctrlError.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -340,7 +277,7 @@
     <value>0, 0</value>
   </data>
   <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>515, 286</value>
@@ -352,7 +289,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -361,9 +298,42 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="m_tlpManifest" Row="2" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="lblSecurityIntro" Row="0" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="m_ctrlError" Row="3" RowSpan="1" Column="0" ColumnSpan="1" />&lt;/Controls>&lt;Columns Styles="Percent,100" />&lt;Rows Styles="AutoSize,0,Absolute,20,AutoSize,0,AutoSize,0,Percent,100,Absolute,20,Absolute,20" />&lt;/TableLayoutSettings></value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?>&lt;TableLayoutSettings>&lt;Controls>&lt;Control Name="m_linkCertificate" Row="2" RowSpan="1" Column="1" ColumnSpan="1" />&lt;Control Name="m_checkBoxVerify" Row="2" RowSpan="1" Column="0" ColumnSpan="1" />&lt;Control Name="m_labelVerify" Row="1" RowSpan="1" Column="0" ColumnSpan="2" />&lt;Control Name="lblSecurityIntro" Row="0" RowSpan="1" Column="0" ColumnSpan="2" />&lt;Control Name="m_ctrlError" Row="4" RowSpan="1" Column="0" ColumnSpan="2" />&lt;/Controls>&lt;Columns Styles="AutoSize,0,Percent,100" />&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,Absolute,10,AutoSize,0,Percent,100" />&lt;/TableLayoutSettings></value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="m_labelVerify.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="m_labelVerify.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="m_labelVerify.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 33</value>
+  </data>
+  <data name="m_labelVerify.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 6</value>
+  </data>
+  <data name="m_labelVerify.Size" type="System.Drawing.Size, System.Drawing">
+    <value>509, 13</value>
+  </data>
+  <data name="m_labelVerify.TabIndex" type="System.Int32, mscorlib">
+    <value>62</value>
+  </data>
+  <data name="m_labelVerify.Text" xml:space="preserve">
+    <value>labelVerify</value>
+  </data>
+  <data name="&gt;&gt;m_labelVerify.Name" xml:space="preserve">
+    <value>m_labelVerify</value>
+  </data>
+  <data name="&gt;&gt;m_labelVerify.Type" xml:space="preserve">
+    <value>XenAdmin.Controls.Common.AutoHeightLabel, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;m_labelVerify.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;m_labelVerify.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
@@ -376,6 +346,6 @@
     <value>ImportSecurityPage</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>XenAdmin.Wizards.GenericPages.ImExPortPage, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>XenAdmin.Controls.XenTabPage, XenCenterMain, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

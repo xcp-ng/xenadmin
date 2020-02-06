@@ -83,6 +83,7 @@ namespace XenAdmin.TabPages
             ConnectionsManager.History.CollectionChanged += History_CollectionChanged;
         }
 
+        public override string HelpID => "TabPageSnapshots";
 
         void DataGridView_Sorted(object sender, EventArgs e)
         {
@@ -783,9 +784,9 @@ namespace XenAdmin.TabPages
                 }
                 e.Result = image;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                log.Debug("Error creating the screenshot for simple selection");
+                log.Debug("Error creating the screenshot for simple selection.", ex);
             }
 
 

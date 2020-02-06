@@ -36,7 +36,7 @@ namespace XenAdmin.TabPages
 {
     public partial class UpsellTabPage : BaseTabPage
     {
-        public UpsellTabPage(string title, string blurb, string learnMoreUrl)
+        protected UpsellTabPage(string title, string blurb, string learnMoreUrl)
         {
             InitializeComponent();
             base.Text = title;
@@ -51,6 +51,8 @@ namespace XenAdmin.TabPages
             : base(Messages.ACTIVE_DIRECTORY_TAB_TITLE, HiddenFeatures.LinkLabelHidden ? Messages.UPSELL_BLURB_AD :
             Messages.UPSELL_BLURB_AD + Messages.UPSELL_BLURB_TRIAL, InvisibleMessages.UPSELL_LEARNMOREURL_TRIAL)
         { }
+
+        public override string HelpID => "TabPageADUpsell";
     }
 
     public class HAUpsellPage : UpsellTabPage
@@ -59,6 +61,8 @@ namespace XenAdmin.TabPages
             : base(Messages.HIGH_AVAILABILITY, HiddenFeatures.LinkLabelHidden ? Messages.UPSELL_BLURB_HA :
             Messages.UPSELL_BLURB_HA + Messages.UPSELL_BLURB_TRIAL, InvisibleMessages.UPSELL_LEARNMOREURL_TRIAL)
         { }
+
+        public override string HelpID => "TabPageHAUpsell";
     }
 
     public class WLBUpsellPage : UpsellTabPage
@@ -67,5 +71,7 @@ namespace XenAdmin.TabPages
             : base(Messages.WORKLOAD_BALANCING, HiddenFeatures.LinkLabelHidden ? Messages.UPSELL_BLURB_WLB :
             Messages.UPSELL_BLURB_WLB + Messages.UPSELL_BLURB_TRIAL, InvisibleMessages.UPSELL_LEARNMOREURL_TRIAL)
         { }
+
+        public override string HelpID => "TabPageWLBUpsell";
     }
 }

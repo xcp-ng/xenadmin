@@ -29,61 +29,60 @@
  * SUCH DAMAGE.
  */
 
-using System;
 using XenAdmin;
 using NUnit.Framework;
 
 namespace XenAdminTests.StringExtensionsTests
 {
-    public class EllipsiseStringTests : UnitTester_TestFixture
+    [TestFixture, Category(TestCategories.Unit)]
+    public class EllipsiseStringTests
     {
         [Test]
-        public void TestEllipsisingToShortenAString()
+        [TestCase(5, ExpectedResult = "th...")]
+        [TestCase(18, ExpectedResult = "this is a very ...")]
+        [TestCase(3, ExpectedResult = "...")]
+        public string TestEllipsisingToShortenAString(int size)
         {
             const string testString = "this is a very long string, well long-ish, actually it's of moderate length really";
-            Assert.That(testString.Ellipsise(5), Is.EqualTo("th..."));
-            Assert.That(testString.Ellipsise(18), Is.EqualTo("this is a very ..."));
-            Assert.That(testString.Ellipsise(3), Is.EqualTo("..."));
-            
+            return testString.Ellipsise(size);
         }
 
         [Test]
         public void TestEllipsisingAShortEnoughString([Values(8, 9, 28, 10000)] int size)
         {
             const string testString = "short";
-            Assert.That(testString.Ellipsise(size), Is.EqualTo(testString));
+            Assert.AreEqual(testString.Ellipsise(size), testString);
         }
 
         [Test]
         public void TestEllipsisingANullString()
         {
             const string testString = null;
-            Assert.That(testString.Ellipsise(10), Is.EqualTo(""));
+            Assert.AreEqual(testString.Ellipsise(10), "");
         }
 
         [Test]
         public void TestEllipsisingAnEmptyString()
         {
-            Assert.That("".Ellipsise(10), Is.EqualTo(""));
+            Assert.AreEqual("".Ellipsise(10), "");
         }
 
         [Test]
         public void TestAppendingEllipsisingWithMaxLengthLessThanEllipse([Values(1,2)] int size)
         {
-            Assert.That("short".Ellipsise(size), Is.EqualTo("."));
+            Assert.AreEqual("short".Ellipsise(size), ".");
         }
 
         [Test]
-        [TestCase("junk", "junk...")]
-        [TestCase("", "...")]
-        [TestCase(null, "...")]
-        [TestCase("junk...", "junk......")]
-        [TestCase("junk.", "junk....")]
-        public void AdditionOfEllipsis(string testString, string expectedResult)
+        [TestCase("junk", ExpectedResult = "junk...")]
+        [TestCase("", ExpectedResult = "...")]
+        [TestCase(null, ExpectedResult = "...")]
+        [TestCase("junk...", ExpectedResult = "junk......")]
+        [TestCase("junk.", ExpectedResult = "junk....")]
+        public string AdditionOfEllipsis(string testString)
         {
-            Assert.That(testString.AddEllipsis(), Is.EqualTo(expectedResult));
+            return testString.AddEllipsis();
         }
-
     }
 
 }

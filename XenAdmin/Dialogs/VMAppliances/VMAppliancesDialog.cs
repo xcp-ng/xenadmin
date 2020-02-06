@@ -49,8 +49,8 @@ namespace XenAdmin.Dialogs.VMAppliances
 {
     public partial class VMAppliancesDialog : XenDialogBase
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public readonly Pool Pool;
+
         public VMAppliancesDialog(Pool pool)
         {
             Pool = pool;

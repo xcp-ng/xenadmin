@@ -279,7 +279,7 @@ namespace XenAdmin.Controls.CustomDataGraph
                 Session session = xenObject.Connection.Session;
                 if (session == null)
                     return;
-                using (Stream httpstream = HTTPHelper.GET(URI(session, host, interval, xenObject), xenObject.Connection, true, false))
+                using (Stream httpstream = HTTPHelper.GET(URI(session, host, interval, xenObject), xenObject.Connection, true))
                 {
                     using (XmlReader reader = XmlReader.Create(httpstream))
                     {

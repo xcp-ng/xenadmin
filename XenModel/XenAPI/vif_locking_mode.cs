@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,23 @@ namespace XenAPI
     [JsonConverter(typeof(vif_locking_modeConverter))]
     public enum vif_locking_mode
     {
-        network_default, locked, unlocked, disabled, unknown
+        /// <summary>
+        /// No specific configuration set - default network policy applies
+        /// </summary>
+        network_default,
+        /// <summary>
+        /// Only traffic to a specific MAC and a list of IPv4 or IPv6 addresses is permitted
+        /// </summary>
+        locked,
+        /// <summary>
+        /// All traffic is permitted
+        /// </summary>
+        unlocked,
+        /// <summary>
+        /// No traffic is permitted
+        /// </summary>
+        disabled,
+        unknown
     }
 
     public static class vif_locking_mode_helper
@@ -75,4 +90,4 @@ namespace XenAPI
             writer.WriteValue(((vif_locking_mode)value).StringOf());
         }
     }
-}
+}

@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,19 @@ namespace XenAPI
     [JsonConverter(typeof(vbd_typeConverter))]
     public enum vbd_type
     {
-        CD, Disk, Floppy, unknown
+        /// <summary>
+        /// VBD will appear to guest as CD
+        /// </summary>
+        CD,
+        /// <summary>
+        /// VBD will appear to guest as disk
+        /// </summary>
+        Disk,
+        /// <summary>
+        /// VBD will appear as a floppy
+        /// </summary>
+        Floppy,
+        unknown
     }
 
     public static class vbd_type_helper
@@ -73,4 +84,4 @@ namespace XenAPI
             writer.WriteValue(((vbd_type)value).StringOf());
         }
     }
-}
+}

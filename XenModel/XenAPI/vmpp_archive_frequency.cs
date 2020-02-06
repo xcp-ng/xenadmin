@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,23 @@ namespace XenAPI
     [JsonConverter(typeof(vmpp_archive_frequencyConverter))]
     public enum vmpp_archive_frequency
     {
-        never, always_after_backup, daily, weekly, unknown
+        /// <summary>
+        /// Never archive
+        /// </summary>
+        never,
+        /// <summary>
+        /// Archive after backup
+        /// </summary>
+        always_after_backup,
+        /// <summary>
+        /// Daily archives
+        /// </summary>
+        daily,
+        /// <summary>
+        /// Weekly backups
+        /// </summary>
+        weekly,
+        unknown
     }
 
     public static class vmpp_archive_frequency_helper
@@ -75,4 +90,4 @@ namespace XenAPI
             writer.WriteValue(((vmpp_archive_frequency)value).StringOf());
         }
     }
-}
+}

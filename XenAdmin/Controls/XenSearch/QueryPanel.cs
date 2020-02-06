@@ -48,8 +48,6 @@ namespace XenAdmin.Controls.XenSearch
 {
     public class QueryPanel : GridView
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private const int ROW_HEIGHT = 27;
         private const int FOLDER_ROW_HEIGHT = 14;
 

@@ -140,8 +140,7 @@ namespace XenAdmin.Diagnostics.Checks.DR
             }
             catch (Exception e)
             {
-                log.ErrorFormat("There was an error calling assert_can_be_recovered for object {0}", xenObject.Name());
-                log.Error(e, e);
+                log.Error($"There was an error calling assert_can_be_recovered for object {xenObject.Name()}.", e);
             }
             return null;
         }

@@ -31,46 +31,22 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportFinishPage));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.m_groupBox = new XenAdmin.Controls.DecentGroupBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.m_label = new XenAdmin.Controls.Common.AutoHeightLabel();
             this.m_checkBoxStartVms = new System.Windows.Forms.CheckBox();
             this.m_labelIntro = new XenAdmin.Controls.Common.AutoHeightLabel();
             this.m_dataGridView = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
-            this.m_groupBox.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.m_groupBox, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.m_checkBoxStartVms, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.m_labelIntro, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.m_dataGridView, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.m_dataGridView, 0, 1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // m_groupBox
-            // 
-            resources.ApplyResources(this.m_groupBox, "m_groupBox");
-            this.m_groupBox.Controls.Add(this.tableLayoutPanel2);
-            this.m_groupBox.Name = "m_groupBox";
-            this.m_groupBox.TabStop = false;
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.m_label, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.m_checkBoxStartVms, 1, 1);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
-            // m_label
-            // 
-            resources.ApplyResources(this.m_label, "m_label");
-            this.m_label.Name = "m_label";
             // 
             // m_checkBoxStartVms
             // 
@@ -133,10 +109,6 @@
             this.Name = "ImportFinishPage";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.m_groupBox.ResumeLayout(false);
-            this.m_groupBox.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_dataGridView)).EndInit();
             this.ResumeLayout(false);
 
@@ -145,9 +117,6 @@
         #endregion
 
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private XenAdmin.Controls.DecentGroupBox m_groupBox;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-		private XenAdmin.Controls.Common.AutoHeightLabel m_label;
         private System.Windows.Forms.CheckBox m_checkBoxStartVms;
 		private XenAdmin.Controls.Common.AutoHeightLabel m_labelIntro;
 		private System.Windows.Forms.DataGridView m_dataGridView;

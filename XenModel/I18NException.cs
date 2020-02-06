@@ -76,7 +76,6 @@ namespace XenAdmin.Core
         XmlInvalid,
 
         PowerShellNotPresent,
-        PowerShellSnapInNotPresent,
         PowerShellExecutionPolicyRestricted,
 
         XenSearchFileInvalid

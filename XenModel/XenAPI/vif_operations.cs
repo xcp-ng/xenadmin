@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,19 @@ namespace XenAPI
     [JsonConverter(typeof(vif_operationsConverter))]
     public enum vif_operations
     {
-        attach, plug, unplug, unknown
+        /// <summary>
+        /// Attempting to attach this VIF to a VM
+        /// </summary>
+        attach,
+        /// <summary>
+        /// Attempting to hotplug this VIF
+        /// </summary>
+        plug,
+        /// <summary>
+        /// Attempting to hot unplug this VIF
+        /// </summary>
+        unplug,
+        unknown
     }
 
     public static class vif_operations_helper
@@ -73,4 +84,4 @@ namespace XenAPI
             writer.WriteValue(((vif_operations)value).StringOf());
         }
     }
-}
+}

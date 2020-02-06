@@ -29,12 +29,8 @@
  * SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using XenAdmin.Properties;
 
@@ -48,23 +44,20 @@ namespace XenAdmin.Dialogs.OptionsPages
         public DisplayOptionsPage()
         {
             InitializeComponent();
-
-            build();
+            Build();
         }
 
-        private void build()
+        private void Build()
         {
             GraphAreasRadioButton.Checked = Properties.Settings.Default.FillAreaUnderGraphs;
             GraphLinesRadioButton.Checked = !Properties.Settings.Default.FillAreaUnderGraphs;
-
-            showHostOnlyOptionForSearchRadioButton.Checked = Properties.Settings.Default.ShowJustHostInSearch;
-            showWholePoolOptionForSearchRadioButton.Checked = !Properties.Settings.Default.ShowJustHostInSearch;
+            checkBoxStoreTab.Checked = Properties.Settings.Default.RememberLastSelectedTab;
         }
 
         public static void Log()
         {
-            log.Info("=== FillAreaUnderGraphs: " + Properties.Settings.Default.FillAreaUnderGraphs.ToString());
-            log.Info("=== ShowHostOnlyInSearch: " + Properties.Settings.Default.ShowJustHostInSearch.ToString());
+            log.Info("=== FillAreaUnderGraphs: " + Properties.Settings.Default.FillAreaUnderGraphs);
+            log.Info("=== RememberLastSelectedTab: " + Properties.Settings.Default.RememberLastSelectedTab);
         }
 
         #region IOptionsPage Members
@@ -74,8 +67,8 @@ namespace XenAdmin.Dialogs.OptionsPages
             if (GraphAreasRadioButton.Checked != Properties.Settings.Default.FillAreaUnderGraphs)
                 Properties.Settings.Default.FillAreaUnderGraphs = GraphAreasRadioButton.Checked;
  
-            if (showHostOnlyOptionForSearchRadioButton.Checked != Properties.Settings.Default.ShowJustHostInSearch)
-                Properties.Settings.Default.ShowJustHostInSearch = showHostOnlyOptionForSearchRadioButton.Checked;
+            if (checkBoxStoreTab.Checked != Properties.Settings.Default.RememberLastSelectedTab)
+                Properties.Settings.Default.RememberLastSelectedTab = checkBoxStoreTab.Checked;
  
         }
 
@@ -83,20 +76,11 @@ namespace XenAdmin.Dialogs.OptionsPages
 
         #region IVerticalTab Members
 
-        public override string Text
-        {
-            get { return Messages.DISPLAY; }
-        }
+        public override string Text => Messages.DISPLAY;
 
-        public string SubText
-        {
-            get { return Messages.DISPLAY_DETAILS; }
-        }
+        public string SubText => Messages.DISPLAY_DETAILS;
 
-        public Image Image
-        {
-            get { return Resources._001_PerformanceGraph_h32bit_16; }
-        }
+        public Image Image => Resources._001_PerformanceGraph_h32bit_16;
 
         #endregion
     }

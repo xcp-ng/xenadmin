@@ -36,11 +36,12 @@ using System.Windows.Forms;
 using XenAdmin.ConsoleView;
 using XenAPI;
 using System.Drawing;
+using XenAdmin.Help;
 
 
 namespace XenAdmin.Controls
 {
-    public partial class ConsolePanel : UserControl
+    public partial class ConsolePanel : UserControl, IControlWithHelp
     {
         private const int MAX_ACTIVE_VM_CONSOLES = 10;
 
@@ -55,6 +56,8 @@ namespace XenAdmin.Controls
             tableLayoutPanelRbac.Visible = false;
             ClearErrorMessage();
         }
+
+        public virtual string HelpID => "TabPageConsole";
 
         public void PauseAllViews()
         {
@@ -384,5 +387,7 @@ namespace XenAdmin.Controls
             else
                 setCurrentSource(cvm);
         }
+
+        public override string HelpID => "TabPageCvmConsole";
     }
 }

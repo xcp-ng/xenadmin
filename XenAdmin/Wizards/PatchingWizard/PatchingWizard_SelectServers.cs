@@ -48,8 +48,6 @@ namespace XenAdmin.Wizards.PatchingWizard
 {
     public partial class PatchingWizard_SelectServers : XenTabPage
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private const int PLUS_MINUS_COL = 0;
         private const int POOL_CHECKBOX_COL = 1;
         private const int POOL_ICON_HOST_CHECKBOX_COL = 2;
@@ -535,6 +533,7 @@ namespace XenAdmin.Wizards.PatchingWizard
                 if (WizardMode != WizardMode.SingleUpdate)   
                     //prechecks will fail in automated updates mode if one of the hosts is unreachable
                     return SelectedPools.SelectMany(p => p.Connection.Cache.Hosts.Where(host => enabledHosts.Contains(host)).OrderBy(host => host)).ToList();
+
                 //prechecks will issue warning but allow updates to be installed on the reachable hosts only
                 return SelectedPools.SelectMany(p => p.Connection.Cache.Hosts.Where(host => host.IsLive() && enabledHosts.Contains(host)).OrderBy(host => host)).ToList();
             }
@@ -560,20 +559,19 @@ namespace XenAdmin.Wizards.PatchingWizard
                 List<Pool> pools = new List<Pool>();
                 foreach (PatchingHostsDataGridViewRow row in dataGridViewHosts.Rows)
                 {
-                    if (row.Tag is Pool)
+                    if (!row.Enabled || row.Cells.Count < 2 || (int)row.Cells[POOL_CHECKBOX_COL].Value == UNCHECKED)
+                        continue;
+
+                    if (row.Tag is Pool p)
                     {
-                        if (((int)row.Cells[POOL_CHECKBOX_COL].Value) != UNCHECKED && !pools.Contains((Pool)row.Tag))
-                            pools.Add((Pool)row.Tag);
+                        if (!pools.Contains(p))
+                            pools.Add(p);
                     }
-                    else if (row.Tag is Host)
+                    else if (row.Tag is Host h)
                     {
-                        if (((int)row.Cells[POOL_CHECKBOX_COL].Value) != UNCHECKED)
-                        {
-                            Host host = (Host)row.Tag;
-                            Pool pool = Helpers.GetPoolOfOne(host.Connection);
-                            if (pool != null && !pools.Contains(pool))
-                                pools.Add(pool);
-                        }
+                        Pool pool = Helpers.GetPoolOfOne(h.Connection);
+                        if (pool != null && !pools.Contains(pool))
+                            pools.Add(pool);
                     }
                 }
                 return pools;

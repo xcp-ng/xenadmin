@@ -29,9 +29,6 @@
  * SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using XenAdmin.ServerDBs;
 
@@ -40,16 +37,14 @@ namespace XenAdminTests.UnitTests
     [TestFixture, Category(TestCategories.Unit)]
     class TokenizerTest
     {
-        private const string sxp = "((\"string ( \\\" foo\")\" foo foo (( )) \\\"\")";
-        private static string[] tokens = new string[] {
-            "(", "(", "string ( \" foo", ")", " foo foo (( )) \"", ")"
-        };
+        private const string SXP = "((\"string ( \\\" foo\")\" foo foo (( )) \\\"\")";
+        private static string[] tokens = {"(", "(", "string ( \" foo", ")", " foo foo (( )) \"", ")"};
 
         [Test]
         public void Run()
         {
             int j = 0;
-            foreach (string token in Parser.Tokenize(sxp))
+            foreach (string token in Parser.Tokenize(SXP))
             {
                 Assert.Less(j, tokens.Length, "Too many tokens found");
                 Assert.AreEqual(token, tokens[j++], "Wrong token found");

@@ -233,14 +233,6 @@ namespace XenAdmin.SettingsPanels
             }
         }
         
-        private void checkBoxUseReportingServices_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!_loading)
-            {
-                _hasChanged = true;
-            }
-        }
-
         private void textBoxSMTPServer_TextChanged(object sender, EventArgs e)
         {
             if (!_loading)
@@ -311,16 +303,10 @@ namespace XenAdmin.SettingsPanels
 
         public void SetXenObjects(IXenObject orig, IXenObject clone)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
-        public bool ValidToSave
-        {
-            get
-            {
-                return true; //this has been true since Boston
-            }
-        }
+        public bool ValidToSave => true;
 
         public void ShowLocalValidationMessages()
         {
@@ -339,32 +325,20 @@ namespace XenAdmin.SettingsPanels
 
         public void Cleanup()
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
-        public bool HasChanged
-        {
-            get { return _hasChanged; }
-        }
+        public bool HasChanged => _hasChanged;
 
         #endregion
 
         #region IVerticalTab Members
 
 
-        public string SubText
-        {
-            get { return Messages.WLB_ADVANCED_CONFIGURATION_SUBTEXT; }
-        }
+        public string SubText => Messages.WLB_ADVANCED_CONFIGURATION_SUBTEXT;
 
-        public Image Image
-        {
-            get { return Properties.Resources._002_Configure_h32bit_16; }
-        }
+        public Image Image => Properties.Resources._002_Configure_h32bit_16;
 
         #endregion
-
-
-
     }
 }

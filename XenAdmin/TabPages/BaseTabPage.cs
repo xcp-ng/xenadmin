@@ -34,11 +34,12 @@ using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
 using XenAdmin.Controls;
+using XenAdmin.Help;
 
 namespace XenAdmin.TabPages
 {
     [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design", typeof(IDesigner))]
-    public partial class BaseTabPage : UserControl
+    public partial class BaseTabPage : UserControl, IControlWithHelp
     {
         // Colours etc. that are used by more than one tab page
         internal const int ITEM_SPACING = 4;
@@ -63,23 +64,16 @@ namespace XenAdmin.TabPages
 
         public override string Text
         {
-            get
-            {
-                return this.titleLabel.Text;
-            }
-            set
-            {
-                this.titleLabel.Text = value;
-            }
+            get => titleLabel.Text;
+            set => titleLabel.Text = value;
         }
 
-        protected DeprecationBanner Banner
-        {
-            get { return deprecationBanner1; }
-        }
+        protected DeprecationBanner Banner => deprecationBanner1;
 
         public virtual void PageHidden()
         {
         }
+
+        public virtual string HelpID => "";
     }
 }

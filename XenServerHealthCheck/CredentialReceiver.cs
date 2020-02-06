@@ -32,7 +32,6 @@ using System;
 using System.Text;
 using System.Security.Principal;
 using System.IO.Pipes;
-using XenAPI;
 using XenAdmin.Model;
 
 namespace XenServerHealthCheck
@@ -133,7 +132,7 @@ namespace XenServerHealthCheck
                         }
                         catch (Exception exp)
                         {
-                            log.ErrorFormat("Receive credential with error {0}", exp.Message);
+                            log.Error("Receive credential with error:", exp);
                             break;
                         }
                     } while (pipeServer.IsConnected);
@@ -142,7 +141,7 @@ namespace XenServerHealthCheck
             }
             catch (Exception exp)
             {
-                log.Error(exp.Message);
+                log.Error(exp, exp);
             }
         }
     }

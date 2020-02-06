@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class SM : XenObject<SM>
     {
+        #region Constructors
+
         public SM()
         {
         }
@@ -81,13 +83,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new SM from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public SM(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new SM from a Proxy_SM.
         /// </summary>
         /// <param name="proxy"></param>
         public SM(Proxy_SM proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -111,7 +127,7 @@ namespace XenAPI
             required_cluster_stack = update.required_cluster_stack;
         }
 
-        internal void UpdateFromProxy(Proxy_SM proxy)
+        internal void UpdateFrom(Proxy_SM proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -147,17 +163,6 @@ namespace XenAPI
             result_.driver_filename = driver_filename ?? "";
             result_.required_cluster_stack = required_cluster_stack;
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new SM from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public SM(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

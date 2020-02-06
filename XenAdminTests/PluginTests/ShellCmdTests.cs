@@ -30,51 +30,76 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using XenAdmin.Plugins;
 using System.IO;
-using System.Diagnostics;
-using XenAdmin;
+using System.Text;
 using System.Threading;
-using XenAPI;
 using XenAdmin.Commands;
-using XenAdminTests.UnitTests;
 
 namespace XenAdminTests.PluginTests
 {
-    [TestFixture, Category(TestCategories.UICategoryB)]
-    public class ShellCmdTests
+    [TestFixture, Category(TestCategories.Unit)]
+    public class ShellCmdTests : TestPluginLoader
     {
-        private PluginManager _pluginManager;
-        private TestPluginLoader _pluginLoader;
-        private ShellCmdTestBatchFile _batchFile;
+        private string _batchFile;
+        private string _fileThatBatchFileWillWrite;
 
-        [TearDown]
-        public void TearDown()
+        protected override string pluginName => "ShellCmdTestPlugin";
+
+        [OneTimeSetUp]
+        public void TestFixtureSetup()
         {
-            _pluginLoader.Dispose();
-            _pluginManager.Dispose();
-            _batchFile.Dispose();
+            string tempPath = Path.GetTempPath();
+            _batchFile = Path.Combine(tempPath, $"{Guid.NewGuid().ToString()}.bat");
+            _fileThatBatchFileWillWrite = Path.Combine(tempPath, Guid.NewGuid().ToString());
+
+            string batchFileContents = $"echo %1 > \"{_fileThatBatchFileWillWrite}\"";
+            File.WriteAllText(_batchFile, batchFileContents);
+        }
+
+        [OneTimeTearDown]
+        public void TestFixtureTearDown()
+        {
+            try
+            {
+                File.Delete(_batchFile);
+                File.Delete(_fileThatBatchFileWillWrite);
+            }
+            catch
+            {
+                //ignore
+            }
         }
 
         [SetUp]
-        public void Setup()
+        public override void Setup()
         {
             _pluginManager = new PluginManager();
+
+            _allPluginsFolder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            var pluginFolder = Path.Combine(_allPluginsFolder, "plugin-vendor", pluginName);
+            var pluginFile = Path.Combine(pluginFolder, $"{pluginName}.xcplugin.xml");
+
+            Directory.CreateDirectory(pluginFolder);
+
+            var sb = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            sb.AppendLine("<XenCenterPlugin xmlns=\"http://www.citrix.com/XenCenter/Plugins/schema\" version=\"1\" plugin_name=\"TestPlugin\" plugin_version=\"1.0.0.0\">");
+            sb.AppendLine("<MenuItem name=\"ShellCmdTestPlugin\" menu=\"file\" serialized=\"none\">");
+            sb.AppendLine($"<Shell filename=\"{_batchFile}\" window=\"true\"/></MenuItem></XenCenterPlugin>");
+
+            File.WriteAllText(pluginFile, sb.ToString());
+
+            _pluginManager.LoadPlugins(_allPluginsFolder);
         }
 
-        [Test]
+        
+
+        [Test, Apartment(ApartmentState.STA)]
         public void TestLoadPlugin()
         {
-            _batchFile = new ShellCmdTestBatchFile();
-
-            _pluginLoader = new TestPluginLoader("ShellCmdTestPlugin", _pluginManager, _batchFile.Xml);
-            _pluginLoader.Load();
-
-            Assert.IsTrue(File.Exists(_batchFile.BatchFile), "test batch file wasn't written");
-            Assert.IsFalse(File.Exists(_batchFile.FileThatBatchFileWillWrite), "test file shouldn't exist");
+            Assert.IsTrue(File.Exists(_batchFile), "test batch file wasn't written");
+            Assert.IsFalse(File.Exists(_fileThatBatchFileWillWrite), "test file shouldn't exist");
 
             Assert.AreEqual(1, _pluginManager.Plugins.Count, "No plugins loaded.");
             Assert.AreEqual("ShellCmdTestPlugin", _pluginManager.Plugins[0].Name, "Plugin Name incorrect");
@@ -86,16 +111,16 @@ namespace XenAdminTests.PluginTests
             MenuItemFeature menuItemFeature = (MenuItemFeature)_pluginManager.Plugins[0].Features[0];
 
             Assert.IsNotNull(menuItemFeature.ShellCmd, "ShellCmd wasn't loaded");
-            Assert.AreEqual(menuItemFeature.ShellCmd.Filename, _batchFile.BatchFile, "Batch file name wasn't read from plugin XML");
+            Assert.AreEqual(menuItemFeature.ShellCmd.Filename, _batchFile, "Batch file name wasn't read from plugin XML");
 
             // now execute the command and see if the test file is written by the batch file.
-            menuItemFeature.GetCommand(new MockMainWindow(), new SelectedItem[] { new SelectedItem((IXenObject)null) }).Execute();
+            menuItemFeature.GetCommand(new MockMainWindow(), new[] {new SelectedItem(null)}).Execute();
 
             int i = 0;
             bool completed = false;
             while (i < 300)
             {
-                if (File.Exists(_batchFile.FileThatBatchFileWillWrite))
+                if (File.Exists(_fileThatBatchFileWillWrite))
                 {
                     completed = true;
                     break;

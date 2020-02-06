@@ -1853,14 +1853,8 @@ Note that if RBAC is enabled, only alerts which you have privileges to dismiss w
   <data name="ALERT_DOM0_MEMORY_SUB_TEXT" xml:space="preserve">
     <value>When control domain memory usage exceeds {0} for {1} min(s)</value>
   </data>
-  <data name="ALERT_EXPORT_ALL_BUTTON" xml:space="preserve">
-    <value>Export &amp;all</value>
-  </data>
   <data name="ALERT_EXPORT_ALL_OR_FILTERED" xml:space="preserve">
     <value>You have applied filters to the list of alerts. Do you want to export all alerts from every connected server, or only the alerts you have chosen to view?</value>
-  </data>
-  <data name="ALERT_EXPORT_FILTERED_BUTTON" xml:space="preserve">
-    <value>Only export &amp;visible</value>
   </data>
   <data name="ALERT_GENERIC_HELP" xml:space="preserve">
     <value>Help</value>
@@ -2006,10 +2000,10 @@ Warning: you must ensure that the SR is not in use by any server not connected t
     <value>License Details</value>
   </data>
   <data name="ASSIGN_VMSS_POLICY" xml:space="preserve">
-    <value>Assign VM to snapsh&amp;ot schedule</value>
+    <value>Assign to Snapshot Schedu&amp;le</value>
   </data>
   <data name="ASSIGN_VMSS_POLICY_CONTEXT_MENU" xml:space="preserve">
-    <value>Assign VM to snapshot schedule</value>
+    <value>Assign to Snapshot Schedu&amp;le</value>
   </data>
   <data name="ASSIGN_VMSS_POLICY_NOAMP" xml:space="preserve">
     <value>Assign VM to snapshot schedule...</value>
@@ -2156,6 +2150,9 @@ This is a potentially dangerous operation and is not allowed.</value>
   </data>
   <data name="BIOS_BOOT" xml:space="preserve">
     <value>BIOS Boot</value>
+  </data>
+  <data name="BIOS_BOOT_MODE_UNSUPPORTED_WARNING" xml:space="preserve">
+    <value>The BIOS boot mode is not supported with the selected template.</value>
   </data>
   <data name="BIOS_STRINGS_COPIED" xml:space="preserve">
     <value>BIOS strings copied</value>
@@ -2549,7 +2546,7 @@ This will cancel compilation of the status report.</value>
     <value>Change Server Password - {0}</value>
   </data>
   <data name="CHANGEPASS_ROOT_PASS" xml:space="preserve">
-    <value>Please type the root password for {0}:</value>
+    <value>Please type the root password for '{0}':</value>
   </data>
   <data name="CHANGE_POLICY_STATUS" xml:space="preserve">
     <value>Change policy '{0}' status</value>
@@ -2615,6 +2612,9 @@ Do you want to assign it to the schedule '{2}' instead?</value>
   </data>
   <data name="CHECKING_PREPARE_TO_UPGRADE_DESCRIPTION" xml:space="preserve">
     <value>Host upgrade readiness check</value>
+  </data>
+  <data name="CHECKING_PV_GUESTS" xml:space="preserve">
+    <value>Checking guest compatibility</value>
   </data>
   <data name="CHECKING_ROLE" xml:space="preserve">
     <value>Checking role...</value>
@@ -2715,6 +2715,9 @@ Do you want to assign it to the schedule '{2}' instead?</value>
   <data name="COMPRESSING_FILES" xml:space="preserve">
     <value>Compressing appliance files...</value>
   </data>
+  <data name="CONFIGURE_HA" xml:space="preserve">
+    <value>Configure HA</value>
+  </data>
   <data name="CONFIGURE_HA_ELLIPSIS" xml:space="preserve">
     <value>&amp;Configure HA...</value>
   </data>
@@ -2728,7 +2731,7 @@ Do you want to assign it to the schedule '{2}' instead?</value>
     <value>Confirmations</value>
   </data>
   <data name="CONFIRMATIONS_DETAIL" xml:space="preserve">
-    <value>Confirm dismissal of notifications</value>
+    <value>Confirm dismissal of warnings or notifications</value>
   </data>
   <data name="CONFIRM_CHANGE_CONTROL_DOMAIN_MEMORY" xml:space="preserve">
     <value>Changing the Control Domain memory will cause the server to be rebooted.
@@ -3156,7 +3159,6 @@ Would you like to carry out the operation at this time?</value>
   </data>
   <data name="CONNECTION_RESTRICTED_MESSAGE" xml:space="preserve">
     <value>Connection to Server {0} restricted because a connection already exists to another XE Express Server ({1})</value>
-    <comment>Message shown when user attempts to connect to a second XE Express host from the UI</comment>
   </data>
   <data name="CONNECTION_RESTRICTED_MESSAGE_LONG" xml:space="preserve">
     <value>Connection to server {0} restricted - a connection to a [Citrix XenServer] Express Edition server ({1}) already exists.
@@ -3164,7 +3166,7 @@ Would you like to carry out the operation at this time?</value>
 You can only connect to a single [Citrix XenServer] Express Edition server at a time. To find out how to upgrade your license, follow the link below.</value>
   </data>
   <data name="CONNECTION_RESTRICTED_NOTICE_TITLE" xml:space="preserve">
-    <value>Cannot connect to {0} because of license restriction</value>
+    <value>Cannot connect to {0} due to license restrictions on the server</value>
     <comment>Title of notice shown when connection to a host is restricted by license</comment>
   </data>
   <data name="CONNECTION_RETRYING_SLAVE" xml:space="preserve">
@@ -3265,6 +3267,259 @@ You can only connect to a single [Citrix XenServer] Express Edition server at a 
   </data>
   <data name="CONTROL_DOM_ON_HOST" xml:space="preserve">
     <value>Control domain on host {0}</value>
+  </data>
+  <data name="CONVERSION_CANCEL_CONFIRM" xml:space="preserve">
+    <value>Are you sure you want to cancel this conversion?</value>
+  </data>
+  <data name="CONVERSION_CANCEL_FAILURE" xml:space="preserve">
+    <value>Cannot cancel the conversion. Please see logs for details.</value>
+  </data>
+  <data name="CONVERSION_CANNOT_FIND_VPX" xml:space="preserve">
+    <value>Cannot find a Conversion Manager virtual appliance.</value>
+  </data>
+  <data name="CONVERSION_CANNOT_OBTAIN_VPX_IP" xml:space="preserve">
+    <value>Cannot obtain an IP address for the Conversion Manager virtual appliance.</value>
+  </data>
+  <data name="CONVERSION_CLEAR_HISTORY_CONFIRM" xml:space="preserve">
+    <value>This action will clear all the completed conversions from the Conversion Manager virtual appliance history.
+
+This action cannot be undone. Are you sure you want to continue?</value>
+  </data>
+  <data name="CONVERSION_CLEAR_HISTORY_FAILURE" xml:space="preserve">
+    <value>Cannot clear the conversion history. Please see logs for details.</value>
+  </data>
+  <data name="CONVERSION_CONNECTING_VMWARE" xml:space="preserve">
+    <value>Connecting to the VMware server...</value>
+  </data>
+  <data name="CONVERSION_CONNECTING_VMWARE_FAILURE" xml:space="preserve">
+    <value>Cannot connect to the VMware server. Please see logs for details.</value>
+  </data>
+  <data name="CONVERSION_CONNECTING_VMWARE_SUCCESS" xml:space="preserve">
+    <value>Connected successfully to the VMware server</value>
+  </data>
+  <data name="CONVERSION_CONNECTING_VPX_INTERRUPTION" xml:space="preserve">
+    <value>Lost connection to the Conversion Manager virtual appliance. Will reconnect in {0} sec.</value>
+  </data>
+  <data name="CONVERSION_CONNECTING_VPX_SUCCESS" xml:space="preserve">
+    <value>Connected to the Conversion Manager virtual appliance.</value>
+  </data>
+  <data name="CONVERSION_CREATE_FAILURE" xml:space="preserve">
+    <value>Cannot start a new conversion. Please see logs for details.</value>
+  </data>
+  <data name="CONVERSION_CREDENTIALS_PAGE_TEXT" xml:space="preserve">
+    <value>VMware Server</value>
+  </data>
+  <data name="CONVERSION_CREDENTIALS_PAGE_TITLE" xml:space="preserve">
+    <value>Connect to VMware server</value>
+  </data>
+  <data name="CONVERSION_DETAIL_CONVERSION_ID" xml:space="preserve">
+    <value>Conversion ID</value>
+  </data>
+  <data name="CONVERSION_DETAIL_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="CONVERSION_DETAIL_DISK_WRITE" xml:space="preserve">
+    <value>Disk write</value>
+  </data>
+  <data name="CONVERSION_DETAIL_DURATION" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="CONVERSION_DETAIL_FINISH_TIME" xml:space="preserve">
+    <value>Finish time</value>
+  </data>
+  <data name="CONVERSION_DETAIL_GET_FAILURE" xml:space="preserve">
+    <value>Cannot refresh the conversion. Please see logs for details.</value>
+  </data>
+  <data name="CONVERSION_DETAIL_NETWORK_READ" xml:space="preserve">
+    <value>Network read</value>
+  </data>
+  <data name="CONVERSION_DETAIL_NETWORK_READ_COMPRESSED" xml:space="preserve">
+    <value>{0} (compressed)</value>
+  </data>
+  <data name="CONVERSION_DETAIL_START_TIME" xml:space="preserve">
+    <value>Start time</value>
+  </data>
+  <data name="CONVERSION_DETAIL_STATUS" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="CONVERSION_DETAIL_TARGET_SR" xml:space="preserve">
+    <value>Target SR</value>
+  </data>
+  <data name="CONVERSION_EXPORT" xml:space="preserve">
+    <value>Export conversions to {0}</value>
+  </data>
+  <data name="CONVERSION_EXPORTED" xml:space="preserve">
+    <value>Exported conversions to {0}</value>
+  </data>
+  <data name="CONVERSION_EXPORTING" xml:space="preserve">
+    <value>Exporting conversions to {0}...</value>
+  </data>
+  <data name="CONVERSION_EXPORT_ALL_OR_FILTERED" xml:space="preserve">
+    <value>You have applied filters to the list of conversions. Do you want to export all conversions, or only the conversions you have chosen to view?</value>
+  </data>
+  <data name="CONVERSION_INITIALIZING_VPX" xml:space="preserve">
+    <value>Initializing the Conversion Manager virtual appliance...</value>
+  </data>
+  <data name="CONVERSION_INITIALIZING_VPX_FAILURE" xml:space="preserve">
+    <value>Cannot initialize the Conversion Manager virtual appliance. Please see logs for details.</value>
+  </data>
+  <data name="CONVERSION_LOG_SAVE" xml:space="preserve">
+    <value>Save conversion log to {0}</value>
+  </data>
+  <data name="CONVERSION_LOG_SAVED" xml:space="preserve">
+    <value>Saved conversion log to {0}</value>
+  </data>
+  <data name="CONVERSION_LOG_SAVE_TITLE" xml:space="preserve">
+    <value>Save Conversion Log</value>
+  </data>
+  <data name="CONVERSION_LOG_SAVING" xml:space="preserve">
+    <value>Saving conversion log to {0}</value>
+  </data>
+  <data name="CONVERSION_MANAGER_TITLE" xml:space="preserve">
+    <value>Manage Conversions - {0}</value>
+  </data>
+  <data name="CONVERSION_NETWORK_PAGE_BLURB" xml:space="preserve">
+    <value>Map the virtual ethernet adapters for the VMware VM(s) you are converting to networks in the destination pool or standalone server.</value>
+  </data>
+  <data name="CONVERSION_NETWORK_PAGE_COLUMN_HEADER" xml:space="preserve">
+    <value>VMware Network</value>
+  </data>
+  <data name="CONVERSION_NETWORK_PAGE_QUERYING_NETWORKS" xml:space="preserve">
+    <value>Retrieving source network data...</value>
+  </data>
+  <data name="CONVERSION_NETWORK_PAGE_QUERYING_NETWORKS_FAILURE" xml:space="preserve">
+    <value>Failed to retrieve source network data</value>
+  </data>
+  <data name="CONVERSION_NETWORK_PAGE_TEXT" xml:space="preserve">
+    <value>Networking</value>
+  </data>
+  <data name="CONVERSION_NETWORK_PAGE_TITLE" xml:space="preserve">
+    <value>Optionally, select [XenServer] networks to connect the VMs</value>
+  </data>
+  <data name="CONVERSION_RBAC_RESTRICTION" xml:space="preserve">
+    <value>A {0} user does not have sufficient permissions to run the Conversion Manager. Please login using an account with one of the following roles:
+
+{1}</value>
+  </data>
+  <data name="CONVERSION_RETRY_FAILURE" xml:space="preserve">
+    <value>Cannot retry the conversion. Please see logs for details.</value>
+  </data>
+  <data name="CONVERSION_SELECT_VPX_TITLE" xml:space="preserve">
+    <value>Select Conversion Manager Virtual Appliance - {0}</value>
+  </data>
+  <data name="CONVERSION_STATUS_CANCELLED" xml:space="preserve">
+    <value>Canceled</value>
+  </data>
+  <data name="CONVERSION_STATUS_CREATED" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="CONVERSION_STATUS_FAILED" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="CONVERSION_STATUS_INCOMPLETE" xml:space="preserve">
+    <value>Incomplete</value>
+  </data>
+  <data name="CONVERSION_STATUS_QUEUED" xml:space="preserve">
+    <value>Queued</value>
+  </data>
+  <data name="CONVERSION_STATUS_RUNNING" xml:space="preserve">
+    <value>In progress</value>
+  </data>
+  <data name="CONVERSION_STATUS_SUCCESSFUL" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_FREE_SPACE" xml:space="preserve">
+    <value>Free space {0}</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_QUERYING_SRS" xml:space="preserve">
+    <value>Retrieving available SRs...</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_QUERYING_SRS_EMPTY" xml:space="preserve">
+    <value>There are no SR locations that can accommodate the disks for the converted VMs</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_QUERYING_SRS_FAILURE" xml:space="preserve">
+    <value>Failed to retrieve available SRs</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_REQUIRED_SPACE" xml:space="preserve">
+    <value>Required space {0}</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_SR_OVERCOMMIT" xml:space="preserve">
+    <value>The SR is overcommitted</value>
+  </data> 
+  <data name="CONVERSION_STORAGE_PAGE_SR_TOO_SMALL" xml:space="preserve">
+    <value>There is not enough available space on this SR</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_TEXT" xml:space="preserve">
+    <value>Storage</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_TITLE" xml:space="preserve">
+    <value>Select target storage</value>
+  </data>
+  <data name="CONVERSION_STORAGE_PAGE_USED_SPACE" xml:space="preserve">
+    <value>Used space {0}</value>
+  </data>
+  <data name="CONVERSION_SUMMARY_DATA_MAC" xml:space="preserve">
+    <value>Preserve MAC addresses:</value>
+  </data>
+  <data name="CONVERSION_SUMMARY_DATA_NETWORK" xml:space="preserve">
+    <value>Network:</value>
+  </data>
+  <data name="CONVERSION_SUMMARY_DATA_SR" xml:space="preserve">
+    <value>Storage:</value>
+  </data>
+  <data name="CONVERSION_SUMMARY_DATA_VMS" xml:space="preserve">
+    <value>VM(s) to convert:</value>
+  </data>
+  <data name="CONVERSION_SUMMARY_DATA_VMWARE_SERVER" xml:space="preserve">
+    <value>VMware server:</value>
+  </data>
+  <data name="CONVERSION_SUMMARY_PAGE_TEXT" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+  <data name="CONVERSION_SUMMARY_PAGE_TITLE" xml:space="preserve">
+    <value>Review the conversion settings</value>
+  </data>
+  <data name="CONVERSION_TEMPLATE" xml:space="preserve">
+    <value>{0} (Template)</value>
+  </data>
+  <data name="CONVERSION_TRY_AGAIN" xml:space="preserve">
+    <value>&amp;Try again</value>
+  </data>
+  <data name="CONVERSION_VERSION_CHECK" xml:space="preserve">
+    <value>Checking compatibility with the Conversion Manager virtual appliance...</value>
+  </data>
+  <data name="CONVERSION_VERSION_CHECK_FAILURE" xml:space="preserve">
+    <value>Cannot retrieve the Conversion Manager virtual appliance version. Please see logs for details.</value>
+  </data>
+  <data name="CONVERSION_VERSION_INCOMPATIBILITY" xml:space="preserve">
+    <value>[XenCenter] is incompatible with this version of the Conversion Manager virtual appliance.</value>
+  </data>
+  <data name="CONVERSION_VERSION_INCOMPATIBILITY_INFO" xml:space="preserve">
+    <value>The version of the Conversion Manager virtual appliance you are using is earlier than [BRANDING_VERSION_7_0]. You can use the legacy Conversion Manager console to set up and control conversions. However, it is strongly recommended that you import and configure the Conversion Manager virtual appliance matching your [XenServer] version.</value>
+  </data>
+  <data name="CONVERSION_VM_PAGE_TEXT" xml:space="preserve">
+    <value>Virtual Machines</value>
+  </data>
+  <data name="CONVERSION_VM_PAGE_TITLE" xml:space="preserve">
+    <value>Select the VMs to convert</value>
+  </data>
+  <data name="CONVERSION_VPX_OBTAIN_IP" xml:space="preserve">
+    <value>Obtaining an IP address for the Conversion Manager virtual appliance...</value>
+  </data>
+  <data name="CONVERSION_VPX_RESUME" xml:space="preserve">
+    <value>Resuming the Conversion Manager virtual appliance...</value>
+  </data>
+  <data name="CONVERSION_VPX_START" xml:space="preserve">
+    <value>Starting the Conversion Manager virtual appliance...</value>
+  </data>
+  <data name="CONVERSION_VPX_UNKNOWN_POWER_STATE" xml:space="preserve">
+    <value>Cannot deduce the power state of the Conversion Manager virtual appliance.</value>
+  </data>
+  <data name="CONVERSION_VPX_UNPAUSE" xml:space="preserve">
+    <value>Un-pausing the Conversion Manager virtual appliance...</value>
+  </data>
+  <data name="CONVERSION_WIZARD_TEXT" xml:space="preserve">
+    <value>New Conversion</value>
   </data>
   <data name="CONVERT" xml:space="preserve">
     <value>&amp;Convert</value>
@@ -4247,8 +4502,11 @@ This will also delete its subfolders.</value>
   <data name="DISK_TOO_BIG" xml:space="preserve">
     <value>There is not enough available space for this disk</value>
   </data>
+  <data name="DISK_TOO_BIG_MAX_SIZE" xml:space="preserve">
+    <value>Disk size cannot be more than {0}.</value>
+  </data>
   <data name="DISK_TOO_SMALL" xml:space="preserve">
-    <value>Disk size needs to be at least {0} {1}</value>
+    <value>Disk size needs to be at least {0}.</value>
   </data>
   <data name="DISMISS_ALL_CONFIRM_BUTTON" xml:space="preserve">
     <value>Dismiss &amp;all</value>
@@ -4264,6 +4522,9 @@ This will also delete its subfolders.</value>
   </data>
   <data name="DISPLAY_DETAILS" xml:space="preserve">
     <value>Display options</value>
+  </data>
+  <data name="DMC" xml:space="preserve">
+    <value>Dynamic Memory Control</value>
   </data>
   <data name="DMC_UNAVAILABLE_LICENSE_RESTRICTION" xml:space="preserve">
     <value>The Dynamic Memory Control (DMC) is not available due to license restrictions on the server.</value>
@@ -4627,13 +4888,13 @@ Eject the CD and try again.</value>
     <value>Resolve</value>
   </data>
   <data name="DR_WIZARD_PRECHECKPAGE_STATUS_FAILURE" xml:space="preserve">
-    <value>Failover prechecks completed: {0} issues found</value>
+    <value>Failover pre-checks completed: {0} issues found</value>
   </data>
   <data name="DR_WIZARD_PRECHECKPAGE_STATUS_RUNNING" xml:space="preserve">
     <value>Running failover pre-checks:</value>
   </data>
   <data name="DR_WIZARD_PRECHECKPAGE_STATUS_SUCCESS" xml:space="preserve">
-    <value>Failover prechecks completed: No issues found</value>
+    <value>Failover pre-checks completed: No issues found</value>
   </data>
   <data name="DR_WIZARD_PRECHECKPAGE_TEXT" xml:space="preserve">
     <value>Pre-checks</value>
@@ -5010,6 +5271,9 @@ Would you like to eject these ISOs before continuing?</value>
   <data name="ERROR_DEACTIVATING_MULTIPLE_VDIS_TITLE" xml:space="preserve">
     <value>Error Deactivating Virtual Disks</value>
   </data>
+  <data name="ERROR_DESTINATION_DIR_NON_EXIST" xml:space="preserve">
+    <value>Destination directory does not exist.</value>
+  </data>
   <data name="ERROR_DESTROYING_STORAGE_ITEMS_MESSAGE" xml:space="preserve">
     <value>The following storage could not be destroyed:</value>
   </data>
@@ -5292,6 +5556,9 @@ Warning: to prevent data loss you must ensure that the LUN is not in use by any 
   <data name="EXPORT_ALL" xml:space="preserve">
     <value>Export All</value>
   </data>
+  <data name="EXPORT_ALL_BUTTON" xml:space="preserve">
+    <value>Export &amp;all</value>
+  </data>
   <data name="EXPORT_APPLIANCE" xml:space="preserve">
     <value>Export OVF/OVA Package</value>
   </data>
@@ -5303,9 +5570,6 @@ Warning: to prevent data loss you must ensure that the LUN is not in use by any 
   </data>
   <data name="EXPORT_APPLIANCE_PAGE_ERROR_INVALID_DIR" xml:space="preserve">
     <value>Destination directory is invalid.</value>
-  </data>
-  <data name="EXPORT_APPLIANCE_PAGE_ERROR_NON_EXIST_DIR" xml:space="preserve">
-    <value>Destination directory does not exist.</value>
   </data>
   <data name="EXPORT_APPLIANCE_PAGE_ERROR_PERMISSIONS" xml:space="preserve">
     <value>You do not have write permission on the destination directory.</value>
@@ -5345,6 +5609,9 @@ Warning: to prevent data loss you must ensure that the LUN is not in use by any 
   </data>
   <data name="EXPORT_EULA_PAGE_TOOLTIP" xml:space="preserve">
     <value>Maximum number of EULAs  ({0}) has been reached.</value>
+  </data>
+  <data name="EXPORT_FILTERED_BUTTON" xml:space="preserve">
+    <value>Only export &amp;visible</value>
   </data>
   <data name="EXPORT_OPTIONS_PAGE_TEXT" xml:space="preserve">
     <value>Advanced Options</value>
@@ -5413,16 +5680,16 @@ Warning: to prevent data loss you must ensure that the LUN is not in use by any 
     <value>External command exited with Exit Code: {0}</value>
   </data>
   <data name="EXTERNAL_PLUGIN_FINISHED" xml:space="preserve">
-    <value>Plugin finished running</value>
+    <value>Plug-in finished running</value>
   </data>
   <data name="EXTERNAL_PLUGIN_RUNNING" xml:space="preserve">
     <value>Running '{0}'</value>
   </data>
   <data name="EXTERNAL_PLUGIN_TITLE" xml:space="preserve">
-    <value>Run '{0}' from plugin '{1}'</value>
+    <value>Run '{0}' from plug-in '{1}'</value>
   </data>
   <data name="EXTERNAL_PLUGIN_WIN32" xml:space="preserve">
-    <value>Failed to run plugin executable. Please see the client log for details.</value>
+    <value>Failed to run plug-in executable. Please see the client log for details.</value>
   </data>
   <data name="FAILED" xml:space="preserve">
     <value>Failed</value>
@@ -5623,7 +5890,7 @@ Warning: to prevent data loss you must ensure that the LUN is not in use by any 
     <value>&amp;Force close</value>
   </data>
   <data name="FORCE_CLOSE_PLUGIN_PROMPT" xml:space="preserve">
-    <value>Plugin {0} has not yet responded to your cancel request. Would you like to force close the process or allow it to continue to run in the background?</value>
+    <value>Plug-in {0} has not yet responded to your cancel request. Would you like to force close the process or allow it to continue to run in the background?</value>
   </data>
   <data name="FORCE_ENABLE_RDP" xml:space="preserve">
     <value>Would you like to configure this VM to accept Remote Desktop connections, and then connect to it over Remote Desktop?</value>
@@ -5833,10 +6100,10 @@ Warning: to prevent data loss you must ensure that the LUN is not in use by any 
     <value>You can improve graphics performance by assigning a dedicated graphics processing unit (GPU) to a VM. However, no GPUs have been detected in this server, so this option is not currently available.</value>
   </data>
   <data name="GPU_RUBRIC_PLEASE_SELECT_WHICH_GPU_MULTIPLE" xml:space="preserve">
-    <value>Select which virtual GPU types are allowed on these GPUs:</value>
+    <value>Select which virtual GPU types are allowed on these GPUs.</value>
   </data>
   <data name="GPU_RUBRIC_PLEASE_SELECT_WHICH_GPU_ONE" xml:space="preserve">
-    <value>Select which virtual GPU types are allowed on this GPU:</value>
+    <value>Select which virtual GPU types are allowed on this GPU.</value>
   </data>
   <data name="GRAPHS_CANNOT_ADD_VM_HALTED" xml:space="preserve">
     <value>It is not possible to add new performance graphs on VM '{0}' because the VM is not running.</value>
@@ -5997,6 +6264,9 @@ not currently live:
   <data name="HA_CONFIGURE_NOW" xml:space="preserve">
     <value>Configure HA now...</value>
   </data>
+  <data name="HA_CONFIGURE_NO_STATEFILE" xml:space="preserve">
+    <value>Cannot configure HA for pool '{0}' because an HA Statefile VDI could not be found in the pool.</value>
+  </data>
   <data name="HA_CONFIRM_FORCESHUTDOWN_VM" xml:space="preserve">
     <value>The selected VM is currently protected by HA. Are you sure you want to force the shut down of this VM? This operation will cancel all running tasks for the VM and can result in data loss.</value>
   </data>
@@ -6020,6 +6290,9 @@ not currently live:
   </data>
   <data name="HA_CURRENT_CAPACITY" xml:space="preserve">
     <value>Current failure capacity:</value>
+  </data>
+  <data name="HA_DISABLE_NO_STATEFILE" xml:space="preserve">
+    <value>Cannot disable HA for pool '{0}' because an HA Statefile VDI could not be found in the pool.</value>
   </data>
   <data name="HA_DISABLE_QUERY" xml:space="preserve">
     <value>Are you sure you want to disable HA for pool '{0}'?</value>
@@ -6146,7 +6419,7 @@ Do you want to apply this HA configuration anyway?</value>
     <value>{0} - pool is overcommitted</value>
   </data>
   <data name="HA_OVERCOMMIT_BLURB" xml:space="preserve">
-    <value>When overcommited the pool cannot guarantee to tolerate the number of server failures specified.
+    <value>When overcommitted the pool cannot guarantee to tolerate the number of server failures specified.
 
 Reduce protection levels, or bring more servers online to increase the maximum supported capacity.</value>
   </data>
@@ -6489,7 +6762,7 @@ This might result in failure to migrate VMs to this server during the RPU or to 
     <value>Server is not reachable</value>
   </data>
   <data name="HOST_NO_CRASHDUMPS" xml:space="preserve">
-    <value>No crashdumps to remove</value>
+    <value>No crash dumps to remove</value>
   </data>
   <data name="HOST_POWER_ON" xml:space="preserve">
     <value>Server power on</value>
@@ -6507,16 +6780,16 @@ This might result in failure to migrate VMs to this server during the RPU or to 
     <value>You must reboot your server '{0}' to complete the restore process.</value>
   </data>
   <data name="HOST_REMOVED_MANY_CRASHDUMPS" xml:space="preserve">
-    <value>Removed {0} crashdumps from {1}</value>
+    <value>Removed {0} crash dumps from {1}</value>
   </data>
   <data name="HOST_REMOVED_ONE_CRASHDUMP" xml:space="preserve">
-    <value>Removed 1 crashdump from {0}</value>
+    <value>Removed 1 crash dump from {0}</value>
   </data>
   <data name="HOST_REMOVING_CRASHDUMP" xml:space="preserve">
-    <value>Removing crashdump {0} of {1} from {2}</value>
+    <value>Removing crash dump {0} of {1} from {2}</value>
   </data>
   <data name="HOST_REMOVING_CRASHDUMPS_TITLE" xml:space="preserve">
-    <value>Removing crashdumps from {0}</value>
+    <value>Removing crash dumps from {0}</value>
   </data>
   <data name="HOST_RESTORED" xml:space="preserve">
     <value>Server '{0}' restored.</value>
@@ -6538,6 +6811,60 @@ This might result in failure to migrate VMs to this server during the RPU or to 
   </data>
   <data name="HOTFIX_CHECK" xml:space="preserve">
     <value>Hotfix check</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_DESCRIPTION_APPROACHING_EOL" xml:space="preserve">
+    <value>{0} will reach End of Life on {1}. After this date {2} will be no longer eligible for support and there will be no further hotfixes released for this version. Please upgrade to latest supported version.</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_DESCRIPTION_APPROACHING_EOL_FREE" xml:space="preserve">
+    <value>{0} will reach End of Life on {1}. There will be no further hotfixes released after this date.  Please upgrade to the latest CR.</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_DESCRIPTION_CU" xml:space="preserve">
+    <value>A new Cumulative Update is available for {0}. After {1} there will be no further hotfixes released for {2}. Please update to the latest Cumulative Update.</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_DESCRIPTION_EOL" xml:space="preserve">
+    <value>{0} reached End of Life on {1} and is no longer eligible for support. There will be no further hotfixes released after this date. Please upgrade to the latest supported version.</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_DESCRIPTION_EOL_FREE" xml:space="preserve">
+    <value>{0} reached End of Life on {1}. There will be no further hotfixes released after this date. Please upgrade to the latest CR.</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_DESCRIPTION_FREE" xml:space="preserve">
+    <value>{0} reached End of Life for express customers on {1}. You are no longer eligible for hotfixes released after this date. Please upgrade to the latest CR.</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_TITLE_APPROACHING_EOL" xml:space="preserve">
+    <value>{0} will reach End of Life on {1}</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_TITLE_CU" xml:space="preserve">
+    <value>A new Cumulative Update is available</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_TITLE_EOL" xml:space="preserve">
+    <value>{0} has reached End of Life</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_ALERT_TITLE_FREE" xml:space="preserve">
+    <value>{0} has reached End of Life for express customers</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_CU" xml:space="preserve">
+    <value>No further hotfixes released after {0}</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_CU_NO_DATE" xml:space="preserve">
+    <value>A new Cumulative Update is available</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_EOL" xml:space="preserve">
+    <value>End of Life on {0}. No longer eligible for support</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_EOL_FREE" xml:space="preserve">
+    <value>End of Life on {0}</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_EOL_FREE_NO_DATE" xml:space="preserve">
+    <value>End of Life</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_EOL_NO_DATE" xml:space="preserve">
+    <value>End of Life. No longer eligible for support</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_FREE" xml:space="preserve">
+    <value>Not eligible for hotfixes released after {0}</value>
+  </data>
+  <data name="HOTFIX_ELIGIBILITY_WARNING_FREE_NO_DATE" xml:space="preserve">
+    <value>End of Life for express customers</value>
   </data>
   <data name="HOURLY_SCHEDULE_FORMAT" xml:space="preserve">
     <value>Hourly; at {0} minutes past each hour</value>
@@ -6626,6 +6953,9 @@ This might result in failure to migrate VMs to this server during the RPU or to 
   <data name="IMPORT_INCOMPLETE_FILES" xml:space="preserve">
     <value>The exported files are incomplete or in an unrecognised format.</value>
   </data>
+  <data name="IMPORT_OPTIONS_PAGE_CANNOT_USE_SELECTED_ISO_LIBRARY" xml:space="preserve">
+    <value>The Fixup ISO cannot be copied to the selected SR</value>
+  </data>
   <data name="IMPORT_OPTIONS_PAGE_CHOOSE_ISO_SR" xml:space="preserve">
     <value>[Choose an ISO SR]</value>
   </data>
@@ -6666,16 +6996,13 @@ This might result in failure to migrate VMs to this server during the RPU or to 
     <value>&amp;Verify manifest content</value>
   </data>
   <data name="IMPORT_SECURITY_PAGE_VERIFY_CONTENT_DESCRIPTION" xml:space="preserve">
-    <value>Verify the manifest matches the appliance files. This option will only activate if the appliance has a manifest file.</value>
+    <value>The appliance has a manifest file. You can choose to verify the manifest matches the appliance files.</value>
   </data>
   <data name="IMPORT_SECURITY_PAGE_VERIFY_PRODUCER" xml:space="preserve">
     <value>&amp;Verify digital signature</value>
   </data>
   <data name="IMPORT_SECURITY_PAGE_VERIFY_PRODUCER_DESCRIPTION" xml:space="preserve">
-    <value>Verify the digital signature of the appliance is valid. This option will activate only if the appliance has been digitally signed.</value>
-  </data>
-  <data name="IMPORT_SELECT_APPLIANCE_PAGE_ERROR_CORRUPT_OVA" xml:space="preserve">
-    <value>OVA file is corrupt or contains invalid data.</value>
+    <value>The appliance has been digitally signed. You can choose to verify the digital signature of the appliance is valid.</value>
   </data>
   <data name="IMPORT_SELECT_APPLIANCE_PAGE_ERROR_INVALID_PATH" xml:space="preserve">
     <value>Path contains invalid characters.</value>
@@ -6738,7 +7065,7 @@ This might result in failure to migrate VMs to this server during the RPU or to 
     <value>Only OVF/OVA packages can be imported as vApps.</value>
   </data>
   <data name="IMPORT_SOURCE_PAGE_FILETYPES" xml:space="preserve">
-    <value>All import options (*.ovf;*.ova;*.ova.gz;*.vhd;*.vmdk;*.xva;ova.xml)|*.ovf;*.ova;*.ova.gz;*.vhd;*.vmdk;*.xva;ova.xml|OVF/OVA Package files (*.ovf;*.ova;*.ova.gz)|*.ovf;*.ova*;*.ova.gz|Virtual Hard Disk images (*.vhd;*.vmdk;)|*.vhd;*.vmdk;|XVA files (*.xva)|*.xva|XVA Version 1|ova.xml</value>
+    <value>All import options (*.ovf;*.ova;*.ova.gz;*.vhd;*.vmdk;*.xva;*.xva.gz;ova.xml)|*.ovf;*.ova;*.ova.gz;*.vhd;*.vmdk;*.xva;*.xva.gz;ova.xml|OVF/OVA Package files (*.ovf;*.ova;*.ova.gz)|*.ovf;*.ova*;*.ova.gz|Virtual Hard Disk images (*.vhd;*.vmdk;)|*.vhd;*.vmdk;|XVA files (*.xva;*.xva.gz)|*.xva;*.xva.gz|XVA Version 1|ova.xml</value>
   </data>
   <data name="IMPORT_SOURCE_PAGE_FILETYPES_OVF_ONLY" xml:space="preserve">
     <value>OVF/OVA Package files (*.ovf;*.ova;*.ova.gz)|*.ovf;*.ova*;*.ova.gz</value>
@@ -6814,9 +7141,6 @@ This might result in failure to migrate VMs to this server during the RPU or to 
   </data>
   <data name="IMPORT_VM_SELECT_HOME_SERVER" xml:space="preserve">
     <value>Select a home server for the new VM</value>
-  </data>
-  <data name="IMPORT_VM_SELECT_SR" xml:space="preserve">
-    <value>Select a storage repository where virtual disks for the new VM will be stored</value>
   </data>
   <data name="IMPORT_VM_VIFS" xml:space="preserve">
     <value>Configure virtual network interfaces for the new VM</value>
@@ -6999,10 +7323,7 @@ This might result in failure to migrate VMs to this server during the RPU or to 
     <value>Invalid hostname</value>
   </data>
   <data name="INVALID_NUMBER" xml:space="preserve">
-    <value>Invalid number</value>
-  </data>
-  <data name="INVALID_OVF" xml:space="preserve">
-    <value>This does not appear to be a valid OVF file.</value>
+    <value>Invalid disk size</value>
   </data>
   <data name="INVALID_PARAMETER" xml:space="preserve">
     <value>Invalid parameter</value>
@@ -7107,9 +7428,6 @@ Size: {3}</value>
   <data name="JOINING_AD" xml:space="preserve">
     <value>Please enter a user name and password with sufficient privileges to add servers to domain '{0}'.</value>
   </data>
-  <data name="KEEP_WAITING_BUTTON_LABEL" xml:space="preserve">
-    <value>&amp;Keep waiting</value>
-  </data>
   <data name="LABEL_ATTEMPT" xml:space="preserve">
     <value>Attempting to connect to {0}...</value>
   </data>
@@ -7133,6 +7451,9 @@ Size: {3}</value>
   </data>
   <data name="LAUNCH_LICENSE_MANAGER" xml:space="preserve">
     <value>License Manager</value>
+  </data>
+  <data name="LEARN_MORE" xml:space="preserve">
+    <value>Learn more</value>
   </data>
   <data name="LEAVING_AD" xml:space="preserve">
     <value>Enter a user name and password with sufficient privileges to remove your machine account from AD. Authentication will be disabled even if the machine account cannot be removed.</value>
@@ -7382,9 +7703,6 @@ To complete the patch installation, please put the servers into maintenance mode
   <data name="LOCAL_STORAGE_CANNOT_BE_SEEN" xml:space="preserve">
     <value>You have selected storage local to {0} that cannot be seen from this server</value>
   </data>
-  <data name="LOCAL_TO_LOCAL_MOVE" xml:space="preserve">
-    <value>Cannot move virtual disks between local SRs</value>
-  </data>
   <data name="LOCATION_LABEL" xml:space="preserve">
     <value>Location:</value>
   </data>
@@ -7512,6 +7830,9 @@ This will permanently delete and reinitialize all local storage on the servers. 
   <data name="MAINWINDOW_CONTEXT_UPDATING" xml:space="preserve">
     <value>{0} (Updating...)</value>
   </data>
+  <data name="MAINWINDOW_CONVERSION_MANAGER_MENU_ITEM" xml:space="preserve">
+    <value>Conv&amp;ersion Manager...</value>
+  </data>
   <data name="MAINWINDOW_CONVERT_VM_TO_TEMPLATE" xml:space="preserve">
     <value>Convert to &amp;Template...</value>
   </data>
@@ -7543,7 +7864,7 @@ This will permanently delete and reinitialize all local storage on the servers. 
     <value>Ctrl+Y</value>
   </data>
   <data name="MAINWINDOW_DELETE_OBJECTS" xml:space="preserve">
-    <value>De&amp;lete...</value>
+    <value>&amp;Delete...</value>
   </data>
   <data name="MAINWINDOW_DELETE_POOL" xml:space="preserve">
     <value>Mak&amp;e into standalone server</value>
@@ -7556,9 +7877,6 @@ This will permanently delete and reinitialize all local storage on the servers. 
   </data>
   <data name="MAINWINDOW_DELETE_TEMPLATE" xml:space="preserve">
     <value>&amp;Delete Template...</value>
-  </data>
-  <data name="MAINWINDOW_DELETE_VM" xml:space="preserve">
-    <value>&amp;Delete VM...</value>
   </data>
   <data name="MAINWINDOW_DESTROY_SR" xml:space="preserve">
     <value>Destr&amp;oy...</value>
@@ -8010,12 +8328,6 @@ This action is final and unrecoverable.</value>
   <data name="MESSAGEBOX_FORGET_SR_CONTINUE_YES_BUTTON_LABEL" xml:space="preserve">
     <value>&amp;Yes, Forget</value>
   </data>
-  <data name="MESSAGEBOX_HELP_TOPICS" xml:space="preserve">
-    <value>Launching help topic {0} ({1}).</value>
-  </data>
-  <data name="MESSAGEBOX_HELP_TOPIC_NOT_FOUND" xml:space="preserve">
-    <value>Help topic {0} does not exist.</value>
-  </data>
   <data name="MESSAGEBOX_LOAD_CORRUPTED" xml:space="preserve">
     <value>Your saved settings appear to be corrupt. Revert changes to {0} or delete the file to return to default values.</value>
   </data>
@@ -8144,6 +8456,9 @@ Do you want to continue?</value>
   </data>
   <data name="MOREONE_VM_SELECTED" xml:space="preserve">
     <value>{0} VMs selected</value>
+  </data>
+  <data name="MORE_INFO" xml:space="preserve">
+    <value>More info...</value>
   </data>
   <data name="MOVED" xml:space="preserve">
     <value>Moved</value>
@@ -8398,9 +8713,6 @@ You should only proceed if you have verified that these settings are correct.</v
   </data>
   <data name="NEWDISKWIZARD_MESSAGE" xml:space="preserve">
     <value>You need to shut down and then restart the VM before it can access the new disk.</value>
-  </data>
-  <data name="NEWDISKWIZARD_MESSAGE_TITLE" xml:space="preserve">
-    <value>Disk Created</value>
   </data>
   <data name="NEWER_GUI_AVAILABLE" xml:space="preserve">
     <value>There is a newer version of [XenCenter] available. Please contact your support representative.</value>
@@ -8943,20 +9255,35 @@ Review these settings, then click Previous if you need to change anything. Other
   <data name="NEWVMWIZARD_STORAGEPAGE_DISK_DESCRIPTION" xml:space="preserve">
     <value>Created by template provisioner</value>
   </data>
+  <data name="NEWVMWIZARD_STORAGEPAGE_DEFAULT_LOCAL" xml:space="preserve">
+    <value>VMs without a home server cannot have disks on the default SR '{0}'.</value>
+  </data>
+  <data name="NEWVMWIZARD_STORAGEPAGE_DEFAULT_NOSPACE" xml:space="preserve">
+    <value>The default SR '{0}' does not have enough free space for the new VM's disks.</value>
+  </data>
   <data name="NEWVMWIZARD_STORAGEPAGE_NAME" xml:space="preserve">
     <value>Storage</value>
+  </data>
+  <data name="NEWVMWIZARD_STORAGEPAGE_SUGGESTED_LOCAL" xml:space="preserve">
+    <value>VMs without a home server cannot have disks on the SR suggested by the template ('{0}').</value>
+  </data>
+  <data name="NEWVMWIZARD_STORAGEPAGE_SUGGESTED_NOSPACE" xml:space="preserve">
+    <value>The SR suggested by the template ('{0}') does not have enough free space for the new VM's disks.</value>
   </data>
   <data name="NEWVMWIZARD_STORAGEPAGE_NOSTORAGE" xml:space="preserve">
     <value>&lt;no suitable storage&gt;</value>
   </data>
   <data name="NEWVMWIZARD_STORAGEPAGE_SROVERCOMMIT" xml:space="preserve">
-    <value>The SR '{0}' is over committed. There is only {1} of free space and the new VM requires {2}.</value>
+    <value>The SR '{0}' is overcommitted. There is only {1} of free space and the new VM requires {2}.</value>
   </data>
   <data name="NEWVMWIZARD_STORAGEPAGE_TITLE" xml:space="preserve">
     <value>Configure storage for the new VM</value>
   </data>
   <data name="NEWVMWIZARD_STORAGEPAGE_VDINAME" xml:space="preserve">
     <value>{0} {1}</value>
+  </data>
+  <data name="NEWVMWIZARD_STORAGEPAGE_XC_SELECTION" xml:space="preserve">
+    <value>[XenCenter] has selected a different SR for you.</value>
   </data>
   <data name="NEWVMWIZARD_TEMPLATEPAGE_CENTOS" xml:space="preserve">
     <value>CentOS</value>
@@ -9012,6 +9339,12 @@ Review these settings, then click Previous if you need to change anything. Other
   <data name="NEWVMWIZARD_TEMPLATEPAGE_WINDOWS" xml:space="preserve">
     <value>Windows</value>
   </data>
+  <data name="NEWVMWIZARD_VGPUPAGE_MULTIPLE_VGPU_INFO" xml:space="preserve">
+    <value>The selected virtual GPU type supports multiple instances.</value>
+  </data>
+  <data name="NEWVMWIZARD_VGPUPAGE_SINGLE_VGPU_INFO" xml:space="preserve">
+    <value>The selected virtual GPU type does not support multiple instances.</value>
+  </data>
   <data name="NEWVMWIZARD_VGPUPAGE_TITLE" xml:space="preserve">
     <value>Assign a virtual GPU</value>
   </data>
@@ -9041,9 +9374,6 @@ Review these settings, then click Previous if you need to change anything. Other
   </data>
   <data name="NEW_DVD_DRIVES_REQUIRED" xml:space="preserve">
     <value>At least one of the VMs you want to install [Citrix VM Tools] onto has no DVD drive. Would you like to create a new DVD drive for each of the VMs that requires one?</value>
-  </data>
-  <data name="NEW_DVD_DRIVE_CREATED" xml:space="preserve">
-    <value>DVD Drive Created</value>
   </data>
   <data name="NEW_DVD_DRIVE_CREATE_TITLE" xml:space="preserve">
     <value>Creating new DVD drive on VM {0}</value>
@@ -9134,7 +9464,7 @@ It is strongly recommended that you Cancel and apply the latest version of the p
 It is strongly recommended that you Cancel and apply the latest version of the packs to all servers before creating the pool.</value>
   </data>
   <data name="NEW_SCHEDULE" xml:space="preserve">
-    <value>&amp;New schedule...</value>
+    <value>&amp;New Snapshot Schedule...</value>
   </data>
   <data name="NEW_SEARCH" xml:space="preserve">
     <value>New Search</value>
@@ -9517,15 +9847,6 @@ However, there is not enough space to perform the repartitioning, so the current
   <data name="OVERVIEW_UNITS" xml:space="preserve">
     <value>(avg / max KBs)</value>
   </data>
-  <data name="OVF_CREATED" xml:space="preserve">
-    <value>Created by [XenCenter] Disk Image Import</value>
-  </data>
-  <data name="OVF_DISK_CAPTION" xml:space="preserve">
-    <value>Virtual Disk</value>
-  </data>
-  <data name="OVF_NET_DESCRIPTION" xml:space="preserve">
-    <value>Virtual Network</value>
-  </data>
   <data name="PARENT_FOLDER" xml:space="preserve">
     <value>Parent folder</value>
   </data>
@@ -9561,9 +9882,6 @@ However, there is not enough space to perform the repartitioning, so the current
   </data>
   <data name="PASSWORDS_EMPTY" xml:space="preserve">
     <value>Passwords cannot be empty</value>
-  </data>
-  <data name="PASSWORDS_REQUEST_ALWAYS_DISABLED_TOOLTIP_BODY" xml:space="preserve">
-    <value>You have set a master password, so "Give Passwords Always" is not available.</value>
   </data>
   <data name="PASSWORD_INCORRECT" xml:space="preserve">
     <value>The password you typed was incorrect</value>
@@ -9636,9 +9954,6 @@ This will cancel the update process and may leave your system in an unstable sta
   <data name="PATCHINGWIZARD_MODEPAGE_TITLE" xml:space="preserve">
     <value>Select the update mode</value>
   </data>
-  <data name="PATCHINGWIZARD_MORE_INFO" xml:space="preserve">
-    <value>More info...</value>
-  </data>
   <data name="PATCHINGWIZARD_PATCHINGPAGE_POOL_RESOLVE" xml:space="preserve">
     <value>Resolve pool problems</value>
   </data>
@@ -9658,10 +9973,10 @@ This will cancel the update process and may leave your system in an unstable sta
     <value>Reverting pool problems...</value>
   </data>
   <data name="PATCHINGWIZARD_PATCHINGPAGE_PRECHECK_REVERT" xml:space="preserve">
-    <value>Revert resolved prechecks</value>
+    <value>Revert resolved pre-checks</value>
   </data>
   <data name="PATCHINGWIZARD_PATCHINGPAGE_PRECHECK_REVERTED" xml:space="preserve">
-    <value>Resolved prechecks reverted</value>
+    <value>Resolved pre-checks reverted</value>
   </data>
   <data name="PATCHINGWIZARD_PATCHINGPAGE_SERVER_RESOLVE" xml:space="preserve">
     <value>Resolve server problems</value>
@@ -9691,16 +10006,16 @@ This will cancel the update process and may leave your system in an unstable sta
     <value>Checking disk space requirements</value>
   </data>
   <data name="PATCHINGWIZARD_PRECHECKPAGE_FAILED" xml:space="preserve">
-    <value>Prechecks failed.</value>
+    <value>Pre-checks failed.</value>
   </data>
   <data name="PATCHINGWIZARD_PRECHECKPAGE_FIRSTLINE" xml:space="preserve">
-    <value>Update prechecks are performed to verify that the update "{0}" can be applied to the servers.</value>
+    <value>Update pre-checks are performed to verify that the update "{0}" can be applied to the servers.</value>
   </data>
   <data name="PATCHINGWIZARD_PRECHECKPAGE_FIRSTLINE_AUTOMATED_UPDATES_MODE" xml:space="preserve">
-    <value>Prechecks are performed to verify that automated updates can proceed.</value>
+    <value>Pre-checks are performed to verify that automated updates can proceed.</value>
   </data>
   <data name="PATCHINGWIZARD_PRECHECKPAGE_FIRSTLINE_NO_PATCH_NAME" xml:space="preserve">
-    <value>Update prechecks are performed to verify that the selected update can be applied to the servers.</value>
+    <value>Update pre-checks are performed to verify that the selected update can be applied to the servers.</value>
   </data>
   <data name="PATCHINGWIZARD_PRECHECKPAGE_RESOLVE" xml:space="preserve">
     <value>Resolve</value>
@@ -9709,10 +10024,10 @@ This will cancel the update process and may leave your system in an unstable sta
     <value>Resolving issues...</value>
   </data>
   <data name="PATCHINGWIZARD_PRECHECKPAGE_TEXT" xml:space="preserve">
-    <value>Prechecks</value>
+    <value>Pre-checks</value>
   </data>
   <data name="PATCHINGWIZARD_PRECHECKPAGE_TITLE" xml:space="preserve">
-    <value>Perform update prechecks on selected servers</value>
+    <value>Perform update pre-checks on selected servers</value>
   </data>
   <data name="PATCHINGWIZARD_REMOVED_UPDATES" xml:space="preserve">
     <value>Deleted update installation files</value>
@@ -9814,6 +10129,9 @@ Servers where this update cannot be applied appear disabled in this list.</value
   <data name="PATCHINGWIZARD_SINGLEUPDATE_FAILURE_PER_POOL_ONE" xml:space="preserve">
     <value>The following error occurred while the installation of update {0} was in progress:</value>
   </data>
+  <data name="PATCHINGWIZARD_SINGLEUPDATE_MANUAL_POST_UPDATE" xml:space="preserve">
+    <value>Please carry out any pending post-update tasks from the list below:</value>
+  </data>
   <data name="PATCHINGWIZARD_SINGLEUPDATE_SUCCESS_MANY" xml:space="preserve">
     <value>The installation of update {0} on all selected servers was completed successfully.</value>
   </data>
@@ -9830,7 +10148,7 @@ Servers where this update cannot be applied appear disabled in this list.</value
     <value>The installation of update {0} was completed with warnings.</value>
   </data>
   <data name="PATCHINGWIZARD_SINGLEUPLOAD_CANCELLATION" xml:space="preserve">
-    <value>The upload process was cancelled.</value>
+    <value>The upload process was canceled.</value>
   </data>
   <data name="PATCHINGWIZARD_SINGLEUPLOAD_CANCELLATION_RECONSIDER" xml:space="preserve">
     <value>Are you sure you want to leave this page?
@@ -9898,7 +10216,7 @@ This will cancel the upload process.</value>
     <value>{0} ...</value>
   </data>
   <data name="PATCHING_WIZARD_RUNNING_PRECHECKS" xml:space="preserve">
-    <value>Running prechecks...</value>
+    <value>Running pre-checks...</value>
   </data>
   <data name="PATCHING_WIZARD_SOLVE_MANUALLY" xml:space="preserve">
     <value>Unable to resolve this issue:\n{0}\n\nPlease resolve this issue manually and then click Check Again.
@@ -10032,11 +10350,17 @@ File not found</value>
   <data name="PLAN_ACTION_ERROR" xml:space="preserve">
     <value> error.</value>
   </data>
+  <data name="PLAN_ACTION_FAILURE_NO_HOSTS_AVAILABLE" xml:space="preserve">
+    <value>Server '{0}' could not be evacuated because there were no servers available to accommodate all the VMs being migrated from this server. Please reboot the other servers that are pending a reboot following the update installation, and then press Retry to resume the process.</value>
+  </data>
   <data name="PLAN_ACTION_FAILURE_NOT_ENOUGH_MEMORY" xml:space="preserve">
     <value>Server '{0}' could not be evacuated because there was not enough free memory on the other servers to migrate all the VMs from this server. Please suspend or shutdown some VMs and then press Retry to resume the process.</value>
   </data>
   <data name="PLAN_ACTION_STATUS_INSTALLING_XENSERVER" xml:space="preserve">
     <value>Installing [XenServer] on '{0}'...</value>
+  </data>
+  <data name="PLAN_ACTION_STATUS_INSTALLING_XENSERVER_VERSION" xml:space="preserve">
+    <value>Installing [XenServer] {0} on '{1}'...</value>
   </data>
   <data name="PLAN_ACTION_STATUS_RECONNECTING_STORAGE" xml:space="preserve">
     <value>Reconnecting storage...</value>
@@ -10050,10 +10374,10 @@ File not found</value>
 Please reconnect the host and try again</value>
   </data>
   <data name="PLUGINS" xml:space="preserve">
-    <value>Plugins</value>
+    <value>Plug-ins</value>
   </data>
   <data name="PLUGINS_DESC" xml:space="preserve">
-    <value>Adjust settings for plugins to [XenCenter]</value>
+    <value>Adjust settings for plug-ins to [XenCenter]</value>
   </data>
   <data name="PLUGINS_MENU_ITEMS_ONLY_ONE_CHILD_ALLOWED" xml:space="preserve">
     <value>Menu item features must only have a single command XML node as a child</value>
@@ -10068,10 +10392,10 @@ Please reconnect the host and try again</value>
     <value>Copyright</value>
   </data>
   <data name="PLUGIN_ENABLED_COUNT" xml:space="preserve">
-    <value>{0} plugins enabled</value>
+    <value>{0} plug-ins enabled</value>
   </data>
   <data name="PLUGIN_ENABLED_COUNT_ONE" xml:space="preserve">
-    <value>1 plugin enabled</value>
+    <value>1 plug-in enabled</value>
   </data>
   <data name="PLUGIN_FEATURES" xml:space="preserve">
     <value>Features</value>
@@ -10180,6 +10504,12 @@ Please reconnect the host and try again</value>
   </data>
   <data name="POOL_HAS_NO_SHARED_STORAGE" xml:space="preserve">
     <value>This pool has no shared storage</value>
+  </data>
+  <data name="POOL_HAS_PV_GUEST_UPDATE_WARNING" xml:space="preserve">
+    <value>{0}: Support for paravirtualized (PV) guests is dropped as of [XenServer] [BRANDING_VERSION_8_1]. Click "Learn more" to see the list of supported guest operating systems. </value>
+  </data>
+  <data name="POOL_HAS_PV_GUEST_UPGRADE_WARNING" xml:space="preserve">
+    <value>{0}: Support for paravirtualized (PV) guests is dropped as of [XenServer] [BRANDING_VERSION_8_1]. Click "Learn more" to see the list of supported guest operating systems. </value>
   </data>
   <data name="POOL_IS_PARTIALLY_LICENSED" xml:space="preserve">
     <value>The pool is partially licensed</value>
@@ -10384,6 +10714,9 @@ Press OK to continue the wizard and return to the server and follow the instruct
   </data>
   <data name="PV_DRIVERS_OUT_OF_DATE_UNKNOWN_VERSION" xml:space="preserve">
     <value>[Citrix VM Tools] out of date</value>
+  </data>
+  <data name="PV_GUESTS_CHECK_DESCRIPTION" xml:space="preserve">
+    <value>Guest compatibility check</value>
   </data>
   <data name="QOS_LIMIT_INVALID" xml:space="preserve">
     <value>QoS limit must be between 1 and 2147483647 (or left empty).</value>
@@ -10615,7 +10948,10 @@ Click Server Status Report to open the Compile Server Status Report Wizard or cl
     <value>&amp;Remove Servers...</value>
   </data>
   <data name="REMOVE_SERVER_FROM_POOL_CONTEXT_MENU_ITEM_TEXT" xml:space="preserve">
-    <value>Remove Server from &amp;Pool</value>
+    <value>Remove From &amp;Pool</value>
+  </data>
+  <data name="REMOVE_SERVER_MENU_ITEM" xml:space="preserve">
+    <value>Re&amp;move Server</value>
   </data>
   <data name="REMOVE_SNAPSHOT" xml:space="preserve">
     <value>Remove Snapshot</value>
@@ -10792,10 +11128,10 @@ Click Server Status Report to open the Compile Server Status Report Wizard or cl
     <value>Reverting the power state of {0}</value>
   </data>
   <data name="REVERTING_RESOLVED_PRECHECKS" xml:space="preserve">
-    <value>Reverting resolved prechecks...</value>
+    <value>Reverting resolved pre-checks...</value>
   </data>
   <data name="REVERTING_RESOLVED_PRECHECKS_POOL" xml:space="preserve">
-    <value>Reverting resolved prechecks in {0}...</value>
+    <value>Reverting resolved pre-checks in {0}...</value>
   </data>
   <data name="REVERTING_WIZARD_CHANGES" xml:space="preserve">
     <value>Reverting all changes done by this wizard</value>
@@ -10804,7 +11140,7 @@ Click Server Status Report to open the Compile Server Status Report Wizard or cl
     <value>        Revert pool state</value>
   </data>
   <data name="REVERT_PRECHECK_ACTIONS" xml:space="preserve">
-    <value>Revert precheck actions</value>
+    <value>Revert pre-check actions</value>
   </data>
   <data name="REVERT_WIZARD_CHANGES" xml:space="preserve">
     <value>Revert all changes done by this wizard</value>
@@ -10819,7 +11155,7 @@ Click Server Status Report to open the Compile Server Status Report Wizard or cl
     <value>{0} on '{1}'</value>
   </data>
   <data name="ROLLINGUPGRADE_PRECHECKS" xml:space="preserve">
-    <value>Upgrade prechecks are performed on all the pools you selected to ensure that all the servers can be upgraded.</value>
+    <value>Upgrade pre-checks are performed on all the pools you selected to ensure that all the servers can be upgraded.</value>
   </data>
   <data name="ROLLING_POOL_UPGRADE" xml:space="preserve">
     <value>Rolling Pool Upgrade</value>
@@ -10898,11 +11234,10 @@ The master must be upgraded first, so if you skip the master, the rolling pool u
     <value>The rolling pool upgrade process was completed successfully.</value>
   </data>
   <data name="ROLLING_UPGRADE_TIMEOUT" xml:space="preserve">
-    <value>Still waiting for the upgrade to complete.
-
-Please check the server console for possible errors.
-    
-Click Keep Waiting if the upgrade is still running or Cancel if an error occurred.</value>
+    <value>Still waiting for the installation of [XenServer] on '{0}' to complete. Please check the server console for possible errors. Keep waiting if the installation is still running...</value>
+  </data>
+  <data name="ROLLING_UPGRADE_TIMEOUT_VERSION" xml:space="preserve">
+    <value>Still waiting for the installation of [XenServer] {0} on '{1}' to complete. Please check the server console for possible errors. Keep waiting if the installation is still running...</value>
   </data>
   <data name="ROLLING_UPGRADE_TITLE_MODE" xml:space="preserve">
     <value>Upgrade Mode</value>
@@ -10950,7 +11285,7 @@ Click Keep Waiting if the upgrade is still running or Cancel if an error occurre
     <value>Policy started</value>
   </data>
   <data name="RUN_PRECHECKS_WITH_ACCESS_KEY" xml:space="preserve">
-    <value>&amp;Run Prechecks</value>
+    <value>&amp;Run Pre-checks</value>
   </data>
   <data name="RUN_REPORT" xml:space="preserve">
     <value>&amp;Run Report</value>
@@ -11514,6 +11849,9 @@ You may need to reboot your server(s) to enable SR-IOV network.</value>
     <value>Initial allocation: {0}
 Incremental allocation: {1}</value>
   </data>
+  <data name="SR_DISKSIZE_EXCEEDS_DISK_MAX_SIZE" xml:space="preserve">
+    <value>You cannot create a disk greater than {0} on this SR.</value>
+  </data>
   <data name="SR_DOES_NOT_NEED_UPGRADE" xml:space="preserve">
     <value>This SR does not need to be upgraded.</value>
   </data>
@@ -11531,9 +11869,6 @@ Incremental allocation: {1}</value>
   </data>
   <data name="SR_IS_LOCAL" xml:space="preserve">
     <value>VMs without a home server cannot have disks on local storage</value>
-  </data>
-  <data name="SR_PICKER_DISKSIZE_EXCEEDS_DISK_MAX_SIZE" xml:space="preserve">
-    <value>You cannot create a disk greater than {0} on this SR.</value>
   </data>
   <data name="SR_PICKER_DISK_TOO_BIG" xml:space="preserve">
     <value>Disk size ({0}) exceeds SR size ({1})</value>
@@ -11642,8 +11977,14 @@ The upper limit: SR size / {2}</value>
   <data name="STATUS_FILTER_ERROR" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="STATUS_FILTER_INCOMPLETE" xml:space="preserve">
+    <value>Incomplete</value>
+  </data>
   <data name="STATUS_FILTER_IN_PROGRESS" xml:space="preserve">
     <value>In progress</value>
+  </data>
+  <data name="STATUS_FILTER_QUEUED" xml:space="preserve">
+    <value>Queued</value>
   </data>
   <data name="STATUS_REPORT_ENTER_CREDENTIALS_MESSAGE" xml:space="preserve">
     <value>Enter your MyCitrix credentials (see {0}). These credentials will only be used to authenticate with [Citrix] Insight Services once and will not be stored on this machine or on your server.</value>
@@ -12034,6 +12375,9 @@ Refer to the "[XenServer product] Administrator's Guide" for instructions on how
   <data name="TVM_PAGE_TITLE" xml:space="preserve">
     <value>Configure networking options for the Transfer VM</value>
   </data>
+  <data name="TXT_DESCRIPTION" xml:space="preserve">
+    <value>Text Files</value>
+  </data>
   <data name="TYPE" xml:space="preserve">
     <value>Type</value>
   </data>
@@ -12082,7 +12426,7 @@ Verify that the file is a valid {1} export.</value>
     <value>Unlimited</value>
   </data>
   <data name="UNRECOGNISED_PLUGIN_VERSION" xml:space="preserve">
-    <value>Unrecognised plugin version '{0}'</value>
+    <value>Unrecognized plug-in version '{0}'</value>
   </data>
   <data name="UNSUPPORTED_SR_TYPE" xml:space="preserve">
     <value>Unsupported SR type</value>
@@ -12194,7 +12538,7 @@ Verify that the file is a valid {1} export.</value>
     <value>{0}: Cannot migrate VM '{1}'</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_LICENSE_REASON" xml:space="preserve">
-    <value>{0}: Cannot migrate VM '{1}' due to license restrictions.</value>
+    <value>{0}: Cannot migrate VM '{1}' due to license restrictions on the server.</value>
   </data>
   <data name="UPDATES_WIZARD_CANNOT_MIGRATE_VM_NO_GPU" xml:space="preserve">
     <value>{0}: Cannot migrate VM '{1}', because it has a virtual GPU attached and there is no suitable GPU available on other servers.</value>
@@ -12336,7 +12680,7 @@ Please check your settings and try again.</value>
     <value>{0}: Prerequisite update(s) are missing: {1}</value>
   </data>
   <data name="UPDATES_WIZARD_PRECHECK_FAILED_TITLE" xml:space="preserve">
-    <value>Update precheck failed on server '{0}'</value>
+    <value>Update pre-check failed on server '{0}'</value>
   </data>
   <data name="UPDATES_WIZARD_REBOOT" xml:space="preserve">
     <value>Reboot</value>
@@ -12349,6 +12693,12 @@ Please check your settings and try again.</value>
   </data>
   <data name="UPDATES_WIZARD_REBOOT_NEEDED" xml:space="preserve">
     <value>{0}: This server needs to be rebooted after the update is applied.</value>
+  </data>
+  <data name="UPDATES_WIZARD_REBOOT_NEEDED_LIVEPATCH_DISABLED" xml:space="preserve">
+    <value>{0}: This server needs to be rebooted after the update is applied, because live patching is disabled.</value>
+  </data>
+  <data name="UPDATES_WIZARD_REBOOT_NEEDED_LIVEPATCH_RESTRICTED" xml:space="preserve">
+    <value>{0}: This server needs to be rebooted after the update is applied, because it is not licensed for live patching.</value>
   </data>
   <data name="UPDATES_WIZARD_REMOVING_UPDATE" xml:space="preserve">
     <value>Deleting update installation file {0} from {1}... </value>
@@ -12380,7 +12730,7 @@ Please check your settings and try again.</value>
     <value>Click here to resume this VM</value>
   </data>
   <data name="UPDATES_WIZARD_RUNNING_PRECHECK" xml:space="preserve">
-    <value>Precheck for {0} in {1}...</value>
+    <value>Pre-check for {0} in {1}...</value>
   </data>
   <data name="UPDATES_WIZARD_SERVER_SELECTION_PROBLEM" xml:space="preserve">
     <value>{0}: The update needs to be applied on all servers in the pool.</value>
@@ -12464,10 +12814,10 @@ Note that if RBAC is enabled, only updates which you have privileges to dismiss 
     <value>Applying the upgrade to the pool.</value>
   </data>
   <data name="UPGRADEWIZARD_PRECHECK_TEXT" xml:space="preserve">
-    <value>Upgrade Prechecks</value>
+    <value>Upgrade Pre-checks</value>
   </data>
   <data name="UPGRADEWIZARD_PRECHECK_TITLE" xml:space="preserve">
-    <value>Problems encountered when performing upgrade prechecks.</value>
+    <value>Problems encountered when performing upgrade pre-checks.</value>
   </data>
   <data name="UPGRADEWIZARD_PROBLEM_CFU_STATUS" xml:space="preserve">
     <value>Error encountered when checking ability to download updates.</value>
@@ -12506,10 +12856,10 @@ Note that if RBAC is enabled, only updates which you have privileges to dismiss 
     <value>Upgrade pool master '{0}'</value>
   </data>
   <data name="UPGRADE_PRECHECKS_TEXT" xml:space="preserve">
-    <value>Prechecks</value>
+    <value>Pre-checks</value>
   </data>
   <data name="UPGRADE_PRECHECKS_TITLE" xml:space="preserve">
-    <value>Perform upgrade prechecks on selected pools</value>
+    <value>Perform upgrade pre-checks on selected pools</value>
   </data>
   <data name="UPGRADE_SERVER" xml:space="preserve">
     <value>Upgrade server '{0}</value>
@@ -12543,6 +12893,9 @@ Note that if RBAC is enabled, only updates which you have privileges to dismiss 
   </data>
   <data name="UPSELL_BLURB_ALERTS" xml:space="preserve">
     <value>Upgrade your server license to enable Alerting and Reporting capabilities. Email based performance and error alerting will proactively notify administrators of error conditions or performance problems before they affect critical services.</value>
+  </data>
+  <data name="UPSELL_BLURB_CONVERSION" xml:space="preserve">
+    <value>Upgrade your server license to enable the Conversion Manager. This feature helps you migrate workloads from VMware to [XenServer] by moving batches of VMware virtual machines to your [XenServer] environment.</value>
   </data>
   <data name="UPSELL_BLURB_CPM" xml:space="preserve">
     <value>Upgrade your server license to enable VM live migration. This feature enables you to migrate running VMs on shared or local storage between servers in the same pool or across pools with no VM downtime. </value>
@@ -12724,10 +13077,10 @@ To start a [XenServer] trial, click the button below.</value>
     <value>s</value>
   </data>
   <data name="VAL_TERB" xml:space="preserve">
-    <value>TiB</value>
+    <value>TB</value>
   </data>
   <data name="VAL_TERRATE" xml:space="preserve">
-    <value>TiBps</value>
+    <value>TBps</value>
   </data>
   <data name="VAL_WATT" xml:space="preserve">
     <value>W</value>
@@ -12792,11 +13145,20 @@ To start a [XenServer] trial, click the button below.</value>
   <data name="VGPU_DESCRIPTION_MANY" xml:space="preserve">
     <value>{0} virtual GPU ({1} per GPU, {2}, {3} displays)</value>
   </data>
+  <data name="VGPU_DESCRIPTION_MANY_MULTIPLE_VGPU_SUPPORT" xml:space="preserve">
+    <value>{0} virtual GPU ({1} per GPU, {2}, {3} displays, multiple vGPU support)</value>
+  </data>
   <data name="VGPU_DESCRIPTION_ONE" xml:space="preserve">
     <value>{0} virtual GPU ({1} per GPU, {2}, {3} display)</value>
   </data>
+  <data name="VGPU_DESCRIPTION_ONE_MULTIPLE_VGPU_SUPPORT" xml:space="preserve">
+    <value>{0} virtual GPU ({1} per GPU, {2}, {3} display, multiple vGPU support)</value>
+  </data>
   <data name="VGPU_DESCRIPTION_ZEROES" xml:space="preserve">
     <value>{0} virtual GPU ({1} per GPU)</value>
+  </data>
+  <data name="VGPU_DESCRIPTION_ZEROES_MULTIPLE_VGPU_SUPPORT" xml:space="preserve">
+    <value>{0} virtual GPU ({1} per GPU, multiple vGPU support)</value>
   </data>
   <data name="VGPU_PASSTHRU_TOSTRING" xml:space="preserve">
     <value>Pass-through whole GPU</value>
@@ -12904,7 +13266,7 @@ To start a [XenServer] trial, click the button below.</value>
     <value>{0}. {1}: {2}</value>
   </data>
   <data name="VMSS_CONTEXT_MENU" xml:space="preserve">
-    <value>Snapsh&amp;ot schedules ...</value>
+    <value>VM Snapsh&amp;ot Schedules...</value>
   </data>
   <data name="VMSS_EMAIL_CHECKBOX_TEXT" xml:space="preserve">
     <value>Send &amp;email notifications about snapshot schedule job alerts</value>
@@ -14045,6 +14407,12 @@ Are you sure you want to enable automated power management for this Host?</value
   <data name="XENSERVER_6_5" xml:space="preserve">
     <value>[XenServer] [BRANDING_VERSION_6_5]</value>
   </data>
+  <data name="XENSERVER_8_1" xml:space="preserve">
+    <value>[XenServer] [BRANDING_VERSION_8_1]</value>
+  </data>
+  <data name="XENSERVER_LEGACY" xml:space="preserve">
+    <value>[Legacy XenServer product]</value>
+  </data>
   <data name="XENSERVER_TEMPLATES" xml:space="preserve">
     <value>[XenServer] Templates</value>
   </data>
@@ -14072,7 +14440,7 @@ You will need to navigate to the Console on each of the selected VMs to complete
     <value>{0} (hidden)</value>
   </data>
   <data name="X_IS_DEPRECATED_IN_X" xml:space="preserve">
-    <value>The {0} feature was deprecated in {1} and may be unavailable in future versions</value>
+    <value>The {0} feature was deprecated in {1} and may be retired in future versions</value>
   </data>
   <data name="X_IS_REMOVED_IN_X" xml:space="preserve">
     <value>The {0} feature is not available in {1} and later versions</value>

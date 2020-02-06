@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class VM_metrics : XenObject<VM_metrics>
     {
+        #region Constructors
+
         public VM_metrics()
         {
         }
@@ -85,13 +87,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new VM_metrics from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public VM_metrics(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new VM_metrics from a Proxy_VM_metrics.
         /// </summary>
         /// <param name="proxy"></param>
         public VM_metrics(Proxy_VM_metrics proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -117,7 +133,7 @@ namespace XenAPI
             current_domain_type = update.current_domain_type;
         }
 
-        internal void UpdateFromProxy(Proxy_VM_metrics proxy)
+        internal void UpdateFrom(Proxy_VM_metrics proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             memory_actual = proxy.memory_actual == null ? 0 : long.Parse(proxy.memory_actual);
@@ -157,17 +173,6 @@ namespace XenAPI
             result_.nomigrate = nomigrate;
             result_.current_domain_type = domain_type_helper.ToString(current_domain_type);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new VM_metrics from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public VM_metrics(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

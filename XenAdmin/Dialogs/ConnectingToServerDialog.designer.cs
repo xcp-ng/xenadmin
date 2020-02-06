@@ -78,7 +78,6 @@ namespace XenAdmin.Dialogs
             this.Controls.Add(this.tableLayoutPanel1);
             this.MinimizeBox = true;
             this.Name = "ConnectingToServerDialog";
-            this.Load += new System.EventHandler(this.ConnectingToServer_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

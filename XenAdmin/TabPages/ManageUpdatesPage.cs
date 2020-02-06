@@ -114,6 +114,9 @@ namespace XenAdmin.TabPages
             Updates.CheckForUpdatesStarted -= CheckForUpdates_CheckForUpdatesStarted;
             Updates.CheckForUpdatesCompleted -= CheckForUpdates_CheckForUpdatesCompleted;
         }
+
+        public override string HelpID => "ManageUpdatesDialog";
+
         #endregion
 
         private void UpdatesCollectionChanged(object sender, CollectionChangeEventArgs e)
@@ -1243,8 +1246,8 @@ namespace XenAdmin.TabPages
             {
                 using (var dlog = new ThreeButtonDialog(
                     new ThreeButtonDialog.Details(null, Messages.UPDATE_EXPORT_ALL_OR_FILTERED),
-                    new ThreeButtonDialog.TBDButton(Messages.ALERT_EXPORT_ALL_BUTTON, DialogResult.Yes),
-                    new ThreeButtonDialog.TBDButton(Messages.ALERT_EXPORT_FILTERED_BUTTON, DialogResult.No, ThreeButtonDialog.ButtonType.NONE),
+                    new ThreeButtonDialog.TBDButton(Messages.EXPORT_ALL_BUTTON, DialogResult.Yes),
+                    new ThreeButtonDialog.TBDButton(Messages.EXPORT_FILTERED_BUTTON, DialogResult.No, ThreeButtonDialog.ButtonType.NONE),
                     ThreeButtonDialog.ButtonCancel))
                 {
                     var result = dlog.ShowDialog(this);
@@ -1280,7 +1283,7 @@ namespace XenAdmin.TabPages
                 string.Format(Messages.EXPORTED_UPDATES, fileName),
                 delegate
                 {
-                    using (StreamWriter stream = new StreamWriter(fileName, false, UTF8Encoding.UTF8))
+                    using (StreamWriter stream = new StreamWriter(fileName, false, Encoding.UTF8))
                     {
                         if (byUpdateToolStripMenuItem.Checked)     // update view
                         {

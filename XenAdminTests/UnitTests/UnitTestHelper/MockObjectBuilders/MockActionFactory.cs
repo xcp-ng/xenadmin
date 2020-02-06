@@ -77,15 +77,15 @@ namespace XenAdminTests.UnitTests.UnitTestHelper.MockObjectBuilders
 
         private AsyncAction gpuAssignAction(string id)
         {
-            Mock<GPU_group> group = ObjectManager.NewXenObject<GPU_group>(id);
-            Mock<VGPU_type> vgpuType = ObjectManager.NewXenObject<VGPU_type>(id);
+            Mock<VGPU> vgpu = ObjectManager.NewXenObject<VGPU>(id);
+            List<VGPU> vgpus = new List<VGPU>() { vgpu.Object };
             Mock<VM> vm = ObjectManager.NewXenObject<VM>(id);
             ObjectManager.MockConnectionFor(id).Setup(c => c.ResolveAll(It.IsAny<List<XenRef<VGPU>>>())).Returns(new List<VGPU>());
             ObjectManager.MockProxyFor(id).Setup(
                 p =>
                 p.async_vgpu_create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), "0",
                               It.IsAny<object>(), It.IsAny<string>())).Returns(new Response<string>("ok"));
-            return new GpuAssignAction(vm.Object, group.Object, vgpuType.Object);
+            return new GpuAssignAction(vm.Object, vgpus);
         }
     }
 }

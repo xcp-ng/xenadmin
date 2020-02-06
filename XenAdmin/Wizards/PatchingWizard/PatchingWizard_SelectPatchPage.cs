@@ -317,7 +317,7 @@ namespace XenAdmin.Wizards.PatchingWizard
             }
             catch (Exception exception)
             {
-                log.ErrorFormat("Exception while reading the update data from the iso file: {0}", exception.Message);
+                log.Error("Exception while reading the update data from the iso file:", exception);
             }
 
             var elements = xmlDoc.GetElementsByTagName("update");

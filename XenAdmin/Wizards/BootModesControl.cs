@@ -92,6 +92,7 @@ namespace XenAdmin.Wizards
 
         private void UpdateControls()
         {
+            radioButtonBIOSBoot.Enabled = true;
             radioButtonUEFIBoot.Visible = !Helpers.FeatureForbidden(_connection, Host.UefiBootDisabled);
             radioButtonUEFISecureBoot.Visible = !Helpers.FeatureForbidden(_connection, Host.UefiSecureBootDisabled);
 
@@ -108,12 +109,21 @@ namespace XenAdmin.Wizards
                 radioButtonUEFISecureBoot.Enabled = _templateVM.CanSupportUEFISecureBoot();
 
                 if (_templateVM.IsUEFIEnabled())
+                {
                     if (_templateVM.IsSecureBootEnabled())
                         radioButtonUEFISecureBoot.Checked = true;
                     else
                         radioButtonUEFIBoot.Checked = true;
+
+                    if (!_templateVM.CanChangeBootMode())
+                        radioButtonBIOSBoot.Enabled = false;
+                }
                 else
+                {
                     radioButtonBIOSBoot.Checked = true;
+                    if (!_templateVM.CanChangeBootMode())
+                        radioButtonUEFIBoot.Enabled = radioButtonUEFISecureBoot.Enabled = false;
+                }
             }
             else
             {
@@ -160,6 +170,13 @@ namespace XenAdmin.Wizards
             if (_templateVM == null)
             {
                 imgUnsupported.Visible = labelUnsupported.Visible = false;
+                return;
+            }
+
+            if (radioButtonBIOSBoot.Visible && !radioButtonBIOSBoot.Enabled)
+            {
+                imgUnsupported.Visible = labelUnsupported.Visible = true;
+                labelUnsupported.Text = Messages.BIOS_BOOT_MODE_UNSUPPORTED_WARNING;
                 return;
             }
 

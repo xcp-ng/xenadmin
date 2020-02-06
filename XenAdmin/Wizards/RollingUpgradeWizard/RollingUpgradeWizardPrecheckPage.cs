@@ -38,6 +38,7 @@ using XenAdmin.Diagnostics.Hotfixing;
 using XenAdmin.Wizards.PatchingWizard;
 using XenAPI;
 using System.Linq;
+using XenAdmin.Network;
 using CheckGroup = System.Collections.Generic.KeyValuePair<string, System.Collections.Generic.List<XenAdmin.Diagnostics.Checks.Check>>;
 
 
@@ -45,8 +46,6 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard
 {
     public partial class RollingUpgradeWizardPrecheckPage : PatchingWizard_PrecheckPage
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         public RollingUpgradeWizardPrecheckPage()
         {
             InitializeComponent();
@@ -58,7 +57,7 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard
             foreach (Host master in SelectedMasters)
             {
                 master.Connection.ConnectionStateChanged += connection_ConnectionChanged;
-                master.Connection.CachePopulated += connection_ConnectionChanged;
+                master.Connection.CachePopulated += connection_CachePopulated;
             }
         }
 
@@ -67,11 +66,16 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard
             foreach (Host master in SelectedMasters)
             {
                 master.Connection.ConnectionStateChanged -= connection_ConnectionChanged;
-                master.Connection.CachePopulated -= connection_ConnectionChanged;
+                master.Connection.CachePopulated -= connection_CachePopulated;
             }
         }
 
-        private void connection_ConnectionChanged(object sender, EventArgs eventArgs)
+        private void connection_ConnectionChanged(IXenConnection conn)
+        {
+            Program.Invoke(this, RefreshRechecks);
+        }
+
+        private void connection_CachePopulated(IXenConnection conn)
         {
             Program.Invoke(this, RefreshRechecks);
         }
@@ -233,6 +237,16 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard
             {
                 groups.Add(new CheckGroup(Messages.CHECKING_CLUSTERING_STATUS, gfs2Checks));
             }
+
+            //Checking PV guests - for hosts that have any PV guests and warn the user before the upgrade.
+            var pvChecks = new List<Check>();
+            foreach (Pool pool in SelectedPools.Where(p => !Helpers.QuebecOrGreater(p.Connection)))
+            {
+                if (pool.Connection.Resolve(pool.master) != null)
+                    pvChecks.Add(new PVGuestsCheck(pool, true, InstallMethodConfig, ManualUpgrade)); 
+            }
+            if (pvChecks.Count > 0)
+                groups.Add(new CheckGroup(Messages.CHECKING_PV_GUESTS, pvChecks));
 
             //Checking automated updates are possible if apply updates checkbox is ticked
             if (ApplyUpdatesToNewVersion)

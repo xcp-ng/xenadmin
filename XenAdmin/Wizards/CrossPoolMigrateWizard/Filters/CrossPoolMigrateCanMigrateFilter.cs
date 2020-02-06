@@ -134,7 +134,7 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard.Filters
                                 {
                                     lock (cacheLock)
                                     {
-                                        vmCache.Add(host.opaque_ref, reason);
+                                    vmCache[host.opaque_ref] = reason;
                                     }
                                 // vm is migratable to at least one host in the pool, no need to itearate through all the pool members
                                 vmIsMigratable = true;
@@ -171,7 +171,7 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard.Filters
                                                   options);
                             lock (cacheLock)
                             {
-                                vmCache.Add(host.opaque_ref, string.Empty);
+                            vmCache[host.opaque_ref] = string.Empty;
                             }
                         // vm is migratable to at least one host in the pool, no need to itearate through all the pool members
                         vmIsMigratable = true;
@@ -186,14 +186,20 @@ namespace XenAdmin.Wizards.CrossPoolMigrateWizard.Filters
 
                             lock (cacheLock)
                             {
-                                vmCache.Add(host.opaque_ref, disableReason.Clone().ToString());
+                            vmCache[host.opaque_ref] = disableReason.Clone().ToString();
                             }
 
-                        log.ErrorFormat("VM: {0}, Host: {1} - Reason: {2};", vm.Name(), host.Name(), failure.Message);
+                        log.InfoFormat("VM {0} cannot be migrated to {1}. Reason: {2};", vm.Name(), host.Name(), failure.Message);
                             
                         vmIsMigratable = false;
                         }
+                    catch (Exception e)
+                    {
+                        log.Error($"There was an error while asserting the VM {vm.Name()} can be migrated to {itemToFilterOn.Name()}:", e);
+                        disableReason = Messages.HOST_MENU_UNKNOWN_ERROR;
+                        vmIsMigratable = false;
                     }
+                }
 
                 // if at least one VM is not migratable to the target pool, then there is no point checking the remaining VMs
                 if (!vmIsMigratable)

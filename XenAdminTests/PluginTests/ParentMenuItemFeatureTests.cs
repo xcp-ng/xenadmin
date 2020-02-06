@@ -29,39 +29,20 @@
  * SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 using NUnit.Framework;
 using XenAdmin.Plugins;
 
 namespace XenAdminTests.PluginTests
 {
-    [TestFixture, Category(TestCategories.UICategoryB)]
-    public class ParentMenuItemFeatureTests
+    [TestFixture, Category(TestCategories.Unit)]
+    public class ParentMenuItemFeatureTests : TestPluginLoader
     {
-        private PluginManager _pluginManager;
-        private TestPluginLoader _pluginLoader;
+        protected override string pluginName => "ParentMenuItemFeatureTestPlugin";
 
-        [TearDown]
-        public void TearDown()
-        {
-            _pluginLoader.Dispose();
-            _pluginManager.Dispose();
-        }
-
-        [SetUp]
-        public void Setup()
-        {
-            _pluginManager = new PluginManager();
-        }
-
-        [Test]
+        [Test, Apartment(ApartmentState.STA)]
         public void TestLoadPlugin()
         {
-            _pluginLoader = new TestPluginLoader("ParentMenuItemFeatureTestPlugin", _pluginManager);
-            _pluginLoader.Load();
-
             Assert.AreEqual(1, _pluginManager.Plugins.Count, "No plugins loaded.");
             Assert.AreEqual(1, _pluginManager.Plugins[0].Features.Count, "No features only");
             Assert.IsInstanceOf<ParentMenuItemFeature>(_pluginManager.Plugins[0].Features[0], "ParentMenuItemFeature wasn't loaded");

@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class PGPU : XenObject<PGPU>
     {
+        #region Constructors
+
         public PGPU()
         {
         }
@@ -77,13 +79,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new PGPU from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public PGPU(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new PGPU from a Proxy_PGPU.
         /// </summary>
         /// <param name="proxy"></param>
         public PGPU(Proxy_PGPU proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -105,7 +121,7 @@ namespace XenAPI
             compatibility_metadata = update.compatibility_metadata;
         }
 
-        internal void UpdateFromProxy(Proxy_PGPU proxy)
+        internal void UpdateFrom(Proxy_PGPU proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             PCI = proxy.PCI == null ? null : XenRef<PCI>.Create(proxy.PCI);
@@ -137,17 +153,6 @@ namespace XenAPI
             result_.is_system_display_device = is_system_display_device;
             result_.compatibility_metadata = Maps.convert_to_proxy_string_string(compatibility_metadata);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new PGPU from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public PGPU(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

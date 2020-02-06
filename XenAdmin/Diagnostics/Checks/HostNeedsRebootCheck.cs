@@ -77,6 +77,12 @@ namespace XenAdmin.Diagnostics.Checks
                 livePatchCodesByHost[Host.uuid] == livepatch_status.ok_livepatch_complete
                 || updateSequenceIsLivePatchable)
             {
+                var livePatchingRestricted = Helpers.FeatureForbidden(Host.Connection, Host.RestrictLivePatching);
+                var livePatchingRDisabled = Helpers.GetPoolOfOne(Host.Connection)?.live_patching_disabled == true;
+
+                if (livePatchingRestricted || livePatchingRDisabled)
+                    return new HostNeedsReboot(this, Host, livePatchingRestricted, livePatchingRDisabled);
+                
                 successfulCheckDescription = string.Format(Messages.UPDATES_WIZARD_NO_REBOOT_NEEDED_LIVE_PATCH, Host);
                 return null;
             }

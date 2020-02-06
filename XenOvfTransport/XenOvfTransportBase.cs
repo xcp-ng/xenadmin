@@ -30,10 +30,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
 using XenAPI;
 
 
@@ -41,36 +37,27 @@ namespace XenOvfTransport
 {
     public class XenOvfTransportBase
     {
-		public Action<XenOvfTranportEventArgs> UpdateHandler { get; set; }
+        public Action<XenOvfTransportEventArgs> UpdateHandler { private get; set; }
 
 		protected string m_networkUuid;
 		protected bool m_isTvmIpStatic;
 		protected string m_tvmIpAddress;
 		protected string m_tvmSubnetMask;
 		protected string m_tvmGateway;
-
-		protected void OnUpdate(XenOvfTranportEventArgs e)
-		{
-			if (UpdateHandler != null)
-				UpdateHandler.Invoke(e);
-		}
-
         protected readonly Session XenSession;
-        internal Uri _XenServer;
-
+        protected readonly Uri _uri;
 		protected iSCSI m_iscsi;
 		private bool m_cancel;
 
-        protected XenOvfTransportBase()
+        protected XenOvfTransportBase(Uri uri, Session session)
         {
-			ServicePointManager.ServerCertificateValidationCallback = ValidateServerCertificate;
+            _uri = uri;
+        	XenSession = session;
         }
 
-		protected XenOvfTransportBase(Uri xenserver, Session session)
-			: this()
+        protected void OnUpdate(XenOvfTransportEventArgs e)
         {
-        	_XenServer = xenserver;
-        	XenSession = session;
+            UpdateHandler?.Invoke(e);
         }
 
 		public bool Cancel
@@ -92,28 +79,5 @@ namespace XenOvfTransport
 			m_tvmSubnetMask = tvmSubnetMask;
 			m_tvmGateway = tvmGateway;
 		}
-
-        public static bool ValidateServerCertificate(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {
-            return true;
-        }
-
-        public static VM FindiSCSI(XenAPI.Session xenSession)
-        {
-            Dictionary<XenRef<VM>,VM> iSCSIDict = VM.get_all_records(xenSession);
-
-            foreach (XenRef<VM> key in iSCSIDict.Keys)
-            {
-                if (iSCSIDict[key].is_a_template)
-                {
-                    if (iSCSIDict[key].other_config.ContainsKey("transfervm") &&
-                        iSCSIDict[key].other_config["transfervm"] == "true")
-                    {
-                        return iSCSIDict[key];
-                    }
-                }
-            }
-            return null;
-        }
     }
 }

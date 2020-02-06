@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,19 @@ namespace XenAPI
     [JsonConverter(typeof(vmss_frequencyConverter))]
     public enum vmss_frequency
     {
-        hourly, daily, weekly, unknown
+        /// <summary>
+        /// Hourly snapshots
+        /// </summary>
+        hourly,
+        /// <summary>
+        /// Daily snapshots
+        /// </summary>
+        daily,
+        /// <summary>
+        /// Weekly snapshots
+        /// </summary>
+        weekly,
+        unknown
     }
 
     public static class vmss_frequency_helper
@@ -73,4 +84,4 @@ namespace XenAPI
             writer.WriteValue(((vmss_frequency)value).StringOf());
         }
     }
-}
+}

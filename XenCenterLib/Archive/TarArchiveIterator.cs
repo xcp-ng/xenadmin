@@ -32,6 +32,7 @@
 using System;
 using System.IO;
 using ICSharpCode.SharpZipLib.Tar;
+using XenCenterLib.Compression;
 
 namespace XenCenterLib.Archive
 {
@@ -39,13 +40,21 @@ namespace XenCenterLib.Archive
     public class SharpZipTarArchiveIterator : ArchiveIterator
     {
         private TarInputStream tarStream;
+        private CompressionStream compressionStream;
         private TarEntry tarEntry;
         private bool disposed;
 
-        public SharpZipTarArchiveIterator()
+        public SharpZipTarArchiveIterator(Stream compressedTarFile, CompressionFactory.Type compressionType)
         {
-            tarStream = null;
-            disposed = true;
+            if (compressionType == CompressionFactory.Type.Gz)
+                compressionStream = CompressionFactory.Reader(CompressionFactory.Type.Gz, compressedTarFile);
+            else if (compressionType == CompressionFactory.Type.Bz2)
+                compressionStream = CompressionFactory.Reader(CompressionFactory.Type.Bz2, compressedTarFile);
+            else
+                throw new NotSupportedException($"Type {compressionType} is not supported by ArchiveIterator");
+
+            tarStream = new TarInputStream(compressionStream);
+            disposed = false;
         }
 
         public SharpZipTarArchiveIterator(Stream tarFile)
@@ -122,12 +131,16 @@ namespace XenCenterLib.Archive
             {
                 if(!disposed)
                 {
-                    if (tarStream != null)
-                        tarStream.Dispose();
+                    tarStream?.Dispose();
+                    compressionStream?.Dispose();
                     disposed = true;
                 }
-                
             }
+        }
+
+        public override bool VerifyCurrentFileAgainstDigest(string algorithmName, byte[] digest)
+        {
+            return StreamUtilities.VerifyAgainstDigest(tarStream, CurrentFileSize(), algorithmName, digest);
         }
     }
 }

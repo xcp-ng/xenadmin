@@ -131,12 +131,12 @@ namespace XenAdmin.Actions
             XenRef<Pool_patch> patchRef = BringPatchToPoolForHost(host, patch);
 
             Description = string.Format(Messages.APPLYING_PATCH, patch.Name(), host.Name());
-            log.Debug(Description);
+            log.DebugFormat("Applying update '{0}' to server '{1}'", patch.Name(), host.Name());
 
             RelatedTask = Pool_patch.async_apply(Session, patchRef, host.opaque_ref);
             PollToCompletion();
 
-            log.DebugFormat(Messages.APPLY_PATCH_LOG_MESSAGE, patch.Name(), host.Name(), Result);
+            log.DebugFormat("Applied update '{0}' to server '{1}'. Result: {2}.", patch.Name(), host.Name(), Result);
             Description = string.Format(Messages.PATCH_APPLIED, patch.Name(), host.Name());
         }
     }

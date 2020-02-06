@@ -30,12 +30,10 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Net;
 using System.Resources;
-using System.Windows.Forms;
-using System.Drawing;
-using XenAdmin.Dialogs;
+using System.Threading;
+using XenAdmin.Core;
 
 
 namespace XenAdmin.Help
@@ -44,101 +42,99 @@ namespace XenAdmin.Help
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        static readonly ResourceManager resources;
+        private static readonly ResourceManager resources;
+        private static readonly string HelpUrl = Registry.CustomHelpUrl;
+        private static readonly string HelpQuery = string.Empty;
+        private static volatile string _helpVersion;
+
+        private static readonly object _helpLock = new object();
 
         static HelpManager()
         {
             resources = new ResourceManager("XenAdmin.Help.HelpManager", typeof(HelpManager).Assembly);
-        }
 
-        internal static string GetID(string pageref)
-        {
-            return resources.GetString(pageref);
-        }
-
-        public static void Launch(string pageref)
-        {
-            MainWindow w = Program.MainWindow;
-
-            if (pageref != null)
+            if (string.IsNullOrEmpty(HelpUrl))
             {
-                log.DebugFormat("User Request Help ID for {0}", pageref);
+                HelpUrl = InvisibleMessages.HELP_URL;
 
-                string s = GetID(pageref);
-                if (s != null)
-                {
-                    log.DebugFormat("Help ID for {0} is {1}", pageref, s);
-                    if (Properties.Settings.Default.DebugHelp && !Program.RunInAutomatedTestMode)
-                    {
-                        using (var dlg = new ThreeButtonDialog(
-                           new ThreeButtonDialog.Details(
-                               SystemIcons.Information,
-                               string.Format(Messages.MESSAGEBOX_HELP_TOPICS, s, pageref),
-                               Messages.XENCENTER)))
-                        {
-                            dlg.ShowDialog(w);
-                        }
-                    }
-                    w.ShowHelpTopic(s);
-                }
-                else
-                {
-                    log.WarnFormat("Failed to find Help ID for {0}", pageref);
-                    // Do not show the help window with TOC if the help ID is not found with the system running in AutomatedTest mode
-                    if (!Program.RunInAutomatedTestMode)
-                    {
-                        if (Properties.Settings.Default.DebugHelp)
-                        {
-                            using (var dlg = new ThreeButtonDialog(
-                               new ThreeButtonDialog.Details(
-                                   SystemIcons.Error,
-                                   string.Format(Messages.MESSAGEBOX_HELP_TOPIC_NOT_FOUND, pageref),
-                                   Messages.MESSAGEBOX_HELP_TOPIC_NOT_FOUND)))
-                            {
-                                dlg.ShowDialog(w);
-                            }
-                        }
-                        w.ShowHelpTOC();
-                    }
-                }
+                HelpQuery = string.Format(InvisibleMessages.HELP_URL_QUERY,
+                    $"{Branding.XENCENTER_VERSION}.{Program.Version.Revision}".Replace('.', '_'),
+                    Messages.XENCENTER);
             }
+        }
+
+        internal static void SetHelpVersion()
+        {
+            ThreadPool.QueueUserWorkItem(obj =>
+            {
+                try
+                {
+                    var version = Program.Version;
+                    var helpVersion = $"{version.Major}-{version.Minor}/";
+                    var request = WebRequest.Create(HelpUrl + helpVersion + "index.html");
+                    request.Method = "HEAD";
+
+                    using (var response = request.GetResponse() as HttpWebResponse)
+                    {
+                        if (response != null && response.StatusCode == HttpStatusCode.OK)
+                            _helpVersion = helpVersion;
+                        else
+                            _helpVersion = "current-release/";
+                    }
+                }
+                catch
+                {
+                    _helpVersion = "current-release/";
+                }
+                finally
+                {
+                    lock (_helpLock)
+                        Monitor.PulseAll(_helpLock);
+                }
+            });
+        }
+
+        internal static bool TryGetTopicId(string pageRef, out string topicId)
+        {
+            topicId = null;
+            if (pageRef == null)
+                return false;
+
+            topicId = resources.GetString(pageRef);
+            return topicId != null;
+        }
+
+        public static void Launch(string pageRef)
+        {
+            TryGetTopicId(pageRef, out string topicId);
+
+            if (pageRef == null)
+                log.WarnFormat("Attempted to launch help window with null help pageRef");
+            else if (topicId == null)
+                log.WarnFormat("Failed to find help topic ID for {0}", pageRef);
             else
-            {
-                log.WarnFormat("Null help ID passed to Help Manager");
-                // Do not show the help window with TOC if the help ID is not found with the system running in AutomatedTest mode
-                if (!Program.RunInAutomatedTestMode)
-                {
-                    if (Properties.Settings.Default.DebugHelp)
-                    {
-                        using (var dlg = new ThreeButtonDialog(
-                           new ThreeButtonDialog.Details(
-                               SystemIcons.Error,
-                               string.Format(Messages.MESSAGEBOX_HELP_TOPIC_NOT_FOUND, pageref),
-                               Messages.MESSAGEBOX_HELP_TOPIC_NOT_FOUND)))
-                        {
-                            dlg.ShowDialog(w);
-                        }
-                    }
-                    w.ShowHelpTOC();
-                }
-            }
-        }
+                log.DebugFormat("Found help topic ID {0} for {1}", topicId, pageRef);
 
-        public static bool HasHelpFor(string pageref)
-        {
-            return (pageref != null && pageref != "TabPageUnknown" && GetID(pageref) != null);
-        }
+            if (string.IsNullOrEmpty(_helpVersion))
+                lock (_helpLock)
+                    Monitor.Wait(_helpLock);
 
-        public static string ProduceUrl(string topicId, string helpUrl, string locale, string campaign, string medium, string source)
-        {
-            return string.Format(
-                helpUrl,
-                locale,
-                topicId ?? "index",
-                campaign.Replace('.', '_'),
-                medium,
-                source
-            ).ToLowerInvariant();
+            var helpTopicUrl = HelpUrl + _helpVersion + $"{topicId ?? "index"}.html" + HelpQuery;
+            Program.OpenURL(helpTopicUrl.ToLowerInvariant());
+
+            // record help usage
+            Properties.Settings.Default.HelpLastUsed = DateTime.UtcNow.ToString("u");
+            Settings.TrySaveSettings();
         }
+    }
+
+    internal interface IFormWithHelp
+    {
+        bool HasHelp();
+    }
+
+    internal interface IControlWithHelp
+    {
+        string HelpID { get; }
     }
 }

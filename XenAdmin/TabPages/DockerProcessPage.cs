@@ -60,6 +60,8 @@ namespace XenAdmin.TabPages
             RefreshTimer.Interval = REFRESH_INTERVAL;
         }
 
+        public override string HelpID => "TabPageDockerProcess";
+
         public DockerContainer DockerContainer
         {
             get

@@ -96,7 +96,7 @@ namespace XenAdmin.Commands
             SR sr = vdi.Connection.Resolve(vdi.SR);
             if (sr == null || sr.HBALunPerVDI())
                 return false;
-            if (Helpers.DundeePlusOrGreater(vdi.Connection) && !sr.allowed_operations.Contains(storage_operations.vdi_mirror))
+            if (!sr.SupportsStorageMigration())
                 return false;
 
             return true;
@@ -126,7 +126,7 @@ namespace XenAdmin.Commands
                 return base.GetCantExecuteReasonCore(item);
             if (sr.HBALunPerVDI())
                 return Messages.UNSUPPORTED_SR_TYPE;
-            if (Helpers.DundeePlusOrGreater(vdi.Connection) && !sr.allowed_operations.Contains(storage_operations.vdi_mirror))
+            if (!sr.SupportsStorageMigration())
                 return Messages.UNSUPPORTED_SR_TYPE;
 
             return base.GetCantExecuteReasonCore(item);

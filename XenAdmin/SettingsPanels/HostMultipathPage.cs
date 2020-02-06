@@ -44,8 +44,6 @@ namespace XenAdmin.SettingsPanels
 {
     public partial class HostMultipathPage : UserControl, IEditPage
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private Host host;
 
         public HostMultipathPage()

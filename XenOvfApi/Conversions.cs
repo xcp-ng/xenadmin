@@ -63,27 +63,6 @@ namespace XenOvf
 
         #region CONVERSIONS
 
-        public void ConvertOVAtoOVF(string ovaFileName)
-        {
-            try
-            {
-                Load(ovaFileName);
-                File.Delete(ovaFileName);
-            }
-            catch
-            {
-            }
-            finally
-            {
-                _processId = System.Diagnostics.Process.GetCurrentProcess().Id;
-                _touchFile = Path.Combine(Path.GetDirectoryName(ovaFileName), "xen__" + _processId);
-                if (File.Exists(_touchFile))
-                {
-                    File.Delete(_touchFile);
-                }
-            }
-        }
-
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope",
              Justification = "Tar Object uses close not Dispose, it cleans up all streams used.")]
         public static void ConvertOVFtoOVA(string pathToOvf, string ovfFileName, bool compress, bool cleanup = true)
@@ -170,13 +149,6 @@ namespace XenOvf
             finally
             {
                 Directory.SetCurrentDirectory(origDir);
-
-                _processId = System.Diagnostics.Process.GetCurrentProcess().Id;
-                _touchFile = Path.Combine(pathToOvf, "xen__" + _processId);
-                if (File.Exists(_touchFile))
-                {
-                    File.Delete(_touchFile);
-                }
             }
             log.Debug("OVF.ConvertOVFtoOVA completed");
         }
@@ -316,7 +288,7 @@ namespace XenOvf
         {
             string vpcstring = Tools.LoadFile(vpcFileName);
             vpcstring = vpcstring.Replace("utf-16", "utf-8").Replace("UTF-16", "UTF-8"); // fails if we don't do this. (not nice need to figure real answer)
-            Ms_Vmc_Type xca = (Ms_Vmc_Type)Tools.Deserialize(vpcstring, typeof(Ms_Vmc_Type));
+            Ms_Vmc_Type xca = Tools.Deserialize<Ms_Vmc_Type>(vpcstring);
             EnvelopeType env = ConvertFromVPCXml(xca, Path.GetFileNameWithoutExtension(vpcFileName), ovfName, lang);
             return Tools.Serialize(env, typeof(EnvelopeType), Tools.LoadNamespaces());
         }
@@ -390,7 +362,7 @@ namespace XenOvf
             string hvxml = Tools.LoadFile(hvxmlFileName);
             hvxml = hvxml.Replace("utf-16", "utf-8"); // fails if we don't do this.
             string xmlstring = null;
-            Ms_Declarations_Type hvobj = (Ms_Declarations_Type)Tools.Deserialize(hvxml, typeof(Ms_Declarations_Type));
+            Ms_Declarations_Type hvobj = Tools.Deserialize<Ms_Declarations_Type>(hvxml);
             if (hvobj != null &&
                 hvobj.declgroups != null &&
                 hvobj.declgroups.Count > 0 &&
@@ -2012,7 +1984,7 @@ namespace XenOvf
 
                     if (deviceid == null)
                     {
-                        traceLog.Debug("No device id defined, continuing");
+                        log.Debug("No device id defined, continuing");
                         continue;
                     }
                     List<ManagementObject> ControllerAssociations = FindDeviceReferences("Win32_IDEControllerDevice", deviceid);
@@ -2033,7 +2005,7 @@ namespace XenOvf
                         }
                         if (_dependent == null)
                         {
-                            traceLog.Debug("PCI Association not available, continuing.");
+                            log.Debug("PCI Association not available, continuing.");
                             continue;
                         }
 
@@ -2135,7 +2107,7 @@ namespace XenOvf
                                 }
                                 if (_pnpdeviceid == null)
                                 {
-                                    traceLog.Debug("PNPDeviceID not available, continuing.");
+                                    log.Debug("PNPDeviceID not available, continuing.");
                                     continue;
                                 }
 
@@ -2198,7 +2170,7 @@ namespace XenOvf
                     }
                     if (_deviceid == null)
                     {
-                        traceLog.Debug("SCSI DeviceID not available, continuing.");
+                        log.Debug("SCSI DeviceID not available, continuing.");
                         continue;
                     }
 
@@ -2209,7 +2181,7 @@ namespace XenOvf
 
                     if (ControllerAssociations == null || ControllerAssociations.Count <= 0)
                     {
-                        traceLog.DebugFormat("No Controller associations for {0}", _deviceid);
+                        log.DebugFormat("No Controller associations for {0}", _deviceid);
                         continue;
                     }
 
@@ -2228,7 +2200,7 @@ namespace XenOvf
                         }
                         if (_dependent == null)
                         {
-                            traceLog.Debug("SCSI Association not available, continuing.");
+                            log.Debug("SCSI Association not available, continuing.");
                             continue;
                         }
 
@@ -2285,7 +2257,7 @@ namespace XenOvf
                                 }
                                 if (__deviceid == null)
                                 {
-                                    traceLog.Debug("SCSI DeviceID not available, continuing.");
+                                    log.Debug("SCSI DeviceID not available, continuing.");
                                     continue;
                                 }
 
@@ -2351,7 +2323,7 @@ namespace XenOvf
                                 }
                                 if (__deviceid == null)
                                 {
-                                    traceLog.Debug("SCSI DeviceID not available, continuing.");
+                                    log.Debug("SCSI DeviceID not available, continuing.");
                                     continue;
                                 }
 

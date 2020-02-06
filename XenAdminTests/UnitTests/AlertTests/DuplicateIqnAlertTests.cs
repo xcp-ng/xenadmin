@@ -32,7 +32,6 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using XenAdmin.Alerts;
-using XenAdminTests.UnitTests.UnitTestHelper;
 using XenAPI;
 
 namespace XenAdminTests.UnitTests.AlertTests
@@ -52,16 +51,15 @@ namespace XenAdminTests.UnitTests.AlertTests
         [Test]
         public void VerifyStoredDataWithDefaultConstructor()
         {
-            IUnitTestVerifier validator = new VerifyGetters(new DuplicateIqnAlert(new Host(), new Dictionary<Host, Host>()));
-
-            validator.Verify(new ClassData
-            {
-                FixLinkText = "Edit IQN",
-                HelpID = "DuplicateIqnAlert",
-                HelpLinkText = "Help",
-                Title = "iSCSI-IQN Exists",
-                Priority = "Priority3"
-            });
+            ClassVerifiers.VerifyGetters(new DuplicateIqnAlert(new Host(), new Dictionary<Host, Host>()),
+                new ClassData
+                {
+                    FixLinkText = "Edit IQN",
+                    HelpID = "DuplicateIqnAlert",
+                    HelpLinkText = "Help",
+                    Title = "iSCSI-IQN Exists",
+                    Priority = "Priority3"
+                });
         }
     }
 }

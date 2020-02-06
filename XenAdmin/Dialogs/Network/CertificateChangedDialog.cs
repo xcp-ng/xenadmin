@@ -46,7 +46,7 @@ namespace XenAdmin.Dialogs.Network
         public CertificateChangedDialog(X509Certificate certificate, string hostname)
         {
             InitializeComponent();
-            AlwaysIgnoreCheckBox.Enabled = Registry.AlwaysShowSSLCertificates == SSLCertificateTypes.None;
+            AlwaysIgnoreCheckBox.Enabled = Registry.SSLCertificateTypes == SSLCertificateTypes.None;
             NewCertificate = certificate;
             _hostname = hostname;
 

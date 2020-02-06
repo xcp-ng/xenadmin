@@ -110,8 +110,8 @@
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.m_comboBoxISOLibraries, 2);
             this.m_comboBoxISOLibraries.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.m_comboBoxISOLibraries, "m_comboBoxISOLibraries");
             this.m_comboBoxISOLibraries.FormattingEnabled = true;
+            resources.ApplyResources(this.m_comboBoxISOLibraries, "m_comboBoxISOLibraries");
             this.m_comboBoxISOLibraries.Name = "m_comboBoxISOLibraries";
             this.m_comboBoxISOLibraries.SelectedIndexChanged += new System.EventHandler(this.m_comboBoxISOLibraries_SelectedIndexChanged);
             // 

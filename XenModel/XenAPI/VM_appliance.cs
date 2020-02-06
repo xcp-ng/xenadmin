@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class VM_appliance : XenObject<VM_appliance>
     {
+        #region Constructors
+
         public VM_appliance()
         {
         }
@@ -65,13 +67,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new VM_appliance from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public VM_appliance(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new VM_appliance from a Proxy_VM_appliance.
         /// </summary>
         /// <param name="proxy"></param>
         public VM_appliance(Proxy_VM_appliance proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -87,7 +103,7 @@ namespace XenAPI
             VMs = update.VMs;
         }
 
-        internal void UpdateFromProxy(Proxy_VM_appliance proxy)
+        internal void UpdateFrom(Proxy_VM_appliance proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -107,17 +123,6 @@ namespace XenAPI
             result_.current_operations = Maps.convert_to_proxy_string_vm_appliance_operation(current_operations);
             result_.VMs = VMs == null ? new string[] {} : Helper.RefListToStringArray(VMs);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new VM_appliance from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public VM_appliance(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

@@ -44,12 +44,12 @@ namespace XenAdmin.Dialogs
     public partial class RoleElevationDialog : XenDialogBase
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public Session elevatedSession = null;
+
+        public Session elevatedSession;
         public string elevatedPassword;
         public string elevatedUsername;
         public string originalUsername;
         public string originalPassword;
-
 
         private List<Role> authorizedRoles;
 
@@ -62,13 +62,9 @@ namespace XenAdmin.Dialogs
         /// <param name="authorizedRoles">A list of roles that are able to complete the task</param>
         /// <param name="actionTitle">A description of the current action, if null or empty will not be displayed</param>
         public RoleElevationDialog(IXenConnection connection, Session session, List<Role> authorizedRoles, string actionTitle)
+            :base(connection)
         {
             InitializeComponent();
-            Image icon = SystemIcons.Exclamation.ToBitmap();
-            pictureBox1.Image = icon;
-            pictureBox1.Width = icon.Width;
-            pictureBox1.Height = icon.Height;
-            this.connection = connection;
             UserDetails ud = session.CurrentUserDetails;
             labelCurrentUserValue.Text = ud.UserDisplayName ?? ud.UserName ?? Messages.UNKNOWN_AD_USER;
             labelCurrentRoleValue.Text = Role.FriendlyCSVRoleList(session.Roles);
@@ -134,8 +130,6 @@ namespace XenAdmin.Dialogs
                 }
 
                 ShowNotAuthorisedDialog();
-                return;
-
             }
             catch (Exception ex)
             {
@@ -148,6 +142,9 @@ namespace XenAdmin.Dialogs
                 {
                     dlg.ShowDialog(Parent);
                 }
+
+                TextBoxPassword.Focus();
+                TextBoxPassword.SelectAll();
             }
             finally
             {
@@ -189,6 +186,9 @@ namespace XenAdmin.Dialogs
             {
                 dlg.ShowDialog(this);
             }
+
+            TextBoxPassword.Focus();
+            TextBoxPassword.SelectAll();
         }
 
         private bool SessionAuthorized(Session s)

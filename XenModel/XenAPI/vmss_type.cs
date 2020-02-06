@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,19 @@ namespace XenAPI
     [JsonConverter(typeof(vmss_typeConverter))]
     public enum vmss_type
     {
-        snapshot, checkpoint, snapshot_with_quiesce, unknown
+        /// <summary>
+        /// The snapshot is a disk snapshot
+        /// </summary>
+        snapshot,
+        /// <summary>
+        /// The snapshot is a checkpoint
+        /// </summary>
+        checkpoint,
+        /// <summary>
+        /// Support for VSS has been removed.
+        /// </summary>
+        snapshot_with_quiesce,
+        unknown
     }
 
     public static class vmss_type_helper
@@ -73,4 +84,4 @@ namespace XenAPI
             writer.WriteValue(((vmss_type)value).StringOf());
         }
     }
-}
+}

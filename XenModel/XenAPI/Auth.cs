@@ -45,8 +45,22 @@ namespace XenAPI
     /// </summary>
     public partial class Auth : XenObject<Auth>
     {
+        #region Constructors
+
         public Auth()
         {
+        }
+
+        /// <summary>
+        /// Creates a new Auth from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Auth(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
         }
 
         /// <summary>
@@ -55,8 +69,10 @@ namespace XenAPI
         /// <param name="proxy"></param>
         public Auth(Proxy_Auth proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -66,7 +82,7 @@ namespace XenAPI
         {
         }
 
-        internal void UpdateFromProxy(Proxy_Auth proxy)
+        internal void UpdateFrom(Proxy_Auth proxy)
         {
         }
 
@@ -74,17 +90,6 @@ namespace XenAPI
         {
             Proxy_Auth result_ = new Proxy_Auth();
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Auth from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Auth(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

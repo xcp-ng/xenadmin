@@ -28,7 +28,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using Newtonsoft.Json;
 
 
@@ -37,7 +36,15 @@ namespace XenAPI
     [JsonConverter(typeof(sr_healthConverter))]
     public enum sr_health
     {
-        healthy, recovering, unknown
+        /// <summary>
+        /// Storage is fully available
+        /// </summary>
+        healthy,
+        /// <summary>
+        /// Storage is busy recovering, e.g. rebuilding mirrors.
+        /// </summary>
+        recovering,
+        unknown
     }
 
     public static class sr_health_helper
@@ -71,4 +78,4 @@ namespace XenAPI
             writer.WriteValue(((sr_health)value).StringOf());
         }
     }
-}
+}

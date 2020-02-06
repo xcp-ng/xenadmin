@@ -29,90 +29,100 @@
  * SUCH DAMAGE.
  */
 
-// project created on 23/02/2007 at 11:13
 using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Net;
-using System.Net.Security;
-using System.Net.Sockets;
-using System.Security.Authentication;
-using System.Text;
-using System.Security.Cryptography.X509Certificates;
-using System.IO;
 using CommandLib;
 
-public class Global{
-	public static void error(string x){
-		Console.WriteLine("Error: " + x);
-	}
-	public static void debug(string msg, thinCLIProtocol tCLIprotocol){
-        if (tCLIprotocol.conf.debug)
-			Console.WriteLine("Debug: " + msg);
-	}
-	public static void usage(){
-		Console.WriteLine("Usage:");
-		Console.WriteLine("  xe -s <server> -u <username> -pw <password> [-p <port>] <command> <arguments>");
-		Console.WriteLine("For help, use xe -s <server> -u <user> -pw <password> [-p <port>] help");
-	}
-}
 
-
-
-namespace thincli
+namespace ThinCLI
 {
-	class MainClass
-	{
+    static class MainClass
+    {
+        public static void Main(string[] args)
+        {
+            var tCliProtocol = new thinCLIProtocol(Error, Usage, Debug,
+                Console.Write, Console.WriteLine, Console.ReadLine,
+                Environment.Exit, i => { }, new Config());
 
-	
-		public static void Main(string[] args)
-		{
-            thinCLIProtocol tCLIprotocol = new thinCLIProtocol(new delegateGlobalError(Global.error), new delegateGlobalUsage(Global.usage),
-                                       new delegateGlobalDebug(Global.debug), new delegateConsoleWrite(delegate(string s) { Console.Write(s); }),
-                                       new delegateConsoleWriteLine(delegate(string s) { Console.WriteLine(s); }),
-                                       new delegateConsoleReadLine(delegate { return Console.ReadLine(); }),
-                                       new delegateExit(delegate(int i) { Environment.Exit(i); }),
-                                       new delegateProgress(delegate(int i) {}),
-                                       new Config());
+            string body = "";
+            char[] eqsep = {'='};
 
-            String body = "";
-            Char[] eqsep = {'='};
-            for(int i=0; i<args.Length; i++) {
-                String s = args[i];
+            for (int i = 0; i < args.Length; i++)
+            {
+                string s = args[i];
                 try
                 {
-                	if (s.StartsWith("server")){
-                		tCLIprotocol.conf.hostname = (s.Split(eqsep))[1];
-                	} else if (s.Equals("-s")) {
-                        tCLIprotocol.conf.hostname = args[++i]; 
-                	} else if (s.Equals("-u")){
-                        tCLIprotocol.conf.username = args[++i]; 
-                	} else if (s.Equals("-pw")){
-                        tCLIprotocol.conf.password = args[++i]; 
-                 	} else if (s.Equals("-p")){
-                        tCLIprotocol.conf.port = Int32.Parse(args[++i]); 
-                	} else if (s.Equals("--nossl")){
-                        tCLIprotocol.conf.nossl = true;
-                	} else if (s.Equals("-debug")){
-                        tCLIprotocol.conf.debug = true;
-                	} else if (s.Equals("-version")){
-				    Console.WriteLine("ThinCLI protocol: " + tCLIprotocol.major + "." + tCLIprotocol.minor);
-				    Environment.Exit(0);
-               		} else body += s + "\n";
+                    if (s.StartsWith("server"))
+                    {
+                        tCliProtocol.conf.hostname = s.Split(eqsep)[1];
+                    }
+                    else if (s.Equals("-s"))
+                    {
+                        tCliProtocol.conf.hostname = args[++i];
+                    }
+                    else if (s.Equals("-u"))
+                    {
+                        tCliProtocol.conf.username = args[++i];
+                    }
+                    else if (s.Equals("-pw"))
+                    {
+                        tCliProtocol.conf.password = args[++i];
+                    }
+                    else if (s.Equals("-p"))
+                    {
+                        tCliProtocol.conf.port = Int32.Parse(args[++i]);
+                    }
+                    else if (s.Equals("--nossl"))
+                    {
+                        tCliProtocol.conf.nossl = true;
+                    }
+                    else if (s.Equals("-debug"))
+                    {
+                        tCliProtocol.conf.debug = true;
+                    }
+                    else if (s.Equals("-version"))
+                    {
+                        Console.WriteLine("ThinCLI protocol: " + tCliProtocol.major + "." + tCliProtocol.minor);
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        body += s + "\n";
+                    }
                 }
-                catch {
-                	Global.error("Failed to parse command-line arguments");
-			        Global.usage();
-                	Environment.Exit(1);
+                catch
+                {
+                    Error("Failed to parse command-line arguments");
+                    Usage();
+                    Environment.Exit(1);
                 }
             }
-            if (tCLIprotocol.conf.hostname.Equals(""))
+
+            if (tCliProtocol.conf.hostname.Equals(""))
             {
-                Global.error("No hostname was specified.");
-                Global.usage();
+                Error("No hostname was specified.");
+                Usage();
                 Environment.Exit(1);
             }
-		    Messages.performCommand(body, tCLIprotocol);
-		}
-	}
+
+            Messages.performCommand(body, tCliProtocol);
+        }
+
+        private static void Error(string x)
+        {
+            Console.WriteLine("Error: " + x);
+        }
+
+        private static void Debug(string msg, thinCLIProtocol tCliProtocol)
+        {
+            if (tCliProtocol.conf.debug)
+                Console.WriteLine("Debug: " + msg);
+        }
+
+        private static void Usage()
+        {
+            Console.WriteLine("Usage:");
+            Console.WriteLine("  xe -s <server> -u <username> -pw <password> [-p <port>] <command> <arguments>");
+            Console.WriteLine("For help, use xe -s <server> -u <user> -pw <password> [-p <port>] help");
+        }
+    }
 }

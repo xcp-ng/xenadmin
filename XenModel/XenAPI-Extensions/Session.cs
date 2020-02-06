@@ -51,7 +51,9 @@ namespace XenAPI
         {
             Connection = connection;
             proxy.RequestEvent += LogRequest;
+#if DEBUG
             proxy.ResponseEvent += LogResponse;
+#endif
         }
 
         public Session(Proxy proxy, IXenConnection connection)
@@ -90,7 +92,9 @@ namespace XenAPI
             else if (session.proxy != null)
             {
                 proxy.RequestEvent += LogRequest;
+#if DEBUG
                 proxy.ResponseEvent += LogResponse;
+#endif
             }
         }
 
@@ -164,7 +168,11 @@ namespace XenAPI
 
             if (CanLogCall(methodName))
             {
+#if DEBUG
                 log.DebugFormat("Invoking XML-RPC method {0}: {1}", methodName, xml);
+#else
+                log.DebugFormat("Invoking XML-RPC method {0}", methodName);
+#endif
             }
             else
             {
@@ -172,11 +180,13 @@ namespace XenAPI
             }
         }
 
+#if DEBUG
         private void LogResponse(object o, XmlRpcResponseEventArgs args)
         {
             if(log.IsDebugEnabled)
                 log.DebugFormat(DumpStream(args.ResponseStream, "XML-RPC response: "));
         }
+#endif
 
         private string DumpStream(Stream s, string header)
         {
@@ -206,10 +216,10 @@ namespace XenAPI
             if (IsLocalSuperuser)
                 return Messages.AD_LOCAL_ROOT_ACCOUNT;
 
-            if (!string.IsNullOrEmpty(CurrentUserDetails.UserDisplayName))
+            if (CurrentUserDetails != null && !string.IsNullOrEmpty(CurrentUserDetails.UserDisplayName))
                 return CurrentUserDetails.UserDisplayName.Ellipsise(50);
 
-            if (!string.IsNullOrEmpty(CurrentUserDetails.UserName))
+            if (CurrentUserDetails != null && !string.IsNullOrEmpty(CurrentUserDetails.UserName))
                 return CurrentUserDetails.UserName.Ellipsise(50);
 
             return Messages.UNKNOWN_AD_USER;
@@ -223,7 +233,7 @@ namespace XenAPI
             if (IsLocalSuperuser)
                 return Messages.AD_LOCAL_ROOT_ACCOUNT;
 
-            if (!string.IsNullOrEmpty(CurrentUserDetails.UserName))
+            if (CurrentUserDetails != null && !string.IsNullOrEmpty(CurrentUserDetails.UserName))
                 return CurrentUserDetails.UserName;
 
             return UserSid;

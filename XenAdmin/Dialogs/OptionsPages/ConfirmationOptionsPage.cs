@@ -29,10 +29,7 @@
  * SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using XenAdmin.Properties;
 
@@ -56,6 +53,8 @@ namespace XenAdmin.Dialogs.OptionsPages
             checkBoxDontConfirmDismissAlerts.Checked = def.DoNotConfirmDismissAlerts;
             checkBoxDontConfirmDismissUpdates.Checked = def.DoNotConfirmDismissUpdates;
             checkBoxDontConfirmDismissEvents.Checked = def.DoNotConfirmDismissEvents;
+
+            checkBoxIgnoreOvfWarnings.Checked = def.IgnoreOvfValidationWarnings;
         }
 
         public static void Log()
@@ -63,6 +62,8 @@ namespace XenAdmin.Dialogs.OptionsPages
             log.InfoFormat("=== DoNotConfirmDismissAlerts: {0}", Properties.Settings.Default.DoNotConfirmDismissAlerts);
             log.InfoFormat("=== DoNotConfirmDismissUpdates: {0}", Properties.Settings.Default.DoNotConfirmDismissUpdates);
             log.InfoFormat("=== DoNotConfirmDismissEvents: {0}", Properties.Settings.Default.DoNotConfirmDismissEvents);
+
+            log.InfoFormat("=== IgnoreOvfValidationWarnings: {0}", Properties.Settings.Default.IgnoreOvfValidationWarnings);
         }
 
         #region IOptionsPage Members
@@ -77,26 +78,20 @@ namespace XenAdmin.Dialogs.OptionsPages
 
             if (Properties.Settings.Default.DoNotConfirmDismissEvents != checkBoxDontConfirmDismissEvents.Checked)
                 Properties.Settings.Default.DoNotConfirmDismissEvents = checkBoxDontConfirmDismissEvents.Checked;
+
+            if (Properties.Settings.Default.IgnoreOvfValidationWarnings != checkBoxIgnoreOvfWarnings.Checked)
+                Properties.Settings.Default.IgnoreOvfValidationWarnings = checkBoxIgnoreOvfWarnings.Checked;
         }
 
         #endregion
 
         #region IVerticalTab Members
 
-        public override string Text
-        {
-            get { return Messages.CONFIRMATIONS; }
-        }
+        public override string Text => Messages.CONFIRMATIONS;
 
-        public string SubText
-        {
-            get { return Messages.CONFIRMATIONS_DETAIL; }
-        }
+        public string SubText => Messages.CONFIRMATIONS_DETAIL;
 
-        public Image Image
-        {
-            get { return Resources._075_TickRound_h32bit_16; }
-        }
+        public Image Image => Resources._075_TickRound_h32bit_16;
 
         #endregion
     }

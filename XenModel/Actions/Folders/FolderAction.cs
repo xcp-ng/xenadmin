@@ -126,12 +126,11 @@ namespace XenAdmin.Actions
 
         protected void DeleteOrMove(List<IXenObject> objects, Folder folder, Func<bool> cancelling)
         {
-            IXenConnection connection = null;
+            XenConnection connection = null;
             if (objects.Count > 0)
-                connection = objects[0].Connection;
+                connection = objects[0].Connection as XenConnection;
 
-            if (connection != null)
-                ((XenConnection)connection).OnBeforeMajorChange(true);
+            connection?.OnBeforeMajorChange(true);
             try
             {
                 foreach(var obj in objects)
@@ -144,8 +143,7 @@ namespace XenAdmin.Actions
             }
             finally
             {
-                if (connection != null)
-                    ((XenConnection)connection).OnAfterMajorChange(true);
+                connection?.OnAfterMajorChange(true);
             }
         }
 

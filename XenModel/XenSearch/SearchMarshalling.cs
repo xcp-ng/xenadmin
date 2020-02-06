@@ -43,7 +43,7 @@ namespace XenAdmin.XenSearch
 {
     public class SearchMarshalling
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private const int CURRENT_SEARCH_MAJOR_VERSION = 2;
         private const int CURRENT_SEARCH_MINOR_VERSION = 0;
@@ -210,14 +210,6 @@ namespace XenAdmin.XenSearch
             int major_version = int.Parse(Helpers.GetXmlAttribute(node, "major_version"));
             //int minor_version = int.Parse(Helpers.GetXmlAttribute(node, "minor_version"));
             
-            XmlAttribute expanded = node.Attributes["show_expanded"];
-            if (expanded == null)
-            {
-                // Backwards compat.
-                expanded = node.Attributes["showsearch"];
-            }
-            bool showQuery = expanded == null ? false : ParseBool(expanded.Value);
-
             if (major_version > CURRENT_SEARCH_MAJOR_VERSION)
                 throw new SearchVersionException(major_version, CURRENT_SEARCH_MAJOR_VERSION);
 
@@ -265,7 +257,7 @@ namespace XenAdmin.XenSearch
                 i++;
             }
 
-            return new Search(query, grouping, showQuery, name, uuid, columns, sorting);
+            return new Search(query, grouping, name, uuid, columns, sorting);
         }
 
         private static List<KeyValuePair<string, int>> LoadColumns(XmlNode columnsNode)
@@ -350,8 +342,6 @@ namespace XenAdmin.XenSearch
             AddAttribute(document, node, "name", search.Name);
             AddAttribute(document, node, "major_version", CURRENT_SEARCH_MAJOR_VERSION);
             AddAttribute(document, node, "minor_version", CURRENT_SEARCH_MINOR_VERSION);
-            if (search.ShowSearch)
-                AddAttribute(document, node, "show_expanded", true);
 
             node.AppendChild(search.Query.ToXmlNode(document));
             if (search.Grouping != null)

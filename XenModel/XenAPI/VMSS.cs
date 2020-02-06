@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class VMSS : XenObject<VMSS>
     {
+        #region Constructors
+
         public VMSS()
         {
         }
@@ -73,13 +75,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new VMSS from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public VMSS(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new VMSS from a Proxy_VMSS.
         /// </summary>
         /// <param name="proxy"></param>
         public VMSS(Proxy_VMSS proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -99,7 +115,7 @@ namespace XenAPI
             VMs = update.VMs;
         }
 
-        internal void UpdateFromProxy(Proxy_VMSS proxy)
+        internal void UpdateFrom(Proxy_VMSS proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name_label = proxy.name_label == null ? null : proxy.name_label;
@@ -127,17 +143,6 @@ namespace XenAPI
             result_.last_run_time = last_run_time;
             result_.VMs = VMs == null ? new string[] {} : Helper.RefListToStringArray(VMs);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new VMSS from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public VMSS(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

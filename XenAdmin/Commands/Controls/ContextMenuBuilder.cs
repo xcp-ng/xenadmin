@@ -31,16 +31,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using XenAPI;
 using System.Windows.Forms;
 using XenAdmin.Model;
 using XenAdmin.Core;
 using System.Reflection;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Linq;
 using XenAdmin.Dialogs;
 using XenAdmin.Plugins;
 
@@ -163,7 +162,7 @@ namespace XenAdmin.Commands
         [Conditional("DEBUG")]
         private void CheckAccessKeys(ContextMenuItemCollection items)
         {
-            List<string> usedKeys = new List<string>();
+            var usedKeys = new Dictionary<string, List<string>>();
 
             foreach (ToolStripItem item in items)
             {
@@ -174,16 +173,16 @@ namespace XenAdmin.Commands
                 {
                     string c = text[index + 1].ToString().ToLower();
 
-                    if (usedKeys.Contains(c))
-                    {
-                        Debug.Fail("Duplicated access key: " + c);
-                    }
+                    if (usedKeys.ContainsKey(c))
+                        usedKeys[c].Add(text);
                     else
-                    {
-                        usedKeys.Add(c);
-                    }
+                        usedKeys[c] = new List<string> { text };
                 }
             }
+
+            if (usedKeys.Any(kvp => kvp.Value.Count > 1))
+                Debug.Fail("Found duplicate access key. Here are the used ones:\n" +
+                           string.Join("\n", usedKeys.Select(kvp => $"{kvp.Key} => {string.Join(", ", kvp.Value)}")));
         }
 
         private abstract class Builder
@@ -547,10 +546,11 @@ namespace XenAdmin.Commands
                                 
                 items.AddIfEnabled(new RemoveHostCrashDumpsCommand(mainWindow, selection));
 
-                if (host != Helpers.GetMaster(host.Connection) )
+                var cmd = new RemoveHostFromPoolCommand(mainWindow, selection);
+                if (cmd.CanExecute())
                 {
                     items.AddSeparator();
-                    items.Add(new RemoveHostFromPoolCommand(mainWindow, selection));
+                    items.Add(cmd);
                 }
 
                 items.AddPluginItems(PluginContextMenu.server, selection);
@@ -718,6 +718,8 @@ namespace XenAdmin.Commands
                                                                           true));
                     items.Add(drItem);
                 }
+
+                items.AddIfEnabled(new LaunchConversionManagerCommand(mainWindow, selection));
 
                 var pool = selection.FirstAsXenObject as Pool;
                 if (pool != null && !pool.IsPoolFullyUpgraded())

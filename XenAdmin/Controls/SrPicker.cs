@@ -31,7 +31,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Windows.Forms;
 using XenAdmin.Actions;
 using XenAdmin.Network;
 using XenAPI;
@@ -40,7 +39,7 @@ using XenAdmin.Core;
 
 namespace XenAdmin.Controls
 {
-    public partial class SrPicker : CustomTreeView
+    public class SrPicker : CustomTreeView
     {
         // Migrate is the live VDI move operation
         public enum SRPickerType { VM, InstallFromTemplate, MoveOrCopy, Migrate, LunPerVDI };
@@ -55,9 +54,7 @@ namespace XenAdmin.Controls
 
         private IXenConnection connection;
         private Host affinity;
-        private SrPickerItem LastSelectedItem;
 
-        public event Action<object> SrSelectionChanged;
         public long DiskSize = 0;
 
         private readonly CollectionChangeEventHandler SR_CollectionChangedWithInvoke;
@@ -67,29 +64,17 @@ namespace XenAdmin.Controls
             SR_CollectionChangedWithInvoke = Program.ProgramInvokeHandler(SR_CollectionChanged);
         }
 
-        public override bool ShowCheckboxes
-        {
-            get { return false; }
-        }
+        public override bool ShowCheckboxes => false;
 
-        public override bool ShowDescription
-        {
-            get { return true; }
-        }
+        public override bool ShowDescription => true;
 
-        public override bool ShowImages
-        {
-            get { return true; }
-        }
+        public override bool ShowImages => true;
 
-        public override int NodeIndent
-        {
-            get { return 3; }
-        }
+        public override int NodeIndent => 3;
 
         public SRPickerType Usage
         {
-            set { usage = value; }
+            set => usage = value;
         }
 
         /// <summary>
@@ -125,46 +110,7 @@ namespace XenAdmin.Controls
             }
         }
 
-        protected override void OnSelectedIndexChanged(EventArgs e)
-        {
-            base.OnSelectedIndexChanged(e);
-            onItemSelect();
-        }
-
-        private void onItemSelect()
-        {
-            SrPickerItem item = SelectedItem as SrPickerItem;
-            if (item == null || !item.Enabled)
-            {
-                if (SrSelectionChanged != null)
-                    SrSelectionChanged(null);
-                return;
-            }
-
-            if (SrSelectionChanged != null)
-                SrSelectionChanged(item);
-
-            if (!item.Enabled && LastSelectedItem != null && LastSelectedItem.TheSR.opaque_ref != item.TheSR.opaque_ref)
-                SelectedItem = LastSelectedItem;
-            else if (!item.Enabled && LastSelectedItem != null && LastSelectedItem.TheSR.opaque_ref == item.TheSR.opaque_ref)
-            {
-                SrPickerItem first = Items[0] as SrPickerItem;
-                if (first != null && first.Enabled)
-                    SelectedItem = first;
-                else
-                    SelectedItem = null;
-            }
-            else
-                LastSelectedItem = item;
-        }
-
-        public SR SR
-        {
-            get
-            {
-                return SelectedItem is SrPickerItem && (SelectedItem as SrPickerItem).Enabled ? (SelectedItem as SrPickerItem).TheSR : null;
-            }
-        }
+        public SR SR => SelectedItem is SrPickerItem srpITem && srpITem.Enabled ? srpITem.TheSR : null;
 
         public SR DefaultSR = null;
 
@@ -174,9 +120,7 @@ namespace XenAdmin.Controls
 			refresh();
 		}
 
-        private readonly SrPickerItemFactory itemFactory = new SrPickerItemFactory();
-
-    	public void refresh()
+    	private void refresh()
         {
             Program.AssertOnEventThread();
 
@@ -189,7 +133,7 @@ namespace XenAdmin.Controls
 
                 foreach (SR sr in connection.Cache.SRs)
                 {
-                    SrPickerItem item = itemFactory.PickerItem(sr, usage, affinity, DiskSize, existingVDIs);
+                    var item = SrPickerItem.Create(sr, usage, affinity, DiskSize, existingVDIs);
                     if (item.Show)
                         AddNode(item);
                     foreach (PBD pbd in sr.Connection.ResolveAll(sr.PBDs))
@@ -216,7 +160,6 @@ namespace XenAdmin.Controls
                     if (node.TheSR != null && node.TheSR.uuid == selectedSr.uuid)
                     {
                         SelectedItem = node;
-                        onItemSelect();
                         selected = true;
                         break;
                     }
@@ -229,7 +172,6 @@ namespace XenAdmin.Controls
                 {
                     // If no default SR, select first entry in list
                     SelectedIndex = 0;
-                    onItemSelect();
                 }
             }
         }
@@ -247,7 +189,6 @@ namespace XenAdmin.Controls
             finally
             {
                 Refresh();
-                onItemSelect();
             }
         }
 
@@ -314,9 +255,6 @@ namespace XenAdmin.Controls
                     return;
                 }
             }
-
-            if (SrSelectionChanged != null)
-                SrSelectionChanged(null);
         }
 
         internal void selectDefaultSROrAny()
@@ -333,8 +271,6 @@ namespace XenAdmin.Controls
                     return;
                 }
             }
-            if (SrSelectionChanged != null)
-                SrSelectionChanged(null);
         }
 
         public void selectSRorDefaultorAny(SR sr)

@@ -54,28 +54,7 @@ namespace XenAdmin.Core
                                  ? Images.StaticImages.cancelled_action_16
                                  : Images.StaticImages._000_error_h32bit_16;
 
-            if (action.PercentComplete < 9)
-                return Images.StaticImages.usagebar_0;
-            if (action.PercentComplete < 18)
-                return Images.StaticImages.usagebar_1;
-            if (action.PercentComplete < 27)
-                return Images.StaticImages.usagebar_2;
-            if (action.PercentComplete < 36)
-                return Images.StaticImages.usagebar_3;
-            if (action.PercentComplete < 45)
-                return Images.StaticImages.usagebar_4;
-            if (action.PercentComplete < 54)
-                return Images.StaticImages.usagebar_5;
-            if (action.PercentComplete < 63)
-                return Images.StaticImages.usagebar_6;
-            if (action.PercentComplete < 72)
-                return Images.StaticImages.usagebar_7;
-            if (action.PercentComplete < 81)
-                return Images.StaticImages.usagebar_8;
-            if (action.PercentComplete < 90)
-                return Images.StaticImages.usagebar_9;
-
-            return Images.StaticImages.usagebar_10;
+            return Images.GetImageForPercentage(action.PercentComplete);
         }
 
         internal static string GetDetails(this ActionBase action)

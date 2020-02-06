@@ -29,57 +29,30 @@
  * SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 using NUnit.Framework;
 using XenAdmin.Plugins;
-using XenAdmin;
-using System.IO;
-using XenAdmin.Properties;
-using System.Reflection;
-using System.Diagnostics;
-using XenAPI;
 
 namespace XenAdminTests.PluginTests
 {
-    [TestFixture, Category(TestCategories.UICategoryB)]
-    public class MenuItemFeatureTests
+    [TestFixture, Category(TestCategories.Unit)]
+    public class MenuItemFeatureTests : TestPluginLoader
     {
-        private PluginManager _pluginManager;
-        private TestPluginLoader _pluginLoader;
+        protected override string pluginName => "MenuItemFeatureTestPlugin";
 
-        [TearDown]
-        public void TearDown()
-        {
-            _pluginLoader.Dispose();
-            _pluginManager.Dispose();
-        }
-
-        [SetUp]
-        public void Setup()
-        {
-            _pluginManager = new PluginManager();
-        }
-
-        [Test]
+        [Test, Apartment(ApartmentState.STA)]
         public void TestLoadPlugin()
         {
-            _pluginLoader = new TestPluginLoader("MenuItemFeatureTestPlugin", _pluginManager);
-            _pluginLoader.Load();
-            
             Assert.AreEqual(1, _pluginManager.Plugins.Count, "No plugins loaded.");
-            Assert.AreEqual("MenuItemFeatureTestPlugin", _pluginManager.Plugins[0].Name, "Plugin Name incorrect");
+            Assert.AreEqual(pluginName, _pluginManager.Plugins[0].Name, "Plugin Name incorrect");
             Assert.AreEqual("plugin-vendor", _pluginManager.Plugins[0].Organization, "Plugin Vendor incorrect");
             Assert.IsTrue(_pluginManager.Enabled, "Plugin manager isn't enabled");
             Assert.IsNull(_pluginManager.Plugins[0].Error, "Error loading plugin manager");
         }
 
-        [Test]
+        [Test, Apartment(ApartmentState.STA)]
         public void TestFirstFeatureDetails()
         {
-            _pluginLoader = new TestPluginLoader("MenuItemFeatureTestPlugin", _pluginManager);
-            _pluginLoader.Load();
             _pluginManager.Plugins[0].Enabled = true;
 
             Assert.AreEqual(1, _pluginManager.Plugins.Count, "plugin wasn't loaded");
@@ -94,16 +67,14 @@ namespace XenAdminTests.PluginTests
             Assert.AreEqual("the label", menuItemFeature.Label, "file_ShellTest1 plugin label incorrect.");
             Assert.AreEqual("the description", menuItemFeature.Description, "file_ShellTest1 plugin description incorrect.");
             Assert.AreEqual("the tooltip", menuItemFeature.Tooltip, "file_ShellTest1 plugin tooltip incorrect.");
-            Assert.AreEqual("MenuItemFeatureTestPlugin", menuItemFeature.PluginName, "file_ShellTest1 plugin name was incorrect.");
+            Assert.AreEqual(pluginName, menuItemFeature.PluginName, "file_ShellTest1 plugin name was incorrect.");
             Assert.IsNull(menuItemFeature.ParentFeature, "file_ShellTest1 shouldn't have parent feature");
             Assert.IsInstanceOf<ShellCmd>(menuItemFeature.ShellCmd, "file_ShellTest1 should have shell cmd.");
         }
 
-        [Test]
+        [Test, Apartment(ApartmentState.STA)]
         public void TestHeadings()
         {
-            _pluginLoader = new TestPluginLoader("MenuItemFeatureTestPlugin", _pluginManager);
-            _pluginLoader.Load();
             _pluginManager.Plugins[0].Enabled = true;
 
             Assert.AreEqual(PluginMenu.file, ((MenuItemFeature)_pluginManager.Plugins[0].Features[0]).Menu, "file_ShellTest1 plugin heading incorrect.");

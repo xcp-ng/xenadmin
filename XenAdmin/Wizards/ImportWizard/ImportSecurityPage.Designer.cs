@@ -34,16 +34,14 @@
             this.lblSecurityIntro = new XenAdmin.Controls.Common.AutoHeightLabel();
             this.m_linkCertificate = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.m_tlpManifest = new System.Windows.Forms.TableLayoutPanel();
             this.m_ctrlError = new XenAdmin.Controls.Common.PasswordFailure();
             this.tableLayoutPanel1.SuspendLayout();
-            this.m_tlpManifest.SuspendLayout();
             this.SuspendLayout();
             // 
             // m_labelVerify
             // 
             resources.ApplyResources(this.m_labelVerify, "m_labelVerify");
-            this.m_tlpManifest.SetColumnSpan(this.m_labelVerify, 2);
+            this.tableLayoutPanel1.SetColumnSpan(this.m_labelVerify, 2);
             this.m_labelVerify.Name = "m_labelVerify";
             // 
             // m_checkBoxVerify
@@ -56,6 +54,7 @@
             // lblSecurityIntro
             // 
             resources.ApplyResources(this.lblSecurityIntro, "lblSecurityIntro");
+            this.tableLayoutPanel1.SetColumnSpan(this.lblSecurityIntro, 2);
             this.lblSecurityIntro.Name = "lblSecurityIntro";
             // 
             // m_linkCertificate
@@ -68,22 +67,17 @@
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.m_tlpManifest, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.m_linkCertificate, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.m_checkBoxVerify, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.m_labelVerify, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.lblSecurityIntro, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.m_ctrlError, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.m_ctrlError, 0, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // m_tlpManifest
-            // 
-            resources.ApplyResources(this.m_tlpManifest, "m_tlpManifest");
-            this.m_tlpManifest.Controls.Add(this.m_linkCertificate, 1, 2);
-            this.m_tlpManifest.Controls.Add(this.m_labelVerify, 0, 0);
-            this.m_tlpManifest.Controls.Add(this.m_checkBoxVerify, 0, 2);
-            this.m_tlpManifest.Name = "m_tlpManifest";
             // 
             // m_ctrlError
             // 
             resources.ApplyResources(this.m_ctrlError, "m_ctrlError");
+            this.tableLayoutPanel1.SetColumnSpan(this.m_ctrlError, 2);
             this.m_ctrlError.Name = "m_ctrlError";
             // 
             // ImportSecurityPage
@@ -94,8 +88,6 @@
             this.Name = "ImportSecurityPage";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.m_tlpManifest.ResumeLayout(false);
-            this.m_tlpManifest.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -107,7 +99,6 @@
 		private XenAdmin.Controls.Common.AutoHeightLabel lblSecurityIntro;
         private System.Windows.Forms.LinkLabel m_linkCertificate;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private System.Windows.Forms.TableLayoutPanel m_tlpManifest;
         private XenAdmin.Controls.Common.PasswordFailure m_ctrlError;
     }
 }

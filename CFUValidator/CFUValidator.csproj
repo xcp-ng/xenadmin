@@ -38,6 +38,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -75,6 +76,7 @@
     <Compile Include="CommandLineOptions\CommandLineParser.cs" />
     <Compile Include="ConsoleSpinner.cs" />
     <Compile Include="OutputDecorators\AlertFeatureValidatorDecorator.cs" />
+    <Compile Include="OutputDecorators\HfxEligibilityValidatorDecorator.cs" />
     <Compile Include="OutputDecorators\OuputComponent.cs" />
     <Compile Include="OutputDecorators\Decorator.cs" />
     <Compile Include="OutputDecorators\PatchAlertDecorator.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Updates\ICheckForUpdatesXMLSource.cs" />
     <Compile Include="Updates\XmlRetrieverFactory.cs" />
     <Compile Include="Validators\AlertFeatureValidator.cs" />
+    <Compile Include="Validators\HfxEligibilityValidator.cs" />
     <Compile Include="Validators\CorePatchDetailsValidator.cs" />
     <Compile Include="Validators\PatchURLValidator.cs" />
     <Compile Include="Validators\ZipContentsValidator.cs" />

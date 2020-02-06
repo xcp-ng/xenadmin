@@ -92,7 +92,7 @@ namespace XenAdminTests.Controls
                     Sr = GetLocalSr(slaveHost),
                     VdisToMove = GetVDIsFromLocal(masterHost),
                     DiskSize = 1024 * 1024,
-                    ExpectedFailureDescription = Messages.LOCAL_TO_LOCAL_MOVE
+                    ExpectedFailureDescription = string.Format(Messages.SR_CANNOT_BE_SEEN, masterHost)
                 };
                 yield return new TestData //Master and slave VDIs selected together from a iSCSI -> master local SR
                 {
@@ -100,7 +100,7 @@ namespace XenAdminTests.Controls
                     VdisToMove = GetVDIsOn(largeISCSI),
                     Sr = GetLocalSr(masterHost),
                     DiskSize = 1024 * 1024,
-                    ExpectedFailureDescription = Messages.SRPICKER_ERROR_LOCAL_SR_MUST_BE_RESIDENT_HOSTS
+                    ExpectedFailureDescription = string.Format(Messages.SR_CANNOT_BE_SEEN, slaveHost)
                 };
                 yield return new TestData //Master VDI to a slave move
                 {
@@ -108,7 +108,7 @@ namespace XenAdminTests.Controls
                     Sr = GetLocalSr(slaveHost),
                     VdisToMove = GetVDIsOn(largeISCSI).Where(v => v.name_label.Contains("OnMaster")).ToArray(),
                     DiskSize = 1024 * 1024,
-                    ExpectedFailureDescription = Messages.SRPICKER_ERROR_LOCAL_SR_MUST_BE_RESIDENT_HOSTS
+                    ExpectedFailureDescription = string.Format(Messages.SR_CANNOT_BE_SEEN, masterHost)
                 };
                 yield return new TestData //Slave VDI to a master move
                 {
@@ -116,7 +116,7 @@ namespace XenAdminTests.Controls
                     Sr = GetLocalSr(masterHost),
                     VdisToMove = GetVDIsOn(largeISCSI).Where(v => !v.name_label.Contains("OnMaster")).ToArray(),
                     DiskSize = 1024 * 1024,
-                    ExpectedFailureDescription = Messages.SRPICKER_ERROR_LOCAL_SR_MUST_BE_RESIDENT_HOSTS
+                    ExpectedFailureDescription = string.Format(Messages.SR_CANNOT_BE_SEEN, slaveHost)
                 };
                 yield return new TestData //Local master to shared restricted free space
                 {
@@ -360,14 +360,13 @@ namespace XenAdminTests.Controls
         }
 
         #region Helper methods for XenObjects
-        private readonly SrPickerItemFactory factory = new SrPickerItemFactory();
+
         private void CannotDoScenario(SrPicker.SRPickerType type, IEnumerable<TestData> testData)
         {
             int count = 0;
             foreach (TestData data in testData)
             {
-                SrPickerItem item = factory.PickerItem(data.Sr, type, data.Affinity,
-                                                     data.DiskSize, data.VdisToMove);
+                var item = SrPickerItem.Create(data.Sr, type, data.Affinity, data.DiskSize, data.VdisToMove);
                 Assert.That(item.Show, Is.True, "Item Shown: Item " + count);
                 Assert.That(item.Enabled, Is.False, "Item Enabled: Item " + count);
                 Assert.That(item.Description, Is.EqualTo(data.ExpectedFailureDescription), "Item Reason: Item " + count);
@@ -381,8 +380,7 @@ namespace XenAdminTests.Controls
             int count = 0;
             foreach (TestData data in testData)
             {
-                SrPickerItem item = factory.PickerItem(data.Sr, type, data.Affinity,
-                                                     data.DiskSize, data.VdisToMove);
+                var item = SrPickerItem.Create(data.Sr, type, data.Affinity, data.DiskSize, data.VdisToMove);
                 Assert.That(item.Show, Is.True, "Item Shown: Item " + count);
                 Assert.That(item.Enabled, Is.True, "Item Enabled: Item " + count);
                 count++;

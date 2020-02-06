@@ -28,11 +28,9 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
 using CookComputing.XmlRpc;
 
 
@@ -608,6 +606,10 @@ namespace XenAPI
         Response<bool>
         pool_get_igmp_snooping_enabled(string session, string _pool);
 
+        [XmlRpcMethod("pool.get_uefi_certificates")]
+        Response<string>
+        pool_get_uefi_certificates(string session, string _pool);
+
         [XmlRpcMethod("pool.set_name_label")]
         Response<string>
         pool_set_name_label(string session, string _pool, string _name_label);
@@ -695,6 +697,10 @@ namespace XenAPI
         [XmlRpcMethod("pool.set_live_patching_disabled")]
         Response<string>
         pool_set_live_patching_disabled(string session, string _pool, bool _live_patching_disabled);
+
+        [XmlRpcMethod("pool.set_uefi_certificates")]
+        Response<string>
+        pool_set_uefi_certificates(string session, string _pool, string _uefi_certificates);
 
         [XmlRpcMethod("pool.join")]
         Response<string>
@@ -3368,6 +3374,10 @@ namespace XenAPI
         Response<bool>
         host_get_multipathing(string session, string _host);
 
+        [XmlRpcMethod("host.get_uefi_certificates")]
+        Response<string>
+        host_get_uefi_certificates(string session, string _host);
+
         [XmlRpcMethod("host.set_name_label")]
         Response<string>
         host_set_name_label(string session, string _host, string _label);
@@ -3863,6 +3873,14 @@ namespace XenAPI
         [XmlRpcMethod("Async.host.set_multipathing")]
         Response<string>
         async_host_set_multipathing(string session, string _host, bool _value);
+
+        [XmlRpcMethod("host.set_uefi_certificates")]
+        Response<string>
+        host_set_uefi_certificates(string session, string _host, string _value);
+
+        [XmlRpcMethod("Async.host.set_uefi_certificates")]
+        Response<string>
+        async_host_set_uefi_certificates(string session, string _host, string _value);
 
         [XmlRpcMethod("host.get_all")]
         Response<string []>
@@ -5083,6 +5101,10 @@ namespace XenAPI
         [XmlRpcMethod("Bond.get_links_up")]
         Response<string>
         bond_get_links_up(string session, string _bond);
+
+        [XmlRpcMethod("Bond.get_auto_update_mac")]
+        Response<bool>
+        bond_get_auto_update_mac(string session, string _bond);
 
         [XmlRpcMethod("Bond.set_other_config")]
         Response<string>
@@ -6748,6 +6770,7 @@ namespace XenAPI
         Response<Object>
         message_get_all_records_where(string session, string _expr);
 
+
         [XmlRpcMethod("secret.get_record")]
         Response<Proxy_Secret>
         secret_get_record(string session, string _secret);
@@ -7304,6 +7327,14 @@ namespace XenAPI
         Response<Object>
         vgpu_get_compatibility_metadata(string session, string _vgpu);
 
+        [XmlRpcMethod("VGPU.get_extra_args")]
+        Response<string>
+        vgpu_get_extra_args(string session, string _vgpu);
+
+        [XmlRpcMethod("VGPU.get_PCI")]
+        Response<string>
+        vgpu_get_pci(string session, string _vgpu);
+
         [XmlRpcMethod("VGPU.set_other_config")]
         Response<string>
         vgpu_set_other_config(string session, string _vgpu, Object _other_config);
@@ -7315,6 +7346,10 @@ namespace XenAPI
         [XmlRpcMethod("VGPU.remove_from_other_config")]
         Response<string>
         vgpu_remove_from_other_config(string session, string _vgpu, string _key);
+
+        [XmlRpcMethod("VGPU.set_extra_args")]
+        Response<string>
+        vgpu_set_extra_args(string session, string _vgpu, string _extra_args);
 
         [XmlRpcMethod("VGPU.create")]
         Response<string>
@@ -7415,6 +7450,10 @@ namespace XenAPI
         [XmlRpcMethod("VGPU_type.get_experimental")]
         Response<bool>
         vgpu_type_get_experimental(string session, string _vgpu_type);
+
+        [XmlRpcMethod("VGPU_type.get_compatible_types_in_vm")]
+        Response<string []>
+        vgpu_type_get_compatible_types_in_vm(string session, string _vgpu_type);
 
         [XmlRpcMethod("VGPU_type.get_all")]
         Response<string []>
@@ -8246,6 +8285,20 @@ namespace XenAPI
     }
 
     [XmlRpcMissingMapping(MappingAction.Ignore)]
+    public class Proxy_Event
+    {
+        public string id;
+        public string timestamp;
+        [XmlRpcMember("class")]
+        public string class_;
+        public string operation;
+        [XmlRpcMember("ref")]
+        public string opaqueRef;
+        [XmlRpcMember("snapshot")]
+        public object snapshot;
+    }
+
+    [XmlRpcMissingMapping(MappingAction.Ignore)]
     public class Proxy_Session
     {
         public string uuid;
@@ -8349,6 +8402,7 @@ namespace XenAPI
         public bool policy_no_vendor_device;
         public bool live_patching_disabled;
         public bool igmp_snooping_enabled;
+        public string uefi_certificates;
     }
 
     [XmlRpcMissingMapping(MappingAction.Ignore)]
@@ -8631,6 +8685,7 @@ namespace XenAPI
         public string [] features;
         public string iscsi_iqn;
         public bool multipathing;
+        public string uefi_certificates;
     }
 
     [XmlRpcMissingMapping(MappingAction.Ignore)]
@@ -8819,6 +8874,7 @@ namespace XenAPI
         public string mode;
         public Object properties;
         public string links_up;
+        public bool auto_update_mac;
     }
 
     [XmlRpcMissingMapping(MappingAction.Ignore)]
@@ -9150,6 +9206,8 @@ namespace XenAPI
         public string resident_on;
         public string scheduled_to_be_resident_on;
         public Object compatibility_metadata;
+        public string extra_args;
+        public string PCI;
     }
 
     [XmlRpcMissingMapping(MappingAction.Ignore)]
@@ -9170,6 +9228,7 @@ namespace XenAPI
         public string implementation;
         public string identifier;
         public bool experimental;
+        public string [] compatible_types_in_vm;
     }
 
     [XmlRpcMissingMapping(MappingAction.Ignore)]
@@ -9317,5 +9376,4 @@ namespace XenAPI
         public Object current_operations;
         public Object other_config;
     }
-
-}
+}

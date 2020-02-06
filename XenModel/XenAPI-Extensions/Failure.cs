@@ -95,8 +95,6 @@ namespace XenAPI
         public const string UPDATE_ALREADY_EXISTS = "UPDATE_ALREADY_EXISTS";
         public const string MEMORY_CONSTRAINT_VIOLATION = "MEMORY_CONSTRAINT_VIOLATION";
 
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         /// Changes a techy RBAC Failure into a pretty print one that shows the roles that would be required to complete the failed action.
         /// Requires context such as the the connection and current session to populate these fields.

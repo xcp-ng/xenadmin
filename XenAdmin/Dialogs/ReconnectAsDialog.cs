@@ -61,7 +61,7 @@ namespace XenAdmin.Dialogs
             xc.Password = textBoxPassword.Text;
             xc.ExpectPasswordIsCorrect = true;
             // start logout then wait for connection to become disconnected
-            xc.ConnectionStateChanged += new EventHandler<EventArgs>(xc_ConnectionStateChanged);
+            xc.ConnectionStateChanged += xc_ConnectionStateChanged;
 
             if (!new DisconnectCommand(Program.MainWindow, xc, true).Execute())
             {
@@ -71,15 +71,15 @@ namespace XenAdmin.Dialogs
             Close();
         }
 
-        private void xc_ConnectionStateChanged(object sender, EventArgs e)
+        private void xc_ConnectionStateChanged(IXenConnection conn)
         {
             if (xc.IsConnected)
                 return;
 
-            xc.ConnectionStateChanged -= new EventHandler<EventArgs>(xc_ConnectionStateChanged);
+            xc.ConnectionStateChanged -= xc_ConnectionStateChanged;
             Timer t = new Timer(500);
             t.AutoReset = false;
-            t.Elapsed += new ElapsedEventHandler(t_Elapsed);
+            t.Elapsed += t_Elapsed;
             t.Start();
         }
 
@@ -87,14 +87,14 @@ namespace XenAdmin.Dialogs
         {
             Program.Invoke(Program.MainWindow, delegate
             {
-                xc.CachePopulated += new EventHandler<EventArgs>(xc_CachePopulated);
+                xc.CachePopulated += xc_CachePopulated;
                 XenConnectionUI.BeginConnect(xc, true, Program.MainWindow, true);
             });  
         }
 
-        void xc_CachePopulated(object sender, EventArgs e)
+        void xc_CachePopulated(IXenConnection conn)
         {
-            xc.CachePopulated -= new EventHandler<EventArgs>(xc_CachePopulated);
+            xc.CachePopulated -= xc_CachePopulated;
             Program.MainWindow.TrySelectNewObjectInTree(xc, true, true, false);
         }
 

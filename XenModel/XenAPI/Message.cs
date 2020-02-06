@@ -213,6 +213,8 @@ namespace XenAPI
             }
         }
 
+        #region Constructors
+
         public Message()
         {
         }
@@ -235,13 +237,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new Message from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public Message(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new Message from a Proxy_Message.
         /// </summary>
         /// <param name="proxy"></param>
         public Message(Proxy_Message proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -258,7 +274,7 @@ namespace XenAPI
             body = update.body;
         }
 
-        internal void UpdateFromProxy(Proxy_Message proxy)
+        internal void UpdateFrom(Proxy_Message proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             name = proxy.name == null ? null : proxy.name;
@@ -280,17 +296,6 @@ namespace XenAPI
             result_.timestamp = timestamp;
             result_.body = body ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new Message from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public Message(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

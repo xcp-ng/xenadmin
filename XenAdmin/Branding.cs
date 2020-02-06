@@ -53,6 +53,7 @@ namespace XenAdmin
         public const string CHECK_FOR_UPDATES_URL = "[BRANDING_XENSERVER_UPDATE_URL]";
         public const string BRANDING_PERF_ALERT_MAIL_LANGUAGE_DEFAULT = "[BRANDING_PERF_ALERT_MAIL_LANGUAGE_DEFAULT]";
         public const string PV_TOOLS = "[Citrix VM Tools]";
+        public const string CONVERSION_VPX_MIN_SUPPORTED_VERSION = "[BRANDING_VERSION_7_0]";
 
         public static string Search
         {
@@ -87,6 +88,15 @@ namespace XenAdmin
             {
                 var s = CHECK_FOR_UPDATES_URL;
                 return s != "[" + "BRANDING_XENSERVER_UPDATE_URL]" ? s : InvisibleMessages.XENSERVER_UPDATE_URL;
+            }
+        }
+
+        public static string ConversionVpxMinimumSupportedVersion
+        {
+            get
+            {
+                var s = CONVERSION_VPX_MIN_SUPPORTED_VERSION;
+                return s != "[" + "BRANDING_VERSION_7_0]" ? s.ToLowerInvariant() : Program.Version.ToString();
             }
         }
     }

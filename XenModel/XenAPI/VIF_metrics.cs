@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class VIF_metrics : XenObject<VIF_metrics>
     {
+        #region Constructors
+
         public VIF_metrics()
         {
         }
@@ -63,13 +65,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new VIF_metrics from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public VIF_metrics(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new VIF_metrics from a Proxy_VIF_metrics.
         /// </summary>
         /// <param name="proxy"></param>
         public VIF_metrics(Proxy_VIF_metrics proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -84,7 +100,7 @@ namespace XenAPI
             other_config = update.other_config;
         }
 
-        internal void UpdateFromProxy(Proxy_VIF_metrics proxy)
+        internal void UpdateFrom(Proxy_VIF_metrics proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
             io_read_kbs = Convert.ToDouble(proxy.io_read_kbs);
@@ -102,17 +118,6 @@ namespace XenAPI
             result_.last_updated = last_updated;
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new VIF_metrics from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public VIF_metrics(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

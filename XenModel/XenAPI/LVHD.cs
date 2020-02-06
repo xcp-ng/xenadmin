@@ -45,6 +45,8 @@ namespace XenAPI
     /// </summary>
     public partial class LVHD : XenObject<LVHD>
     {
+        #region Constructors
+
         public LVHD()
         {
         }
@@ -55,13 +57,27 @@ namespace XenAPI
         }
 
         /// <summary>
+        /// Creates a new LVHD from a Hashtable.
+        /// Note that the fields not contained in the Hashtable
+        /// will be created with their default values.
+        /// </summary>
+        /// <param name="table"></param>
+        public LVHD(Hashtable table)
+            : this()
+        {
+            UpdateFrom(table);
+        }
+
+        /// <summary>
         /// Creates a new LVHD from a Proxy_LVHD.
         /// </summary>
         /// <param name="proxy"></param>
         public LVHD(Proxy_LVHD proxy)
         {
-            this.UpdateFromProxy(proxy);
+            UpdateFrom(proxy);
         }
+
+        #endregion
 
         /// <summary>
         /// Updates each field of this instance with the value of
@@ -72,7 +88,7 @@ namespace XenAPI
             uuid = update.uuid;
         }
 
-        internal void UpdateFromProxy(Proxy_LVHD proxy)
+        internal void UpdateFrom(Proxy_LVHD proxy)
         {
             uuid = proxy.uuid == null ? null : proxy.uuid;
         }
@@ -82,17 +98,6 @@ namespace XenAPI
             Proxy_LVHD result_ = new Proxy_LVHD();
             result_.uuid = uuid ?? "";
             return result_;
-        }
-
-        /// <summary>
-        /// Creates a new LVHD from a Hashtable.
-        /// Note that the fields not contained in the Hashtable
-        /// will be created with their default values.
-        /// </summary>
-        /// <param name="table"></param>
-        public LVHD(Hashtable table) : this()
-        {
-            UpdateFrom(table);
         }
 
         /// <summary>

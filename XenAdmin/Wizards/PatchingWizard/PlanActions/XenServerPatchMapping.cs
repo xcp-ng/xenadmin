@@ -31,6 +31,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using XenAdmin.Core;
 using XenAPI;
 
@@ -62,6 +63,8 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
         }
 
         public abstract bool IsValid { get; }
+
+        public abstract void RefreshUpdate();
     }
 
     
@@ -94,7 +97,7 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
 
     public class PoolPatchMapping : XenServerPatchMapping
     {
-        public readonly Pool_patch Pool_patch;
+        public Pool_patch Pool_patch;
 
         public PoolPatchMapping(XenServerPatch xenServerPatch, Pool_patch pool_patch, Host masterHost)
             : base(xenServerPatch, masterHost)
@@ -122,12 +125,22 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
         {
             get { return Pool_patch != null && Pool_patch.opaque_ref != null; }
         }
+
+        public override void RefreshUpdate()
+        {
+            if (Pool_patch != null)
+            {
+                var patch = MasterHost.Connection?.Cache.Pool_patches.FirstOrDefault(u => string.Equals(u.uuid, Pool_patch.uuid, StringComparison.OrdinalIgnoreCase));
+                if (patch != null && patch.opaque_ref != Pool_patch.opaque_ref)
+                    Pool_patch = patch;
+            }
+        }
     }
 
     
     public class PoolUpdateMapping : XenServerPatchMapping
     {
-        public readonly Pool_update Pool_update;
+        public Pool_update Pool_update;
         public Dictionary<Host, SR> SrsWithUploadedUpdatesPerHost = new Dictionary<Host, SR>();
 
         public PoolUpdateMapping(XenServerPatch xenServerPatch, Pool_update pool_update, Host masterHost)
@@ -156,13 +169,26 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
         {
             get { return Pool_update != null && Pool_update.opaque_ref != null; }
         }
+
+        public override void RefreshUpdate()
+        {
+            if (Pool_update != null)
+            {
+                var update = Pool_update.Connection?.Cache.Pool_updates.FirstOrDefault(u => string.Equals(u.uuid, Pool_update.uuid, StringComparison.OrdinalIgnoreCase));
+                if (update != null && update.opaque_ref != Pool_update.opaque_ref)
+                {
+                    Pool_update = update;
+                }
+            }
+            
+        }
     }
 
 
     public class OtherLegacyMapping : HostUpdateMapping
     {
         public readonly string Path;
-        public readonly Pool_patch Pool_patch;
+        public Pool_patch Pool_patch;
 
         public OtherLegacyMapping(string path, Pool_patch pool_patch, Host masterHost)
             : base(masterHost)
@@ -203,13 +229,23 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
                 return Pool_patch.opaque_ref != null;
             }
         }
+
+        public override void RefreshUpdate()
+        {
+            if (Pool_patch != null)
+            {
+                var patch = MasterHost.Connection?.Cache.Pool_patches.FirstOrDefault(u => string.Equals(u.uuid, Pool_patch.uuid, StringComparison.OrdinalIgnoreCase));
+                if (patch != null && patch.opaque_ref != Pool_patch.opaque_ref)
+                    Pool_patch = patch;
+            }
+        }
     }
 
 
     public class SuppPackMapping : HostUpdateMapping
     {
         public readonly string Path;
-        public readonly Pool_update Pool_update;
+        public Pool_update Pool_update;
         public Dictionary<Host, SR> SrsWithUploadedUpdatesPerHost = new Dictionary<Host, SR>();
         public Dictionary<Host, VDI> SuppPackVdis = new Dictionary<Host, VDI>();
 
@@ -250,6 +286,16 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
                     return true;
 
                 return Pool_update.opaque_ref != null;
+            }
+        }
+
+        public override void RefreshUpdate()
+        {
+            if (Pool_update != null)
+            {
+                var update = MasterHost.Connection?.Cache.Pool_updates.FirstOrDefault(u => string.Equals(u.uuid, Pool_update.uuid, StringComparison.OrdinalIgnoreCase));
+                if (update != null && update.opaque_ref != Pool_update.opaque_ref)
+                    Pool_update = update;
             }
         }
     }

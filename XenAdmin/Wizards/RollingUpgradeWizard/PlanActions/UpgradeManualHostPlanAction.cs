@@ -48,6 +48,7 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
         protected bool rebooting;
         private readonly Timer timer;
         protected readonly Control invokingControl;
+        private Version _upgradeVersion;
         
         protected UpgradeHostPlanAction(Host host, Control invokingControl)
             : base(host)
@@ -62,19 +63,12 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
             if (!rebooting)
                 return;
 
-            Program.Invoke(invokingControl, () =>
-            {
-                using (var dialog = new NonModalThreeButtonDialog(SystemIcons.Exclamation,
-                    Messages.ROLLING_UPGRADE_TIMEOUT, Messages.ROLLING_POOL_UPGRADE,
-                    Messages.KEEP_WAITING_BUTTON_LABEL, Messages.CANCEL))
-                {
-                    if (dialog.ShowDialog(invokingControl) != DialogResult.OK)
-                        Cancel();
-                }
-            });
+            ReplaceProgressStep(_upgradeVersion == null
+                ? string.Format(Messages.ROLLING_UPGRADE_TIMEOUT, CurrentHost.Name())
+                : string.Format(Messages.ROLLING_UPGRADE_TIMEOUT_VERSION, _upgradeVersion, CurrentHost.Name()));
         }
 
-        protected void Upgrade(ref Session session)
+        protected void Upgrade(ref Session session, string upgradeVersion = null)
         {
             try
             {
@@ -87,11 +81,15 @@ namespace XenAdmin.Wizards.RollingUpgradeWizard.PlanActions
                     Host.disable(session, HostXenRef.opaque_ref);
                 }
 
+                Version.TryParse(upgradeVersion, out _upgradeVersion);
+
                 timer.Start();
                 rebooting = true;
 
                 log.DebugFormat("Upgrading host {0}", hostObj.Name());
-                AddProgressStep(string.Format(Messages.PLAN_ACTION_STATUS_INSTALLING_XENSERVER, hostObj.Name()));
+                AddProgressStep(_upgradeVersion == null
+                    ? string.Format(Messages.PLAN_ACTION_STATUS_INSTALLING_XENSERVER, hostObj.Name())
+                    : string.Format(Messages.PLAN_ACTION_STATUS_INSTALLING_XENSERVER_VERSION, _upgradeVersion, hostObj.Name()));
 
                 log.DebugFormat("Waiting for host {0} to reboot", hostObj.Name());
                 WaitForReboot(ref session, Host.BootTime, s => Host.async_reboot(s, HostXenRef.opaque_ref));

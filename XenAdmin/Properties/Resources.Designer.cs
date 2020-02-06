@@ -1353,6 +1353,26 @@ namespace XenAdmin.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _000_User_h32bit_32 {
+            get {
+                object obj = ResourceManager.GetObject("_000_User_h32bit_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _000_UserAndGroup_h32bit_16 {
+            get {
+                object obj = ResourceManager.GetObject("_000_UserAndGroup_h32bit_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _000_UserAndGroup_h32bit_32 {
             get {
                 object obj = ResourceManager.GetObject("_000_UserAndGroup_h32bit_32", resourceCulture);
@@ -2793,6 +2813,16 @@ namespace XenAdmin.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap queued {
+            get {
+                object obj = ResourceManager.GetObject("queued", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap redhat_16x {
             get {
                 object obj = ResourceManager.GetObject("redhat_16x", resourceCulture);
@@ -3422,6 +3452,26 @@ namespace XenAdmin.Properties {
         
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap xcm {
+            get {
+                object obj = ResourceManager.GetObject("xcm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap xcm_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("xcm_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap XS {
             get {

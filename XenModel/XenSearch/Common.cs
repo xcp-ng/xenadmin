@@ -79,98 +79,89 @@ namespace XenAdmin.XenSearch
 
     public enum PropertyNames
     {
-        [HelpString("The type of the selected object, e.g. VM, Network")]
+        /// <summary>The type of the selected object, e.g. VM, Network</summary>
         type,
-        [HelpString("The label of the selected object")]
+        /// <summary>The label of the selected object</summary>
         label,
-        [HelpString("The UUID of the selected object, or the full pathname of a folder")]
+        /// <summary>The UUID of the selected object, or the full pathname of a folder</summary>
         uuid,
-        [HelpString("The description of the selected object")]
+        /// <summary>The description of the selected object</summary>
         description,
-        [HelpString("Comma-separated list of the tags of the selected object")]
+        /// <summary>Comma-separated list of the tags of the selected object</summary>
         tags,
-        [HelpString("The host name")]
+        /// <summary>The host name</summary>
         host,
-        [HelpString("The pool name")]
+        /// <summary>The pool name</summary>
         pool,
-        [HelpString("Comma-separated list of the names of the networks attached to the object")]
+        /// <summary>Comma-separated list of the names of the networks attached to the object</summary>
         networks,
-        [HelpString("Comma-separated list of the names of the storage attached to the object")]
+        /// <summary>Comma-separated list of the names of the storage attached to the object</summary>
         storage,
-        [HelpString("Comma-separated list of the types of the storage attached to the object")]
+        /// <summary>Comma-separated list of the types of the storage attached to the object</summary>
         disks,
-        [HelpString("The host memory, in bytes")]
+        /// <summary>The host memory, in bytes</summary>
         memory,
-        [HelpString("The name of the operating system that a VM is running")]
+        /// <summary>The name of the operating system that a VM is running</summary>
         os_name,
-        [HelpString("The VM power state, e.g. Halted, Running")]
+        /// <summary>The VM power state, e.g. Halted, Running</summary>
         power_state,
-        [HelpString("The state of the pure virtualization drivers installed on a VM")]
+        /// <summary>The state of the pure virtualization drivers installed on a VM</summary>
         virtualisation_status,
-        [HelpString("Date and time that the VM was started")]
+        /// <summary>Date and time that the VM was started</summary>
         start_time,
-        [HelpString("The HA restart priority of the VM")]
+        /// <summary>The HA restart priority of the VM</summary>
         ha_restart_priority,
-        [HelpString("The size in bytes of the attached disks")]
+        /// <summary>The size in bytes of the attached disks</summary>
         size,
-        [HelpString("Comma-separated list of IP addresses associated with the selected object")]
+        /// <summary>Comma-separated list of IP addresses associated with the selected object</summary>
         ip_address,
-        [HelpString("Uptime of the object, in a form such as '2 days, 1 hour, 26 minutes'")]
+        /// <summary>Uptime of the object, in a form such as '2 days, 1 hour, 26 minutes'</summary>
         uptime,
-        [HelpString("true if HA is enabled, false otherwise")]
+        /// <summary>true if HA is enabled, false otherwise</summary>
         ha_enabled,
-        [HelpString("true if at least one of the slaves has different XenServer version from the master, false otherwise")]
+        /// <summary>true if at least one of the slaves has different XenServer version from the master, false otherwise</summary>
         isNotFullyUpgraded,
-		[HelpString("A logical set of VMs")]
+		/// <summary>A logical set of VMs</summary>
 		appliance,
-        [HelpString("Applicable to storage, true if storage is shared, false otherwise")]
+        /// <summary>Applicable to storage, true if storage is shared, false otherwise</summary>
         shared,
-        [HelpString("Comma-separated list of VM names")]
+        /// <summary>Comma-separated list of VM names</summary>
         vm,
-        [HelpString("List of Docker host-VM names.")]
+        /// <summary>List of Docker host-VM names.</summary>
         dockervm,
-        [HelpString("Whether a VM is using read caching")]
+        /// <summary>Whether a VM is using read caching</summary>
         read_caching_enabled,
-        [HelpString("The immediate parent folder of the selected object")]
+        /// <summary>The immediate parent folder of the selected object</summary>
         folder,
-        [HelpString("Comma-separated list of all the ancestor folders of the selected object")]
+        /// <summary>Comma-separated list of all the ancestor folders of the selected object</summary>
         folders,
-
-
-        // These properties are used for populating the query panel
-        [HelpString("INTERNAL")]
+        /// <summary>INTERNAL. Used for populating the query panel.</summary>
         memoryText,
-        [HelpString("INTERNAL")]
+        /// <summary>INTERNAL Used for populating the query panel.</summary>
         memoryValue,
-        [HelpString("INTERNAL")]
+        /// <summary>INTERNAL Used for populating the query panel.</summary>
         memoryRank,
-
-        [HelpString("INTERNAL")]
+        /// <summary>INTERNAL Used for populating the query panel.</summary>
         cpuText,
-        [HelpString("INTERNAL")]
+        /// <summary>INTERNAL Used for populating the query panel.</summary>
         cpuValue,
-
-        [HelpString("INTERNAL")]
+        /// <summary>INTERNAL Used for populating the query panel.</summary>
         diskText,
-        [HelpString("INTERNAL")]
+        /// <summary>INTERNAL Used for populating the query panel.</summary>
         networkText,
-        [HelpString("INTERNAL")]
+        /// <summary>INTERNAL Used for populating the query panel.</summary>
         haText,
-
-        // These properties are for plugins and are hidden
-        [HelpString("Comma-separated list of host names")]
+        /// <summary>Comma-separated list of host names. Hidden property used for plug-ins.</summary>
         connection_hostname,
-        [HelpString("Applicable to storage, the storage type")]
+        /// <summary>Applicable to storage, the storage type. Hidden property used for plug-ins.</summary>
         sr_type,
-        [HelpString("Applicable to pools, a String representation of the license")]
+        /// <summary>Applicable to pools, a String representation of the license. Hidden property used for plug-ins.</summary>
         license,
-        [HelpString("Whether the object has any custom fields defined")]
+        /// <summary>Whether the object has any custom fields defined. Hidden property used for plug-ins.</summary>
         has_custom_fields,
-
-        [HelpString("Whether the VM is in any vApp")]
+        /// <summary>Whether the VM is in any vApp</summary>
 		in_any_appliance,
-
-        [HelpString("Windows Update capability")]
+        /// <summary>Windows Update capability</summary>
         vendor_device_state,
     }
 

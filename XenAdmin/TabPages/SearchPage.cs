@@ -72,7 +72,11 @@ namespace XenAdmin.TabPages
                 OutputPanel.BackColor = SystemColors.Control;
                 tableLayoutPanel.BackColor = SystemColors.ControlDark;
             }
+
+            Searcher.ToggleExpandedState(false);
         }
+
+        public override string HelpID => "TabPageSearch";
 
         protected virtual void OnSearchChanged()
         {
@@ -166,12 +170,10 @@ namespace XenAdmin.TabPages
                 List<KeyValuePair<String, int>> columns = OutputPanel.QueryPanel.ColumnsAndWidths;
                 Sort[] sorting = OutputPanel.QueryPanel.Sorting;
 
-                return new Search(query, grouping, Searcher.Expanded, name, uuid, columns, sorting);
+                return new Search(query, grouping, name, uuid, columns, sorting);
             }
             set
             {
-                Searcher.ToggleExpandedState(value.ShowSearch);
-
                 ignoreSearchUpdate = true;
                 try
                 {
@@ -211,7 +213,7 @@ namespace XenAdmin.TabPages
 
         private void Searcher_SearchPanelExpandChanged()
         {
-            buttonEditSearch.Enabled = !Searcher.Expanded;
+            buttonEditSearch.Enabled = !Searcher.Visible;
         }
 
         #region Search menu
@@ -282,7 +284,6 @@ namespace XenAdmin.TabPages
         private void applyDefaultSearch_Click(object sender, EventArgs e)
         {
             Search search = Search.SearchFor(xenObjects);
-            search.ShowSearch = Searcher.Visible;
             Search = search;
         }
 

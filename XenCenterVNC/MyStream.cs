@@ -38,6 +38,7 @@ namespace DotNetVnc
     public class MyStream
     {
         private const int MAX_STRING_LENGTH = 1 << 16;
+        private const int MAX_CLIPBOARD_SIZE = 1024 * 1024; 
 
         private readonly Stream inStream;
         private readonly Stream outStream;
@@ -85,8 +86,9 @@ namespace DotNetVnc
         public void writeString(String s)
         {
             byte[] bytes = Encoding.ASCII.GetBytes(s);
-            writeInt32(bytes.Length);
-            outStream.Write(bytes, 0, bytes.Length);
+            var size = Math.Min(bytes.Length, MAX_CLIPBOARD_SIZE);
+            writeInt32(size);
+            outStream.Write(bytes, 0, size);
         }
 
         public void readPadding(int n)

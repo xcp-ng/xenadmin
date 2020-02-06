@@ -142,15 +142,15 @@ namespace XenAdmin.Plugins
         public TabPageFeature(ResourceManager resourceManager, XmlNode node, PluginDescriptor plugin)
             : base(resourceManager, node, plugin)
         {
-            XenCenterOnly = Helpers.GetBoolXmlAttribute(node, ATT_XC_ONLY, false);
-            ContextEnabled = Helpers.GetBoolXmlAttribute(node, ATT_CONTEXT_MENU, false);
+            XenCenterOnly = Helpers.GetBoolXmlAttribute(node, ATT_XC_ONLY);
+            ContextEnabled = Helpers.GetBoolXmlAttribute(node, ATT_CONTEXT_MENU);
 
             // plugins v2
             HelpLink = Helpers.GetStringXmlAttribute(node, ATT_HELP_LINK, "");
-            RelativeUrl = Helpers.GetBoolXmlAttribute(node, ATT_RELATIVE, false);
-            Credentials = Helpers.GetBoolXmlAttribute(node, ATT_CREDENTIALS, false);
+            RelativeUrl = Helpers.GetBoolXmlAttribute(node, ATT_RELATIVE);
+            Credentials = Helpers.GetBoolXmlAttribute(node, ATT_CREDENTIALS);
 
-            Console = Helpers.GetBoolXmlAttribute(node, ATT_CONSOLE, false);
+            Console = Helpers.GetBoolXmlAttribute(node, ATT_CONSOLE);
             string urlString = Helpers.GetStringXmlAttribute(node, ATT_URL);
             Url = urlString == null ? "" : string.Format("{0}{1}", RelativeUrl ? string.Format("{0}/", Application.StartupPath) : "", urlString);
         }
@@ -283,7 +283,7 @@ namespace XenAdmin.Plugins
                 }
                 catch (UriFormatException e)
                 {
-                    log.Debug(string.Format("Not displaying tab '{0}' for plugin '{1}'. Invalid properties in url '{2}'", ToString(), PluginDescriptor.Name, Url), e);
+                    log.Debug(string.Format("Cannot display tab '{0}' for plugin '{1}'. Invalid properties in url.", ToString(), PluginDescriptor.Name), e);
                     return false;
                 }
             }
@@ -333,8 +333,7 @@ namespace XenAdmin.Plugins
             }
             catch (Exception e)
             {
-                log.Error(string.Format("Failed to set TabPage url to '{0}' for plugin '{1}'",
-                    string.Join(",", state.Uris.ConvertAll(u => u.ToString()).ToArray()), PluginDescriptor.Name), e);
+                log.Error(string.Format("Failed to set TabPage url for plugin '{0}'", PluginDescriptor.Name), e);
             }
         }
 
@@ -363,7 +362,7 @@ namespace XenAdmin.Plugins
             if (XenCenterOnly || lastBrowserState == null)
                 return;
 
-            log.DebugFormat("Navigating to {0} for {1}", e.Url, Helpers.GetName(lastBrowserState.Obj));
+            log.DebugFormat("Navigating to last browser state url for {0}", Helpers.GetName(lastBrowserState.Obj));
             DeleteUrlCacheEntry(e.Url.AbsoluteUri);
             if (Console)
             {
@@ -377,7 +376,7 @@ namespace XenAdmin.Plugins
         {
             Program.AssertOnEventThread();
             lastBrowserState.IsError = true;
-            log.DebugFormat("Got error {0} while navigating to {1}.", e.StatusCode, e.Url);
+            log.DebugFormat("Navigation failed with error {0}.", e.StatusCode);
 
             try
             {
@@ -402,7 +401,7 @@ namespace XenAdmin.Plugins
                 return;
             }
             
-            log.DebugFormat("Navigated to {0} for {1}", e.Url, Helpers.GetName(lastBrowserState.Obj));
+            log.DebugFormat("Navigated to last browser state url for {0}", Helpers.GetName(lastBrowserState.Obj));
 
             if (lastBrowserState.IsError && e.Url != null && e.Url.AbsoluteUri != "about:blank")
             {
@@ -584,7 +583,7 @@ namespace XenAdmin.Plugins
                         }
                         catch (Failure exn)
                         {
-                            log.Warn(string.Format("Secret {0} for {1} on plugin {2} has disappeared! Removing from pool.gui_config.",
+                            log.Warn(string.Format("Secret with uuid {0} for {1} on plugin {2} has disappeared! Removing from pool.gui_config.",
                                     secret_uuid, Helpers.GetName(state.Obj), PluginDescriptor.Name), exn);
                             TryToRemoveSecret(pool, session, PluginDescriptor.Name, state.Obj);
                             continue;
@@ -594,7 +593,7 @@ namespace XenAdmin.Plugins
                         string[] bits = val.Split(CREDENTIALS_SEPARATOR);
                         if (bits.Length != 2)
                         {
-                            log.WarnFormat("Corrupt secret {0} at {1} for {2} on plugin {3}!  Deleting.", val, secret_uuid,
+                            log.WarnFormat("Corrupt secret with uuid {0} for {1} on plugin {2}! Deleting.", secret_uuid,
                                 Helpers.GetName(state.Obj), PluginDescriptor.Name);
 
                             TryToDestroySecret(session, secret.opaque_ref);
@@ -718,11 +717,11 @@ namespace XenAdmin.Plugins
             try
             {
                 Secret.destroy(session, opaque_ref);
-                log.DebugFormat("Successfully removed secret {0}", opaque_ref);
+                log.DebugFormat("Successfully removed secret with opaque_ref {0}", opaque_ref);
             }
             catch (Exception exn)
             {
-                log.Error(string.Format("Failed to destroy secret {0}", opaque_ref), exn);
+                log.Error(string.Format("Failed to destroy secret with opaque_ref {0}", opaque_ref), exn);
             }
         }
 
@@ -731,11 +730,11 @@ namespace XenAdmin.Plugins
             try
             {
                 pool.RemoveXCPluginSecret(session, name, obj);
-                log.DebugFormat("Successfully removed secret for {0}/{1}", name, Helpers.GetName(obj));
+                log.DebugFormat("Successfully removed secret for plugin {0} on object {1}.", name, Helpers.GetName(obj));
             }
             catch (Exception exn)
             {
-                log.Error(string.Format("Failed to remove secret for {0}/{1}", name, obj), exn);
+                log.Error(string.Format("Failed to remove secret for plugin {0} on object {1}.", name, Helpers.GetName(obj)), exn);
             }
         }
 
@@ -868,7 +867,7 @@ namespace XenAdmin.Plugins
                     if (!browser.IsDisposed && browser.Document != null)
                         browser.Document.InvokeScript("RefreshPage");
                     else
-                        log.Debug("Tried to access disposed webbrowser, ignoring refresh.");
+                        log.Debug("Tried to access disposed web browser, ignoring refresh.");
                 });
             }
         }
@@ -912,19 +911,21 @@ namespace XenAdmin.Plugins
                 request.UserAgent = Branding.BRAND_CONSOLE + "\\Plugin";
                 request.Proxy = XenAdminConfigManager.Provider.GetProxyFromSettings(connection, true);
 
-                using (StreamWriter xmlstream = new StreamWriter(request.GetRequestStream()))
-                {
+                using (var req = request.GetRequestStream())
+                using (StreamWriter xmlstream = new StreamWriter(req))
                     xmlstream.Write(jsCallbackAndData[1]);
-                }
+
                 WebResponse response = request.GetResponse();
                 StringBuilder outputBuilder = new StringBuilder();
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+
+                using (var res = response.GetResponseStream())
                 {
-                    while (reader.Peek() != -1)
-                    {
-                        outputBuilder.Append(reader.ReadLine());
-                    }
+                    if (res != null)
+                        using (StreamReader reader = new StreamReader(res))
+                            while (reader.Peek() != -1)
+                                outputBuilder.Append(reader.ReadLine());
                 }
+
                 // The xmlrpc bit of jquery expects a function object, which turns up here as a string that you could eval to get the function
                 // We just want the name, so we filter it out.
                 Regex functionNameReg = new Regex("^function(.*)\\(");
@@ -938,12 +939,12 @@ namespace XenAdmin.Plugins
                 {
                     if (browser.IsDisposed || browser.Disposing)
                     {
-                        log.DebugFormat("Browser has been disposed, cannot return message to plugin: {0}", outputBuilder);
+                        log.Debug("Browser has been disposed, cannot return message to plugin.");
                     }
                     else if (browser.ObjectForScripting != this)
                     {
                         // If you don't do this, you can get old data re-entering the javascript execution after you have switched to a new object
-                        log.DebugFormat("Scripting object has been changed, discarding message to plugin: {0}", outputBuilder);
+                        log.Debug("Scripting object has been changed, discarding message to plugin.");
                     }
                     else if (browser.Document != null)
                     {

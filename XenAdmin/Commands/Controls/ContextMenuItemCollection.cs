@@ -175,12 +175,7 @@ namespace XenAdmin.Commands
             }
         }
 
-        public void AddIfEnabled(Command command)
-        {
-            AddIfEnabled(command, false);
-        }
-
-        public void AddIfEnabled(Command command, bool bold)
+        public void AddIfEnabled(Command command, bool bold = false)
         {
             if (command.CanExecute())
             {
@@ -188,12 +183,7 @@ namespace XenAdmin.Commands
             }
         }
 
-        public void Add(Command command)
-        {
-            Add(command, false);
-        }
-
-        public void Add(Command command, bool bold)
+        public void Add(Command command, bool bold = false)
         {
             CommandToolStripMenuItem item = new CommandToolStripMenuItem(command, true);
 

@@ -36,14 +36,13 @@ using System.Windows.Forms;
 
 using XenAdmin.Controls;
 using XenAdmin.Core;
+using XenAdmin.Help;
 using XenAdmin.Network;
 
 namespace XenAdmin.Wizards
 {
-    public partial class XenWizardBase : Form
+    public partial class XenWizardBase : Form, IFormWithHelp
     {
-        protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private IXenConnection connection; // connection to use
 
         protected IXenConnection xenConnection
@@ -195,7 +194,6 @@ namespace XenAdmin.Wizards
                     return;
 
                 wizardFinished = true;
-                WizardProgress_EnteringStep(null, new WizardProgressEventArgs(true));
                 FinishWizard();
             }
             else
@@ -298,7 +296,7 @@ namespace XenAdmin.Wizards
 
         public bool HasHelp()
         {
-            return Help.HelpManager.HasHelpFor(WizardPaneHelpID());
+            return HelpManager.TryGetTopicId(WizardPaneHelpID(), out _);
         }
 
         private void HelpButton_Click(object sender, EventArgs e)
