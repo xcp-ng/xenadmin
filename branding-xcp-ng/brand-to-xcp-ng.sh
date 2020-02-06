@@ -223,15 +223,15 @@ RESX_rebranding ${REPO}/XenOvfTransport/Messages
 rebranding_global ${REPO}/XenOvfTransport/app.config
 
 #XenAdminTests
-rebranding_global ${REPO}/XenAdminTests/TestResources/ContextMenuBuilderTestResults.xml
-rebranding_global ${REPO}/XenAdminTests/app.config
-rebranding_global ${REPO}/XenAdminTests/TestResources/state1.treeview.serverview.xml
-rebranding_global ${REPO}/XenAdminTests/TestResources/state1.treeview.orgview.xml
-rebranding_global ${REPO}/XenAdminTests/TestResources/searchresults.xml
-rebranding_global ${REPO}/XenAdminTests/TestResources/state3.xml
-rebranding_global ${REPO}/XenAdminTests/XenAdminTests.csproj
-echo cp ${REPO}/XenAdminTests/TestResources/succeed.[xsupdate] ${REPO}/XenAdminTests/TestResources/succeed.${BRANDING_UPDATE}
-cp ${REPO}/XenAdminTests/TestResources/succeed.[xsupdate] ${REPO}/XenAdminTests/TestResources/succeed.${BRANDING_UPDATE}
+#rebranding_global ${REPO}/XenAdminTests/TestResources/ContextMenuBuilderTestResults.xml
+#rebranding_global ${REPO}/XenAdminTests/app.config
+#rebranding_global ${REPO}/XenAdminTests/TestResources/state1.treeview.serverview.xml
+#rebranding_global ${REPO}/XenAdminTests/TestResources/state1.treeview.orgview.xml
+#rebranding_global ${REPO}/XenAdminTests/TestResources/searchresults.xml
+#rebranding_global ${REPO}/XenAdminTests/TestResources/state3.xml
+#rebranding_global ${REPO}/XenAdminTests/XenAdminTests.csproj
+#echo cp ${REPO}/XenAdminTests/TestResources/succeed.[xsupdate] ${REPO}/XenAdminTests/TestResources/succeed.${BRANDING_UPDATE}
+#cp ${REPO}/XenAdminTests/TestResources/succeed.[xsupdate] ${REPO}/XenAdminTests/TestResources/succeed.${BRANDING_UPDATE}
 
 #XenServerHealthCheck
 rebranding_global ${REPO}/XenServerHealthCheck/Branding.cs

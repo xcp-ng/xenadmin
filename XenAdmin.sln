@@ -12,8 +12,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLib", "CommandLib\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xva_verify", "xva_verify\xva_verify.csproj", "{2A70D7E7-EAB2-4C36-B3F4-85B79D2384B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenAdminTests", "XenAdminTests\XenAdminTests.csproj", "{21B9482C-D255-40D5-ABA7-C8F00F99547C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenCenterLib", "XenCenterLib\XenCenterLib.csproj", "{9861DFA1-B41F-432D-A43F-226257DEBBB9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenCenterVNC", "XenCenterVNC\XenCenterVNC.csproj", "{BD345C89-E8F4-4767-9BE0-1F0EAB7FA927}"
@@ -93,20 +91,6 @@ Global
 		{2A70D7E7-EAB2-4C36-B3F4-85B79D2384B5}.Release|Win32.Build.0 = Release|Any CPU
 		{2A70D7E7-EAB2-4C36-B3F4-85B79D2384B5}.Release|x64.ActiveCfg = Release|Any CPU
 		{2A70D7E7-EAB2-4C36-B3F4-85B79D2384B5}.Release|x64.Build.0 = Release|Any CPU
-		{21B9482C-D255-40D5-ABA7-C8F00F99547C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{21B9482C-D255-40D5-ABA7-C8F00F99547C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{21B9482C-D255-40D5-ABA7-C8F00F99547C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{21B9482C-D255-40D5-ABA7-C8F00F99547C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{21B9482C-D255-40D5-ABA7-C8F00F99547C}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{21B9482C-D255-40D5-ABA7-C8F00F99547C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{21B9482C-D255-40D5-ABA7-C8F00F99547C}.Debug|x64.Build.0 = Debug|Any CPU
-		{21B9482C-D255-40D5-ABA7-C8F00F99547C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{21B9482C-D255-40D5-ABA7-C8F00F99547C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{21B9482C-D255-40D5-ABA7-C8F00F99547C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{21B9482C-D255-40D5-ABA7-C8F00F99547C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{21B9482C-D255-40D5-ABA7-C8F00F99547C}.Release|Win32.ActiveCfg = Release|Any CPU
-		{21B9482C-D255-40D5-ABA7-C8F00F99547C}.Release|x64.ActiveCfg = Release|Any CPU
-		{21B9482C-D255-40D5-ABA7-C8F00F99547C}.Release|x64.Build.0 = Release|Any CPU
 		{9861DFA1-B41F-432D-A43F-226257DEBBB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9861DFA1-B41F-432D-A43F-226257DEBBB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9861DFA1-B41F-432D-A43F-226257DEBBB9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
