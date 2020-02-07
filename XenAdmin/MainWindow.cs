@@ -325,11 +325,16 @@ namespace XenAdmin
 
                 Point savedLocation = Properties.Settings.Default.WindowLocation;
                 Size savedSize = Properties.Settings.Default.WindowSize;
+                FormWindowState savedState = Properties.Settings.Default.WindowState;
 
-                if (HelpersGUI.WindowIsOnScreen(savedLocation, savedSize))
+                if (savedState == FormWindowState.Normal && HelpersGUI.WindowIsOnScreen(savedLocation, savedSize))
                 {
                     this.Location = savedLocation;
                     this.Size = savedSize;
+                }
+                else
+                {
+                    this.WindowState = FormWindowState.Maximized;
                 }
             }
             catch
@@ -2198,8 +2203,10 @@ namespace XenAdmin
             // Disconnect the named pipe
             Program.DisconnectPipe();
 
+            Properties.Settings.Default.WindowState = this.WindowState;
             Properties.Settings.Default.WindowSize = this.Size;
             Properties.Settings.Default.WindowLocation = this.Location;
+
             try
             {
                 Settings.SaveServerList();
