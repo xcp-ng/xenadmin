@@ -30,10 +30,8 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using XenAPI;
-using XenAdmin.Actions.HostActions;
 
 namespace XenAdmin.Actions
 {
@@ -43,14 +41,11 @@ namespace XenAdmin.Actions
 
         private readonly String Filepath;
 
-        private readonly bool ActivateFreeLicense;
-
-        public ApplyLicenseAction(Host host, string filepath, bool activateFreeLicense = false)
+        public ApplyLicenseAction(Host host, string filepath)
             : base(host.Connection, string.Format(Messages.APPLYLICENSE_TITLE, host.Name()), Messages.APPLYLICENSE_PREP)
         {
             this.Host = host;
             this.Filepath = filepath;
-            this.ActivateFreeLicense = activateFreeLicense;
         }
 
         protected override void Run()
@@ -69,22 +64,11 @@ namespace XenAdmin.Actions
 
                 string encodedContent = Convert.ToBase64String(File.ReadAllBytes(Filepath));
 
-                // PR-1102: catch the host's license data, before applying the new one, so it can be sent later to the licensing server
-                LicensingHelper.LicenseDataStruct previousLicenseData = new LicensingHelper.LicenseDataStruct(this.Host);
-
-                this.Description = string.Format(Messages.APPLYLICENSE_APPLYING, Filepath);
-                log.DebugFormat("Applying license to server {0}", this.Host.Name());
-                RelatedTask = XenAPI.Host.async_license_apply(this.Session, this.Host.opaque_ref, encodedContent);
+                Description = string.Format(Messages.APPLYLICENSE_APPLYING, Filepath);
+                log.DebugFormat("Applying license to server {0}", Host.Name());
+                RelatedTask = Host.async_license_apply(Session, Host.opaque_ref, encodedContent);
                 PollToCompletion();
-                this.Description = Messages.APPLYLICENSE_APPLIED;
-
-                // PR-1102: send licensing data to the activation server
-                Dictionary<Host, LicensingHelper.LicenseDataStruct> hosts = new Dictionary<Host, LicensingHelper.LicenseDataStruct>();
-                hosts.Add(this.Host, previousLicenseData);
-                if (ActivateFreeLicense)
-                    LicensingHelper.SendActivationData(hosts);
-                else
-                    LicensingHelper.SendLicenseEditionData(hosts, "");
+                Description = Messages.APPLYLICENSE_APPLIED;
             }
         }
     }

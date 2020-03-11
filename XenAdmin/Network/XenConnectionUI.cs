@@ -70,9 +70,12 @@ namespace XenAdmin.Network
                     dlg.Focus();
                     return;
                 }
+
                 dlg = new ConnectingToServerDialog(connection);
                 connectionDialogs.Add(connection, dlg);
-                dlg.BeginConnect(owner, initiateMasterSearch);
+
+                if (!dlg.BeginConnect(owner, initiateMasterSearch) && connection != null)
+                    connectionDialogs.Remove(connection);
             }
             else
                 ((XenConnection)connection).BeginConnect(initiateMasterSearch, PromptForNewPassword);

@@ -63,33 +63,6 @@ namespace XenAdmin {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
-        public static string ACTIVATION_FORM_URL {
-            get {
-                return ResourceManager.GetString("ACTIVATION_FORM_URL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        public static string ACTIVATION_SERVER {
-            get {
-                return ResourceManager.GetString("ACTIVATION_SERVER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        public static string ACTIVATION_URL {
-            get {
-                return ResourceManager.GetString("ACTIVATION_URL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die https://xcp-ng.org ähnelt.
-        /// </summary>
         public static string COMMUNITY_URL {
             get {
                 return ResourceManager.GetString("COMMUNITY_URL", resourceCulture);

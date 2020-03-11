@@ -252,7 +252,6 @@
     <Compile Include="Actions\Host\GetServerLocalTimeAction.cs" />
     <Compile Include="Actions\Host\GetSystemStatusCapabilities.cs" />
     <Compile Include="Actions\Host\HostPowerOnAction.cs" />
-    <Compile Include="Actions\Host\LicensingHelper.cs" />
     <Compile Include="Actions\Host\SavePowerOnSettingsAction.cs" />
     <Compile Include="Actions\Host\VMsWhichCanBeMigratedAction.cs" />
     <Compile Include="Actions\Network\CreateChinAction.cs" />

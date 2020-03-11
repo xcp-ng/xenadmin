@@ -64,15 +64,6 @@ namespace XenAdmin.Network
                 bool AcceptCertificate = false;
                 HttpWebRequest webreq = (HttpWebRequest)sender;
 
-                if (webreq.Address.Host == InvisibleMessages.ACTIVATION_SERVER)
-                {
-                    // Strict checking on the activation server certificate.
-                    // Also, this ensures that it doesn't get added to the user settings
-                    // through Settings.AddCertificate or Settings.ReplaceCertificate below.
-                    log.Debug("SslPolicyErrors is set to None, exiting validation");
-                    return sslPolicyErrors == SslPolicyErrors.None;
-                }
-
                 //This allows to run tests without MainWindow
                 if (Program.MainWindow == null) return true;
 

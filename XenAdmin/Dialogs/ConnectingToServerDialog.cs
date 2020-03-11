@@ -92,7 +92,7 @@ namespace XenAdmin.Dialogs
         /// May be null, in which case Program.MainWindow is used.</param>
         /// <param name="initiateMasterSearch">If true, if connection to the master fails we will start trying to connect to
         /// each remembered slave in turn.</param>
-        internal void BeginConnect(Form owner, bool initiateMasterSearch)
+        internal bool BeginConnect(Form owner, bool initiateMasterSearch)
         {
             if (connection is XenConnection conn)
             {
@@ -107,8 +107,11 @@ namespace XenAdmin.Dialogs
                         Show(GetOwnerForm());
 
                     Focus();
+                    return true;
                 }
             }
+
+            return false;
         }
 
         private void RegisterEventHandlers()

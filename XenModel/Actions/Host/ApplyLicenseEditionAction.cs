@@ -36,8 +36,6 @@ using XenAPI;
 using XenAdmin.Alerts;
 using System.ComponentModel;
 using System.Threading;
-using XenAdmin.Core;
-using XenAdmin.Actions.HostActions;
 
 namespace XenAdmin.Actions
 {
@@ -97,15 +95,12 @@ namespace XenAdmin.Actions
                 d.Add("port", licenseServerPort);
             }
 
-            XenAPI.Host.set_license_server(host.Connection.Session, host.opaque_ref, d);
+            Host.set_license_server(host.Connection.Session, host.opaque_ref, d);
         }
 
         protected override void Run()
         {
-            // PR-1102: hosts that have been updated, plus the previous edition information - this data will be sent to the licensing server
-            Dictionary<Host, LicensingHelper.LicenseDataStruct> updatedHosts = new Dictionary<Host, LicensingHelper.LicenseDataStruct>();
-
-            this.Description = Messages.LICENSE_UPDATING_LICENSES;
+            Description = Messages.LICENSE_UPDATING_LICENSES;
             foreach (IXenObject xo in xos)
             {
                 Connection = xo.Connection;
@@ -118,9 +113,9 @@ namespace XenAdmin.Actions
                 Host host = null;
                 Pool pool = null;
 
-                if(xo is Host)
+                if (xo is Host)
                     host = xo as Host;
-                if(xo is Pool)
+                if (xo is Pool)
                 {
                     pool = xo as Pool;
                     host = xo.Connection.Resolve(pool.master);
@@ -144,7 +139,7 @@ namespace XenAdmin.Actions
 
                 try
                 {
-                    if(pool != null)
+                    if (pool != null)
                         pool.Connection.Cache.Hosts.ToList().ForEach(h=>SetLicenseServer(h, _licenseServerAddress, _licenseServerPort));
                     else
                         SetLicenseServer(host, _licenseServerAddress, _licenseServerPort);
@@ -179,21 +174,14 @@ namespace XenAdmin.Actions
 
                     Alert.RegisterAlertCollectionChanged(alertsChangeHandler);
 
-                    // PR-1102: catch the host's license data, before applying the new one, so it can be sent later to the licensing server
-                    LicensingHelper.LicenseDataStruct previousLicenseData = new LicensingHelper.LicenseDataStruct(host);
-
-                    if(xo is Host && host != null)
+                    if (xo is Host && host != null)
                     {
                         Host.apply_edition(host.Connection.Session, host.opaque_ref, host.GetEditionText(_edition), false);
-
-                        // PR-1102: populate the list of updated hosts
-                        updatedHosts.Add(host, previousLicenseData);
                     }
 
                     if (xo is Pool)
                     {
                         Pool.apply_edition(xo.Connection.Session, pool.opaque_ref, xo.Connection.Cache.Hosts.First().GetEditionText(_edition));
-                        xo.Connection.Cache.Hosts.ToList().ForEach(h => updatedHosts.Add(h, previousLicenseData));
                     }
 
                     Description = Messages.APPLYLICENSE_UPDATED;
@@ -224,18 +212,11 @@ namespace XenAdmin.Actions
                 }
             }
 
-            // PR-1102: Send licensing data to the activation server
-            if (updatedHosts.Count > 0)
-            {
-                LicensingHelper.SendLicenseEditionData(updatedHosts, updatedHosts.Keys.First().GetEditionText(_edition));
-            }
-
             if (LicenseFailures.Count > 0)
             {
                 string exceptionText = LicenseFailures.Count == 1 ? string.Format(Messages.LICENSE_ERROR_1, LicenseFailures[0].Host.Name()) : string.Format(Messages.LICENSE_ERROR_MANY, LicenseFailures.Count, new List<IXenObject>(xos).Count);
 
-                if (DoOnLicensingFailure != null)
-                    DoOnLicensingFailure(LicenseFailures, exceptionText);
+                DoOnLicensingFailure?.Invoke(LicenseFailures, exceptionText);
                 throw new InvalidOperationException(exceptionText);
             }
         }
