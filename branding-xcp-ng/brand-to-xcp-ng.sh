@@ -53,7 +53,7 @@ OUTPUT_DIR=${ROOT}/output
 mkdir -p ${REPO}/Branding/Hotfixes
 
 # Overwrite some files
-cp ${REPO}/branding-xcp-ng/HomePage/HomePage.mht ${REPO}/XenAdmin/
+cp ${REPO}/branding-xcp-ng/HomePage/HomePage.mht ${REPO}/Branding/
 cp ${REPO}/branding-xcp-ng/Images/* ${REPO}/Branding/Images/
 
 
