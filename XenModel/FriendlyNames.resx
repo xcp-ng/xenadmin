@@ -361,7 +361,7 @@
     <value>Dell EqualLogic</value>
   </data>
   <data name="Label-SR.SRTypes-ext" xml:space="preserve">
-    <value>Ext3</value>
+    <value>Ext</value>
   </data>
   <data name="Label-SR.SRTypes-ext4" xml:space="preserve">
     <value>Ext4</value>
