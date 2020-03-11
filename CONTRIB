@@ -7,7 +7,7 @@ trivial change so apply some common sense.
 
 If you are unsure about something written here, ask on the XCP-ng forum https://xcp-ng.org/forum/
 
-0.    Before starting a big project, discuss it on the list first :-)
+0.    Before starting a big project, discuss it on the forum first :-)
 
 1.    Always test your changes, however small, by both targetted 
       manual testing and by running the unit tests.
