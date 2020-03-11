@@ -144,6 +144,7 @@ rebranding_global()
         -e "s#\[xensearch\]#${BRANDING_SEARCH}#g" \
         -e "s#\[xsupdate\]#${BRANDING_UPDATE}#g" \
         -e "s#\[XenServer\]#${BRANDING_SERVER}#g" \
+		-e "s#\[Citrix XenServer\]#${BRANDING_SERVER}#g" \
         -e "s#\[XenCenter\]#${BRANDING_BRAND_CONSOLE}#g" \
 		-e "s#\[XenCenterTitle\]#${BRANDING_BRAND_CONSOLE_TITLE}#g" \
 		-e "s#\[XenAdmin\]#${BRANDING_BRAND_CONSOLE}#g" \
@@ -200,7 +201,7 @@ cd ${REPO} && /usr/bin/find -name \*.csproj -exec sed -i 's#<SignManifests>false
 version_brand_csharp "XenAdmin splash-xcp-ng CommandLib XenCenterLib XenModel XenOvfApi XenOvfTransport XenCenterVNC xe xva_verify XenServer XenServerHealthCheck"
 
 #XenAdmin rebranding
-rebranding_global ${REPO}/XenAdmin/Branding.cs
+rebranding_global ${REPO}/XenModel/BrandManager.cs
 #XenAdmin controls
 XENADMIN_RESXS=$(/usr/bin/find ${REPO}/XenAdmin -name \*.resx)
 for XENADMIN_RESX in ${XENADMIN_RESXS}
@@ -234,12 +235,11 @@ rebranding_global ${REPO}/XenOvfTransport/app.config
 #cp ${REPO}/XenAdminTests/TestResources/succeed.[xsupdate] ${REPO}/XenAdminTests/TestResources/succeed.${BRANDING_UPDATE}
 
 #XenServerHealthCheck
-rebranding_global ${REPO}/XenServerHealthCheck/Branding.cs
-rebranding_global ${REPO}/XenServerHealthCheck/app.config
+#rebranding_global ${REPO}/XenServerHealthCheck/Branding.cs
+#rebranding_global ${REPO}/XenServerHealthCheck/app.config
 
 #XCP-ng Center installer
 brand_and_version_wix ${REPO}/installer-xcp-ng/Product.wxs
 rebranding_global ${REPO}/installer-xcp-ng/Product.wxs
 
 set +u
-
