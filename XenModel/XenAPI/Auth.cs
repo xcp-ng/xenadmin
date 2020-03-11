@@ -144,7 +144,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.auth_get_subject_identifier(session.opaque_ref, _subject_name);
             else
-                return session.proxy.auth_get_subject_identifier(session.opaque_ref, _subject_name ?? "").parse();
+                return session.XmlRpcProxy.auth_get_subject_identifier(session.opaque_ref, _subject_name ?? "").parse();
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.auth_get_subject_information_from_identifier(session.opaque_ref, _subject_identifier);
             else
-                return Maps.convert_from_proxy_string_string(session.proxy.auth_get_subject_information_from_identifier(session.opaque_ref, _subject_identifier ?? "").parse());
+                return Maps.convert_from_proxy_string_string(session.XmlRpcProxy.auth_get_subject_information_from_identifier(session.opaque_ref, _subject_identifier ?? "").parse());
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.auth_get_group_membership(session.opaque_ref, _subject_identifier);
             else
-                return (string [])session.proxy.auth_get_group_membership(session.opaque_ref, _subject_identifier ?? "").parse();
+                return (string [])session.XmlRpcProxy.auth_get_group_membership(session.opaque_ref, _subject_identifier ?? "").parse();
         }
     }
 }

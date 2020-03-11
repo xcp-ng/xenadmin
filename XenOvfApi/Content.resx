@@ -121,7 +121,7 @@
     <value>Xen Appliance Wizard</value>
   </data>
   <data name="CONVERT_VMX_VSSD_CAPTION" xml:space="preserve">
-    <value>Converted from VMWare VMX</value>
+    <value>Converted from VMware VMX</value>
   </data>
   <data name="CONVERT_VPC_VSSD_CAPTION" xml:space="preserve">
     <value>Converted from Virtual PC</value>

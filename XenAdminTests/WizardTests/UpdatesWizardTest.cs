@@ -39,6 +39,8 @@ namespace XenAdminTests.WizardTests.updatesState_xml
     [TestFixture, Category(TestCategories.UICategoryB)]
     public class UpdatesAutomaticModeWizardTest : WizardTest<PatchingWizard>
     {
+        //TODO: as a setup step move succeed.xsupdate to succeed.<BrandManager.ExtensionSearch>
+
         public UpdatesAutomaticModeWizardTest()
             : base(new[] {"Before You Start", "Select Update", "Select Servers", "Upload", "Prechecks", "Update Mode", "Install Update"})
         { }

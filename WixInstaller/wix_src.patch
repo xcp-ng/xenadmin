@@ -28,23 +28,44 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
 # SUCH DAMAGE.
 
+diff -ru wixlib/AdvancedWelcomeEulaDlg.wxs wixlib/AdvancedWelcomeEulaDlg.wxs
+--- wixlib/AdvancedWelcomeEulaDlg.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/AdvancedWelcomeEulaDlg.wxs	2020-02-06 14:24:40.038715400 +0000
+@@ -48,7 +48,7 @@
+                 <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+                     <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+                 </Control>
+-                <Control Id="LicenseText" Type="ScrollableText" X="20" Y="55" Width="330" Height="121" Sunken="yes" TabSkip="no">
++                <Control Id="LicenseText" Type="ScrollableText" X="20" Y="55" Width="330" Height="121" Sunken="no" TabSkip="no">
+                     <Text SourceFile="!(wix.WixUILicenseRtf=$(var.licenseRtf))" />
+                 </Control>
+             </Dialog>
 diff -ru wixlib/BrowseDlg.wxs wixlib/BrowseDlg.wxs
---- wixlib/BrowseDlg.wxs	Thu Jan 20 06:13:28 2011 -0800
-+++ wixlib/BrowseDlg.wxs	Mon Feb 20 18:18:06 2012 +0000
-@@ -23,7 +23,7 @@
+--- wixlib/BrowseDlg.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/BrowseDlg.wxs	2020-02-06 14:24:40.069957600 +0000
+@@ -15,7 +15,7 @@
                      <Publish Event="Reset" Value="0">1</Publish>
                      <Publish Event="EndDialog" Value="Return">1</Publish>
                  </Control>
 -                <Control Id="ComboLabel" Type="Text" X="25" Y="58" Width="44" Height="10" TabSkip="no" Text="!(loc.BrowseDlgComboLabel)" />
-+                <Control Id="ComboLabel" Type="Text" X="5" Y="58" Width="90" Height="10" TabSkip="no" Text="!(loc.BrowseDlgComboLabel)" />
++                <Control Id="ComboLabel" Type="Text" X="25" Y="58" Width="90" Height="10" TabSkip="no" Text="!(loc.BrowseDlgComboLabel)" />
                  <Control Id="DirectoryCombo" Type="DirectoryCombo" X="70" Y="55" Width="220" Height="80" Property="_BrowseProperty" Indirect="yes" Fixed="yes" Remote="yes">
                      <Subscribe Event="IgnoreChange" Attribute="IgnoreChange" />
                  </Control>
+@@ -25,7 +25,7 @@
+                 <Control Id="NewFolder" Type="PushButton" X="325" Y="55" Width="19" Height="19" ToolTip="!(loc.BrowseDlgNewFolderTooltip)" Icon="yes" FixedSize="yes" IconSize="16" Text="!(loc.BrowseDlgNewFolder)">
+                     <Publish Event="DirectoryListNew" Value="0">1</Publish>
+                 </Control>
+-                <Control Id="DirectoryList" Type="DirectoryList" X="25" Y="83" Width="320" Height="98" Property="_BrowseProperty" Sunken="yes" Indirect="yes" TabSkip="no" />
++                <Control Id="DirectoryList" Type="DirectoryList" X="25" Y="83" Width="320" Height="98" Property="_BrowseProperty" Sunken="no" Indirect="yes" TabSkip="no" />
+                 <Control Id="PathLabel" Type="Text" X="25" Y="190" Width="320" Height="10" TabSkip="no" Text="!(loc.BrowseDlgPathLabel)" />
+                 <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.BrowseDlgBannerBitmap)" />
+                 <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
 diff -ru wixlib/Common.wxs wixlib/Common.wxs
---- wixlib/Common.wxs	Thu Jan 20 06:13:28 2011 -0800
-+++ wixlib/Common.wxs	Mon Feb 20 18:18:06 2012 +0000
-@@ -12,12 +12,12 @@
- -->
+--- wixlib/Common.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/Common.wxs	2020-02-06 14:16:54.080714300 +0000
+@@ -4,12 +4,12 @@
+ 
  <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
      <Fragment>
 -        <Binary Id="WixUI_Bmp_Banner" SourceFile="!(wix.WixUIBannerBmp=$(var.bannerBmp))" />
@@ -53,8 +74,8 @@ diff -ru wixlib/Common.wxs wixlib/Common.wxs
 -        <Binary Id="WixUI_Ico_Info" SourceFile="!(wix.WixUIInfoIco=$(var.infoIco))" />
 -        <Binary Id="WixUI_Bmp_New" SourceFile="!(wix.WixUINewIco=$(var.newIco))" />
 -        <Binary Id="WixUI_Bmp_Up" SourceFile="!(wix.WixUIUpIco=$(var.upIco))" />
-+        <Binary Id="WixUI_Bmp_Banner" SourceFile="..\Branding\Images\bannrbmp.bmp" />
-+        <Binary Id="WixUI_Bmp_Dialog" SourceFile="..\Branding\Images\dlgbmp.bmp" />
++        <Binary Id="WixUI_Bmp_Banner" SourceFile="$(env.RepoRoot)\Branding\Images\bannrbmp.bmp" />
++        <Binary Id="WixUI_Bmp_Dialog" SourceFile="$(env.RepoRoot)\Branding\Images\dlgbmp.bmp" />
 +        <Binary Id="WixUI_Ico_Exclam" SourceFile="Bitmaps\exclamic.ico" />
 +        <Binary Id="WixUI_Ico_Info" SourceFile="Bitmaps\info.ico" />
 +        <Binary Id="WixUI_Bmp_New" SourceFile="Bitmaps\New.ico" />
@@ -62,7 +83,7 @@ diff -ru wixlib/Common.wxs wixlib/Common.wxs
          <WixVariable Id="WixUICostingPopupOptOut" Value="1" Overridable="yes" />
  
          <UI Id="WixUI_Common">
-@@ -71,5 +71,13 @@
+@@ -66,5 +66,13 @@
              <UIText Id="VolumeCostSize">!(loc.UITextVolumeCostSize)</UIText>
              <UIText Id="VolumeCostVolume">!(loc.UITextVolumeCostVolume)</UIText>
          </UI>
@@ -77,11 +98,102 @@ diff -ru wixlib/Common.wxs wixlib/Common.wxs
 +</Fragment>
 +    
  </Wix>
+diff -ru wixlib/CustomizeDlg.wxs wixlib/CustomizeDlg.wxs
+--- wixlib/CustomizeDlg.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/CustomizeDlg.wxs	2020-02-06 14:24:40.194936800 +0000
+@@ -6,8 +6,8 @@
+     <Fragment>
+         <UI>
+             <Dialog Id="CustomizeDlg" Width="370" Height="270" Title="!(loc.CustomizeDlg_Title)" TrackDiskSpace="yes">
+-                <Control Id="Tree" Type="SelectionTree" X="25" Y="85" Width="175" Height="115" Property="_BrowseProperty" Sunken="yes" TabSkip="no" Text="!(loc.CustomizeDlgTree)" />
+-                <Control Id="Browse" Type="PushButton" X="294" Y="210" Width="66" Height="17" Text="!(loc.CustomizeDlgBrowse)">
++                <Control Id="Tree" Type="SelectionTree" X="20" Y="75" Width="200" Height="89" Property="_BrowseProperty" Sunken="no" TabSkip="no" Text="!(loc.CustomizeDlgTree)" />
++                <Control Id="Browse" Type="PushButton" X="294" Y="172" Width="66" Height="17" Text="!(loc.CustomizeDlgBrowse)">
+                     <Publish Event="SelectionBrowse" Value="BrowseDlg">1</Publish>
+                     <Condition Action="hide">Installed</Condition>
+                     <Condition Action="disable">Installed</Condition>
+@@ -28,27 +28,34 @@
+                     <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+                 </Control>
+                 <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.CustomizeDlgBannerBitmap)" />
+-                <Control Id="Text" Type="Text" X="25" Y="55" Width="320" Height="20" Text="!(loc.CustomizeDlgText)" />
++                <Control Id="Text" Type="Text" X="20" Y="55" Width="320" Height="20" Text="!(loc.CustomizeDlgText)" />
+                 <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+                 <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+                 <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.CustomizeDlgDescription)" />
+                 <Control Id="Title" Type="Text" X="15" Y="6" Width="210" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.CustomizeDlgTitle)" />
+-                <Control Id="Box" Type="GroupBox" X="210" Y="81" Width="150" Height="118" />
+-                <Control Id="ItemDescription" Type="Text" X="215" Y="90" Width="131" Height="50" Text="!(loc.CustomizeDlgItemDescription)">
++                <Control Id="Box" Type="GroupBox" X="222" Y="70" Width="138" Height="85" />
++                <Control Id="ItemDescription" Type="Text" X="228" Y="82" Width="128" Height="20" Text="!(loc.CustomizeDlgItemDescription)">
+                     <Subscribe Event="SelectionDescription" Attribute="Text" />
+                 </Control>
+-                <Control Id="ItemSize" Type="Text" X="215" Y="140" Width="131" Height="50" Text="!(loc.CustomizeDlgItemSize)">
++                <Control Id="ItemSize" Type="Text" X="228" Y="105" Width="128" Height="56" Text="!(loc.CustomizeDlgItemSize)">
+                     <Subscribe Event="SelectionSize" Attribute="Text" />
+                 </Control>
+-                <Control Id="Location" Type="Text" X="90" Y="210" Width="200" Height="20" Text="!(loc.CustomizeDlgLocation)">
++                <Control Id="Location" Type="Text" X="90" Y="175" Width="200" Height="20" Text="!(loc.CustomizeDlgLocation)">
+                     <Subscribe Event="SelectionPath" Attribute="Text" />
+                     <Subscribe Event="SelectionPathOn" Attribute="Visible" />
+                     <Condition Action="hide">Installed</Condition>
+                 </Control>
+-                <Control Id="LocationLabel" Type="Text" X="25" Y="210" Width="65" Height="10" Text="!(loc.CustomizeDlgLocationLabel)">
++                <Control Id="LocationLabel" Type="Text" X="20" Y="175" Width="65" Height="10" Text="!(loc.CustomizeDlgLocationLabel)">
+                     <Subscribe Event="SelectionPathOn" Attribute="Visible" />
+                     <Condition Action="hide">Installed</Condition>
+                 </Control>
++                <Control Id="UsersLabel" Type="Text" X="20" Y="197" Width="290" Height="15" Text="!(loc.InstallDirDlgUsersLabel)" />
++                <Control Id="UsersRadioButtonGroupControl" Type="RadioButtonGroup" X="15" Y="208" Width="290" Height="20" Property="Install_All">
++                    <RadioButtonGroup Property="Install_All">
++                        <RadioButton Value="1" X="20" Y="0" Width="100" Height="20" Text="!(loc.InstallDirDlgUsersAllRadioButton)" />
++                        <RadioButton Value="0" X="125" Y="0" Width="100" Height="20" Text="!(loc.InstallDirDlgUsersOneRadioButton)" />
++                    </RadioButtonGroup>
++                </Control>
+             </Dialog>
+         </UI>
+     </Fragment>
+diff -ru wixlib/CustomizeStdDlg.wxs wixlib/CustomizeStdDlg.wxs
+--- wixlib/CustomizeStdDlg.wxs	Tue Feb 21 12:03:46 2012
++++ wixlib/CustomizeStdDlg.wxs	Tue Jul 20 20:54:33 2015
+@@ -13,7 +13,7 @@
+ <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+     <Fragment>
+         <UI>
+-            <Dialog Id="CustomizeDlg" Width="370" Height="270" Title="!(loc.CustomizeDlg_Title)" TrackDiskSpace="yes">
++            <Dialog Id="CustomizeStdDlg" Width="370" Height="270" Title="!(loc.CustomizeDlg_Title)" TrackDiskSpace="yes">
+                 <Control Id="Tree" Type="SelectionTree" X="25" Y="85" Width="175" Height="115" Property="_BrowseProperty" Sunken="yes" TabSkip="no" Text="!(loc.CustomizeDlgTree)" />
+                 <Control Id="Browse" Type="PushButton" X="294" Y="210" Width="66" Height="17" Text="!(loc.CustomizeDlgBrowse)">
+                     <Publish Event="SelectionBrowse" Value="BrowseDlg">1</Publish>
+diff -ru wixlib/DiskCostDlg.wxs wixlib/DiskCostDlg.wxs
+--- wixlib/DiskCostDlg.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/DiskCostDlg.wxs	2020-02-06 14:24:40.319915600 +0000
+@@ -15,7 +15,7 @@
+                 <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+                 <Control Id="Description" Type="Text" X="20" Y="20" Width="280" Height="20" Transparent="yes" NoPrefix="yes" Text="!(loc.DiskCostDlgDescription)" />
+                 <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.DiskCostDlgTitle)" />
+-                <Control Id="VolumeList" Type="VolumeCostList" X="20" Y="100" Width="330" Height="120" Sunken="yes" Fixed="yes" Remote="yes" Text="!(loc.DiskCostDlgVolumeList)" />
++                <Control Id="VolumeList" Type="VolumeCostList" X="20" Y="100" Width="330" Height="120" Sunken="no" Fixed="yes" Remote="yes" Text="!(loc.DiskCostDlgVolumeList)" />
+             </Dialog>
+         </UI>
+     </Fragment>
+diff -ru wixlib/FilesInUse.wxs wixlib/FilesInUse.wxs
+--- wixlib/FilesInUse.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/FilesInUse.wxs	2020-02-06 14:24:40.398040600 +0000
+@@ -21,7 +21,7 @@
+                 <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+                 <Control Id="Description" Type="Text" X="20" Y="23" Width="280" Height="20" Transparent="yes" NoPrefix="yes" Text="!(loc.FilesInUseDescription)" />
+                 <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.FilesInUseTitle)" />
+-                <Control Id="List" Type="ListBox" X="20" Y="87" Width="330" Height="130" Property="FileInUseProcess" Sunken="yes" TabSkip="yes" />
++                <Control Id="List" Type="ListBox" X="20" Y="87" Width="330" Height="130" Property="FileInUseProcess" Sunken="no" TabSkip="yes" />
+             </Dialog>
+         </UI>
+     </Fragment>
 diff -ru wixlib/InstallDirDlg.wxs wixlib/InstallDirDlg.wxs
---- wixlib/InstallDirDlg.wxs	Thu Jan 20 06:13:28 2011 -0800
-+++ wixlib/InstallDirDlg.wxs	Mon Feb 20 18:18:06 2012 +0000
-@@ -12,7 +12,8 @@
- -->
+--- wixlib/InstallDirDlg.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/InstallDirDlg.wxs	2020-02-06 14:16:54.111938400 +0000
+@@ -4,7 +4,8 @@
+ 
  <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
      <Fragment>
 -        <UI>
@@ -90,7 +202,7 @@ diff -ru wixlib/InstallDirDlg.wxs wixlib/InstallDirDlg.wxs
              <Dialog Id="InstallDirDlg" Width="370" Height="270" Title="!(loc.InstallDirDlg_Title)">
                  <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)" />
                  <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
-@@ -20,7 +21,7 @@
+@@ -12,7 +13,7 @@
                      <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
                  </Control>
  
@@ -99,7 +211,7 @@ diff -ru wixlib/InstallDirDlg.wxs wixlib/InstallDirDlg.wxs
                  <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.InstallDirDlgTitle)" />
                  <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.InstallDirDlgBannerBitmap)" />
                  <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
-@@ -29,6 +30,14 @@
+@@ -21,6 +22,14 @@
                  <Control Id="FolderLabel" Type="Text" X="20" Y="60" Width="290" Height="30" NoPrefix="yes" Text="!(loc.InstallDirDlgFolderLabel)" />
                  <Control Id="Folder" Type="PathEdit" X="20" Y="100" Width="320" Height="18" Property="WIXUI_INSTALLDIR" Indirect="yes" />
                  <Control Id="ChangeFolder" Type="PushButton" X="20" Y="120" Width="56" Height="17" Text="!(loc.InstallDirDlgChange)" />
@@ -115,34 +227,60 @@ diff -ru wixlib/InstallDirDlg.wxs wixlib/InstallDirDlg.wxs
          </UI>
      </Fragment>
 diff -ru wixlib/LicenseAgreementDlg.wxs wixlib/LicenseAgreementDlg.wxs
---- wixlib/LicenseAgreementDlg.wxs	Thu Jan 20 06:13:28 2011 -0800
-+++ wixlib/LicenseAgreementDlg.wxs	Mon Feb 20 18:18:06 2012 +0000
-@@ -33,7 +33,7 @@
+--- wixlib/LicenseAgreementDlg.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/LicenseAgreementDlg.wxs	2020-02-06 14:24:40.460529400 +0000
+@@ -24,8 +24,8 @@
+                 <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
                      <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
                  </Control>
-                 <Control Id="LicenseText" Type="ScrollableText" X="20" Y="60" Width="330" Height="140" Sunken="yes" TabSkip="no">
+-                <Control Id="LicenseText" Type="ScrollableText" X="20" Y="60" Width="330" Height="140" Sunken="yes" TabSkip="no">
 -                    <Text SourceFile="!(wix.WixUILicenseRtf=$(var.licenseRtf))" />
++                <Control Id="LicenseText" Type="ScrollableText" X="20" Y="60" Width="330" Height="140" Sunken="no" TabSkip="no">
 +                    <Text SourceFile="License.rtf" />
                  </Control>
              </Dialog>
          </UI>
 diff -ru wixlib/MsiRMFilesInUse.wxs wixlib/MsiRMFilesInUse.wxs
---- wixlib/MsiRMFilesInUse.wxs	Thu Jan 20 06:13:28 2011 -0800
-+++ wixlib/MsiRMFilesInUse.wxs	Mon Feb 20 18:18:06 2012 +0000
-@@ -30,7 +30,7 @@
+--- wixlib/MsiRMFilesInUse.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/MsiRMFilesInUse.wxs	2020-02-06 14:24:40.523008700 +0000
+@@ -22,7 +22,7 @@
                      </RadioButtonGroup>
                  </Control>
  
 -                <Control Id="List" Type="ListBox" X="20" Y="100" Width="330" Height="80" Property="FileInUseProcess" Sunken="yes" TabSkip="yes" />
-+                <Control Id="List" Type="ListBox" X="20" Y="100" Width="330" Height="90" Property="FileInUseProcess" Sunken="yes" TabSkip="yes" />
++                <Control Id="List" Type="ListBox" X="20" Y="100" Width="330" Height="90" Property="FileInUseProcess" Sunken="no" TabSkip="yes" />
                  <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.MsiRMFilesInUseBannerBitmap)" />
                  <Control Id="Text" Type="Text" X="20" Y="55" Width="330" Height="45" Text="!(loc.MsiRMFilesInUseText)" />
                  <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+diff -ru wixlib/OutOfDiskDlg.wxs wixlib/OutOfDiskDlg.wxs
+--- wixlib/OutOfDiskDlg.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/OutOfDiskDlg.wxs	2020-02-06 14:24:40.585503500 +0000
+@@ -15,7 +15,7 @@
+                 <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+                 <Control Id="Description" Type="Text" X="20" Y="20" Width="280" Height="20" Transparent="yes" NoPrefix="yes" Text="!(loc.OutOfDiskDlgDescription)" />
+                 <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.OutOfDiskDlgTitle)" />
+-                <Control Id="VolumeList" Type="VolumeCostList" X="20" Y="120" Width="330" Height="100" Sunken="yes" Fixed="yes" Remote="yes" Text="!(loc.OutOfDiskDlgVolumeList)" />
++                <Control Id="VolumeList" Type="VolumeCostList" X="20" Y="120" Width="330" Height="100" Sunken="no" Fixed="yes" Remote="yes" Text="!(loc.OutOfDiskDlgVolumeList)" />
+             </Dialog>
+         </UI>
+     </Fragment>
+diff -ru wixlib/OutOfRbDiskDlg.wxs wixlib/OutOfRbDiskDlg.wxs
+--- wixlib/OutOfRbDiskDlg.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/OutOfRbDiskDlg.wxs	2020-02-06 14:24:40.616746100 +0000
+@@ -19,7 +19,7 @@
+                 <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+                 <Control Id="Description" Type="Text" X="20" Y="20" Width="280" Height="20" Transparent="yes" NoPrefix="yes" Text="!(loc.OutOfRbDiskDlgDescription)" />
+                 <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.OutOfRbDiskDlgTitle)" />
+-                <Control Id="VolumeList" Type="VolumeCostList" X="20" Y="150" Width="330" Height="70" Sunken="yes" Fixed="yes" Remote="yes" ShowRollbackCost="yes" Text="!(loc.OutOfRbDiskDlgVolumeList)" />
++                <Control Id="VolumeList" Type="VolumeCostList" X="20" Y="150" Width="330" Height="70" Sunken="no" Fixed="yes" Remote="yes" ShowRollbackCost="yes" Text="!(loc.OutOfRbDiskDlgVolumeList)" />
+             </Dialog>
+         </UI>
+     </Fragment>
 diff -ru wixlib/VerifyReadyDlg.wxs wixlib/VerifyReadyDlg.wxs
---- wixlib/VerifyReadyDlg.wxs	Thu Jan 20 06:13:28 2011 -0800
-+++ wixlib/VerifyReadyDlg.wxs	Mon Feb 20 18:18:06 2012 +0000
-@@ -12,29 +12,32 @@
- -->
+--- wixlib/VerifyReadyDlg.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/VerifyReadyDlg.wxs	2020-02-06 14:16:54.143166400 +0000
+@@ -4,29 +4,32 @@
+ 
  <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
      <Fragment>
 +        <PropertyRef Id="Install_All" />
@@ -177,7 +315,7 @@ diff -ru wixlib/VerifyReadyDlg.wxs wixlib/VerifyReadyDlg.wxs
                      <Condition Action="show">WixUI_InstallMode = "Change" AND ALLUSERS AND (ADDLOCAL OR REMOVE)</Condition>
                      <Condition Action="enable">WixUI_InstallMode = "Change"</Condition>
                      <Condition Action="default">WixUI_InstallMode = "Change"</Condition>
-@@ -44,7 +47,7 @@
+@@ -36,7 +39,7 @@
                      <Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
                      <Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
                  </Control>
@@ -186,7 +324,7 @@ diff -ru wixlib/VerifyReadyDlg.wxs wixlib/VerifyReadyDlg.wxs
                      <Condition Action="show">WixUI_InstallMode = "Change" AND (NOT ALLUSERS OR (NOT ADDLOCAL AND NOT REMOVE))</Condition>
                      <Condition Action="enable">WixUI_InstallMode = "Change"</Condition>
                      <Condition Action="default">WixUI_InstallMode = "Change"</Condition>
-@@ -54,7 +57,7 @@
+@@ -46,7 +49,7 @@
                      <Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
                      <Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
                  </Control>
@@ -195,7 +333,7 @@ diff -ru wixlib/VerifyReadyDlg.wxs wixlib/VerifyReadyDlg.wxs
                      <Condition Action="show">WixUI_InstallMode = "Repair"</Condition>
                      <Condition Action="enable">WixUI_InstallMode = "Repair"</Condition>
                      <Condition Action="default">WixUI_InstallMode = "Repair"</Condition>
-@@ -66,7 +69,7 @@
+@@ -58,7 +61,7 @@
                      <Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
                      <Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
                  </Control>
@@ -204,7 +342,7 @@ diff -ru wixlib/VerifyReadyDlg.wxs wixlib/VerifyReadyDlg.wxs
                      <Condition Action="show">WixUI_InstallMode = "Remove" AND ALLUSERS</Condition>
                      <Condition Action="enable">WixUI_InstallMode = "Remove"</Condition>
                      <Publish Event="Remove" Value="All"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
-@@ -76,7 +79,7 @@
+@@ -68,7 +71,7 @@
                      <Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
                      <Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
                  </Control>
@@ -213,7 +351,7 @@ diff -ru wixlib/VerifyReadyDlg.wxs wixlib/VerifyReadyDlg.wxs
                      <Condition Action="show">WixUI_InstallMode = "Remove" AND NOT ALLUSERS</Condition>
                      <Condition Action="enable">WixUI_InstallMode = "Remove"</Condition>
                      <Publish Event="Remove" Value="All"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
-@@ -86,7 +89,7 @@
+@@ -78,7 +81,7 @@
                      <Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
                      <Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
                  </Control>
@@ -222,7 +360,7 @@ diff -ru wixlib/VerifyReadyDlg.wxs wixlib/VerifyReadyDlg.wxs
                      <Condition Action="show">WixUI_InstallMode = "Update" AND ALLUSERS</Condition>
                      <Condition Action="enable">WixUI_InstallMode = "Update"</Condition>
                      <Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
-@@ -95,7 +98,7 @@
+@@ -87,7 +90,7 @@
                      <Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
                      <Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
                  </Control>
@@ -231,7 +369,7 @@ diff -ru wixlib/VerifyReadyDlg.wxs wixlib/VerifyReadyDlg.wxs
                      <Condition Action="show">WixUI_InstallMode = "Update" AND NOT ALLUSERS</Condition>
                      <Condition Action="enable">WixUI_InstallMode = "Update"</Condition>
                      <Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
-@@ -139,7 +142,7 @@
+@@ -131,7 +134,7 @@
                  <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
                      <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
                  </Control>
@@ -241,80 +379,23 @@ diff -ru wixlib/VerifyReadyDlg.wxs wixlib/VerifyReadyDlg.wxs
                  </Control>
                  <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.VerifyReadyDlgBannerBitmap)" />
 diff -ru wixlib/WelcomeEulaDlg.wxs wixlib/WelcomeEulaDlg.wxs
---- wixlib/WelcomeEulaDlg.wxs	Thu Jan 20 06:13:28 2011 -0800
-+++ wixlib/WelcomeEulaDlg.wxs	Mon Feb 20 18:18:06 2012 +0000
-@@ -48,7 +48,7 @@
+--- wixlib/WelcomeEulaDlg.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/WelcomeEulaDlg.wxs	2020-02-06 14:24:40.726056000 +0000
+@@ -39,8 +39,8 @@
+                 <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
                      <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
                  </Control>
-                 <Control Id="LicenseText" Type="ScrollableText" X="130" Y="36" Width="226" Height="162" Sunken="yes" TabSkip="no">
+-                <Control Id="LicenseText" Type="ScrollableText" X="130" Y="36" Width="226" Height="162" Sunken="yes" TabSkip="no">
 -                    <Text SourceFile="!(wix.WixUILicenseRtf=$(var.licenseRtf))" />
++                <Control Id="LicenseText" Type="ScrollableText" X="130" Y="36" Width="226" Height="162" Sunken="no" TabSkip="no">
 +                    <Text SourceFile="License.rtf" />
                  </Control>
              </Dialog>
          </UI>
-diff -ru wixlib/WixUI_InstallDir.wxs wixlib/WixUI_InstallDir.wxs
---- wixlib/WixUI_InstallDir.wxs	Thu Jan 20 06:13:28 2011 -0800
-+++ wixlib/WixUI_InstallDir.wxs	Mon Feb 20 18:18:06 2012 +0000
-@@ -33,10 +33,13 @@ Patch dialog sequence:
- 
- <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-     <Fragment>
--        <UI Id="WixUI_InstallDir">
-+        <UI Id="My_WixUI_InstallDir">
-             <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
-             <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
-             <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
-+            <TextStyle Id="WixUI_Font_Normal_OnImage" FaceName="Tahoma" Size="8" Red="0" Green="0" Blue="0" />
-+            <TextStyle Id="WixUI_Font_Bigger_OnImage" FaceName="Tahoma" Size="12" Red="0" Green="0" Blue="0" />
-+            <TextStyle Id="WixUI_Font_Title_OnImage" FaceName="Tahoma" Size="9" Bold="yes" Red="0" Green="0" Blue="0" />
- 
-             <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
-             <Property Id="WixUI_Mode" Value="InstallDir" />
-@@ -57,22 +55,20 @@ Patch dialog sequence:
-             <DialogRef Id="ResumeDlg" />
-             <DialogRef Id="UserExit" />
-             
--            <Publish Dialog="BrowseDlg" Control="OK" Event="DoAction" Value="WixUIValidatePath" Order="3">1</Publish>
--            <Publish Dialog="BrowseDlg" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg" Order="4"><![CDATA[WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
-+            <Publish Dialog="BrowseDlg" Control="OK" Event="DoAction" Value="WixUIValidatePath" Order="3">NOT WIXUI_DONTVALIDATEPATH</Publish>
-+            <Publish Dialog="BrowseDlg" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg" Order="4"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
- 
-             <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
- 
--            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">NOT Installed</Publish>
-+            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">NOT Installed</Publish>
-             <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
- 
--            <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
--            <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">LicenseAccepted = "1"</Publish>
--
--            <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
-+            <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="1">NOT Installed</Publish>
-+            <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed AND NOT PATCH</Publish>
-             <Publish Dialog="InstallDirDlg" Control="Next" Event="SetTargetPath" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
-             <Publish Dialog="InstallDirDlg" Control="Next" Event="DoAction" Value="WixUIValidatePath" Order="2">NOT WIXUI_DONTVALIDATEPATH</Publish>
-             <Publish Dialog="InstallDirDlg" Control="Next" Event="SpawnDialog" Value="InvalidDirDlg" Order="3"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
--            <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="4">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
-+            <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="3">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
-             <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Property="_BrowseProperty" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
-             <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
-             
-@@ -79,9 +80,11 @@ Patch dialog sequence:
- 
-             <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-             <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-+            <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="InstallDirDlg">1</Publish>
-             <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
- 
-             <Property Id="ARPNOMODIFY" Value="1" />
-+            <Property Id="WIXUI_DONTVALIDATEPATH" Value="1"/>
-         </UI>
- 
-         <UIRef Id="WixUI_Common" />
 diff -ru wixlib/WixUI_en-us.wxl wixlib/WixUI_en-us.wxl
---- wixlib/WixUI_en-us.wxl	Thu Jan 20 06:13:28 2011 -0800
-+++ wixlib/WixUI_en-us.wxl	Mon Jun 25 15:01:06 2012 +0000
-@@ -47,8 +47,8 @@
+--- wixlib/WixUI_en-us.wxl	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/WixUI_en-us.wxl	2020-02-06 14:16:54.174409400 +0000
+@@ -39,8 +39,8 @@
      <String Id="BrowseDlgNewFolderTooltip" Overridable="yes"><!-- _locID_text="BrowseDlgNewFolderTooltip" _locComment="BrowseDlgNewFolderTooltip" -->Create a new folder</String>
      <String Id="BrowseDlgPathLabel" Overridable="yes"><!-- _locID_text="BrowseDlgPathLabel" _locComment="BrowseDlgPathLabel" -->&amp;Folder name:</String>
      <String Id="BrowseDlgBannerBitmap" Overridable="yes"><!-- _locID_text="BrowseDlgBannerBitmap" _locComment="BrowseDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
@@ -325,7 +406,7 @@ diff -ru wixlib/WixUI_en-us.wxl wixlib/WixUI_en-us.wxl
  
      <String Id="CancelDlg_Title" Overridable="yes"><!-- _locID_text="CancelDlg_Title" _locComment="CancelDlg_Title" -->[ProductName] Setup</String>
      <String Id="CancelDlgText" Overridable="yes"><!-- _locID_text="CancelDlgText" _locComment="CancelDlgText" -->Are you sure you want to cancel [ProductName] installation?</String>
-@@ -72,8 +72,8 @@
+@@ -64,8 +64,8 @@
      <String Id="DiskCostDlg_Title" Overridable="yes"><!-- _locID_text="DiskCostDlg_Title" _locComment="DiskCostDlg_Title" -->[ProductName] Setup</String>
      <String Id="DiskCostDlgBannerBitmap" Overridable="yes"><!-- _locID_text="DiskCostDlgBannerBitmap" _locComment="DiskCostDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
      <String Id="DiskCostDlgText" Overridable="yes"><!-- _locID_text="DiskCostDlgText" _locComment="DiskCostDlgText" -->Highlighted volumes do not have enough disk space available for selected features. You can either remove some files from the highlighted volumes, install fewer features, or select different destination drives.</String>
@@ -336,7 +417,7 @@ diff -ru wixlib/WixUI_en-us.wxl wixlib/WixUI_en-us.wxl
      <String Id="DiskCostDlgVolumeList" Overridable="yes"><!-- _locID_text="DiskCostDlgVolumeList" _locComment="DiskCostDlgVolumeList" -->{120}{70}{70}{70}{70}</String>
  
      <String Id="ErrorDlg_Title" Overridable="yes"><!-- _locID_text="ErrorDlg_Title" _locComment="ErrorDlg_Title" -->[ProductName] Setup</String>
-@@ -105,14 +105,14 @@
+@@ -97,14 +97,14 @@
      <String Id="FilesInUse_Title" Overridable="yes"><!-- _locID_text="FilesInUse_Title" _locComment="FilesInUse_Title" -->[ProductName] Setup</String>
      <String Id="FilesInUseExit" Overridable="yes"><!-- _locID_text="FilesInUseExit" _locComment="FilesInUseExit" -->E&amp;xit</String>
      <String Id="FilesInUseBannerBitmap" Overridable="yes"><!-- _locID_text="FilesInUseBannerBitmap" _locComment="FilesInUseBannerBitmap" -->WixUI_Bmp_Banner</String>
@@ -357,7 +438,7 @@ diff -ru wixlib/WixUI_en-us.wxl wixlib/WixUI_en-us.wxl
      <String Id="InstallDirDlgBannerBitmap" Overridable="yes"><!-- _locID_text="InstallDirDlgBannerBitmap" _locComment="InstallDirDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
      <String Id="InstallDirDlgFolderLabel" Overridable="yes"><!-- _locID_text="InstallDirDlgFolderLabel" _locComment="InstallDirDlgFolderLabel" -->Install [ProductName] to:</String>
  
-@@ -136,8 +136,8 @@
+@@ -128,8 +128,8 @@
      <String Id="LicenseAgreementDlg_Title" Overridable="yes"><!-- _locID_text="LicenseAgreementDlg_Title" _locComment="LicenseAgreementDlg_Title" -->[ProductName] Setup</String>
      <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgLicenseAcceptedCheckBox" _locComment="LicenseAgreementDlgLicenseAcceptedCheckBox" -->I &amp;accept the terms in the License Agreement</String>
      <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgBannerBitmap" _locComment="LicenseAgreementDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
@@ -368,7 +449,7 @@ diff -ru wixlib/WixUI_en-us.wxl wixlib/WixUI_en-us.wxl
  
      <String Id="MaintenanceTypeDlg_Title" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlg_Title" _locComment="MaintenanceTypeDlg_Title" -->[ProductName] Setup</String>
      <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgChangeButton" _locComment="MaintenanceTypeDlgChangeButton" -->&amp;Change</String>
-@@ -147,8 +147,8 @@
+@@ -139,8 +139,8 @@
      <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgRemoveButton" _locComment="MaintenanceTypeDlgRemoveButton" -->&amp;Remove</String>
      <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgRemoveButtonTooltip" _locComment="MaintenanceTypeDlgRemoveButtonTooltip" -->Remove Installation</String>
      <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgBannerBitmap" _locComment="MaintenanceTypeDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
@@ -379,7 +460,7 @@ diff -ru wixlib/WixUI_en-us.wxl wixlib/WixUI_en-us.wxl
      <String Id="MaintenanceTypeDlgChangeText" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgChangeText" _locComment="MaintenanceTypeDlgChangeText" -->Lets you change the way features are installed.</String>
      <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgChangeDisabledText" _locComment="MaintenanceTypeDlgChangeDisabledText" -->[ProductName] has no independently selectable features.</String>
      <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgRemoveText" _locComment="MaintenanceTypeDlgRemoveText" -->Removes [ProductName] from your computer.</String>
-@@ -164,23 +164,23 @@
+@@ -156,23 +156,23 @@
      <String Id="MsiRMFilesInUse_Title" Overridable="yes"><!-- _locID_text="MsiRMFilesInUse_Title" _locComment="MsiRMFilesInUse_Title" -->[ProductName] Setup</String>
      <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes"><!-- _locID_text="MsiRMFilesInUseBannerBitmap" _locComment="MsiRMFilesInUseBannerBitmap" -->WixUI_Bmp_Banner</String>
      <String Id="MsiRMFilesInUseText" Overridable="yes"><!-- _locID_text="MsiRMFilesInUseText" _locComment="MsiRMFilesInUseText" -->The following applications are using files that need to be updated by this setup. You can let Setup Wizard close them and attempt to restart them or reboot the machine later.</String>
@@ -409,7 +490,7 @@ diff -ru wixlib/WixUI_en-us.wxl wixlib/WixUI_en-us.wxl
      <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes"><!-- _locID_text="OutOfRbDiskDlgVolumeList" _locComment="OutOfRbDiskDlgVolumeList" -->{120}{70}{70}{70}{70}</String>
      <String Id="OutOfRbDiskDlgText2" Overridable="yes"><!-- _locID_text="OutOfRbDiskDlgText2" _locComment="OutOfRbDiskDlgText2" -->Alternatively, you may choose to disable the installer's rollback functionality. Disabling rollback prevents the installer from restoring your computer's original state should the installation be interrupted in any way. Click Yes if you wish to take the risk of disabling rollback.</String>
  
-@@ -192,13 +192,13 @@
+@@ -184,13 +184,13 @@
      <String Id="ProgressDlg_Title" Overridable="yes"><!-- _locID_text="ProgressDlg_Title" _locComment="ProgressDlg_Title" -->[ProductName] Setup</String>
      <String Id="ProgressDlgBannerBitmap" Overridable="yes"><!-- _locID_text="ProgressDlgBannerBitmap" _locComment="ProgressDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
      <String Id="ProgressDlgTextInstalling" Overridable="yes"><!-- _locID_text="ProgressDlgTextInstalling" _locComment="ProgressDlgTextInstalling" -->Please wait while the Setup Wizard installs [ProductName].</String>
@@ -427,7 +508,7 @@ diff -ru wixlib/WixUI_en-us.wxl wixlib/WixUI_en-us.wxl
      <String Id="ProgressDlgTextUpdating" Overridable="yes"><!-- _locID_text="ProgressDlgTextUpdating" _locComment="ProgressDlgTextUpdating" -->Please wait while the Setup Wizard updates [ProductName].</String>
      <String Id="ProgressDlgTitleUpdating" Overridable="yes"><!-- _locID_text="ProgressDlgTitleUpdating" _locComment="ProgressDlgTitleUpdating" -->{\WixUI_Font_Title}Updating [ProductName]</String>
      <String Id="ProgressDlgProgressBar" Overridable="yes"><!-- _locID_text="ProgressDlgProgressBar" _locComment="ProgressDlgProgressBar" -->Progress done</String>
-@@ -218,8 +218,8 @@
+@@ -210,8 +210,8 @@
      <String Id="SetupTypeDlgCompleteButton" Overridable="yes"><!-- _locID_text="SetupTypeDlgCompleteButton" _locComment="SetupTypeDlgCompleteButton" -->C&amp;omplete</String>
      <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes"><!-- _locID_text="SetupTypeDlgCompleteButtonTooltip" _locComment="SetupTypeDlgCompleteButtonTooltip" -->Complete Installation</String>
      <String Id="SetupTypeDlgBannerBitmap" Overridable="yes"><!-- _locID_text="SetupTypeDlgBannerBitmap" _locComment="SetupTypeDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
@@ -438,7 +519,7 @@ diff -ru wixlib/WixUI_en-us.wxl wixlib/WixUI_en-us.wxl
      <String Id="SetupTypeDlgTypicalText" Overridable="yes"><!-- _locID_text="SetupTypeDlgTypicalText" _locComment="SetupTypeDlgTypicalText" -->Installs the most common program features. Recommended for most users.</String>
      <String Id="SetupTypeDlgCustomText" Overridable="yes"><!-- _locID_text="SetupTypeDlgCustomText" _locComment="SetupTypeDlgCustomText" -->Allows users to choose which program features will be installed and where they will be installed. Recommended for advanced users.</String>
      <String Id="SetupTypeDlgCompleteText" Overridable="yes"><!-- _locID_text="SetupTypeDlgCompleteText" _locComment="SetupTypeDlgCompleteText" -->All program features will be installed. Requires the most disk space.</String>
-@@ -234,16 +234,16 @@
+@@ -226,16 +226,16 @@
      <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes"><!-- _locID_text="VerifyReadyDlgBannerBitmap" _locComment="VerifyReadyDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
      <String Id="VerifyReadyDlgInstall" Overridable="yes"><!-- _locID_text="VerifyReadyDlgInstall" _locComment="VerifyReadyDlgInstall" -->&amp;Install</String>
      <String Id="VerifyReadyDlgInstallText" Overridable="yes"><!-- _locID_text="VerifyReadyDlgInstallText" _locComment="VerifyReadyDlgInstallText" -->Click Install to begin the installation. Click Back to review or change any of your installation settings. Click Cancel to exit the wizard.</String>
@@ -459,7 +540,7 @@ diff -ru wixlib/WixUI_en-us.wxl wixlib/WixUI_en-us.wxl
      <String Id="VerifyReadyDlgUpdate" Overridable="yes"><!-- _locID_text="VerifyReadyDlgUpdate" _locComment="VerifyReadyDlgUpdate" -->&amp;Update</String>
      <String Id="VerifyReadyDlgUpdateText" Overridable="yes"><!-- _locID_text="VerifyReadyDlgUpdateText" _locComment="VerifyReadyDlgUpdateText" -->Click Update to update [ProductName] from your computer. Click Back to review or change any of your installation settings. Click Cancel to exit the wizard.</String>
      <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes"><!-- _locID_text="VerifyReadyDlgUpdateTitle" _locComment="VerifyReadyDlgUpdateTitle" -->{\WixUI_Font_Title}Ready to update [ProductName]</String>
-@@ -265,7 +265,7 @@
+@@ -257,7 +257,7 @@
      <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes"><!-- _locID_text="WelcomeEulaDlgLicenseAcceptedCheckBox" _locComment="WelcomeEulaDlgLicenseAcceptedCheckBox" -->I &amp;accept the terms in the License Agreement</String>
      <String Id="WelcomeEulaDlgInstall" Overridable="yes"><!-- _locID_text="WelcomeEulaDlgInstall" _locComment="WelcomeEulaDlgInstall" -->&amp;Install</String>
      <String Id="WelcomeEulaDlgUpdate" Overridable="yes"><!-- _locID_text="WelcomeEulaDlgUpdate" _locComment="WelcomeEulaDlgUpdate" -->&amp;Update</String>
@@ -479,10 +560,114 @@ diff -ru wixlib/WixUI_en-us.wxl wixlib/WixUI_en-us.wxl
 +    <String Id="InstallDirDlgUsersOneRadioButton">&amp;Just Me</String>
 +    <String Id="InstallDirDlgShortCut">&amp;Create shortcut on Desktop</String>
  </WixLocalization>
+diff -ru wixlib/WixUI_FeatureTree.wxs wixlib/WixUI_FeatureTree.wxs
+--- wixlib/WixUI_FeatureTree.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/WixUI_FeatureTree.wxs	2020-02-06 14:16:54.190032500 +0000
+@@ -28,6 +28,9 @@
+             <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
+             <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
+             <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
++            <TextStyle Id="WixUI_Font_Normal_OnImage" FaceName="Tahoma" Size="8" Red="0" Green="0" Blue="0" />
++            <TextStyle Id="WixUI_Font_Bigger_OnImage" FaceName="Tahoma" Size="12" Red="0" Green="0" Blue="0" />
++            <TextStyle Id="WixUI_Font_Title_OnImage" FaceName="Tahoma" Size="9" Bold="yes" Red="0" Green="0" Blue="0" />
+ 
+             <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+             <Property Id="WixUI_Mode" Value="FeatureTree" />
+@@ -43,14 +46,11 @@
+ 
+             <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+ 
+-            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">NOT Installed</Publish>
++            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg">NOT Installed</Publish>
+             <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
+ 
+-            <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
+-            <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg">LicenseAccepted = "1"</Publish>
+-
+             <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">Installed</Publish>
+-            <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg" Order="2">NOT Installed</Publish>
++            <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">NOT Installed</Publish>
+             <Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+ 
+             <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg" Order="1">NOT Installed OR WixUI_InstallMode = "Change"</Publish>
+@@ -59,10 +59,14 @@
+ 
+             <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
+ 
+-            <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="CustomizeDlg">1</Publish>
++            <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="CustomizeStdDlg">1</Publish>
+             <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+             <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+             <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
++			
++			<Publish Dialog="CustomizeStdDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
++			<Publish Dialog="CustomizeStdDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
++			
+         </UI>
+ 
+         <UIRef Id="WixUI_Common" />
+diff -ru wixlib/WixUI_InstallDir.wxs wixlib/WixUI_InstallDir.wxs
+--- wixlib/WixUI_InstallDir.wxs	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/WixUI_InstallDir.wxs	2020-02-06 14:16:54.205692700 +0000
+@@ -25,10 +25,13 @@
+ 
+ <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+     <Fragment>
+-        <UI Id="WixUI_InstallDir">
++        <UI Id="My_WixUI_InstallDir">
+             <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
+             <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
+             <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
++            <TextStyle Id="WixUI_Font_Normal_OnImage" FaceName="Tahoma" Size="8" Red="0" Green="0" Blue="0" />
++            <TextStyle Id="WixUI_Font_Bigger_OnImage" FaceName="Tahoma" Size="12" Red="0" Green="0" Blue="0" />
++            <TextStyle Id="WixUI_Font_Title_OnImage" FaceName="Tahoma" Size="9" Bold="yes" Red="0" Green="0" Blue="0" />
+ 
+             <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+             <Property Id="WixUI_Mode" Value="InstallDir" />
+@@ -44,22 +47,20 @@
+             <DialogRef Id="ResumeDlg" />
+             <DialogRef Id="UserExit" />
+             
+-            <Publish Dialog="BrowseDlg" Control="OK" Event="DoAction" Value="WixUIValidatePath" Order="3">1</Publish>
++            <Publish Dialog="BrowseDlg" Control="OK" Event="DoAction" Value="WixUIValidatePath" Order="3">NOT WIXUI_DONTVALIDATEPATH</Publish>
+             <Publish Dialog="BrowseDlg" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg" Order="4"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
+ 
+             <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+ 
+-            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">NOT Installed</Publish>
++            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">NOT Installed</Publish>
+             <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
+ 
+-            <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
+-            <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">LicenseAccepted = "1"</Publish>
+-
+-            <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
++            <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="1">NOT Installed</Publish>
++            <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed AND NOT PATCH</Publish>
+             <Publish Dialog="InstallDirDlg" Control="Next" Event="SetTargetPath" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
+             <Publish Dialog="InstallDirDlg" Control="Next" Event="DoAction" Value="WixUIValidatePath" Order="2">NOT WIXUI_DONTVALIDATEPATH</Publish>
+             <Publish Dialog="InstallDirDlg" Control="Next" Event="SpawnDialog" Value="InvalidDirDlg" Order="3"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
+-            <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="4">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
++            <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="3">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
+             <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Property="_BrowseProperty" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
+             <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
+             
+@@ -71,9 +72,11 @@
+ 
+             <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+             <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
++            <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="InstallDirDlg">1</Publish>
+             <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
+ 
+             <Property Id="ARPNOMODIFY" Value="1" />
++            <Property Id="WIXUI_DONTVALIDATEPATH" Value="1"/>
+         </UI>
+ 
+         <UIRef Id="WixUI_Common" />
 diff -ru wixlib/WixUI_ja-jp.wxl wixlib/WixUI_ja-jp.wxl
---- wixlib/WixUI_ja-jp.wxl	Thu Jan 20 06:13:28 2011 -0800
-+++ wixlib/WixUI_ja-jp.wxl	Mon Jun 25 15:08:16 2012 +0000
-@@ -47,8 +47,8 @@
+--- wixlib/WixUI_ja-jp.wxl	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/WixUI_ja-jp.wxl	2020-02-06 14:16:54.233247900 +0000
+@@ -36,8 +36,8 @@
      <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">新しいフォルダーの作成</String>
      <String Id="BrowseDlgPathLabel" Overridable="yes">フォルダー名(&amp;F):</String>
      <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
@@ -493,7 +678,7 @@ diff -ru wixlib/WixUI_ja-jp.wxl wixlib/WixUI_ja-jp.wxl
  
      <String Id="CancelDlg_Title" Overridable="yes">[ProductName] セットアップ</String>
      <String Id="CancelDlgText" Overridable="yes">[ProductName] のインストールを取り消しますか?</String>
-@@ -72,8 +72,8 @@
+@@ -61,8 +61,8 @@
      <String Id="DiskCostDlg_Title" Overridable="yes">[ProductName] セットアップ</String>
      <String Id="DiskCostDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
      <String Id="DiskCostDlgText" Overridable="yes">強調表示されたボリュームには、選択した機能に利用できる十分な空き領域がありません。強調表示されたボリュームから一部のファイルを削除するか、インストールする機能を減らすか、別のインストール先ドライブを選択することができます。</String>
@@ -504,7 +689,7 @@ diff -ru wixlib/WixUI_ja-jp.wxl wixlib/WixUI_ja-jp.wxl
      <String Id="DiskCostDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
  
      <String Id="ErrorDlg_Title" Overridable="yes">[ProductName] セットアップ</String>
-@@ -106,13 +106,13 @@
+@@ -95,13 +95,13 @@
      <String Id="FilesInUseExit" Overridable="yes">終了(&amp;X)</String>
      <String Id="FilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
      <String Id="FilesInUseText" Overridable="yes">以下のアプリケーションが、このセットアップで更新する必要のあるファイルを使用しています。これらのアプリケーションを閉じてから [\[]再試行(&amp;R)[\]] をクリックしてインストールを続行するか、[\[]終了[\]] をクリックして終了してください。</String>
@@ -523,7 +708,7 @@ diff -ru wixlib/WixUI_ja-jp.wxl wixlib/WixUI_ja-jp.wxl
      <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
      <String Id="InstallDirDlgFolderLabel" Overridable="yes">[ProductName] のインストール先:</String>
  
-@@ -136,8 +136,8 @@
+@@ -125,8 +125,8 @@
      <String Id="LicenseAgreementDlg_Title" Overridable="yes">[ProductName] セットアップ</String>
      <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">使用許諾契約書に同意します(&amp;A)</String>
      <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
@@ -534,7 +719,7 @@ diff -ru wixlib/WixUI_ja-jp.wxl wixlib/WixUI_ja-jp.wxl
  
      <String Id="MaintenanceTypeDlg_Title" Overridable="yes">[ProductName] セットアップ</String>
      <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">変更(&amp;C)</String>
-@@ -147,8 +147,8 @@
+@@ -136,8 +136,8 @@
      <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">削除(&amp;R)</String>
      <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">インストール内容の削除</String>
      <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
@@ -545,7 +730,7 @@ diff -ru wixlib/WixUI_ja-jp.wxl wixlib/WixUI_ja-jp.wxl
      <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">機能のインストール方法を変更できます。</String>
      <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">[ProductName] の機能は個別に選択できません。</String>
      <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">[ProductName] をコンピューターから削除します。</String>
-@@ -164,23 +164,23 @@
+@@ -153,23 +153,23 @@
      <String Id="MsiRMFilesInUse_Title" Overridable="yes">[ProductName] セットアップ</String>
      <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
      <String Id="MsiRMFilesInUseText" Overridable="yes">以下のアプリケーションが、このセットアップで更新する必要のあるファイルを使用しています。セットアップ ウィザードを使用してこれらのアプリケーションを終了して再起動するか、後でコンピューターを再起動することができます。</String>
@@ -575,7 +760,7 @@ diff -ru wixlib/WixUI_ja-jp.wxl wixlib/WixUI_ja-jp.wxl
      <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
      <String Id="OutOfRbDiskDlgText2" Overridable="yes">あるいは、インストーラーのロールバック機能を無効にすることもできます。ロールバックを無効にすると、インストールがなんらかの理由で中断されてもインストーラーによってコンピューターの元の状態が復元されません。リスクを認識したうえでロールバック機能を無効にする場合は [\[]はい[\]] をクリックしてください。</String>
  
-@@ -192,13 +192,13 @@
+@@ -181,13 +181,13 @@
      <String Id="ProgressDlg_Title" Overridable="yes">[ProductName] セットアップ</String>
      <String Id="ProgressDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
      <String Id="ProgressDlgTextInstalling" Overridable="yes">[ProductName] をインストールしています。しばらくお待ちください。</String>
@@ -593,7 +778,7 @@ diff -ru wixlib/WixUI_ja-jp.wxl wixlib/WixUI_ja-jp.wxl
      <String Id="ProgressDlgTextUpdating" Overridable="yes">[ProductName] を更新しています。しばらくお待ちください。</String>
      <String Id="ProgressDlgTitleUpdating" Overridable="yes">{\WixUI_Font_Title}[ProductName] を更新中</String>
      <String Id="ProgressDlgProgressBar" Overridable="yes">進行状況</String>
-@@ -218,8 +218,8 @@
+@@ -207,8 +207,8 @@
      <String Id="SetupTypeDlgCompleteButton" Overridable="yes">完全(&amp;O)</String>
      <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">完全インストール</String>
      <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
@@ -604,7 +789,7 @@ diff -ru wixlib/WixUI_ja-jp.wxl wixlib/WixUI_ja-jp.wxl
      <String Id="SetupTypeDlgTypicalText" Overridable="yes">最も一般的に使われるプログラムの機能がインストールされます。通常は、こちらを選択してください。</String>
      <String Id="SetupTypeDlgCustomText" Overridable="yes">ユーザーが、インストールするプログラムの機能やインストール先を選択することができます。詳しい知識のある方にお勧めします。</String>
      <String Id="SetupTypeDlgCompleteText" Overridable="yes">すべてのプログラム機能をインストールします。最も多くのディスク領域が必要です。</String>
-@@ -234,16 +234,16 @@
+@@ -223,16 +223,16 @@
      <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
      <String Id="VerifyReadyDlgInstall" Overridable="yes">インストール(&amp;I)</String>
      <String Id="VerifyReadyDlgInstallText" Overridable="yes">インストールを開始するには [\[]インストール[\]] をクリックしてください。インストール設定を確認または変更するには [\[]戻る[\]] をクリックしてください。ウィザードを終了するには [\[]キャンセル[\]] をクリックしてください。</String>
@@ -625,7 +810,7 @@ diff -ru wixlib/WixUI_ja-jp.wxl wixlib/WixUI_ja-jp.wxl
      <String Id="VerifyReadyDlgUpdate" Overridable="yes">更新(&amp;U)</String>
      <String Id="VerifyReadyDlgUpdateText" Overridable="yes">コンピューターの [ProductName] を更新するには [\[]更新[\]] をクリックしてください。インストール設定を確認または変更するには [\[]戻る[\]] をクリックしてください。ウィザードを終了するには [\[]キャンセル[\]] をクリックしてください。</String>
      <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes">{\WixUI_Font_Title}[ProductName] の更新準備完了</String>
-@@ -265,7 +265,7 @@
+@@ -254,7 +254,7 @@
      <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">使用許諾契約書に同意します(&amp;A)</String>
      <String Id="WelcomeEulaDlgInstall" Overridable="yes">インストール(&amp;I)</String>
      <String Id="WelcomeEulaDlgUpdate" Overridable="yes">更新(&amp;U)</String>
@@ -634,7 +819,7 @@ diff -ru wixlib/WixUI_ja-jp.wxl wixlib/WixUI_ja-jp.wxl
  
      <String Id="ProgressTextInstallValidate" Overridable="yes">インストールを検証しています</String>
      <String Id="ProgressTextInstallFiles" Overridable="yes">新しいファイルをコピーしています</String>
-@@ -606,4 +606,10 @@
+@@ -595,4 +595,10 @@
      <String Id="UITextVolumeCostRequired" Overridable="yes">必須</String>
      <String Id="UITextVolumeCostSize" Overridable="yes">ディスク サイズ</String>
      <String Id="UITextVolumeCostVolume" Overridable="yes">ボリューム</String>
@@ -646,9 +831,9 @@ diff -ru wixlib/WixUI_ja-jp.wxl wixlib/WixUI_ja-jp.wxl
 +    <String Id="InstallDirDlgShortCut">Create shortcut on Desktop(&amp;C)</String>
  </WixLocalization>
 diff -ru wixlib/WixUI_zh-CN.wxl wixlib/WixUI_zh-CN.wxl
---- wixlib/WixUI_zh-CN.wxl	Thu Jan 20 06:13:28 2011 -0800
-+++ wixlib/WixUI_zh-CN.wxl	Mon Jun 25 15:14:25 2012 +0000
-@@ -47,8 +47,8 @@
+--- wixlib/WixUI_zh-CN.wxl	2019-09-15 07:13:54.000000000 +0100
++++ wixlib/WixUI_zh-CN.wxl	2020-02-06 14:16:54.252197800 +0000
+@@ -36,8 +36,8 @@
      <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">新建文件夹</String>
      <String Id="BrowseDlgPathLabel" Overridable="yes">文件夹名称(&amp;F):</String>
      <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
@@ -659,7 +844,7 @@ diff -ru wixlib/WixUI_zh-CN.wxl wixlib/WixUI_zh-CN.wxl
  
      <String Id="CancelDlg_Title" Overridable="yes">[ProductName] 安装程序</String>
      <String Id="CancelDlgText" Overridable="yes">是否确实要取消安装 [ProductName]?</String>
-@@ -72,8 +72,8 @@
+@@ -61,8 +61,8 @@
      <String Id="DiskCostDlg_Title" Overridable="yes">[ProductName] 安装程序</String>
      <String Id="DiskCostDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
      <String Id="DiskCostDlgText" Overridable="yes">突出显示的卷没有足够的磁盘空间用于所选功能。您可以从突出显示的卷中删除一些文件，安装较少的功能，或者选择其他目标驱动器。</String>
@@ -670,7 +855,7 @@ diff -ru wixlib/WixUI_zh-CN.wxl wixlib/WixUI_zh-CN.wxl
      <String Id="DiskCostDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
  
      <String Id="ErrorDlg_Title" Overridable="yes">[ProductName] 安装程序</String>
-@@ -106,13 +106,13 @@
+@@ -95,13 +95,13 @@
      <String Id="FilesInUseExit" Overridable="yes">退出(&amp;X)</String>
      <String Id="FilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
      <String Id="FilesInUseText" Overridable="yes">以下应用程序正在使用需要通过此安装程序更新的文件。请关闭这些应用程序，然后单击“重试”继续安装，或单击“退出”退出安装(&amp;R)。</String>
@@ -689,7 +874,7 @@ diff -ru wixlib/WixUI_zh-CN.wxl wixlib/WixUI_zh-CN.wxl
      <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
      <String Id="InstallDirDlgFolderLabel" Overridable="yes">[ProductName] 安装位置:</String>
  
-@@ -136,8 +136,8 @@
+@@ -125,8 +125,8 @@
      <String Id="LicenseAgreementDlg_Title" Overridable="yes">[ProductName] 安装程序</String>
      <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">我接受许可协议中的条款(&amp;A)</String>
      <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
@@ -700,7 +885,7 @@ diff -ru wixlib/WixUI_zh-CN.wxl wixlib/WixUI_zh-CN.wxl
  
      <String Id="MaintenanceTypeDlg_Title" Overridable="yes">[ProductName] 安装程序</String>
      <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">更改(&amp;C)</String>
-@@ -147,8 +147,8 @@
+@@ -136,8 +136,8 @@
      <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">删除(&amp;R)</String>
      <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">删除安装</String>
      <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
@@ -711,7 +896,7 @@ diff -ru wixlib/WixUI_zh-CN.wxl wixlib/WixUI_zh-CN.wxl
      <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">允许您更改功能的安装方式。</String>
      <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">[ProductName] 没有单独可选的功能。</String>
      <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">从您的计算机中删除 [ProductName]。</String>
-@@ -164,23 +164,23 @@
+@@ -153,23 +153,23 @@
      <String Id="MsiRMFilesInUse_Title" Overridable="yes">[ProductName] 安装程序</String>
      <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
      <String Id="MsiRMFilesInUseText" Overridable="yes">以下应用程序正在使用此安装程序需要更新的文件。可以让安装向导关闭这些应用程序，稍后再尝试重新启动这些应用程序或重新启动计算机。</String>
@@ -741,7 +926,7 @@ diff -ru wixlib/WixUI_zh-CN.wxl wixlib/WixUI_zh-CN.wxl
      <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
      <String Id="OutOfRbDiskDlgText2" Overridable="yes">或者，您可以选择禁用安装程序的回滚功能。禁用回滚功能将在因任何原因中断安装时，阻止安装程序还原计算机的原始状态。如果希望冒险禁用回滚功能，请单击“是”。</String>
  
-@@ -192,13 +192,13 @@
+@@ -181,13 +181,13 @@
      <String Id="ProgressDlg_Title" Overridable="yes">[ProductName] 安装程序</String>
      <String Id="ProgressDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
      <String Id="ProgressDlgTextInstalling" Overridable="yes">安装向导正在安装 [ProductName]，请稍候。</String>
@@ -759,7 +944,7 @@ diff -ru wixlib/WixUI_zh-CN.wxl wixlib/WixUI_zh-CN.wxl
      <String Id="ProgressDlgTextUpdating" Overridable="yes">安装向导正在更新 [ProductName]，请稍候。</String>
      <String Id="ProgressDlgTitleUpdating" Overridable="yes">{\WixUI_Font_Title}正在更新 [ProductName]</String>
      <String Id="ProgressDlgProgressBar" Overridable="yes">安装过程已完成</String>
-@@ -218,8 +218,8 @@
+@@ -207,8 +207,8 @@
      <String Id="SetupTypeDlgCompleteButton" Overridable="yes">完整(&amp;O)</String>
      <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">完整安装</String>
      <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
@@ -770,7 +955,7 @@ diff -ru wixlib/WixUI_zh-CN.wxl wixlib/WixUI_zh-CN.wxl
      <String Id="SetupTypeDlgTypicalText" Overridable="yes">安装最常用的程序功能。建议大多数用户使用。</String>
      <String Id="SetupTypeDlgCustomText" Overridable="yes">允许用户选择要安装的程序功能及其安装位置。建议高级用户使用。</String>
      <String Id="SetupTypeDlgCompleteText" Overridable="yes">将安装所有程序功能。需要最多磁盘空间。</String>
-@@ -234,16 +234,16 @@
+@@ -223,16 +223,16 @@
      <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
      <String Id="VerifyReadyDlgInstall" Overridable="yes">安装(&amp;I)</String>
      <String Id="VerifyReadyDlgInstallText" Overridable="yes">单击“安装”开始安装。单击“上一步”查看或更改任何安装设置。单击“取消”退出向导。</String>
@@ -791,7 +976,7 @@ diff -ru wixlib/WixUI_zh-CN.wxl wixlib/WixUI_zh-CN.wxl
      <String Id="VerifyReadyDlgUpdate" Overridable="yes">更新(&amp;U)</String>
      <String Id="VerifyReadyDlgUpdateText" Overridable="yes">单击“更新”以更新计算机上的 [ProductName]。单击“上一步”检查或更改任何安装设置。单击“取消”退出向导。</String>
      <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes">{\WixUI_Font_Title}已准备好更新 [ProductName]</String>
-@@ -265,7 +265,7 @@
+@@ -254,7 +254,7 @@
      <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">我接受许可协议中的条款(&amp;A)</String>
      <String Id="WelcomeEulaDlgInstall" Overridable="yes">安装(&amp;I)</String>
      <String Id="WelcomeEulaDlgUpdate" Overridable="yes">更新(&amp;U)</String>
@@ -800,7 +985,7 @@ diff -ru wixlib/WixUI_zh-CN.wxl wixlib/WixUI_zh-CN.wxl
  
      <String Id="ProgressTextInstallValidate" Overridable="yes">正在验证安装</String>
      <String Id="ProgressTextInstallFiles" Overridable="yes">正在复制新文件</String>
-@@ -606,4 +606,10 @@
+@@ -595,4 +595,10 @@
      <String Id="UITextVolumeCostRequired" Overridable="yes">所需空间</String>
      <String Id="UITextVolumeCostSize" Overridable="yes">磁盘大小</String>
      <String Id="UITextVolumeCostVolume" Overridable="yes">卷</String>
@@ -811,121 +996,3 @@ diff -ru wixlib/WixUI_zh-CN.wxl wixlib/WixUI_zh-CN.wxl
 +    <String Id="InstallDirDlgUsersOneRadioButton" Overridable="yes">只有我(&amp;J)</String>
 +    <String Id="InstallDirDlgShortCut">添加桌面快捷方式(&amp;C)</String>
  </WixLocalization>
-diff -ru wixlib/WixUI_FeatureTree.wxs wixlib/WixUI_FeatureTree.wxs
---- wixlib/WixUI_FeatureTree.wxs	Tue Feb 21 12:03:46 2012
-+++ wixlib/WixUI_FeatureTree.wxs	Thu Jul 16 11:36:58 2015
-@@ -36,6 +36,9 @@
-             <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
-             <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
-             <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
-+            <TextStyle Id="WixUI_Font_Normal_OnImage" FaceName="Tahoma" Size="8" Red="0" Green="0" Blue="0" />
-+            <TextStyle Id="WixUI_Font_Bigger_OnImage" FaceName="Tahoma" Size="12" Red="0" Green="0" Blue="0" />
-+            <TextStyle Id="WixUI_Font_Title_OnImage" FaceName="Tahoma" Size="9" Bold="yes" Red="0" Green="0" Blue="0" />
- 
-             <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
-             <Property Id="WixUI_Mode" Value="FeatureTree" />
-@@ -51,14 +54,11 @@
- 
-             <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
- 
--            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">NOT Installed</Publish>
-+            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg">NOT Installed</Publish>
-             <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
- 
--            <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
--            <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg">LicenseAccepted = "1"</Publish>
--
-             <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">Installed</Publish>
--            <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg" Order="2">NOT Installed</Publish>
-+            <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">NOT Installed</Publish>
-             <Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
- 
-             <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg" Order="1">NOT Installed OR WixUI_InstallMode = "Change"</Publish>
-@@ -67,10 +67,14 @@
- 
-             <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
- 
--            <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="CustomizeDlg">1</Publish>
-+            <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="CustomizeStdDlg">1</Publish>
-             <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-             <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-             <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
-+			
-+			<Publish Dialog="CustomizeStdDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
-+			<Publish Dialog="CustomizeStdDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-+			
-         </UI>
- 
-         <UIRef Id="WixUI_Common" />
-diff -ru wixlib/CustomizeDlg.wxs wixlib/CustomizeDlg.wxs
---- wixlib/CustomizeDlg.wxs	Tue Feb 21 12:03:46 2012
-+++ wixlib/CustomizeDlg.wxs	Tue Jul 14 15:54:33 2015
-@@ -1,4 +1,4 @@
--<?xml version="1.0" encoding="UTF-8"?>
-+<?xml version="1.0" encoding="utf-8"?>
- <!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
- 
- 
-@@ -14,8 +14,8 @@
-     <Fragment>
-         <UI>
-             <Dialog Id="CustomizeDlg" Width="370" Height="270" Title="!(loc.CustomizeDlg_Title)" TrackDiskSpace="yes">
--                <Control Id="Tree" Type="SelectionTree" X="25" Y="85" Width="175" Height="115" Property="_BrowseProperty" Sunken="yes" TabSkip="no" Text="!(loc.CustomizeDlgTree)" />
--                <Control Id="Browse" Type="PushButton" X="294" Y="210" Width="66" Height="17" Text="!(loc.CustomizeDlgBrowse)">
-+                <Control Id="Tree" Type="SelectionTree" X="20" Y="75" Width="200" Height="89" Property="_BrowseProperty" Sunken="yes" TabSkip="no" Text="!(loc.CustomizeDlgTree)" />
-+                <Control Id="Browse" Type="PushButton" X="294" Y="168" Width="66" Height="17" Text="!(loc.CustomizeDlgBrowse)">
-                     <Publish Event="SelectionBrowse" Value="BrowseDlg">1</Publish>
-                     <Condition Action="hide">Installed</Condition>
-                     <Condition Action="disable">Installed</Condition>
-@@ -33,26 +33,33 @@
-                     <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
-                 </Control>
-                 <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.CustomizeDlgBannerBitmap)" />
--                <Control Id="Text" Type="Text" X="25" Y="55" Width="320" Height="20" Text="!(loc.CustomizeDlgText)" />
-+                <Control Id="Text" Type="Text" X="20" Y="55" Width="320" Height="20" Text="!(loc.CustomizeDlgText)" />
-                 <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
-                 <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
-                 <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.CustomizeDlgDescription)" />
-                 <Control Id="Title" Type="Text" X="15" Y="6" Width="210" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.CustomizeDlgTitle)" />
--                <Control Id="Box" Type="GroupBox" X="210" Y="81" Width="150" Height="118" />
--                <Control Id="ItemDescription" Type="Text" X="215" Y="90" Width="131" Height="50" Text="!(loc.CustomizeDlgItemDescription)">
-+                <Control Id="Box" Type="GroupBox" X="222" Y="70" Width="138" Height="85" />
-+                <Control Id="ItemDescription" Type="Text" X="228" Y="82" Width="128" Height="20" Text="!(loc.CustomizeDlgItemDescription)">
-                     <Subscribe Event="SelectionDescription" Attribute="Text" />
-                 </Control>
--                <Control Id="ItemSize" Type="Text" X="215" Y="140" Width="131" Height="50" Text="!(loc.CustomizeDlgItemSize)">
-+                <Control Id="ItemSize" Type="Text" X="228" Y="105" Width="128" Height="56" Text="!(loc.CustomizeDlgItemSize)">
-                     <Subscribe Event="SelectionSize" Attribute="Text" />
-                 </Control>
--                <Control Id="Location" Type="Text" X="90" Y="210" Width="200" Height="20" Text="!(loc.CustomizeDlgLocation)">
-+                <Control Id="Location" Type="Text" X="90" Y="175" Width="200" Height="20" Text="!(loc.CustomizeDlgLocation)">
-                     <Subscribe Event="SelectionPath" Attribute="Text" />
-                     <Subscribe Event="SelectionPathOn" Attribute="Visible" />
-                     <Condition Action="hide">Installed</Condition>
-                 </Control>
--                <Control Id="LocationLabel" Type="Text" X="25" Y="210" Width="65" Height="10" Text="!(loc.CustomizeDlgLocationLabel)">
-+                <Control Id="LocationLabel" Type="Text" X="20" Y="175" Width="65" Height="10" Text="!(loc.CustomizeDlgLocationLabel)">
-                     <Subscribe Event="SelectionPathOn" Attribute="Visible" />
-                     <Condition Action="hide">Installed</Condition>
-+                </Control>
-+                <Control Id="UsersLabel" Type="Text" X="20" Y="197" Width="290" Height="15" Text="!(loc.InstallDirDlgUsersLabel)" />
-+                <Control Id="UsersRadioButtonGroupControl" Type="RadioButtonGroup" X="15" Y="208" Width="290" Height="20" Property="Install_All">
-+                    <RadioButtonGroup Property="Install_All">
-+                        <RadioButton Value="1" X="20" Y="0" Width="100" Height="20" Text="!(loc.InstallDirDlgUsersAllRadioButton)" />
-+                        <RadioButton Value="0" X="125" Y="0" Width="100" Height="20" Text="!(loc.InstallDirDlgUsersOneRadioButton)" />
-+                    </RadioButtonGroup>
-                 </Control>
-             </Dialog>
-         </UI>
-diff -ru wixlib/CustomizeStdDlg.wxs wixlib/CustomizeStdDlg.wxs
---- wixlib/CustomizeStdDlg.wxs	Tue Feb 21 12:03:46 2012
-+++ wixlib/CustomizeStdDlg.wxs	Tue Jul 20 20:54:33 2015
-@@ -13,7 +13,7 @@
- <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-     <Fragment>
-         <UI>
--            <Dialog Id="CustomizeDlg" Width="370" Height="270" Title="!(loc.CustomizeDlg_Title)" TrackDiskSpace="yes">
-+            <Dialog Id="CustomizeStdDlg" Width="370" Height="270" Title="!(loc.CustomizeDlg_Title)" TrackDiskSpace="yes">
-                 <Control Id="Tree" Type="SelectionTree" X="25" Y="85" Width="175" Height="115" Property="_BrowseProperty" Sunken="yes" TabSkip="no" Text="!(loc.CustomizeDlgTree)" />
-                 <Control Id="Browse" Type="PushButton" X="294" Y="210" Width="66" Height="17" Text="!(loc.CustomizeDlgBrowse)">
-                     <Publish Event="SelectionBrowse" Value="BrowseDlg">1</Publish>

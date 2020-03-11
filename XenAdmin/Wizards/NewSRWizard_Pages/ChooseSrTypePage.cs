@@ -73,7 +73,7 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages
         {
             if(visible)
             {
-                deprecationBanner.AppliesToVersion = Messages.XENSERVER_6_5;
+                deprecationBanner.AppliesToVersion = string.Format(Messages.XENSERVER_6_5, BrandManager.ProductVersion65);
                 deprecationBanner.BannerType = DeprecationBanner.Type.Removal;
                 deprecationBanner.FeatureName = Messages.ISL_SR;
                 deprecationBanner.LinkUri = HiddenFeatures.LinkLabelHidden ? null : new Uri(InvisibleMessages.ISL_DEPRECATION_URL);

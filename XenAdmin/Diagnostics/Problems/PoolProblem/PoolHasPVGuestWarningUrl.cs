@@ -37,20 +37,18 @@ namespace XenAdmin.Diagnostics.Problems.PoolProblem
 {
     class PoolHasPVGuestWarningUrl : WarningWithInformationUrl
     {
-        private readonly bool _upgrade;
         private readonly Pool _pool;
 
-        public PoolHasPVGuestWarningUrl(Check check, Pool pool, bool upgrade)
+        public PoolHasPVGuestWarningUrl(Check check, Pool pool)
             : base(check)
         {
             _pool = pool;
-            _upgrade = upgrade;
         }
 
         private string PVGuestCheckUrl => string.Format(InvisibleMessages.PV_GUESTS_CHECK_URL);
         public override Uri UriToLaunch => new Uri(PVGuestCheckUrl);
         public override string Title => Description;
-        public override string Description => _upgrade ? string.Format(Messages.POOL_HAS_PV_GUEST_UPGRADE_WARNING, _pool.Name()) : string.Format(Messages.POOL_HAS_PV_GUEST_UPDATE_WARNING, _pool.Name());
+        public override string Description => string.Format(Messages.POOL_HAS_PV_GUEST_WARNING, _pool.Name());
         public override string HelpMessage => LinkText;
         public override string LinkText => Messages.LEARN_MORE;
     }

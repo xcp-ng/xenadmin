@@ -50,16 +50,16 @@ namespace XenAPI
             :this(timeout, url)
         {
             Connection = connection;
-            proxy.RequestEvent += LogRequest;
+            XmlRpcProxy.RequestEvent += LogRequest;
 #if DEBUG
-            proxy.ResponseEvent += LogResponse;
+            XmlRpcProxy.ResponseEvent += LogResponse;
 #endif
         }
 
         public Session(Proxy proxy, IXenConnection connection)
         {
             Connection = connection;
-            this.proxy = proxy;
+            XmlRpcProxy = proxy;
         }
 
         public Session(int timeout, IXenConnection connection, string host, int port)
@@ -89,11 +89,11 @@ namespace XenAPI
             {
                 JsonRpcClient.RequestEvent += LogJsonRequest;
             }
-            else if (session.proxy != null)
+            else if (session.XmlRpcProxy != null)
             {
-                proxy.RequestEvent += LogRequest;
+                XmlRpcProxy.RequestEvent += LogRequest;
 #if DEBUG
-                proxy.ResponseEvent += LogResponse;
+                XmlRpcProxy.ResponseEvent += LogResponse;
 #endif
             }
         }

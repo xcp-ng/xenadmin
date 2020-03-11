@@ -103,7 +103,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, path))
                 {
                     path = value;
-                    Changed = true;
                     NotifyPropertyChanged("Path");
                 }
             }

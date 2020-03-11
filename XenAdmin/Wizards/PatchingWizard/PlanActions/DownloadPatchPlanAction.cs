@@ -88,7 +88,7 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
             Uri address = new Uri(patchUri);
             tempFileName = Path.GetTempFileName();
 
-            var exts = Helpers.ElyOrGreater(Connection) ? Branding.UpdateIso : Branding.Update;
+            var exts = Helpers.ElyOrGreater(Connection) ? InvisibleMessages.ISO_UPDATE : BrandManager.ExtensionUpdate;
             var downloadAction = new DownloadAndUnzipXenServerPatchAction(patch.Name, address, tempFileName, true, exts);
 
             downloadAction.Changed += downloadAndUnzipXenServerPatchAction_Changed;

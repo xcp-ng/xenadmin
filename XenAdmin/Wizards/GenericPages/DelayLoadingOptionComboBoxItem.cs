@@ -136,7 +136,7 @@ namespace XenAdmin.Wizards.GenericPages
                 }
             } while (retries-- > 0);
 
-            FailureReason = Messages.DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_UNKOWN;
+            FailureReason = Messages.DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_UNKNOWN;
         }
 
         /// <summary>

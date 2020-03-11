@@ -157,7 +157,7 @@
     <value>0</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>As of [XenServer] [BRANDING_VERSION_8_1] quiesced snapshots are no longer available. Please deselect this option to ensure your scheduled snapshots are taken successfully.</value>
+    <value>As of [XenServer] {0} quiesced snapshots are no longer available. Please deselect this option to ensure your scheduled snapshots are taken successfully.</value>
   </data>
   <data name="&gt;&gt;label6.Name" xml:space="preserve">
     <value>label6</value>

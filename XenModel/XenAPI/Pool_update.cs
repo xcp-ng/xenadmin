@@ -239,7 +239,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_record(session.opaque_ref, _pool_update);
             else
-                return new Pool_update(session.proxy.pool_update_get_record(session.opaque_ref, _pool_update ?? "").parse());
+                return new Pool_update(session.XmlRpcProxy.pool_update_get_record(session.opaque_ref, _pool_update ?? "").parse());
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_by_uuid(session.opaque_ref, _uuid);
             else
-                return XenRef<Pool_update>.Create(session.proxy.pool_update_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
+                return XenRef<Pool_update>.Create(session.XmlRpcProxy.pool_update_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_by_name_label(session.opaque_ref, _label);
             else
-                return XenRef<Pool_update>.Create(session.proxy.pool_update_get_by_name_label(session.opaque_ref, _label ?? "").parse());
+                return XenRef<Pool_update>.Create(session.XmlRpcProxy.pool_update_get_by_name_label(session.opaque_ref, _label ?? "").parse());
         }
 
         /// <summary>
@@ -281,7 +281,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_uuid(session.opaque_ref, _pool_update);
             else
-                return session.proxy.pool_update_get_uuid(session.opaque_ref, _pool_update ?? "").parse();
+                return session.XmlRpcProxy.pool_update_get_uuid(session.opaque_ref, _pool_update ?? "").parse();
         }
 
         /// <summary>
@@ -295,7 +295,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_name_label(session.opaque_ref, _pool_update);
             else
-                return session.proxy.pool_update_get_name_label(session.opaque_ref, _pool_update ?? "").parse();
+                return session.XmlRpcProxy.pool_update_get_name_label(session.opaque_ref, _pool_update ?? "").parse();
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_name_description(session.opaque_ref, _pool_update);
             else
-                return session.proxy.pool_update_get_name_description(session.opaque_ref, _pool_update ?? "").parse();
+                return session.XmlRpcProxy.pool_update_get_name_description(session.opaque_ref, _pool_update ?? "").parse();
         }
 
         /// <summary>
@@ -323,7 +323,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_version(session.opaque_ref, _pool_update);
             else
-                return session.proxy.pool_update_get_version(session.opaque_ref, _pool_update ?? "").parse();
+                return session.XmlRpcProxy.pool_update_get_version(session.opaque_ref, _pool_update ?? "").parse();
         }
 
         /// <summary>
@@ -337,7 +337,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_installation_size(session.opaque_ref, _pool_update);
             else
-                return long.Parse(session.proxy.pool_update_get_installation_size(session.opaque_ref, _pool_update ?? "").parse());
+                return long.Parse(session.XmlRpcProxy.pool_update_get_installation_size(session.opaque_ref, _pool_update ?? "").parse());
         }
 
         /// <summary>
@@ -351,7 +351,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_key(session.opaque_ref, _pool_update);
             else
-                return session.proxy.pool_update_get_key(session.opaque_ref, _pool_update ?? "").parse();
+                return session.XmlRpcProxy.pool_update_get_key(session.opaque_ref, _pool_update ?? "").parse();
         }
 
         /// <summary>
@@ -365,7 +365,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_after_apply_guidance(session.opaque_ref, _pool_update);
             else
-                return Helper.StringArrayToEnumList<update_after_apply_guidance>(session.proxy.pool_update_get_after_apply_guidance(session.opaque_ref, _pool_update ?? "").parse());
+                return Helper.StringArrayToEnumList<update_after_apply_guidance>(session.XmlRpcProxy.pool_update_get_after_apply_guidance(session.opaque_ref, _pool_update ?? "").parse());
         }
 
         /// <summary>
@@ -379,7 +379,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_vdi(session.opaque_ref, _pool_update);
             else
-                return XenRef<VDI>.Create(session.proxy.pool_update_get_vdi(session.opaque_ref, _pool_update ?? "").parse());
+                return XenRef<VDI>.Create(session.XmlRpcProxy.pool_update_get_vdi(session.opaque_ref, _pool_update ?? "").parse());
         }
 
         /// <summary>
@@ -393,7 +393,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_hosts(session.opaque_ref, _pool_update);
             else
-                return XenRef<Host>.Create(session.proxy.pool_update_get_hosts(session.opaque_ref, _pool_update ?? "").parse());
+                return XenRef<Host>.Create(session.XmlRpcProxy.pool_update_get_hosts(session.opaque_ref, _pool_update ?? "").parse());
         }
 
         /// <summary>
@@ -407,7 +407,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_other_config(session.opaque_ref, _pool_update);
             else
-                return Maps.convert_from_proxy_string_string(session.proxy.pool_update_get_other_config(session.opaque_ref, _pool_update ?? "").parse());
+                return Maps.convert_from_proxy_string_string(session.XmlRpcProxy.pool_update_get_other_config(session.opaque_ref, _pool_update ?? "").parse());
         }
 
         /// <summary>
@@ -421,7 +421,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_enforce_homogeneity(session.opaque_ref, _pool_update);
             else
-                return (bool)session.proxy.pool_update_get_enforce_homogeneity(session.opaque_ref, _pool_update ?? "").parse();
+                return (bool)session.XmlRpcProxy.pool_update_get_enforce_homogeneity(session.opaque_ref, _pool_update ?? "").parse();
         }
 
         /// <summary>
@@ -436,7 +436,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pool_update_set_other_config(session.opaque_ref, _pool_update, _other_config);
             else
-                session.proxy.pool_update_set_other_config(session.opaque_ref, _pool_update ?? "", Maps.convert_to_proxy_string_string(_other_config)).parse();
+                session.XmlRpcProxy.pool_update_set_other_config(session.opaque_ref, _pool_update ?? "", Maps.convert_to_proxy_string_string(_other_config)).parse();
         }
 
         /// <summary>
@@ -452,7 +452,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pool_update_add_to_other_config(session.opaque_ref, _pool_update, _key, _value);
             else
-                session.proxy.pool_update_add_to_other_config(session.opaque_ref, _pool_update ?? "", _key ?? "", _value ?? "").parse();
+                session.XmlRpcProxy.pool_update_add_to_other_config(session.opaque_ref, _pool_update ?? "", _key ?? "", _value ?? "").parse();
         }
 
         /// <summary>
@@ -467,7 +467,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pool_update_remove_from_other_config(session.opaque_ref, _pool_update, _key);
             else
-                session.proxy.pool_update_remove_from_other_config(session.opaque_ref, _pool_update ?? "", _key ?? "").parse();
+                session.XmlRpcProxy.pool_update_remove_from_other_config(session.opaque_ref, _pool_update ?? "", _key ?? "").parse();
         }
 
         /// <summary>
@@ -481,7 +481,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_introduce(session.opaque_ref, _vdi);
             else
-                return XenRef<Pool_update>.Create(session.proxy.pool_update_introduce(session.opaque_ref, _vdi ?? "").parse());
+                return XenRef<Pool_update>.Create(session.XmlRpcProxy.pool_update_introduce(session.opaque_ref, _vdi ?? "").parse());
         }
 
         /// <summary>
@@ -495,7 +495,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_pool_update_introduce(session.opaque_ref, _vdi);
           else
-              return XenRef<Task>.Create(session.proxy.async_pool_update_introduce(session.opaque_ref, _vdi ?? "").parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_pool_update_introduce(session.opaque_ref, _vdi ?? "").parse());
         }
 
         /// <summary>
@@ -510,7 +510,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_precheck(session.opaque_ref, _pool_update, _host);
             else
-                return (livepatch_status)Helper.EnumParseDefault(typeof(livepatch_status), (string)session.proxy.pool_update_precheck(session.opaque_ref, _pool_update ?? "", _host ?? "").parse());
+                return (livepatch_status)Helper.EnumParseDefault(typeof(livepatch_status), (string)session.XmlRpcProxy.pool_update_precheck(session.opaque_ref, _pool_update ?? "", _host ?? "").parse());
         }
 
         /// <summary>
@@ -525,7 +525,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_pool_update_precheck(session.opaque_ref, _pool_update, _host);
           else
-              return XenRef<Task>.Create(session.proxy.async_pool_update_precheck(session.opaque_ref, _pool_update ?? "", _host ?? "").parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_pool_update_precheck(session.opaque_ref, _pool_update ?? "", _host ?? "").parse());
         }
 
         /// <summary>
@@ -540,7 +540,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pool_update_apply(session.opaque_ref, _pool_update, _host);
             else
-                session.proxy.pool_update_apply(session.opaque_ref, _pool_update ?? "", _host ?? "").parse();
+                session.XmlRpcProxy.pool_update_apply(session.opaque_ref, _pool_update ?? "", _host ?? "").parse();
         }
 
         /// <summary>
@@ -555,7 +555,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_pool_update_apply(session.opaque_ref, _pool_update, _host);
           else
-              return XenRef<Task>.Create(session.proxy.async_pool_update_apply(session.opaque_ref, _pool_update ?? "", _host ?? "").parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_pool_update_apply(session.opaque_ref, _pool_update ?? "", _host ?? "").parse());
         }
 
         /// <summary>
@@ -569,7 +569,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pool_update_pool_apply(session.opaque_ref, _pool_update);
             else
-                session.proxy.pool_update_pool_apply(session.opaque_ref, _pool_update ?? "").parse();
+                session.XmlRpcProxy.pool_update_pool_apply(session.opaque_ref, _pool_update ?? "").parse();
         }
 
         /// <summary>
@@ -583,7 +583,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_pool_update_pool_apply(session.opaque_ref, _pool_update);
           else
-              return XenRef<Task>.Create(session.proxy.async_pool_update_pool_apply(session.opaque_ref, _pool_update ?? "").parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_pool_update_pool_apply(session.opaque_ref, _pool_update ?? "").parse());
         }
 
         /// <summary>
@@ -597,7 +597,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pool_update_pool_clean(session.opaque_ref, _pool_update);
             else
-                session.proxy.pool_update_pool_clean(session.opaque_ref, _pool_update ?? "").parse();
+                session.XmlRpcProxy.pool_update_pool_clean(session.opaque_ref, _pool_update ?? "").parse();
         }
 
         /// <summary>
@@ -611,7 +611,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_pool_update_pool_clean(session.opaque_ref, _pool_update);
           else
-              return XenRef<Task>.Create(session.proxy.async_pool_update_pool_clean(session.opaque_ref, _pool_update ?? "").parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_pool_update_pool_clean(session.opaque_ref, _pool_update ?? "").parse());
         }
 
         /// <summary>
@@ -625,7 +625,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pool_update_destroy(session.opaque_ref, _pool_update);
             else
-                session.proxy.pool_update_destroy(session.opaque_ref, _pool_update ?? "").parse();
+                session.XmlRpcProxy.pool_update_destroy(session.opaque_ref, _pool_update ?? "").parse();
         }
 
         /// <summary>
@@ -639,7 +639,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_pool_update_destroy(session.opaque_ref, _pool_update);
           else
-              return XenRef<Task>.Create(session.proxy.async_pool_update_destroy(session.opaque_ref, _pool_update ?? "").parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_pool_update_destroy(session.opaque_ref, _pool_update ?? "").parse());
         }
 
         /// <summary>
@@ -652,7 +652,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_all(session.opaque_ref);
             else
-                return XenRef<Pool_update>.Create(session.proxy.pool_update_get_all(session.opaque_ref).parse());
+                return XenRef<Pool_update>.Create(session.XmlRpcProxy.pool_update_get_all(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -665,7 +665,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pool_update_get_all_records(session.opaque_ref);
             else
-                return XenRef<Pool_update>.Create<Proxy_Pool_update>(session.proxy.pool_update_get_all_records(session.opaque_ref).parse());
+                return XenRef<Pool_update>.Create<Proxy_Pool_update>(session.XmlRpcProxy.pool_update_get_all_records(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -679,7 +679,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _uuid))
                 {
                     _uuid = value;
-                    Changed = true;
                     NotifyPropertyChanged("uuid");
                 }
             }
@@ -697,7 +696,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _name_label))
                 {
                     _name_label = value;
-                    Changed = true;
                     NotifyPropertyChanged("name_label");
                 }
             }
@@ -715,7 +713,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _name_description))
                 {
                     _name_description = value;
-                    Changed = true;
                     NotifyPropertyChanged("name_description");
                 }
             }
@@ -733,7 +730,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _version))
                 {
                     _version = value;
-                    Changed = true;
                     NotifyPropertyChanged("version");
                 }
             }
@@ -751,7 +747,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _installation_size))
                 {
                     _installation_size = value;
-                    Changed = true;
                     NotifyPropertyChanged("installation_size");
                 }
             }
@@ -769,7 +764,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _key))
                 {
                     _key = value;
-                    Changed = true;
                     NotifyPropertyChanged("key");
                 }
             }
@@ -787,7 +781,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _after_apply_guidance))
                 {
                     _after_apply_guidance = value;
-                    Changed = true;
                     NotifyPropertyChanged("after_apply_guidance");
                 }
             }
@@ -806,7 +799,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _vdi))
                 {
                     _vdi = value;
-                    Changed = true;
                     NotifyPropertyChanged("vdi");
                 }
             }
@@ -825,7 +817,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _hosts))
                 {
                     _hosts = value;
-                    Changed = true;
                     NotifyPropertyChanged("hosts");
                 }
             }
@@ -845,7 +836,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _other_config))
                 {
                     _other_config = value;
-                    Changed = true;
                     NotifyPropertyChanged("other_config");
                 }
             }
@@ -864,7 +854,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _enforce_homogeneity))
                 {
                     _enforce_homogeneity = value;
-                    Changed = true;
                     NotifyPropertyChanged("enforce_homogeneity");
                 }
             }

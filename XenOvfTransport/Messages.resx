@@ -202,7 +202,7 @@
     <value>Failed to find virtual machine {0}.</value>
   </data>
   <data name="ERROR_VM_NOT_HALTED" xml:space="preserve">
-    <value>Please shutdown or suspend virtual machine {0} before exporting.</value>
+    <value>Please shut down or suspend virtual machine {0} before exporting.</value>
   </data>
   <data name="EXPORT_PROMPT" xml:space="preserve">
     <value>Export: </value>
@@ -244,10 +244,10 @@
     <value>The address of the Transfer VM is unknown.</value>
   </data>
   <data name="ISCSI_SHUTDOWN_ERROR" xml:space="preserve">
-    <value>Failed to shutdown Transfer VM.</value>
+    <value>Failed to shut down the Transfer VM.</value>
   </data>
   <data name="ISCSI_START_ERROR" xml:space="preserve">
-    <value>Failed to start Transfer VM.</value>
+    <value>Failed to start the Transfer VM.</value>
   </data>
   <data name="ISCSI_VERIFY_CANCELLED" xml:space="preserve">
     <value>Canceled virtual disk verification after export.</value>

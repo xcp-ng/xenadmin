@@ -103,7 +103,7 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
             }
         }
 
-        protected void BringBabiesBack(ref Session session, List<XenRef<VM>> vmrefs, bool enableOnly)
+        protected void BringBabiesBack(ref Session session, List<XenRef<VM>> vmRefs, bool enableOnly)
         {
             // CA-17428: Apply hotfixes to a pool of hosts through XenCenter fails.
             // Hosts do reenable themselves anyway, so just wait 1 min for that,  
@@ -111,17 +111,28 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
 
             WaitForHostToBecomeEnabled(session, true);
             
-            if (enableOnly || vmrefs.Count == 0)
+            if (enableOnly)
                 return;
 
-            int vmCount = vmrefs.Count;
-            int vmNumber = 0;
+            //CA-334860: Attempt repatriating only VMs that have actually been evacuated
+            //and are currently residing on a different host
+
+            var nonResidingRefs = (from XenRef<VM> vmRef in vmRefs
+                let vm = Connection.TryResolveWithTimeout(vmRef)
+                where vm != null && vm.resident_on != HostXenRef.opaque_ref
+                select vmRef).ToList();
+
+            if (nonResidingRefs.Count == 0)
+                return;
 
             var hostObj = GetResolvedHost();
             AddProgressStep(string.Format(Messages.PLAN_ACTION_STATUS_REPATRIATING_VMS, hostObj.Name()));
-            PBD.CheckPlugPBDsForVMs(Connection, vmrefs, true);
+            PBD.CheckPlugPBDsForVMs(Connection, nonResidingRefs, true);
 
-            foreach (var vmRef in vmrefs)
+            int vmCount = nonResidingRefs.Count;
+            int vmNumber = 0;
+
+            foreach (var vmRef in nonResidingRefs)
             {
                 var vm = Connection.Resolve(vmRef);
                 if (vm == null)
@@ -131,6 +142,9 @@ namespace XenAdmin.Wizards.PatchingWizard.PlanActions
 
                 if (vm.power_state != vm_power_state.Running)
                     continue; // vm may have been shutdown or suspended.
+
+                if (vm.resident_on == HostXenRef.opaque_ref)
+                    continue; // vm may have been migrated back manually in the meantime
 
                 do
                 {

@@ -34,6 +34,7 @@ using NUnit.Framework;
 using XenAdmin.Controls;
 using XenAdmin.Model;
 using XenAdmin;
+using XenAdmin.Core;
 using XenAdmin.Network;
 
 namespace XenAdminTests.TreeTests
@@ -67,7 +68,7 @@ namespace XenAdminTests.TreeTests
 
             Folder foldersTag = new Folder(null, "Folders");
 
-            _tv.Nodes.Add(new VirtualTreeNode(Branding.BRAND_CONSOLE));
+            _tv.Nodes.Add(new VirtualTreeNode(BrandManager.BRAND_CONSOLE));
 
             VirtualTreeNode folders = new VirtualTreeNode("Folders") { Tag = foldersTag };
 
@@ -80,7 +81,7 @@ namespace XenAdminTests.TreeTests
             _tv.SelectedNodes.SetContents(new [] { folders.Nodes[0], folders.Nodes[1] });
 
             // now build up a new nodes tree
-            VirtualTreeNode newRootNode = new VirtualTreeNode(Branding.BRAND_CONSOLE);
+            VirtualTreeNode newRootNode = new VirtualTreeNode(BrandManager.BRAND_CONSOLE);
 
             VirtualTreeNode newFolders = new VirtualTreeNode("Folders") { Tag = foldersTag };
 

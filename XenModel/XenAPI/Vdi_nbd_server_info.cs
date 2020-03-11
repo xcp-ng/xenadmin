@@ -186,7 +186,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _exportname))
                 {
                     _exportname = value;
-                    Changed = true;
                     NotifyPropertyChanged("exportname");
                 }
             }
@@ -204,7 +203,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _address))
                 {
                     _address = value;
-                    Changed = true;
                     NotifyPropertyChanged("address");
                 }
             }
@@ -222,7 +220,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _port))
                 {
                     _port = value;
-                    Changed = true;
                     NotifyPropertyChanged("port");
                 }
             }
@@ -240,7 +237,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _cert))
                 {
                     _cert = value;
-                    Changed = true;
                     NotifyPropertyChanged("cert");
                 }
             }
@@ -258,7 +254,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _subject))
                 {
                     _subject = value;
-                    Changed = true;
                     NotifyPropertyChanged("subject");
                 }
             }

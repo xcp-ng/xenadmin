@@ -39,9 +39,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CFUValidator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CFUValidator")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCompany("[Citrix]")]
+[assembly: AssemblyProduct("[XenCenter]")]
+[assembly: AssemblyCopyright("Copyright © [BRANDING_COMPANY_NAME_LEGAL]")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

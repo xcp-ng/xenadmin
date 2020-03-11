@@ -51,12 +51,10 @@ namespace XenAdmin
         void TrySelectNewObjectInTree(Predicate<object> tagMatch, bool selectNode, bool expandNode, bool ensureNodeVisible);
         void TrySelectNewObjectInTree(IXenConnection c, bool selectNode, bool expandNode, bool ensureNodeVisible);
         void RequestRefreshTreeView();
-        void ShowPerXenModelObjectWizard(IXenObject obj, Form wizard);
         void ShowPerConnectionWizard(IXenConnection connection, Form wizard, Form parentForm = null);
         Form ShowForm(Type type);
         Form ShowForm(Type type, object[] args);
         void CloseActiveWizards(IXenConnection connection);
-        void CloseActiveWizards(IXenObject xenObject);
         Collection<IXenConnection> GetXenConnectionsCopy();
         void SaveServerList();
         bool DoSearch(string filename);

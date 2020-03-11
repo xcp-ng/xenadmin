@@ -1234,7 +1234,7 @@
     <value>关闭</value>
   </data>
   <data name="ACTION_VM_SNAPSHOT_TITLE" xml:space="preserve">
-    <value>正在生成 VM“{0}”的快照...</value>
+    <value>正在创建 VM“{0}”的快照...</value>
   </data>
   <data name="ACTION_VM_STARTED" xml:space="preserve">
     <value>已启动</value>
@@ -3474,7 +3474,7 @@
     <value>[XenCenter] 与此版本的 Conversion Manager 虚拟设备不兼容。</value>
   </data>
   <data name="CONVERSION_VERSION_INCOMPATIBILITY_INFO" xml:space="preserve">
-    <value>您正在使用的 Conversion Manager 虚拟设备的版本早于 [BRANDING_VERSION_7_0]。可以使用旧版 Conversion Manager 控制台来设置和控制转换。但是，强烈建议您导入并配置与您的 [XenServer] 版本匹配的 Conversion Manager 虚拟设备。</value>
+    <value>您正在使用的 Conversion Manager 虚拟设备的版本早于 {0}。可以使用旧版 Conversion Manager 控制台来设置和控制转换。但是，强烈建议您导入并配置与您的 [XenServer] 版本匹配的 Conversion Manager 虚拟设备。</value>
   </data>
   <data name="CONVERSION_VM_PAGE_TEXT" xml:space="preserve">
     <value>虚拟机</value>
@@ -4105,7 +4105,7 @@
   <data name="DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_REASON" xml:space="preserve">
     <value>{0} - {1}</value>
   </data>
-  <data name="DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_UNKOWN" xml:space="preserve">
+  <data name="DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_UNKNOWN" xml:space="preserve">
     <value>无法确定失败原因</value>
   </data>
   <data name="DELAY_LOADING_COMBO_BOX_WAITING" xml:space="preserve">
@@ -5937,7 +5937,7 @@
     <value>内存</value>
   </data>
   <data name="GENERAL_HEADING_MEMORY_VCPUS" xml:space="preserve">
-    <value>内存和 VCPU</value>
+    <value>内存和 vCPU</value>
   </data>
   <data name="GENERAL_HEADING_STATUS" xml:space="preserve">
     <value>状态</value>
@@ -6659,9 +6659,9 @@
     <value>本地和远程({0})</value>
   </data>
   <data name="HOST_MEMORY_POST_UPGRADE_DEFAULT_WARNING_LONG" xml:space="preserve">
-    <value>如果要升级到 [XenServer] [BRANDING_VERSION_8_0] 及更高版本，则将增加 {0} 上的控制域内存。
+    <value>如果要升级到 [XenServer] {1} 及更高版本，则将增加 {0} 上的控制域内存。 
 
-这可能会导致在 RPU 期间无法将 VM 迁移到此服务器，或在升级后无法容纳当前位于此服务器上的所有 VM。</value>
+这可能会导致在 RPU 期间无法将 VM 迁移到此服务器，或者在升级后无法容纳当前位于此服务器上的所有 VM。</value>
   </data>
   <data name="HOST_MEMORY_POST_UPGRADE_DEFAULT_WARNING_SHORT" xml:space="preserve">
     <value>{0}: 由于控制域内存可能会增加，此服务器可能在升级后无法容纳其所有 VM。 </value>
@@ -6926,7 +6926,7 @@
     <value>服务器因出现未知错误而无法完成导入。</value>
   </data>
   <data name="IMPORT_INCOMPLETE_FILES" xml:space="preserve">
-    <value>导出的文件不完整，或格式无法识别。</value>
+    <value>导出的文件不完整，或者格式无法识别。</value>
   </data>
   <data name="IMPORT_OPTIONS_PAGE_CANNOT_USE_SELECTED_ISO_LIBRARY" xml:space="preserve">
     <value>修复 ISO 无法复制到选定的 SR</value>
@@ -7465,31 +7465,31 @@ SCSI ID: {2}
     <value>[XenServer product] Premium Per-Socket (需要 {0})(&amp;R)</value>
   </data>
   <data name="LICENSE_EDITION_ENTERPRISE_PERSOCKET_LEGACY" xml:space="preserve">
-    <value>[Legacy XenServer product] Enterprise Per-Socket (需要 {0})(&amp;N)</value>
+    <value>{1} Enterprise Per-Socket (需要 {0})(&amp;N)</value>
   </data>
   <data name="LICENSE_EDITION_ENTERPRISE_PERUSER" xml:space="preserve">
     <value>[XenServer product] Premium Per-User(&amp;E)</value>
   </data>
   <data name="LICENSE_EDITION_ENTERPRISE_PERUSER_LEGACY" xml:space="preserve">
-    <value>[Legacy XenServer product] Enterprise Per-User(&amp;E)</value>
+    <value>{0} Enterprise Per-User(&amp;E)</value>
   </data>
   <data name="LICENSE_EDITION_PERSOCKET" xml:space="preserve">
     <value>[XenServer product] Per-Socket (需要 {0})(&amp;S)</value>
   </data>
   <data name="LICENSE_EDITION_PERSOCKET_LEGACY" xml:space="preserve">
-    <value>[Legacy XenServer product] Per-Socket (需要 {0})(&amp;S)</value>
+    <value>{1} Per-Socket (需要 {0})(&amp;S)</value>
   </data>
   <data name="LICENSE_EDITION_STANDARD_PERSOCKET" xml:space="preserve">
     <value>[XenServer product] Standard Per-Socket (需要 {0})(&amp;S)</value>
   </data>
   <data name="LICENSE_EDITION_STANDARD_PERSOCKET_LEGACY" xml:space="preserve">
-    <value>[Legacy XenServer product] Standard Per-Socket (需要 {0})(&amp;S)</value>
+    <value>{1} Standard Per-Socket (需要 {0})(&amp;S)</value>
   </data>
   <data name="LICENSE_EDITION_XENDESKTOP" xml:space="preserve">
     <value>[XenServer product] for [Citrix] Virtual Desktops(&amp;D)</value>
   </data>
   <data name="LICENSE_EDITION_XENDESKTOP_LEGACY" xml:space="preserve">
-    <value>[Legacy XenServer product] for XenDesktop(&amp;X)</value>
+    <value>{0} for XenDesktop(&amp;X)</value>
   </data>
   <data name="LICENSE_ERROR_1" xml:space="preserve">
     <value>{0} 的许可操作失败。</value>
@@ -7571,7 +7571,7 @@ SCSI ID: {2}
     <value>激活 [XenServer] Express 时，必须一次选择一个服务器。</value>
   </data>
   <data name="LICENSE_NO_MULTISELECT_LICENSE" xml:space="preserve">
-    <value>向版本低于 [BRANDING_VERSION_5_6] 的服务器授权时，必须一次选择一个服务器。</value>
+    <value>许可使用早于 {0} 的服务器时，必须一次选择一台服务器。</value>
   </data>
   <data name="LICENSE_REGULAR_GRACE_TOOLTIP" xml:space="preserve">
     <value>无法访问许可证服务器 {0}。您可以在 {1} 之前重新连接许可证服务器。</value>
@@ -9596,7 +9596,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="NOT_AGILE_SR_NOT_SHARED" xml:space="preserve">
     <value>VM 使用非共享 SR。无法保证重新启动。</value>
   </data>
-  <data name="NOT_AGILE_UNKOWN" xml:space="preserve">
+  <data name="NOT_AGILE_UNKNOWN" xml:space="preserve">
     <value>VM 无灵活性。无法保证重新启动。</value>
   </data>
   <data name="NOT_AGILE_VM_HAS_SRIOV_VIF" xml:space="preserve">
@@ -9659,9 +9659,9 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="NOT_SAFE_TO_UPGRADE_DEFAULT_WARNING_LONG" xml:space="preserve">
     <value>本地磁盘上的 VM 将阻止磁盘重新分区。
 
-新磁盘分区方案在包括更大的 dom0 和备份分区以及用于日志记录、交换和 UEFI 的专用分区的 [XenServer] [BRANDING_VERSION_7_0] 及更高版本中可用。
+新磁盘分区方案在包括更大的 dom0 和备份分区以及用于日志记录、交换和 UEFI 的专用分区的 [XenServer] {0} 及更高版本中可用。
 
-但是，本地存储上存在 VM，因此将保留当前的分区方案。要在升级到 [XenServer] [BRANDING_VERSION_7_0] 或更高版本时从重新分区中获益，必须先移动本地存储中的 VM。</value>
+但是，本地存储上存在 VM，因此将保留当前的分区方案。要在升级到 [XenServer] {0} 或更高版本时从重新分区中获益，必须先移动本地存储中的 VM。</value>
   </data>
   <data name="NOT_SAFE_TO_UPGRADE_DEFAULT_WARNING_SHORT" xml:space="preserve">
     <value>{0}: 本地磁盘上的 VM 将阻止磁盘重新分区。</value>
@@ -9669,7 +9669,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="NOT_SAFE_TO_UPGRADE_NOT_ENOUGH_SPACE_LONG" xml:space="preserve">
     <value>本地存储的磁盘大小阻止重新分区。
 
-新磁盘分区方案在包括更大的 dom0 和备份分区以及用于日志记录、交换和 UEFI 的专用分区的 [XenServer] [BRANDING_VERSION_7_0] 及更高版本中可用。
+新磁盘分区方案在包括更大的 dom0 和备份分区以及用于日志记录、交换和 UEFI 的专用分区的 [XenServer] {0} 及更高版本中可用。
 
 但是，由于空间不足，无法执行重新分区，因此将保留当前的分区方案。</value>
   </data>
@@ -10039,7 +10039,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>无法在此版本的 [XenServer] 上安装补充包</value>
   </data>
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_CANNOT_INSTALL_UPDATE_MASTER_POST_7_0" xml:space="preserve">
-    <value>无法在此主机上安装更新，因为主机正在运行的版本高于 [BRANDING_VERSION_7_0]</value>
+    <value>无法在此主机上安装更新，因为主机正在运行的版本高于 {0}</value>
   </data>
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_HOST_UNLICENSED" xml:space="preserve">
     <value>需要专享升级服务</value>
@@ -10478,11 +10478,8 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="POOL_HAS_NO_SHARED_STORAGE" xml:space="preserve">
     <value>该池无共享存储</value>
   </data>
-  <data name="POOL_HAS_PV_GUEST_UPDATE_WARNING" xml:space="preserve">
-    <value>{0}: 截至 [XenServer] [BRANDING_VERSION_8_1]，已放弃对半虚拟化的(PV)来宾的支持。单击“了解更多”可查看支持的来宾操作系统列表。 </value>
-  </data>
-  <data name="POOL_HAS_PV_GUEST_UPGRADE_WARNING" xml:space="preserve">
-    <value>{0}: 截至 [XenServer] [BRANDING_VERSION_8_1]，已放弃对半虚拟化的(PV)来宾的支持。单击“了解更多”可查看支持的来宾操作系统列表。 </value>
+  <data name="POOL_HAS_PV_GUEST_WARNING" xml:space="preserve">
+    <value>{0}: 截至 [XenServer] {1}，已放弃对半虚拟化的(PV)来宾的支持。单击“了解更多”可查看支持的来宾操作系统列表。 </value>
   </data>
   <data name="POOL_IS_PARTIALLY_LICENSED" xml:space="preserve">
     <value>池获得部分许可</value>
@@ -11447,7 +11444,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>池主服务器上的当前时间为: {0}</value>
   </data>
   <data name="SERVER_TOO_OLD" xml:space="preserve">
-    <value>此版本的 [XenCenter] 支持 [XenServer] [BRANDING_VERSION_7_0] 及更高版本。</value>
+    <value>本版本的 [XenCenter] 支持 [XenServer] {0} 及更高版本。</value>
   </data>
   <data name="SERVER_TOO_OLD_SOLUTION" xml:space="preserve">
     <value>使用早期版本的 [XenCenter] 管理此服务器。</value>
@@ -11625,7 +11622,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
 是否连接池主服务器“{1}”?</value>
   </data>
   <data name="SLAVE_TOO_OLD" xml:space="preserve">
-    <value>此池包含的服务器低于 [XenServer] [BRANDING_VERSION_7_0]。请使用早期版本的 [XenCenter] 来管理此池。</value>
+    <value>此池包含的服务器低于 [XenServer] {0}。请使用早期版本的 [XenCenter] 来管理此池。</value>
   </data>
   <data name="SMALLER_THAN" xml:space="preserve">
     <value>小于</value>
@@ -12626,9 +12623,6 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="UPDATES_WIZARD_OUT_OF_DATE_TOOLS" xml:space="preserve">
     <value>{0}: 安装最新版本的 [Citrix VM Tools] 之前不能暂停 VM {1}。</value>
   </data>
-  <data name="UPDATES_WIZARD_PAGE1_TOPTEXT" xml:space="preserve">
-    <value>选中要更新的每个服务器对应的复选框。选中池的复选框可选择该池中的所有可用服务器。</value>
-  </data>
   <data name="UPDATES_WIZARD_PATCH_ALREADY_APPLIED" xml:space="preserve">
     <value>{0}: 更新已应用到该服务器。将跳过该服务器。</value>
   </data>
@@ -13421,7 +13415,7 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
     <value>已为此 VM 分配了直通 GPU。</value>
   </data>
   <data name="VM_LIVE_CHANGES_NOT_SUPPORTED_MESSAGE" xml:space="preserve">
-    <value>内存和/或 VCPU 更改将在重新启动 VM 时生效。</value>
+    <value>内存和/或 vCPU 更改将在重新启动 VM 时生效。</value>
   </data>
   <data name="VM_LIVE_CHANGES_NOT_SUPPORTED_TITLE" xml:space="preserve">
     <value>VM 常规更改</value>
@@ -14372,17 +14366,11 @@ VM 克隆使用文件管理器的快照和克隆功能来实现高性能，并�
   <data name="XENSERVER" xml:space="preserve">
     <value>[XenServer]</value>
   </data>
-  <data name="XENSERVER_6_2" xml:space="preserve">
-    <value>[XenServer] [BRANDING_VERSION_6_2]</value>
-  </data>
   <data name="XENSERVER_6_5" xml:space="preserve">
-    <value>[XenServer] [BRANDING_VERSION_6_5]</value>
+    <value>[XenServer] {0}</value>
   </data>
   <data name="XENSERVER_8_1" xml:space="preserve">
-    <value>[XenServer] [BRANDING_VERSION_8_1]</value>
-  </data>
-  <data name="XENSERVER_LEGACY" xml:space="preserve">
-    <value>[Legacy XenServer product]</value>
+    <value>[XenServer] {0}</value>
   </data>
   <data name="XENSERVER_TEMPLATES" xml:space="preserve">
     <value>[XenServer] 模板</value>

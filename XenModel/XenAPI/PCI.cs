@@ -239,7 +239,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_record(session.opaque_ref, _pci);
             else
-                return new PCI(session.proxy.pci_get_record(session.opaque_ref, _pci ?? "").parse());
+                return new PCI(session.XmlRpcProxy.pci_get_record(session.opaque_ref, _pci ?? "").parse());
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_by_uuid(session.opaque_ref, _uuid);
             else
-                return XenRef<PCI>.Create(session.proxy.pci_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
+                return XenRef<PCI>.Create(session.XmlRpcProxy.pci_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_uuid(session.opaque_ref, _pci);
             else
-                return session.proxy.pci_get_uuid(session.opaque_ref, _pci ?? "").parse();
+                return session.XmlRpcProxy.pci_get_uuid(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>
@@ -281,7 +281,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_class_name(session.opaque_ref, _pci);
             else
-                return session.proxy.pci_get_class_name(session.opaque_ref, _pci ?? "").parse();
+                return session.XmlRpcProxy.pci_get_class_name(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>
@@ -295,7 +295,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_vendor_name(session.opaque_ref, _pci);
             else
-                return session.proxy.pci_get_vendor_name(session.opaque_ref, _pci ?? "").parse();
+                return session.XmlRpcProxy.pci_get_vendor_name(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_device_name(session.opaque_ref, _pci);
             else
-                return session.proxy.pci_get_device_name(session.opaque_ref, _pci ?? "").parse();
+                return session.XmlRpcProxy.pci_get_device_name(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>
@@ -323,7 +323,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_host(session.opaque_ref, _pci);
             else
-                return XenRef<Host>.Create(session.proxy.pci_get_host(session.opaque_ref, _pci ?? "").parse());
+                return XenRef<Host>.Create(session.XmlRpcProxy.pci_get_host(session.opaque_ref, _pci ?? "").parse());
         }
 
         /// <summary>
@@ -337,7 +337,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_pci_id(session.opaque_ref, _pci);
             else
-                return session.proxy.pci_get_pci_id(session.opaque_ref, _pci ?? "").parse();
+                return session.XmlRpcProxy.pci_get_pci_id(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>
@@ -351,7 +351,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_dependencies(session.opaque_ref, _pci);
             else
-                return XenRef<PCI>.Create(session.proxy.pci_get_dependencies(session.opaque_ref, _pci ?? "").parse());
+                return XenRef<PCI>.Create(session.XmlRpcProxy.pci_get_dependencies(session.opaque_ref, _pci ?? "").parse());
         }
 
         /// <summary>
@@ -365,7 +365,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_other_config(session.opaque_ref, _pci);
             else
-                return Maps.convert_from_proxy_string_string(session.proxy.pci_get_other_config(session.opaque_ref, _pci ?? "").parse());
+                return Maps.convert_from_proxy_string_string(session.XmlRpcProxy.pci_get_other_config(session.opaque_ref, _pci ?? "").parse());
         }
 
         /// <summary>
@@ -379,7 +379,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_subsystem_vendor_name(session.opaque_ref, _pci);
             else
-                return session.proxy.pci_get_subsystem_vendor_name(session.opaque_ref, _pci ?? "").parse();
+                return session.XmlRpcProxy.pci_get_subsystem_vendor_name(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>
@@ -393,7 +393,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_subsystem_device_name(session.opaque_ref, _pci);
             else
-                return session.proxy.pci_get_subsystem_device_name(session.opaque_ref, _pci ?? "").parse();
+                return session.XmlRpcProxy.pci_get_subsystem_device_name(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>
@@ -407,7 +407,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_driver_name(session.opaque_ref, _pci);
             else
-                return session.proxy.pci_get_driver_name(session.opaque_ref, _pci ?? "").parse();
+                return session.XmlRpcProxy.pci_get_driver_name(session.opaque_ref, _pci ?? "").parse();
         }
 
         /// <summary>
@@ -422,7 +422,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pci_set_other_config(session.opaque_ref, _pci, _other_config);
             else
-                session.proxy.pci_set_other_config(session.opaque_ref, _pci ?? "", Maps.convert_to_proxy_string_string(_other_config)).parse();
+                session.XmlRpcProxy.pci_set_other_config(session.opaque_ref, _pci ?? "", Maps.convert_to_proxy_string_string(_other_config)).parse();
         }
 
         /// <summary>
@@ -438,7 +438,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pci_add_to_other_config(session.opaque_ref, _pci, _key, _value);
             else
-                session.proxy.pci_add_to_other_config(session.opaque_ref, _pci ?? "", _key ?? "", _value ?? "").parse();
+                session.XmlRpcProxy.pci_add_to_other_config(session.opaque_ref, _pci ?? "", _key ?? "", _value ?? "").parse();
         }
 
         /// <summary>
@@ -453,7 +453,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pci_remove_from_other_config(session.opaque_ref, _pci, _key);
             else
-                session.proxy.pci_remove_from_other_config(session.opaque_ref, _pci ?? "", _key ?? "").parse();
+                session.XmlRpcProxy.pci_remove_from_other_config(session.opaque_ref, _pci ?? "", _key ?? "").parse();
         }
 
         /// <summary>
@@ -466,7 +466,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_all(session.opaque_ref);
             else
-                return XenRef<PCI>.Create(session.proxy.pci_get_all(session.opaque_ref).parse());
+                return XenRef<PCI>.Create(session.XmlRpcProxy.pci_get_all(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -479,7 +479,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pci_get_all_records(session.opaque_ref);
             else
-                return XenRef<PCI>.Create<Proxy_PCI>(session.proxy.pci_get_all_records(session.opaque_ref).parse());
+                return XenRef<PCI>.Create<Proxy_PCI>(session.XmlRpcProxy.pci_get_all_records(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -493,7 +493,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _uuid))
                 {
                     _uuid = value;
-                    Changed = true;
                     NotifyPropertyChanged("uuid");
                 }
             }
@@ -511,7 +510,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _class_name))
                 {
                     _class_name = value;
-                    Changed = true;
                     NotifyPropertyChanged("class_name");
                 }
             }
@@ -529,7 +527,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _vendor_name))
                 {
                     _vendor_name = value;
-                    Changed = true;
                     NotifyPropertyChanged("vendor_name");
                 }
             }
@@ -547,7 +544,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _device_name))
                 {
                     _device_name = value;
-                    Changed = true;
                     NotifyPropertyChanged("device_name");
                 }
             }
@@ -566,7 +562,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _host))
                 {
                     _host = value;
-                    Changed = true;
                     NotifyPropertyChanged("host");
                 }
             }
@@ -584,7 +579,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _pci_id))
                 {
                     _pci_id = value;
-                    Changed = true;
                     NotifyPropertyChanged("pci_id");
                 }
             }
@@ -603,7 +597,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _dependencies))
                 {
                     _dependencies = value;
-                    Changed = true;
                     NotifyPropertyChanged("dependencies");
                 }
             }
@@ -622,7 +615,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _other_config))
                 {
                     _other_config = value;
-                    Changed = true;
                     NotifyPropertyChanged("other_config");
                 }
             }
@@ -641,7 +633,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _subsystem_vendor_name))
                 {
                     _subsystem_vendor_name = value;
-                    Changed = true;
                     NotifyPropertyChanged("subsystem_vendor_name");
                 }
             }
@@ -660,7 +651,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _subsystem_device_name))
                 {
                     _subsystem_device_name = value;
-                    Changed = true;
                     NotifyPropertyChanged("subsystem_device_name");
                 }
             }
@@ -679,7 +669,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _driver_name))
                 {
                     _driver_name = value;
-                    Changed = true;
                     NotifyPropertyChanged("driver_name");
                 }
             }

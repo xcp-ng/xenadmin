@@ -256,7 +256,7 @@ namespace XenAdmin.Commands
            
             MainWindowCommandInterface.Invoke(delegate
             {
-                Program.MainWindow.SelectObject(action.VM);
+                Program.MainWindow.SelectObjectInTree(action.VM);
                 Program.MainWindow.TheTabControl.SelectedTab = Program.MainWindow.TabPageConsole;
             });
         }

@@ -131,7 +131,7 @@
     <value>True</value>
   </metadata>
   <data name="ColumnSourceServer.HeaderText" xml:space="preserve">
-    <value>WMware Server</value>
+    <value>VMware Server</value>
   </data>
   <data name="ColumnSourceServer.MinimumWidth" type="System.Int32, mscorlib">
     <value>10</value>

@@ -45,20 +45,7 @@ namespace XenAdmin.Core
         /// </summary>
         public static string GetFriendlyName(string s)
         {
-            var result = FriendlyNames.GetString(s);
-#if DEBUG
-			Debug.Assert(result != null, $"{s} doesn't exist in FriendlyNames");
-#endif
-            return result;
-        }
-
-        /// <summary>
-        /// Return the result of GetFriendlyName(s), or GetFriendlyName(defKey) if the former returns null.
-        /// Returns null if no match is found for defKey.
-        /// </summary>
-        public static string GetFriendlyName(string s, string defKey)
-        {
-            var result = FriendlyNames.GetString(s) ?? FriendlyNames.GetString(defKey);
+            var result = FriendlyNames.GetString(s) ?? BrandManager.Get(s);
 #if DEBUG
 			Debug.Assert(result != null, $"{s} doesn't exist in FriendlyNames");
 #endif

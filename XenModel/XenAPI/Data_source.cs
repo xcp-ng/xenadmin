@@ -210,7 +210,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _name_label))
                 {
                     _name_label = value;
-                    Changed = true;
                     NotifyPropertyChanged("name_label");
                 }
             }
@@ -228,7 +227,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _name_description))
                 {
                     _name_description = value;
-                    Changed = true;
                     NotifyPropertyChanged("name_description");
                 }
             }
@@ -246,7 +244,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _enabled))
                 {
                     _enabled = value;
-                    Changed = true;
                     NotifyPropertyChanged("enabled");
                 }
             }
@@ -264,7 +261,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _standard))
                 {
                     _standard = value;
-                    Changed = true;
                     NotifyPropertyChanged("standard");
                 }
             }
@@ -282,7 +278,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _units))
                 {
                     _units = value;
-                    Changed = true;
                     NotifyPropertyChanged("units");
                 }
             }
@@ -300,7 +295,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _min))
                 {
                     _min = value;
-                    Changed = true;
                     NotifyPropertyChanged("min");
                 }
             }
@@ -318,7 +312,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _max))
                 {
                     _max = value;
-                    Changed = true;
                     NotifyPropertyChanged("max");
                 }
             }
@@ -336,7 +329,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _value))
                 {
                     _value = value;
-                    Changed = true;
                     NotifyPropertyChanged("value");
                 }
             }

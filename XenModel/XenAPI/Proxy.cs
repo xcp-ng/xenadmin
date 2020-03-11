@@ -7863,6 +7863,10 @@ namespace XenAPI
         Response<Object>
         pusb_get_other_config(string session, string _pusb);
 
+        [XmlRpcMethod("PUSB.get_speed")]
+        Response<double>
+        pusb_get_speed(string session, string _pusb);
+
         [XmlRpcMethod("PUSB.set_other_config")]
         Response<string>
         pusb_set_other_config(string session, string _pusb, Object _other_config);
@@ -9321,6 +9325,7 @@ namespace XenAPI
         public string description;
         public bool passthrough_enabled;
         public Object other_config;
+        public double speed;
     }
 
     [XmlRpcMissingMapping(MappingAction.Ignore)]

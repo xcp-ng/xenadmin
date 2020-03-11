@@ -31,6 +31,7 @@
 
 using NUnit.Framework;
 using XenAdmin.Alerts;
+using XenAdmin.Core;
 
 
 namespace XenAdminTests.UnitTests.AlertTests
@@ -44,12 +45,12 @@ namespace XenAdminTests.UnitTests.AlertTests
             ClassVerifiers.VerifyGetters(new GuiOldAlert(),
                 new AlertClassUnitTestData
                 {
-                    AppliesTo = XenAdmin.Branding.BRAND_CONSOLE,
-                    Description = "There is a newer version of " + XenAdmin.Branding.BRAND_CONSOLE + " available. Please contact your support representative.",
+                    AppliesTo = BrandManager.BRAND_CONSOLE,
+                    Description = "There is a newer version of " + BrandManager.BRAND_CONSOLE + " available. Please contact your support representative.",
                     FixLinkText = "Go to Web Page",
                     HelpID = "GuiOldAlert",
                     HelpLinkText = "Help",
-                    Title = "Newer " + XenAdmin.Branding.BRAND_CONSOLE + " Available",
+                    Title = "Newer " + BrandManager.BRAND_CONSOLE + " Available",
                     Priority = "Priority5"
                 });
         }

@@ -154,7 +154,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.lvhd_get_record(session.opaque_ref, _lvhd);
             else
-                return new LVHD(session.proxy.lvhd_get_record(session.opaque_ref, _lvhd ?? "").parse());
+                return new LVHD(session.XmlRpcProxy.lvhd_get_record(session.opaque_ref, _lvhd ?? "").parse());
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.lvhd_get_by_uuid(session.opaque_ref, _uuid);
             else
-                return XenRef<LVHD>.Create(session.proxy.lvhd_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
+                return XenRef<LVHD>.Create(session.XmlRpcProxy.lvhd_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.lvhd_get_uuid(session.opaque_ref, _lvhd);
             else
-                return session.proxy.lvhd_get_uuid(session.opaque_ref, _lvhd ?? "").parse();
+                return session.XmlRpcProxy.lvhd_get_uuid(session.opaque_ref, _lvhd ?? "").parse();
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.lvhd_enable_thin_provisioning(session.opaque_ref, _host, _sr, _initial_allocation, _allocation_quantum);
             else
-                return session.proxy.lvhd_enable_thin_provisioning(session.opaque_ref, _host ?? "", _sr ?? "", _initial_allocation.ToString(), _allocation_quantum.ToString()).parse();
+                return session.XmlRpcProxy.lvhd_enable_thin_provisioning(session.opaque_ref, _host ?? "", _sr ?? "", _initial_allocation.ToString(), _allocation_quantum.ToString()).parse();
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_lvhd_enable_thin_provisioning(session.opaque_ref, _host, _sr, _initial_allocation, _allocation_quantum);
           else
-              return XenRef<Task>.Create(session.proxy.async_lvhd_enable_thin_provisioning(session.opaque_ref, _host ?? "", _sr ?? "", _initial_allocation.ToString(), _allocation_quantum.ToString()).parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_lvhd_enable_thin_provisioning(session.opaque_ref, _host ?? "", _sr ?? "", _initial_allocation.ToString(), _allocation_quantum.ToString()).parse());
         }
 
         /// <summary>
@@ -230,7 +230,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _uuid))
                 {
                     _uuid = value;
-                    Changed = true;
                     NotifyPropertyChanged("uuid");
                 }
             }

@@ -39,9 +39,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("XenAdminTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Citrix Systems, Inc.")]
-[assembly: AssemblyProduct("XenAdminTests")]
-[assembly: AssemblyCopyright("Copyright (c) 2009-2010 Citrix Systems, Inc.")]
+[assembly: AssemblyCompany("[Citrix]")]
+[assembly: AssemblyProduct("[XenCenter]")]
+[assembly: AssemblyCopyright("Copyright © [BRANDING_COMPANY_NAME_LEGAL]")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

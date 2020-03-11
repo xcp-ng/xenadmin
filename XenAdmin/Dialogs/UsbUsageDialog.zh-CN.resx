@@ -132,7 +132,7 @@
     <value>3</value>
   </data>
   <data name="buttonOK.Text" xml:space="preserve">
-    <value>&amp;Yes, enable passthrough</value>
+    <value>&amp;Yes, enable pass-through</value>
   </data>
   <data name="&gt;&gt;buttonOK.Name" xml:space="preserve">
     <value>buttonOK</value>
@@ -196,7 +196,7 @@
     <value>6</value>
   </data>
   <data name="labelNote.Text" xml:space="preserve">
-    <value>Are you sure that you want to enable passthrough on this device?</value>
+    <value>Are you sure that you want to enable pass-through on this device?</value>
   </data>
   <data name="&gt;&gt;labelNote.Name" xml:space="preserve">
     <value>labelNote</value>
@@ -472,7 +472,7 @@
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Enable passthrough</value>
+    <value>Enable pass-through</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>UsbUsageDialog</value>

@@ -82,7 +82,7 @@ namespace XenAdmin.Commands
                     actions.Add(new SetVMOtherConfigAction(vm.Connection, vm, "instant", "true"));
                     actions.Add(new VMToTemplateAction(vm));
 
-                    MainWindowCommandInterface.CloseActiveWizards(vm);
+                    XenDialogBase.CloseAll(vm);
 
                     RunMultipleActions(actions, string.Format(Messages.ACTION_VM_TEMPLATIZING_TITLE, vm.Name()),
                                        Messages.ACTION_VM_TEMPLATIZING, Messages.ACTION_VM_TEMPLATIZED, true);

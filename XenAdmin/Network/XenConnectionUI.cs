@@ -58,19 +58,19 @@ namespace XenAdmin.Network
         public static void BeginConnect(IXenConnection connection, bool interactive, Form owner, bool initiateMasterSearch)
         {
             Program.AssertOnEventThread();
-            RegisterEventHandlers(connection);
+            
             if (interactive)
             {
                 // CA-214953 - Focus on this connection's dialog, if one exists, otherwise create one
                 if (connectionDialogs.TryGetValue(connection, out ConnectingToServerDialog dlg))
                 {
-                    UnregisterEventHandlers(connection);
                     if (dlg.WindowState == FormWindowState.Minimized)
                         dlg.WindowState = FormWindowState.Normal;
                     dlg.Focus();
                     return;
                 }
 
+                RegisterEventHandlers(connection);
                 dlg = new ConnectingToServerDialog(connection);
                 connectionDialogs.Add(connection, dlg);
 
@@ -78,7 +78,10 @@ namespace XenAdmin.Network
                     connectionDialogs.Remove(connection);
             }
             else
+            {
+                RegisterEventHandlers(connection);
                 ((XenConnection)connection).BeginConnect(initiateMasterSearch, PromptForNewPassword);
+            }
         }
 
         private static bool PromptForNewPassword(IXenConnection connection, string oldPassword)
@@ -290,7 +293,8 @@ namespace XenAdmin.Network
             else if (error is ServerNotSupported)
             {
                 // Server version is too old for this version of XenCenter
-                AddError(owner, connection, Messages.SERVER_TOO_OLD, Messages.SERVER_TOO_OLD_SOLUTION);
+                AddError(owner, connection, string.Format(Messages.SERVER_TOO_OLD, BrandManager.ProductVersion70),
+                    Messages.SERVER_TOO_OLD_SOLUTION);
             }
             else
             {

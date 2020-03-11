@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ Copyright (c) Citrix Systems, Inc.
+ All rights reserved.
+
+ Redistribution and use in source and binary forms,
+ with or without modification, are permitted provided
+ that the following conditions are met:
+
+ *   Redistributions of source code must retain the above
+     copyright notice, this list of conditions and the
+     following disclaimer.
+ *   Redistributions in binary form must reproduce the above
+     copyright notice, this list of conditions and the
+     following disclaimer in the documentation and/or other
+     materials provided with the distribution.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ SUCH DAMAGE.
+-->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+    <?include branding.wxi ?>
+    <Fragment>
+        <DirectoryRef Id='Citrix'>
+            <Directory Id="HEALTHCHECKSERVICEDIR" Name="XenServerHealthCheckService">
+                <Component Id="XenServerHealthCheck" Guid="$(var.HealthCheckGuid)">
+                    <File Id="HealthCheck_XenServerHealthCheck.exe" Name="XenServerHealthCheck.exe" KeyPath="yes" Source="$(env.RepoRoot)\XenServerHealthCheck\bin\Release\XenServerHealthCheck.exe" />
+                    <File Id="HealthCheck_CommandLib.dll" Name="CommandLib.dll" Source="$(env.RepoRoot)\XenServerHealthCheck\bin\Release\CommandLib.dll" />
+                    <File Id="HealthCheck_CookComputing.XmlRpcV2.dll" Name="CookComputing.XmlRpcV2.dll" Source="$(env.RepoRoot)\XenServerHealthCheck\bin\Release\CookComputing.XmlRpcV2.dll" />
+                    <File Id="HealthCheck_NewtonsoftJsonDLL" Source="$(env.RepoRoot)\XenServerHealthCheck\bin\Release\Newtonsoft.Json.CH.dll" />
+                    <File Id="HealthCheck_ICSharpCode.SharpZipLib.dll" Name="ICSharpCode.SharpZipLib.dll" Source="$(env.RepoRoot)\XenServerHealthCheck\bin\Release\ICSharpCode.SharpZipLib.dll" />
+                    <File Id="HealthCheck_Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(env.RepoRoot)\XenServerHealthCheck\bin\Release\Ionic.Zip.dll" />
+                    <File Id="HealthCheck_log4net.dll" Name="log4net.dll" Source="$(env.RepoRoot)\XenServerHealthCheck\bin\Release\log4net.dll" />
+                    <File Id="HealthCheck_XenCenterLib.dll" Name="XenCenterLib.dll" Source="$(env.RepoRoot)\XenServerHealthCheck\bin\Release\XenCenterLib.dll" />
+                    <File Id="HealthCheck_XenModel.dll" Name="XenModel.dll" Source="$(env.RepoRoot)\XenServerHealthCheck\bin\Release\XenModel.dll" />
+                    <File Id="HealthCheck_XenServerHealthCheck.exe.config" Name="XenServerHealthCheck.exe.config" Source="$(env.RepoRoot)\XenServerHealthCheck\bin\Release\XenServerHealthCheck.exe.config" />
+                    <ServiceInstall
+                      Id="ServiceInstaller"
+                      Type="ownProcess"
+                      Vital="no"
+                      Name="XenServerHealthCheck"
+                      DisplayName="$(var.BrandProduct) Health Check Service"
+                      Description="!(loc.HealthCheckDescr)"
+                      Start="auto"
+                      Account="LocalSystem"
+                      ErrorControl="normal"
+                      Interactive="no"
+                    />
+                    <ServiceControl
+                        Id="StartService"
+                        Start="install"
+                        Stop="both"
+                        Remove="uninstall"
+                        Name="XenServerHealthCheck"
+                        Wait="yes"
+                    />
+                </Component>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id='INSTALLDIR'>
+            <Directory Id="TestReso" ShortName="TestReso" Name="TestResources">
+                <Component Id="TestResources" Guid="$(var.TestResourcesGuid)">
+                    <File Source="$(env.RepoRoot)\XenAdmin\bin\Release\TestResources\credits.xml" />
+                    <File Id="interes1.xml" Source="$(env.RepoRoot)\XenAdmin\bin\Release\TestResources\interesting-development.xml" />
+                    <File Id="interes2.xml" Source="$(env.RepoRoot)\XenAdmin\bin\Release\TestResources\interesting-production.xml" />
+                    <File Id="interes3.xml" Source="$(env.RepoRoot)\XenAdmin\bin\Release\TestResources\interesting-xenapp.xml" />
+                </Component>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <Feature Id="HealthCheckService" Title="$(var.BrandProduct) Health Check Service" Description="!(loc.HealthCheckDescrShort)" Display="expand" Level="1" ConfigurableDirectory="HEALTHCHECKSERVICEDIR" AllowAdvertise="no" InstallDefault="local" Absent="allow" >
+            <ComponentRef Id="XenServerHealthCheck" />
+        </Feature>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="BrandedComponents">
+            <ComponentRef Id="TestResources" />
+        </ComponentGroup>
+        <FeatureGroup Id="BrandedFeatures">
+            <FeatureRef Id="HealthCheckService" />
+        </FeatureGroup>
+    </Fragment>
+</Wix>

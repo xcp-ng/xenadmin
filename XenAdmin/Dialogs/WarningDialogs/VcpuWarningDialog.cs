@@ -73,7 +73,7 @@ namespace XenAdmin.Dialogs
                     vm.Locked = false;
                 }
             }
-            else if (Program.MainWindow.SelectObject(vm))
+            else if (Program.MainWindow.SelectObjectInTree(vm))
             {
                 Program.MainWindow.SwitchToTab(MainWindow.Tab.General);
             }

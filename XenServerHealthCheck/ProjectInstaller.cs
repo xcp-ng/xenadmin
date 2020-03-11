@@ -35,6 +35,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration.Install;
 using System.Linq;
+using XenAdmin.Core;
 
 
 namespace XenServerHealthCheck
@@ -45,6 +46,8 @@ namespace XenServerHealthCheck
         public ProjectInstaller()
         {
             InitializeComponent();
+            this.XenServerHealthCheckInstaller.Description = BrandManager.COMPANY_AND_PRODUCT_BRAND + " Health Check";
+            this.XenServerHealthCheckInstaller.DisplayName = BrandManager.COMPANY_AND_PRODUCT_BRAND + " Health Check";
         }
 
         private void XenServerHealthCheckInstaller_AfterInstall(object sender, InstallEventArgs e)

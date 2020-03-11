@@ -1,4 +1,4 @@
-/* Copyright (c) Citrix Systems, Inc. 
+﻿/* Copyright (c) Citrix Systems, Inc. 
  * All rights reserved. 
  * 
  * Redistribution and use in source and binary forms, 
@@ -40,8 +40,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("[Citrix] [XenCenter] OVF API")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("[Citrix]")]
-[assembly: AssemblyProduct("XenCenterOVF")]
-[assembly: AssemblyCopyright("[BRANDING_COPYRIGHT]")]
+[assembly: AssemblyProduct("[XenCenter]")]
+[assembly: AssemblyCopyright("Copyright © [BRANDING_COMPANY_NAME_LEGAL]")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

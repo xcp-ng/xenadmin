@@ -309,17 +309,17 @@ namespace XenAPI
 
         public static Stream CONNECT(Uri uri, IXenConnection connection, string session, bool timeout)
         {
-            return HTTP.CONNECT(uri, XenAdminConfigManager.Provider.GetProxyFromSettings(connection), session, XenAdminConfigManager.Provider.GetProxyTimeout(timeout));
+            return HTTP.HttpConnectStream(uri, XenAdminConfigManager.Provider.GetProxyFromSettings(connection), session, XenAdminConfigManager.Provider.GetProxyTimeout(timeout));
         }
 
         public static Stream PUT(Uri uri, long ContentLength, bool timeout)
         {
-            return HTTP.PUT(uri, XenAdminConfigManager.Provider.GetProxyFromSettings(null), ContentLength, XenAdminConfigManager.Provider.GetProxyTimeout(timeout));
+            return HTTP.HttpPutStream(uri, XenAdminConfigManager.Provider.GetProxyFromSettings(null), ContentLength, XenAdminConfigManager.Provider.GetProxyTimeout(timeout));
         }
 
         public static Stream GET(Uri uri, IXenConnection connection, bool timeout)
         {
-            return HTTP.GET(uri, XenAdminConfigManager.Provider.GetProxyFromSettings(connection, true), XenAdminConfigManager.Provider.GetProxyTimeout(timeout));
+            return HTTP.HttpGetStream(uri, XenAdminConfigManager.Provider.GetProxyFromSettings(connection, true), XenAdminConfigManager.Provider.GetProxyTimeout(timeout));
         }
     }
 }

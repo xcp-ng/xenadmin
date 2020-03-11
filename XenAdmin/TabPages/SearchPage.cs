@@ -292,10 +292,10 @@ namespace XenAdmin.TabPages
             using (SaveFileDialog dialog = new SaveFileDialog())
             {
                 dialog.AddExtension = true;
-                dialog.Filter = string.Format(Messages.XENSEARCH_SAVED_SEARCH, Branding.Search);
+                dialog.Filter = string.Format(Messages.XENSEARCH_SAVED_SEARCH, BrandManager.ExtensionSearch);
                 dialog.FilterIndex = 0;
                 dialog.RestoreDirectory = true;
-                dialog.DefaultExt = Branding.SEARCH;
+                dialog.DefaultExt = BrandManager.ExtensionSearch;
                 dialog.CheckPathExists = false;
 
                 if (dialog.ShowDialog(this) != DialogResult.OK)

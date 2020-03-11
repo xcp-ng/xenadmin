@@ -31,6 +31,7 @@
 
 using System;
 using Microsoft.Win32;
+using XenAdmin.Core;
 
 namespace XenServerHealthCheck
 {
@@ -121,7 +122,7 @@ namespace XenServerHealthCheck
             }
         }
 
-        private const string HEALTH_CHECK_LOCAL_KEYS = @"SOFTWARE\"+ Branding.COMPANY_NAME_SHORT +@"\XenHealthCheck";
+        private const string HEALTH_CHECK_LOCAL_KEYS = @"SOFTWARE\"+ BrandManager.COMPANY_NAME_SHORT +@"\XenHealthCheck";
         private const string HEALTH_CHECK_UPLOAD_DOMAIN_NAME = "HealthCheckUploadDomainName";
         private const string HEALTH_CHECK_TIME_INTERVAL = "HealthCheckTimeIntervalInMinutes";
         

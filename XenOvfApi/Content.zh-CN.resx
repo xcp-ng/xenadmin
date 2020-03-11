@@ -121,7 +121,7 @@
     <value>Xen 设备向导</value>
   </data>
   <data name="CONVERT_VMX_VSSD_CAPTION" xml:space="preserve">
-    <value>转换自 VMWare VMX</value>
+    <value>转换自 VMware VMX</value>
   </data>
   <data name="CONVERT_VPC_VSSD_CAPTION" xml:space="preserve">
     <value>转换自 Virtual PC</value>

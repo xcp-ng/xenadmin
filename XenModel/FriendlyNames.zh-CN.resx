@@ -345,6 +345,9 @@
   <data name="Label-SR.SRTypes-cslg" xml:space="preserve">
     <value>StorageLink</value>
   </data>
+  <data name="Label-SR.SRTypes-dummy" xml:space="preserve">
+    <value>未知</value>
+  </data>
   <data name="Label-SR.SRTypes-ebs" xml:space="preserve">
     <value>弹性块存储</value>
   </data>
@@ -395,6 +398,9 @@
   </data>
   <data name="Label-SR.SRTypes-shm" xml:space="preserve">
     <value>本地性能监视</value>
+  </data>
+  <data name="Label-SR.SRTypes-tmpfs" xml:space="preserve">
+    <value>未知</value>
   </data>
   <data name="Label-SR.SRTypes-udev" xml:space="preserve">
     <value>udev</value>
@@ -1892,35 +1898,11 @@
   <data name="Label-host.edition-legacy-desktop-plus" xml:space="preserve">
     <value>XenApp/XenDesktop Platinum</value>
   </data>
-  <data name="Label-host.edition-legacy-enterprise-per-socket" xml:space="preserve">
-    <value>[Legacy XenServer product] Enterprise Per-Socket</value>
-  </data>
-  <data name="Label-host.edition-legacy-enterprise-per-user" xml:space="preserve">
-    <value>[Legacy XenServer product] Enterprise Per-User</value>
-  </data>
-  <data name="Label-host.edition-legacy-free" xml:space="preserve">
-    <value>[Legacy XenServer product]</value>
-  </data>
-  <data name="Label-host.edition-legacy-per-socket" xml:space="preserve">
-    <value>[Legacy XenServer product] Per-Socket</value>
-  </data>
   <data name="Label-host.edition-legacy-premium" xml:space="preserve">
     <value>[Citrix XenServer] Ultimate Edition</value>
   </data>
   <data name="Label-host.edition-legacy-standard" xml:space="preserve">
     <value>[Citrix XenServer] Standard Edition</value>
-  </data>
-  <data name="Label-host.edition-legacy-standard-per-socket" xml:space="preserve">
-    <value>[Legacy XenServer product] Standard Per-Socket</value>
-  </data>
-  <data name="Label-host.edition-legacy-xendesktop" xml:space="preserve">
-    <value>[Legacy XenServer product] for XenDesktop</value>
-  </data>
-  <data name="Label-host.edition-enterprise-per-socket" xml:space="preserve">
-    <value>[Legacy XenServer product] Premium Per-Socket</value>
-  </data>
-  <data name="Label-host.edition-enterprise-per-user" xml:space="preserve">
-    <value>[Legacy XenServer product] Premium Per-User</value>
   </data>
   <data name="Description-host.system_status-v6d" xml:space="preserve">
     <value>[XenServer] 许可守护程序日志</value>

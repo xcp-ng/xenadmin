@@ -1353,7 +1353,7 @@ Authorized Roles: {1}</value>
     <value>Given SMB version is not allowed. Choose either 1.0 or 3.0</value>
   </data>
   <data name="SR_BACKEND_FAILURE_228" xml:space="preserve">
-    <value>Require &quot;-o&quot; along with xe-mount-isosr</value>
+    <value>Require &quot;-o&quot; along with xe-mount-iso-sr</value>
   </data>
   <data name="SR_BACKEND_FAILURE_24" xml:space="preserve">
     <value>The specified VDI is currently in use</value>

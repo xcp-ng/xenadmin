@@ -223,7 +223,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_record(session.opaque_ref, _bond);
             else
-                return new Bond(session.proxy.bond_get_record(session.opaque_ref, _bond ?? "").parse());
+                return new Bond(session.XmlRpcProxy.bond_get_record(session.opaque_ref, _bond ?? "").parse());
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_by_uuid(session.opaque_ref, _uuid);
             else
-                return XenRef<Bond>.Create(session.proxy.bond_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
+                return XenRef<Bond>.Create(session.XmlRpcProxy.bond_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_uuid(session.opaque_ref, _bond);
             else
-                return session.proxy.bond_get_uuid(session.opaque_ref, _bond ?? "").parse();
+                return session.XmlRpcProxy.bond_get_uuid(session.opaque_ref, _bond ?? "").parse();
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_master(session.opaque_ref, _bond);
             else
-                return XenRef<PIF>.Create(session.proxy.bond_get_master(session.opaque_ref, _bond ?? "").parse());
+                return XenRef<PIF>.Create(session.XmlRpcProxy.bond_get_master(session.opaque_ref, _bond ?? "").parse());
         }
 
         /// <summary>
@@ -279,7 +279,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_slaves(session.opaque_ref, _bond);
             else
-                return XenRef<PIF>.Create(session.proxy.bond_get_slaves(session.opaque_ref, _bond ?? "").parse());
+                return XenRef<PIF>.Create(session.XmlRpcProxy.bond_get_slaves(session.opaque_ref, _bond ?? "").parse());
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_other_config(session.opaque_ref, _bond);
             else
-                return Maps.convert_from_proxy_string_string(session.proxy.bond_get_other_config(session.opaque_ref, _bond ?? "").parse());
+                return Maps.convert_from_proxy_string_string(session.XmlRpcProxy.bond_get_other_config(session.opaque_ref, _bond ?? "").parse());
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_primary_slave(session.opaque_ref, _bond);
             else
-                return XenRef<PIF>.Create(session.proxy.bond_get_primary_slave(session.opaque_ref, _bond ?? "").parse());
+                return XenRef<PIF>.Create(session.XmlRpcProxy.bond_get_primary_slave(session.opaque_ref, _bond ?? "").parse());
         }
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_mode(session.opaque_ref, _bond);
             else
-                return (bond_mode)Helper.EnumParseDefault(typeof(bond_mode), (string)session.proxy.bond_get_mode(session.opaque_ref, _bond ?? "").parse());
+                return (bond_mode)Helper.EnumParseDefault(typeof(bond_mode), (string)session.XmlRpcProxy.bond_get_mode(session.opaque_ref, _bond ?? "").parse());
         }
 
         /// <summary>
@@ -335,7 +335,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_properties(session.opaque_ref, _bond);
             else
-                return Maps.convert_from_proxy_string_string(session.proxy.bond_get_properties(session.opaque_ref, _bond ?? "").parse());
+                return Maps.convert_from_proxy_string_string(session.XmlRpcProxy.bond_get_properties(session.opaque_ref, _bond ?? "").parse());
         }
 
         /// <summary>
@@ -349,12 +349,12 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_links_up(session.opaque_ref, _bond);
             else
-                return long.Parse(session.proxy.bond_get_links_up(session.opaque_ref, _bond ?? "").parse());
+                return long.Parse(session.XmlRpcProxy.bond_get_links_up(session.opaque_ref, _bond ?? "").parse());
         }
 
         /// <summary>
         /// Get the auto_update_mac field of the given Bond.
-        /// First published in Unreleased.
+        /// First published in Citrix Hypervisor 8.1.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
@@ -363,7 +363,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_auto_update_mac(session.opaque_ref, _bond);
             else
-                return (bool)session.proxy.bond_get_auto_update_mac(session.opaque_ref, _bond ?? "").parse();
+                return (bool)session.XmlRpcProxy.bond_get_auto_update_mac(session.opaque_ref, _bond ?? "").parse();
         }
 
         /// <summary>
@@ -378,7 +378,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.bond_set_other_config(session.opaque_ref, _bond, _other_config);
             else
-                session.proxy.bond_set_other_config(session.opaque_ref, _bond ?? "", Maps.convert_to_proxy_string_string(_other_config)).parse();
+                session.XmlRpcProxy.bond_set_other_config(session.opaque_ref, _bond ?? "", Maps.convert_to_proxy_string_string(_other_config)).parse();
         }
 
         /// <summary>
@@ -394,7 +394,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.bond_add_to_other_config(session.opaque_ref, _bond, _key, _value);
             else
-                session.proxy.bond_add_to_other_config(session.opaque_ref, _bond ?? "", _key ?? "", _value ?? "").parse();
+                session.XmlRpcProxy.bond_add_to_other_config(session.opaque_ref, _bond ?? "", _key ?? "", _value ?? "").parse();
         }
 
         /// <summary>
@@ -409,7 +409,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.bond_remove_from_other_config(session.opaque_ref, _bond, _key);
             else
-                session.proxy.bond_remove_from_other_config(session.opaque_ref, _bond ?? "", _key ?? "").parse();
+                session.XmlRpcProxy.bond_remove_from_other_config(session.opaque_ref, _bond ?? "", _key ?? "").parse();
         }
 
         /// <summary>
@@ -425,7 +425,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_create(session.opaque_ref, _network, _members, _mac);
             else
-                return XenRef<Bond>.Create(session.proxy.bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "").parse());
+                return XenRef<Bond>.Create(session.XmlRpcProxy.bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "").parse());
         }
 
         /// <summary>
@@ -441,7 +441,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_bond_create(session.opaque_ref, _network, _members, _mac);
           else
-              return XenRef<Task>.Create(session.proxy.async_bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "").parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "").parse());
         }
 
         /// <summary>
@@ -458,7 +458,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_create(session.opaque_ref, _network, _members, _mac, _mode);
             else
-                return XenRef<Bond>.Create(session.proxy.bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "", bond_mode_helper.ToString(_mode)).parse());
+                return XenRef<Bond>.Create(session.XmlRpcProxy.bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "", bond_mode_helper.ToString(_mode)).parse());
         }
 
         /// <summary>
@@ -475,7 +475,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_bond_create(session.opaque_ref, _network, _members, _mac, _mode);
           else
-              return XenRef<Task>.Create(session.proxy.async_bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "", bond_mode_helper.ToString(_mode)).parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "", bond_mode_helper.ToString(_mode)).parse());
         }
 
         /// <summary>
@@ -493,7 +493,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_create(session.opaque_ref, _network, _members, _mac, _mode, _properties);
             else
-                return XenRef<Bond>.Create(session.proxy.bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "", bond_mode_helper.ToString(_mode), Maps.convert_to_proxy_string_string(_properties)).parse());
+                return XenRef<Bond>.Create(session.XmlRpcProxy.bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "", bond_mode_helper.ToString(_mode), Maps.convert_to_proxy_string_string(_properties)).parse());
         }
 
         /// <summary>
@@ -511,7 +511,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_bond_create(session.opaque_ref, _network, _members, _mac, _mode, _properties);
           else
-              return XenRef<Task>.Create(session.proxy.async_bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "", bond_mode_helper.ToString(_mode), Maps.convert_to_proxy_string_string(_properties)).parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_bond_create(session.opaque_ref, _network ?? "", _members == null ? new string[] {} : Helper.RefListToStringArray(_members), _mac ?? "", bond_mode_helper.ToString(_mode), Maps.convert_to_proxy_string_string(_properties)).parse());
         }
 
         /// <summary>
@@ -525,7 +525,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.bond_destroy(session.opaque_ref, _bond);
             else
-                session.proxy.bond_destroy(session.opaque_ref, _bond ?? "").parse();
+                session.XmlRpcProxy.bond_destroy(session.opaque_ref, _bond ?? "").parse();
         }
 
         /// <summary>
@@ -539,7 +539,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_bond_destroy(session.opaque_ref, _bond);
           else
-              return XenRef<Task>.Create(session.proxy.async_bond_destroy(session.opaque_ref, _bond ?? "").parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_bond_destroy(session.opaque_ref, _bond ?? "").parse());
         }
 
         /// <summary>
@@ -554,7 +554,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.bond_set_mode(session.opaque_ref, _bond, _value);
             else
-                session.proxy.bond_set_mode(session.opaque_ref, _bond ?? "", bond_mode_helper.ToString(_value)).parse();
+                session.XmlRpcProxy.bond_set_mode(session.opaque_ref, _bond ?? "", bond_mode_helper.ToString(_value)).parse();
         }
 
         /// <summary>
@@ -569,7 +569,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_bond_set_mode(session.opaque_ref, _bond, _value);
           else
-              return XenRef<Task>.Create(session.proxy.async_bond_set_mode(session.opaque_ref, _bond ?? "", bond_mode_helper.ToString(_value)).parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_bond_set_mode(session.opaque_ref, _bond ?? "", bond_mode_helper.ToString(_value)).parse());
         }
 
         /// <summary>
@@ -585,7 +585,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.bond_set_property(session.opaque_ref, _bond, _name, _value);
             else
-                session.proxy.bond_set_property(session.opaque_ref, _bond ?? "", _name ?? "", _value ?? "").parse();
+                session.XmlRpcProxy.bond_set_property(session.opaque_ref, _bond ?? "", _name ?? "", _value ?? "").parse();
         }
 
         /// <summary>
@@ -601,7 +601,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_bond_set_property(session.opaque_ref, _bond, _name, _value);
           else
-              return XenRef<Task>.Create(session.proxy.async_bond_set_property(session.opaque_ref, _bond ?? "", _name ?? "", _value ?? "").parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_bond_set_property(session.opaque_ref, _bond ?? "", _name ?? "", _value ?? "").parse());
         }
 
         /// <summary>
@@ -614,7 +614,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_all(session.opaque_ref);
             else
-                return XenRef<Bond>.Create(session.proxy.bond_get_all(session.opaque_ref).parse());
+                return XenRef<Bond>.Create(session.XmlRpcProxy.bond_get_all(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -627,7 +627,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.bond_get_all_records(session.opaque_ref);
             else
-                return XenRef<Bond>.Create<Proxy_Bond>(session.proxy.bond_get_all_records(session.opaque_ref).parse());
+                return XenRef<Bond>.Create<Proxy_Bond>(session.XmlRpcProxy.bond_get_all_records(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -641,7 +641,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _uuid))
                 {
                     _uuid = value;
-                    Changed = true;
                     NotifyPropertyChanged("uuid");
                 }
             }
@@ -660,7 +659,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _master))
                 {
                     _master = value;
-                    Changed = true;
                     NotifyPropertyChanged("master");
                 }
             }
@@ -679,7 +677,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _slaves))
                 {
                     _slaves = value;
-                    Changed = true;
                     NotifyPropertyChanged("slaves");
                 }
             }
@@ -698,7 +695,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _other_config))
                 {
                     _other_config = value;
-                    Changed = true;
                     NotifyPropertyChanged("other_config");
                 }
             }
@@ -718,7 +714,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _primary_slave))
                 {
                     _primary_slave = value;
-                    Changed = true;
                     NotifyPropertyChanged("primary_slave");
                 }
             }
@@ -738,7 +733,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _mode))
                 {
                     _mode = value;
-                    Changed = true;
                     NotifyPropertyChanged("mode");
                 }
             }
@@ -758,7 +752,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _properties))
                 {
                     _properties = value;
-                    Changed = true;
                     NotifyPropertyChanged("properties");
                 }
             }
@@ -777,7 +770,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _links_up))
                 {
                     _links_up = value;
-                    Changed = true;
                     NotifyPropertyChanged("links_up");
                 }
             }
@@ -786,7 +778,7 @@ namespace XenAPI
 
         /// <summary>
         /// true if the MAC was taken from the primary slave when the bond was created, and false if the client specified the MAC
-        /// First published in Unreleased.
+        /// First published in Citrix Hypervisor 8.1.
         /// </summary>
         public virtual bool auto_update_mac
         {
@@ -796,7 +788,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _auto_update_mac))
                 {
                     _auto_update_mac = value;
-                    Changed = true;
                     NotifyPropertyChanged("auto_update_mac");
                 }
             }

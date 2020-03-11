@@ -178,7 +178,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sdn_controller_get_record(session.opaque_ref, _sdn_controller);
             else
-                return new SDN_controller(session.proxy.sdn_controller_get_record(session.opaque_ref, _sdn_controller ?? "").parse());
+                return new SDN_controller(session.XmlRpcProxy.sdn_controller_get_record(session.opaque_ref, _sdn_controller ?? "").parse());
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sdn_controller_get_by_uuid(session.opaque_ref, _uuid);
             else
-                return XenRef<SDN_controller>.Create(session.proxy.sdn_controller_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
+                return XenRef<SDN_controller>.Create(session.XmlRpcProxy.sdn_controller_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sdn_controller_get_uuid(session.opaque_ref, _sdn_controller);
             else
-                return session.proxy.sdn_controller_get_uuid(session.opaque_ref, _sdn_controller ?? "").parse();
+                return session.XmlRpcProxy.sdn_controller_get_uuid(session.opaque_ref, _sdn_controller ?? "").parse();
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sdn_controller_get_protocol(session.opaque_ref, _sdn_controller);
             else
-                return (sdn_controller_protocol)Helper.EnumParseDefault(typeof(sdn_controller_protocol), (string)session.proxy.sdn_controller_get_protocol(session.opaque_ref, _sdn_controller ?? "").parse());
+                return (sdn_controller_protocol)Helper.EnumParseDefault(typeof(sdn_controller_protocol), (string)session.XmlRpcProxy.sdn_controller_get_protocol(session.opaque_ref, _sdn_controller ?? "").parse());
         }
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sdn_controller_get_address(session.opaque_ref, _sdn_controller);
             else
-                return session.proxy.sdn_controller_get_address(session.opaque_ref, _sdn_controller ?? "").parse();
+                return session.XmlRpcProxy.sdn_controller_get_address(session.opaque_ref, _sdn_controller ?? "").parse();
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sdn_controller_get_port(session.opaque_ref, _sdn_controller);
             else
-                return long.Parse(session.proxy.sdn_controller_get_port(session.opaque_ref, _sdn_controller ?? "").parse());
+                return long.Parse(session.XmlRpcProxy.sdn_controller_get_port(session.opaque_ref, _sdn_controller ?? "").parse());
         }
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sdn_controller_introduce(session.opaque_ref, _protocol, _address, _port);
             else
-                return XenRef<SDN_controller>.Create(session.proxy.sdn_controller_introduce(session.opaque_ref, sdn_controller_protocol_helper.ToString(_protocol), _address ?? "", _port.ToString()).parse());
+                return XenRef<SDN_controller>.Create(session.XmlRpcProxy.sdn_controller_introduce(session.opaque_ref, sdn_controller_protocol_helper.ToString(_protocol), _address ?? "", _port.ToString()).parse());
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_sdn_controller_introduce(session.opaque_ref, _protocol, _address, _port);
           else
-              return XenRef<Task>.Create(session.proxy.async_sdn_controller_introduce(session.opaque_ref, sdn_controller_protocol_helper.ToString(_protocol), _address ?? "", _port.ToString()).parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_sdn_controller_introduce(session.opaque_ref, sdn_controller_protocol_helper.ToString(_protocol), _address ?? "", _port.ToString()).parse());
         }
 
         /// <summary>
@@ -294,7 +294,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.sdn_controller_forget(session.opaque_ref, _sdn_controller);
             else
-                session.proxy.sdn_controller_forget(session.opaque_ref, _sdn_controller ?? "").parse();
+                session.XmlRpcProxy.sdn_controller_forget(session.opaque_ref, _sdn_controller ?? "").parse();
         }
 
         /// <summary>
@@ -308,7 +308,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_sdn_controller_forget(session.opaque_ref, _sdn_controller);
           else
-              return XenRef<Task>.Create(session.proxy.async_sdn_controller_forget(session.opaque_ref, _sdn_controller ?? "").parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_sdn_controller_forget(session.opaque_ref, _sdn_controller ?? "").parse());
         }
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sdn_controller_get_all(session.opaque_ref);
             else
-                return XenRef<SDN_controller>.Create(session.proxy.sdn_controller_get_all(session.opaque_ref).parse());
+                return XenRef<SDN_controller>.Create(session.XmlRpcProxy.sdn_controller_get_all(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -334,7 +334,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.sdn_controller_get_all_records(session.opaque_ref);
             else
-                return XenRef<SDN_controller>.Create<Proxy_SDN_controller>(session.proxy.sdn_controller_get_all_records(session.opaque_ref).parse());
+                return XenRef<SDN_controller>.Create<Proxy_SDN_controller>(session.XmlRpcProxy.sdn_controller_get_all_records(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -348,7 +348,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _uuid))
                 {
                     _uuid = value;
-                    Changed = true;
                     NotifyPropertyChanged("uuid");
                 }
             }
@@ -367,7 +366,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _protocol))
                 {
                     _protocol = value;
-                    Changed = true;
                     NotifyPropertyChanged("protocol");
                 }
             }
@@ -385,7 +383,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _address))
                 {
                     _address = value;
-                    Changed = true;
                     NotifyPropertyChanged("address");
                 }
             }
@@ -403,7 +400,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _port))
                 {
                     _port = value;
-                    Changed = true;
                     NotifyPropertyChanged("port");
                 }
             }

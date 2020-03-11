@@ -61,8 +61,9 @@ namespace XenAPI
         API_2_11 = 22, //XenServer 7.6 (lima)
         API_2_12 = 23, //Citrix Hypervisor 8.0 (naples)
         API_2_13 = 24, //Unreleased (oslo)
-        API_2_14 = 25, //Unreleased (quebec)
-        LATEST = 25,
+        API_2_14 = 25, //Citrix Hypervisor 8.1 (quebec)
+        API_2_15 = 26, //Unreleased (stockholm)
+        LATEST = 26,
         UNKNOWN = 99
     }
 
@@ -122,6 +123,8 @@ namespace XenAPI
                     return "2.13";
                 case API_Version.API_2_14:
                     return "2.14";
+                case API_Version.API_2_15:
+                    return "2.15";
                 default:
                     return "Unknown";
             }

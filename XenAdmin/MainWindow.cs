@@ -118,7 +118,6 @@ namespace XenAdmin
         private bool mainWindowResized = false;
 
         private readonly Dictionary<IXenConnection, IList<Form>> activePoolWizards = new Dictionary<IXenConnection, IList<Form>>();
-        private readonly Dictionary<IXenObject, Form> activeXenModelObjectWizards = new Dictionary<IXenObject, Form>();
 
         /// <summary>
         /// The arguments passed in on the command line.
@@ -863,8 +862,8 @@ namespace XenAdmin
 
             log.InfoFormat("Connected to {0} (version {1}, build {2}.{3}) with {4} {5} (build {6}.{7})",
                 Helpers.GetName(master), Helpers.HostProductVersionText(master), Helpers.HostProductVersion(master),
-                master.BuildNumberRaw(), Messages.XENCENTER, Branding.PRODUCT_VERSION_TEXT,
-                Branding.XENCENTER_VERSION, Program.Version.Revision);
+                master.BuildNumberRaw(), Messages.XENCENTER, BrandManager.PRODUCT_VERSION_TEXT,
+                BrandManager.XENCENTER_VERSION, Program.Version.Revision);
 
             // Check the PRODUCT_BRAND
             if (!Program.RunInAutomatedTestMode && !SameProductBrand(master))
@@ -897,10 +896,10 @@ namespace XenAdmin
                 Program.Invoke(Program.MainWindow, () =>
                 {
                     var title = string.Format(Messages.CONNECTION_REFUSED_TITLE, Helpers.GetName(master).Ellipsise(80));
-                    new ActionBase(title, "", false, true, Messages.SLAVE_TOO_OLD);
+                    new ActionBase(title, "", false, true, string.Format(Messages.SLAVE_TOO_OLD, BrandManager.ProductVersion70));
 
                     using (var dlg = new ThreeButtonDialog(
-                        new ThreeButtonDialog.Details(SystemIcons.Error, Messages.SLAVE_TOO_OLD, Messages.CONNECT_TO_SERVER),
+                        new ThreeButtonDialog.Details(SystemIcons.Error, string.Format(Messages.SLAVE_TOO_OLD, BrandManager.ProductVersion70), Messages.CONNECT_TO_SERVER),
                         ThreeButtonDialog.ButtonOK))
                     {
                         dlg.ShowDialog(this);
@@ -1026,7 +1025,7 @@ namespace XenAdmin
         {
             if (host.IsLive() && host.MaintenanceMode() && host.enabled)
             {
-                Program.MainWindow.CloseActiveWizards(host);
+                Program.Invoke(this, () => XenDialogBase.CloseAll(host));
 
                 var action = new DisableHostAction(host);
                 action.Completed += action_Completed;
@@ -1082,7 +1081,7 @@ namespace XenAdmin
                 {
                     VM vm = (VM)e.Element;
                     ConsolePanel.closeVNCForSource(vm);
-                    CloseActiveWizards(vm);
+                    XenDialogBase.CloseAll(vm);
                 }
 
                 selectedTabs.Remove(o);
@@ -2242,17 +2241,8 @@ namespace XenAdmin
         {
             Program.Invoke(Program.MainWindow, delegate
             {
-                var vms = connection.Cache.VMs;
-                foreach (var kvp in activeXenModelObjectWizards)
-                {
-                    if (kvp.Key is VM vm && vms.Contains(vm))
-                    {
-                        if (kvp.Value is Form wizard && !wizard.IsDisposed)
-                            wizard.Close();
-                // Close and remove any active wizards for any VMs
-                        activeXenModelObjectWizards.Remove(vm);
-                }
-        }
+                //so far we show per-xenObject forms only for VMs and Hosts
+                XenDialogBase.CloseAll(connection.Cache.VMs.Cast<IXenObject>().Union(connection.Cache.Hosts).ToArray());
 
                 if (activePoolWizards.TryGetValue(connection, out IList<Form> wizards))
         {
@@ -2271,39 +2261,9 @@ namespace XenAdmin
         /// Closes all per-XenObject wizards.
         /// </summary>
         /// <param name="obj"></param>
-        public void CloseActiveWizards(IXenObject obj)
-        {
-            Program.Invoke(Program.MainWindow, delegate
-            {
-                if (activeXenModelObjectWizards.TryGetValue(obj, out Form wizard))
-                {
-                    if (!wizard.IsDisposed)
-                        wizard.Close();
 
-                    activeXenModelObjectWizards.Remove(obj);
-                }
-            });
-        }
 
         /// <summary>
-        /// Show the given wizard, and impose a one-wizard-per-XenObject limit.
-        /// </summary>
-        /// <param name="obj">The relevant VM</param>
-        /// <param name="wizard">The new wizard to show</param>
-        public void ShowPerXenModelObjectWizard(IXenObject obj, Form wizard)
-        {
-            CloseActiveWizards(obj);
-            activeXenModelObjectWizards.Add(obj, wizard);
-            wizard.Show(this);
-        }
-
-        /// <summary>
-        /// Show the given wizard, and impose a one-wizard-per-connection limit.
-        /// </summary>
-        /// <param name="connection">The connection.  May be null, in which case the wizard
-        /// is not addded to any dictionary.  This should happen iff this is the New Pool Wizard.</param>
-        /// <param name="wizard">The new wizard to show. May not be null.</param>
-        /// <param name="parentForm">The form owning the wizard to be launched.</param>
         public void ShowPerConnectionWizard(IXenConnection connection, Form wizard, Form parentForm = null)
         {
             if (connection != null)
@@ -2382,9 +2342,14 @@ namespace XenAdmin
             Program.Invoke(this, method);
         }
 
+        /// <summary>
+        /// Selects the specified object in the treeview.
+        /// </summary>
+        /// <param name="xenObject">The object to be selected.</param>
+        /// <returns>A value indicating whether selection was successful.</returns>
         public bool SelectObjectInTree(IXenObject xenObject)
         {
-            return SelectObject(xenObject);
+            return navigationPane.SelectObject(xenObject);
         }
 
         public Collection<IXenConnection> GetXenConnectionsCopy()
@@ -2411,7 +2376,6 @@ namespace XenAdmin
         {
             EditSelectedNodeInTreeView();
         }
-
 
         public void TrySelectNewObjectInTree(Predicate<object> tagMatch, bool selectNode, bool expandNode, bool ensureNodeVisible)
         {
@@ -2570,16 +2534,6 @@ namespace XenAdmin
                     Thread.Sleep(500);
                 }
             });
-        }
-
-        /// <summary>
-        /// Selects the specified object in the treeview.
-        /// </summary>
-        /// <param name="o">The object to be selected.</param>
-        /// <returns>A value indicating whether selection was successful.</returns>
-        public bool SelectObject(IXenObject o)
-        {
-            return navigationPane.SelectObject(o);
         }
 
         private void eventsPage_GoToXenObjectRequested(IXenObject obj)

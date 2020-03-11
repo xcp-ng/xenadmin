@@ -462,7 +462,7 @@ namespace XenAdmin.TabPages
                 
             if (vms.Any(vm => vm.has_ballooning() && vm.memory_dynamic_min != vm.memory_static_max))
             {
-                Banner.AppliesToVersion = Messages.XENSERVER_8_1;
+                Banner.AppliesToVersion = string.Format(Messages.XENSERVER_8_1, BrandManager.ProductVersion81);
                 Banner.BannerType = DeprecationBanner.Type.Deprecation;
                 Banner.FeatureName = Messages.DMC;
                 Banner.LinkUri = HiddenFeatures.LinkLabelHidden ? null : new Uri(InvisibleMessages.DEPRECATION_URL);

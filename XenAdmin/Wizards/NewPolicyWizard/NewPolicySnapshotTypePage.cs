@@ -51,6 +51,7 @@ namespace XenAdmin.Wizards.NewPolicyWizard
         public NewPolicySnapshotTypePage()
         {
             InitializeComponent();
+            label6.Text = string.Format(label6.Text, BrandManager.ProductVersion81);
         }
 
         public string SubText

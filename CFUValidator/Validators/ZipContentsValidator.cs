@@ -36,6 +36,7 @@ using System.IO;
 using XenAdmin;
 using XenAdmin.Actions;
 using XenAdmin.Alerts;
+using XenAdmin.Core;
 using XenCenterLib.Archive;
 
 namespace CFUValidator.Validators
@@ -72,9 +73,10 @@ namespace CFUValidator.Validators
             }
 
             string tempFileName = NewTempPath();
-            DownloadAndUnzipXenServerPatchAction action = new DownloadAndUnzipXenServerPatchAction(patch.Patch.Name, 
-                                                                    new Uri(patch.Patch.PatchUrl),
-                                                                    tempFileName, false, Branding.Update, Branding.UpdateIso);
+            DownloadAndUnzipXenServerPatchAction action = new DownloadAndUnzipXenServerPatchAction(patch.Patch.Name,
+                new Uri(patch.Patch.PatchUrl),
+                tempFileName, false, BrandManager.ExtensionUpdate, InvisibleMessages.ISO_UPDATE);
+
             try
             {
                 Status = "Download and unzip patch " + patch.Patch.Name;

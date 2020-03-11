@@ -98,10 +98,11 @@ namespace XenAdmin.Commands
                     oldDir = Directory.GetCurrentDirectory();
                     OpenFileDialog dialog = new OpenFileDialog();
                     dialog.AddExtension = true;
-                    dialog.Filter = string.Format("{0} (*.{1})|*.{1}|{2} (*.*)|*.*", Messages.XS_BACKUP_FILES, Branding.BACKUP, Messages.ALL_FILES);
+                    dialog.Filter = string.Format("{0} (*.{1})|*.{1}|{2} (*.*)|*.*",
+                        Messages.XS_BACKUP_FILES, BrandManager.ExtensionBackup, Messages.ALL_FILES);
                     dialog.FilterIndex = 0;
                     dialog.RestoreDirectory = true;
-                    dialog.DefaultExt = Branding.BACKUP;
+                    dialog.DefaultExt = BrandManager.ExtensionBackup;
                     dialog.CheckPathExists = false;
                     if (dialog.ShowDialog(Parent) == DialogResult.Cancel)
                         return;

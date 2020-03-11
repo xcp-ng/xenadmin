@@ -997,7 +997,7 @@
     <value>Transfer Health Check settings</value>
   </data>
   <data name="ACTION_UPDATE_INTEGRATED_GPU_PASSTHROUGH_TITLE" xml:space="preserve">
-    <value>Updating integrated GPU passthrough on '{0}'</value>
+    <value>Updating integrated GPU pass-through on '{0}'</value>
   </data>
   <data name="ACTION_UPLOADPATCHTOMASTERPLANACTION_FAILED" xml:space="preserve">
     <value>Upload error. The patch was uploaded, but it cannot be found on the host.</value>
@@ -1015,16 +1015,16 @@
     <value>Uploading report to [Citrix] Insight Services</value>
   </data>
   <data name="ACTION_USB_PASSTHROUGH_DISABLED" xml:space="preserve">
-    <value>USB passthrough disabled</value>
+    <value>USB pass-through disabled</value>
   </data>
   <data name="ACTION_USB_PASSTHROUGH_DISABLING" xml:space="preserve">
-    <value>Disabling USB passthrough for {0}</value>
+    <value>Disabling USB pass-through for {0}</value>
   </data>
   <data name="ACTION_USB_PASSTHROUGH_ENABLED" xml:space="preserve">
-    <value>USB passthrough enabled</value>
+    <value>USB pass-through enabled</value>
   </data>
   <data name="ACTION_USB_PASSTHROUGH_ENABLING" xml:space="preserve">
-    <value>Enabling USB passthrough for {0}</value>
+    <value>Enabling USB pass-through for {0}</value>
   </data>
   <data name="ACTION_VDI_CREATED" xml:space="preserve">
     <value>Virtual disk created</value>
@@ -1240,7 +1240,7 @@
     <value>Shut down</value>
   </data>
   <data name="ACTION_VM_SNAPSHOT_TITLE" xml:space="preserve">
-    <value>Snapshotting VM '{0}'...</value>
+    <value>Taking a snapshot of VM '{0}'...</value>
   </data>
   <data name="ACTION_VM_STARTED" xml:space="preserve">
     <value>Started</value>
@@ -1811,7 +1811,7 @@ This alarm is set to be triggered when network usage is more than {3}.</value>
   </data>
   <data name="ALERT_ALARM_SR_PHYSICAL_UTILISATION_DESCRIPTION" xml:space="preserve">
     <value>The physical utilization on {0} is about {1} of its capacity. 
-This alarm is set to be triggered when the physical utilisation of the SR goes above {2}.</value>
+This alarm is set to be triggered when the physical utilization of the SR goes above {2}.</value>
   </data>
   <data name="ALERT_ALARM_STORAGE" xml:space="preserve">
     <value>Storage Throughput Alarm</value>
@@ -2953,7 +2953,7 @@ Are you sure you want to export VM {2}?</value>
     <value>Rebooting a server will also shut down all the VMs running on it. '{0}' is running a storage virtual appliance and rebooting it might impact the availability of your storage. Are you sure you want to continue?</value>
   </data>
   <data name="CONFIRM_REBOOT_HCI_WARN_SERVERS" xml:space="preserve">
-    <value>Rebooting a server will also shut down all the VMs running on it. The following servers are running a storage virtual appliance and rebooting them might impact the availablity of your storage:
+    <value>Rebooting a server will also shut down all the VMs running on it. The following servers are running a storage virtual appliance and rebooting them might impact the availability of your storage:
 
 {0}
 
@@ -3009,7 +3009,7 @@ This will also shut down all the VMs currently running on them.</value>
     <value>Shutting down a server will also shut down all the VMs running on it. '{0}' is running a storage virtual appliance and shutting it down might impact the availability of your storage. Are you sure you want to continue?</value>
   </data>
   <data name="CONFIRM_SHUTDOWN_HCI_WARN_SERVERS" xml:space="preserve">
-    <value>Shutting down a server will also shut down all the VMs running on it. The following servers are running a storage virtual appliance and shutting them down might impact the availablity of your storage:
+    <value>Shutting down a server will also shut down all the VMs running on it. The following servers are running a storage virtual appliance and shutting them down might impact the availability of your storage:
 
 {0}
 
@@ -3445,7 +3445,7 @@ This action cannot be undone. Are you sure you want to continue?</value>
   </data>
   <data name="CONVERSION_STORAGE_PAGE_SR_OVERCOMMIT" xml:space="preserve">
     <value>The SR is overcommitted</value>
-  </data> 
+  </data>
   <data name="CONVERSION_STORAGE_PAGE_SR_TOO_SMALL" xml:space="preserve">
     <value>There is not enough available space on this SR</value>
   </data>
@@ -3495,7 +3495,7 @@ This action cannot be undone. Are you sure you want to continue?</value>
     <value>[XenCenter] is incompatible with this version of the Conversion Manager virtual appliance.</value>
   </data>
   <data name="CONVERSION_VERSION_INCOMPATIBILITY_INFO" xml:space="preserve">
-    <value>The version of the Conversion Manager virtual appliance you are using is earlier than [BRANDING_VERSION_7_0]. You can use the legacy Conversion Manager console to set up and control conversions. However, it is strongly recommended that you import and configure the Conversion Manager virtual appliance matching your [XenServer] version.</value>
+    <value>The version of the Conversion Manager virtual appliance you are using is earlier than {0}. You can use the legacy Conversion Manager console to set up and control conversions. However, it is strongly recommended that you import and configure the Conversion Manager virtual appliance matching your [XenServer] version.</value>
   </data>
   <data name="CONVERSION_VM_PAGE_TEXT" xml:space="preserve">
     <value>Virtual Machines</value>
@@ -4126,7 +4126,7 @@ For optimal performance and reliability during VM migration, ensure that the net
   <data name="DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_REASON" xml:space="preserve">
     <value>{0} - {1}</value>
   </data>
-  <data name="DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_UNKOWN" xml:space="preserve">
+  <data name="DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_UNKNOWN" xml:space="preserve">
     <value>unable to determine failure reason</value>
   </data>
   <data name="DELAY_LOADING_COMBO_BOX_WAITING" xml:space="preserve">
@@ -4371,22 +4371,22 @@ This will also delete its subfolders.</value>
     <value>No devices available</value>
   </data>
   <data name="DIALOG_USB_USAGE_DISABLE_PASSTHROUGH" xml:space="preserve">
-    <value>Disable passthrough</value>
+    <value>Disable pass-through</value>
   </data>
   <data name="DIALOG_USB_USAGE_ENABLE_PASSTHROUGH" xml:space="preserve">
-    <value>Enable passthrough</value>
+    <value>Enable pass-through</value>
   </data>
   <data name="DIALOG_USB_USAGE_NOTE_ALLOW" xml:space="preserve">
-    <value>Are you sure that you want to enable passthrough on this device? This will allow this device to be passed through to virtual machines.</value>
+    <value>Are you sure that you want to enable pass-through on this device? This will allow this device to be passed through to virtual machines.</value>
   </data>
   <data name="DIALOG_USB_USAGE_NOTE_DENY" xml:space="preserve">
-    <value>Are you sure that you want to disable passthrough on this device? This device will no longer be allowed to be passed through to virtual machines.</value>
+    <value>Are you sure that you want to disable pass-through on this device? This device will no longer be allowed to be passed through to virtual machines.</value>
   </data>
   <data name="DIALOG_USB_USAGE_OKBUTTON_DISABLE" xml:space="preserve">
-    <value>&amp;Yes, Disable passthrough</value>
+    <value>&amp;Yes, Disable pass-through</value>
   </data>
   <data name="DIALOG_USB_USAGE_OKBUTTON_ENABLE" xml:space="preserve">
-    <value>&amp;Yes, Enable passthrough</value>
+    <value>&amp;Yes, Enable pass-through</value>
   </data>
   <data name="DISABLE" xml:space="preserve">
     <value>Disa&amp;ble</value>
@@ -5371,7 +5371,7 @@ Would you like to eject these ISOs before continuing?</value>
     <value>Error Resuming VM on Server</value>
   </data>
   <data name="ERROR_DIALOG_RESUME_VM_TEXT" xml:space="preserve">
-    <value>The following Vms could not be resumed:</value>
+    <value>The following VMs could not be resumed:</value>
   </data>
   <data name="ERROR_DIALOG_RESUME_VM_TITLE" xml:space="preserve">
     <value>Error Resuming VM</value>
@@ -5959,7 +5959,7 @@ Warning: to prevent data loss you must ensure that the LUN is not in use by any 
     <value>Memory</value>
   </data>
   <data name="GENERAL_HEADING_MEMORY_VCPUS" xml:space="preserve">
-    <value>Memory and VCPUs</value>
+    <value>Memory and vCPUs</value>
   </data>
   <data name="GENERAL_HEADING_STATUS" xml:space="preserve">
     <value>Status</value>
@@ -6684,7 +6684,7 @@ Click Configure HA to alter the settings displayed below.</value>
     <value>Local and Remote ({0})</value>
   </data>
   <data name="HOST_MEMORY_POST_UPGRADE_DEFAULT_WARNING_LONG" xml:space="preserve">
-    <value>If you are upgrading to [XenServer] [BRANDING_VERSION_8_0] and above, the Control Domain memory on {0} will be increased. 
+    <value>If you are upgrading to [XenServer] {1} and above, the Control Domain memory on {0} will be increased. 
 
 This might result in failure to migrate VMs to this server during the RPU or to accommodate after the upgrade all the VMs that are currently residing on this server.</value>
   </data>
@@ -6948,10 +6948,10 @@ This might result in failure to migrate VMs to this server during the RPU or to 
     <value>Review End User License Agreement (EULA)</value>
   </data>
   <data name="IMPORT_GENERIC_FAIL" xml:space="preserve">
-    <value>The server could not complete the import due to an unkown error.</value>
+    <value>The server could not complete the import due to an unknown error.</value>
   </data>
   <data name="IMPORT_INCOMPLETE_FILES" xml:space="preserve">
-    <value>The exported files are incomplete or in an unrecognised format.</value>
+    <value>The exported files are incomplete or in an unrecognized format.</value>
   </data>
   <data name="IMPORT_OPTIONS_PAGE_CANNOT_USE_SELECTED_ISO_LIBRARY" xml:space="preserve">
     <value>The Fixup ISO cannot be copied to the selected SR</value>
@@ -7083,7 +7083,7 @@ This might result in failure to migrate VMs to this server during the RPU or to 
     <value>Locate the file you want to import</value>
   </data>
   <data name="IMPORT_TEMPLATE_ALREADY_EXISTS" xml:space="preserve">
-    <value>The [Xenserver] Template that you are attempting to import already exists in the selected pool.</value>
+    <value>The [XenServer] Template that you are attempting to import already exists in the selected pool.</value>
   </data>
   <data name="IMPORT_TEMPLATE_CONFIGURE_STORAGE" xml:space="preserve">
     <value>Configure storage for the new template</value>
@@ -7320,7 +7320,7 @@ This might result in failure to migrate VMs to this server during the RPU or to 
     <value>Interfaces: {0}</value>
   </data>
   <data name="INVALID_HOST" xml:space="preserve">
-    <value>Invalid hostname</value>
+    <value>Invalid host name</value>
   </data>
   <data name="INVALID_NUMBER" xml:space="preserve">
     <value>Invalid disk size</value>
@@ -7489,31 +7489,31 @@ Size: {3}</value>
     <value>[XenServer product] P&amp;remium Per-Socket ({0} required)</value>
   </data>
   <data name="LICENSE_EDITION_ENTERPRISE_PERSOCKET_LEGACY" xml:space="preserve">
-    <value>[Legacy XenServer product] E&amp;nterprise Per-Socket ({0} required)</value>
+    <value>{1} E&amp;nterprise Per-Socket ({0} required)</value>
   </data>
   <data name="LICENSE_EDITION_ENTERPRISE_PERUSER" xml:space="preserve">
     <value>[XenServer product] Pr&amp;emium Per-User</value>
   </data>
   <data name="LICENSE_EDITION_ENTERPRISE_PERUSER_LEGACY" xml:space="preserve">
-    <value>[Legacy XenServer product] &amp;Enterprise Per-User</value>
+    <value>{0} &amp;Enterprise Per-User</value>
   </data>
   <data name="LICENSE_EDITION_PERSOCKET" xml:space="preserve">
     <value>[XenServer product] Per-&amp;Socket ({0} required)</value>
   </data>
   <data name="LICENSE_EDITION_PERSOCKET_LEGACY" xml:space="preserve">
-    <value>[Legacy XenServer product] Per-&amp;Socket ({0} required)</value>
+    <value>{1} Per-&amp;Socket ({0} required)</value>
   </data>
   <data name="LICENSE_EDITION_STANDARD_PERSOCKET" xml:space="preserve">
     <value>[XenServer product] &amp;Standard Per-Socket ({0} required)</value>
   </data>
   <data name="LICENSE_EDITION_STANDARD_PERSOCKET_LEGACY" xml:space="preserve">
-    <value>[Legacy XenServer product] &amp;Standard Per-Socket ({0} required)</value>
+    <value>{1} &amp;Standard Per-Socket ({0} required)</value>
   </data>
   <data name="LICENSE_EDITION_XENDESKTOP" xml:space="preserve">
     <value>[XenServer product] for [Citrix] Virtual &amp;Desktops</value>
   </data>
   <data name="LICENSE_EDITION_XENDESKTOP_LEGACY" xml:space="preserve">
-    <value>[Legacy XenServer product] for &amp;XenDesktop</value>
+    <value>{0} for &amp;XenDesktop</value>
   </data>
   <data name="LICENSE_ERROR_1" xml:space="preserve">
     <value>The licensing action for {0} failed.</value>
@@ -7595,7 +7595,7 @@ Size: {3}</value>
     <value>Servers must be selected one at a time when activating Express [XenServer].</value>
   </data>
   <data name="LICENSE_NO_MULTISELECT_LICENSE" xml:space="preserve">
-    <value>Servers must be selected one at a time when licensing servers which have a version lower than [BRANDING_VERSION_5_6].</value>
+    <value>When licensing servers earlier than {0}, you must select one server at a time.</value>
   </data>
   <data name="LICENSE_REGULAR_GRACE_TOOLTIP" xml:space="preserve">
     <value>The license server {0} could not be reached. You have until {1} to reconnect to the license server.</value>
@@ -8766,7 +8766,7 @@ You should only proceed if you have verified that these settings are correct.</v
     <value>This server does not have the same license as the pool master</value>
   </data>
   <data name="NEWPOOL_LINUXPACK" xml:space="preserve">
-    <value>This server's linux pack installation state differs from that of the master</value>
+    <value>This server's Linux pack installation state differs from that of the master</value>
   </data>
   <data name="NEWPOOL_MASTER_CONNECTING" xml:space="preserve">
     <value>The master is still connecting</value>
@@ -8803,7 +8803,7 @@ You should only proceed if you have verified that these settings are correct.</v
 
 As SMB storage repositories are shared, the virtual disks stored in them allow VMs to be started on any server in a resource pool and to be migrated between them using Live Migration.
 
-When you configure a SMB storage repository, you simply provide the hostname or IP address of the SMB server, the user name, the password and the path to a directory that will be used to contain the storage repository. The SMB server must be configured to export the specified path to all servers in the pool.</value>
+When you configure a SMB storage repository, you simply provide the host name or IP address of the SMB server, the user name, the password and the path to a directory that will be used to contain the storage repository. The SMB server must be configured to export the specified path to all servers in the pool.</value>
   </data>
   <data name="NEWSR_CIFS_ISO_BLURB" xml:space="preserve">
     <value>Select this option if you have a library of VM installation ISO images available as a Windows (SMB/CIFS) share that you want to attach to your host or pool.</value>
@@ -8984,7 +8984,7 @@ Do you want to reattach the SR?</value>
   <data name="NEWSR_NETAPP_BLURB" xml:space="preserve">
     <value>If you have access to a Network Appliance (NetApp) filer with sufficient disk space, running a version of Data ONTAP 7G (version 7.2 or greater), you can configure a custom NetApp Storage Repository. 
 
-The driver uses the ZAPI interface to the filer to create a group of FlexVols which correspond to an SR. VDIs are created as virtual LUNs on the filer, and attached to the host using an iSCSI data path. 
+The driver uses the XAPI interface to the filer to create a group of FlexVols which correspond to an SR. VDIs are created as virtual LUNs on the filer, and attached to the host using an iSCSI data path. 
 
 VM cloning uses the snapshot and clone capabilities of the filer to provide high performance and to ensure compatibility with existing ONTAP filer management tools.</value>
   </data>
@@ -9050,7 +9050,7 @@ VM cloning uses the snapshot and clone capabilities of the filer to provide high
 
 As NFS storage repositories are shared, the virtual disks stored in them allow VMs to be started on any server in a resource pool and to be migrated between them using Live Migration.
 
-When you configure an NFS storage repository, you simply provide the hostname or IP address of the NFS server and the path to a directory that will be used to contain the storage repository. The NFS server must be configured to export the specified path to all servers in the pool.</value>
+When you configure an NFS storage repository, you simply provide the host name or IP address of the NFS server and the path to a directory that will be used to contain the storage repository. The NFS server must be configured to export the specified path to all servers in the pool.</value>
   </data>
   <data name="NEWSR_VHDONFS_TYPE_NAME" xml:space="preserve">
     <value>NFS</value>
@@ -9623,7 +9623,7 @@ It is strongly recommended that you Cancel and apply the latest version of the p
   <data name="NOT_AGILE_SR_NOT_SHARED" xml:space="preserve">
     <value>The VM is using a non-shared SR. Restart cannot be guaranteed.</value>
   </data>
-  <data name="NOT_AGILE_UNKOWN" xml:space="preserve">
+  <data name="NOT_AGILE_UNKNOWN" xml:space="preserve">
     <value>The VM is not agile. Restart cannot be guaranteed.</value>
   </data>
   <data name="NOT_AGILE_VM_HAS_SRIOV_VIF" xml:space="preserve">
@@ -9686,9 +9686,9 @@ It is strongly recommended that you Cancel and apply the latest version of the p
   <data name="NOT_SAFE_TO_UPGRADE_DEFAULT_WARNING_LONG" xml:space="preserve">
     <value>VMs on local disk will prevent disk repartitioning.
 
-A new disk partitioning scheme is available in [XenServer] [BRANDING_VERSION_7_0] and above that includes larger dom0 and backup partitions, and dedicated partitions for logging, swap and UEFI.
+A new disk partitioning scheme is available in [XenServer] {0} and above that includes larger dom0 and backup partitions, and dedicated partitions for logging, swap and UEFI.
 
-However, there are VMs on local storage, so the current partitioning scheme will be retained. To benefit from repartitioning on upgrade to [XenServer] [BRANDING_VERSION_7_0] or above, VMs must be moved from local storage first.</value>
+However, there are VMs on local storage, so the current partitioning scheme will be retained. To benefit from repartitioning on upgrade to [XenServer] {0} or above, VMs must be moved from local storage first.</value>
   </data>
   <data name="NOT_SAFE_TO_UPGRADE_DEFAULT_WARNING_SHORT" xml:space="preserve">
     <value>{0}: VMs on local disk will prevent disk repartitioning.</value>
@@ -9696,7 +9696,7 @@ However, there are VMs on local storage, so the current partitioning scheme will
   <data name="NOT_SAFE_TO_UPGRADE_NOT_ENOUGH_SPACE_LONG" xml:space="preserve">
     <value>The disk size of the local storage prevents repartitioning.
 
-A new disk partitioning scheme is available in [XenServer] [BRANDING_VERSION_7_0] and above that includes larger dom0 and backup partitions, and dedicated partitions for logging, swap and UEFI.
+A new disk partitioning scheme is available in [XenServer] {0} and above that includes larger dom0 and backup partitions, and dedicated partitions for logging, swap and UEFI.
 
 However, there is not enough space to perform the repartitioning, so the current partitioning scheme will be retained.</value>
   </data>
@@ -10066,7 +10066,7 @@ This will cancel the update process and may leave your system in an unstable sta
     <value>Cannot install supplemental packs on this [XenServer] version</value>
   </data>
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_CANNOT_INSTALL_UPDATE_MASTER_POST_7_0" xml:space="preserve">
-    <value>Cannot install updates on this host because the master is running a version higher than [BRANDING_VERSION_7_0]</value>
+    <value>Cannot install updates on this host because the master is running a version higher than {0}</value>
   </data>
   <data name="PATCHINGWIZARD_SELECTSERVERPAGE_HOST_UNLICENSED" xml:space="preserve">
     <value>Subscription Advantage required</value>
@@ -10354,7 +10354,7 @@ File not found</value>
     <value>Server '{0}' could not be evacuated because there were no servers available to accommodate all the VMs being migrated from this server. Please reboot the other servers that are pending a reboot following the update installation, and then press Retry to resume the process.</value>
   </data>
   <data name="PLAN_ACTION_FAILURE_NOT_ENOUGH_MEMORY" xml:space="preserve">
-    <value>Server '{0}' could not be evacuated because there was not enough free memory on the other servers to migrate all the VMs from this server. Please suspend or shutdown some VMs and then press Retry to resume the process.</value>
+    <value>Server '{0}' could not be evacuated because there was not enough free memory on the other servers to migrate all the VMs from this server. Please suspend or shut down some VMs and then press Retry to resume the process.</value>
   </data>
   <data name="PLAN_ACTION_STATUS_INSTALLING_XENSERVER" xml:space="preserve">
     <value>Installing [XenServer] on '{0}'...</value>
@@ -10505,11 +10505,8 @@ Please reconnect the host and try again</value>
   <data name="POOL_HAS_NO_SHARED_STORAGE" xml:space="preserve">
     <value>This pool has no shared storage</value>
   </data>
-  <data name="POOL_HAS_PV_GUEST_UPDATE_WARNING" xml:space="preserve">
-    <value>{0}: Support for paravirtualized (PV) guests is dropped as of [XenServer] [BRANDING_VERSION_8_1]. Click "Learn more" to see the list of supported guest operating systems. </value>
-  </data>
-  <data name="POOL_HAS_PV_GUEST_UPGRADE_WARNING" xml:space="preserve">
-    <value>{0}: Support for paravirtualized (PV) guests is dropped as of [XenServer] [BRANDING_VERSION_8_1]. Click "Learn more" to see the list of supported guest operating systems. </value>
+  <data name="POOL_HAS_PV_GUEST_WARNING" xml:space="preserve">
+    <value>{0}: Support for paravirtualized (PV) guests is dropped as of [XenServer] {1}. Click "Learn more" to see the list of supported guest operating systems. </value>
   </data>
   <data name="POOL_IS_PARTIALLY_LICENSED" xml:space="preserve">
     <value>The pool is partially licensed</value>
@@ -11474,7 +11471,7 @@ The master must be upgraded first, so if you skip the master, the rolling pool u
     <value>The current time on the pool master is: {0}</value>
   </data>
   <data name="SERVER_TOO_OLD" xml:space="preserve">
-    <value>This version of [XenCenter] supports [XenServer] [BRANDING_VERSION_7_0] onwards.</value>
+    <value>This version of [XenCenter] supports [XenServer] {0} onwards.</value>
   </data>
   <data name="SERVER_TOO_OLD_SOLUTION" xml:space="preserve">
     <value>Use an earlier version of [XenCenter] to manage this server.</value>
@@ -11652,7 +11649,7 @@ The master must be upgraded first, so if you skip the master, the rolling pool u
 Do you want to connect to the pool master '{1}'?</value>
   </data>
   <data name="SLAVE_TOO_OLD" xml:space="preserve">
-    <value>This pool contains servers earlier than [XenServer] [BRANDING_VERSION_7_0]. Please use an earlier version of [XenCenter] to manage this pool.</value>
+    <value>This pool contains servers earlier than [XenServer] {0}. Please use an earlier version of [XenCenter] to manage this pool.</value>
   </data>
   <data name="SMALLER_THAN" xml:space="preserve">
     <value>smaller than</value>
@@ -11754,7 +11751,7 @@ Do you want to connect to the pool master '{1}'?</value>
     <value>Please wait and then try again.</value>
   </data>
   <data name="SOLUTION_NOT_FOUND" xml:space="preserve">
-    <value>Enter a valid hostname or IP address and try again.</value>
+    <value>Enter a valid host name or IP address and try again.</value>
   </data>
   <data name="SOLUTION_NO_PERMISSION" xml:space="preserve">
     <value>Try again with a more privileged user account.</value>
@@ -11829,9 +11826,6 @@ You may need to reboot your server(s) to enable SR-IOV network.</value>
   </data>
   <data name="SR_CANNOT_BE_DESTROYED_WITH_XC" xml:space="preserve">
     <value>This SR cannot be destroyed with [XenCenter].</value>
-  </data>
-  <data name="SR_CANNOT_BE_DETACHED_WITH_XC" xml:space="preserve">
-    <value>This SR cannot be detached with [XenCenter].</value>
   </data>
   <data name="SR_CANNOT_BE_FORGOTTEN_WITH_XC" xml:space="preserve">
     <value>This SR cannot be forgotten with [XenCenter].</value>
@@ -12655,9 +12649,6 @@ Please check your settings and try again.</value>
   <data name="UPDATES_WIZARD_OUT_OF_DATE_TOOLS" xml:space="preserve">
     <value>{0}: The VM {1} cannot be suspended until it has up to date [Citrix VM Tools].</value>
   </data>
-  <data name="UPDATES_WIZARD_PAGE1_TOPTEXT" xml:space="preserve">
-    <value>Select the checkboxes for each server you want to update. Select a pool checkbox to select all the available servers in the pool.</value>
-  </data>
   <data name="UPDATES_WIZARD_PATCH_ALREADY_APPLIED" xml:space="preserve">
     <value>{0}: The update has already been applied to this server.  This server will be skipped.</value>
   </data>
@@ -12951,10 +12942,10 @@ To start a [XenServer] trial, click the button below.</value>
     <value>USB</value>
   </data>
   <data name="USBLIST_DISABLE_PASSTHROUGH_HOTKEY" xml:space="preserve">
-    <value>&amp;Disable passthrough</value>
+    <value>&amp;Disable pass-through</value>
   </data>
   <data name="USBLIST_ENABLE_PASSTHROUGH_HOTKEY" xml:space="preserve">
-    <value>&amp;Enable passthrough</value>
+    <value>&amp;Enable pass-through</value>
   </data>
   <data name="USB_ATTACH_NOT_ALLOWED_HA" xml:space="preserve">
     <value>Cannot attach USB devices because the VM is currently protected by HA.</value>
@@ -13107,7 +13098,7 @@ To start a [XenServer] trial, click the button below.</value>
     <value>{0} - currently in use by '{1}'</value>
   </data>
   <data name="VCPU_ONLY_WHEN_HALTED" xml:space="preserve">
-    <value>The VCPUs can only be changed when the VM is shut down.</value>
+    <value>The vCPUs can only be changed when the VM is shut down.</value>
   </data>
   <data name="VDI" xml:space="preserve">
     <value>VDI</value>
@@ -13450,7 +13441,7 @@ Schedule:
     <value>This VM has a pass-through GPU assigned.</value>
   </data>
   <data name="VM_LIVE_CHANGES_NOT_SUPPORTED_MESSAGE" xml:space="preserve">
-    <value>Memory and/or VCPU changes will take effect when you restart the VM.</value>
+    <value>Memory and/or vCPU changes will take effect when you restart the VM.</value>
   </data>
   <data name="VM_LIVE_CHANGES_NOT_SUPPORTED_TITLE" xml:space="preserve">
     <value>VM General Changes</value>
@@ -14401,17 +14392,11 @@ Are you sure you want to enable automated power management for this Host?</value
   <data name="XENSERVER" xml:space="preserve">
     <value>[XenServer]</value>
   </data>
-  <data name="XENSERVER_6_2" xml:space="preserve">
-    <value>[XenServer] [BRANDING_VERSION_6_2]</value>
-  </data>
   <data name="XENSERVER_6_5" xml:space="preserve">
-    <value>[XenServer] [BRANDING_VERSION_6_5]</value>
+    <value>[XenServer] {0}</value>
   </data>
   <data name="XENSERVER_8_1" xml:space="preserve">
-    <value>[XenServer] [BRANDING_VERSION_8_1]</value>
-  </data>
-  <data name="XENSERVER_LEGACY" xml:space="preserve">
-    <value>[Legacy XenServer product]</value>
+    <value>[XenServer] {0}</value>
   </data>
   <data name="XENSERVER_TEMPLATES" xml:space="preserve">
     <value>[XenServer] Templates</value>
@@ -14459,17 +14444,5 @@ You will need to navigate to the Console on each of the selected VMs to complete
   </data>
   <data name="YOU_ARE_HERE" xml:space="preserve">
     <value>You are here</value>
-  </data>
-  <data name="ACTION_VM_PAUSED" xml:space="preserve">
-    <value>VM paused</value>
-  </data>
-  <data name="ACTION_VM_PAUSING" xml:space="preserve">
-    <value>VM pausing</value>
-  </data>
-  <data name="ACTION_VM_PAUSED" xml:space="preserve">
-    <value>VM paused</value>
-  </data>
-  <data name="ACTION_VM_PAUSING" xml:space="preserve">
-    <value>VM pausing</value>
   </data>
 </root>

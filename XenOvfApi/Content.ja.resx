@@ -121,7 +121,7 @@
     <value>Xen アプライアンス ウィザード</value>
   </data>
   <data name="CONVERT_VMX_VSSD_CAPTION" xml:space="preserve">
-    <value>VMWare VMX から変換済み</value>
+    <value>VMware VMX から変換済み</value>
   </data>
   <data name="CONVERT_VPC_VSSD_CAPTION" xml:space="preserve">
     <value>Virtual PC から変換済み</value>

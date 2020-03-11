@@ -300,7 +300,7 @@ Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Cit
     <value>5</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>[Citrix]、[Citrix XenServer]、[Legacy XenServer product]、Xen、Xen のロゴ、[XenCenter]、XenMotion は、米国およびその他の国の [Citrix] Systems, Inc. の商標または登録商標です。</value>
+    <value>[Citrix]、[Citrix XenServer]、{0}、Xen、Xen のロゴ、[XenCenter]、XenMotion は、米国およびその他の国の [Citrix] Systems, Inc. の商標または登録商標です。</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>

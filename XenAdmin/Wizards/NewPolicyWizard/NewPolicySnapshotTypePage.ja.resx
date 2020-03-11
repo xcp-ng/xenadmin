@@ -157,7 +157,7 @@
     <value>0</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>[XenServer] [BRANDING_VERSION_8_1] 以降、休止スナップショットは使用できなくなりました。スケジュールされたスナップショットが正常に作成されるようにするには、このオプションの選択を解除してください。</value>
+    <value>[XenServer] {0} 以降、休止スナップショットは使用できなくなりました。スケジュールされたスナップショットが正常に作成されるようにするには、このオプションの選択を解除してください。</value>
   </data>
   <data name="&gt;&gt;label6.Name" xml:space="preserve">
     <value>label6</value>

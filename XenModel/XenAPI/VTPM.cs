@@ -170,7 +170,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vtpm_get_record(session.opaque_ref, _vtpm);
             else
-                return new VTPM(session.proxy.vtpm_get_record(session.opaque_ref, _vtpm ?? "").parse());
+                return new VTPM(session.XmlRpcProxy.vtpm_get_record(session.opaque_ref, _vtpm ?? "").parse());
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vtpm_get_by_uuid(session.opaque_ref, _uuid);
             else
-                return XenRef<VTPM>.Create(session.proxy.vtpm_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
+                return XenRef<VTPM>.Create(session.XmlRpcProxy.vtpm_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vtpm_create(session.opaque_ref, _record);
             else
-                return XenRef<VTPM>.Create(session.proxy.vtpm_create(session.opaque_ref, _record.ToProxy()).parse());
+                return XenRef<VTPM>.Create(session.XmlRpcProxy.vtpm_create(session.opaque_ref, _record.ToProxy()).parse());
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_vtpm_create(session.opaque_ref, _record);
           else
-              return XenRef<Task>.Create(session.proxy.async_vtpm_create(session.opaque_ref, _record.ToProxy()).parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_vtpm_create(session.opaque_ref, _record.ToProxy()).parse());
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.vtpm_destroy(session.opaque_ref, _vtpm);
             else
-                session.proxy.vtpm_destroy(session.opaque_ref, _vtpm ?? "").parse();
+                session.XmlRpcProxy.vtpm_destroy(session.opaque_ref, _vtpm ?? "").parse();
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_vtpm_destroy(session.opaque_ref, _vtpm);
           else
-              return XenRef<Task>.Create(session.proxy.async_vtpm_destroy(session.opaque_ref, _vtpm ?? "").parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_vtpm_destroy(session.opaque_ref, _vtpm ?? "").parse());
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vtpm_get_uuid(session.opaque_ref, _vtpm);
             else
-                return session.proxy.vtpm_get_uuid(session.opaque_ref, _vtpm ?? "").parse();
+                return session.XmlRpcProxy.vtpm_get_uuid(session.opaque_ref, _vtpm ?? "").parse();
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vtpm_get_vm(session.opaque_ref, _vtpm);
             else
-                return XenRef<VM>.Create(session.proxy.vtpm_get_vm(session.opaque_ref, _vtpm ?? "").parse());
+                return XenRef<VM>.Create(session.XmlRpcProxy.vtpm_get_vm(session.opaque_ref, _vtpm ?? "").parse());
         }
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vtpm_get_backend(session.opaque_ref, _vtpm);
             else
-                return XenRef<VM>.Create(session.proxy.vtpm_get_backend(session.opaque_ref, _vtpm ?? "").parse());
+                return XenRef<VM>.Create(session.XmlRpcProxy.vtpm_get_backend(session.opaque_ref, _vtpm ?? "").parse());
         }
 
         /// <summary>
@@ -296,7 +296,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _uuid))
                 {
                     _uuid = value;
-                    Changed = true;
                     NotifyPropertyChanged("uuid");
                 }
             }
@@ -315,7 +314,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _VM))
                 {
                     _VM = value;
-                    Changed = true;
                     NotifyPropertyChanged("VM");
                 }
             }
@@ -334,7 +332,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _backend))
                 {
                     _backend = value;
-                    Changed = true;
                     NotifyPropertyChanged("backend");
                 }
             }

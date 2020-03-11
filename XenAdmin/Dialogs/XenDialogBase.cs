@@ -32,16 +32,22 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 using XenAdmin.Network;
 using XenAdmin.Core;
 using XenAdmin.Help;
+using XenAPI;
 
 namespace XenAdmin.Dialogs
 {
     public partial class XenDialogBase : Form, IFormWithHelp
     {
-        private static Dictionary<IXenConnection, List<XenDialogBase>> instances = new Dictionary<IXenConnection, List<XenDialogBase>>();
+        private static readonly Dictionary<IXenConnection, List<XenDialogBase>> instances = new Dictionary<IXenConnection, List<XenDialogBase>>();
+        private static readonly Dictionary<IXenObject, XenDialogBase> instancePerXenObject = new Dictionary<IXenObject, XenDialogBase>();
+
+        protected readonly IXenConnection connection;
+        private IXenObject ownerXenObject;
 
         private static void AddInstance(IXenConnection connection, XenDialogBase dialog)
         {
@@ -79,7 +85,24 @@ namespace XenAdmin.Dialogs
             }
         }
 
-        protected readonly IXenConnection connection;
+        public static void CloseAll(params IXenObject[] xenObjects)
+        {
+            Program.AssertOnEventThread();
+
+            if (xenObjects == null)
+                return;
+
+            foreach (var kvp in instancePerXenObject.ToDictionary(p => p.Key, p => p.Value))
+            {
+                if (!xenObjects.Contains(kvp.Key))
+                    continue;
+                
+                if (kvp.Value is Form form && !form.IsDisposed)
+                    form.Close();
+
+                instancePerXenObject.Remove(kvp.Key);
+            }
+        }
 
         /// <summary>
         /// The VS designer does not seem to understand optional parameters,
@@ -104,14 +127,36 @@ namespace XenAdmin.Dialogs
         }
 
         /// <summary>
+        /// override if the reference in the help differs to the dialogs name
+        /// </summary>
+        internal virtual string HelpName => Name;
+
+        /// <summary>
         /// Allow the XenDialogBase.OnClosed to set Owner.Activate() - this will push the Owner
         /// to the top of the windows stack stealing focus.
         /// </summary>
         protected bool OwnerActivatedOnClosed { get; set; } = true;
 
+        public void ShowPerXenObject(IXenObject obj, Form ownerForm)
+        {
+            CloseAll(obj);
+            ownerXenObject = obj;
+            instancePerXenObject.Add(obj, this);
+            Show(ownerForm);
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
+
+            if (ownerXenObject != null)
+            {
+                foreach (var kvp in instancePerXenObject.ToDictionary(p => p.Key, p => p.Value))
+                {
+                    if (kvp.Key.Equals(ownerXenObject))
+                        instancePerXenObject.Remove(kvp.Key);
+                }
+            }
 
             lock (instances)
             {
@@ -125,17 +170,12 @@ namespace XenAdmin.Dialogs
                 Owner.Activate();
         }
 
-        private void XenDialogBase_Load(object sender, EventArgs e)
-        {
-            //this.Owner = Program.MainWindow;
-            this.CenterToParent();
-            FormFontFixer.Fix(this);
-        }
-
         public bool HasHelp()
         {
             return HelpManager.TryGetTopicId(HelpName, out _);
         }
+
+        #region Event handlers
 
         private void XenDialogBase_HelpButtonClicked(object sender, CancelEventArgs e)
         {
@@ -149,11 +189,6 @@ namespace XenAdmin.Dialogs
             hlpevent.Handled = true;
         }
 
-        /// <summary>
-        /// override if the reference in the help differs to the dialogs name
-        /// </summary>
-        internal virtual string HelpName => Name;
-
         private void XenDialogBase_Shown(object sender, EventArgs e)
         {
             if (Modal && Owner != null && Owner.WindowState == FormWindowState.Minimized)
@@ -162,5 +197,13 @@ namespace XenAdmin.Dialogs
                 CenterToParent();
             }
         }
+
+        private void XenDialogBase_Load(object sender, EventArgs e)
+        {
+            CenterToParent();
+            FormFontFixer.Fix(this);
+        }
+
+        #endregion
     }
 }

@@ -117,15 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ACTIVATION_FORM_URL" xml:space="preserve">
-    <value>https://{0}/index.html?transactionID={1}</value>
-  </data>
-  <data name="ACTIVATION_SERVER" xml:space="preserve">
-    <value>activate.vmd.citrix.com</value>
-  </data>
-  <data name="ACTIVATION_URL" xml:space="preserve">
-    <value>https://{0}/reactivation_server.php</value>
-  </data>
   <data name="HEALTH_CHECK_PRIVACY_STATEMENT_URL" xml:space="preserve">
     <value>https://cis.citrix.com/legal/</value>
   </data>
@@ -185,9 +176,6 @@
   </data>
   <data name="XEN_UPDATE" xml:space="preserve">
     <value>xsupdate</value>
-  </data>
-  <data name="XENSERVER_UPDATE_URL" xml:space="preserve">
-    <value>https://updates.xensource.com/XenServer/updates.xml</value>
   </data>
   <data name="ISO_UPDATE" xml:space="preserve">
     <value>iso</value>

@@ -63,6 +63,33 @@ namespace XenAdmin {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        public static string ACTIVATION_FORM_URL {
+            get {
+                return ResourceManager.GetString("ACTIVATION_FORM_URL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string ACTIVATION_SERVER {
+            get {
+                return ResourceManager.GetString("ACTIVATION_SERVER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string ACTIVATION_URL {
+            get {
+                return ResourceManager.GetString("ACTIVATION_URL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die https://xcp-ng.org ähnelt.
+        /// </summary>
         public static string COMMUNITY_URL {
             get {
                 return ResourceManager.GetString("COMMUNITY_URL", resourceCulture);
@@ -93,6 +120,15 @@ namespace XenAdmin {
         public static string HELP_URL {
             get {
                 return ResourceManager.GetString("HELP_URL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string HELP_URL_QUERY {
+            get {
+                return ResourceManager.GetString("HELP_URL_QUERY", resourceCulture);
             }
         }
         

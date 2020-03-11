@@ -44,6 +44,8 @@ namespace XenAPI
 {
     public partial class HTTP
     {
+        #region Exceptions
+
         [Serializable]
         public class TooManyRedirectsException : Exception
         {
@@ -118,6 +120,8 @@ namespace XenAPI
 
             protected ProxyServerAuthenticationException(SerializationInfo info, StreamingContext context) : base(info, context) { }
         }
+
+        #endregion
 
         public delegate bool FuncBool();
         public delegate void UpdateProgressDelegate(int percent);
@@ -397,7 +401,7 @@ namespace XenAPI
 
         #endregion
 
-        private static NetworkStream ConnectSocket(Uri uri, bool nodelay, int timeout_ms)
+        private static NetworkStream ConnectSocket(Uri uri, bool nodelay, int timeoutMs)
         {
             AddressFamily addressFamily = uri.HostNameType == UriHostNameType.IPv6
                                               ? AddressFamily.InterNetworkV6
@@ -406,8 +410,8 @@ namespace XenAPI
                 new Socket(addressFamily, SocketType.Stream, ProtocolType.Tcp);
             socket.NoDelay = nodelay;
             //socket.ReceiveBufferSize = 64 * 1024;
-            socket.ReceiveTimeout = timeout_ms;
-            socket.SendTimeout = timeout_ms;
+            socket.ReceiveTimeout = timeoutMs;
+            socket.SendTimeout = timeoutMs;
             socket.Connect(uri.Host, uri.Port);
 
             return new NetworkStream(socket, true);
@@ -420,10 +424,10 @@ namespace XenAPI
         /// <param name="uri"></param>
         /// <param name="proxy"></param>
         /// <param name="nodelay"></param>
-        /// <param name="timeout_ms">Timeout, in ms. 0 for no timeout.</param>
-        public static Stream ConnectStream(Uri uri, IWebProxy proxy, bool nodelay, int timeout_ms)
+        /// <param name="timeoutMs">Timeout, in ms. 0 for no timeout.</param>
+        public static Stream ConnectStream(Uri uri, IWebProxy proxy, bool nodelay, int timeoutMs)
         {
-            IMockWebProxy mockProxy = proxy != null ? proxy as IMockWebProxy : null;
+            IMockWebProxy mockProxy = proxy as IMockWebProxy;
             if (mockProxy != null)
                 return mockProxy.GetStream(uri);
 
@@ -433,25 +437,25 @@ namespace XenAPI
             if (useProxy)
             {
                 Uri proxyURI = proxy.GetProxy(uri);
-                stream = ConnectSocket(proxyURI, nodelay, timeout_ms);
+                stream = ConnectSocket(proxyURI, nodelay, timeoutMs);
             }
             else
             {
-                stream = ConnectSocket(uri, nodelay, timeout_ms);
+                stream = ConnectSocket(uri, nodelay, timeoutMs);
             }
 
             try
             {
                 if (useProxy)
                 {
-                    string line = String.Format("CONNECT {0}:{1} HTTP/1.0", uri.Host, uri.Port);
+                    string line = string.Format("CONNECT {0}:{1} HTTP/1.0", uri.Host, uri.Port);
                     WriteLine(line, stream);
                     WriteLine(stream);
 
                     List<string> initialResponse = new List<string>();
-                    ReadHttpHeaders(ref stream, proxy, nodelay, timeout_ms, initialResponse);
+                    ReadHttpHeaders(ref stream, proxy, nodelay, timeoutMs, initialResponse);
 
-                    AuthenticateProxy(ref stream, uri, proxy, nodelay, timeout_ms, initialResponse, line);
+                    AuthenticateProxy(ref stream, uri, proxy, nodelay, timeoutMs, initialResponse, line);
                 }
 
                 if (UseSSL(uri))
@@ -472,7 +476,7 @@ namespace XenAPI
             }
         }
 
-        private static void AuthenticateProxy(ref Stream stream, Uri uri, IWebProxy proxy, bool nodelay, int timeout_ms, List<string> initialResponse, string header)
+        private static void AuthenticateProxy(ref Stream stream, Uri uri, IWebProxy proxy, bool nodelay, int timeoutMs, List<string> initialResponse, string header)
         {
             // perform authentication only if proxy requires it
             List<string> fields = initialResponse.FindAll(str => str.StartsWith("Proxy-Authenticate:"));
@@ -484,7 +488,7 @@ namespace XenAPI
                 {
                     stream.Close();
                     Uri proxyURI = proxy.GetProxy(uri);
-                    stream = ConnectSocket(proxyURI, nodelay, timeout_ms);
+                    stream = ConnectSocket(proxyURI, nodelay, timeoutMs);
                 }
 
                 if (proxy.Credentials == null)
@@ -613,7 +617,7 @@ namespace XenAPI
 
                 // handle authentication attempt response
                 List<string> authenticatedResponse = new List<string>();
-                ReadHttpHeaders(ref stream, proxy, nodelay, timeout_ms, authenticatedResponse);
+                ReadHttpHeaders(ref stream, proxy, nodelay, timeoutMs, authenticatedResponse);
                 if (authenticatedResponse.Count == 0)
                     throw new BadServerResponseException("No response from the proxy server after authentication attempt.");
                 switch (getResultCode(authenticatedResponse[0]))
@@ -629,7 +633,8 @@ namespace XenAPI
             }
         }
 
-        private static Stream DO_HTTP(Uri uri, IWebProxy proxy, bool nodelay, int timeout_ms, params string[] headers)
+
+        private static Stream DoHttp(Uri uri, IWebProxy proxy, bool nodelay, int timeout_ms, params string[] headers)
         {
             Stream stream = ConnectStream(uri, proxy, nodelay, timeout_ms);
 
@@ -653,33 +658,38 @@ namespace XenAPI
             return stream;
         }
 
-        //
-        // The following functions do all the HTTP headers related stuff
-        // returning the stream ready for use
-        //
-
-        public static Stream CONNECT(Uri uri, IWebProxy proxy, String session, int timeout_ms)
+        /// <summary>
+        /// Adds HTTP CONNECT headers returning the stream ready for use
+        /// </summary>
+        public static Stream HttpConnectStream(Uri uri, IWebProxy proxy, String session, int timeoutMs)
         {
-            return DO_HTTP(uri, proxy, true, timeout_ms,
+            return DoHttp(uri, proxy, true, timeoutMs,
                 string.Format("CONNECT {0} HTTP/1.0", uri.PathAndQuery),
                 string.Format("Host: {0}", uri.Host),
                 string.Format("Cookie: session_id={0}", session));
         }
 
-        public static Stream PUT(Uri uri, IWebProxy proxy, long ContentLength, int timeout_ms)
+        /// <summary>
+        /// Adds HTTP PUT headers returning the stream ready for use
+        /// </summary>
+        public static Stream HttpPutStream(Uri uri, IWebProxy proxy, long contentLength, int timeoutMs)
         {
-            return DO_HTTP(uri, proxy, false, timeout_ms,
+            return DoHttp(uri, proxy, false, timeoutMs,
                 string.Format("PUT {0} HTTP/1.0", uri.PathAndQuery),
                 string.Format("Host: {0}", uri.Host),
-                string.Format("Content-Length: {0}", ContentLength));
+                string.Format("Content-Length: {0}", contentLength));
         }
 
-        public static Stream GET(Uri uri, IWebProxy proxy, int timeout_ms)
+        /// <summary>
+        /// Adds HTTP GET headers returning the stream ready for use
+        /// </summary>
+        public static Stream HttpGetStream(Uri uri, IWebProxy proxy, int timeoutMs)
         {
-            return DO_HTTP(uri, proxy, false, timeout_ms,
+            return DoHttp(uri, proxy, false, timeoutMs,
                 string.Format("GET {0} HTTP/1.0", uri.PathAndQuery),
                 string.Format("Host: {0}", uri.Host));
         }
+
 
         /// <summary>
         /// A general HTTP PUT method, with delegates for progress and cancelling. May throw various exceptions.
@@ -689,12 +699,12 @@ namespace XenAPI
         /// <param name="uri">URI to PUT to</param>
         /// <param name="proxy">A proxy to handle the HTTP connection</param>
         /// <param name="path">Path to file to put</param>
-        /// <param name="timeout_ms">Timeout for the connection in ms. 0 for no timeout.</param>
+        /// <param name="timeoutMs">Timeout for the connection in ms. 0 for no timeout.</param>
         public static void Put(UpdateProgressDelegate progressDelegate, FuncBool cancellingDelegate,
-            Uri uri, IWebProxy proxy, string path, int timeout_ms)
+            Uri uri, IWebProxy proxy, string path, int timeoutMs)
         {
             using (Stream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read),
-                requestStream = PUT(uri, proxy, fileStream.Length, timeout_ms))
+                requestStream = HttpPutStream(uri, proxy, fileStream.Length, timeoutMs))
             {
                 long len = fileStream.Length;
                 DataCopiedDelegate dataCopiedDelegate = delegate(long bytes)
@@ -715,15 +725,15 @@ namespace XenAPI
         /// <param name="uri">URI to GET from</param>
         /// <param name="proxy">A proxy to handle the HTTP connection</param>
         /// <param name="path">Path to file to receive the data</param>
-        /// <param name="timeout_ms">Timeout for the connection in ms. 0 for no timeout.</param>
+        /// <param name="timeoutMs">Timeout for the connection in ms. 0 for no timeout.</param>
         public static void Get(DataCopiedDelegate dataCopiedDelegate, FuncBool cancellingDelegate,
-            Uri uri, IWebProxy proxy, string path, int timeout_ms)
+            Uri uri, IWebProxy proxy, string path, int timeoutMs)
         {
             string tmpFile = Path.GetTempFileName();
             try
             {
                 using (Stream fileStream = new FileStream(tmpFile, FileMode.Create, FileAccess.Write, FileShare.None),
-                    downloadStream = GET(uri, proxy, timeout_ms))
+                    downloadStream = HttpGetStream(uri, proxy, timeoutMs))
                 {
                     CopyStream(downloadStream, fileStream, dataCopiedDelegate, cancellingDelegate);
                     fileStream.Flush();
@@ -737,6 +747,28 @@ namespace XenAPI
                 File.Delete(tmpFile);
             }
         }
+
+
+        [Obsolete("Use HttpConnectStream(Uri, IWebProxy, String, int) instead.")]
+        public static Stream CONNECT(Uri uri, IWebProxy proxy, string session, int timeoutMs)
+        {
+            return HttpConnectStream(uri,proxy,session, timeoutMs);
+        }
+
+#pragma warning disable 3005
+        [Obsolete("Use HttpPutStream(Uri, IWebProxy, long, int) instead.")]
+        public static Stream PUT(Uri uri, IWebProxy proxy, long contentLength, int timeoutMs)
+        {
+            return HttpPutStream(uri, proxy, contentLength, timeoutMs);
+        }
+
+        [Obsolete("Use HttpGetStream(Uri, IWebProxy, int) instead.")]
+        public static Stream GET(Uri uri, IWebProxy proxy, int timeoutMs)
+        {
+            return HttpGetStream(uri, proxy, timeoutMs);
+        }
+#pragma warning restore 3005
+
 
         private const int FILE_MOVE_MAX_RETRIES = 5;
         private const int FILE_MOVE_SLEEP_BETWEEN_RETRIES = 100;

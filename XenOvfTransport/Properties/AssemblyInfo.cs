@@ -40,8 +40,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("[Citrix] [XenCenter] OVF transport layer")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("[Citrix]")]
-[assembly: AssemblyProduct("[XenCenter]OVFTransport")]
-[assembly: AssemblyCopyright("[BRANDING_COPYRIGHT]")]
+[assembly: AssemblyProduct("[XenCenter]")]
+[assembly: AssemblyCopyright("Copyright © [BRANDING_COMPANY_NAME_LEGAL]")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

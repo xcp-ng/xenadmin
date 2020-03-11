@@ -177,7 +177,7 @@ namespace XenAdmin.Core
 
         public bool Go()
         {
-            if (Program.MainWindow.SelectObject(o))
+            if (Program.MainWindow.SelectObjectInTree(o))
             {
                 Program.MainWindow.TheTabControl.SelectedTab = tab;
                 return true;
@@ -286,7 +286,7 @@ namespace XenAdmin.Core
 
         public bool Go()
         {
-            if (Program.MainWindow.SelectObject(o))
+            if (Program.MainWindow.SelectObjectInTree(o))
             {
                 Program.MainWindow.TheTabControl.SelectedTab = Program.MainWindow.TabPageSearch;
                 Program.MainWindow.SearchPage.Search = search;

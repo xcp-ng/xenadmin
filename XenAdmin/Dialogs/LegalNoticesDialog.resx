@@ -294,13 +294,13 @@ Xen, the Xen logo, XenMotion are trademarks and/or registered trademarks of [Cit
     <value>3, 0, 3, 15</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>559, 30</value>
+    <value>514, 30</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>[Citrix], [Citrix XenServer], [Legacy XenServer product], Xen, the Xen logo, [XenCenter], XenMotion are trademarks and/or registered trademarks of [Citrix] Systems, Inc. in the United States and other countries.</value>
+    <value>[Citrix], [Citrix XenServer], {0}, Xen, the Xen logo, [XenCenter], XenMotion are trademarks and/or registered trademarks of [Citrix] Systems, Inc. in the United States and other countries.</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>

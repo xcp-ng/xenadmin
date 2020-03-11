@@ -40,6 +40,8 @@ using XenAPI;
 using XenAdmin.Core;
 using XenAdmin.Actions;
 using XenAdmin.Help;
+using PifTuple = System.Tuple<XenAPI.PIF, bool>;
+
 
 
 namespace XenAdmin.Dialogs
@@ -54,6 +56,10 @@ namespace XenAdmin.Dialogs
         private List<PIF> ShownPIFs;
         private List<PIF> AllPIFs;
         private bool AllowManagementOnVLAN;
+
+        private readonly ToolTip toolTipRemove = new ToolTip();
+        private bool tooltipVisible;
+
 
         public NetworkingProperties()
         {
@@ -73,8 +79,6 @@ namespace XenAdmin.Dialogs
 
             Configure(selectedPIF);
         }
-
-
 
         public NetworkingProperties(Pool pool, PIF selectedPIF)
             : base(pool.Connection)
@@ -101,9 +105,7 @@ namespace XenAdmin.Dialogs
             ShownPIFs = GetKnownPIFs(false);
             AllPIFs = GetKnownPIFs(true);
 
-            PIF management_pif =
-                AllPIFs.Find(
-                    delegate(PIF pif) { return pif.management; });
+            PIF management_pif = AllPIFs.Find(pif => pif.management);
 
             if (management_pif == null)
             {
@@ -125,8 +127,7 @@ namespace XenAdmin.Dialogs
                 }
             }
 
-            Dictionary<XenAPI.Network, List<NetworkingPropertiesPage>> inusemap =
-                MakeProposedInUseMap();
+            var inusemap = MakeProposedInUseMap();
             foreach (NetworkingPropertiesPage page in verticalTabs.Items)
             {
                 page.Pool = Pool != null;
@@ -137,6 +138,7 @@ namespace XenAdmin.Dialogs
             {
                 ConfigurePage(page, page.Tag as PIF);
             }
+
             if (selectedPIF != null)
             {
                 foreach (NetworkingPropertiesPage item in verticalTabs.Items)
@@ -144,12 +146,13 @@ namespace XenAdmin.Dialogs
                     if (item.Tag == selectedPIF)
                     {
                         verticalTabs.SelectedItem = item;
-                         break;
+                        break;
                     }
                 }
             }
             else
                 verticalTabs.SelectedIndex = 0;
+            
             ResizeVerticalTabs(verticalTabs.Items.Count);
             verticalTabs.AdjustItemTextBounds = GetItemTextBounds;
         }
@@ -217,8 +220,7 @@ namespace XenAdmin.Dialogs
 
         private Dictionary<XenAPI.Network, List<NetworkingPropertiesPage>> MakeProposedInUseMap()
         {
-            Dictionary<XenAPI.Network, List<NetworkingPropertiesPage>> inusemap =
-                new Dictionary<XenAPI.Network, List<NetworkingPropertiesPage>>();
+            var inusemap = new Dictionary<XenAPI.Network, List<NetworkingPropertiesPage>>();
 
             foreach (NetworkingPropertiesPage page in verticalTabs.Items)
             {
@@ -262,9 +264,9 @@ namespace XenAdmin.Dialogs
         private void AddTabContents(NetworkingPropertiesPage prop_page)
         {
             prop_page.HostCount = connection.Cache.HostCount;
-            prop_page.ValidChanged += new EventHandler(prop_page_ValidChanged);
-            prop_page.DeleteButtonClicked += new EventHandler(prop_page_DeleteButtonClicked);
-            prop_page.NetworkComboBoxChanged += new EventHandler(prop_page_NetworkComboBoxChanged);
+            prop_page.ValidChanged += prop_page_ValidChanged;
+            prop_page.DeleteButtonClicked += prop_page_DeleteButtonClicked;
+            prop_page.NetworkComboBoxChanged += prop_page_NetworkComboBoxChanged;
             prop_page.Parent = ContentPanel;
             prop_page.Dock = DockStyle.Fill;
 
@@ -275,31 +277,16 @@ namespace XenAdmin.Dialogs
 
         void RefreshNetworkComboBoxes()
         {
-            Dictionary<XenAPI.Network, List<NetworkingPropertiesPage>> inusemap =
-                MakeProposedInUseMap();
+            var inusemap = MakeProposedInUseMap();
 
             foreach (NetworkingPropertiesPage page in verticalTabs.Items)
-            {
                 RefreshNetworkComboBox(inusemap, page);
-            }
-        }
-
-        private NetworkingPropertiesPage FindPage(string purpose)
-        {
-            foreach (NetworkingPropertiesPage page in verticalTabs.Items)
-                if (page.Purpose == purpose)
-                    return page;
-
-            System.Diagnostics.Trace.Assert(false);
-            return null;
         }
 
         void RefreshButtons()
         {
             foreach (NetworkingPropertiesPage page in verticalTabs.Items)
-            {
-                    page.RefreshButtons();
-            }
+                page.RefreshButtons();
 
             okButton.Enabled = AllPagesValid();
             AddButton.Enabled = ShownPIFs.Count > verticalTabs.Items.Count;
@@ -372,12 +359,11 @@ namespace XenAdmin.Dialogs
             prop_page.PurposeTextBox.Text = purpose;
             prop_page.RefreshButtons();
 
-            prop_page.PurposeTextBox.TextChanged +=
-                (EventHandler)delegate(object sender, EventArgs e)
-                {
-                    prop_page.Text = prop_page.PurposeTextBox.Text;
-                };
-
+            prop_page.PurposeTextBox.TextChanged += (sender, e) =>
+            {
+                if (sender is NetworkingPropertiesPage page)
+                    page.Text = page.PurposeTextBox.Text;
+            };
             AddTabContents(prop_page);
 
             return prop_page;
@@ -439,8 +425,8 @@ namespace XenAdmin.Dialogs
 
         private void AcceptBtn_Click(object sender, EventArgs e)
         {
-            List<PIF> newPIFs = new List<PIF>();
-            List<PIF> newNamePIFs = new List<PIF>();
+            var newPIFs = new List<PifTuple>();
+            var newNamePIFs = new List<PifTuple>();
             List<PIF> downPIFs = new List<PIF>();
 
             foreach (PIF pif in AllPIFs)
@@ -449,31 +435,30 @@ namespace XenAdmin.Dialogs
                     downPIFs.Add(pif);
             }
 
-            foreach (NetworkingPropertiesPage page in verticalTabs.Items)
+            try
             {
-                try
-                {
+                foreach (NetworkingPropertiesPage page in verticalTabs.Items)
                     CollateChanges(page, page.Tag as PIF, newPIFs, newNamePIFs);
-                }
-                catch (Failure)
+            }
+            catch (Failure)
+            {
+                using (var dlg = new ThreeButtonDialog(
+                    new ThreeButtonDialog.Details(
+                        SystemIcons.Warning,
+                        Messages.NETWORK_RECONFIG_CONNECTION_LOST,
+                        Messages.XENCENTER)))
                 {
-                    using (var dlg = new ThreeButtonDialog(
-                       new ThreeButtonDialog.Details(
-                           SystemIcons.Warning,
-                           Messages.NETWORK_RECONFIG_CONNECTION_LOST,
-                           Messages.XENCENTER)))
-                    {
-                        dlg.ShowDialog(this);
-                    }
-                    this.Close();
-                    return;
+                    dlg.ShowDialog(this);
                 }
+                this.Close();
+                return;
             }
 
             bool displayWarning = false;
             bool managementInterfaceIPChanged = false;
-            PIF down_management = downPIFs.Find(PIFIsManagement);
-            PIF new_management = newPIFs.Find(PIFIsManagement);
+            PIF down_management = downPIFs.Find(p => p.management);
+            PIF new_management = newPIFs.Select(p => p.Item1).FirstOrDefault(p => p.management);
+            
             if (down_management != null)
             {
                 if (new_management == null)
@@ -493,17 +478,17 @@ namespace XenAdmin.Dialogs
 
             // Any PIFs that are in downPIFs but also in newPIFs need to be removed from the former.
             // downPIFs should contain all those that we no longer want to keep up.
-            downPIFs.RemoveAll(p => PIFContains(newPIFs, p));
+            downPIFs.RemoveAll(p => newPIFs.Any(np => np.Item1.uuid == p.uuid));
 
             // Remove any PIFs that haven't changed -- there's nothing to do for these ones.  They are in this
             // list originally so that they can be used as a filter against downPIFs.
-            newPIFs.RemoveAll(p => !p.Changed);
+            newPIFs.RemoveAll(p => !p.Item2);
 
-            newNamePIFs.RemoveAll(p => !p.Changed);
+            newNamePIFs.RemoveAll(p => !p.Item2);
 
             if (newNamePIFs.Count > 0)
             {
-                new SetSecondaryManagementPurposeAction(connection, Pool, newNamePIFs).RunAsync();
+                new SetSecondaryManagementPurposeAction(connection, Pool, newNamePIFs.Select(p=>p.Item1).ToList()).RunAsync();
             }
 
             if (newPIFs.Count > 0 || downPIFs.Count > 0)
@@ -524,7 +509,7 @@ namespace XenAdmin.Dialogs
                     }
                     if (DialogResult.OK != dialogResult)
                     {
-                        DialogResult = System.Windows.Forms.DialogResult.None;
+                        DialogResult = DialogResult.None;
                         return;
                     }
                 }
@@ -546,26 +531,11 @@ namespace XenAdmin.Dialogs
                 newPIFs.Reverse();
                 downPIFs.Reverse();
 
-                new ChangeNetworkingAction(connection, Pool, Host, newPIFs, downPIFs, new_management, down_management,
-                                           managementInterfaceIPChanged).RunAsync();
+                new ChangeNetworkingAction(connection, Pool, Host, newPIFs.Select(p => p.Item1).ToList(), downPIFs,
+                    new_management, down_management, managementInterfaceIPChanged).RunAsync();
             }
 
             Close();
-        }
-
-        private bool PIFContains(List<PIF> l, PIF p)
-        {
-            foreach (PIF p2 in l)
-            {
-                if (p2.uuid == p.uuid)
-                    return true;
-            }
-            return false;
-        }
-
-        private bool PIFIsManagement(PIF p)
-        {
-            return p.management;
         }
 
         /// <summary>
@@ -575,9 +545,10 @@ namespace XenAdmin.Dialogs
         /// <param name="oldPIF"></param>
         /// <param name="newPIFs"></param>
         /// <param name="newNamePIFs"></param>
-        private void CollateChanges(NetworkingPropertiesPage page, PIF oldPIF, List<PIF> newPIFs, List<PIF> newNamePIFs)
+        private void CollateChanges(NetworkingPropertiesPage page, PIF oldPIF, List<PifTuple> newPIFs, List<PifTuple> newNamePIFs)
         {
             bool changed = false;
+            bool changedName = false;
 
             if (oldPIF == null)
             {
@@ -607,9 +578,10 @@ namespace XenAdmin.Dialogs
             }
 
             PIF newPIF = (PIF)oldPIF.Clone();
-            newPIF.Changed = changed;
+            newPIF.PropertyChanged += (sender, e) => { changed = true; };
+            
             PIF newNamePIF = (PIF)oldPIF.Clone();
-            newNamePIF.Changed = false;
+            newNamePIF.PropertyChanged += (sender, e) => { changedName = true; };
 
             if (page.DHCPIPRadioButton.Checked)
             {
@@ -621,6 +593,7 @@ namespace XenAdmin.Dialogs
                 newPIF.netmask = page.SubnetTextBox.Text;
                 newPIF.gateway = page.GatewayTextBox.Text;
                 newPIF.IP = page.IPAddressTextBox.Text;
+                
                 List<string> dns = new List<string>();
                 if (page.PreferredDNSTextBox.Text.Length > 0)
                     dns.Add(page.PreferredDNSTextBox.Text);
@@ -628,22 +601,23 @@ namespace XenAdmin.Dialogs
                     dns.Add(page.AlternateDNS1TextBox.Text);
                 if (page.AlternateDNS2TextBox.Text.Length > 0)
                     dns.Add(page.AlternateDNS2TextBox.Text);
+                var newDns = string.Join(",", dns.ToArray());
 
-                newPIF.DNS = string.Join(",", dns.ToArray());
+                newPIF.DNS = newDns;
             }
 
             newPIF.management = page.type != NetworkingPropertiesPage.Type.SECONDARY;
 
             if (page.type == NetworkingPropertiesPage.Type.SECONDARY)
             {
-                if (newPIF.Changed)
-                    newPIF.SetManagementPurspose(page.PurposeTextBox.Text);
+                if (changed)
+                    newPIF.SetManagementPurpose(page.PurposeTextBox.Text);
                 else
-                    newNamePIF.SetManagementPurspose(page.PurposeTextBox.Text);
+                    newNamePIF.SetManagementPurpose(page.PurposeTextBox.Text);
             }
 
-            newPIFs.Add(newPIF);
-            newNamePIFs.Add(newNamePIF);
+            newPIFs.Add(new PifTuple(newPIF, changed));
+            newNamePIFs.Add(new PifTuple(newNamePIF, changedName));
         }
 
         private PIF FindPIFForThisHost(List<XenRef<PIF>> pifs)
@@ -654,12 +628,6 @@ namespace XenAdmin.Dialogs
                     return pif;
             }
             return null;
-        }
-
-        internal void DedicateNewNIC()
-        {
-            if (AddButton.Enabled)
-                AddButton_Click(null, null);
         }
 
         private XenAPI.Network ManagementNetwork()
@@ -677,17 +645,12 @@ namespace XenAdmin.Dialogs
             HelpManager.Launch("NetworkingProperties");
         }
 
-        public void SelectPIF(PIF pif)
-        {
-            
-        }
-
         private void splitContainer_Panel1_Resize(object sender, EventArgs e)
         {
             ResizeVerticalTabs(verticalTabs.Items.Count);
         }
 
-        protected Rectangle GetItemTextBounds(Rectangle itemBounds)
+        private Rectangle GetItemTextBounds(Rectangle itemBounds)
         {
             return new Rectangle(itemBounds.X, itemBounds.Y, itemBounds.Width - 20, itemBounds.Height);
         }
@@ -755,9 +718,6 @@ namespace XenAdmin.Dialogs
         {
             HelpManager.Launch("NetworkingProperties");
         }
-
-        private readonly ToolTip toolTipRemove = new ToolTip();
-        private bool tooltipVisible;
 
         private void ShowTooltip(Point location)
         {

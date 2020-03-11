@@ -13725,6 +13725,13 @@ namespace XenAPI
             return Rpc<Dictionary<string, string>>("PUSB.get_other_config", new JArray(session, _pusb ?? ""), serializer);
         }
 
+        public double pusb_get_speed(string session, string _pusb)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<double>("PUSB.get_speed", new JArray(session, _pusb ?? ""), serializer);
+        }
+
         public void pusb_set_other_config(string session, string _pusb, Dictionary<string, string> _other_config)
         {
             var converters = new List<JsonConverter> {new StringStringMapConverter()};

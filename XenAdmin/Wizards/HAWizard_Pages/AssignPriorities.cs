@@ -780,7 +780,7 @@ namespace XenAdmin.Wizards.HAWizard_Pages
                             break;
                         default:
                             // We shouldn't really be here unless we have not iterated through all the return errors from vm.assert_agile
-                            msg = Messages.NOT_AGILE_UNKOWN;
+                            msg = Messages.NOT_AGILE_UNKNOWN;
                             break;
                     }
 

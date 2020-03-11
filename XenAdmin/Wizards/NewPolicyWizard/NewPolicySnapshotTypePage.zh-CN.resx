@@ -157,7 +157,7 @@
     <value>0</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>自 [XenServer] [BRANDING_VERSION_8_1] 起，静止快照不再可用。请取消选择此选项以确保成功创建计划快照。</value>
+    <value>自 [XenServer] {0} 起，静止快照不再可用。请取消选择此选项以确保成功创建计划快照。</value>
   </data>
   <data name="&gt;&gt;label6.Name" xml:space="preserve">
     <value>label6</value>

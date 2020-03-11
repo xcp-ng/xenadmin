@@ -36,6 +36,7 @@ using System.IO;
 using System.Windows.Forms;
 using DiscUtils.Iso9660;
 using XenAdmin.Actions;
+using XenAdmin.Core;
 using XenAdmin.Dialogs;
 using XenAPI;
 
@@ -54,7 +55,7 @@ namespace XenAdmin.Wizards
                 {
                     Multiselect = false,
                     ShowReadOnly = false,
-                    Filter = string.Format(Messages.PATCHINGWIZARD_SELECTPATCHPAGE_UPDATESEXT, Branding.Update),
+                    Filter = string.Format(Messages.PATCHINGWIZARD_SELECTPATCHPAGE_UPDATESEXT, BrandManager.ExtensionUpdate),
                     FilterIndex = 0,
                     CheckFileExists = true,
                     CheckPathExists = true,
@@ -127,7 +128,7 @@ namespace XenAdmin.Wizards
                 return null;
 
             var unzipAction = new DownloadAndUnzipXenServerPatchAction(Path.GetFileNameWithoutExtension(zippedUpdatePath),
-                null, zippedUpdatePath, true, Branding.Update, Branding.UpdateIso);
+                null, zippedUpdatePath, true, BrandManager.ExtensionUpdate, InvisibleMessages.ISO_UPDATE);
 
             using (var dlg = new ActionProgressDialog(unzipAction, ProgressBarStyle.Marquee))
             {
@@ -151,13 +152,13 @@ namespace XenAdmin.Wizards
                 return false;
             }
 
-            bool isValidExt = fileName.ToLowerInvariant().EndsWith("." + Branding.Update.ToLowerInvariant())
+            bool isValidExt = fileName.ToLowerInvariant().EndsWith("." + BrandManager.ExtensionUpdate.ToLowerInvariant())
                               || fileName.ToLowerInvariant().EndsWith(".zip")
                               || fileName.ToLowerInvariant().EndsWith(".iso");
 
             if (!isValidExt)
             {
-                failureReason = string.Format(Messages.UPDATES_WIZARD_INVALID_EXTENSION, Branding.Update);
+                failureReason = string.Format(Messages.UPDATES_WIZARD_INVALID_EXTENSION, BrandManager.ExtensionUpdate);
                 return false;
             }
 

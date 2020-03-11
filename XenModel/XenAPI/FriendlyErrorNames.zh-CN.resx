@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ACTIVATION_WHILE_NOT_FREE" xml:space="preserve">
     <value>仅当版本设置为“免费”时，才能应用激活密钥。</value>
@@ -1353,7 +1353,7 @@
     <value>不允许使用给定的 SMB 版本。请选择 1.0 或 3.0</value>
   </data>
   <data name="SR_BACKEND_FAILURE_228" xml:space="preserve">
-    <value>需要 -o 以及 xe-mount-isosr</value>
+    <value>需要 -o 以及 xe-mount-iso-sr</value>
   </data>
   <data name="SR_BACKEND_FAILURE_24" xml:space="preserve">
     <value>指定的 VDI 当前正在使用</value>

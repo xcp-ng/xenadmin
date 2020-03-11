@@ -80,7 +80,6 @@ namespace XenAdmin.Model
                 if (!Helper.AreEqual(value, _uuid))
                 {
                     _uuid = value;
-                    Changed = true;
                     NotifyPropertyChanged("uuid");
                 }
             }
@@ -98,7 +97,6 @@ namespace XenAdmin.Model
                 if (!Helper.AreEqual(value, _name_label))
                 {
                     _name_label = value;
-                    Changed = true;
                     NotifyPropertyChanged("name_label");
                 }
             }
@@ -116,7 +114,6 @@ namespace XenAdmin.Model
                 if (!Helper.AreEqual(value, _name_description))
                 {
                     _name_description = value;
-                    Changed = true;
                     NotifyPropertyChanged("name_description");
                 }
             }
@@ -134,7 +131,6 @@ namespace XenAdmin.Model
                 if (!Helper.AreEqual(value, _status))
                 {
                     _status = value;
-                    Changed = true;
                     NotifyPropertyChanged("status");
                 }
             }
@@ -152,7 +148,6 @@ namespace XenAdmin.Model
                 if (!Helper.AreEqual(value, _container))
                 {
                     _container = value;
-                    Changed = true;
                     NotifyPropertyChanged("container");
                 }
             }
@@ -170,7 +165,6 @@ namespace XenAdmin.Model
                 if (!Helper.AreEqual(value, _created))
                 {
                     _created = value;
-                    Changed = true;
                     NotifyPropertyChanged("created");
                 }
             }
@@ -188,7 +182,6 @@ namespace XenAdmin.Model
                 if (!Helper.AreEqual(value, _image))
                 {
                     _image = value;
-                    Changed = true;
                     NotifyPropertyChanged("image");
                 }
             }
@@ -203,7 +196,6 @@ namespace XenAdmin.Model
                 if (!Helper.AreEqual(value, _command))
                 {
                     _command = value;
-                    Changed = true;
                     NotifyPropertyChanged("command");
                 }
             }
@@ -218,7 +210,6 @@ namespace XenAdmin.Model
                 if (!Helper.AreEqual(value, _ports))
                 {
                     _ports = value;
-                    Changed = true;
                     NotifyPropertyChanged("ports");
                 }
             }

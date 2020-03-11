@@ -63,7 +63,7 @@ namespace XenAdmin.Diagnostics.Checks
             if (!_pool.Connection.Cache.VMs.Any(vm => vm.IsPvVm()))
                 return null;
             if (!_upgrade || _manualUpgrade)
-                return new PoolHasPVGuestWarningUrl(this, _pool, _upgrade);
+                return new PoolHasPVGuestWarningUrl(this, _pool);
             try
             {
                 var result = Host.call_plugin(Host.Connection.Session, Host.opaque_ref, "prepare_host_upgrade.py", "getVersion", _installMethodConfig);
@@ -74,10 +74,10 @@ namespace XenAdmin.Diagnostics.Checks
             catch (Exception exception)
             {
                 log.Warn($"Plugin call prepare_host_upgrade.getVersion on {Host.Name()} threw an exception.", exception);
-                return new PoolHasPVGuestWarningUrl(this, _pool, _upgrade);
+                return new PoolHasPVGuestWarningUrl(this, _pool);
             }
             if (Helpers.QuebecOrGreater(upgradePlatformVersion))
-                return new PoolHasPVGuestWarningUrl(this, _pool, _upgrade);
+                return new PoolHasPVGuestWarningUrl(this, _pool);
             return null;
         }
 

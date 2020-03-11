@@ -178,7 +178,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_record(session.opaque_ref, _role);
             else
-                return new Role(session.proxy.role_get_record(session.opaque_ref, _role ?? "").parse());
+                return new Role(session.XmlRpcProxy.role_get_record(session.opaque_ref, _role ?? "").parse());
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_by_uuid(session.opaque_ref, _uuid);
             else
-                return XenRef<Role>.Create(session.proxy.role_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
+                return XenRef<Role>.Create(session.XmlRpcProxy.role_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_by_name_label(session.opaque_ref, _label);
             else
-                return XenRef<Role>.Create(session.proxy.role_get_by_name_label(session.opaque_ref, _label ?? "").parse());
+                return XenRef<Role>.Create(session.XmlRpcProxy.role_get_by_name_label(session.opaque_ref, _label ?? "").parse());
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_uuid(session.opaque_ref, _role);
             else
-                return session.proxy.role_get_uuid(session.opaque_ref, _role ?? "").parse();
+                return session.XmlRpcProxy.role_get_uuid(session.opaque_ref, _role ?? "").parse();
         }
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_name_label(session.opaque_ref, _role);
             else
-                return session.proxy.role_get_name_label(session.opaque_ref, _role ?? "").parse();
+                return session.XmlRpcProxy.role_get_name_label(session.opaque_ref, _role ?? "").parse();
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_name_description(session.opaque_ref, _role);
             else
-                return session.proxy.role_get_name_description(session.opaque_ref, _role ?? "").parse();
+                return session.XmlRpcProxy.role_get_name_description(session.opaque_ref, _role ?? "").parse();
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_subroles(session.opaque_ref, _role);
             else
-                return XenRef<Role>.Create(session.proxy.role_get_subroles(session.opaque_ref, _role ?? "").parse());
+                return XenRef<Role>.Create(session.XmlRpcProxy.role_get_subroles(session.opaque_ref, _role ?? "").parse());
         }
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_permissions(session.opaque_ref, _role);
             else
-                return XenRef<Role>.Create(session.proxy.role_get_permissions(session.opaque_ref, _role ?? "").parse());
+                return XenRef<Role>.Create(session.XmlRpcProxy.role_get_permissions(session.opaque_ref, _role ?? "").parse());
         }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_permissions_name_label(session.opaque_ref, _role);
             else
-                return (string [])session.proxy.role_get_permissions_name_label(session.opaque_ref, _role ?? "").parse();
+                return (string [])session.XmlRpcProxy.role_get_permissions_name_label(session.opaque_ref, _role ?? "").parse();
         }
 
         /// <summary>
@@ -304,7 +304,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_by_permission(session.opaque_ref, _role);
             else
-                return XenRef<Role>.Create(session.proxy.role_get_by_permission(session.opaque_ref, _role ?? "").parse());
+                return XenRef<Role>.Create(session.XmlRpcProxy.role_get_by_permission(session.opaque_ref, _role ?? "").parse());
         }
 
         /// <summary>
@@ -318,7 +318,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_by_permission_name_label(session.opaque_ref, _label);
             else
-                return XenRef<Role>.Create(session.proxy.role_get_by_permission_name_label(session.opaque_ref, _label ?? "").parse());
+                return XenRef<Role>.Create(session.XmlRpcProxy.role_get_by_permission_name_label(session.opaque_ref, _label ?? "").parse());
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_all(session.opaque_ref);
             else
-                return XenRef<Role>.Create(session.proxy.role_get_all(session.opaque_ref).parse());
+                return XenRef<Role>.Create(session.XmlRpcProxy.role_get_all(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -344,7 +344,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.role_get_all_records(session.opaque_ref);
             else
-                return XenRef<Role>.Create<Proxy_Role>(session.proxy.role_get_all_records(session.opaque_ref).parse());
+                return XenRef<Role>.Create<Proxy_Role>(session.XmlRpcProxy.role_get_all_records(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -358,7 +358,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _uuid))
                 {
                     _uuid = value;
-                    Changed = true;
                     NotifyPropertyChanged("uuid");
                 }
             }
@@ -376,7 +375,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _name_label))
                 {
                     _name_label = value;
-                    Changed = true;
                     NotifyPropertyChanged("name_label");
                 }
             }
@@ -394,7 +392,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _name_description))
                 {
                     _name_description = value;
-                    Changed = true;
                     NotifyPropertyChanged("name_description");
                 }
             }
@@ -413,7 +410,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _subroles))
                 {
                     _subroles = value;
-                    Changed = true;
                     NotifyPropertyChanged("subroles");
                 }
             }

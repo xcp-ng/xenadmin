@@ -2,7 +2,7 @@
   "files": [
     {
       "pattern": "@REMOTE_DOTNET@/dotnet-packages-manifest.txt",
-      "target": "scratch/",
+      "target": "xenadmin.git/packages/",
       "flat": "true"
     },
     {
@@ -42,17 +42,27 @@
     },
     {
       "pattern": "@REMOTE_DOTNET@/dotnet46/*.pdb",
-      "target": "output/",
+      "target": "xenadmin.git/packages/",
+      "flat": "true"
+    },
+    {
+      "pattern": "@REMOTE_DOTNET@/SOURCES/dotnet-packages-sources.zip",
+      "target": "xenadmin.git/packages/",
       "flat": "true"
     },
     {
       "pattern": "xs-local-contrib/citrix/xencenter/XenCenterOVF.zip",
-      "target": "scratch/",
+      "target": "xenadmin.git/packages/",
       "flat": "true"
     },
     {
-      "pattern": "ctx-local-contrib/os/wix/3.10/wix310-*.zip",
-      "target": "scratch/",
+      "pattern": "ctx-local-contrib/os/wix/3.11.2/wix311-binaries.zip",
+      "target": "xenadmin.git/packages/",
+      "flat": "true"
+    },
+    {
+      "pattern": "ctx-local-contrib/os/wix/3.11.2/wix311-debug.zip",
+      "target": "xenadmin.git/packages/",
       "flat": "true"
     },
     {

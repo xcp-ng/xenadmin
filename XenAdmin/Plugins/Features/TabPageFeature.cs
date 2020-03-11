@@ -908,7 +908,7 @@ namespace XenAdmin.Plugins
                 request.Method = "POST";
                 request.ContentType = "xml";
                 request.ContentLength = Encoding.UTF8.GetBytes(jsCallbackAndData[1]).Length;
-                request.UserAgent = Branding.BRAND_CONSOLE + "\\Plugin";
+                request.UserAgent = BrandManager.BRAND_CONSOLE + "\\Plugin";
                 request.Proxy = XenAdminConfigManager.Provider.GetProxyFromSettings(connection, true);
 
                 using (var req = request.GetRequestStream())

@@ -63,7 +63,8 @@ namespace XenAPI
             string version,
             string description,
             bool passthrough_enabled,
-            Dictionary<string, string> other_config)
+            Dictionary<string, string> other_config,
+            double speed)
         {
             this.uuid = uuid;
             this.USB_group = USB_group;
@@ -78,6 +79,7 @@ namespace XenAPI
             this.description = description;
             this.passthrough_enabled = passthrough_enabled;
             this.other_config = other_config;
+            this.speed = speed;
         }
 
         /// <summary>
@@ -122,6 +124,7 @@ namespace XenAPI
             description = update.description;
             passthrough_enabled = update.passthrough_enabled;
             other_config = update.other_config;
+            speed = update.speed;
         }
 
         internal void UpdateFrom(Proxy_PUSB proxy)
@@ -139,6 +142,7 @@ namespace XenAPI
             description = proxy.description == null ? null : proxy.description;
             passthrough_enabled = (bool)proxy.passthrough_enabled;
             other_config = proxy.other_config == null ? null : Maps.convert_from_proxy_string_string(proxy.other_config);
+            speed = Convert.ToDouble(proxy.speed);
         }
 
         public Proxy_PUSB ToProxy()
@@ -157,6 +161,7 @@ namespace XenAPI
             result_.description = description ?? "";
             result_.passthrough_enabled = passthrough_enabled;
             result_.other_config = Maps.convert_to_proxy_string_string(other_config);
+            result_.speed = speed;
             return result_;
         }
 
@@ -194,6 +199,8 @@ namespace XenAPI
                 passthrough_enabled = Marshalling.ParseBool(table, "passthrough_enabled");
             if (table.ContainsKey("other_config"))
                 other_config = Maps.convert_from_proxy_string_string(Marshalling.ParseHashTable(table, "other_config"));
+            if (table.ContainsKey("speed"))
+                speed = Marshalling.ParseDouble(table, "speed");
         }
 
         public bool DeepEquals(PUSB other)
@@ -215,7 +222,8 @@ namespace XenAPI
                 Helper.AreEqual2(this._version, other._version) &&
                 Helper.AreEqual2(this._description, other._description) &&
                 Helper.AreEqual2(this._passthrough_enabled, other._passthrough_enabled) &&
-                Helper.AreEqual2(this._other_config, other._other_config);
+                Helper.AreEqual2(this._other_config, other._other_config) &&
+                Helper.AreEqual2(this._speed, other._speed);
         }
 
         internal static List<PUSB> ProxyArrayToObjectList(Proxy_PUSB[] input)
@@ -255,7 +263,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_record(session.opaque_ref, _pusb);
             else
-                return new PUSB(session.proxy.pusb_get_record(session.opaque_ref, _pusb ?? "").parse());
+                return new PUSB(session.XmlRpcProxy.pusb_get_record(session.opaque_ref, _pusb ?? "").parse());
         }
 
         /// <summary>
@@ -269,7 +277,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_by_uuid(session.opaque_ref, _uuid);
             else
-                return XenRef<PUSB>.Create(session.proxy.pusb_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
+                return XenRef<PUSB>.Create(session.XmlRpcProxy.pusb_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
         }
 
         /// <summary>
@@ -283,7 +291,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_uuid(session.opaque_ref, _pusb);
             else
-                return session.proxy.pusb_get_uuid(session.opaque_ref, _pusb ?? "").parse();
+                return session.XmlRpcProxy.pusb_get_uuid(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -297,7 +305,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_usb_group(session.opaque_ref, _pusb);
             else
-                return XenRef<USB_group>.Create(session.proxy.pusb_get_usb_group(session.opaque_ref, _pusb ?? "").parse());
+                return XenRef<USB_group>.Create(session.XmlRpcProxy.pusb_get_usb_group(session.opaque_ref, _pusb ?? "").parse());
         }
 
         /// <summary>
@@ -311,7 +319,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_host(session.opaque_ref, _pusb);
             else
-                return XenRef<Host>.Create(session.proxy.pusb_get_host(session.opaque_ref, _pusb ?? "").parse());
+                return XenRef<Host>.Create(session.XmlRpcProxy.pusb_get_host(session.opaque_ref, _pusb ?? "").parse());
         }
 
         /// <summary>
@@ -325,7 +333,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_path(session.opaque_ref, _pusb);
             else
-                return session.proxy.pusb_get_path(session.opaque_ref, _pusb ?? "").parse();
+                return session.XmlRpcProxy.pusb_get_path(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -339,7 +347,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_vendor_id(session.opaque_ref, _pusb);
             else
-                return session.proxy.pusb_get_vendor_id(session.opaque_ref, _pusb ?? "").parse();
+                return session.XmlRpcProxy.pusb_get_vendor_id(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -353,7 +361,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_vendor_desc(session.opaque_ref, _pusb);
             else
-                return session.proxy.pusb_get_vendor_desc(session.opaque_ref, _pusb ?? "").parse();
+                return session.XmlRpcProxy.pusb_get_vendor_desc(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -367,7 +375,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_product_id(session.opaque_ref, _pusb);
             else
-                return session.proxy.pusb_get_product_id(session.opaque_ref, _pusb ?? "").parse();
+                return session.XmlRpcProxy.pusb_get_product_id(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -381,7 +389,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_product_desc(session.opaque_ref, _pusb);
             else
-                return session.proxy.pusb_get_product_desc(session.opaque_ref, _pusb ?? "").parse();
+                return session.XmlRpcProxy.pusb_get_product_desc(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -395,7 +403,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_serial(session.opaque_ref, _pusb);
             else
-                return session.proxy.pusb_get_serial(session.opaque_ref, _pusb ?? "").parse();
+                return session.XmlRpcProxy.pusb_get_serial(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -409,7 +417,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_version(session.opaque_ref, _pusb);
             else
-                return session.proxy.pusb_get_version(session.opaque_ref, _pusb ?? "").parse();
+                return session.XmlRpcProxy.pusb_get_version(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -423,7 +431,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_description(session.opaque_ref, _pusb);
             else
-                return session.proxy.pusb_get_description(session.opaque_ref, _pusb ?? "").parse();
+                return session.XmlRpcProxy.pusb_get_description(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -437,7 +445,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_passthrough_enabled(session.opaque_ref, _pusb);
             else
-                return (bool)session.proxy.pusb_get_passthrough_enabled(session.opaque_ref, _pusb ?? "").parse();
+                return (bool)session.XmlRpcProxy.pusb_get_passthrough_enabled(session.opaque_ref, _pusb ?? "").parse();
         }
 
         /// <summary>
@@ -451,7 +459,21 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_other_config(session.opaque_ref, _pusb);
             else
-                return Maps.convert_from_proxy_string_string(session.proxy.pusb_get_other_config(session.opaque_ref, _pusb ?? "").parse());
+                return Maps.convert_from_proxy_string_string(session.XmlRpcProxy.pusb_get_other_config(session.opaque_ref, _pusb ?? "").parse());
+        }
+
+        /// <summary>
+        /// Get the speed field of the given PUSB.
+        /// First published in Unreleased.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        public static double get_speed(Session session, string _pusb)
+        {
+            if (session.JsonRpcClient != null)
+                return session.JsonRpcClient.pusb_get_speed(session.opaque_ref, _pusb);
+            else
+                return Convert.ToDouble(session.XmlRpcProxy.pusb_get_speed(session.opaque_ref, _pusb ?? "").parse());
         }
 
         /// <summary>
@@ -466,7 +488,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pusb_set_other_config(session.opaque_ref, _pusb, _other_config);
             else
-                session.proxy.pusb_set_other_config(session.opaque_ref, _pusb ?? "", Maps.convert_to_proxy_string_string(_other_config)).parse();
+                session.XmlRpcProxy.pusb_set_other_config(session.opaque_ref, _pusb ?? "", Maps.convert_to_proxy_string_string(_other_config)).parse();
         }
 
         /// <summary>
@@ -482,7 +504,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pusb_add_to_other_config(session.opaque_ref, _pusb, _key, _value);
             else
-                session.proxy.pusb_add_to_other_config(session.opaque_ref, _pusb ?? "", _key ?? "", _value ?? "").parse();
+                session.XmlRpcProxy.pusb_add_to_other_config(session.opaque_ref, _pusb ?? "", _key ?? "", _value ?? "").parse();
         }
 
         /// <summary>
@@ -497,7 +519,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pusb_remove_from_other_config(session.opaque_ref, _pusb, _key);
             else
-                session.proxy.pusb_remove_from_other_config(session.opaque_ref, _pusb ?? "", _key ?? "").parse();
+                session.XmlRpcProxy.pusb_remove_from_other_config(session.opaque_ref, _pusb ?? "", _key ?? "").parse();
         }
 
         /// <summary>
@@ -511,7 +533,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pusb_scan(session.opaque_ref, _host);
             else
-                session.proxy.pusb_scan(session.opaque_ref, _host ?? "").parse();
+                session.XmlRpcProxy.pusb_scan(session.opaque_ref, _host ?? "").parse();
         }
 
         /// <summary>
@@ -525,7 +547,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_pusb_scan(session.opaque_ref, _host);
           else
-              return XenRef<Task>.Create(session.proxy.async_pusb_scan(session.opaque_ref, _host ?? "").parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_pusb_scan(session.opaque_ref, _host ?? "").parse());
         }
 
         /// <summary>
@@ -540,7 +562,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.pusb_set_passthrough_enabled(session.opaque_ref, _pusb, _value);
             else
-                session.proxy.pusb_set_passthrough_enabled(session.opaque_ref, _pusb ?? "", _value).parse();
+                session.XmlRpcProxy.pusb_set_passthrough_enabled(session.opaque_ref, _pusb ?? "", _value).parse();
         }
 
         /// <summary>
@@ -555,7 +577,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_pusb_set_passthrough_enabled(session.opaque_ref, _pusb, _value);
           else
-              return XenRef<Task>.Create(session.proxy.async_pusb_set_passthrough_enabled(session.opaque_ref, _pusb ?? "", _value).parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_pusb_set_passthrough_enabled(session.opaque_ref, _pusb ?? "", _value).parse());
         }
 
         /// <summary>
@@ -568,7 +590,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_all(session.opaque_ref);
             else
-                return XenRef<PUSB>.Create(session.proxy.pusb_get_all(session.opaque_ref).parse());
+                return XenRef<PUSB>.Create(session.XmlRpcProxy.pusb_get_all(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -581,7 +603,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.pusb_get_all_records(session.opaque_ref);
             else
-                return XenRef<PUSB>.Create<Proxy_PUSB>(session.proxy.pusb_get_all_records(session.opaque_ref).parse());
+                return XenRef<PUSB>.Create<Proxy_PUSB>(session.XmlRpcProxy.pusb_get_all_records(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -595,7 +617,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _uuid))
                 {
                     _uuid = value;
-                    Changed = true;
                     NotifyPropertyChanged("uuid");
                 }
             }
@@ -614,7 +635,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _USB_group))
                 {
                     _USB_group = value;
-                    Changed = true;
                     NotifyPropertyChanged("USB_group");
                 }
             }
@@ -633,7 +653,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _host))
                 {
                     _host = value;
-                    Changed = true;
                     NotifyPropertyChanged("host");
                 }
             }
@@ -651,7 +670,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _path))
                 {
                     _path = value;
-                    Changed = true;
                     NotifyPropertyChanged("path");
                 }
             }
@@ -669,7 +687,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _vendor_id))
                 {
                     _vendor_id = value;
-                    Changed = true;
                     NotifyPropertyChanged("vendor_id");
                 }
             }
@@ -687,7 +704,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _vendor_desc))
                 {
                     _vendor_desc = value;
-                    Changed = true;
                     NotifyPropertyChanged("vendor_desc");
                 }
             }
@@ -705,7 +721,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _product_id))
                 {
                     _product_id = value;
-                    Changed = true;
                     NotifyPropertyChanged("product_id");
                 }
             }
@@ -723,7 +738,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _product_desc))
                 {
                     _product_desc = value;
-                    Changed = true;
                     NotifyPropertyChanged("product_desc");
                 }
             }
@@ -741,7 +755,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _serial))
                 {
                     _serial = value;
-                    Changed = true;
                     NotifyPropertyChanged("serial");
                 }
             }
@@ -759,7 +772,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _version))
                 {
                     _version = value;
-                    Changed = true;
                     NotifyPropertyChanged("version");
                 }
             }
@@ -777,7 +789,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _description))
                 {
                     _description = value;
-                    Changed = true;
                     NotifyPropertyChanged("description");
                 }
             }
@@ -795,7 +806,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _passthrough_enabled))
                 {
                     _passthrough_enabled = value;
-                    Changed = true;
                     NotifyPropertyChanged("passthrough_enabled");
                 }
             }
@@ -814,11 +824,28 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _other_config))
                 {
                     _other_config = value;
-                    Changed = true;
                     NotifyPropertyChanged("other_config");
                 }
             }
         }
         private Dictionary<string, string> _other_config = new Dictionary<string, string>() {};
+
+        /// <summary>
+        /// USB device speed
+        /// First published in Unreleased.
+        /// </summary>
+        public virtual double speed
+        {
+            get { return _speed; }
+            set
+            {
+                if (!Helper.AreEqual(value, _speed))
+                {
+                    _speed = value;
+                    NotifyPropertyChanged("speed");
+                }
+            }
+        }
+        private double _speed = -1.000;
     }
 }

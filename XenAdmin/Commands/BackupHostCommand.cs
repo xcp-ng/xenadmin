@@ -37,6 +37,7 @@ using XenAPI;
 using System.Windows.Forms;
 using XenAdmin.Actions;
 using System.Collections.ObjectModel;
+using XenAdmin.Core;
 
 
 namespace XenAdmin.Commands
@@ -80,10 +81,10 @@ namespace XenAdmin.Commands
             {
                 SaveFileDialog dialog = new SaveFileDialog();
                 dialog.AddExtension = true;
-                dialog.Filter = string.Format("{0} (*.{1})|*.{1}|{2} (*.*)|*.*", Messages.XS_BACKUP_FILES, Branding.BACKUP, Messages.ALL_FILES);
+                dialog.Filter = string.Format("{0} (*.{1})|*.{1}|{2} (*.*)|*.*", Messages.XS_BACKUP_FILES, BrandManager.ExtensionBackup, Messages.ALL_FILES);
                 dialog.FilterIndex = 0;
                 dialog.RestoreDirectory = true;
-                dialog.DefaultExt = Branding.BACKUP;
+                dialog.DefaultExt = BrandManager.ExtensionBackup;
 
                 if (dialog.ShowDialog(Parent) != DialogResult.Cancel)
                     new HostBackupRestoreAction(host, HostBackupRestoreAction.HostBackupRestoreType.backup, dialog.FileName).RunAsync();

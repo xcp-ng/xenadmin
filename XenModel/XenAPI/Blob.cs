@@ -211,7 +211,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.blob_get_record(session.opaque_ref, _blob);
             else
-                return new Blob(session.proxy.blob_get_record(session.opaque_ref, _blob ?? "").parse());
+                return new Blob(session.XmlRpcProxy.blob_get_record(session.opaque_ref, _blob ?? "").parse());
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.blob_get_by_uuid(session.opaque_ref, _uuid);
             else
-                return XenRef<Blob>.Create(session.proxy.blob_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
+                return XenRef<Blob>.Create(session.XmlRpcProxy.blob_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.blob_get_by_name_label(session.opaque_ref, _label);
             else
-                return XenRef<Blob>.Create(session.proxy.blob_get_by_name_label(session.opaque_ref, _label ?? "").parse());
+                return XenRef<Blob>.Create(session.XmlRpcProxy.blob_get_by_name_label(session.opaque_ref, _label ?? "").parse());
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.blob_get_uuid(session.opaque_ref, _blob);
             else
-                return session.proxy.blob_get_uuid(session.opaque_ref, _blob ?? "").parse();
+                return session.XmlRpcProxy.blob_get_uuid(session.opaque_ref, _blob ?? "").parse();
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.blob_get_name_label(session.opaque_ref, _blob);
             else
-                return session.proxy.blob_get_name_label(session.opaque_ref, _blob ?? "").parse();
+                return session.XmlRpcProxy.blob_get_name_label(session.opaque_ref, _blob ?? "").parse();
         }
 
         /// <summary>
@@ -281,7 +281,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.blob_get_name_description(session.opaque_ref, _blob);
             else
-                return session.proxy.blob_get_name_description(session.opaque_ref, _blob ?? "").parse();
+                return session.XmlRpcProxy.blob_get_name_description(session.opaque_ref, _blob ?? "").parse();
         }
 
         /// <summary>
@@ -295,7 +295,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.blob_get_size(session.opaque_ref, _blob);
             else
-                return long.Parse(session.proxy.blob_get_size(session.opaque_ref, _blob ?? "").parse());
+                return long.Parse(session.XmlRpcProxy.blob_get_size(session.opaque_ref, _blob ?? "").parse());
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.blob_get_public(session.opaque_ref, _blob);
             else
-                return (bool)session.proxy.blob_get_public(session.opaque_ref, _blob ?? "").parse();
+                return (bool)session.XmlRpcProxy.blob_get_public(session.opaque_ref, _blob ?? "").parse();
         }
 
         /// <summary>
@@ -323,7 +323,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.blob_get_last_updated(session.opaque_ref, _blob);
             else
-                return session.proxy.blob_get_last_updated(session.opaque_ref, _blob ?? "").parse();
+                return session.XmlRpcProxy.blob_get_last_updated(session.opaque_ref, _blob ?? "").parse();
         }
 
         /// <summary>
@@ -337,7 +337,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.blob_get_mime_type(session.opaque_ref, _blob);
             else
-                return session.proxy.blob_get_mime_type(session.opaque_ref, _blob ?? "").parse();
+                return session.XmlRpcProxy.blob_get_mime_type(session.opaque_ref, _blob ?? "").parse();
         }
 
         /// <summary>
@@ -352,7 +352,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.blob_set_name_label(session.opaque_ref, _blob, _label);
             else
-                session.proxy.blob_set_name_label(session.opaque_ref, _blob ?? "", _label ?? "").parse();
+                session.XmlRpcProxy.blob_set_name_label(session.opaque_ref, _blob ?? "", _label ?? "").parse();
         }
 
         /// <summary>
@@ -367,7 +367,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.blob_set_name_description(session.opaque_ref, _blob, _description);
             else
-                session.proxy.blob_set_name_description(session.opaque_ref, _blob ?? "", _description ?? "").parse();
+                session.XmlRpcProxy.blob_set_name_description(session.opaque_ref, _blob ?? "", _description ?? "").parse();
         }
 
         /// <summary>
@@ -382,7 +382,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.blob_set_public(session.opaque_ref, _blob, _public);
             else
-                session.proxy.blob_set_public(session.opaque_ref, _blob ?? "", _public).parse();
+                session.XmlRpcProxy.blob_set_public(session.opaque_ref, _blob ?? "", _public).parse();
         }
 
         /// <summary>
@@ -396,7 +396,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.blob_create(session.opaque_ref, _mime_type);
             else
-                return XenRef<Blob>.Create(session.proxy.blob_create(session.opaque_ref, _mime_type ?? "").parse());
+                return XenRef<Blob>.Create(session.XmlRpcProxy.blob_create(session.opaque_ref, _mime_type ?? "").parse());
         }
 
         /// <summary>
@@ -411,7 +411,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.blob_create(session.opaque_ref, _mime_type, _public);
             else
-                return XenRef<Blob>.Create(session.proxy.blob_create(session.opaque_ref, _mime_type ?? "", _public).parse());
+                return XenRef<Blob>.Create(session.XmlRpcProxy.blob_create(session.opaque_ref, _mime_type ?? "", _public).parse());
         }
 
         /// <summary>
@@ -425,7 +425,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.blob_destroy(session.opaque_ref, _blob);
             else
-                session.proxy.blob_destroy(session.opaque_ref, _blob ?? "").parse();
+                session.XmlRpcProxy.blob_destroy(session.opaque_ref, _blob ?? "").parse();
         }
 
         /// <summary>
@@ -438,7 +438,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.blob_get_all(session.opaque_ref);
             else
-                return XenRef<Blob>.Create(session.proxy.blob_get_all(session.opaque_ref).parse());
+                return XenRef<Blob>.Create(session.XmlRpcProxy.blob_get_all(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -451,7 +451,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.blob_get_all_records(session.opaque_ref);
             else
-                return XenRef<Blob>.Create<Proxy_Blob>(session.proxy.blob_get_all_records(session.opaque_ref).parse());
+                return XenRef<Blob>.Create<Proxy_Blob>(session.XmlRpcProxy.blob_get_all_records(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -465,7 +465,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _uuid))
                 {
                     _uuid = value;
-                    Changed = true;
                     NotifyPropertyChanged("uuid");
                 }
             }
@@ -483,7 +482,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _name_label))
                 {
                     _name_label = value;
-                    Changed = true;
                     NotifyPropertyChanged("name_label");
                 }
             }
@@ -501,7 +499,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _name_description))
                 {
                     _name_description = value;
-                    Changed = true;
                     NotifyPropertyChanged("name_description");
                 }
             }
@@ -519,7 +516,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _size))
                 {
                     _size = value;
-                    Changed = true;
                     NotifyPropertyChanged("size");
                 }
             }
@@ -538,7 +534,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _pubblic))
                 {
                     _pubblic = value;
-                    Changed = true;
                     NotifyPropertyChanged("pubblic");
                 }
             }
@@ -557,7 +552,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _last_updated))
                 {
                     _last_updated = value;
-                    Changed = true;
                     NotifyPropertyChanged("last_updated");
                 }
             }
@@ -575,7 +569,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _mime_type))
                 {
                     _mime_type = value;
-                    Changed = true;
                     NotifyPropertyChanged("mime_type");
                 }
             }

@@ -313,7 +313,7 @@ namespace XenOvfTransport {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please shutdown or suspend virtual machine {0} before exporting..
+        ///   Looks up a localized string similar to Please shut down or suspend virtual machine {0} before exporting..
         /// </summary>
         internal static string ERROR_VM_NOT_HALTED {
             get {
@@ -439,7 +439,7 @@ namespace XenOvfTransport {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to shutdown Transfer VM..
+        ///   Looks up a localized string similar to Failed to shut down the Transfer VM..
         /// </summary>
         internal static string ISCSI_SHUTDOWN_ERROR {
             get {
@@ -448,7 +448,7 @@ namespace XenOvfTransport {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to start Transfer VM..
+        ///   Looks up a localized string similar to Failed to start the Transfer VM..
         /// </summary>
         internal static string ISCSI_START_ERROR {
             get {

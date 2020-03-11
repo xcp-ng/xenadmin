@@ -9,35 +9,24 @@ TAGS
 *.rej
 *.suo
 *.cache
+*.dll
+
+_scratch
+_output
 bin
-Debug
 nant
 obj
+Debug
+Release
 Thumbs.db
 *-listing.txt
 *.ncb
 *.user
 *.idc
 *.bak
-splash/Release/*
-Installer/Release/*
-WixInstaller/wixlib/*
-WixInstaller/outXenCenter*
-WixInstaller/*.mst
-WixInstaller/*/*.msi
-WixInstaller/*/*.wixlib
-WixInstaller/*/*.wixobj
-WixInstaller/*/*.wixpdb
-WixInstaller/XenCenter.l10n.*
-WixInstaller/PrintEula.dll
-WixInstaller/XenCenter.l10n.wxs
-dotNetInstaller/*
-dotNetFx40_Full_setup/*
+
 packages/*
 !packages/DOTNET_BUILD_LOCATION
-!packages/DOTNET_BUILD_LOCATION_CTXSIGN
-!packages/download_packages.ps1
-XenOvfApi/External Tools/*
 
 _ReSharper.*/
 *.opensdf
@@ -48,7 +37,6 @@ Backup*/
 UpgradeLog*.XML
 UpgradeLog*.htm
 ServiceFabricBackup/
-*.rptproj.bak
 
 .vs
 .vscode

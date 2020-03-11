@@ -102,7 +102,7 @@ namespace XenAdmin.Commands
                 return;
             }
             
-            MainWindowCommandInterface.ShowPerXenModelObjectWizard(host, new EvacuateHostDialog(host));
+            new EvacuateHostDialog(host).ShowPerXenObject(host, Program.MainWindow);
         }
 
         private void ExitMaintenanceMode(Host host)

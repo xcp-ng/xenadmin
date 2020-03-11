@@ -2698,7 +2698,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Updating integrated GPU passthrough on &apos;{0}&apos; ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Updating integrated GPU pass-through on &apos;{0}&apos; ähnelt.
         /// </summary>
         public static string ACTION_UPDATE_INTEGRATED_GPU_PASSTHROUGH_TITLE {
             get {
@@ -2752,7 +2752,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die USB passthrough disabled ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die USB pass-through disabled ähnelt.
         /// </summary>
         public static string ACTION_USB_PASSTHROUGH_DISABLED {
             get {
@@ -2761,7 +2761,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Disabling USB passthrough for {0} ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Disabling USB pass-through for {0} ähnelt.
         /// </summary>
         public static string ACTION_USB_PASSTHROUGH_DISABLING {
             get {
@@ -2770,7 +2770,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die USB passthrough enabled ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die USB pass-through enabled ähnelt.
         /// </summary>
         public static string ACTION_USB_PASSTHROUGH_ENABLED {
             get {
@@ -2779,7 +2779,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enabling USB passthrough for {0} ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enabling USB pass-through for {0} ähnelt.
         /// </summary>
         public static string ACTION_USB_PASSTHROUGH_ENABLING {
             get {
@@ -3364,7 +3364,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Snapshotting VM &apos;{0}&apos;... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Taking a snapshot of VM &apos;{0}&apos;... ähnelt.
         /// </summary>
         public static string ACTION_VM_SNAPSHOT_TITLE {
             get {
@@ -4907,7 +4907,7 @@ namespace XenAdmin {
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The physical utilization on {0} is about {1} of its capacity. 
-        ///This alarm is set to be triggered when the physical utilisation of the SR goes above {2}. ähnelt.
+        ///This alarm is set to be triggered when the physical utilization of the SR goes above {2}. ähnelt.
         /// </summary>
         public static string ALERT_ALARM_SR_PHYSICAL_UTILISATION_DESCRIPTION {
             get {
@@ -8122,7 +8122,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Rebooting a server will also shut down all the VMs running on it. The following servers are running a storage virtual appliance and rebooting them might impact the availablity of your storage:
+        ///   Sucht eine lokalisierte Zeichenfolge, die Rebooting a server will also shut down all the VMs running on it. The following servers are running a storage virtual appliance and rebooting them might impact the availability of your storage:
         ///
         ///{0}
         ///
@@ -8294,7 +8294,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Shutting down a server will also shut down all the VMs running on it. The following servers are running a storage virtual appliance and shutting them down might impact the availablity of your storage:
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shutting down a server will also shut down all the VMs running on it. The following servers are running a storage virtual appliance and shutting them down might impact the availability of your storage:
         ///
         ///{0}
         ///
@@ -9713,7 +9713,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The version of the Conversion Manager virtual appliance you are using is earlier than [BRANDING_VERSION_7_0]. You can use the legacy Conversion Manager console to set up and control conversions. However, it is strongly recommended that you import and configure the Conversion Manager virtual appliance matching your [XenServer] version. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The version of the Conversion Manager virtual appliance you are using is earlier than {0}. You can use the legacy Conversion Manager console to set up and control conversions. However, it is strongly recommended that you import and configure the Conversion Manager virtual appliance matching your [XenServer] version. ähnelt.
         /// </summary>
         public static string CONVERSION_VERSION_INCOMPATIBILITY_INFO {
             get {
@@ -11595,9 +11595,9 @@ namespace XenAdmin {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die unable to determine failure reason ähnelt.
         /// </summary>
-        public static string DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_UNKOWN {
+        public static string DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_UNKNOWN {
             get {
-                return ResourceManager.GetString("DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_UNKOWN", resourceCulture);
+                return ResourceManager.GetString("DELAY_LOADED_COMBO_BOX_ITEM_FAILURE_UNKNOWN", resourceCulture);
             }
         }
         
@@ -12311,7 +12311,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Disable passthrough ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Disable pass-through ähnelt.
         /// </summary>
         public static string DIALOG_USB_USAGE_DISABLE_PASSTHROUGH {
             get {
@@ -12320,7 +12320,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enable passthrough ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enable pass-through ähnelt.
         /// </summary>
         public static string DIALOG_USB_USAGE_ENABLE_PASSTHROUGH {
             get {
@@ -12329,7 +12329,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Are you sure that you want to enable passthrough on this device? This will allow this device to be passed through to virtual machines. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Are you sure that you want to enable pass-through on this device? This will allow this device to be passed through to virtual machines. ähnelt.
         /// </summary>
         public static string DIALOG_USB_USAGE_NOTE_ALLOW {
             get {
@@ -12338,7 +12338,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Are you sure that you want to disable passthrough on this device? This device will no longer be allowed to be passed through to virtual machines. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Are you sure that you want to disable pass-through on this device? This device will no longer be allowed to be passed through to virtual machines. ähnelt.
         /// </summary>
         public static string DIALOG_USB_USAGE_NOTE_DENY {
             get {
@@ -12347,7 +12347,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Yes, Disable passthrough ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Yes, Disable pass-through ähnelt.
         /// </summary>
         public static string DIALOG_USB_USAGE_OKBUTTON_DISABLE {
             get {
@@ -12356,7 +12356,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Yes, Enable passthrough ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Yes, Enable pass-through ähnelt.
         /// </summary>
         public static string DIALOG_USB_USAGE_OKBUTTON_ENABLE {
             get {
@@ -15294,7 +15294,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The following Vms could not be resumed: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The following VMs could not be resumed: ähnelt.
         /// </summary>
         public static string ERROR_DIALOG_RESUME_VM_TEXT {
             get {
@@ -17043,7 +17043,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Memory and VCPUs ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Memory and vCPUs ähnelt.
         /// </summary>
         public static string GENERAL_HEADING_MEMORY_VCPUS {
             get {
@@ -19075,7 +19075,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die If you are upgrading to [XenServer] [BRANDING_VERSION_8_0] and above, the Control Domain memory on {0} will be increased. 
+        ///   Sucht eine lokalisierte Zeichenfolge, die If you are upgrading to [XenServer] {1} and above, the Control Domain memory on {0} will be increased. 
         ///
         ///This might result in failure to migrate VMs to this server during the RPU or to accommodate after the upgrade all the VMs that are currently residing on this server. ähnelt.
         /// </summary>
@@ -19819,7 +19819,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The server could not complete the import due to an unkown error. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The server could not complete the import due to an unknown error. ähnelt.
         /// </summary>
         public static string IMPORT_GENERIC_FAIL {
             get {
@@ -19828,7 +19828,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The exported files are incomplete or in an unrecognised format. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The exported files are incomplete or in an unrecognized format. ähnelt.
         /// </summary>
         public static string IMPORT_INCOMPLETE_FILES {
             get {
@@ -20218,7 +20218,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The [Xenserver] Template that you are attempting to import already exists in the selected pool. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The [XenServer] Template that you are attempting to import already exists in the selected pool. ähnelt.
         /// </summary>
         public static string IMPORT_TEMPLATE_ALREADY_EXISTS {
             get {
@@ -21073,7 +21073,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Invalid hostname ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Invalid host name ähnelt.
         /// </summary>
         public static string INVALID_HOST {
             get {
@@ -21536,7 +21536,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die [Legacy XenServer product] E&amp;nterprise Per-Socket ({0} required) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {1} E&amp;nterprise Per-Socket ({0} required) ähnelt.
         /// </summary>
         public static string LICENSE_EDITION_ENTERPRISE_PERSOCKET_LEGACY {
             get {
@@ -21554,7 +21554,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die [Legacy XenServer product] &amp;Enterprise Per-User ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} &amp;Enterprise Per-User ähnelt.
         /// </summary>
         public static string LICENSE_EDITION_ENTERPRISE_PERUSER_LEGACY {
             get {
@@ -21572,7 +21572,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die [Legacy XenServer product] Per-&amp;Socket ({0} required) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {1} Per-&amp;Socket ({0} required) ähnelt.
         /// </summary>
         public static string LICENSE_EDITION_PERSOCKET_LEGACY {
             get {
@@ -21590,7 +21590,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die [Legacy XenServer product] &amp;Standard Per-Socket ({0} required) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {1} &amp;Standard Per-Socket ({0} required) ähnelt.
         /// </summary>
         public static string LICENSE_EDITION_STANDARD_PERSOCKET_LEGACY {
             get {
@@ -21608,7 +21608,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die [Legacy XenServer product] for &amp;XenDesktop ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} for &amp;XenDesktop ähnelt.
         /// </summary>
         public static string LICENSE_EDITION_XENDESKTOP_LEGACY {
             get {
@@ -21842,7 +21842,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Servers must be selected one at a time when licensing servers which have a version lower than [BRANDING_VERSION_5_6]. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die When licensing servers earlier than {0}, you must select one server at a time. ähnelt.
         /// </summary>
         public static string LICENSE_NO_MULTISELECT_LICENSE {
             get {
@@ -25673,7 +25673,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die This server&apos;s linux pack installation state differs from that of the master ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die This server&apos;s Linux pack installation state differs from that of the master ähnelt.
         /// </summary>
         public static string NEWPOOL_LINUXPACK {
             get {
@@ -25785,7 +25785,7 @@ namespace XenAdmin {
         ///
         ///As SMB storage repositories are shared, the virtual disks stored in them allow VMs to be started on any server in a resource pool and to be migrated between them using Live Migration.
         ///
-        ///When you configure a SMB storage repository, you simply provide the hostname or IP address of the SMB server, the user name, the password and the path to a directory that will be [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///When you configure a SMB storage repository, you simply provide the host name or IP address of the SMB server, the user name, the password and the path to a directory that will b [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string NEWSR_CIFS_BLURB {
             get {
@@ -26287,7 +26287,7 @@ namespace XenAdmin {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die If you have access to a Network Appliance (NetApp) filer with sufficient disk space, running a version of Data ONTAP 7G (version 7.2 or greater), you can configure a custom NetApp Storage Repository. 
         ///
-        ///The driver uses the ZAPI interface to the filer to create a group of FlexVols which correspond to an SR. VDIs are created as virtual LUNs on the filer, and attached to the host using an iSCSI data path. 
+        ///The driver uses the XAPI interface to the filer to create a group of FlexVols which correspond to an SR. VDIs are created as virtual LUNs on the filer, and attached to the host using an iSCSI data path. 
         ///
         ///VM cloning uses the snapshot and clone capabilities of the filer to provide high performance and to e [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
@@ -26473,7 +26473,7 @@ namespace XenAdmin {
         ///
         ///As NFS storage repositories are shared, the virtual disks stored in them allow VMs to be started on any server in a resource pool and to be migrated between them using Live Migration.
         ///
-        ///When you configure an NFS storage repository, you simply provide the hostname or IP address of the NFS server and the path to a directory that will be used to contain the storage reposit [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///When you configure an NFS storage repository, you simply provide the host name or IP address of the NFS server and the path to a directory that will be used to contain the storage reposi [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string NEWSR_VHDONFS_BLURB {
             get {
@@ -27731,9 +27731,9 @@ namespace XenAdmin {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The VM is not agile. Restart cannot be guaranteed. ähnelt.
         /// </summary>
-        public static string NOT_AGILE_UNKOWN {
+        public static string NOT_AGILE_UNKNOWN {
             get {
-                return ResourceManager.GetString("NOT_AGILE_UNKOWN", resourceCulture);
+                return ResourceManager.GetString("NOT_AGILE_UNKNOWN", resourceCulture);
             }
         }
         
@@ -27911,9 +27911,9 @@ namespace XenAdmin {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die VMs on local disk will prevent disk repartitioning.
         ///
-        ///A new disk partitioning scheme is available in [XenServer] [BRANDING_VERSION_7_0] and above that includes larger dom0 and backup partitions, and dedicated partitions for logging, swap and UEFI.
+        ///A new disk partitioning scheme is available in [XenServer] {0} and above that includes larger dom0 and backup partitions, and dedicated partitions for logging, swap and UEFI.
         ///
-        ///However, there are VMs on local storage, so the current partitioning scheme will be retained. To benefit from repartitioning on upgrade to [XenServer] [BRANDING_VERSION_7_0] or above, VMs must be moved from local storage first. ähnelt.
+        ///However, there are VMs on local storage, so the current partitioning scheme will be retained. To benefit from repartitioning on upgrade to [XenServer] {0} or above, VMs must be moved from local storage first. ähnelt.
         /// </summary>
         public static string NOT_SAFE_TO_UPGRADE_DEFAULT_WARNING_LONG {
             get {
@@ -27933,7 +27933,7 @@ namespace XenAdmin {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The disk size of the local storage prevents repartitioning.
         ///
-        ///A new disk partitioning scheme is available in [XenServer] [BRANDING_VERSION_7_0] and above that includes larger dom0 and backup partitions, and dedicated partitions for logging, swap and UEFI.
+        ///A new disk partitioning scheme is available in [XenServer] {0} and above that includes larger dom0 and backup partitions, and dedicated partitions for logging, swap and UEFI.
         ///
         ///However, there is not enough space to perform the repartitioning, so the current partitioning scheme will be retained. ähnelt.
         /// </summary>
@@ -29168,7 +29168,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Cannot install updates on this host because the master is running a version higher than [BRANDING_VERSION_7_0] ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cannot install updates on this host because the master is running a version higher than {0} ähnelt.
         /// </summary>
         public static string PATCHINGWIZARD_SELECTSERVERPAGE_CANNOT_INSTALL_UPDATE_MASTER_POST_7_0 {
             get {
@@ -29759,7 +29759,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Server &apos;{0}&apos; could not be evacuated because there was not enough free memory on the other servers to migrate all the VMs from this server. Please suspend or shutdown some VMs and then press Retry to resume the process. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Server &apos;{0}&apos; could not be evacuated because there was not enough free memory on the other servers to migrate all the VMs from this server. Please suspend or shut down some VMs and then press Retry to resume the process. ähnelt.
         /// </summary>
         public static string PLAN_ACTION_FAILURE_NOT_ENOUGH_MEMORY {
             get {
@@ -30184,20 +30184,11 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0}: Support for paravirtualized (PV) guests is dropped as of [XenServer] [BRANDING_VERSION_8_1]. Click &quot;Learn more&quot; to see the list of supported guest operating systems.  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0}: Support for paravirtualized (PV) guests is dropped as of [XenServer] {1}. Click &quot;Learn more&quot; to see the list of supported guest operating systems.  ähnelt.
         /// </summary>
-        public static string POOL_HAS_PV_GUEST_UPDATE_WARNING {
+        public static string POOL_HAS_PV_GUEST_WARNING {
             get {
-                return ResourceManager.GetString("POOL_HAS_PV_GUEST_UPDATE_WARNING", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0}: Support for paravirtualized (PV) guests is dropped as of [XenServer] [BRANDING_VERSION_8_1]. Click &quot;Learn more&quot; to see the list of supported guest operating systems.  ähnelt.
-        /// </summary>
-        public static string POOL_HAS_PV_GUEST_UPGRADE_WARNING {
-            get {
-                return ResourceManager.GetString("POOL_HAS_PV_GUEST_UPGRADE_WARNING", resourceCulture);
+                return ResourceManager.GetString("POOL_HAS_PV_GUEST_WARNING", resourceCulture);
             }
         }
         
@@ -33030,7 +33021,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die This version of [XenCenter] supports [XenServer] [BRANDING_VERSION_7_0] onwards. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die This version of [XenCenter] supports [XenServer] {0} onwards. ähnelt.
         /// </summary>
         public static string SERVER_TOO_OLD {
             get {
@@ -33598,7 +33589,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die This pool contains servers earlier than [XenServer] [BRANDING_VERSION_7_0]. Please use an earlier version of [XenCenter] to manage this pool. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die This pool contains servers earlier than [XenServer] {0}. Please use an earlier version of [XenCenter] to manage this pool. ähnelt.
         /// </summary>
         public static string SLAVE_TOO_OLD {
             get {
@@ -33913,7 +33904,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enter a valid hostname or IP address and try again. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter a valid host name or IP address and try again. ähnelt.
         /// </summary>
         public static string SOLUTION_NOT_FOUND {
             get {
@@ -33981,15 +33972,6 @@ namespace XenAdmin {
         public static string SR_CANNOT_BE_DESTROYED_WITH_XC {
             get {
                 return ResourceManager.GetString("SR_CANNOT_BE_DESTROYED_WITH_XC", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die This SR cannot be detached with [XenCenter]. ähnelt.
-        /// </summary>
-        public static string SR_CANNOT_BE_DETACHED_WITH_XC {
-            get {
-                return ResourceManager.GetString("SR_CANNOT_BE_DETACHED_WITH_XC", resourceCulture);
             }
         }
         
@@ -36705,15 +36687,6 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Select the checkboxes for each server you want to update. Select a pool checkbox to select all the available servers in the pool. ähnelt.
-        /// </summary>
-        public static string UPDATES_WIZARD_PAGE1_TOPTEXT {
-            get {
-                return ResourceManager.GetString("UPDATES_WIZARD_PAGE1_TOPTEXT", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die {0}: The update has already been applied to this server.  This server will be skipped. ähnelt.
         /// </summary>
         public static string UPDATES_WIZARD_PATCH_ALREADY_APPLIED {
@@ -37519,7 +37492,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Disable passthrough ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Disable pass-through ähnelt.
         /// </summary>
         public static string USBLIST_DISABLE_PASSTHROUGH_HOTKEY {
             get {
@@ -37528,7 +37501,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Enable passthrough ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Enable pass-through ähnelt.
         /// </summary>
         public static string USBLIST_ENABLE_PASSTHROUGH_HOTKEY {
             get {
@@ -37915,7 +37888,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The VCPUs can only be changed when the VM is shut down. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The vCPUs can only be changed when the VM is shut down. ähnelt.
         /// </summary>
         public static string VCPU_ONLY_WHEN_HALTED {
             get {
@@ -38689,7 +38662,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Memory and/or VCPU changes will take effect when you restart the VM. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Memory and/or vCPU changes will take effect when you restart the VM. ähnelt.
         /// </summary>
         public static string VM_LIVE_CHANGES_NOT_SUPPORTED_MESSAGE {
             get {
@@ -41784,16 +41757,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die [XenServer] [BRANDING_VERSION_6_2] ähnelt.
-        /// </summary>
-        public static string XENSERVER_6_2 {
-            get {
-                return ResourceManager.GetString("XENSERVER_6_2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die [XenServer] [BRANDING_VERSION_6_5] ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die [XenServer] {0} ähnelt.
         /// </summary>
         public static string XENSERVER_6_5 {
             get {
@@ -41802,20 +41766,11 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die [XenServer] [BRANDING_VERSION_8_1] ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die [XenServer] {0} ähnelt.
         /// </summary>
         public static string XENSERVER_8_1 {
             get {
                 return ResourceManager.GetString("XENSERVER_8_1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die [Legacy XenServer product] ähnelt.
-        /// </summary>
-        public static string XENSERVER_LEGACY {
-            get {
-                return ResourceManager.GetString("XENSERVER_LEGACY", resourceCulture);
             }
         }
         

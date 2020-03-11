@@ -56,10 +56,9 @@ namespace XenAdmin.Help
             if (string.IsNullOrEmpty(HelpUrl))
             {
                 //HelpUrl = InvisibleMessages.HELP_URL;
-
-                //HelpQuery = string.Format(InvisibleMessages.HELP_URL_QUERY,
-                //    $"{Branding.XENCENTER_VERSION}.{Program.Version.Revision}".Replace('.', '_'),
-                //    Messages.XENCENTER);
+                HelpQuery = string.Format(InvisibleMessages.HELP_URL_QUERY,
+                    $"{BrandManager.XENCENTER_VERSION}.{Program.Version.Revision}".Replace('.', '_'),
+                    Messages.XENCENTER);
             }
         }
 

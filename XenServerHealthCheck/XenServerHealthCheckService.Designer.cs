@@ -35,7 +35,6 @@
             this.CanHandleSessionChangeEvent = true;
             this.CanPauseAndContinue = true;
             this.CanShutdown = true;
-            this.ServiceName = Branding.PRODUCT_BRAND + " Health Check";
         }
 
         #endregion

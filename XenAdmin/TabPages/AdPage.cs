@@ -830,11 +830,11 @@ namespace XenAdmin.TabPages
 
             // Warn if user is revoking his currently-in-use credentials
             Session session = _connection.Session;
-            if (session != null && session.Subject != null)
+            if (session != null && session.SessionSubject != null)
             {
                 foreach (Subject entry in subjectsToRemove)
                 {
-                    if (entry.opaque_ref == session.Subject)
+                    if (entry.opaque_ref == session.SessionSubject)
                     {
                         string subjectName = entry.DisplayName ?? entry.SubjectName;
                         if (subjectName == null)
@@ -1079,7 +1079,7 @@ namespace XenAdmin.TabPages
 
                 subjectsToLogout.Add(r.subject);
 
-                if (session.Subject != null && r.subject.opaque_ref == session.Subject)
+                if (session.SessionSubject != null && r.subject.opaque_ref == session.SessionSubject)
                     logSelfOut = true;
             }
 

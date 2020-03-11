@@ -274,7 +274,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_record(session.opaque_ref, _vgpu_type);
             else
-                return new VGPU_type(session.proxy.vgpu_type_get_record(session.opaque_ref, _vgpu_type ?? "").parse());
+                return new VGPU_type(session.XmlRpcProxy.vgpu_type_get_record(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_by_uuid(session.opaque_ref, _uuid);
             else
-                return XenRef<VGPU_type>.Create(session.proxy.vgpu_type_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
+                return XenRef<VGPU_type>.Create(session.XmlRpcProxy.vgpu_type_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
         }
 
         /// <summary>
@@ -302,7 +302,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_uuid(session.opaque_ref, _vgpu_type);
             else
-                return session.proxy.vgpu_type_get_uuid(session.opaque_ref, _vgpu_type ?? "").parse();
+                return session.XmlRpcProxy.vgpu_type_get_uuid(session.opaque_ref, _vgpu_type ?? "").parse();
         }
 
         /// <summary>
@@ -316,7 +316,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_vendor_name(session.opaque_ref, _vgpu_type);
             else
-                return session.proxy.vgpu_type_get_vendor_name(session.opaque_ref, _vgpu_type ?? "").parse();
+                return session.XmlRpcProxy.vgpu_type_get_vendor_name(session.opaque_ref, _vgpu_type ?? "").parse();
         }
 
         /// <summary>
@@ -330,7 +330,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_model_name(session.opaque_ref, _vgpu_type);
             else
-                return session.proxy.vgpu_type_get_model_name(session.opaque_ref, _vgpu_type ?? "").parse();
+                return session.XmlRpcProxy.vgpu_type_get_model_name(session.opaque_ref, _vgpu_type ?? "").parse();
         }
 
         /// <summary>
@@ -344,7 +344,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_framebuffer_size(session.opaque_ref, _vgpu_type);
             else
-                return long.Parse(session.proxy.vgpu_type_get_framebuffer_size(session.opaque_ref, _vgpu_type ?? "").parse());
+                return long.Parse(session.XmlRpcProxy.vgpu_type_get_framebuffer_size(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -358,7 +358,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_max_heads(session.opaque_ref, _vgpu_type);
             else
-                return long.Parse(session.proxy.vgpu_type_get_max_heads(session.opaque_ref, _vgpu_type ?? "").parse());
+                return long.Parse(session.XmlRpcProxy.vgpu_type_get_max_heads(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -372,7 +372,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_max_resolution_x(session.opaque_ref, _vgpu_type);
             else
-                return long.Parse(session.proxy.vgpu_type_get_max_resolution_x(session.opaque_ref, _vgpu_type ?? "").parse());
+                return long.Parse(session.XmlRpcProxy.vgpu_type_get_max_resolution_x(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -386,7 +386,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_max_resolution_y(session.opaque_ref, _vgpu_type);
             else
-                return long.Parse(session.proxy.vgpu_type_get_max_resolution_y(session.opaque_ref, _vgpu_type ?? "").parse());
+                return long.Parse(session.XmlRpcProxy.vgpu_type_get_max_resolution_y(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -400,7 +400,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_supported_on_pgpus(session.opaque_ref, _vgpu_type);
             else
-                return XenRef<PGPU>.Create(session.proxy.vgpu_type_get_supported_on_pgpus(session.opaque_ref, _vgpu_type ?? "").parse());
+                return XenRef<PGPU>.Create(session.XmlRpcProxy.vgpu_type_get_supported_on_pgpus(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -414,7 +414,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_enabled_on_pgpus(session.opaque_ref, _vgpu_type);
             else
-                return XenRef<PGPU>.Create(session.proxy.vgpu_type_get_enabled_on_pgpus(session.opaque_ref, _vgpu_type ?? "").parse());
+                return XenRef<PGPU>.Create(session.XmlRpcProxy.vgpu_type_get_enabled_on_pgpus(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -428,7 +428,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_vgpus(session.opaque_ref, _vgpu_type);
             else
-                return XenRef<VGPU>.Create(session.proxy.vgpu_type_get_vgpus(session.opaque_ref, _vgpu_type ?? "").parse());
+                return XenRef<VGPU>.Create(session.XmlRpcProxy.vgpu_type_get_vgpus(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -442,7 +442,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_supported_on_gpu_groups(session.opaque_ref, _vgpu_type);
             else
-                return XenRef<GPU_group>.Create(session.proxy.vgpu_type_get_supported_on_gpu_groups(session.opaque_ref, _vgpu_type ?? "").parse());
+                return XenRef<GPU_group>.Create(session.XmlRpcProxy.vgpu_type_get_supported_on_gpu_groups(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -456,7 +456,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_enabled_on_gpu_groups(session.opaque_ref, _vgpu_type);
             else
-                return XenRef<GPU_group>.Create(session.proxy.vgpu_type_get_enabled_on_gpu_groups(session.opaque_ref, _vgpu_type ?? "").parse());
+                return XenRef<GPU_group>.Create(session.XmlRpcProxy.vgpu_type_get_enabled_on_gpu_groups(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -470,7 +470,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_implementation(session.opaque_ref, _vgpu_type);
             else
-                return (vgpu_type_implementation)Helper.EnumParseDefault(typeof(vgpu_type_implementation), (string)session.proxy.vgpu_type_get_implementation(session.opaque_ref, _vgpu_type ?? "").parse());
+                return (vgpu_type_implementation)Helper.EnumParseDefault(typeof(vgpu_type_implementation), (string)session.XmlRpcProxy.vgpu_type_get_implementation(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -484,7 +484,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_identifier(session.opaque_ref, _vgpu_type);
             else
-                return session.proxy.vgpu_type_get_identifier(session.opaque_ref, _vgpu_type ?? "").parse();
+                return session.XmlRpcProxy.vgpu_type_get_identifier(session.opaque_ref, _vgpu_type ?? "").parse();
         }
 
         /// <summary>
@@ -498,12 +498,12 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_experimental(session.opaque_ref, _vgpu_type);
             else
-                return (bool)session.proxy.vgpu_type_get_experimental(session.opaque_ref, _vgpu_type ?? "").parse();
+                return (bool)session.XmlRpcProxy.vgpu_type_get_experimental(session.opaque_ref, _vgpu_type ?? "").parse();
         }
 
         /// <summary>
         /// Get the compatible_types_in_vm field of the given VGPU_type.
-        /// First published in Unreleased.
+        /// First published in Citrix Hypervisor 8.1.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
@@ -512,7 +512,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_compatible_types_in_vm(session.opaque_ref, _vgpu_type);
             else
-                return XenRef<VGPU_type>.Create(session.proxy.vgpu_type_get_compatible_types_in_vm(session.opaque_ref, _vgpu_type ?? "").parse());
+                return XenRef<VGPU_type>.Create(session.XmlRpcProxy.vgpu_type_get_compatible_types_in_vm(session.opaque_ref, _vgpu_type ?? "").parse());
         }
 
         /// <summary>
@@ -525,7 +525,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_all(session.opaque_ref);
             else
-                return XenRef<VGPU_type>.Create(session.proxy.vgpu_type_get_all(session.opaque_ref).parse());
+                return XenRef<VGPU_type>.Create(session.XmlRpcProxy.vgpu_type_get_all(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -538,7 +538,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.vgpu_type_get_all_records(session.opaque_ref);
             else
-                return XenRef<VGPU_type>.Create<Proxy_VGPU_type>(session.proxy.vgpu_type_get_all_records(session.opaque_ref).parse());
+                return XenRef<VGPU_type>.Create<Proxy_VGPU_type>(session.XmlRpcProxy.vgpu_type_get_all_records(session.opaque_ref).parse());
         }
 
         /// <summary>
@@ -552,7 +552,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _uuid))
                 {
                     _uuid = value;
-                    Changed = true;
                     NotifyPropertyChanged("uuid");
                 }
             }
@@ -570,7 +569,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _vendor_name))
                 {
                     _vendor_name = value;
-                    Changed = true;
                     NotifyPropertyChanged("vendor_name");
                 }
             }
@@ -588,7 +586,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _model_name))
                 {
                     _model_name = value;
-                    Changed = true;
                     NotifyPropertyChanged("model_name");
                 }
             }
@@ -606,7 +603,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _framebuffer_size))
                 {
                     _framebuffer_size = value;
-                    Changed = true;
                     NotifyPropertyChanged("framebuffer_size");
                 }
             }
@@ -624,7 +620,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _max_heads))
                 {
                     _max_heads = value;
-                    Changed = true;
                     NotifyPropertyChanged("max_heads");
                 }
             }
@@ -643,7 +638,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _max_resolution_x))
                 {
                     _max_resolution_x = value;
-                    Changed = true;
                     NotifyPropertyChanged("max_resolution_x");
                 }
             }
@@ -662,7 +656,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _max_resolution_y))
                 {
                     _max_resolution_y = value;
-                    Changed = true;
                     NotifyPropertyChanged("max_resolution_y");
                 }
             }
@@ -681,7 +674,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _supported_on_PGPUs))
                 {
                     _supported_on_PGPUs = value;
-                    Changed = true;
                     NotifyPropertyChanged("supported_on_PGPUs");
                 }
             }
@@ -700,7 +692,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _enabled_on_PGPUs))
                 {
                     _enabled_on_PGPUs = value;
-                    Changed = true;
                     NotifyPropertyChanged("enabled_on_PGPUs");
                 }
             }
@@ -719,7 +710,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _VGPUs))
                 {
                     _VGPUs = value;
-                    Changed = true;
                     NotifyPropertyChanged("VGPUs");
                 }
             }
@@ -739,7 +729,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _supported_on_GPU_groups))
                 {
                     _supported_on_GPU_groups = value;
-                    Changed = true;
                     NotifyPropertyChanged("supported_on_GPU_groups");
                 }
             }
@@ -759,7 +748,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _enabled_on_GPU_groups))
                 {
                     _enabled_on_GPU_groups = value;
-                    Changed = true;
                     NotifyPropertyChanged("enabled_on_GPU_groups");
                 }
             }
@@ -779,7 +767,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _implementation))
                 {
                     _implementation = value;
-                    Changed = true;
                     NotifyPropertyChanged("implementation");
                 }
             }
@@ -798,7 +785,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _identifier))
                 {
                     _identifier = value;
-                    Changed = true;
                     NotifyPropertyChanged("identifier");
                 }
             }
@@ -817,7 +803,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _experimental))
                 {
                     _experimental = value;
-                    Changed = true;
                     NotifyPropertyChanged("experimental");
                 }
             }
@@ -826,7 +811,7 @@ namespace XenAPI
 
         /// <summary>
         /// List of VGPU types which are compatible in one VM
-        /// First published in Unreleased.
+        /// First published in Citrix Hypervisor 8.1.
         /// </summary>
         [JsonConverter(typeof(XenRefListConverter<VGPU_type>))]
         public virtual List<XenRef<VGPU_type>> compatible_types_in_vm
@@ -837,7 +822,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _compatible_types_in_vm))
                 {
                     _compatible_types_in_vm = value;
-                    Changed = true;
                     NotifyPropertyChanged("compatible_types_in_vm");
                 }
             }

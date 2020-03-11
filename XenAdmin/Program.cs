@@ -220,7 +220,7 @@ namespace XenAdmin
             ConnectionsManager.XenConnections.Clear();
             ConnectionsManager.History.Clear();
 
-            Search.InitSearch(Branding.Search);
+            Search.InitSearch(BrandManager.ExtensionSearch);
             TreeSearch.InitSearch();
             
             AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;

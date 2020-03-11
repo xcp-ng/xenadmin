@@ -179,7 +179,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _configuration))
                 {
                     _configuration = value;
-                    Changed = true;
                     NotifyPropertyChanged("configuration");
                 }
             }
@@ -198,7 +197,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _complete))
                 {
                     _complete = value;
-                    Changed = true;
                     NotifyPropertyChanged("complete");
                 }
             }
@@ -217,7 +215,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _sr))
                 {
                     _sr = value;
-                    Changed = true;
                     NotifyPropertyChanged("sr");
                 }
             }
@@ -237,7 +234,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _extra_info))
                 {
                     _extra_info = value;
-                    Changed = true;
                     NotifyPropertyChanged("extra_info");
                 }
             }

@@ -202,7 +202,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _uuid))
                 {
                     _uuid = value;
-                    Changed = true;
                     NotifyPropertyChanged("uuid");
                 }
             }
@@ -221,7 +220,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _name_label))
                 {
                     _name_label = value;
-                    Changed = true;
                     NotifyPropertyChanged("name_label");
                 }
             }
@@ -240,7 +238,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _name_description))
                 {
                     _name_description = value;
-                    Changed = true;
                     NotifyPropertyChanged("name_description");
                 }
             }
@@ -259,7 +256,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _free_space))
                 {
                     _free_space = value;
-                    Changed = true;
                     NotifyPropertyChanged("free_space");
                 }
             }
@@ -278,7 +274,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _total_space))
                 {
                     _total_space = value;
-                    Changed = true;
                     NotifyPropertyChanged("total_space");
                 }
             }
@@ -297,7 +292,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _clustered))
                 {
                     _clustered = value;
-                    Changed = true;
                     NotifyPropertyChanged("clustered");
                 }
             }
@@ -317,7 +311,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _health))
                 {
                     _health = value;
-                    Changed = true;
                     NotifyPropertyChanged("health");
                 }
             }

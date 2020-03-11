@@ -80,7 +80,7 @@ namespace XenAdmin.Commands
             }
             else
             {
-                MainWindowCommandInterface.ShowPerXenModelObjectWizard(vm, new AttachDiskDialog(vm));
+                new AttachDiskDialog(vm).ShowPerXenObject(vm, Program.MainWindow);
             }
         }
 

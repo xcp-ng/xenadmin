@@ -59,11 +59,6 @@ namespace XenAdminTests
         {
         }
 
-        public void ShowPerXenModelObjectWizard(IXenObject obj, Form wizard)
-        {
-
-        }
-
         public void ShowPerConnectionWizard(IXenConnection connection, Form wizard, Form parentForm = null)
         {
 
@@ -80,11 +75,6 @@ namespace XenAdminTests
         }
 
         public void CloseActiveWizards(IXenConnection connection)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CloseActiveWizards(IXenObject xenObject)
         {
             throw new NotImplementedException();
         }

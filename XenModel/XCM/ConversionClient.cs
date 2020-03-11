@@ -63,12 +63,12 @@ namespace XenAdmin.XCM
             }
             else
             {
-                _conversionProxy.Timeout = session.proxy.Timeout;
-                _conversionProxy.NonStandard = session.proxy.NonStandard;
-                _conversionProxy.UseIndentation = session.proxy.UseIndentation;
-                _conversionProxy.UserAgent = session.proxy.UserAgent;
-                _conversionProxy.KeepAlive = session.proxy.KeepAlive;
-                _conversionProxy.Proxy = session.proxy.Proxy;
+                _conversionProxy.Timeout = session.XmlRpcProxy.Timeout;
+                _conversionProxy.NonStandard = session.XmlRpcProxy.NonStandard;
+                _conversionProxy.UseIndentation = session.XmlRpcProxy.UseIndentation;
+                _conversionProxy.UserAgent = session.XmlRpcProxy.UserAgent;
+                _conversionProxy.KeepAlive = session.XmlRpcProxy.KeepAlive;
+                _conversionProxy.Proxy = session.XmlRpcProxy.Proxy;
             }
         }
 

@@ -69,7 +69,7 @@ namespace XenAdmin.Commands
             if (CrossPoolCopyTemplateCommand.CanExecute(template, null, false))
                 new CrossPoolCopyTemplateCommand(MainWindowCommandInterface, selection).Execute();
             else
-                MainWindowCommandInterface.ShowPerXenModelObjectWizard(template, new CopyVMDialog(template));
+                new CopyVMDialog(template).ShowPerXenObject(template, Program.MainWindow);
         }
 
         protected override bool CanExecuteCore(SelectedItemCollection selection)

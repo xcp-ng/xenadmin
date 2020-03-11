@@ -120,8 +120,8 @@ namespace XenAdmin.SettingsPanels
             else
             {
                 // Set default value
-                if (PerfmonOptionsDefinition.MailLanguageHasCode(Branding.BRANDING_PERF_ALERT_MAIL_LANGUAGE_DEFAULT))
-                    MailLanguageComboBox.SelectedValue = Branding.BRANDING_PERF_ALERT_MAIL_LANGUAGE_DEFAULT;
+                if (PerfmonOptionsDefinition.MailLanguageHasCode(BrandManager.PerfAlertMailDefaultLanguage))
+                    MailLanguageComboBox.SelectedValue = BrandManager.PerfAlertMailDefaultLanguage;
                 else
                     MailLanguageComboBox.SelectedIndex = 0;
             }

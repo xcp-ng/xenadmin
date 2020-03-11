@@ -129,7 +129,7 @@ namespace XenAdmin.Commands
                 endDescription = Messages.ACTION_VM_MIGRATED;
                 foreach (VM vm in selection.AsXenObjects<VM>(CanExecute))
                 {
-                    this.MainWindowCommandInterface.CloseActiveWizards(vm);
+                    XenDialogBase.CloseAll(vm);
                     Host host = GetHost(vm);
                     actions.Add(new VMMigrateAction(vm, host));
                 }

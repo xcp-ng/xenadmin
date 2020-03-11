@@ -31,10 +31,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using XenAdmin.Core;
-using XenAPI;
 using XenAdmin.Wizards;
+using XenAPI;
 
 
 namespace XenAdmin.Commands
@@ -65,9 +64,7 @@ namespace XenAdmin.Commands
         private void Execute(SR sr)
         {
             if (CanReattachSR(sr))
-            {
                 MainWindowCommandInterface.ShowPerConnectionWizard(sr.Connection, new NewSRWizard(sr.Connection, sr));
-            }
         }
 
         protected override void ExecuteCore(SelectedItemCollection selection)
@@ -77,29 +74,18 @@ namespace XenAdmin.Commands
 
         protected override bool CanExecuteCore(SelectedItemCollection selection)
         {
-            if (selection.Count == 1)
-            {
-                return CanReattachSR(selection[0].XenObject as SR);
-            }
-            return false;
+            return selection.Count == 1 && CanReattachSR(selection[0].XenObject as SR);
         }
 
         private static bool CanReattachSR(SR sr)
         {
             return sr != null
                 && !sr.HasPBDs()
-                && sr.CanCreateWithXenCenter()
                 && !HelpersGUI.GetActionInProgress(sr)
                 && !(sr.type == "cslg" && Helpers.FeatureForbidden(sr.Connection, Host.RestrictStorageChoices))
                 && (SM.GetByType(sr.Connection, sr.type) != null);
         }
 
-        public override string MenuText
-        {
-            get
-            {
-                return Messages.MAINWINDOW_REATTACH_SR;
-            }
-        }
+        public override string MenuText => Messages.MAINWINDOW_REATTACH_SR;
     }
 }

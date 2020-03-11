@@ -264,7 +264,7 @@ namespace XenAdmin.XenSearch
 
         private void ClickHandler(IXenObject o)
         {
-            if (Program.MainWindow.SelectObject(o) && Program.MainWindow.TheTabControl.TabPages.Contains(Program.MainWindow.TabPageGeneral))
+            if (Program.MainWindow.SelectObjectInTree(o) && Program.MainWindow.TheTabControl.TabPages.Contains(Program.MainWindow.TabPageGeneral))
             {
                 Program.MainWindow.SwitchToTab(MainWindow.Tab.General);
             }

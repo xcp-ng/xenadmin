@@ -28,40 +28,33 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-# help script to download third party binaries to local dev environment
-# NOTE: do not remove the Requires directive
-
-#Requires -Version 3.0
-
 Param(
-    [Parameter(Mandatory=$true, HelpMessage ="Artifactory domain (e.g. artifactory.domain.com)")]
-    [String]$DOMAIN,
-
-    [Parameter(HelpMessage ="Whether to download symbols (*.pdb files)")]
-    [switch]$SYMBOLS
+    [Parameter(HelpMessage = "Whether to list the names of the examined files")]
+    [switch]$NOISY
 )
 
-$DOMAIN = $DOMAIN.Trim()
-$PACKAGE_DIR = Get-Item "$PSScriptRoot" | select -ExpandProperty FullName
-$MK_DIR = Get-Item "$PSScriptRoot\..\mk" | select -ExpandProperty FullName
+Write-Output "Started copyright check at $(Get-Date)"
 
-#dotnet packages
+$INCLUDES = @("*.cs", "*.sh", "*.wxs", "*.wxi", "*.wxl", "*.patch")
+$EXCLUDES = @("*.Designer.cs")
 
-$BUILD_LOCATION = (Get-Content "$PACKAGE_DIR\DOTNET_BUILD_LOCATION").Trim()
-$DEPS_MAP = Get-Content "$MK_DIR\deps-map.json" `
-            | foreach {$_ -replace '@REMOTE_DOTNET@',"$BUILD_LOCATION"} `
-            | ConvertFrom-Json
+$REPO = Get-Item "$PSScriptRoot\.." | Select-Object -ExpandProperty FullName
+$files = Get-ChildItem -Recurse -File -Path $REPO -Include $INCLUDES -Exclude $EXCLUDES
 
-foreach($dep in $DEPS_MAP.files) {
-    $pattern = "https://$DOMAIN/" + $dep.pattern
-    $filename = Split-Path $pattern -leaf
+[System.Collections.ArrayList]$badFiles = @()
 
-    if (($filename -eq "putty.exe") -or ($filename -like "*.dll")) {
-        Invoke-WebRequest -Uri $pattern -Method Get -OutFile "$PACKAGE_DIR\$filename"
+foreach ($file in $files) {
+    if ($NOISY) {
+        Write-Output "Copyright check on $file"
+    }
 
-        if ($SYMBOLS) {
-            $symbolfile = [IO.Path]::GetFileNameWithoutExtension($filename) + ".pdb"
-            Invoke-WebRequest -Uri $pattern -Method Get -OutFile "$PACKAGE_DIR\$symbolfile"
-        }
+    $result = Select-String -Path $file -Pattern 'Copyright (c) Citrix Systems, Inc.' -CaseSensitive -SimpleMatch
+    if ($null -eq $result) {
+        $badFiles.Add($file) > $null
     }
 }
+
+$badFiles | Select-Object FullName | Write-Output
+
+Write-Output "Finished copyright check at $(Get-Date)"
+exit $badFiles.Count

@@ -3,310 +3,263 @@
 <!--
  Copyright (c) Citrix Systems, Inc.
  All rights reserved.
- 
- Redistribution and use in source and binary forms, 
- with or without modification, are permitted provided 
- that the following conditions are met: 
- 
- *   Redistributions of source code must retain the above 
-     copyright notice, this list of conditions and the 
-     following disclaimer. 
- *   Redistributions in binary form must reproduce the above 
-     copyright notice, this list of conditions and the 
-     following disclaimer in the documentation and/or other 
-     materials provided with the distribution. 
 
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
- CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
- INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
- MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
- DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
- CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
- SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
- BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
- SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
- WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
- NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
- OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
- SUCH DAMAGE. 
+ Redistribution and use in source and binary forms,
+ with or without modification, are permitted provided
+ that the following conditions are met:
+
+ *   Redistributions of source code must retain the above
+     copyright notice, this list of conditions and the
+     following disclaimer.
+ *   Redistributions in binary form must reproduce the above
+     copyright notice, this list of conditions and the
+     following disclaimer in the documentation and/or other
+     materials provided with the distribution.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ SUCH DAMAGE.
 -->
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-    <?define ProductVersion="1.0.0" ?>
-    <?define UpgradeCode="{[BRANDING_XENCENTER_UPGRADE_CODE_GUID]}"?>
-    <?define ProductCode="{65AE1345-A520-456D-8A19-2F52D43D3A09}"?>
-	<?define HiddenFeatures="[BRANDING_HIDDEN_FEATURES]"?>
-	<?define AdditionalFeatures="[BRANDING_ADDITIONAL_FEATURES]"?>
-    <Product Id="$(var.ProductCode)" Name="[Citrix] [XenCenter]" Language="$(env.WixLangId)" Version="$(var.ProductVersion)" Manufacturer="[BRANDING_COMPANY_NAME_LEGAL]" UpgradeCode="$(var.UpgradeCode)">
-        <Package Description="[Citrix] [XenCenter]" Comments="none." InstallerVersion="200" Compressed="yes" />
+    <?include branding.wxi ?>
+    <Product Id="$(var.ProductCode)" Name="$(var.CompanyNameShort) $(var.BrandConsole)" Language="$(env.WixLangId)" Version="$(var.ProductVersion)" Manufacturer="$(var.CompanyNameLegal)" UpgradeCode="$(var.UpgradeCode)">
+        <Package Languages="1033,1041,2052,1028" Description="$(var.CompanyNameShort) $(var.BrandConsole)" Comments="none." InstallerVersion="200" Compressed="yes" />
         <Media Id="1" Cabinet="XenCenter.cab" EmbedCab="yes" />
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="ProgramFilesFolder">
-                <Directory Id="Citrix" Name="[Citrix]">
-                    <Directory Id="INSTALLDIR" ShortName="XenCente" Name="[XenCenter]">
-                        <Component Id="ReportViewer" Guid="[BRANDING_REPORT_VIEWER_GUID]">
-                            <File Id="MicRepVwrCmnDLL" Source="..\XenAdmin\ReportViewer\Microsoft.ReportViewer.Common.dll" />
-                            <File Id="MicRepVwrPrcObjDLL" Source="..\XenAdmin\ReportViewer\Microsoft.ReportViewer.ProcessingObjectModel.dll" />
-                            <File Id="MicRepVwrWFDLL" Source="..\XenAdmin\ReportViewer\Microsoft.ReportViewer.WinForms.dll" />
-                            <File Id="HostHealthHistoryRDLC" Source="..\XenAdmin\ReportViewer\host_health_history.rdlc" />
-                            <File Id="PoolHealthRDLC" Source="..\XenAdmin\ReportViewer\pool_health.rdlc" />
-                            <File Id="opt_perf_histRDLC" Source="..\XenAdmin\ReportViewer\optimization_performance_history.rdlc" />
-                            <File Id="vmMovementHistoryRDLC" Source="..\XenAdmin\ReportViewer\vm_movement_history.rdlc" />
-                            <File Id="vmPerformanceHistoryRDLC" Source="..\XenAdmin\ReportViewer\vm_performance_history.rdlc" />
-                            <File Id="PoolHealthHistoryRDLC" Source="..\XenAdmin\ReportViewer\pool_health_history.rdlc" />
-                            <File Id="ReportConfigXML" Source="..\XenAdmin\ReportViewer\reports.xml" />
-                            <File Id="ResourceReportRDLC" Source="..\XenAdmin\ReportViewer\resource_report.rdlc" />
+                <Directory Id="Citrix" Name="$(var.CompanyNameShort)">
+                    <Directory Id="INSTALLDIR" ShortName="XenCente" Name="$(var.BrandConsole)">
+                        <Component Id="ReportViewer" Guid="$(var.ReportViewerGuid)">
+                            <File Id="MicRepVwrCmnDLL" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\Microsoft.ReportViewer.Common.dll" />
+                            <File Id="MicRepVwrPrcObjDLL" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\Microsoft.ReportViewer.ProcessingObjectModel.dll" />
+                            <File Id="MicRepVwrWFDLL" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\Microsoft.ReportViewer.WinForms.dll" />
+                            <File Id="HostHealthHistoryRDLC" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\host_health_history.rdlc" />
+                            <File Id="PoolHealthRDLC" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\pool_health.rdlc" />
+                            <File Id="opt_perf_histRDLC" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\optimization_performance_history.rdlc" />
+                            <File Id="vmMovementHistoryRDLC" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\vm_movement_history.rdlc" />
+                            <File Id="vmPerformanceHistoryRDLC" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\vm_performance_history.rdlc" />
+                            <File Id="PoolHealthHistoryRDLC" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\pool_health_history.rdlc" />
+                            <File Id="ReportConfigXML" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\reports.xml" />
+                            <File Id="ResourceReportRDLC" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\resource_report.rdlc" />
                         </Component>
-                        <Component Id="MainExecutable" Guid="[BRANDING_MAIN_EXECUTABLE_GUID]">
+                        <Component Id="MainExecutable" Guid="$(var.MainExeGuid)">
                             <!-- XenCenter EXE -->
-                            <File Id="XenCenterEXE" Source="..\XenAdmin\bin\Release\[XenCenter].exe" KeyPath="yes" />
+                            <File Id="XenCenterEXE" Source="$(env.RepoRoot)\XenAdmin\bin\Release\$(var.BrandConsole).exe" KeyPath="yes" />
                             <!-- other EXEs -->
-                            <File Id="XenCenterMainEXE" Source="..\XenAdmin\bin\Release\XenCenterMain.exe" />
-                            <File Id="XeEXE" Source="..\xe\bin\Release\xe.exe" />
-                            <File Id="xva_verifyEXE" Source="..\xva_verify\bin\Release\xva_verify.exe" />
-							<File Id="PuTTYEXE" Source="..\XenAdmin\bin\Release\putty.exe" />
+                            <File Id="XenCenterMainEXE" Source="$(env.RepoRoot)\XenAdmin\bin\Release\XenCenterMain.exe" />
+                            <File Id="XeEXE" Source="$(env.RepoRoot)\xe\bin\Release\xe.exe" />
+                            <File Id="xva_verifyEXE" Source="$(env.RepoRoot)\xva_verify\bin\Release\xva_verify.exe" />
+                            <File Id="PuTTYEXE" Source="$(env.RepoRoot)\XenAdmin\bin\Release\putty.exe" />
                             <!-- config -->
-                            <File Id="XenCenterMainCONFIG" Source="..\XenAdmin\bin\Release\XenCenterMain.exe.config" />
+                            <File Id="XenCenterMainCONFIG" Source="$(env.RepoRoot)\XenAdmin\bin\Release\XenCenterMain.exe.config" />
                             <!-- DLLs -->
-                            <File Id="CommandLibDLL" Source="..\XenAdmin\bin\Release\CommandLib.dll" />
-                            <File Id="CookComputingDLL" Source="..\XenAdmin\bin\Release\CookComputing.XmlRpcV2.dll" />
-                            <File Id="NewtonsoftJsonDLL" Source="..\XenAdmin\bin\Release\Newtonsoft.Json.CH.dll" />
-                            <File Id="log4netDLL" Source="..\XenAdmin\bin\Release\log4net.dll" />
-                            <File Id="SharpZipLibDLL" Source="..\XenAdmin\bin\Release\ICSharpCode.SharpZipLib.dll" />
-                            <File Id="IonicZipDLL" Source="..\XenAdmin\bin\Release\Ionic.Zip.dll" />
-                            <File Id="MSTSCLibDLL" Source="..\XenAdmin\bin\Release\MSTSCLib.dll" />
-                            <File Id="XenCenterLibDLL" Source="..\XenAdmin\bin\Release\XenCenterLib.dll" />
-                            <File Id="XenCenterVNCDLL" Source="..\XenAdmin\bin\Release\XenCenterVNC.dll" />
-                            <File Id="XenModelDLL" Source="..\XenAdmin\bin\Release\XenModel.dll" />
-                            <File Id="DiscUtils" Source="..\XenAdmin\bin\Release\DiscUtils.dll" />
-                            <File Id="XenOvf" Source="..\XenAdmin\bin\Release\XenOvf.dll" />
-                            <File Id="XenOvfTransport" Source="..\XenAdmin\bin\Release\XenOvfTransport.dll" />
+                            <File Id="CommandLibDLL" Source="$(env.RepoRoot)\XenAdmin\bin\Release\CommandLib.dll" />
+                            <File Id="CookComputingDLL" Source="$(env.RepoRoot)\XenAdmin\bin\Release\CookComputing.XmlRpcV2.dll" />
+                            <File Id="NewtonsoftJsonDLL" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Newtonsoft.Json.CH.dll" />
+                            <File Id="log4netDLL" Source="$(env.RepoRoot)\XenAdmin\bin\Release\log4net.dll" />
+                            <File Id="SharpZipLibDLL" Source="$(env.RepoRoot)\XenAdmin\bin\Release\ICSharpCode.SharpZipLib.dll" />
+                            <File Id="IonicZipDLL" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Ionic.Zip.dll" />
+                            <File Id="MSTSCLibDLL" Source="$(env.RepoRoot)\XenAdmin\bin\Release\MSTSCLib.dll" />
+                            <File Id="XenCenterLibDLL" Source="$(env.RepoRoot)\XenAdmin\bin\Release\XenCenterLib.dll" />
+                            <File Id="XenCenterVNCDLL" Source="$(env.RepoRoot)\XenAdmin\bin\Release\XenCenterVNC.dll" />
+                            <File Id="XenModelDLL" Source="$(env.RepoRoot)\XenAdmin\bin\Release\XenModel.dll" />
+                            <File Id="DiscUtils" Source="$(env.RepoRoot)\XenAdmin\bin\Release\DiscUtils.dll" />
+                            <File Id="XenOvf" Source="$(env.RepoRoot)\XenAdmin\bin\Release\XenOvf.dll" />
+                            <File Id="XenOvfTransport" Source="$(env.RepoRoot)\XenAdmin\bin\Release\XenOvfTransport.dll" />
                             <!-- Homepage -->
-                            <File Id="XenCenterHomePage" Source="..\XenAdmin\bin\Release\HomePage.mht" />
+                            <File Id="XenCenterHomePage" Source="$(env.RepoRoot)\XenAdmin\bin\Release\HomePage.mht" />
+                            <File Id="XenCenterJaHomePage" Source="$(env.RepoRoot)\XenAdmin\bin\Release\HomePage.ja.mht" />
+                            <File Id="XenCenterScHomePage" Source="$(env.RepoRoot)\XenAdmin\bin\Release\HomePage.zh-CN.mht" />
                             <!-- Icons -->
-                            <File Id="XenCenterIcon" Source="..\Branding\Images\AppIcon.ico" />
-							<File Id="XvaIcon" Source="..\Branding\Images\file_vm.ico" />
-                            <File Id="XslicIcon" Source="..\Branding\Images\file_license.ico" />
-                            <File Id="XkbIcon" Source="..\Branding\Images\file_backup.ico" />
-                            <File Id="XsupdateIcon" Source="..\Branding\Images\file_updates.ico" />
-							<!-- Define XVA extension -->
-							<ProgId Id="XenCenter.xva" Description="XVA File" Icon="XvaIcon">
+                            <File Id="XenCenterIcon" Source="$(env.RepoRoot)\Branding\Images\AppIcon.ico" />
+                            <File Id="XvaIcon" Source="$(env.RepoRoot)\Branding\Images\file_vm.ico" />
+                            <File Id="XslicIcon" Source="$(env.RepoRoot)\Branding\Images\file_license.ico" />
+                            <File Id="XkbIcon" Source="$(env.RepoRoot)\Branding\Images\file_backup.ico" />
+                            <File Id="XsupdateIcon" Source="$(env.RepoRoot)\Branding\Images\file_updates.ico" />
+                            <!-- Define file extensions -->
+                            <ProgId Id="XenCenter.xva" Description="!(loc.XVA_File)" Icon="XvaIcon">
                                 <Extension Id="xva" ContentType="application/xva">
-                                    <Verb Id="open" Command="Open" TargetFile="XenCenterEXE" Argument="import &quot;%1&quot;" />
+                                    <Verb Id="open" Command="!(loc.Open)" TargetFile="XenCenterEXE" Argument="import &quot;%1&quot;" />
                                 </Extension>
                             </ProgId>
-							<!-- Define OVF extension -->
-							<ProgId Id="XenCenter.ovf" Description="OVF File" Icon="XvaIcon">
+                            <ProgId Id="XenCenter.ovf" Description="!(loc.OVF_File)" Icon="XvaIcon">
                                 <Extension Id="ovf" ContentType="application/ovf">
-                                    <Verb Id="open" Command="Open" TargetFile="XenCenterEXE" Argument="import &quot;%1&quot;" />
+                                    <Verb Id="open" Command="!(loc.Open)" TargetFile="XenCenterEXE" Argument="import &quot;%1&quot;" />
                                 </Extension>
                             </ProgId>
-							<!-- Define OVA extension -->
-							<ProgId Id="XenCenter.ova" Description="OVA File" Icon="XvaIcon">
+                            <ProgId Id="XenCenter.ova" Description="!(loc.OVA_File)" Icon="XvaIcon">
                                 <Extension Id="ova" ContentType="application/ova">
-                                    <Verb Id="open" Command="Open" TargetFile="XenCenterEXE" Argument="import &quot;%1&quot;" />
+                                    <Verb Id="open" Command="!(loc.Open)" TargetFile="XenCenterEXE" Argument="import &quot;%1&quot;" />
                                 </Extension>
                             </ProgId>
-							<!-- Define VHD extension -->
-							<ProgId Id="XenCenter.vhd" Description="VHD File" Icon="XvaIcon">
+                            <ProgId Id="XenCenter.vhd" Description="!(loc.VHD_File)" Icon="XvaIcon">
                                 <Extension Id="vhd" ContentType="application/vhd">
-                                    <Verb Id="open" Command="Open" TargetFile="XenCenterEXE" Argument="import &quot;%1&quot;" />
+                                    <Verb Id="open" Command="!(loc.Open)" TargetFile="XenCenterEXE" Argument="import &quot;%1&quot;" />
                                 </Extension>
                             </ProgId>
-							<!-- Define VMDK extension -->
-							<ProgId Id="XenCenter.vmdk" Description="VMDK File" Icon="XvaIcon">
+                            <ProgId Id="XenCenter.vmdk" Description="!(loc.VMDK_File)" Icon="XvaIcon">
                                 <Extension Id="vmdk" ContentType="application/vmdk">
-                                    <Verb Id="open" Command="Open" TargetFile="XenCenterEXE" Argument="import &quot;%1&quot;" />
+                                    <Verb Id="open" Command="!(loc.Open)" TargetFile="XenCenterEXE" Argument="import &quot;%1&quot;" />
                                 </Extension>
                             </ProgId>
-							<!-- Define XSLIC extension -->
-							<ProgId Id="XenCenter.xslic" Description="[XenServer] License File" Icon="XslicIcon">
+                            <ProgId Id="XenCenter.xslic" Description="$(var.BrandProduct) !(loc.XenServer_License_File)" Icon="XslicIcon">
                                 <Extension Id="xslic" ContentType="application/xslic">
-                                    <Verb Id="open" Command="Open" TargetFile="XenCenterEXE" Argument="license &quot;%1&quot;" />
+                                    <Verb Id="open" Command="!(loc.Open)" TargetFile="XenCenterEXE" Argument="license &quot;%1&quot;" />
                                 </Extension>
                             </ProgId>
-							<!-- Define XBK extension -->
-							<ProgId Id="XenCenter.[xbk]" Description="[XenServer] Backup File" Icon="XkbIcon">
-                                <Extension Id="[xbk]" ContentType="application/[xbk]">
-                                    <Verb Id="open" Command="Open" TargetFile="XenCenterEXE" Argument="restore &quot;%1&quot;" />
+                            <ProgId Id="XenCenter.$(var.FileExtBackup)" Description="$(var.BrandProduct) !(loc.XenServer_Backup_File)" Icon="XkbIcon">
+                                <Extension Id="$(var.FileExtBackup)" ContentType="application/$(var.FileExtBackup)">
+                                    <Verb Id="open" Command="!(loc.Open)" TargetFile="XenCenterEXE" Argument="restore &quot;%1&quot;" />
                                 </Extension>
                             </ProgId>
-                            <!-- Define XSUPDATE extension -->
-							<ProgId Id="XenCenter.[xsupdate]" Description="[XenServer] Update File" Icon="XsupdateIcon">
-                                <Extension Id="[xsupdate]" ContentType="application/[xsupdate]">
-                                    <Verb Id="open" Command="Open" TargetFile="XenCenterEXE" Argument="update &quot;%1&quot;" />
+                            <ProgId Id="XenCenter.$(var.FileExtUpdate)" Description="$(var.BrandProduct) !(loc.XenServer_Update_File)" Icon="XsupdateIcon">
+                                <Extension Id="$(var.FileExtUpdate)" ContentType="application/$(var.FileExtUpdate)">
+                                    <Verb Id="open" Command="!(loc.Open)" TargetFile="XenCenterEXE" Argument="update &quot;%1&quot;" />
                                 </Extension>
                             </ProgId>
-                            <!-- Define XSOEM extension -->
-							<ProgId Id="XenCenter.xsoem" Description="[XenServer] OEM Update File" Icon="XsupdateIcon">
+                            <ProgId Id="XenCenter.xsoem" Description="$(var.BrandProduct) !(loc.XenServer_OEM_Update_File)" Icon="XsupdateIcon">
                                 <Extension Id="xsoem" ContentType="application/xsoem">
-                                    <Verb Id="open" Command="Open" TargetFile="XenCenterEXE" Argument="update &quot;%1&quot;" />
+                                    <Verb Id="open" Command="!(loc.Open)" TargetFile="XenCenterEXE" Argument="update &quot;%1&quot;" />
                                 </Extension>
                             </ProgId>
-                            <!-- Define XENSEARCH extension -->
-                            <ProgId Id="XenCenter.[xensearch]" Description="[XenCenter] Saved Search" Icon="XenCenterIcon">
-                                <Extension Id="[xensearch]" ContentType="application/[xensearch]">
-                                    <Verb Id="open" Command="Open" TargetFile="XenCenterEXE" Argument="search &quot;%1&quot;" />
+                            <ProgId Id="XenCenter.$(var.FileExtSearch)" Description="$(var.BrandConsole) !(loc.XenCenter_Saved_Search)" Icon="XenCenterIcon">
+                                <Extension Id="$(var.FileExtSearch)" ContentType="application/$(var.FileExtSearch)">
+                                    <Verb Id="open" Command="!(loc.Open)" TargetFile="XenCenterEXE" Argument="search &quot;%1&quot;" />
                                 </Extension>
                             </ProgId>
                         </Component>
-                        <Component Id="UpdateFiles" Guid="[BRANDING_XSUPDATE_FILE_GUID]">
-                            <File Id="hotfixDundee" Source="..\Branding\Hotfixes\RPU003.[xsupdate]" />
-                            <File Id="hotfixEly" Source="..\Branding\Hotfixes\RPU004.iso" />
-                            <File Id="hotfixNaples" Source="..\Branding\Hotfixes\RPU005.iso" />
+                        <Component Id="UpdateFiles" Guid="$(var.UpdateFilesGuid)">
+                            <File Id="hotfixDundee" Source="$(env.RepoRoot)\Branding\Hotfixes\RPU003.$(var.FileExtUpdate)" />
+                            <File Id="hotfixEly" Source="$(env.RepoRoot)\Branding\Hotfixes\RPU004.iso" />
+                            <File Id="hotfixNaples" Source="$(env.RepoRoot)\Branding\Hotfixes\RPU005.iso" />
                         </Component>
-                        <?if "$(env.Branding)"="XenCenter"?>
-						<!-- TestResources -->
-                        <Directory Id="TestReso" ShortName="TestReso" Name="TestResources">
-                            <Component Id="TestResources" Guid="[BRANDING_TEST_RESOURCES_GUID]">
-                                <File Source="..\XenAdmin\bin\Release\TestResources\credits.xml" />
-                                <File Id="interes1.xml" Source="..\XenAdmin\bin\Release\TestResources\interesting-development.xml" />
-                                <File Id="interes2.xml" Source="..\XenAdmin\bin\Release\TestResources\interesting-production.xml" />
-                                <File Id="interes3.xml" Source="..\XenAdmin\bin\Release\TestResources\interesting-xenapp.xml" />
+                        <Directory Id="ja" Name="ja">
+                            <Component Id="JaResources" Guid="$(var.JapaneseResxGuid)">
+                                <File Id="JaResourcesDLL" Source="$(env.RepoRoot)\XenAdmin\bin\Release\ja\XenCenterMain.resources.dll" />
+                                <File Id="JaXenModResourcesDLL" Source="$(env.RepoRoot)\XenAdmin\bin\Release\ja\XenModel.resources.dll" />
+                                <File Id="JaMicRepVwrCmnResDLL" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\Microsoft.ReportViewer.Common.resources.dll" />
+                                <File Id="JaMicRepVwrPrcObjResDLL" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\Microsoft.ReportViewer.WinForms.resources.dll" />
+                                <File Id="JaXOResourcesDLL" Source="$(env.RepoRoot)\XenOvfApi\bin\Release\ja\XenOvf.resources.dll" />
+                                <File Id="JaXOTResourcesDLL" Source="$(env.RepoRoot)\XenOvfTransport\bin\Release\ja\XenOvfTransport.resources.dll" />
                             </Component>
                         </Directory>
-                        <?else?>
-                        <Component Id="readmefile" Guid="[BRANDING_README_FILE_GUID]">
-                            <File Id="Readme" Source="..\Branding\WixInstaller\README.TXT" />
-                        </Component>
-                        <?endif?>
+                        <Directory Id="sc" Name="zh-CN">
+                            <Component Id="ScResources" Guid="$(var.SimplifiedChineseResxGuid)">
+                                <File Id="ScResourcesDLL" Source="$(env.RepoRoot)\XenAdmin\bin\Release\zh-CN\XenCenterMain.resources.dll" />
+                                <File Id="ScXenModResourcesDLL" Source="$(env.RepoRoot)\XenAdmin\bin\Release\zh-CN\XenModel.resources.dll" />
+                                <File Id="ScMicRepVwrCmnResDLL" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\Microsoft.ReportViewer.Common.resources.dll" />
+                                <File Id="ScMicRepVwrPrcObjResDLL" Source="$(env.RepoRoot)\XenAdmin\ReportViewer\Microsoft.ReportViewer.WinForms.resources.dll" />
+                                <File Id="ScXOResourcesDLL" Source="$(env.RepoRoot)\XenOvfApi\bin\Release\zh-CN\XenOvf.resources.dll" />
+                                <File Id="ScXOTResourcesDLL" Source="$(env.RepoRoot)\XenOvfTransport\bin\Release\zh-CN\XenOvfTransport.resources.dll" />
+                            </Component>
+                        </Directory>
                         <Directory Id="EXTERNALTOOLS" ShortName="External" Name="External Tools">
-                            <Component Id="ExternalToolsComponent" Guid="[BRANDING_EXTERNAL_TOOLS_GUID]">
-                                <File Id="XENSERVERLINUXFIXUP" Source="..\XenOvfApi\External Tools\xenserver-linuxfixup-disk.iso" />
-                                <File Id="REFERENCEVHD" Source="..\XenOvfApi\External Tools\bootablereference.vhd.bz2" />
+                            <Component Id="ExternalToolsComponent" Guid="$(var.ExtToolsGuid)">
+                                <File Id="XENSERVERLINUXFIXUP" Source="$(env.RepoRoot)\_scratch\External Tools\xenserver-linuxfixup-disk.iso" />
+                                <File Id="REFERENCEVHD" Source="$(env.RepoRoot)\_scratch\External Tools\bootablereference.vhd.bz2" />
                             </Component>
                         </Directory>
                         <Directory Id="SCHEMAS" Name="Schemas">
-                            <Component Id="SchemasFilesComponent" Guid="[BRANDING_SCHEMAS_FILES_GUID]">
-                                <File Id="CIMOSXML" Source="..\XenAdmin\bin\Release\Schemas\CIM_OperatingSystem.xml" />
-                                <File Id="CIMRASDXML" Source="..\XenAdmin\bin\Release\Schemas\CIM_ResourceAllocationSettingData.xml" />
-                                <File Id="CIMRASDXSD" Source="..\XenAdmin\bin\Release\Schemas\CIM_ResourceAllocationSettingData.xsd" />
-                                <File Id="CIMVSSDXML" Source="..\XenAdmin\bin\Release\Schemas\CIM_VirtualSystemSettingData.xml" />
-                                <File Id="CIMVSSDXSD" Source="..\XenAdmin\bin\Release\Schemas\CIM_VirtualSystemSettingData.xsd" />
-                                <File Id="COMMONXSD" Source="..\XenAdmin\bin\Release\Schemas\common.xsd" />
-                                <File Id="DSP8023XSD" Source="..\XenAdmin\bin\Release\Schemas\DSP8023.xsd" />
-                                <File Id="DSP8027XSD" Source="..\XenAdmin\bin\Release\Schemas\DSP8027.xsd" />
-                                <File Id="SECEXTXSD" Source="..\XenAdmin\bin\Release\Schemas\secext-1.0.xsd" />
-                                <File Id="WSSUTILXSD" Source="..\XenAdmin\bin\Release\Schemas\wss-utility-1.0.xsd" />
-                                <File Id="XENCXSD" Source="..\XenAdmin\bin\Release\Schemas\xenc-schema.xsd" />
-                                <File Id="XMLXSD" Source="..\XenAdmin\bin\Release\Schemas\xml.xsd" />
-                                <File Id="XMLDSIGXSD" Source="..\XenAdmin\bin\Release\Schemas\xmldsig-core-schema.xsd" />
+                            <Component Id="SchemasFilesComponent" Guid="$(var.SchemasFilesGuid)">
+                                <File Id="CIMOSXML" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Schemas\CIM_OperatingSystem.xml" />
+                                <File Id="CIMRASDXML" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Schemas\CIM_ResourceAllocationSettingData.xml" />
+                                <File Id="CIMRASDXSD" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Schemas\CIM_ResourceAllocationSettingData.xsd" />
+                                <File Id="CIMVSSDXML" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Schemas\CIM_VirtualSystemSettingData.xml" />
+                                <File Id="CIMVSSDXSD" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Schemas\CIM_VirtualSystemSettingData.xsd" />
+                                <File Id="COMMONXSD" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Schemas\common.xsd" />
+                                <File Id="DSP8023XSD" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Schemas\DSP8023.xsd" />
+                                <File Id="DSP8027XSD" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Schemas\DSP8027.xsd" />
+                                <File Id="SECEXTXSD" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Schemas\secext-1.0.xsd" />
+                                <File Id="WSSUTILXSD" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Schemas\wss-utility-1.0.xsd" />
+                                <File Id="XENCXSD" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Schemas\xenc-schema.xsd" />
+                                <File Id="XMLXSD" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Schemas\xml.xsd" />
+                                <File Id="XMLDSIGXSD" Source="$(env.RepoRoot)\XenAdmin\bin\Release\Schemas\xmldsig-core-schema.xsd" />
                             </Component>
                         </Directory>
                     </Directory>
-                    <?if "$(env.Branding)"="XenCenter"?>
-                	<Directory Id="HEALTHCHECKSERVICEDIR" Name="XenServerHealthCheckService">
-							<Component Id="XenServerHealthCheck" Guid="{[BRANDING_HEALTH_CHECK_GUID]}">
-								<File Id="HealthCheck_XenServerHealthCheck.exe" Name="XenServerHealthCheck.exe" KeyPath="yes" Source="..\XenServerHealthCheck\bin\Release\XenServerHealthCheck.exe" />
-								<File Id="HealthCheck_CommandLib.dll" Name="CommandLib.dll" Source="..\XenServerHealthCheck\bin\Release\CommandLib.dll" />
-								<File Id="HealthCheck_CookComputing.XmlRpcV2.dll" Name="CookComputing.XmlRpcV2.dll" Source="..\XenServerHealthCheck\bin\Release\CookComputing.XmlRpcV2.dll" />
-								<File Id="HealthCheck_NewtonsoftJsonDLL" Source="..\XenServerHealthCheck\bin\Release\Newtonsoft.Json.CH.dll" />
-								<File Id="HealthCheck_ICSharpCode.SharpZipLib.dll" Name="ICSharpCode.SharpZipLib.dll" Source="..\XenServerHealthCheck\bin\Release\ICSharpCode.SharpZipLib.dll" />
-								<File Id="HealthCheck_Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="..\XenServerHealthCheck\bin\Release\Ionic.Zip.dll" />
-								<File Id="HealthCheck_log4net.dll" Name="log4net.dll" Source="..\XenServerHealthCheck\bin\Release\log4net.dll" />
-								<File Id="HealthCheck_XenCenterLib.dll" Name="XenCenterLib.dll" Source="..\XenServerHealthCheck\bin\Release\XenCenterLib.dll" />
-								<File Id="HealthCheck_XenModel.dll" Name="XenModel.dll" Source="..\XenServerHealthCheck\bin\Release\XenModel.dll" />
-								<File Id="HealthCheck_XenServerHealthCheck.exe.config" Name="XenServerHealthCheck.exe.config" Source="..\XenServerHealthCheck\bin\Release\XenServerHealthCheck.exe.config" />
-								<ServiceInstall
-								  Id="ServiceInstaller"
-								  Type="ownProcess"
-								  Vital="no"
-								  Name="XenServerHealthCheck"
-								  DisplayName="[Citrix XenServer] Health Check Service"
-								  Description="Enables monitoring of the health of your [Citrix XenServer] pools by periodically uploading data from the servers to Citrix Insight Services."
-								  Start="auto"
-								  Account="LocalSystem"
-								  ErrorControl="normal"
-								  Interactive="no"
-								/>
-								<ServiceControl 
-									Id="StartService" 
-									Start="install" 
-									Stop="both" 
-									Remove="uninstall" 
-									Name="XenServerHealthCheck" 
-									Wait="yes" 
-								/>
-							</Component>
-						</Directory>
-                    <?endif?>
-				</Directory>
+                </Directory>
             </Directory>
             <Directory Id="ProgramMenuFolder">
-                <Directory Id="ApplicationProgramsFolder" Name="[Citrix]" />
+                <Directory Id="ApplicationProgramsFolder" Name="$(var.CompanyNameShort)" />
             </Directory>
             <Directory Id="DesktopFolder" Name="Desktop">
                 <Component Id="ProgramFilesShortcut" Guid="63b44222-b5e8-4ab1-8f68-baed79abbf36">
                     <Condition>INSTALLSHORTCUT</Condition>
-                    <Shortcut Id="ApplicationDesktopShortcut" Name="[XenCenter]" Target="[INSTALLDIR][XenCenter].exe" WorkingDirectory="INSTALLDIR"/>
+                    <Shortcut Id="ApplicationDesktopShortcut" Name="$(var.BrandConsole)" Target="[INSTALLDIR]$(var.BrandConsole).exe" WorkingDirectory="INSTALLDIR"/>
                     <RemoveFolder Id="DesktopFolder" On="uninstall"/>
-                    <RegistryValue Root="HKCU" Key="Software\[Citrix]\[XenCenter]" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+                    <RegistryValue Root="HKCU" Key="Software\$(var.CompanyNameShort)\$(var.BrandConsole)" Name="installed" Type="integer" Value="1" KeyPath="yes" />
                 </Component>
             </Directory>
         </Directory>
         <DirectoryRef Id="TARGETDIR">
-            <Component Id="RegistryEntries" Guid="[BRANDING_REGISTRY_ENTRIES_GUID]">
-                <RegistryKey Root="HKMU" Key="Software\[Citrix]\[XenCenter]">
+            <Component Id="RegistryEntries" Guid="$(var.RegEntriesGuid)">
+                <RegistryKey Root="HKMU" Key="Software\$(var.CompanyNameShort)\$(var.BrandConsole)">
                     <RegistryValue Type="string" Name="InstallDir" Value="[INSTALLDIR]" />
                     <?if "$(var.HiddenFeatures)" != ""?>
-						<RegistryValue Type="string" Name="HiddenFeatures" Value="$(var.HiddenFeatures)" />
-					<?endif?>
+                        <RegistryValue Type="string" Name="HiddenFeatures" Value="$(var.HiddenFeatures)" />
+                    <?endif?>
                     <?if "$(var.AdditionalFeatures)" != ""?>
-						<RegistryValue Type="string" Name="AdditionalFeatures" Value="$(var.AdditionalFeatures)" />
-					<?endif?>
+                        <RegistryValue Type="string" Name="AdditionalFeatures" Value="$(var.AdditionalFeatures)" />
+                    <?endif?>
                 </RegistryKey>
             </Component>
         </DirectoryRef>
         <DirectoryRef Id="ApplicationProgramsFolder">
-            <Component Id="ApplicationShortcut" Guid="[BRANDING_APPLICAION_SHOTCUT_GUID]">
-                <Shortcut Id="startmenuXenCenter" ShortName="XenCen50" Name="[Citrix] [XenCenter]" Target="[INSTALLDIR][XenCenter].exe" WorkingDirectory="INSTALLDIR" Icon="XenCenterICO" />
+            <Component Id="ApplicationShortcut" Guid="$(var.AppShortcutGuid)">
+                <Shortcut Id="startmenuXenCenter" ShortName="XenCen50" Name="$(var.CompanyNameShort) $(var.BrandConsole)" Target="[INSTALLDIR]$(var.BrandConsole).exe" WorkingDirectory="INSTALLDIR" Icon="XenCenterICO" />
                 <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
-                <RegistryValue Root="HKCU" Key="Software\[Citrix]\[XenCenter]" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+                <RegistryValue Root="HKCU" Key="Software\$(var.CompanyNameShort)\$(var.BrandConsole)" Name="installed" Type="integer" Value="1" KeyPath="yes" />
             </Component>
         </DirectoryRef>
-	
-        <Feature Id="MainProgram" Title="[Citrix] [XenCenter]" Description="[Citrix] [XenCenter]" Display="expand" Level="1" ConfigurableDirectory="INSTALLDIR" AllowAdvertise="no" InstallDefault="local" Absent="disallow" >
+
+        <Feature Id="MainProgram" Title="$(var.CompanyNameShort) $(var.BrandConsole)" Description="$(var.CompanyNameShort) $(var.BrandConsole)" Display="expand" Level="1" ConfigurableDirectory="INSTALLDIR" AllowAdvertise="no" InstallDefault="local" Absent="disallow" >
             <ComponentRef Id="MainExecutable" />
-            <ComponentRef Id="ReportViewer" />
             <ComponentRef Id="UpdateFiles" />
-            <?if "$(env.Branding)"="XenCenter"?>
-            <ComponentRef Id="TestResources" />
-            <?else?>
-            <ComponentRef Id="readmefile" />
-            <?endif?>
+            <ComponentRef Id="ReportViewer" />
             <ComponentRef Id="SchemasFilesComponent" />
             <ComponentRef Id="ExternalToolsComponent" />
             <ComponentRef Id="RegistryEntries" />
             <ComponentRef Id="ApplicationShortcut" />
             <ComponentRef Id="ProgramFilesShortcut" />
-  
-           <?if "$(env.Branding)"="XenCenter"?>		
-				<Feature Id="HealthCheckService" Title="[Citrix XenServer] Health Check Service" Description="Enables monitoring of the health of your [Citrix XenServer] pools." Display="expand" Level="1" ConfigurableDirectory="HEALTHCHECKSERVICEDIR" AllowAdvertise="no" InstallDefault="local" Absent="allow" >
-					<ComponentRef Id="XenServerHealthCheck" /> 
-				</Feature>
-	       <?else ?>
-	       <?endif?>
-		</Feature>
-	
-		<?if "$(env.Branding)"="XenCenter"?>
-        <UIRef Id="WixUI_FeatureTree" />
-        <?else ?>
-        <UIRef Id="My_WixUI_InstallDir" />
-        <?endif?>
-        
+            <ComponentGroupRef Id="BrandedComponents" />
+
+
+            <Feature Id="LangJapanese" Title="!(loc.JapaneseTitle)" Description="!(loc.JapaneseDescr)" Display="expand"
+                Level="1" ConfigurableDirectory="INSTALLDIR" AllowAdvertise="no" InstallDefault="local" Absent="allow" >
+                <ComponentRef Id="JaResources" />
+            </Feature>
+            <Feature Id="LangSimplifiedChinese" Title="!(loc.SimplifiedChineseTitle)" Description="!(loc.SimplifiedChineseDescr)"
+                Display="expand" Level="1" ConfigurableDirectory="INSTALLDIR" AllowAdvertise="no" InstallDefault="local" Absent="allow" >
+                <ComponentRef Id="ScResources" />
+            </Feature>
+        </Feature>
+        <FeatureGroupRef Id="BrandedFeatures" />
+
+        <UIRef Id="$(var.BrandInstallerUI)" />
         <UIRef Id="WixUI_ErrorProgressText" />
         <Property Id="Install_All" Value="0" />
         <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
         <Property Id="ARPPRODUCTICON" Value="XenCenterICO" />
         <MajorUpgrade AllowDowngrades="no" AllowSameVersionUpgrades="yes" DowngradeErrorMessage="!(loc.ErrorNewerProduct)" Schedule="afterInstallInitialize"/>
         <PropertyRef Id="WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED" />
-        <Condition Message="Microsoft .NET Framework 4.6 or later is required for this installation. Please install it from: https://www.microsoft.com/net/download/framework"><![CDATA[Installed OR WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED]]></Condition>
+        <Condition Message="!(loc.Required_For_Installation)"><![CDATA[Installed OR WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED]]></Condition>
         <Property Id="PERMACHINEINSTALL">
-            <RegistrySearch Id="InstallRegistry" Type="raw" Root="HKLM" Key="Software\[Citrix]\[XenCenter]" Name="InstallDir" />
+            <RegistrySearch Id="InstallRegistry" Type="raw" Root="HKLM" Key="Software\$(var.CompanyNameShort)\$(var.BrandConsole)" Name="InstallDir" />
         </Property>
-		<Property Id="REINSTALLMODE" Value="amus" />
+        <Property Id="REINSTALLMODE" Value="amus" />
         <Property Id="INSTALLSHORTCUT" />
         <CustomAction Id="ClearAllUsers" Property="ALLUSERS" Value="" />
         <CustomAction Id="SetAllUsers" Property="ALLUSERS" Value="1" />
@@ -341,6 +294,6 @@
             <Custom Action="ClearAllUsers" After="FindRelatedProducts">NOT Installed AND PERMACHINEINSTALL</Custom>
             <ExecuteAction Sequence="1102" />
         </InstallUISequence>
-        <Icon Id="XenCenterICO" SourceFile="..\Branding\Images\AppIcon.ico" />
+        <Icon Id="XenCenterICO" SourceFile="$(env.RepoRoot)\Branding\Images\AppIcon.ico" />
     </Product>
 </Wix>

@@ -350,12 +350,12 @@ namespace XenAdmin.Core
         {
             if (host == null)
                 return true;
-             string product_version = HostProductVersion(host);
+            string product_version = HostProductVersion(host);
             return
                 product_version != null &&
-                ElyOrGreater(host) && 
-                !FalconOrGreater(host) && 
-                productVersionCompare(product_version, "[BRANDING_VERSION_7_1_2]") >= 0;
+                ElyOrGreater(host) &&
+                !FalconOrGreater(host) &&
+                productVersionCompare(product_version, BrandManager.ProductVersion712) >= 0;
         }
 
         /// <param name="conn">May be null, in which case true is returned.</param>

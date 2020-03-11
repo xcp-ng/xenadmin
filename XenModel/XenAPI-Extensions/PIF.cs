@@ -95,7 +95,7 @@ namespace XenAPI
             return Get(other_config, "management_purpose");
         }
 
-        public void SetManagementPurspose(string value)
+        public void SetManagementPurpose(string value)
         {
             other_config = SetDictionaryKey(other_config, "management_purpose", value);
         }

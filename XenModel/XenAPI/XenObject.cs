@@ -59,7 +59,15 @@ namespace XenAPI
         public string opaque_ref { get; set; }
 
         [JsonIgnore]
-        public bool Changed { get; set; }
+        [Obsolete("This property can no longer be used to deduce that a XenObject has changed: " +
+                  "now it always returns true and new values assigned to it are ignored. " +
+                  "To be notified when the XenObject has changed (i.e. its properties have new values)," +
+                  "handle the event PropertyChanged instead.")]
+        public bool Changed
+        {
+            get { return true; }
+            set { }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

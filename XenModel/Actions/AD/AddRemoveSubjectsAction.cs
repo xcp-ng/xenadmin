@@ -243,9 +243,9 @@ namespace XenAdmin.Actions
         {
             Exception e = null;
             log.DebugFormat("Removing {0} existing subjects on pool '{1}'.", subjectsToRemove.Count, Helpers.GetName(Connection));
-            string selfSid = Connection.Session.IsLocalSuperuser || Connection.Session.Subject == null
+            string selfSid = Connection.Session.IsLocalSuperuser || Connection.Session.SessionSubject == null
                 ? ""
-                : Connection.Resolve(Connection.Session.Subject).subject_identifier;
+                : Connection.Resolve(Connection.Session.SessionSubject).subject_identifier;
 
             foreach (Subject subject in subjectsToRemove)
             {

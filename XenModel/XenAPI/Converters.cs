@@ -415,6 +415,20 @@ namespace XenAPI
 
             return DateTime.MinValue;
         }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            if (value is DateTime)
+            {
+                var dateTime = (DateTime)value;
+                dateTime = dateTime.ToUniversalTime();
+                var text = dateTime.ToString(DateFormatsUniversal[0], CultureInfo.InvariantCulture);
+                writer.WriteValue(text);
+                return;
+            }
+
+            base.WriteJson(writer, value, serializer);
+        }
     }
 
 

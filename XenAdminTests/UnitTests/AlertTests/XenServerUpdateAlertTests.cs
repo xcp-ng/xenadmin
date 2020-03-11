@@ -68,7 +68,7 @@ namespace XenAdminTests.UnitTests.AlertTests
                 AppliesTo = "HostAName, HostBName, ConnAName, ConnBName",
                 FixLinkText = "Go to Web Page",
                 HelpID = "XenServerUpdateAlert",
-                Description = "name is now available. Download the latest at the " + XenAdmin.Branding.COMPANY_NAME_SHORT + " website.",
+                Description = "name is now available. Download the latest at the " + BrandManager.COMPANY_NAME_SHORT + " website.",
                 HelpLinkText = "Help",
                 Title = "name is now available",
                 Priority = "Priority5"
@@ -94,7 +94,7 @@ namespace XenAdminTests.UnitTests.AlertTests
                 AppliesTo = "HostAName, HostBName",
                 FixLinkText = "Go to Web Page",
                 HelpID = "XenServerUpdateAlert",
-                Description = "name is now available. Download the latest at the " + XenAdmin.Branding.COMPANY_NAME_SHORT + " website.",
+                Description = "name is now available. Download the latest at the " + BrandManager.COMPANY_NAME_SHORT + " website.",
                 HelpLinkText = "Help",
                 Title = "name is now available",
                 Priority = "Priority5"
@@ -121,7 +121,7 @@ namespace XenAdminTests.UnitTests.AlertTests
                 AppliesTo = "ConnAName, ConnBName",
                 FixLinkText = "Go to Web Page",
                 HelpID = "XenServerUpdateAlert",
-                Description = "name is now available. Download the latest at the " + XenAdmin.Branding.COMPANY_NAME_SHORT + " website.",
+                Description = "name is now available. Download the latest at the " + BrandManager.COMPANY_NAME_SHORT + " website.",
                 HelpLinkText = "Help",
                 Title = "name is now available",
                 Priority = "Priority5"
@@ -146,7 +146,7 @@ namespace XenAdminTests.UnitTests.AlertTests
                 AppliesTo = string.Empty,
                 FixLinkText = "Go to Web Page",
                 HelpID = "XenServerUpdateAlert",
-                Description = "name is now available. Download the latest at the " + XenAdmin.Branding.COMPANY_NAME_SHORT + " website.",
+                Description = "name is now available. Download the latest at the " + BrandManager.COMPANY_NAME_SHORT + " website.",
                 HelpLinkText = "Help",
                 Title = "name is now available",
                 Priority = "Priority5"

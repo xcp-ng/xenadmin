@@ -659,7 +659,7 @@ namespace XenAdmin.Controls.XenSearch
                                     } :
                                     (EventHandler)delegate
                                     {
-                                        if (Program.MainWindow.SelectObject(ixmo)
+                                        if (Program.MainWindow.SelectObjectInTree(ixmo)
                                             && Program.MainWindow.TheTabControl.TabPages.Contains(Program.MainWindow.TabPageGeneral))
                                             Program.MainWindow.SwitchToTab(MainWindow.Tab.General);
                                     };

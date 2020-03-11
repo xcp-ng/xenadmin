@@ -176,7 +176,7 @@ namespace XenAdmin.Core
         private const string FORCE_SYSTEM_FONTS = "ForceSystemFonts";
         private const string DISABLE_PLUGINS = "DisablePlugins";
         private const string DONT_SUDO = "DontSudo";
-        private const string XENCENTER_LOCAL_KEYS = @"SOFTWARE\" + Branding.COMPANY_NAME_SHORT + @"\" + Branding.BRAND_CONSOLE;
+        private const string XENCENTER_LOCAL_KEYS = @"SOFTWARE\" + BrandManager.COMPANY_NAME_SHORT + @"\" + BrandManager.BRAND_CONSOLE;
         private const string PSExecutionPolicyKey = @"Software\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell";
         private const string PSExecutionPolicyName = "ExecutionPolicy";
         private const string PowerShellKey = @"Software\Microsoft\PowerShell\1";

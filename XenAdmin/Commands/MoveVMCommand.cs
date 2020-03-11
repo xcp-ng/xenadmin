@@ -69,7 +69,7 @@ namespace XenAdmin.Commands
             else
             {
                 VM vm = (VM) selection[0].XenObject;
-                MainWindowCommandInterface.ShowPerXenModelObjectWizard(vm, new MoveVMDialog(vm));
+                new MoveVMDialog(vm).ShowPerXenObject(vm, Program.MainWindow);
             }
         }
 

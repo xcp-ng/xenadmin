@@ -174,7 +174,7 @@ namespace XenAdmin
                     break;
                 default://includes Infrastructure and Notifications
                     Util.ThrowIfParameterNull(search, "search");
-                    newRootNode = new VirtualTreeNode(Branding.BRAND_CONSOLE) { ImageIndex = (int)Icons.Home };
+                    newRootNode = new VirtualTreeNode(BrandManager.BRAND_CONSOLE) { ImageIndex = (int)Icons.Home };
                     groupAcceptor = CreateGroupAcceptor(newRootNode);
                     search.PopulateAdapters(groupAcceptor);
                     break;

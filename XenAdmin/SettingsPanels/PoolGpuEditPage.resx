@@ -598,7 +598,7 @@
     <value>2</value>
   </data>
   <data name="groupBoxIntedratedGpu.Text" xml:space="preserve">
-    <value>Integrated GPU passthrough</value>
+    <value>Integrated GPU pass-through</value>
   </data>
   <data name="&gt;&gt;groupBoxIntedratedGpu.Name" xml:space="preserve">
     <value>groupBoxIntedratedGpu</value>

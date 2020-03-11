@@ -189,7 +189,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.user_get_record(session.opaque_ref, _user);
             else
-                return new User(session.proxy.user_get_record(session.opaque_ref, _user ?? "").parse());
+                return new User(session.XmlRpcProxy.user_get_record(session.opaque_ref, _user ?? "").parse());
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.user_get_by_uuid(session.opaque_ref, _uuid);
             else
-                return XenRef<User>.Create(session.proxy.user_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
+                return XenRef<User>.Create(session.XmlRpcProxy.user_get_by_uuid(session.opaque_ref, _uuid ?? "").parse());
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.user_create(session.opaque_ref, _record);
             else
-                return XenRef<User>.Create(session.proxy.user_create(session.opaque_ref, _record.ToProxy()).parse());
+                return XenRef<User>.Create(session.XmlRpcProxy.user_create(session.opaque_ref, _record.ToProxy()).parse());
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_user_create(session.opaque_ref, _record);
           else
-              return XenRef<Task>.Create(session.proxy.async_user_create(session.opaque_ref, _record.ToProxy()).parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_user_create(session.opaque_ref, _record.ToProxy()).parse());
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.user_destroy(session.opaque_ref, _user);
             else
-                session.proxy.user_destroy(session.opaque_ref, _user ?? "").parse();
+                session.XmlRpcProxy.user_destroy(session.opaque_ref, _user ?? "").parse();
         }
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace XenAPI
           if (session.JsonRpcClient != null)
               return session.JsonRpcClient.async_user_destroy(session.opaque_ref, _user);
           else
-              return XenRef<Task>.Create(session.proxy.async_user_destroy(session.opaque_ref, _user ?? "").parse());
+              return XenRef<Task>.Create(session.XmlRpcProxy.async_user_destroy(session.opaque_ref, _user ?? "").parse());
         }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.user_get_uuid(session.opaque_ref, _user);
             else
-                return session.proxy.user_get_uuid(session.opaque_ref, _user ?? "").parse();
+                return session.XmlRpcProxy.user_get_uuid(session.opaque_ref, _user ?? "").parse();
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.user_get_short_name(session.opaque_ref, _user);
             else
-                return session.proxy.user_get_short_name(session.opaque_ref, _user ?? "").parse();
+                return session.XmlRpcProxy.user_get_short_name(session.opaque_ref, _user ?? "").parse();
         }
 
         /// <summary>
@@ -311,7 +311,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.user_get_fullname(session.opaque_ref, _user);
             else
-                return session.proxy.user_get_fullname(session.opaque_ref, _user ?? "").parse();
+                return session.XmlRpcProxy.user_get_fullname(session.opaque_ref, _user ?? "").parse();
         }
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 return session.JsonRpcClient.user_get_other_config(session.opaque_ref, _user);
             else
-                return Maps.convert_from_proxy_string_string(session.proxy.user_get_other_config(session.opaque_ref, _user ?? "").parse());
+                return Maps.convert_from_proxy_string_string(session.XmlRpcProxy.user_get_other_config(session.opaque_ref, _user ?? "").parse());
         }
 
         /// <summary>
@@ -340,7 +340,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.user_set_fullname(session.opaque_ref, _user, _fullname);
             else
-                session.proxy.user_set_fullname(session.opaque_ref, _user ?? "", _fullname ?? "").parse();
+                session.XmlRpcProxy.user_set_fullname(session.opaque_ref, _user ?? "", _fullname ?? "").parse();
         }
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.user_set_other_config(session.opaque_ref, _user, _other_config);
             else
-                session.proxy.user_set_other_config(session.opaque_ref, _user ?? "", Maps.convert_to_proxy_string_string(_other_config)).parse();
+                session.XmlRpcProxy.user_set_other_config(session.opaque_ref, _user ?? "", Maps.convert_to_proxy_string_string(_other_config)).parse();
         }
 
         /// <summary>
@@ -371,7 +371,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.user_add_to_other_config(session.opaque_ref, _user, _key, _value);
             else
-                session.proxy.user_add_to_other_config(session.opaque_ref, _user ?? "", _key ?? "", _value ?? "").parse();
+                session.XmlRpcProxy.user_add_to_other_config(session.opaque_ref, _user ?? "", _key ?? "", _value ?? "").parse();
         }
 
         /// <summary>
@@ -386,7 +386,7 @@ namespace XenAPI
             if (session.JsonRpcClient != null)
                 session.JsonRpcClient.user_remove_from_other_config(session.opaque_ref, _user, _key);
             else
-                session.proxy.user_remove_from_other_config(session.opaque_ref, _user ?? "", _key ?? "").parse();
+                session.XmlRpcProxy.user_remove_from_other_config(session.opaque_ref, _user ?? "", _key ?? "").parse();
         }
 
         /// <summary>
@@ -400,7 +400,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _uuid))
                 {
                     _uuid = value;
-                    Changed = true;
                     NotifyPropertyChanged("uuid");
                 }
             }
@@ -418,7 +417,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _short_name))
                 {
                     _short_name = value;
-                    Changed = true;
                     NotifyPropertyChanged("short_name");
                 }
             }
@@ -436,7 +434,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _fullname))
                 {
                     _fullname = value;
-                    Changed = true;
                     NotifyPropertyChanged("fullname");
                 }
             }
@@ -456,7 +453,6 @@ namespace XenAPI
                 if (!Helper.AreEqual(value, _other_config))
                 {
                     _other_config = value;
-                    Changed = true;
                     NotifyPropertyChanged("other_config");
                 }
             }

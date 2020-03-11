@@ -78,51 +78,22 @@ namespace XenAdmin.Commands
 
         private static bool CanExecute(SR sr)
         {
-            return sr != null && sr.IsDetachable() && !HelpersGUI.GetActionInProgress(sr);
+            return sr != null && !sr.IsDetached() && !sr.HasRunningVMs() && !HelpersGUI.GetActionInProgress(sr);
         }
 
-        public override string MenuText
-        {
-            get
-            {
-                return Messages.MAINWINDOW_DETACH_SR;
-            }
-        }
+        public override string MenuText => Messages.MAINWINDOW_DETACH_SR;
 
-        protected override bool ConfirmationRequired
-        {
-            get
-            {
-                return true;
-            }
-        }
+        protected override bool ConfirmationRequired => true;
 
-        protected override string ConfirmationDialogText
-        {
-            get
-            {
-                SelectedItemCollection selection = GetSelection();
+        protected override string ConfirmationDialogText =>
+            GetSelection().Count == 1
+                ? Messages.MESSAGEBOX_DETACH_SR_CONTINUE
+                : Messages.MESSAGEBOX_DETACH_SRS_CONTINUE;
 
-                if (selection.Count == 1)
-                {
-                    return Messages.MESSAGEBOX_DETACH_SR_CONTINUE;
-                }
-                return Messages.MESSAGEBOX_DETACH_SRS_CONTINUE;
-            }
-        }
-
-        protected override string ConfirmationDialogTitle
-        {
-            get
-            {
-                if (GetSelection().Count == 1)
-                {
-                    return Messages.MESSAGEBOX_DETACH_SR_CONTINUE_TITLE;
-                }
-
-                return Messages.MESSAGEBOX_DETACH_SRS_CONTINUE_TITLE;
-            }
-        }
+        protected override string ConfirmationDialogTitle =>
+            GetSelection().Count == 1
+                ? Messages.MESSAGEBOX_DETACH_SR_CONTINUE_TITLE
+                : Messages.MESSAGEBOX_DETACH_SRS_CONTINUE_TITLE;
 
         protected override CommandErrorDialog GetErrorDialogCore(IDictionary<IXenObject, string> cantExecuteReasons)
         {
@@ -143,10 +114,6 @@ namespace XenAdmin.Commands
             if (sr.HasRunningVMs())
             {
                 return Messages.SR_HAS_RUNNING_VMS;
-            }
-            if (!sr.CanCreateWithXenCenter())
-            {
-                return Messages.SR_CANNOT_BE_DETACHED_WITH_XC;
             }
             if (HelpersGUI.GetActionInProgress(sr))
             {
