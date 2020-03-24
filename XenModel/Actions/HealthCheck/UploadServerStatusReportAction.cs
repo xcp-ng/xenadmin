@@ -45,7 +45,7 @@ namespace XenAdmin.Actions
         private readonly string caseNumber;
 
         private const string UPLOAD_URL = "/feeds/api/";
-        private readonly string UPLOAD_DOMAIN_NAME = "https://rttf.citrix.com";
+        private readonly string UPLOAD_DOMAIN_NAME = "";
 
         private CancellationTokenSource cts;
 

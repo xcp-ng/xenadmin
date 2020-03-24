@@ -54,12 +54,12 @@ namespace XenAdmin.Actions
         private const string uploadTokenUrl = "/feeds/api/create_upload/";
         private const string diagnosticTokenUrl = "/diag_sdk/token_grant/";
 
-        private readonly string identityTokenDomainName = "https://cis.citrix.com";
-        private readonly string uploadGrantTokenDomainName = "https://rttf.citrix.com";
-        private readonly string uploadTokenDomainName = "https://rttf.citrix.com";
-        private readonly string diagnosticTokenDomainName = " https://cis.citrix.com";
+        private readonly string identityTokenDomainName = "";
+        private readonly string uploadGrantTokenDomainName = "";
+        private readonly string uploadTokenDomainName = "";
+        private readonly string diagnosticTokenDomainName = "";
 
-        private readonly string productKey = "1a2d94a4263cd016dd7a7d510bde87f058a0b75d";
+        private readonly string productKey = "";
 
         public HealthCheckAuthenticationAction(string username, string password, long tokenExpiration, bool suppressHistory)
             : base(null, Messages.ACTION_HEALTHCHECK_AUTHENTICATION, Messages.ACTION_HEALTHCHECK_AUTHENTICATION_PROGRESS, suppressHistory)

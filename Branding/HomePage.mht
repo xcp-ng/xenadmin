@@ -53,12 +53,11 @@ class=3D"cx-link"=20
   <LI title=3D"Network with other Citrix Hypervisor users" =
 class=3D"cx-doc-icon"><A=20
   class=3D"cx-link" =
-href=3D"https://discussions.citrix.com/forum/101-hypervisor-formerly-xens=
-erver/">Network=20
+href=3D"">Network=20
   with other Citrix Hypervisor users</A>             </LI>
   <LI title=3D"Community Support Partners" class=3D"cx-doc-icon last"><A =
 class=3D"cx-link"=20
-  href=3D"https://www.citrix.com/support">Visit the Citrix Knowledge =
+  href=3D"Visit the Citrix Knowledge =
 Center</A>   =20
            </LI></UL></DIV>
 <DIV class=3D"column right span-6 last"><IMG id=3D"cloudServerGraphic" =
@@ -76,14 +75,14 @@ Server.png">
 <P>Add a Server</P></A>         </DIV>
 <DIV title=3D"Purchase Support" class=3D"span-6 cx-cards"><A =
 class=3D"cx-link" =
-href=3D"http://www.citrix.com/xenserver/le/features"><IMG=20
+href=3D""><IMG=20
 id=3D"purchaseSupport" alt=3D"Purchase Support" =
 src=3D"file:///C:/Code/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-pur=
 chaseSupport.png">
 <P>Purchase Support</P></A>         </DIV>
 <DIV title=3D"Try Desktop Virtualization" class=3D"span-6 cx-cards =
 last"><A class=3D"cx-link"=20
-href=3D"http://www.citrix.com/TryXenDesktop"><IMG id=3D"deskTopVirt" =
+href=3D""><IMG id=3D"deskTopVirt" =
 alt=3D"Try Desktop Virtualization"=20
 src=3D"file:///C:/Code/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-try=
 Virtualization.png">

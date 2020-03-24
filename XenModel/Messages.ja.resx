@@ -6520,10 +6520,10 @@ VM の再起動優先度をクリアしてもよろしいですか?</value>
     <value>ユーザー名またはパスワードが無効です。再試行してください。</value>
   </data>
   <data name="HEALTH_CHECK_CIS_POLICY_URL" xml:space="preserve">
-    <value>https://cis.citrix.com/legal/</value>
+    <value>/</value>
   </data>
   <data name="HEALTH_CHECK_CITRIX_POLICY_URL" xml:space="preserve">
-    <value>http://www.citrix.co.jp/about/legal/privacy/</value>
+    <value></value>
   </data>
   <data name="HEALTH_CHECK_PRIVACY_POLICY" xml:space="preserve">
     <value>ヘルス チェックによって [Citrix] Insight Services にアップロードされる情報は、トラブルシューティングや診断サポート、および [Citrix] Insight Services Policy ({0}) と [Citrix] Privacy Policy ({1}) で必要な製品の品質、信頼性、パフォーマンスを改善するために使用されます。</value>
@@ -8504,7 +8504,7 @@ SCSI ID: {2}
     <value>ネットワークを選択してください</value>
   </data>
   <data name="MY_CITRIX_CREDENTIALS_URL" xml:space="preserve">
-    <value>http://www.citrix.com/welcome.html</value>
+    <value></value>
   </data>
   <data name="NAME" xml:space="preserve">
     <value>名前</value>

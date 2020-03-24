@@ -118,25 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HEALTH_CHECK_PRIVACY_STATEMENT_URL" xml:space="preserve">
-    <value>https://cis.citrix.com/legal/</value>
+    <value></value>
   </data>
   <data name="HOMEPAGE" xml:space="preserve">
-    <value>https://www.citrix.com.cn/products/citrix-hypervisor/</value>
+    <value></value>
   </data>
   <data name="HOMEPAGE_FILENAME" xml:space="preserve">
     <value>HomePage.zh-CN.mht</value>
   </data>
   <data name="HTTP_LICENSES" xml:space="preserve">
-    <value>www.citrix.com/xenserverenterprise</value>
+    <value</value>
   </data>
   <data name="ISL_DEPRECATION_URL" xml:space="preserve">
-    <value>http://support.citrix.com/article/CTX141433</value>
+    <value></value>
   </data>
   <data name="LICENSE_EXPIRY_WEBPAGE" xml:space="preserve">
-    <value>http://store.citrix.com/XSInProduct</value>
+    <value></value>
   </data>
   <data name="LICENSE_SERVER_DOWNLOAD_LINK" xml:space="preserve">
-    <value>http://www.citrix.com/downloads/licensing/license-server</value>
+    <value></value>
   </data>
   <data name="LOCALE" xml:space="preserve">
     <value>zh-CN</value>
@@ -148,31 +148,31 @@
     <value>Home.htm</value>
   </data>
   <data name="OUT_OF_DATE_WEBSITE" xml:space="preserve">
-    <value>https://www.citrix.com/downloads/citrix-hypervisor</value>
+    <value></value>
   </data>
   <data name="PARTNEROFFERS_URL" xml:space="preserve">
-    <value>http://www.citrix.com/buy/partnerlocator.html</value>
+    <value></value>
   </data>
   <data name="PLUGINS_URL" xml:space="preserve">
-    <value>https://github.com/xenserver/xencenter-samples</value>
+    <value></value>
   </data>
   <data name="PRIVACY" xml:space="preserve">
-    <value>http://citrix.com/English/aboutCitrix/legal/privacyStatement.asp?ntref=hp_nav_US</value>
+    <value></value>
   </data>
   <data name="PV_GUESTS_CHECK_URL" xml:space="preserve">
-    <value>https://docs.citrix.com/zh-cn/citrix-hypervisor/system-requirements/guest-os-support.html</value>
+    <value></value>
   </data>
   <data name="XEN_SEARCH" xml:space="preserve">
     <value>xensearch</value>
   </data>
   <data name="SUPPORT_URL" xml:space="preserve">
-    <value>http://support.citrix.com/</value>
+    <value></value>
   </data>
   <data name="UPSELL_SA" xml:space="preserve">
-    <value>http://store.citrix.com/XSInProduct</value>
+    <value></value>
   </data>
   <data name="XENDESKTOP_URL" xml:space="preserve">
-    <value>http://www.citrix.com/TryXenDesktop</value>
+    <value></value>
   </data>
   <data name="XEN_UPDATE" xml:space="preserve">
     <value>xsupdate</value>
@@ -181,15 +181,15 @@
     <value>iso</value>
   </data>
   <data name="UPSELL_LEARNMOREURL_TRIAL" xml:space="preserve">
-    <value>https://www.citrix.com/products/citrix-hypervisor/get-started.html</value>
+    <value></value>
   </data>
   <data name="HELP_URL" xml:space="preserve">
-    <value>http://docs.citrix.com/zh-cn/xencenter/</value>
+    <value></value>
   </data>
   <data name="HELP_URL_QUERY" xml:space="preserve">
     <value>?utm_campaign={0}&amp;utm_medium=ui_link&amp;utm_source={1}</value>
   </data>
   <data name="DEPRECATION_URL" xml:space="preserve">
-    <value>http://docs.citrix.com/zh-cn/citrix-hypervisor/whats-new/removed-features.html</value>
+    <value></value>
   </data>
 </root>

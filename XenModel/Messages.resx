@@ -6539,10 +6539,10 @@ Click Configure HA to alter the settings displayed below.</value>
     <value>Invalid user name or password. Please try again.</value>
   </data>
   <data name="HEALTH_CHECK_CIS_POLICY_URL" xml:space="preserve">
-    <value>https://cis.citrix.com/legal/</value>
+    <value></value>
   </data>
   <data name="HEALTH_CHECK_CITRIX_POLICY_URL" xml:space="preserve">
-    <value>http://www.citrix.com/about/legal/privacy.html</value>
+    <value></value>
   </data>
   <data name="HEALTH_CHECK_PRIVACY_POLICY" xml:space="preserve">
     <value>The information that Health Check uploads to [Citrix] Insight Services will be used for troubleshooting and diagnostics support purposes, as well as to improve the quality, reliability, and performance of our products subject to the [Citrix] Insight Services Policy at {0} and [Citrix] Privacy Policy at {1}.</value>
@@ -8526,7 +8526,7 @@ To ensure system stability, it is strongly recommended that you use multipathing
     <value>You must select a network</value>
   </data>
   <data name="MY_CITRIX_CREDENTIALS_URL" xml:space="preserve">
-    <value>http://www.citrix.com/welcome.html</value>
+    <value></value>
   </data>
   <data name="NAME" xml:space="preserve">
     <value>Name</value>
