@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="UPDATES_URL" xml:space="preserve">
-    <value>https://updates.xensource.com/XenServer/updates.xml</value>
+    <value>https://raw.githubusercontent.com/xcp-ng/xenadmin-updates/master/updates.xml</value>
   </data>
   <data name="PERF_ALERT_MAIL_DEFAULT_LANGUAGE" xml:space="preserve">
     <value>en-US</value>
@@ -133,31 +133,31 @@
     <value>xbk</value>
   </data>
   <data name="LEGACY_PRODUCT" xml:space="preserve">
-    <value>XenServer</value>
+    <value>XCP-ng</value>
   </data>
   <data name="Label-host.edition-legacy-enterprise-per-socket" xml:space="preserve">
-    <value>XenServer Enterprise Per-Socket</value>
+    <value>XCP-ng</value>
   </data>
   <data name="Label-host.edition-legacy-enterprise-per-user" xml:space="preserve">
-    <value>XenServer Enterprise Per-User</value>
+    <value>XCP-ng</value>
   </data>
   <data name="Label-host.edition-legacy-free" xml:space="preserve">
-    <value>XenServer</value>
+    <value>XCP-ng</value>
   </data>
   <data name="Label-host.edition-legacy-per-socket" xml:space="preserve">
-    <value>XenServer Per-Socket</value>
+    <value>XCP-ng</value>
   </data>
   <data name="Label-host.edition-legacy-standard-per-socket" xml:space="preserve">
-    <value>XenServer Standard Per-Socket</value>
+    <value>XCP-ng</value>
   </data>
   <data name="Label-host.edition-legacy-xendesktop" xml:space="preserve">
-    <value>XenServer for XenDesktop</value>
+    <value>XCP-ng</value>
   </data>
   <data name="Label-host.edition-enterprise-per-socket" xml:space="preserve">
-    <value>XenServer Premium Per-Socket</value>
+    <value>XCP-ng</value>
   </data>
   <data name="Label-host.edition-enterprise-per-user" xml:space="preserve">
-    <value>XenServer Premium Per-User</value>
+    <value>XCP-ng</value>
   </data>
   <data name="PRODUCT_VERSION_5_6" xml:space="preserve">
     <value>5.6</value>
