@@ -46,7 +46,7 @@ namespace XenAdmin.Actions
 
         private const string DIAG_RESULT_URL = "/diag_sdk/diag_results/";
         private const string ANALYSIS_PROGRESS_URL = "/diag_sdk/analysis_progress/";
-        private readonly string diagnosticDomainName = "https://cis.citrix.com";
+        private readonly string diagnosticDomainName = "";
        
         public GetHealthCheckAnalysisResultAction(Pool pool, bool suppressHistory)
             : base(pool.Connection, Messages.ACTION_GET_HEALTH_CHECK_RESULT, Messages.ACTION_GET_HEALTH_CHECK_RESULT_PROGRESS, suppressHistory)

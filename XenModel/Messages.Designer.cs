@@ -18598,7 +18598,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die https://cis.citrix.com/legal/ ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         public static string HEALTH_CHECK_CIS_POLICY_URL {
             get {
@@ -18607,7 +18607,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die http://www.citrix.com/about/legal/privacy.html ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         public static string HEALTH_CHECK_CITRIX_POLICY_URL {
             get {
@@ -24528,7 +24528,7 @@ namespace XenAdmin {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die http://www.citrix.com/welcome.html ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         public static string MY_CITRIX_CREDENTIALS_URL {
             get {

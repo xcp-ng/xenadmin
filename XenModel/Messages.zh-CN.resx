@@ -6514,10 +6514,10 @@
     <value>无效用户名或密码。请重试。</value>
   </data>
   <data name="HEALTH_CHECK_CIS_POLICY_URL" xml:space="preserve">
-    <value>https://cis.citrix.com/legal/</value>
+    <value></value>
   </data>
   <data name="HEALTH_CHECK_CITRIX_POLICY_URL" xml:space="preserve">
-    <value>http://www.citrix.com.cn/about/legal/privacy.html</value>
+    <value></value>
   </data>
   <data name="HEALTH_CHECK_PRIVACY_POLICY" xml:space="preserve">
     <value>根据 [Citrix] Insight Services 策略(网址为 {0})和 [Citrix] 隐私策略(网址为 {1})的规定，运行状况检查上载到 [Citrix] Insight Services 的信息将用于故障排除和诊断支持目的，以及改进我们的产品质量、可靠性和性能。</value>
@@ -8499,7 +8499,7 @@ SCSI ID: {2}
     <value>必须选择一个网络</value>
   </data>
   <data name="MY_CITRIX_CREDENTIALS_URL" xml:space="preserve">
-    <value>http://www.citrix.com/welcome.html</value>
+    <value></value>
   </data>
   <data name="NAME" xml:space="preserve">
     <value>名称</value>

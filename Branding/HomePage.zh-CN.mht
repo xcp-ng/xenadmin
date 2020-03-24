@@ -58,14 +58,13 @@ href=3D"xencenter://HelpContents/">=E4=BA=86=E8=A7=A3=E5=A6=82=E4=BD=95=E4=
 =E7=94=A8=E6=88=B7=E8=81=94=E7=BD=91" class=3D"cx-doc-icon"><A =
 class=3D"cx-link"=20
   =
-href=3D"https://discussions.citrix.com/forum/101-hypervisor-formerly-xens=
-erver/">=E4=B8=8E=E5=85=B6=E4=BB=96=20
+href=3D"">=E4=B8=8E=E5=85=B6=E4=BB=96=20
   Citrix Hypervisor =E7=94=A8=E6=88=B7=E8=81=94=E7=BD=91</A>             =
 </LI>
   <LI =
 title=3D"=E7=A4=BE=E5=8C=BA=E6=94=AF=E6=8C=81=E5=90=88=E4=BD=9C=E4=BC=99=E4=
 =BC=B4" class=3D"cx-doc-icon last"><A class=3D"cx-link" =
-href=3D"https://www.citrix.com/support">=E8=AE=BF=E9=97=AE=20
+href=3D"">=E8=AE=BF=E9=97=AE=20
   Citrix =E7=9F=A5=E8=AF=86=E4=B8=AD=E5=BF=83</A>             =
 </LI></UL></DIV>
 <DIV class=3D"column right span-6 last"><IMG id=3D"cloudServerGraphic" =
@@ -84,7 +83,7 @@ Server.png">
 <P>=E6=B7=BB=E5=8A=A0=E6=9C=8D=E5=8A=A1=E5=99=A8</P></A>         </DIV>
 <DIV title=3D"=E8=B4=AD=E4=B9=B0=E6=94=AF=E6=8C=81" class=3D"span-6 =
 cx-cards"><A class=3D"cx-link" =
-href=3D"http://www.citrix.com/xenserver/le/features"><IMG=20
+href=3D""><IMG=20
 id=3D"purchaseSupport" alt=3D"=E8=B4=AD=E4=B9=B0=E6=94=AF=E6=8C=81" =
 src=3D"file:///C:/Code/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-pur=
 chaseSupport.png">
@@ -92,7 +91,7 @@ chaseSupport.png">
 <DIV =
 title=3D"=E8=AF=95=E7=94=A8=E6=A1=8C=E9=9D=A2=E8=99=9A=E6=8B=9F=E5=8C=96"=
  class=3D"span-6 cx-cards last"><A class=3D"cx-link" =
-href=3D"http://www.citrix.com/TryXenDesktop"><IMG=20
+href=3D""><IMG=20
 id=3D"deskTopVirt" =
 alt=3D"=E8=AF=95=E7=94=A8=E6=A1=8C=E9=9D=A2=E8=99=9A=E6=8B=9F=E5=8C=96" =
 src=3D"file:///C:/Code/xenadmin/XenAdmin/HomePage/media/icons/cx-icon-try=
