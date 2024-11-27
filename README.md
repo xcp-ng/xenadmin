@@ -15,6 +15,9 @@ XCP-ng Center
 
 This repository contains the source code for XCP-ng Center.
 
+This specific branch will be for the Avalonia UI Rewrite, If you are wanting the more stable and Windows-only WinForms version, see the 
+development branch.
+
 XCP-ng Center is a Windows-based management tool for XCP-ng and Citrix® XenServer® environments
 which enables users to manage and monitor XCP-ng and Citrix® XenServer® hosts and resource pools,
 and to deploy, monitor, manage and migrate virtual machines.
