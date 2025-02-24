@@ -17,7 +17,7 @@ namespace XenAdmin.Properties
     public class Settings : INotifyPropertyChanged
     {
         private static readonly string _settingsPath =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            Path.Combine(GetSettingsPath,
                 BrandManager.ProductBrand, BrandManager.BrandConsole, "Settings.xml");
 
         private static Settings _default;
@@ -877,6 +877,22 @@ namespace XenAdmin.Properties
                 if (value == _windowState) return;
                 _windowState = value;
                 OnPropertyChanged();
+            }
+        }
+
+        private static string _activePath;
+
+        public static string GetSettingsPath
+        {
+            get
+            {
+                if (_activePath != null) return _activePath;
+
+                _activePath = Directory.Exists(Path.Combine(Application.StartupPath, "data"))
+                    ? Path.Combine(Application.StartupPath, "data")
+                    : Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+                return _activePath;
             }
         }
 

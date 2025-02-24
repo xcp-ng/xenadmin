@@ -126,7 +126,7 @@ namespace XenAdmin
                 : $"{Version.Major}.{Version.Minor}.{Version.Build}";
 
             var logFolder = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                Properties.Settings.GetSettingsPath,
                 BrandManager.ProductBrand,
                 BrandManager.BrandConsole,
                 "logs");
