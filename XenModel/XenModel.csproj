@@ -8,6 +8,7 @@
 	<ItemGroup>
 		<PackageReference Include="CookComputing.XmlRPCv2" Version="2.5.0" />
 		<PackageReference Include="DiscUtils.Vhd" Version="0.16.13" />
+		<PackageReference Include="DiscUtils.Vhdx" Version="0.16.13" />
 		<PackageReference Include="DiscUtils.Wim" Version="0.16.13" />
 		<PackageReference Include="DiscUtils.Iso9660" Version="0.16.13" />
 		<PackageReference Include="lzfse-net" Version="1.0.15" />

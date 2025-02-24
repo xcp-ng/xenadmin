@@ -314,7 +314,7 @@ namespace XenAdmin.Actions.OvfActions
                 long virtualSize;
                 string format = string.Empty;
 
-                if (ext.ToLower().EndsWith(".vhd"))
+                if (ext.ToLower().EndsWith("vhd"))
                 {
                     vhdDisk = VirtualDisk.OpenDisk(sourcefile, FileAccess.Read);
                     virtualSize = vhdDisk.Capacity;
