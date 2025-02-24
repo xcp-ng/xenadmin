@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<AssemblyTitle>$(Title)</AssemblyTitle>
 		<AssemblyDescription>$(Description)</AssemblyDescription>
-		<Copyright>Copyright © XCP-ng</Copyright>
+		<Copyright>Copyright Â© XCP-ng</Copyright>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/xcp-ng/xenadmin</RepositoryUrl>
 		<RevisionNumber>$([System.DateTime]::Now.ToString("yy"))$([System.DateTime]::Now.DayOfYear.ToString("D3"))</RevisionNumber>
@@ -12,9 +12,5 @@
 		<FileVersion>0.0.0.$(RevisionNumber)</FileVersion>
 		<Codename>Medicine Hat</Codename>
 		<Lab>xcpngcenter_main</Lab>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<RestoreAdditionalProjectSources>../Packages</RestoreAdditionalProjectSources>
 	</PropertyGroup>
 </Project>

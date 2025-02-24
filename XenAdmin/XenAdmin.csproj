@@ -9,14 +9,12 @@
 		<Title>XCP-ng Center</Title>
 		<Description>XCP-ng Center</Description>
 	</PropertyGroup>
-
 	<ItemGroup>
-		<ProjectReference Include="..\XenModel\XenModel.csproj" />
+	  <PackageReference Include="Microsoft.ReportViewer.Runtime.WinForms" Version="12.0.2402.15" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MSTSCLib" Version="1.0.0" />
-		<PackageReference Include="Microsoft.ReportViewer" Version="9.0.0" />
+		<ProjectReference Include="..\XenModel\XenModel.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -26,6 +24,12 @@
 		<Reference Include="System.Windows.Forms.DataVisualization" />
 		<Reference Include="System.Web" />
 		<Reference Include="System.Web.Extensions" />
+		<Reference Include="AxMSTSCLib">
+			<HintPath>RDP\AxMSTSCLib.dll</HintPath>
+		</Reference>
+		<Reference Include="MSTSCLib">
+			<HintPath>RDP\MSTSCLib.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -54,4 +58,8 @@
 	    <DependentUpon>ChooseSrProvisioningPage.resx</DependentUpon>
 	  </Compile>
 	</ItemGroup>
+
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+		<Exec Command="&quot;$(TargetFrameworkSDKToolsDirectory)aximp.exe&quot; $(WinDir)\System32\mstscax.dll" WorkingDirectory="$(ProjectDir)RDP" />
+	</Target>
 </Project>
