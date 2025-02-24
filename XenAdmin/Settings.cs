@@ -736,6 +736,8 @@ namespace XenAdmin
 
         public static void Load()
         {
+            Properties.Settings.Load();
+
             string appVersionString = Program.Version.ToString();
             log.InfoFormat("Application version of current settings {0}", appVersionString);
 

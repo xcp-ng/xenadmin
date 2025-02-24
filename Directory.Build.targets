@@ -1,18 +1,16 @@
 <Project>
 	<Target Name="SetSourceRevisionId" BeforeTargets="InitializeSourceControlInformation">
-		<Exec Command="git describe --long --always --dirty --exclude=* --abbrev=8" ConsoleToMSBuild="True"
-			  IgnoreExitCode="False" ContinueOnError="True">
-			<Output PropertyName="SourceRevisionIdOutput" TaskParameter="ConsoleOutput" />
-			<Output PropertyName="SourceRevisionIdErrorCode" TaskParameter="ExitCode" />
+		<Exec Command="git describe --long --always --dirty --exclude=* --abbrev=8" StandardOutputImportance="low" StandardErrorImportance="low" ConsoleToMSBuild="True" IgnoreExitCode="False" ContinueOnError="True">
+			<Output PropertyName="SourceRevisionIdOutput" TaskParameter="ConsoleOutput"/>
+			<Output PropertyName="SourceRevisionIdErrorCode" TaskParameter="ExitCode"/>
 		</Exec>
-		<Exec Command="git rev-parse HEAD" ConsoleToMSBuild="True" IgnoreExitCode="False" ContinueOnError="True">
-			<Output PropertyName="SourceRevisionIdFullOutput" TaskParameter="ConsoleOutput" />
-			<Output PropertyName="SourceRevisionIdFullErrorCode" TaskParameter="ExitCode" />
+		<Exec Command="git rev-parse HEAD" StandardOutputImportance="low" StandardErrorImportance="low" ConsoleToMSBuild="True" IgnoreExitCode="False" ContinueOnError="True">
+			<Output PropertyName="SourceRevisionIdFullOutput" TaskParameter="ConsoleOutput"/>
+			<Output PropertyName="SourceRevisionIdFullErrorCode" TaskParameter="ExitCode"/>
 		</Exec>
-		<Exec Command="git rev-parse --abbrev-ref HEAD" ConsoleToMSBuild="True" IgnoreExitCode="False"
-			  ContinueOnError="True">
-			<Output PropertyName="SourceBranchOutput" TaskParameter="ConsoleOutput" />
-			<Output PropertyName="SourceBranchErrorCode" TaskParameter="ExitCode" />
+		<Exec Command="git rev-parse --abbrev-ref HEAD" StandardOutputImportance="low" StandardErrorImportance="low" ConsoleToMSBuild="True" IgnoreExitCode="False" ContinueOnError="True">
+			<Output PropertyName="SourceBranchOutput" TaskParameter="ConsoleOutput"/>
+			<Output PropertyName="SourceBranchErrorCode" TaskParameter="ExitCode"/>
 		</Exec>
 		<PropertyGroup>
 			<GitRepo>false</GitRepo>
@@ -72,26 +70,6 @@ internal partial class ThisAssembly
 			<FileWrites Include="$(InformationalGeneratedFilePath)" />
 		</ItemGroup>
 		<WriteLinesToFile Lines="$(GitData)" File="$(GitGeneratedFilePath)" WriteOnlyWhenDifferent="true" Overwrite="true" />
-		<WriteLinesToFile Lines="$(InformationalData)" File="$(InformationalGeneratedFilePath)"
-						  WriteOnlyWhenDifferent="true" Overwrite="true" />
+		<WriteLinesToFile Lines="$(InformationalData)" File="$(InformationalGeneratedFilePath)" WriteOnlyWhenDifferent="true" Overwrite="true" />
 	</Target>
-
-	<PropertyGroup>
-		<AssemblyTitle>$(Title)</AssemblyTitle>
-		<AssemblyDescription>$(Description)</AssemblyDescription>
-		<Copyright>Copyright © XCP-ng</Copyright>
-		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/xcp-ng/xenadmin</RepositoryUrl>
-		<RevisionNumber>$([System.DateTime]::Now.ToString("yy"))$([System.DateTime]::Now.DayOfYear.ToString("D3"))</RevisionNumber>
-		<Authors>XCP-ng</Authors>
-		<Product>XCP-ng Center</Product>
-		<Version>0.0.0.$(RevisionNumber)</Version>
-		<FileVersion>0.0.0.$(RevisionNumber)</FileVersion>
-		<Codename>Medicine Hat</Codename>
-		<Lab>xcpngcenter_main</Lab>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<RestoreSources>$(RestoreSources);../Packages;https://api.nuget.org/v3/index.json</RestoreSources>
-	</PropertyGroup>
 </Project>
