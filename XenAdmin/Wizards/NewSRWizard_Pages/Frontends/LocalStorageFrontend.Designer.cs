@@ -34,9 +34,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.radioButtonExt = new System.Windows.Forms.RadioButton();
+            this.radioButtonLVM = new System.Windows.Forms.RadioButton();
             this.textBoxDevicePath = new System.Windows.Forms.TextBox();
             this.radioButtonXFS = new System.Windows.Forms.RadioButton();
-            this.radioButtonLVM = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,10 +77,18 @@
             this.radioButtonExt.UseVisualStyleBackColor = true;
             this.radioButtonExt.CheckedChanged += new System.EventHandler(this.radioButtonExt4_CheckedChanged);
             // 
+            // radioButtonLVM
+            // 
+            resources.ApplyResources(this.radioButtonLVM, "radioButtonLVM");
+            this.radioButtonLVM.Name = "radioButtonLVM";
+            this.radioButtonLVM.UseVisualStyleBackColor = true;
+            this.radioButtonLVM.CheckedChanged += new System.EventHandler(this.radioButtonExt4_CheckedChanged);
+            // 
             // textBoxDevicePath
             // 
             resources.ApplyResources(this.textBoxDevicePath, "textBoxDevicePath");
             this.textBoxDevicePath.Name = "textBoxDevicePath";
+            this.textBoxDevicePath.TextChanged += new System.EventHandler(this.textBoxDevicePath_TextChanged);
             // 
             // radioButtonXFS
             // 
@@ -88,13 +96,6 @@
             this.radioButtonXFS.Name = "radioButtonXFS";
             this.radioButtonXFS.UseVisualStyleBackColor = true;
             this.radioButtonXFS.CheckedChanged += new System.EventHandler(this.radioButtonExt4_CheckedChanged);
-            // 
-            // radioButtonLVM
-            // 
-            resources.ApplyResources(this.radioButtonLVM, "radioButtonLVM");
-            this.radioButtonLVM.Name = "radioButtonLVM";
-            this.radioButtonLVM.UseVisualStyleBackColor = true;
-            this.radioButtonLVM.CheckedChanged += new System.EventHandler(this.radioButtonExt4_CheckedChanged);
             // 
             // LocalStorageFrontend
             // 

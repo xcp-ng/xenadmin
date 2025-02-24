@@ -376,6 +376,6 @@
     <value>LocalStorageFrontend</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>XenAdmin.Controls.XenTabPage, XCP-ng Center, Version=0.0.0.24040, Culture=neutral, PublicKeyToken=null</value>
+    <value>XenAdmin.Controls.XenTabPage, XCP-ng Center, Version=0.0.0.25054, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

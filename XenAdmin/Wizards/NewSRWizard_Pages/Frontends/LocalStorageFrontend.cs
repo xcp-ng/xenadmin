@@ -96,5 +96,15 @@ namespace XenAdmin.Wizards.NewSRWizard_Pages.Frontends
         {
             textBoxDevicePath.Select();
         }
+
+        public override bool EnableNext()
+        {
+            return string.IsNullOrWhiteSpace(textBoxDevicePath.Text) == false;
+        }
+
+        private void textBoxDevicePath_TextChanged(object sender, EventArgs e)
+        {
+            OnPageUpdated();
+        }
     }
 }
