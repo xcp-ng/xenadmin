@@ -8,8 +8,10 @@
 		<RevisionNumber>$([System.DateTime]::Now.ToString("yy"))$([System.DateTime]::Now.DayOfYear.ToString("D3"))</RevisionNumber>
 		<Authors>XCP-ng</Authors>
 		<Product>XCP-ng Center</Product>
-		<Version>0.0.0.$(RevisionNumber)</Version>
-		<FileVersion>0.0.0.$(RevisionNumber)</FileVersion>
+		<YearVer>0</YearVer>
+		<MonthVer>0</MonthVer>
+		<Version>$(YearVer).$(MonthVer).0.$(RevisionNumber)</Version>
+		<FileVersion>$(YearVer).$(MonthVer).0.$(RevisionNumber)</FileVersion>
 		<Codename>Medicine Hat</Codename>
 		<Lab>xcpngcenter_main</Lab>
 	</PropertyGroup>
