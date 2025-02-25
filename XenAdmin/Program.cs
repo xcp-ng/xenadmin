@@ -40,6 +40,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using DiscUtils;
+using DiscUtils.Setup;
 using XenAdmin.Core;
 using XenAdmin.Dialogs;
 using XenAdmin.Network;
@@ -187,6 +189,24 @@ namespace XenAdmin
             Session.UserAgent = $"{BrandManager.BrandConsole} {Version}";
 
             LogSystemDetails();
+
+            log.Info("Registering Virtual Disk Types");
+            SetupHelper.RegisterAssembly(typeof(DiscUtils.Vhd.Disk).Assembly);
+            SetupHelper.RegisterAssembly(typeof(DiscUtils.Vhdx.Disk).Assembly);
+            SetupHelper.RegisterAssembly(typeof(DiscUtils.Vmdk.Disk).Assembly);
+            SetupHelper.RegisterAssembly(typeof(DiscUtils.Raw.Disk).Assembly);
+
+            log.Info("Virtual Disk Types Supported:");
+            foreach (var supportedDiskType in VirtualDiskManager.SupportedDiskTypes)
+            {
+                log.Info("\t" + supportedDiskType);
+            }
+
+            log.Info("Virtual Disk Formats Supported:");
+            foreach (var supportedDiskType in VirtualDiskManager.SupportedDiskFormats)
+            {
+                log.Info("\t" + supportedDiskType);
+            }
 
             Application.Run(new SplashScreenContext(args));
 
