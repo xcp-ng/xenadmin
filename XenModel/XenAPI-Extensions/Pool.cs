@@ -298,6 +298,18 @@ namespace XenAPI
             return auto_poweron == "true" ? true : false;
         }
 
+        public void SetVmAutostartEnabled(bool value)
+        {
+            if(other_config.ContainsKey("auto_poweron"))
+            {
+                other_config["auto_poweron"] = value ? "true" : "false";
+            }
+            else
+            {
+                other_config.Add("auto_poweron", value ? "true" : "false");
+            }
+        }
+
         #endregion
     }
 }

@@ -157,6 +157,12 @@ namespace XenAPI
                 return false;
         }
 
+        public void SetVmAutostartEnabled(bool value)
+        {
+            Pool p = Helpers.GetPoolOfOne(Connection);
+            p.SetVmAutostartEnabled(value);
+        }
+
         public string GetIscsiIqn()
         {
             if (Helpers.KolkataOrGreater(this))

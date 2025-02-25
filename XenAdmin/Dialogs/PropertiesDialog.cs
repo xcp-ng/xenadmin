@@ -63,6 +63,7 @@ namespace XenAdmin.Dialogs
         private GeneralEditPage GeneralEditPage;
         private PerfmonAlertOptionsPage PerfmonAlertOptionsEditPage;
         private HostPowerONEditPage HostPowerONEditPage;
+        private HostAutostartEditPage HostAutostartEditPage;
         private NewPolicySnapshotFrequencyPage newPolicySnapshotFrequencyPage1;
         private NewPolicySnapshotTypePage newPolicyVMSSTypePage1;
         private NewVMGroupVMsPage<VMSS> newVMSSVMsPage1;
@@ -162,6 +163,9 @@ namespace XenAdmin.Dialogs
 
                 if (isHost || isPool)
                     ShowTab(HostPowerONEditPage = new HostPowerONEditPage());
+
+                if (isHost)
+                    ShowTab(HostAutostartEditPage = new HostAutostartEditPage());
 
                 if ((isPoolOrStandalone && Helpers.VGpuCapability(_xenObjectCopy.Connection))
                     || (isHost && ((Host)_xenObjectCopy).CanEnableDisableIntegratedGpu()))
