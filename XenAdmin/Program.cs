@@ -100,18 +100,46 @@ namespace XenAdmin
 
         public static bool RunInAutomatedTestMode = false;
         public static string TestExceptionString;  // an exception passed back to the test framework
-        private static readonly log4net.ILog log;
+        private static log4net.ILog log;
 
         public static volatile bool Exiting;
 
-        public static readonly string AssemblyDir;
-        public static readonly Version Version;
-        public static readonly string VersionText;
+        public static string AssemblyDir;
+        public static Version Version;
+        public static string VersionText;
 
-        private static readonly System.Threading.Timer dailyTimer;
+        private static System.Threading.Timer dailyTimer;
 
-        static Program()
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        public static void Main(string[] args)
         {
+            if(args.Length > 0 && args[0].Equals("/datapath", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (args.Length < 2)
+                {
+                    return;
+                }
+                Properties.Settings.SettingsPath = args[1];
+            }
+            else if (args.Length > 0 && args[0].Equals("/tempdata", StringComparison.InvariantCultureIgnoreCase))
+            {
+                var tmpdir = Path.GetTempFileName();
+                File.Delete(tmpdir);
+                Properties.Settings.SettingsPath = tmpdir;
+                inTempMode = true;
+            }
+            else if (Directory.Exists(Path.Combine(Application.StartupPath, "data")))
+            {
+                Properties.Settings.SettingsPath = Path.Combine(Application.StartupPath, "data");
+            }
+            else
+            {
+                Properties.Settings.SettingsPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            }
+
             XenAdminConfigManager.Provider = new WinformsXenAdminConfigProvider();
             // Start timer to record resource usage every 24hrs
             dailyTimer = new System.Threading.Timer(delegate
@@ -128,11 +156,11 @@ namespace XenAdmin
                 : $"{Version.Major}.{Version.Minor}.{Version.Build}";
 
             var logFolder = Path.Combine(
-                Properties.Settings.GetSettingsPath,
+                Properties.Settings.SettingsPath,
                 BrandManager.ProductBrand,
                 BrandManager.BrandConsole,
                 "logs");
-            
+
             log4net.GlobalContext.Properties["LOG_FILE"] = Path.Combine(logFolder, $"{BrandManager.BrandConsole}.log");
             log4net.GlobalContext.Properties["AUDIT_TRAIL"] = Path.Combine(logFolder, $"{BrandManager.BrandConsole}-AuditTrail.log");
             log4net.GlobalContext.Properties["NETWORK_TRACE"] = Path.Combine(logFolder, $"{BrandManager.BrandConsole}-NetworkTrace.log");
@@ -141,14 +169,7 @@ namespace XenAdmin
             log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
             SetDefaultFonts();
-        }
 
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        public static void Main(string[] args)
-        {
             _pipePath = string.Format(PIPE_PATH_PATTERN,
                 BrandManager.BrandConsole,
                 Process.GetCurrentProcess().SessionId,
@@ -162,7 +183,7 @@ namespace XenAdmin
             }
 
             log.Info("Application started");
-
+                
             AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             Application.ThreadException -= Application_ThreadException;
@@ -211,6 +232,19 @@ namespace XenAdmin
             Application.Run(new SplashScreenContext(args));
 
             log.Info("Application main thread exited" + Environment.NewLine);
+
+            if(inTempMode)
+            {
+                try
+                {
+                    foreach (log4net.Appender.IAppender app in log.Logger.Repository.GetAppenders())
+                    {
+                        app.Close();
+                    }
+                    Directory.Delete(Properties.Settings.SettingsPath, true);
+                }
+                catch (Exception) { }
+            }
         }
 
         /// <summary>
@@ -751,6 +785,7 @@ namespace XenAdmin
         /// If true action threads will close themselves instantly...
         /// </summary>
         public static bool ForcedExiting = false;
+        private static bool inTempMode;
 
         public static string CurrentLanguage => Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
 

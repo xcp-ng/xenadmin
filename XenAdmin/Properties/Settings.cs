@@ -16,9 +16,8 @@ namespace XenAdmin.Properties
 
     public class Settings : INotifyPropertyChanged
     {
-        private static readonly string _settingsPath =
-            Path.Combine(GetSettingsPath,
-                BrandManager.ProductBrand, BrandManager.BrandConsole, "Settings.xml");
+        private static string _settingsPath;
+            
 
         private static Settings _default;
         private bool _toolbarsEnabled = true;
@@ -880,19 +879,15 @@ namespace XenAdmin.Properties
             }
         }
 
-        private static string _activePath;
+        private static string _settingsRootFolder;
 
-        public static string GetSettingsPath
+        public static string SettingsPath
         {
-            get
+            get => _settingsRootFolder;
+            set
             {
-                if (_activePath != null) return _activePath;
-
-                _activePath = Directory.Exists(Path.Combine(Application.StartupPath, "data"))
-                    ? Path.Combine(Application.StartupPath, "data")
-                    : Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-                return _activePath;
+                _settingsRootFolder = value;
+                _settingsPath = Path.Combine(_settingsRootFolder, BrandManager.ProductBrand, BrandManager.BrandConsole, "Settings.xml");
             }
         }
 
