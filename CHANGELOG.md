@@ -1,3 +1,20 @@
+## v25.04 (2025-04-29)
+
+*  Converted to Settings.xml in AppData, removes old setting system and preps for #221 [View](https://github.com/xcp-ng/xenadmin/commit/340a3b186665c2b0245d6c7769ab75622307649e)
+*  Added EnableNext checks for Local Storage. Fixes #238 [View](https://github.com/xcp-ng/xenadmin/commit/8671953fd2cf369cd67b655b8d9fb53888173558)
+*  Added Package to hopefully correct issue in #242 [View](https://github.com/xcp-ng/xenadmin/commit/dbca66ad188cc0f4f7727250b79ca8f22ab0fd6e)
+*  Added wrong package, I added VHDX, this time I added VMDK, #242 [View](https://github.com/xcp-ng/xenadmin/commit/a67ccc47839acd598fe5e22460b881f85475d6ff)
+*  Implemented some of MR #237 in here. I added the autogeneration of RDP DLL's, but using the ReportViewer 2015 from NuGet instead. [View](https://github.com/xcp-ng/xenadmin/commit/a0aeafb032b3de506b9811eead31b22a81347538)
+*  Fixes #221. If a "data" folder exists with the exe, run in portable mode and files go in this data folder, otherwise use AppData. [View](https://github.com/xcp-ng/xenadmin/commit/e35c7327c2d95fb83b5fcecd0eaf744c963dadd1)
+*  Enable server level autostart. Fixes #222. [View](https://github.com/xcp-ng/xenadmin/commit/31e96f01da6e04485bdcb4f5366a9272fd9ae3ea)
+*  [skip ci] Include Installer files and changes to props file for generating builds. [View](https://github.com/xcp-ng/xenadmin/commit/4a9d971dadd04c62f7f77f5ccf1089b4aaa59639)
+*  Added register code to Main. This fixes #239 and #242 [View](https://github.com/xcp-ng/xenadmin/commit/63ee609018437cb41676ad0ec42995f486d545b2)
+*  [skip ci] Updated Installer File to be new format [View](https://github.com/xcp-ng/xenadmin/commit/14937aa17c268edeaa3c3f65089fe692a10bd755)
+*  Added some new command parameters for data path [View](https://github.com/xcp-ng/xenadmin/commit/e4590612e74f51b3cb3b0c2c2c3c86d7f1b67a53)
+*  [skip ci] Adding files for installer [View](https://github.com/xcp-ng/xenadmin/commit/9ee75085677c2b10268467a62d60242e1c4665a3)
+*  [skip ci] Added script to create changelogs [View](https://github.com/xcp-ng/xenadmin/commit/35dc091c5b62ab3b22449bb7a89cfcf84a6600d4)
+
+
 ## vNext-24307 (2024-11-02)
 
 *  EOL-Notice [View](https://github.com/xcp-ng/xenadmin/commit/c78fce07c39e665c4018a3a9a09a16435736f705)
