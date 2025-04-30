@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "XenAdmin": {
+      "commandName": "Project",
+      "commandLineArgs": "/tempdata"
+    }
+  }
+}

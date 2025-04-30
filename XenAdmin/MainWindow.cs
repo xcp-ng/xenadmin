@@ -959,7 +959,7 @@ namespace XenAdmin
         {
             var brand = host.ProductBrand();
             return brand == BrandManager.ProductBrand || brand == BrandManager.LegacyProduct ||
-                   BrandManager.ProductBrand == "[XenServerProduct]";
+                   BrandManager.ProductBrand == "[XenServerProduct]" || brand == "XenServer" || brand == "Citrix Hypervisor";
         }
 
         /// <summary>
