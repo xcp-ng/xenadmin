@@ -2,9 +2,14 @@
 
 XCP-ng Center is no longer EOL! We have a new maintainer (Michael Manley) to work on the current codebase and will maintain it for the foreseeable future.
 
-Please submit any bug reports to the issue tracker, and expect for GitHub Actions to be enabled soon for CI/CD for commmited builds.
+Please submit any bug reports to the issue tracker. When reporting a bug make sure the following is done to make diagnostics easy for all:
+* Make sure PDB's are installed. This will give more meaningful error messages on an exception in the logs.
+* XCP-ng Center.log file (Default Location is %APPDATA%\XCP-ng\XCP-ng Center\logs\XCP-ng Center.log)
 
-See here for discussion: https://xcp-ng.org/forum/topic/8202/eol-xcp-ng-center-has-come-to-an-end
+The next are nice to haves, but are not required for a bug report
+* XCP-ng Center-AuditTrail.log (Default Location is %APPDATA%\XCP-ng\XCP-ng Center\logs\XCP-ng Center-AuditTrail.log)
+* minidump.dmp (if it exists its in %APPDATA%\XCP-ng\XCP-ng Center\minidump.dmp) This file is only created on a unhandled exception, 
+  and not normal errors. Its also overwritten on each unhandled exception.
 
 ## Notice on builds 25054 and up
 The way settings are done has changed. If you have a previous version of XCP-ng Center installed, your configuration will not migrate over.

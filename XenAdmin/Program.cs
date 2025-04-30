@@ -42,6 +42,7 @@ using System.Threading;
 using System.Windows.Forms;
 using DiscUtils;
 using DiscUtils.Setup;
+using NasuTek.ErrorReporting;
 using XenAdmin.Core;
 using XenAdmin.Dialogs;
 using XenAdmin.Network;
@@ -391,6 +392,8 @@ namespace XenAdmin
                 }
                 LogSystemDetails();
                 LogApplicationStats();
+
+                MiniDumper.Write(Path.Combine(Properties.Settings.SettingsPath, "minidump.dmp"));
 
                 if (RunInAutomatedTestMode)
                 {
