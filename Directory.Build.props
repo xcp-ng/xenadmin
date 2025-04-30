@@ -10,8 +10,9 @@
 		<Product>XCP-ng Center</Product>
 		<YearVer>0</YearVer>
 		<MonthVer>0</MonthVer>
-		<Version>$(YearVer).$(MonthVer).0.$(RevisionNumber)</Version>
-		<FileVersion>$(YearVer).$(MonthVer).0.$(RevisionNumber)</FileVersion>
+		<PatchVer>0</PatchVer>
+		<Version>$(YearVer).$(MonthVer).$(PatchVer).$(RevisionNumber)</Version>
+		<FileVersion>$(YearVer).$(MonthVer).$(PatchVer).$(RevisionNumber)</FileVersion>
 		<Codename>Medicine Hat</Codename>
 		<Lab>xcpngcenter_main</Lab>
 	</PropertyGroup>
