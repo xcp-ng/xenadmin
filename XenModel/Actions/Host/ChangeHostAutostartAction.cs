@@ -34,6 +34,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using XenAdmin.Actions;
+using XenAdmin.Core;
 using XenAdmin.Network;
 using XenAPI;
 
@@ -47,10 +48,19 @@ namespace XenAdmin.Actions
         {
             Host = host;
             newValue = enable;
+
+            ApiMethodsToRoleCheck.AddWithKey("pool.remove_from_other_config", "auto_poweron");
+            ApiMethodsToRoleCheck.AddWithKey("pool.add_to_other_config", "auto_poweron");
         }
 
         protected override void Run()
         {
+            var pool = Helpers.GetPoolOfOne(Connection);
+            if (pool == null)
+                return;
+            Pool.remove_from_other_config(Session, pool.opaque_ref, "auto_poweron");
+            Pool.add_to_other_config(Session, pool.opaque_ref, "auto_poweron", newValue ? "true" : "false");
+
             Host.SetVmAutostartEnabled(newValue);
         }
     }
