@@ -288,7 +288,19 @@ namespace XenAdmin.Controls
             {
                 //This is needed to maximize and minimize properly, there is some issue in the ListView Control
                 Win32.POINT pt = new Win32.POINT();
-                IntPtr hResult = SendMessage(Handle, LVM_GETORIGIN, IntPtr.Zero, ref pt);
+                
+                if (Type.GetType("Mono.Runtime") == null)
+                {
+                    IntPtr hResult = SendMessage(Handle, LVM_GETORIGIN, IntPtr.Zero, ref pt);
+                }
+                else
+                {
+                    // TODO: There is an exception under Mono
+
+                    // System.DllNotFoundException: user32.dll assembly:<unknown assembly> type:<unknown type> member:(null)
+                    // at (wrapper managed-to-native) XenAdmin.Controls.SnapshotTreeView.SendMessage(intptr,int,intptr,XenCenterLib.Win32/POINT&)
+                    // at XenAdmin.Controls.SnapshotTreeView.OnLayout (System.Windows.Forms.LayoutEventArgs levent)
+                }
 
                 origin = pt;
                 root.InvalidateAll();

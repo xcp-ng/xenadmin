@@ -70,7 +70,7 @@ namespace XenAdmin.Core
         /// </summary>
         public static void QuickDraw(Graphics gTarget, Bitmap buffer)
         {
-            QuickDraw(gTarget, buffer, new Point(0, 0), new Rectangle(0, 0, buffer.Width, buffer.Height));
+            gTarget.DrawImage(buffer, new Rectangle(0, 0, buffer.Width, buffer.Height));
         }
 
         /// <summary>

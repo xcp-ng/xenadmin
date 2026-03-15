@@ -73,7 +73,21 @@ namespace XenAdmin.Controls
                 Win32.ScrollInfo si = new Win32.ScrollInfo();
                 si.fMask = (int)Win32.ScrollInfoMask.SIF_ALL;
                 si.cbSize = (uint)Marshal.SizeOf(si);
-                Win32.GetScrollInfo(msg.HWnd, 0, ref si);
+
+                if (Type.GetType("Mono.Runtime") == null)
+                {
+                    Win32.GetScrollInfo(msg.HWnd, 0, ref si);
+                }
+                else
+                {
+                    //
+                    // TODO: Exception under Mono
+                    //
+
+                    // System.DllNotFoundException: user32.dll assembly:<unknown assembly> type:<unknown type> member:(null)
+                    // at (wrapper managed-to-native) XenCenterLib.Win32.GetScrollInfo(intptr,int,XenCenterLib.Win32/ScrollInfo&)
+                    // at XenAdmin.Controls.FlickerFreeListBox.WndProc (System.Windows.Forms.Message& msg)
+                }
 
                 if ((msg.WParam.ToInt32() & 0xFF) == Win32.SB_THUMBTRACK)
                 {

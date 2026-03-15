@@ -158,17 +158,28 @@ namespace DotNetVnc
             Mode = CipherMode.ECB
         };
 
+        private System.Diagnostics.Stopwatch stopwatch;
+
         public VNCStream(IVNCGraphicsClient client, Stream stream, bool startPaused)
         {
             this.client = client;
             this.stream = new MyStream(stream);
             paused = startPaused;
 
-            if (!Win32.QueryPerformanceFrequency(out var freq))
-            {
-                System.Diagnostics.Trace.Assert(false);
+            if (Type.GetType("Mono.Runtime") == null) {
+                if (!Win32.QueryPerformanceFrequency(out var freq))
+                {
+                    System.Diagnostics.Trace.Assert(false);
+                }
+
+                imageUpdateThreshold = freq / 3;
             }
-            imageUpdateThreshold = freq / 3;
+            else
+            {
+                this.stopwatch = new System.Diagnostics.Stopwatch();
+                this.stopwatch.Start();
+                imageUpdateThreshold = System.Diagnostics.Stopwatch.Frequency / 3;
+            }
         }
 
         public void Connect(char[] password)
@@ -1241,7 +1252,13 @@ namespace DotNetVnc
             Log.Debug("reading " + n + " rectangles");
             bool fb_updated = false;
 
-            Win32.QueryPerformanceCounter(out var start);
+            long start;
+            if (Type.GetType("Mono.Runtime") == null) {
+                Win32.QueryPerformanceCounter(out start);
+            }
+            else {
+                start = System.Diagnostics.Stopwatch.GetTimestamp();
+            }
             for (int i = 0; i < n; ++i)
             {
                 int x = stream.readCard16();
@@ -1286,7 +1303,16 @@ namespace DotNetVnc
                         throw new VNCException("unimplemented encoding: " + encoding);
                 }
 
-                Win32.QueryPerformanceCounter(out var end);
+                long end;
+                if (Type.GetType("Mono.Runtime") == null)
+                {
+                    Win32.QueryPerformanceCounter(out end);
+                }
+                else
+                {
+                    end = System.Diagnostics.Stopwatch.GetTimestamp();
+                }
+
                 if (end - start > imageUpdateThreshold)
                 {
                     client.ClientFrameBufferUpdate();

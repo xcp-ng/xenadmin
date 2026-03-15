@@ -1478,15 +1478,29 @@ namespace XenAdmin.TabPages
 
         private void snapshotTreeView_MouseMove(object sender, MouseEventArgs e)
         {
-
-            SnapshotIcon icon = snapshotTreeView.HitTest(e.X, e.Y).Item as SnapshotIcon;
-            if (icon != null && icon.ImageIndex == SnapshotIcon.VMImageIndex)
+            if (Type.GetType("Mono.Runtime") == null)
             {
-                this.Cursor = Cursors.Hand;
+                SnapshotIcon icon = snapshotTreeView.HitTest(e.X, e.Y).Item as SnapshotIcon;
+                if (icon != null && icon.ImageIndex == SnapshotIcon.VMImageIndex)
+                {
+                    this.Cursor = Cursors.Hand;
+                }
+                else
+                {
+                    this.Cursor = Cursors.Default;
+                }
             }
             else
             {
-                this.Cursor = Cursors.Default;
+                // 
+                // TODO: Under Mono there is an exception
+                //
+
+                // System.ArgumentOutOfRangeException: Specified argument was out of the range of valid values.
+                // Parameter name: index
+                // at System.Windows.Forms.ListView+ListViewItemCollection.get_Item (System.Int32 index)
+                // at System.Windows.Forms.ListView+ItemControl.ItemsMouseMove (System.Object sender, System.Windows.Forms.MouseEventArgs me)
+                // at System.Windows.Forms.Control.OnMouseMove (System.Windows.Forms.MouseEventArgs e)
             }
         }
 

@@ -77,6 +77,22 @@ namespace XenAdmin.Controls.DataGridViewEx
             DisabledHiddenStyle = new DataGridViewCellStyle();
             DisabledRowStyle = new DataGridViewCellStyle();
 
+            if (Type.GetType("Mono.Runtime") != null)
+            {
+                // These fonts are null by default
+                // Under Mono some functions produce exceptions due to that
+                // So set them to some value
+
+                var CellFont = new Font(Program.DefaultFont.FontFamily, Program.DefaultFont.Size - 1f);
+
+                EnabledStyle.Font = CellFont;
+                EnabledHiddenStyle.Font = CellFont;
+                DisabledStyle.Font = CellFont;
+                DisabledHiddenStyle.Font = CellFont;
+                DisabledRowStyle.Font = CellFont;
+                EnabledUnfocusedStyle.Font = CellFont;
+            }
+
             EnabledStyle.BackColor = ThemeBackgroundColor;
             EnabledStyle.ForeColor = SystemColors.ControlText;
             EnabledStyle.SelectionBackColor = SystemColors.Highlight;

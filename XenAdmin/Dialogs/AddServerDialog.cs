@@ -89,7 +89,21 @@ namespace XenAdmin.Dialogs
 
             if (!ServerNameComboBox.Enabled && connection != null && !string.IsNullOrEmpty(connection.Username))
             {
-                Win32.SetFocus(PasswordTextBox.Handle);
+                if (Type.GetType("Mono.Runtime") == null)
+                {
+                    Win32.SetFocus(PasswordTextBox.Handle);
+                }
+                else
+                {
+                    //
+                    // TODO: The app crashes under Mono if password is wrong
+                    //
+
+                    // System.DllNotFoundException: user32.dll assembly:<unknown assembly> type:<unknown type> member:(null)
+                    // at (wrapper managed-to-native) XenCenterLib.Win32.SetFocus(intptr)
+
+                    // So just skip setting focus
+                }
             }
         }
 

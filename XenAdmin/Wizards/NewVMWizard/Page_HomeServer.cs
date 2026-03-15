@@ -101,7 +101,14 @@ namespace XenAdmin.Wizards.NewVMWizard
 
         public override void SelectDefaultControl()
         {
-            affinityPicker1.Select();
+            if (System.Type.GetType("Mono.Runtime") == null)
+            {
+                affinityPicker1.Select();
+            }
+            else
+            {
+                // TODO: Call loop under Mono
+            }
         }
 
         #endregion

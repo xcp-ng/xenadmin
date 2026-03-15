@@ -177,10 +177,16 @@ namespace XenAdmin
                 Environment.UserName,
                 Assembly.GetExecutingAssembly().Location.Replace('\\', '-'));
 
-            if (NamedPipes.Pipe.ExistsPipe(_pipePath))
-            {
-                NamedPipes.Pipe.SendMessageToPipe(_pipePath, string.Join(" ", args));
-                return;
+            try {
+                if (NamedPipes.Pipe.ExistsPipe(_pipePath))
+                {
+                    NamedPipes.Pipe.SendMessageToPipe(_pipePath, string.Join(" ", args));
+                    return;
+                }
+            }
+            catch (System.IO.IOException) {
+                // For example, Mono throws the exception on calling ExistsPipe
+                // Since if the pipe doesn't exist the code does nothing too.
             }
 
             log.Info("Application started");
@@ -255,7 +261,10 @@ namespace XenAdmin
         /// </summary>
         private static void ConnectPipe()
         {
-            _pipe = new NamedPipes.Pipe(_pipePath);
+            if (System.Type.GetType("Mono.Runtime") == null)
+            {
+                _pipe = new NamedPipes.Pipe(_pipePath);
+            }
 
             if (_pipe != null)
             {
@@ -306,8 +315,11 @@ namespace XenAdmin
             log.InfoFormat("Time since process started: {0}", (DateTime.Now - Process.GetCurrentProcess().StartTime).ToString());
 
             log.InfoFormat("Handles open: {0}", p.HandleCount.ToString());
-            log.InfoFormat("USER handles open: {0}", Win32.GetGuiResourcesUserCount(p.Handle));
-            log.InfoFormat("GDI handles open: {0}", Win32.GetGuiResourcesGDICount(p.Handle));
+            if (System.Type.GetType("Mono.Runtime") == null)
+            {
+                log.InfoFormat("USER handles open: {0}", Win32.GetGuiResourcesUserCount(p.Handle));
+                log.InfoFormat("GDI handles open: {0}", Win32.GetGuiResourcesGDICount(p.Handle));
+            }
             log.InfoFormat("Thread count: {0}", p.Threads.Count);
 
             log.InfoFormat("Virtual memory size: {0} B({1})", p.VirtualMemorySize64, Util.MemorySizeStringSuitableUnits(p.VirtualMemorySize64, false));

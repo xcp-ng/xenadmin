@@ -8,11 +8,24 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
+        if: matrix.os == 'windows-latest'
+      - name: Setup Mono repository
+        if: matrix.os == 'ubuntu-latest'
+        run: >
+          gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/mono-official-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+          && echo "deb [signed-by=/usr/share/keyrings/mono-official-archive-keyring.gpg] https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+          && sudo apt-get update
+      - name: Setup Mono
+        run: sudo apt-get install -y mono-devel
+        if: matrix.os == 'ubuntu-latest'
       - name: Restore Packages
         run: msbuild XenAdmin.sln -t:restore
       - name: Build Release solution
@@ -22,10 +35,10 @@ jobs:
       - name: Upload Release Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: drop-release
-          path: XenAdmin/bin/Release/net481
+          name: drop-release-${{ matrix.os }}
+          path: XenAdmin/bin/Release/net48
       - name: Upload Debug Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: drop-debug
-          path: XenAdmin/bin/Debug/net481
+          name: drop-debug-${{ matrix.os }}
+          path: XenAdmin/bin/Debug/net48

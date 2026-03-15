@@ -1088,11 +1088,21 @@ namespace XenAdmin.Controls
         {
             get
             {
-                return ScrollInfo(Win32.ScrollBarConstants.SB_HORZ);
+                if (System.Type.GetType("Mono.Runtime") == null)
+                {
+                    return ScrollInfo(Win32.ScrollBarConstants.SB_HORZ);
+                }
+                else
+                {
+                    return 0;
+                }
             }
             set
             {
-                Win32.SendMessage(Handle, Win32.WM_HSCROLL, (IntPtr)(((int)Win32.ScrollBarCommands.SB_THUMBPOSITION) | (value << 16)), (IntPtr)0);
+                if (System.Type.GetType("Mono.Runtime") == null)
+                {
+                    Win32.SendMessage(Handle, Win32.WM_HSCROLL, (IntPtr)(((int)Win32.ScrollBarCommands.SB_THUMBPOSITION) | (value << 16)), (IntPtr)0);
+                }
             }
         }
 

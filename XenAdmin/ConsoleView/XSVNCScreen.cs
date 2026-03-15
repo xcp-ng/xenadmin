@@ -1258,7 +1258,14 @@ namespace XenAdmin.ConsoleView
             Program.AssertOnEventThread();
             base.OnEnter(e);
 
-            CaptureKeyboardAndMouse();
+            if (Type.GetType("Mono.Runtime") == null)
+            {
+                CaptureKeyboardAndMouse();
+            }
+            else
+            {
+                // TODO: It is a cause of a call loop under Mono
+            }
             RefreshScreen();
         }
 

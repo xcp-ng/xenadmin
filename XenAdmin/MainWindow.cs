@@ -153,7 +153,9 @@ namespace XenAdmin
             Icon = Properties.Resources.AppIcon;
 
             //CA-270999: Add registration to RestartManager
-            RegisterApplicationRestart(null, 0);
+            if (Type.GetType("Mono.Runtime") == null) {
+                RegisterApplicationRestart(null, 0);
+            }
 
             #region Add Tab pages
 
@@ -187,7 +189,13 @@ namespace XenAdmin
             AddTabContents(CvmConsolePanel, TabPageCvmConsole);
             AddTabContents(NetworkPage, TabPageNetwork);
             AddTabContents(HAPage, TabPageHA);
-            AddTabContents(HomePage, TabPageHome);
+            if (Type.GetType("Mono.Runtime") == null) {
+                AddTabContents(HomePage, TabPageHome);
+            }
+            else
+            {
+                // TODO: Cause of connection lost
+            }
             AddTabContents(WlbPage, TabPageWLB);
             AddTabContents(PhysicalStoragePage, TabPagePhysicalStorage);
             AddTabContents(AdPage, TabPageAD);
@@ -385,7 +393,13 @@ namespace XenAdmin
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            Clip.RegisterClipboardViewer();
+            if (Type.GetType("Mono.Runtime") == null) {
+                Clip.RegisterClipboardViewer();
+            }
+            else
+            {
+                // TODO: Clipboard doesn't work under Mono
+            }
         }
 
         protected override void WndProc(ref System.Windows.Forms.Message e)

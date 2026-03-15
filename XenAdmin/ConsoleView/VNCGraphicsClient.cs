@@ -438,8 +438,14 @@ namespace XenAdmin.ConsoleView
                     hbmColor = bitmap.GetHbitmap()
                 };
 
-                _handle = CreateIconIndirect(ref iconInfo);
-                Cursor = new Cursor(_handle);
+                if (Type.GetType("Mono.Runtime") == null){
+                    _handle = CreateIconIndirect(ref iconInfo);
+                    Cursor = new Cursor(_handle);
+                }
+                else
+                {
+                    // Doesn't work under Mono
+                }
             }
 
             ~CustomCursor()
@@ -866,7 +872,15 @@ namespace XenAdmin.ConsoleView
 
             if (_sendScanCodes)
             {
-                InterceptKeys.grabKeys(KeyScan, false);
+                if (Type.GetType("Mono.Runtime") == null)
+                {
+                    InterceptKeys.grabKeys(KeyScan, false);
+                }
+                else
+                {
+                    // TODO: The code in `XenAdmin/VNC/KeyMap.cs`
+                    // must be crossplatform to enable this feature
+                }
             }
 
             if (_updateClipboardOnFocus)
@@ -880,7 +894,15 @@ namespace XenAdmin.ConsoleView
 
             EnableMenuShortcuts();
 
-            InterceptKeys.releaseKeys();
+            if (Type.GetType("Mono.Runtime") == null)
+            {
+                InterceptKeys.releaseKeys();
+            }
+            else
+            {
+                // TODO: The code in `XenAdmin/VNC/KeyMap.cs`
+                // must be crossplatform to enable this feature
+            }
 
             _cursorOver = false;
 
@@ -1259,11 +1281,27 @@ namespace XenAdmin.ConsoleView
 
                 if (!value)
                 {
-                    InterceptKeys.releaseKeys();
+                    if (Type.GetType("Mono.Runtime") == null)
+                    {
+                        InterceptKeys.releaseKeys();
+                    }
+                    else
+                    {
+                        // TODO: The code in `XenAdmin/VNC/KeyMap.cs`
+                        // must be crossplatform to enable this feature
+                    }
                 }
                 else if (Focused)
                 {
-                    InterceptKeys.grabKeys(KeyScan, false);
+                    if (Type.GetType("Mono.Runtime") == null)
+                    {
+                        InterceptKeys.grabKeys(KeyScan, false);
+                    }
+                    else
+                    {
+                        // TODO: The code in `XenAdmin/VNC/KeyMap.cs`
+                        // must be crossplatform to enable this feature
+                    }
                 }
 
                 _sendScanCodes = value;
