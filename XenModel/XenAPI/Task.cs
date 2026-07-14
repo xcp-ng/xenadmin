@@ -199,23 +199,6 @@ namespace XenAPI
                 Helper.AreEqual2(_backtrace, other._backtrace);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Task server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    Task.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given task.
@@ -223,6 +206,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Task get_record(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_record(session.opaque_ref, _task);
@@ -234,6 +220,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.task_get_by_uuid(session.opaque_ref, _uuid);
@@ -245,6 +234,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Task>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.task_get_by_name_label(session.opaque_ref, _label);
@@ -256,6 +248,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_uuid(session.opaque_ref, _task);
@@ -267,6 +262,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_name_label(session.opaque_ref, _task);
@@ -278,6 +276,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_name_description(session.opaque_ref, _task);
@@ -289,6 +290,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<task_allowed_operations> get_allowed_operations(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_allowed_operations(session.opaque_ref, _task);
@@ -300,6 +304,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, task_allowed_operations> get_current_operations(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_current_operations(session.opaque_ref, _task);
@@ -311,6 +318,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_created(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_created(session.opaque_ref, _task);
@@ -322,6 +332,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_finished(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_finished(session.opaque_ref, _task);
@@ -333,6 +346,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static task_status_type get_status(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_status(session.opaque_ref, _task);
@@ -344,6 +360,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host> get_resident_on(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_resident_on(session.opaque_ref, _task);
@@ -355,6 +374,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static double get_progress(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_progress(session.opaque_ref, _task);
@@ -366,6 +388,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_type(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_type(session.opaque_ref, _task);
@@ -377,6 +402,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_result(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_result(session.opaque_ref, _task);
@@ -388,6 +416,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_error_info(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_error_info(session.opaque_ref, _task);
@@ -399,6 +430,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_other_config(session.opaque_ref, _task);
@@ -410,6 +444,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> get_subtask_of(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_subtask_of(session.opaque_ref, _task);
@@ -421,6 +458,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Task>> get_subtasks(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_subtasks(session.opaque_ref, _task);
@@ -432,46 +472,12 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_backtrace(Session session, string _task)
         {
             return session.JsonRpcClient.task_get_backtrace(session.opaque_ref, _task);
-        }
-
-        /// <summary>
-        /// Set the other_config field of the given task.
-        /// First published in XenServer 4.1.
-        /// </summary>
-        /// <param name="session">The session</param>
-        /// <param name="_task">The opaque_ref of the given task</param>
-        /// <param name="_other_config">New value to set</param>
-        public static void set_other_config(Session session, string _task, Dictionary<string, string> _other_config)
-        {
-            session.JsonRpcClient.task_set_other_config(session.opaque_ref, _task, _other_config);
-        }
-
-        /// <summary>
-        /// Add the given key-value pair to the other_config field of the given task.
-        /// First published in XenServer 4.1.
-        /// </summary>
-        /// <param name="session">The session</param>
-        /// <param name="_task">The opaque_ref of the given task</param>
-        /// <param name="_key">Key to add</param>
-        /// <param name="_value">Value to add</param>
-        public static void add_to_other_config(Session session, string _task, string _key, string _value)
-        {
-            session.JsonRpcClient.task_add_to_other_config(session.opaque_ref, _task, _key, _value);
-        }
-
-        /// <summary>
-        /// Remove the given key and its corresponding value from the other_config field of the given task.  If the key is not in that Map, then do nothing.
-        /// First published in XenServer 4.1.
-        /// </summary>
-        /// <param name="session">The session</param>
-        /// <param name="_task">The opaque_ref of the given task</param>
-        /// <param name="_key">Key to remove</param>
-        public static void remove_from_other_config(Session session, string _task, string _key)
-        {
-            session.JsonRpcClient.task_remove_from_other_config(session.opaque_ref, _task, _key);
         }
 
         /// <summary>
@@ -481,6 +487,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_label">short label for the new task</param>
         /// <param name="_description">longer description for the new task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> create(Session session, string _label, string _description)
         {
             return session.JsonRpcClient.task_create(session.opaque_ref, _label, _description);
@@ -492,6 +501,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static void destroy(Session session, string _task)
         {
             session.JsonRpcClient.task_destroy(session.opaque_ref, _task);
@@ -503,6 +515,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static void cancel(Session session, string _task)
         {
             session.JsonRpcClient.task_cancel(session.opaque_ref, _task);
@@ -514,6 +529,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_cancel(Session session, string _task)
         {
           return session.JsonRpcClient.async_task_cancel(session.opaque_ref, _task);
@@ -526,6 +544,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
         /// <param name="_value">task status value to be set</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static void set_status(Session session, string _task, task_status_type _value)
         {
             session.JsonRpcClient.task_set_status(session.opaque_ref, _task, _value);
@@ -538,6 +559,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
         /// <param name="_value">Task progress value to be set</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static void set_progress(Session session, string _task, double _value)
         {
             session.JsonRpcClient.task_set_progress(session.opaque_ref, _task, _value);
@@ -550,6 +574,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
         /// <param name="_value">Task result to be set</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static void set_result(Session session, string _task, string _value)
         {
             session.JsonRpcClient.task_set_result(session.opaque_ref, _task, _value);
@@ -562,9 +589,104 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_task">The opaque_ref of the given task</param>
         /// <param name="_value">Task error info to be set</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static void set_error_info(Session session, string _task, string[] _value)
         {
             session.JsonRpcClient.task_set_error_info(session.opaque_ref, _task, _value);
+        }
+
+        /// <summary>
+        /// Add the given key-value pair to the other_config field of the given task.
+        /// Experimental. First published in 25.8.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_task">The opaque_ref of the given task</param>
+        /// <param name="_key">Key to add</param>
+        /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static void add_to_other_config(Session session, string _task, string _key, string _value)
+        {
+            session.JsonRpcClient.task_add_to_other_config(session.opaque_ref, _task, _key, _value);
+        }
+
+        /// <summary>
+        /// Add the given key-value pair to the other_config field of the given task.
+        /// Experimental. First published in 25.8.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_task">The opaque_ref of the given task</param>
+        /// <param name="_key">Key to add</param>
+        /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static XenRef<Task> async_add_to_other_config(Session session, string _task, string _key, string _value)
+        {
+          return session.JsonRpcClient.async_task_add_to_other_config(session.opaque_ref, _task, _key, _value);
+        }
+
+        /// <summary>
+        /// Remove the given key and its corresponding value from the other_config field of the given task. If the key is not in that Map, then do nothing.
+        /// Experimental. First published in 25.8.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_task">The opaque_ref of the given task</param>
+        /// <param name="_key">Key of entry to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static void remove_from_other_config(Session session, string _task, string _key)
+        {
+            session.JsonRpcClient.task_remove_from_other_config(session.opaque_ref, _task, _key);
+        }
+
+        /// <summary>
+        /// Remove the given key and its corresponding value from the other_config field of the given task. If the key is not in that Map, then do nothing.
+        /// Experimental. First published in 25.8.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_task">The opaque_ref of the given task</param>
+        /// <param name="_key">Key of entry to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static XenRef<Task> async_remove_from_other_config(Session session, string _task, string _key)
+        {
+          return session.JsonRpcClient.async_task_remove_from_other_config(session.opaque_ref, _task, _key);
+        }
+
+        /// <summary>
+        /// Set the other_config field of the given task.
+        /// Experimental. First published in 25.8.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_task">The opaque_ref of the given task</param>
+        /// <param name="_value">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static void set_other_config(Session session, string _task, Dictionary<string, string> _value)
+        {
+            session.JsonRpcClient.task_set_other_config(session.opaque_ref, _task, _value);
+        }
+
+        /// <summary>
+        /// Set the other_config field of the given task.
+        /// Experimental. First published in 25.8.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_task">The opaque_ref of the given task</param>
+        /// <param name="_value">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static XenRef<Task> async_set_other_config(Session session, string _task, Dictionary<string, string> _value)
+        {
+          return session.JsonRpcClient.async_task_set_other_config(session.opaque_ref, _task, _value);
         }
 
         /// <summary>
@@ -572,16 +694,22 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Task>> get_all(Session session)
         {
             return session.JsonRpcClient.task_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the task Records at once, in a single XML RPC call
+        /// Return a map of task references to task records for all tasks known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Task>, Task> get_all_records(Session session)
         {
             return session.JsonRpcClient.task_get_all_records(session.opaque_ref);

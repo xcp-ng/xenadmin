@@ -47,6 +47,10 @@ namespace XenAPI
         /// Certificate that identifies a single host to other pool members
         /// </summary>
         host_internal,
+        /// <summary>
+        /// Pinned leaf certificate that is trusted by the whole pool
+        /// </summary>
+        pinned,
         unknown
     }
 
@@ -70,6 +74,8 @@ namespace XenAPI
                     return "host";
                 case certificate_type.host_internal:
                     return "host_internal";
+                case certificate_type.pinned:
+                    return "pinned";
                 default:
                     return "unknown";
             }

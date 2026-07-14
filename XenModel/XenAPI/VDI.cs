@@ -289,51 +289,6 @@ namespace XenAPI
                 Helper.AreEqual2(_cbt_enabled, other._cbt_enabled);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VDI server)
-        {
-            if (opaqueRef == null)
-            {
-                var reference = create(session, this);
-                return reference == null ? null : reference.opaque_ref;
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    VDI.set_other_config(session, opaqueRef, _other_config);
-                }
-                if (!Helper.AreEqual2(_xenstore_data, server._xenstore_data))
-                {
-                    VDI.set_xenstore_data(session, opaqueRef, _xenstore_data);
-                }
-                if (!Helper.AreEqual2(_sm_config, server._sm_config))
-                {
-                    VDI.set_sm_config(session, opaqueRef, _sm_config);
-                }
-                if (!Helper.AreEqual2(_tags, server._tags))
-                {
-                    VDI.set_tags(session, opaqueRef, _tags);
-                }
-                if (!Helper.AreEqual2(_name_label, server._name_label))
-                {
-                    VDI.set_name_label(session, opaqueRef, _name_label);
-                }
-                if (!Helper.AreEqual2(_name_description, server._name_description))
-                {
-                    VDI.set_name_description(session, opaqueRef, _name_description);
-                }
-                if (!Helper.AreEqual2(_sharable, server._sharable))
-                {
-                    VDI.set_sharable(session, opaqueRef, _sharable);
-                }
-                if (!Helper.AreEqual2(_read_only, server._read_only))
-                {
-                    VDI.set_read_only(session, opaqueRef, _read_only);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VDI.
@@ -341,6 +296,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VDI get_record(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_record(session.opaque_ref, _vdi);
@@ -352,6 +310,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VDI> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vdi_get_by_uuid(session.opaque_ref, _uuid);
@@ -363,6 +324,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VDI> create(Session session, VDI _record)
         {
             return session.JsonRpcClient.vdi_create(session.opaque_ref, _record);
@@ -374,6 +338,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, VDI _record)
         {
           return session.JsonRpcClient.async_vdi_create(session.opaque_ref, _record);
@@ -385,6 +352,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void destroy(Session session, string _vdi)
         {
             session.JsonRpcClient.vdi_destroy(session.opaque_ref, _vdi);
@@ -396,6 +366,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _vdi)
         {
           return session.JsonRpcClient.async_vdi_destroy(session.opaque_ref, _vdi);
@@ -407,6 +380,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VDI>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.vdi_get_by_name_label(session.opaque_ref, _label);
@@ -418,6 +394,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_uuid(session.opaque_ref, _vdi);
@@ -429,6 +408,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_name_label(session.opaque_ref, _vdi);
@@ -440,6 +422,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_name_description(session.opaque_ref, _vdi);
@@ -451,6 +436,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<vdi_operations> get_allowed_operations(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_allowed_operations(session.opaque_ref, _vdi);
@@ -462,6 +450,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, vdi_operations> get_current_operations(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_current_operations(session.opaque_ref, _vdi);
@@ -473,6 +464,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<SR> get_SR(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_sr(session.opaque_ref, _vdi);
@@ -484,6 +478,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VBD>> get_VBDs(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_vbds(session.opaque_ref, _vdi);
@@ -495,6 +492,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Crashdump>> get_crash_dumps(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_crash_dumps(session.opaque_ref, _vdi);
@@ -506,6 +506,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_virtual_size(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_virtual_size(session.opaque_ref, _vdi);
@@ -517,6 +520,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_physical_utilisation(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_physical_utilisation(session.opaque_ref, _vdi);
@@ -528,6 +534,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static vdi_type get_type(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_type(session.opaque_ref, _vdi);
@@ -539,6 +548,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_sharable(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_sharable(session.opaque_ref, _vdi);
@@ -550,6 +562,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_read_only(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_read_only(session.opaque_ref, _vdi);
@@ -561,6 +576,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_other_config(session.opaque_ref, _vdi);
@@ -572,6 +590,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_storage_lock(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_storage_lock(session.opaque_ref, _vdi);
@@ -583,6 +604,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_location(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_location(session.opaque_ref, _vdi);
@@ -594,6 +618,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_managed(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_managed(session.opaque_ref, _vdi);
@@ -605,6 +632,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_missing(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_missing(session.opaque_ref, _vdi);
@@ -618,6 +648,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         [Deprecated("XenServer 7.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VDI> get_parent(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_parent(session.opaque_ref, _vdi);
@@ -629,6 +662,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_xenstore_data(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_xenstore_data(session.opaque_ref, _vdi);
@@ -640,6 +676,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_sm_config(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_sm_config(session.opaque_ref, _vdi);
@@ -651,6 +690,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_a_snapshot(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_is_a_snapshot(session.opaque_ref, _vdi);
@@ -662,6 +704,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VDI> get_snapshot_of(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_snapshot_of(session.opaque_ref, _vdi);
@@ -673,6 +718,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VDI>> get_snapshots(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_snapshots(session.opaque_ref, _vdi);
@@ -684,6 +732,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_snapshot_time(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_snapshot_time(session.opaque_ref, _vdi);
@@ -695,6 +746,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_tags(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_tags(session.opaque_ref, _vdi);
@@ -706,6 +760,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_allow_caching(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_allow_caching(session.opaque_ref, _vdi);
@@ -717,6 +774,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static on_boot get_on_boot(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_on_boot(session.opaque_ref, _vdi);
@@ -728,6 +788,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Pool> get_metadata_of_pool(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_metadata_of_pool(session.opaque_ref, _vdi);
@@ -739,6 +802,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_metadata_latest(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_metadata_latest(session.opaque_ref, _vdi);
@@ -750,6 +816,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_tools_iso(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_is_tools_iso(session.opaque_ref, _vdi);
@@ -761,6 +830,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_cbt_enabled(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_cbt_enabled(session.opaque_ref, _vdi);
@@ -773,6 +845,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_other_config(Session session, string _vdi, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.vdi_set_other_config(session.opaque_ref, _vdi, _other_config);
@@ -786,6 +861,9 @@ namespace XenAPI
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_other_config(Session session, string _vdi, string _key, string _value)
         {
             session.JsonRpcClient.vdi_add_to_other_config(session.opaque_ref, _vdi, _key, _value);
@@ -798,6 +876,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _vdi, string _key)
         {
             session.JsonRpcClient.vdi_remove_from_other_config(session.opaque_ref, _vdi, _key);
@@ -810,6 +891,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_xenstore_data">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_xenstore_data(Session session, string _vdi, Dictionary<string, string> _xenstore_data)
         {
             session.JsonRpcClient.vdi_set_xenstore_data(session.opaque_ref, _vdi, _xenstore_data);
@@ -823,6 +907,9 @@ namespace XenAPI
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_xenstore_data(Session session, string _vdi, string _key, string _value)
         {
             session.JsonRpcClient.vdi_add_to_xenstore_data(session.opaque_ref, _vdi, _key, _value);
@@ -835,6 +922,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_xenstore_data(Session session, string _vdi, string _key)
         {
             session.JsonRpcClient.vdi_remove_from_xenstore_data(session.opaque_ref, _vdi, _key);
@@ -847,6 +937,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_sm_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_sm_config(Session session, string _vdi, Dictionary<string, string> _sm_config)
         {
             session.JsonRpcClient.vdi_set_sm_config(session.opaque_ref, _vdi, _sm_config);
@@ -860,6 +953,9 @@ namespace XenAPI
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_sm_config(Session session, string _vdi, string _key, string _value)
         {
             session.JsonRpcClient.vdi_add_to_sm_config(session.opaque_ref, _vdi, _key, _value);
@@ -872,6 +968,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_sm_config(Session session, string _vdi, string _key)
         {
             session.JsonRpcClient.vdi_remove_from_sm_config(session.opaque_ref, _vdi, _key);
@@ -884,6 +983,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_tags">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void set_tags(Session session, string _vdi, string[] _tags)
         {
             session.JsonRpcClient.vdi_set_tags(session.opaque_ref, _vdi, _tags);
@@ -896,6 +998,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_value">New value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void add_tags(Session session, string _vdi, string _value)
         {
             session.JsonRpcClient.vdi_add_tags(session.opaque_ref, _vdi, _value);
@@ -908,6 +1013,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_value">Value to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void remove_tags(Session session, string _vdi, string _value)
         {
             session.JsonRpcClient.vdi_remove_tags(session.opaque_ref, _vdi, _value);
@@ -919,6 +1027,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VDI> snapshot(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_snapshot(session.opaque_ref, _vdi);
@@ -930,6 +1041,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_snapshot(Session session, string _vdi)
         {
           return session.JsonRpcClient.async_vdi_snapshot(session.opaque_ref, _vdi);
@@ -942,6 +1056,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_driver_params">Optional parameters that can be passed through to backend driver in order to specify storage-type-specific snapshot options First published in XenServer 4.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VDI> snapshot(Session session, string _vdi, Dictionary<string, string> _driver_params)
         {
             return session.JsonRpcClient.vdi_snapshot(session.opaque_ref, _vdi, _driver_params);
@@ -954,6 +1071,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_driver_params">Optional parameters that can be passed through to backend driver in order to specify storage-type-specific snapshot options First published in XenServer 4.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_snapshot(Session session, string _vdi, Dictionary<string, string> _driver_params)
         {
           return session.JsonRpcClient.async_vdi_snapshot(session.opaque_ref, _vdi, _driver_params);
@@ -965,6 +1085,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VDI> clone(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_clone(session.opaque_ref, _vdi);
@@ -976,6 +1099,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_clone(Session session, string _vdi)
         {
           return session.JsonRpcClient.async_vdi_clone(session.opaque_ref, _vdi);
@@ -988,6 +1114,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_driver_params">Optional parameters that are passed through to the backend driver in order to specify storage-type-specific clone options First published in XenServer 4.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VDI> clone(Session session, string _vdi, Dictionary<string, string> _driver_params)
         {
             return session.JsonRpcClient.vdi_clone(session.opaque_ref, _vdi, _driver_params);
@@ -1000,6 +1129,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_driver_params">Optional parameters that are passed through to the backend driver in order to specify storage-type-specific clone options First published in XenServer 4.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_clone(Session session, string _vdi, Dictionary<string, string> _driver_params)
         {
           return session.JsonRpcClient.async_vdi_clone(session.opaque_ref, _vdi, _driver_params);
@@ -1012,6 +1144,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_size">The new size of the VDI</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void resize(Session session, string _vdi, long _size)
         {
             session.JsonRpcClient.vdi_resize(session.opaque_ref, _vdi, _size);
@@ -1024,6 +1159,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_size">The new size of the VDI</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_resize(Session session, string _vdi, long _size)
         {
           return session.JsonRpcClient.async_vdi_resize(session.opaque_ref, _vdi, _size);
@@ -1038,6 +1176,9 @@ namespace XenAPI
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_size">The new size of the VDI</param>
         [Deprecated("XenServer 7.3")]
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void resize_online(Session session, string _vdi, long _size)
         {
             session.JsonRpcClient.vdi_resize_online(session.opaque_ref, _vdi, _size);
@@ -1052,6 +1193,9 @@ namespace XenAPI
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_size">The new size of the VDI</param>
         [Deprecated("XenServer 7.3")]
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_resize_online(Session session, string _vdi, long _size)
         {
           return session.JsonRpcClient.async_vdi_resize_online(session.opaque_ref, _vdi, _size);
@@ -1072,6 +1216,9 @@ namespace XenAPI
         /// <param name="_other_config">additional configuration</param>
         /// <param name="_location">location information</param>
         /// <param name="_xenstore_data">Data to insert into xenstore</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VDI> introduce(Session session, string _uuid, string _name_label, string _name_description, string _sr, vdi_type _type, bool _sharable, bool _read_only, Dictionary<string, string> _other_config, string _location, Dictionary<string, string> _xenstore_data)
         {
             return session.JsonRpcClient.vdi_introduce(session.opaque_ref, _uuid, _name_label, _name_description, _sr, _type, _sharable, _read_only, _other_config, _location, _xenstore_data);
@@ -1092,6 +1239,9 @@ namespace XenAPI
         /// <param name="_other_config">additional configuration</param>
         /// <param name="_location">location information</param>
         /// <param name="_xenstore_data">Data to insert into xenstore</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_introduce(Session session, string _uuid, string _name_label, string _name_description, string _sr, vdi_type _type, bool _sharable, bool _read_only, Dictionary<string, string> _other_config, string _location, Dictionary<string, string> _xenstore_data)
         {
           return session.JsonRpcClient.async_vdi_introduce(session.opaque_ref, _uuid, _name_label, _name_description, _sr, _type, _sharable, _read_only, _other_config, _location, _xenstore_data);
@@ -1113,6 +1263,9 @@ namespace XenAPI
         /// <param name="_location">location information</param>
         /// <param name="_xenstore_data">Data to insert into xenstore</param>
         /// <param name="_sm_config">Storage-specific config</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VDI> introduce(Session session, string _uuid, string _name_label, string _name_description, string _sr, vdi_type _type, bool _sharable, bool _read_only, Dictionary<string, string> _other_config, string _location, Dictionary<string, string> _xenstore_data, Dictionary<string, string> _sm_config)
         {
             return session.JsonRpcClient.vdi_introduce(session.opaque_ref, _uuid, _name_label, _name_description, _sr, _type, _sharable, _read_only, _other_config, _location, _xenstore_data, _sm_config);
@@ -1134,6 +1287,9 @@ namespace XenAPI
         /// <param name="_location">location information</param>
         /// <param name="_xenstore_data">Data to insert into xenstore</param>
         /// <param name="_sm_config">Storage-specific config</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_introduce(Session session, string _uuid, string _name_label, string _name_description, string _sr, vdi_type _type, bool _sharable, bool _read_only, Dictionary<string, string> _other_config, string _location, Dictionary<string, string> _xenstore_data, Dictionary<string, string> _sm_config)
         {
           return session.JsonRpcClient.async_vdi_introduce(session.opaque_ref, _uuid, _name_label, _name_description, _sr, _type, _sharable, _read_only, _other_config, _location, _xenstore_data, _sm_config);
@@ -1160,8 +1316,11 @@ namespace XenAPI
         /// <param name="_physical_utilisation">Storage-specific config First published in XenServer 6.1.</param>
         /// <param name="_metadata_of_pool">Storage-specific config First published in XenServer 6.1.</param>
         /// <param name="_is_a_snapshot">Storage-specific config First published in XenServer 6.1.</param>
-        /// <param name="_snapshot_time">Storage-specific config First published in XenServer 6.1.</param>
+        /// <param name="_snapshot_time">Storage-specific config. When the timezone is missing, UTC is assumed First published in XenServer 6.1.</param>
         /// <param name="_snapshot_of">Storage-specific config First published in XenServer 6.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VDI> introduce(Session session, string _uuid, string _name_label, string _name_description, string _sr, vdi_type _type, bool _sharable, bool _read_only, Dictionary<string, string> _other_config, string _location, Dictionary<string, string> _xenstore_data, Dictionary<string, string> _sm_config, bool _managed, long _virtual_size, long _physical_utilisation, string _metadata_of_pool, bool _is_a_snapshot, DateTime _snapshot_time, string _snapshot_of)
         {
             return session.JsonRpcClient.vdi_introduce(session.opaque_ref, _uuid, _name_label, _name_description, _sr, _type, _sharable, _read_only, _other_config, _location, _xenstore_data, _sm_config, _managed, _virtual_size, _physical_utilisation, _metadata_of_pool, _is_a_snapshot, _snapshot_time, _snapshot_of);
@@ -1188,8 +1347,11 @@ namespace XenAPI
         /// <param name="_physical_utilisation">Storage-specific config First published in XenServer 6.1.</param>
         /// <param name="_metadata_of_pool">Storage-specific config First published in XenServer 6.1.</param>
         /// <param name="_is_a_snapshot">Storage-specific config First published in XenServer 6.1.</param>
-        /// <param name="_snapshot_time">Storage-specific config First published in XenServer 6.1.</param>
+        /// <param name="_snapshot_time">Storage-specific config. When the timezone is missing, UTC is assumed First published in XenServer 6.1.</param>
         /// <param name="_snapshot_of">Storage-specific config First published in XenServer 6.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_introduce(Session session, string _uuid, string _name_label, string _name_description, string _sr, vdi_type _type, bool _sharable, bool _read_only, Dictionary<string, string> _other_config, string _location, Dictionary<string, string> _xenstore_data, Dictionary<string, string> _sm_config, bool _managed, long _virtual_size, long _physical_utilisation, string _metadata_of_pool, bool _is_a_snapshot, DateTime _snapshot_time, string _snapshot_of)
         {
           return session.JsonRpcClient.async_vdi_introduce(session.opaque_ref, _uuid, _name_label, _name_description, _sr, _type, _sharable, _read_only, _other_config, _location, _xenstore_data, _sm_config, _managed, _virtual_size, _physical_utilisation, _metadata_of_pool, _is_a_snapshot, _snapshot_time, _snapshot_of);
@@ -1201,6 +1363,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void update(Session session, string _vdi)
         {
             session.JsonRpcClient.vdi_update(session.opaque_ref, _vdi);
@@ -1212,6 +1377,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_update(Session session, string _vdi)
         {
           return session.JsonRpcClient.async_vdi_update(session.opaque_ref, _vdi);
@@ -1224,6 +1392,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_sr">The destination SR (only required if the destination VDI is not specified</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VDI> copy(Session session, string _vdi, string _sr)
         {
             return session.JsonRpcClient.vdi_copy(session.opaque_ref, _vdi, _sr);
@@ -1236,6 +1407,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_sr">The destination SR (only required if the destination VDI is not specified</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_copy(Session session, string _vdi, string _sr)
         {
           return session.JsonRpcClient.async_vdi_copy(session.opaque_ref, _vdi, _sr);
@@ -1250,6 +1424,9 @@ namespace XenAPI
         /// <param name="_sr">The destination SR (only required if the destination VDI is not specified</param>
         /// <param name="_base_vdi">The base VDI (only required if copying only changed blocks, by default all blocks will be copied) First published in XenServer 6.2 SP1 Hotfix 4.</param>
         /// <param name="_into_vdi">The destination VDI to copy blocks into (if omitted then a destination SR must be provided and a fresh VDI will be created) First published in XenServer 6.2 SP1 Hotfix 4.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VDI> copy(Session session, string _vdi, string _sr, string _base_vdi, string _into_vdi)
         {
             return session.JsonRpcClient.vdi_copy(session.opaque_ref, _vdi, _sr, _base_vdi, _into_vdi);
@@ -1264,6 +1441,9 @@ namespace XenAPI
         /// <param name="_sr">The destination SR (only required if the destination VDI is not specified</param>
         /// <param name="_base_vdi">The base VDI (only required if copying only changed blocks, by default all blocks will be copied) First published in XenServer 6.2 SP1 Hotfix 4.</param>
         /// <param name="_into_vdi">The destination VDI to copy blocks into (if omitted then a destination SR must be provided and a fresh VDI will be created) First published in XenServer 6.2 SP1 Hotfix 4.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_copy(Session session, string _vdi, string _sr, string _base_vdi, string _into_vdi)
         {
           return session.JsonRpcClient.async_vdi_copy(session.opaque_ref, _vdi, _sr, _base_vdi, _into_vdi);
@@ -1275,6 +1455,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void forget(Session session, string _vdi)
         {
             session.JsonRpcClient.vdi_forget(session.opaque_ref, _vdi);
@@ -1286,6 +1469,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_forget(Session session, string _vdi)
         {
           return session.JsonRpcClient.async_vdi_forget(session.opaque_ref, _vdi);
@@ -1298,6 +1484,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_value">The new value of the VDI's sharable field</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_sharable(Session session, string _vdi, bool _value)
         {
             session.JsonRpcClient.vdi_set_sharable(session.opaque_ref, _vdi, _value);
@@ -1310,6 +1499,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_value">The new value of the VDI's read_only field</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_read_only(Session session, string _vdi, bool _value)
         {
             session.JsonRpcClient.vdi_set_read_only(session.opaque_ref, _vdi, _value);
@@ -1322,6 +1514,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_value">The name lable for the VDI</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_name_label(Session session, string _vdi, string _value)
         {
             session.JsonRpcClient.vdi_set_name_label(session.opaque_ref, _vdi, _value);
@@ -1334,6 +1529,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_value">The name lable for the VDI</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_set_name_label(Session session, string _vdi, string _value)
         {
           return session.JsonRpcClient.async_vdi_set_name_label(session.opaque_ref, _vdi, _value);
@@ -1346,6 +1544,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_value">The name description for the VDI</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_name_description(Session session, string _vdi, string _value)
         {
             session.JsonRpcClient.vdi_set_name_description(session.opaque_ref, _vdi, _value);
@@ -1358,6 +1559,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_value">The name description for the VDI</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_set_name_description(Session session, string _vdi, string _value)
         {
           return session.JsonRpcClient.async_vdi_set_name_description(session.opaque_ref, _vdi, _value);
@@ -1370,6 +1574,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_value">The value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_on_boot(Session session, string _vdi, on_boot _value)
         {
             session.JsonRpcClient.vdi_set_on_boot(session.opaque_ref, _vdi, _value);
@@ -1382,6 +1589,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_value">The value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_set_on_boot(Session session, string _vdi, on_boot _value)
         {
           return session.JsonRpcClient.async_vdi_set_on_boot(session.opaque_ref, _vdi, _value);
@@ -1394,6 +1604,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_value">The value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_allow_caching(Session session, string _vdi, bool _value)
         {
             session.JsonRpcClient.vdi_set_allow_caching(session.opaque_ref, _vdi, _value);
@@ -1406,6 +1619,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_value">The value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_set_allow_caching(Session session, string _vdi, bool _value)
         {
           return session.JsonRpcClient.async_vdi_set_allow_caching(session.opaque_ref, _vdi, _value);
@@ -1417,6 +1633,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Session> open_database(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_open_database(session.opaque_ref, _vdi);
@@ -1428,6 +1647,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_open_database(Session session, string _vdi)
         {
           return session.JsonRpcClient.async_vdi_open_database(session.opaque_ref, _vdi);
@@ -1439,6 +1661,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string read_database_pool_uuid(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_read_database_pool_uuid(session.opaque_ref, _vdi);
@@ -1450,6 +1675,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_read_database_pool_uuid(Session session, string _vdi)
         {
           return session.JsonRpcClient.async_vdi_read_database_pool_uuid(session.opaque_ref, _vdi);
@@ -1462,7 +1690,10 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_sr">The destination SR</param>
-        /// <param name="_options">Other parameters</param>
+        /// <param name="_options">Extra parameters. Supports: "dest-img-format" (raw|vhd|qcow2) to specify the image format to use on the destination SR.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<VDI> pool_migrate(Session session, string _vdi, string _sr, Dictionary<string, string> _options)
         {
             return session.JsonRpcClient.vdi_pool_migrate(session.opaque_ref, _vdi, _sr, _options);
@@ -1475,7 +1706,10 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_sr">The destination SR</param>
-        /// <param name="_options">Other parameters</param>
+        /// <param name="_options">Extra parameters. Supports: "dest-img-format" (raw|vhd|qcow2) to specify the image format to use on the destination SR.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_pool_migrate(Session session, string _vdi, string _sr, Dictionary<string, string> _options)
         {
           return session.JsonRpcClient.async_vdi_pool_migrate(session.opaque_ref, _vdi, _sr, _options);
@@ -1487,6 +1721,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void enable_cbt(Session session, string _vdi)
         {
             session.JsonRpcClient.vdi_enable_cbt(session.opaque_ref, _vdi);
@@ -1498,6 +1735,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_enable_cbt(Session session, string _vdi)
         {
           return session.JsonRpcClient.async_vdi_enable_cbt(session.opaque_ref, _vdi);
@@ -1509,6 +1749,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void disable_cbt(Session session, string _vdi)
         {
             session.JsonRpcClient.vdi_disable_cbt(session.opaque_ref, _vdi);
@@ -1520,6 +1763,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_disable_cbt(Session session, string _vdi)
         {
           return session.JsonRpcClient.async_vdi_disable_cbt(session.opaque_ref, _vdi);
@@ -1531,6 +1777,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void data_destroy(Session session, string _vdi)
         {
             session.JsonRpcClient.vdi_data_destroy(session.opaque_ref, _vdi);
@@ -1542,6 +1791,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_data_destroy(Session session, string _vdi)
         {
           return session.JsonRpcClient.async_vdi_data_destroy(session.opaque_ref, _vdi);
@@ -1554,6 +1806,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_vdi_to">The second VDI.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static string list_changed_blocks(Session session, string _vdi, string _vdi_to)
         {
             return session.JsonRpcClient.vdi_list_changed_blocks(session.opaque_ref, _vdi, _vdi_to);
@@ -1566,6 +1821,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
         /// <param name="_vdi_to">The second VDI.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_list_changed_blocks(Session session, string _vdi, string _vdi_to)
         {
           return session.JsonRpcClient.async_vdi_list_changed_blocks(session.opaque_ref, _vdi, _vdi_to);
@@ -1577,9 +1835,40 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The opaque_ref of the given vdi</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static List<Vdi_nbd_server_info> get_nbd_info(Session session, string _vdi)
         {
             return session.JsonRpcClient.vdi_get_nbd_info(session.opaque_ref, _vdi);
+        }
+
+        /// <summary>
+        /// Copy the contents of a snapshot to the VDI it's related to. The original contents of the VDI are lost.
+        /// Experimental. First published in 26.16.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vdi">The opaque_ref of the given snapshotted state</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
+        public static void revert(Session session, string _vdi)
+        {
+            session.JsonRpcClient.vdi_revert(session.opaque_ref, _vdi);
+        }
+
+        /// <summary>
+        /// Copy the contents of a snapshot to the VDI it's related to. The original contents of the VDI are lost.
+        /// Experimental. First published in 26.16.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vdi">The opaque_ref of the given snapshotted state</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
+        public static XenRef<Task> async_revert(Session session, string _vdi)
+        {
+          return session.JsonRpcClient.async_vdi_revert(session.opaque_ref, _vdi);
         }
 
         /// <summary>
@@ -1587,16 +1876,22 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VDI>> get_all(Session session)
         {
             return session.JsonRpcClient.vdi_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VDI Records at once, in a single XML RPC call
+        /// Return a map of VDI references to VDI records for all VDIs known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VDI>, VDI> get_all_records(Session session)
         {
             return session.JsonRpcClient.vdi_get_all_records(session.opaque_ref);

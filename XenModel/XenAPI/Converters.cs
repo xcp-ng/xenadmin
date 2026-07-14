@@ -31,10 +31,14 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
+#if BUILD_FOR_TEST
+[assembly: InternalsVisibleTo("XenServerTest")]
+#endif
 
 namespace XenAPI
 {
@@ -385,29 +389,71 @@ namespace XenAPI
 
     internal class XenDateTimeConverter : IsoDateTimeConverter
     {
-        private static readonly string[] DateFormatsUniversal =
-        {
-            "yyyyMMddTHH:mm:ssZ", "yyyy-MM-ddThh:mm:ssZ"
+        string [] DateFormatsUtc = {
+            // dashes and colons
+            "yyyy-MM-ddTHH:mm:ssZ",
+            "yyyy-MM-ddTHH:mm:ss.fffZ",
+
+            // no dashes, with colons
+            "yyyyMMddTHH:mm:ssZ",
+            "yyyyMMddTHH:mm:ss.fffZ",
+
+            // no dashes
+            "yyyyMMddTHHmmssZ",
+            "yyyyMMddTHHmmss.fffZ",
         };
 
-        private static readonly string[] DateFormatsOther =
+        string[] DateFormatsLocal =
         {
-            "yyyyMMddTHH:mm:ss",
+            // no dashes
+            "yyyyMMddTHHmmss.fffzzzz",
+            "yyyyMMddTHHmmss.fffzzz",
+            "yyyyMMddTHHmmss.fffzz",
+            "yyyyMMddTHHmmss.fff",
+
+            "yyyyMMddTHHmmsszzzz",
             "yyyyMMddTHHmmsszzz",
-            "yyyyMMddTHHmmsszz"
+            "yyyyMMddTHHmmsszz",
+            "yyyyMMddTHHmmss",
+
+            // no dashes, with colons
+            "yyyyMMddTHH:mm:ss.fffzzzz",
+            "yyyyMMddTHH:mm:ss.fffzzz",
+            "yyyyMMddTHH:mm:ss.fffzz",
+            "yyyyMMddTHH:mm:ss.fff",
+
+            "yyyyMMddTHH:mm:sszzzz",
+            "yyyyMMddTHH:mm:sszzz",
+            "yyyyMMddTHH:mm:sszz",
+            "yyyyMMddTHH:mm:ss",
+
+            // dashes and colons
+            "yyyy-MM-ddTHH:mm:ss.fffzzzz",
+            "yyyy-MM-ddTHH:mm:ss.fffzzz",
+            "yyyy-MM-ddTHH:mm:ss.fffzz",
+            "yyyy-MM-ddTHH:mm:ss.fff",
+
+            "yyyy-MM-ddTHH:mm:sszzzz",
+            "yyyy-MM-ddTHH:mm:sszzz",
+            "yyyy-MM-ddTHH:mm:sszz",
+            "yyyy-MM-ddTHH:mm:ss",
         };
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            string str = JToken.Load(reader).ToString();
+            // JsonReader may have already parsed the date for us
+            if (reader.ValueType != null && reader.ValueType == typeof(DateTime))
+            {
+                return reader.Value;
+            }
 
-            DateTime result;
+            var str = JToken.Load(reader).ToString();
 
-            if (DateTime.TryParseExact(str, DateFormatsUniversal, CultureInfo.InvariantCulture,
-                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out result))
+            if (DateTime.TryParseExact(str, DateFormatsUtc, CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out var result))
                 return result;
 
-            if (DateTime.TryParseExact(str, DateFormatsOther, CultureInfo.InvariantCulture,
+            if (DateTime.TryParseExact(str, DateFormatsLocal, CultureInfo.InvariantCulture,
                 DateTimeStyles.None, out result))
                 return result;
 
@@ -416,11 +462,10 @@ namespace XenAPI
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value is DateTime)
+            if (value is DateTime dateTime)
             {
-                var dateTime = (DateTime)value;
                 dateTime = dateTime.ToUniversalTime();
-                var text = dateTime.ToString(DateFormatsUniversal[0], CultureInfo.InvariantCulture);
+                var text = dateTime.ToString(DateFormatsUtc[0], CultureInfo.InvariantCulture);
                 writer.WriteValue(text);
                 return;
             }

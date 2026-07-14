@@ -133,27 +133,6 @@ namespace XenAPI
                 Helper.AreEqual2(_VMs, other._VMs);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VM_appliance server)
-        {
-            if (opaqueRef == null)
-            {
-                var reference = create(session, this);
-                return reference == null ? null : reference.opaque_ref;
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_name_label, server._name_label))
-                {
-                    VM_appliance.set_name_label(session, opaqueRef, _name_label);
-                }
-                if (!Helper.AreEqual2(_name_description, server._name_description))
-                {
-                    VM_appliance.set_name_description(session, opaqueRef, _name_description);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VM_appliance.
@@ -161,6 +140,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VM_appliance get_record(Session session, string _vm_appliance)
         {
             return session.JsonRpcClient.vm_appliance_get_record(session.opaque_ref, _vm_appliance);
@@ -172,6 +154,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM_appliance> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vm_appliance_get_by_uuid(session.opaque_ref, _uuid);
@@ -183,6 +168,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<VM_appliance> create(Session session, VM_appliance _record)
         {
             return session.JsonRpcClient.vm_appliance_create(session.opaque_ref, _record);
@@ -194,6 +182,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, VM_appliance _record)
         {
           return session.JsonRpcClient.async_vm_appliance_create(session.opaque_ref, _record);
@@ -205,6 +196,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _vm_appliance)
         {
             session.JsonRpcClient.vm_appliance_destroy(session.opaque_ref, _vm_appliance);
@@ -216,6 +210,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _vm_appliance)
         {
           return session.JsonRpcClient.async_vm_appliance_destroy(session.opaque_ref, _vm_appliance);
@@ -227,6 +224,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VM_appliance>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.vm_appliance_get_by_name_label(session.opaque_ref, _label);
@@ -238,6 +238,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vm_appliance)
         {
             return session.JsonRpcClient.vm_appliance_get_uuid(session.opaque_ref, _vm_appliance);
@@ -249,6 +252,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _vm_appliance)
         {
             return session.JsonRpcClient.vm_appliance_get_name_label(session.opaque_ref, _vm_appliance);
@@ -260,6 +266,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _vm_appliance)
         {
             return session.JsonRpcClient.vm_appliance_get_name_description(session.opaque_ref, _vm_appliance);
@@ -271,6 +280,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<vm_appliance_operation> get_allowed_operations(Session session, string _vm_appliance)
         {
             return session.JsonRpcClient.vm_appliance_get_allowed_operations(session.opaque_ref, _vm_appliance);
@@ -282,6 +294,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, vm_appliance_operation> get_current_operations(Session session, string _vm_appliance)
         {
             return session.JsonRpcClient.vm_appliance_get_current_operations(session.opaque_ref, _vm_appliance);
@@ -293,6 +308,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VM>> get_VMs(Session session, string _vm_appliance)
         {
             return session.JsonRpcClient.vm_appliance_get_vms(session.opaque_ref, _vm_appliance);
@@ -305,6 +323,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
         /// <param name="_label">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_label(Session session, string _vm_appliance, string _label)
         {
             session.JsonRpcClient.vm_appliance_set_name_label(session.opaque_ref, _vm_appliance, _label);
@@ -317,6 +338,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
         /// <param name="_description">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_description(Session session, string _vm_appliance, string _description)
         {
             session.JsonRpcClient.vm_appliance_set_name_description(session.opaque_ref, _vm_appliance, _description);
@@ -329,6 +353,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
         /// <param name="_paused">Instantiate all VMs belonging to this appliance in paused state if set to true.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void start(Session session, string _vm_appliance, bool _paused)
         {
             session.JsonRpcClient.vm_appliance_start(session.opaque_ref, _vm_appliance, _paused);
@@ -341,6 +368,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
         /// <param name="_paused">Instantiate all VMs belonging to this appliance in paused state if set to true.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_start(Session session, string _vm_appliance, bool _paused)
         {
           return session.JsonRpcClient.async_vm_appliance_start(session.opaque_ref, _vm_appliance, _paused);
@@ -352,6 +382,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void clean_shutdown(Session session, string _vm_appliance)
         {
             session.JsonRpcClient.vm_appliance_clean_shutdown(session.opaque_ref, _vm_appliance);
@@ -363,6 +396,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_clean_shutdown(Session session, string _vm_appliance)
         {
           return session.JsonRpcClient.async_vm_appliance_clean_shutdown(session.opaque_ref, _vm_appliance);
@@ -374,6 +410,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void hard_shutdown(Session session, string _vm_appliance)
         {
             session.JsonRpcClient.vm_appliance_hard_shutdown(session.opaque_ref, _vm_appliance);
@@ -385,6 +424,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_hard_shutdown(Session session, string _vm_appliance)
         {
           return session.JsonRpcClient.async_vm_appliance_hard_shutdown(session.opaque_ref, _vm_appliance);
@@ -396,6 +438,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void shutdown(Session session, string _vm_appliance)
         {
             session.JsonRpcClient.vm_appliance_shutdown(session.opaque_ref, _vm_appliance);
@@ -407,6 +452,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_shutdown(Session session, string _vm_appliance)
         {
           return session.JsonRpcClient.async_vm_appliance_shutdown(session.opaque_ref, _vm_appliance);
@@ -419,6 +467,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
         /// <param name="_session_to">The session to which the VM appliance is to be recovered.</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static void assert_can_be_recovered(Session session, string _vm_appliance, string _session_to)
         {
             session.JsonRpcClient.vm_appliance_assert_can_be_recovered(session.opaque_ref, _vm_appliance, _session_to);
@@ -431,6 +482,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
         /// <param name="_session_to">The session to which the VM appliance is to be recovered.</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_assert_can_be_recovered(Session session, string _vm_appliance, string _session_to)
         {
           return session.JsonRpcClient.async_vm_appliance_assert_can_be_recovered(session.opaque_ref, _vm_appliance, _session_to);
@@ -443,6 +497,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
         /// <param name="_session_to">The session to which the list of SRs have to be recovered .</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<SR>> get_SRs_required_for_recovery(Session session, string _vm_appliance, string _session_to)
         {
             return session.JsonRpcClient.vm_appliance_get_srs_required_for_recovery(session.opaque_ref, _vm_appliance, _session_to);
@@ -455,6 +512,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
         /// <param name="_session_to">The session to which the list of SRs have to be recovered .</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_get_SRs_required_for_recovery(Session session, string _vm_appliance, string _session_to)
         {
           return session.JsonRpcClient.async_vm_appliance_get_srs_required_for_recovery(session.opaque_ref, _vm_appliance, _session_to);
@@ -468,6 +528,9 @@ namespace XenAPI
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
         /// <param name="_session_to">The session to which the VM appliance is to be recovered.</param>
         /// <param name="_force">Whether the VMs should replace newer versions of themselves.</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static void recover(Session session, string _vm_appliance, string _session_to, bool _force)
         {
             session.JsonRpcClient.vm_appliance_recover(session.opaque_ref, _vm_appliance, _session_to, _force);
@@ -481,6 +544,9 @@ namespace XenAPI
         /// <param name="_vm_appliance">The opaque_ref of the given vm_appliance</param>
         /// <param name="_session_to">The session to which the VM appliance is to be recovered.</param>
         /// <param name="_force">Whether the VMs should replace newer versions of themselves.</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_recover(Session session, string _vm_appliance, string _session_to, bool _force)
         {
           return session.JsonRpcClient.async_vm_appliance_recover(session.opaque_ref, _vm_appliance, _session_to, _force);
@@ -491,16 +557,22 @@ namespace XenAPI
         /// First published in XenServer 6.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VM_appliance>> get_all(Session session)
         {
             return session.JsonRpcClient.vm_appliance_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VM_appliance Records at once, in a single XML RPC call
+        /// Return a map of VM_appliance references to VM_appliance records for all VM_appliances known to the system.
         /// First published in XenServer 6.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VM_appliance>, VM_appliance> get_all_records(Session session)
         {
             return session.JsonRpcClient.vm_appliance_get_all_records(session.opaque_ref);

@@ -155,47 +155,6 @@ namespace XenAPI
                 Helper.AreEqual2(_VMs, other._VMs);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VMSS server)
-        {
-            if (opaqueRef == null)
-            {
-                var reference = create(session, this);
-                return reference == null ? null : reference.opaque_ref;
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_name_label, server._name_label))
-                {
-                    VMSS.set_name_label(session, opaqueRef, _name_label);
-                }
-                if (!Helper.AreEqual2(_name_description, server._name_description))
-                {
-                    VMSS.set_name_description(session, opaqueRef, _name_description);
-                }
-                if (!Helper.AreEqual2(_enabled, server._enabled))
-                {
-                    VMSS.set_enabled(session, opaqueRef, _enabled);
-                }
-                if (!Helper.AreEqual2(_type, server._type))
-                {
-                    VMSS.set_type(session, opaqueRef, _type);
-                }
-                if (!Helper.AreEqual2(_retained_snapshots, server._retained_snapshots))
-                {
-                    VMSS.set_retained_snapshots(session, opaqueRef, _retained_snapshots);
-                }
-                if (!Helper.AreEqual2(_frequency, server._frequency))
-                {
-                    VMSS.set_frequency(session, opaqueRef, _frequency);
-                }
-                if (!Helper.AreEqual2(_schedule, server._schedule))
-                {
-                    VMSS.set_schedule(session, opaqueRef, _schedule);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VMSS.
@@ -203,6 +162,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VMSS get_record(Session session, string _vmss)
         {
             return session.JsonRpcClient.vmss_get_record(session.opaque_ref, _vmss);
@@ -214,6 +176,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VMSS> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vmss_get_by_uuid(session.opaque_ref, _uuid);
@@ -225,6 +190,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<VMSS> create(Session session, VMSS _record)
         {
             return session.JsonRpcClient.vmss_create(session.opaque_ref, _record);
@@ -236,6 +204,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, VMSS _record)
         {
           return session.JsonRpcClient.async_vmss_create(session.opaque_ref, _record);
@@ -247,6 +218,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _vmss)
         {
             session.JsonRpcClient.vmss_destroy(session.opaque_ref, _vmss);
@@ -258,6 +232,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _vmss)
         {
           return session.JsonRpcClient.async_vmss_destroy(session.opaque_ref, _vmss);
@@ -269,6 +246,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VMSS>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.vmss_get_by_name_label(session.opaque_ref, _label);
@@ -280,6 +260,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vmss)
         {
             return session.JsonRpcClient.vmss_get_uuid(session.opaque_ref, _vmss);
@@ -291,6 +274,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _vmss)
         {
             return session.JsonRpcClient.vmss_get_name_label(session.opaque_ref, _vmss);
@@ -302,6 +288,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _vmss)
         {
             return session.JsonRpcClient.vmss_get_name_description(session.opaque_ref, _vmss);
@@ -313,6 +302,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_enabled(Session session, string _vmss)
         {
             return session.JsonRpcClient.vmss_get_enabled(session.opaque_ref, _vmss);
@@ -324,6 +316,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static vmss_type get_type(Session session, string _vmss)
         {
             return session.JsonRpcClient.vmss_get_type(session.opaque_ref, _vmss);
@@ -335,6 +330,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_retained_snapshots(Session session, string _vmss)
         {
             return session.JsonRpcClient.vmss_get_retained_snapshots(session.opaque_ref, _vmss);
@@ -346,6 +344,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static vmss_frequency get_frequency(Session session, string _vmss)
         {
             return session.JsonRpcClient.vmss_get_frequency(session.opaque_ref, _vmss);
@@ -357,6 +358,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_schedule(Session session, string _vmss)
         {
             return session.JsonRpcClient.vmss_get_schedule(session.opaque_ref, _vmss);
@@ -368,6 +372,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_last_run_time(Session session, string _vmss)
         {
             return session.JsonRpcClient.vmss_get_last_run_time(session.opaque_ref, _vmss);
@@ -379,6 +386,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VM>> get_VMs(Session session, string _vmss)
         {
             return session.JsonRpcClient.vmss_get_vms(session.opaque_ref, _vmss);
@@ -391,6 +401,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
         /// <param name="_label">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_label(Session session, string _vmss, string _label)
         {
             session.JsonRpcClient.vmss_set_name_label(session.opaque_ref, _vmss, _label);
@@ -403,6 +416,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
         /// <param name="_description">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_description(Session session, string _vmss, string _description)
         {
             session.JsonRpcClient.vmss_set_name_description(session.opaque_ref, _vmss, _description);
@@ -415,6 +431,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
         /// <param name="_enabled">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_enabled(Session session, string _vmss, bool _enabled)
         {
             session.JsonRpcClient.vmss_set_enabled(session.opaque_ref, _vmss, _enabled);
@@ -426,6 +445,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static string snapshot_now(Session session, string _vmss)
         {
             return session.JsonRpcClient.vmss_snapshot_now(session.opaque_ref, _vmss);
@@ -438,6 +460,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
         /// <param name="_value">the value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_retained_snapshots(Session session, string _vmss, long _value)
         {
             session.JsonRpcClient.vmss_set_retained_snapshots(session.opaque_ref, _vmss, _value);
@@ -450,6 +475,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
         /// <param name="_value">the snapshot schedule frequency</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_frequency(Session session, string _vmss, vmss_frequency _value)
         {
             session.JsonRpcClient.vmss_set_frequency(session.opaque_ref, _vmss, _value);
@@ -462,6 +490,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
         /// <param name="_value">the value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_schedule(Session session, string _vmss, Dictionary<string, string> _value)
         {
             session.JsonRpcClient.vmss_set_schedule(session.opaque_ref, _vmss, _value);
@@ -475,6 +506,9 @@ namespace XenAPI
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
         /// <param name="_key">the key to add</param>
         /// <param name="_value">the value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_schedule(Session session, string _vmss, string _key, string _value)
         {
             session.JsonRpcClient.vmss_add_to_schedule(session.opaque_ref, _vmss, _key, _value);
@@ -487,6 +521,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
         /// <param name="_key">the key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_schedule(Session session, string _vmss, string _key)
         {
             session.JsonRpcClient.vmss_remove_from_schedule(session.opaque_ref, _vmss, _key);
@@ -498,7 +535,10 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
-        /// <param name="_value">the value to set</param>
+        /// <param name="_value">The time at which the schedule was last run. When the timezone is missing, UTC is assumed</param>
+        /// <remarks>
+        /// Minimum allowed role: Not Applicable
+        /// </remarks>
         public static void set_last_run_time(Session session, string _vmss, DateTime _value)
         {
             session.JsonRpcClient.vmss_set_last_run_time(session.opaque_ref, _vmss, _value);
@@ -511,6 +551,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmss">The opaque_ref of the given vmss</param>
         /// <param name="_value">the snapshot schedule type</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_type(Session session, string _vmss, vmss_type _value)
         {
             session.JsonRpcClient.vmss_set_type(session.opaque_ref, _vmss, _value);
@@ -521,16 +564,22 @@ namespace XenAPI
         /// First published in XenServer 7.2.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VMSS>> get_all(Session session)
         {
             return session.JsonRpcClient.vmss_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VMSS Records at once, in a single XML RPC call
+        /// Return a map of VMSS references to VMSS records for all VMSSs known to the system.
         /// First published in XenServer 7.2.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VMSS>, VMSS> get_all_records(Session session)
         {
             return session.JsonRpcClient.vmss_get_all_records(session.opaque_ref);

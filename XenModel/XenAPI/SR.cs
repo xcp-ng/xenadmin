@@ -223,43 +223,6 @@ namespace XenAPI
                 Helper.AreEqual2(_is_tools_sr, other._is_tools_sr);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, SR server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    SR.set_other_config(session, opaqueRef, _other_config);
-                }
-                if (!Helper.AreEqual2(_tags, server._tags))
-                {
-                    SR.set_tags(session, opaqueRef, _tags);
-                }
-                if (!Helper.AreEqual2(_sm_config, server._sm_config))
-                {
-                    SR.set_sm_config(session, opaqueRef, _sm_config);
-                }
-                if (!Helper.AreEqual2(_name_label, server._name_label))
-                {
-                    SR.set_name_label(session, opaqueRef, _name_label);
-                }
-                if (!Helper.AreEqual2(_name_description, server._name_description))
-                {
-                    SR.set_name_description(session, opaqueRef, _name_description);
-                }
-                if (!Helper.AreEqual2(_physical_size, server._physical_size))
-                {
-                    SR.set_physical_size(session, opaqueRef, _physical_size);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given SR.
@@ -267,6 +230,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static SR get_record(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_record(session.opaque_ref, _sr);
@@ -278,6 +244,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<SR> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.sr_get_by_uuid(session.opaque_ref, _uuid);
@@ -289,6 +258,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<SR>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.sr_get_by_name_label(session.opaque_ref, _label);
@@ -300,6 +272,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_uuid(session.opaque_ref, _sr);
@@ -311,6 +286,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_name_label(session.opaque_ref, _sr);
@@ -322,6 +300,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_name_description(session.opaque_ref, _sr);
@@ -333,6 +314,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<storage_operations> get_allowed_operations(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_allowed_operations(session.opaque_ref, _sr);
@@ -344,6 +328,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, storage_operations> get_current_operations(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_current_operations(session.opaque_ref, _sr);
@@ -355,6 +342,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VDI>> get_VDIs(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_vdis(session.opaque_ref, _sr);
@@ -366,6 +356,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PBD>> get_PBDs(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_pbds(session.opaque_ref, _sr);
@@ -377,6 +370,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_virtual_allocation(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_virtual_allocation(session.opaque_ref, _sr);
@@ -388,6 +384,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_physical_utilisation(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_physical_utilisation(session.opaque_ref, _sr);
@@ -399,6 +398,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_physical_size(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_physical_size(session.opaque_ref, _sr);
@@ -410,6 +412,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_type(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_type(session.opaque_ref, _sr);
@@ -421,6 +426,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_content_type(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_content_type(session.opaque_ref, _sr);
@@ -432,6 +440,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_shared(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_shared(session.opaque_ref, _sr);
@@ -443,6 +454,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_other_config(session.opaque_ref, _sr);
@@ -454,6 +468,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_tags(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_tags(session.opaque_ref, _sr);
@@ -465,6 +482,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_sm_config(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_sm_config(session.opaque_ref, _sr);
@@ -476,6 +496,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, XenRef<Blob>> get_blobs(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_blobs(session.opaque_ref, _sr);
@@ -487,6 +510,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_local_cache_enabled(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_local_cache_enabled(session.opaque_ref, _sr);
@@ -498,6 +524,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<DR_task> get_introduced_by(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_introduced_by(session.opaque_ref, _sr);
@@ -509,6 +538,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_clustered(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_clustered(session.opaque_ref, _sr);
@@ -520,6 +552,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_tools_sr(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_is_tools_sr(session.opaque_ref, _sr);
@@ -532,6 +567,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _sr, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.sr_set_other_config(session.opaque_ref, _sr, _other_config);
@@ -545,6 +583,9 @@ namespace XenAPI
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _sr, string _key, string _value)
         {
             session.JsonRpcClient.sr_add_to_other_config(session.opaque_ref, _sr, _key, _value);
@@ -557,6 +598,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _sr, string _key)
         {
             session.JsonRpcClient.sr_remove_from_other_config(session.opaque_ref, _sr, _key);
@@ -569,6 +613,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_tags">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void set_tags(Session session, string _sr, string[] _tags)
         {
             session.JsonRpcClient.sr_set_tags(session.opaque_ref, _sr, _tags);
@@ -581,6 +628,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_value">New value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void add_tags(Session session, string _sr, string _value)
         {
             session.JsonRpcClient.sr_add_tags(session.opaque_ref, _sr, _value);
@@ -593,6 +643,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_value">Value to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void remove_tags(Session session, string _sr, string _value)
         {
             session.JsonRpcClient.sr_remove_tags(session.opaque_ref, _sr, _value);
@@ -605,6 +658,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_sm_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_sm_config(Session session, string _sr, Dictionary<string, string> _sm_config)
         {
             session.JsonRpcClient.sr_set_sm_config(session.opaque_ref, _sr, _sm_config);
@@ -618,6 +674,9 @@ namespace XenAPI
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_sm_config(Session session, string _sr, string _key, string _value)
         {
             session.JsonRpcClient.sr_add_to_sm_config(session.opaque_ref, _sr, _key, _value);
@@ -630,6 +689,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_sm_config(Session session, string _sr, string _key)
         {
             session.JsonRpcClient.sr_remove_from_sm_config(session.opaque_ref, _sr, _key);
@@ -646,8 +708,11 @@ namespace XenAPI
         /// <param name="_name_label">The name of the new storage repository</param>
         /// <param name="_name_description">The description of the new storage repository</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
-        /// <param name="_content_type">The type of the new SRs content, if required (e.g. ISOs)</param>
+        /// <param name="_content_type">The type of the new SRs content, if required (for example, ISOs)</param>
         /// <param name="_shared">True if the SR (is capable of) being shared by multiple hosts</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<SR> create(Session session, string _host, Dictionary<string, string> _device_config, long _physical_size, string _name_label, string _name_description, string _type, string _content_type, bool _shared)
         {
             return session.JsonRpcClient.sr_create(session.opaque_ref, _host, _device_config, _physical_size, _name_label, _name_description, _type, _content_type, _shared);
@@ -664,8 +729,11 @@ namespace XenAPI
         /// <param name="_name_label">The name of the new storage repository</param>
         /// <param name="_name_description">The description of the new storage repository</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
-        /// <param name="_content_type">The type of the new SRs content, if required (e.g. ISOs)</param>
+        /// <param name="_content_type">The type of the new SRs content, if required (for example, ISOs)</param>
         /// <param name="_shared">True if the SR (is capable of) being shared by multiple hosts</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _host, Dictionary<string, string> _device_config, long _physical_size, string _name_label, string _name_description, string _type, string _content_type, bool _shared)
         {
           return session.JsonRpcClient.async_sr_create(session.opaque_ref, _host, _device_config, _physical_size, _name_label, _name_description, _type, _content_type, _shared);
@@ -682,9 +750,12 @@ namespace XenAPI
         /// <param name="_name_label">The name of the new storage repository</param>
         /// <param name="_name_description">The description of the new storage repository</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
-        /// <param name="_content_type">The type of the new SRs content, if required (e.g. ISOs)</param>
+        /// <param name="_content_type">The type of the new SRs content, if required (for example, ISOs)</param>
         /// <param name="_shared">True if the SR (is capable of) being shared by multiple hosts</param>
         /// <param name="_sm_config">Storage backend specific configuration options First published in XenServer 4.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<SR> create(Session session, string _host, Dictionary<string, string> _device_config, long _physical_size, string _name_label, string _name_description, string _type, string _content_type, bool _shared, Dictionary<string, string> _sm_config)
         {
             return session.JsonRpcClient.sr_create(session.opaque_ref, _host, _device_config, _physical_size, _name_label, _name_description, _type, _content_type, _shared, _sm_config);
@@ -701,9 +772,12 @@ namespace XenAPI
         /// <param name="_name_label">The name of the new storage repository</param>
         /// <param name="_name_description">The description of the new storage repository</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
-        /// <param name="_content_type">The type of the new SRs content, if required (e.g. ISOs)</param>
+        /// <param name="_content_type">The type of the new SRs content, if required (for example, ISOs)</param>
         /// <param name="_shared">True if the SR (is capable of) being shared by multiple hosts</param>
         /// <param name="_sm_config">Storage backend specific configuration options First published in XenServer 4.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _host, Dictionary<string, string> _device_config, long _physical_size, string _name_label, string _name_description, string _type, string _content_type, bool _shared, Dictionary<string, string> _sm_config)
         {
           return session.JsonRpcClient.async_sr_create(session.opaque_ref, _host, _device_config, _physical_size, _name_label, _name_description, _type, _content_type, _shared, _sm_config);
@@ -718,8 +792,11 @@ namespace XenAPI
         /// <param name="_name_label">The name of the new storage repository</param>
         /// <param name="_name_description">The description of the new storage repository</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
-        /// <param name="_content_type">The type of the new SRs content, if required (e.g. ISOs)</param>
+        /// <param name="_content_type">The type of the new SRs content, if required (for example, ISOs)</param>
         /// <param name="_shared">True if the SR (is capable of) being shared by multiple hosts</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<SR> introduce(Session session, string _uuid, string _name_label, string _name_description, string _type, string _content_type, bool _shared)
         {
             return session.JsonRpcClient.sr_introduce(session.opaque_ref, _uuid, _name_label, _name_description, _type, _content_type, _shared);
@@ -734,8 +811,11 @@ namespace XenAPI
         /// <param name="_name_label">The name of the new storage repository</param>
         /// <param name="_name_description">The description of the new storage repository</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
-        /// <param name="_content_type">The type of the new SRs content, if required (e.g. ISOs)</param>
+        /// <param name="_content_type">The type of the new SRs content, if required (for example, ISOs)</param>
         /// <param name="_shared">True if the SR (is capable of) being shared by multiple hosts</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_introduce(Session session, string _uuid, string _name_label, string _name_description, string _type, string _content_type, bool _shared)
         {
           return session.JsonRpcClient.async_sr_introduce(session.opaque_ref, _uuid, _name_label, _name_description, _type, _content_type, _shared);
@@ -750,9 +830,12 @@ namespace XenAPI
         /// <param name="_name_label">The name of the new storage repository</param>
         /// <param name="_name_description">The description of the new storage repository</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
-        /// <param name="_content_type">The type of the new SRs content, if required (e.g. ISOs)</param>
+        /// <param name="_content_type">The type of the new SRs content, if required (for example, ISOs)</param>
         /// <param name="_shared">True if the SR (is capable of) being shared by multiple hosts</param>
         /// <param name="_sm_config">Storage backend specific configuration options First published in XenServer 4.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<SR> introduce(Session session, string _uuid, string _name_label, string _name_description, string _type, string _content_type, bool _shared, Dictionary<string, string> _sm_config)
         {
             return session.JsonRpcClient.sr_introduce(session.opaque_ref, _uuid, _name_label, _name_description, _type, _content_type, _shared, _sm_config);
@@ -767,9 +850,12 @@ namespace XenAPI
         /// <param name="_name_label">The name of the new storage repository</param>
         /// <param name="_name_description">The description of the new storage repository</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
-        /// <param name="_content_type">The type of the new SRs content, if required (e.g. ISOs)</param>
+        /// <param name="_content_type">The type of the new SRs content, if required (for example, ISOs)</param>
         /// <param name="_shared">True if the SR (is capable of) being shared by multiple hosts</param>
         /// <param name="_sm_config">Storage backend specific configuration options First published in XenServer 4.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_introduce(Session session, string _uuid, string _name_label, string _name_description, string _type, string _content_type, bool _shared, Dictionary<string, string> _sm_config)
         {
           return session.JsonRpcClient.async_sr_introduce(session.opaque_ref, _uuid, _name_label, _name_description, _type, _content_type, _shared, _sm_config);
@@ -787,8 +873,11 @@ namespace XenAPI
         /// <param name="_name_label">The name of the new storage repository</param>
         /// <param name="_name_description">The description of the new storage repository</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
-        /// <param name="_content_type">The type of the new SRs content, if required (e.g. ISOs)</param>
+        /// <param name="_content_type">The type of the new SRs content, if required (for example, ISOs)</param>
         [Deprecated("XenServer 4.1")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static string make(Session session, string _host, Dictionary<string, string> _device_config, long _physical_size, string _name_label, string _name_description, string _type, string _content_type)
         {
             return session.JsonRpcClient.sr_make(session.opaque_ref, _host, _device_config, _physical_size, _name_label, _name_description, _type, _content_type);
@@ -806,8 +895,11 @@ namespace XenAPI
         /// <param name="_name_label">The name of the new storage repository</param>
         /// <param name="_name_description">The description of the new storage repository</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
-        /// <param name="_content_type">The type of the new SRs content, if required (e.g. ISOs)</param>
+        /// <param name="_content_type">The type of the new SRs content, if required (for example, ISOs)</param>
         [Deprecated("XenServer 4.1")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_make(Session session, string _host, Dictionary<string, string> _device_config, long _physical_size, string _name_label, string _name_description, string _type, string _content_type)
         {
           return session.JsonRpcClient.async_sr_make(session.opaque_ref, _host, _device_config, _physical_size, _name_label, _name_description, _type, _content_type);
@@ -825,9 +917,12 @@ namespace XenAPI
         /// <param name="_name_label">The name of the new storage repository</param>
         /// <param name="_name_description">The description of the new storage repository</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
-        /// <param name="_content_type">The type of the new SRs content, if required (e.g. ISOs)</param>
+        /// <param name="_content_type">The type of the new SRs content, if required (for example, ISOs)</param>
         /// <param name="_sm_config">Storage backend specific configuration options First published in XenServer 4.1.</param>
         [Deprecated("XenServer 4.1")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static string make(Session session, string _host, Dictionary<string, string> _device_config, long _physical_size, string _name_label, string _name_description, string _type, string _content_type, Dictionary<string, string> _sm_config)
         {
             return session.JsonRpcClient.sr_make(session.opaque_ref, _host, _device_config, _physical_size, _name_label, _name_description, _type, _content_type, _sm_config);
@@ -845,9 +940,12 @@ namespace XenAPI
         /// <param name="_name_label">The name of the new storage repository</param>
         /// <param name="_name_description">The description of the new storage repository</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
-        /// <param name="_content_type">The type of the new SRs content, if required (e.g. ISOs)</param>
+        /// <param name="_content_type">The type of the new SRs content, if required (for example, ISOs)</param>
         /// <param name="_sm_config">Storage backend specific configuration options First published in XenServer 4.1.</param>
         [Deprecated("XenServer 4.1")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_make(Session session, string _host, Dictionary<string, string> _device_config, long _physical_size, string _name_label, string _name_description, string _type, string _content_type, Dictionary<string, string> _sm_config)
         {
           return session.JsonRpcClient.async_sr_make(session.opaque_ref, _host, _device_config, _physical_size, _name_label, _name_description, _type, _content_type, _sm_config);
@@ -859,6 +957,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _sr)
         {
             session.JsonRpcClient.sr_destroy(session.opaque_ref, _sr);
@@ -870,6 +971,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _sr)
         {
           return session.JsonRpcClient.async_sr_destroy(session.opaque_ref, _sr);
@@ -881,6 +985,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void forget(Session session, string _sr)
         {
             session.JsonRpcClient.sr_forget(session.opaque_ref, _sr);
@@ -892,6 +999,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_forget(Session session, string _sr)
         {
           return session.JsonRpcClient.async_sr_forget(session.opaque_ref, _sr);
@@ -903,6 +1013,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void update(Session session, string _sr)
         {
             session.JsonRpcClient.sr_update(session.opaque_ref, _sr);
@@ -914,6 +1027,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_update(Session session, string _sr)
         {
           return session.JsonRpcClient.async_sr_update(session.opaque_ref, _sr);
@@ -924,6 +1040,9 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_supported_types(Session session)
         {
             return session.JsonRpcClient.sr_get_supported_types(session.opaque_ref);
@@ -935,6 +1054,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void scan(Session session, string _sr)
         {
             session.JsonRpcClient.sr_scan(session.opaque_ref, _sr);
@@ -946,6 +1068,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_scan(Session session, string _sr)
         {
           return session.JsonRpcClient.async_sr_scan(session.opaque_ref, _sr);
@@ -958,6 +1083,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The host to create/make the SR on</param>
         /// <param name="_device_config">The device config string that will be passed to backend SR driver</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static string probe(Session session, string _host, Dictionary<string, string> _device_config)
         {
             return session.JsonRpcClient.sr_probe(session.opaque_ref, _host, _device_config);
@@ -970,6 +1098,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The host to create/make the SR on</param>
         /// <param name="_device_config">The device config string that will be passed to backend SR driver</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_probe(Session session, string _host, Dictionary<string, string> _device_config)
         {
           return session.JsonRpcClient.async_sr_probe(session.opaque_ref, _host, _device_config);
@@ -984,6 +1115,9 @@ namespace XenAPI
         /// <param name="_device_config">The device config string that will be passed to backend SR driver</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
         /// <param name="_sm_config">Storage backend specific configuration options</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static string probe(Session session, string _host, Dictionary<string, string> _device_config, string _type, Dictionary<string, string> _sm_config)
         {
             return session.JsonRpcClient.sr_probe(session.opaque_ref, _host, _device_config, _type, _sm_config);
@@ -998,6 +1132,9 @@ namespace XenAPI
         /// <param name="_device_config">The device config string that will be passed to backend SR driver</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
         /// <param name="_sm_config">Storage backend specific configuration options</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_probe(Session session, string _host, Dictionary<string, string> _device_config, string _type, Dictionary<string, string> _sm_config)
         {
           return session.JsonRpcClient.async_sr_probe(session.opaque_ref, _host, _device_config, _type, _sm_config);
@@ -1012,6 +1149,9 @@ namespace XenAPI
         /// <param name="_device_config">The device config string that will be passed to backend SR driver</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
         /// <param name="_sm_config">Storage backend specific configuration options</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static List<Probe_result> probe_ext(Session session, string _host, Dictionary<string, string> _device_config, string _type, Dictionary<string, string> _sm_config)
         {
             return session.JsonRpcClient.sr_probe_ext(session.opaque_ref, _host, _device_config, _type, _sm_config);
@@ -1026,6 +1166,9 @@ namespace XenAPI
         /// <param name="_device_config">The device config string that will be passed to backend SR driver</param>
         /// <param name="_type">The type of the SR; used to specify the SR backend driver to use</param>
         /// <param name="_sm_config">Storage backend specific configuration options</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_probe_ext(Session session, string _host, Dictionary<string, string> _device_config, string _type, Dictionary<string, string> _sm_config)
         {
           return session.JsonRpcClient.async_sr_probe_ext(session.opaque_ref, _host, _device_config, _type, _sm_config);
@@ -1038,6 +1181,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_value">True if the SR is shared</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_shared(Session session, string _sr, bool _value)
         {
             session.JsonRpcClient.sr_set_shared(session.opaque_ref, _sr, _value);
@@ -1050,6 +1196,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_value">True if the SR is shared</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_shared(Session session, string _sr, bool _value)
         {
           return session.JsonRpcClient.async_sr_set_shared(session.opaque_ref, _sr, _value);
@@ -1062,6 +1211,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_value">The name label for the SR</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_label(Session session, string _sr, string _value)
         {
             session.JsonRpcClient.sr_set_name_label(session.opaque_ref, _sr, _value);
@@ -1074,6 +1226,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_value">The name label for the SR</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_name_label(Session session, string _sr, string _value)
         {
           return session.JsonRpcClient.async_sr_set_name_label(session.opaque_ref, _sr, _value);
@@ -1086,6 +1241,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_value">The name description for the SR</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_description(Session session, string _sr, string _value)
         {
             session.JsonRpcClient.sr_set_name_description(session.opaque_ref, _sr, _value);
@@ -1098,6 +1256,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_value">The name description for the SR</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_name_description(Session session, string _sr, string _value)
         {
           return session.JsonRpcClient.async_sr_set_name_description(session.opaque_ref, _sr, _value);
@@ -1111,6 +1272,9 @@ namespace XenAPI
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Blob> create_new_blob(Session session, string _sr, string _name, string _mime_type)
         {
             return session.JsonRpcClient.sr_create_new_blob(session.opaque_ref, _sr, _name, _mime_type);
@@ -1124,6 +1288,9 @@ namespace XenAPI
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create_new_blob(Session session, string _sr, string _name, string _mime_type)
         {
           return session.JsonRpcClient.async_sr_create_new_blob(session.opaque_ref, _sr, _name, _mime_type);
@@ -1138,6 +1305,9 @@ namespace XenAPI
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
         /// <param name="_public">True if the blob should be publicly available First published in XenServer 6.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Blob> create_new_blob(Session session, string _sr, string _name, string _mime_type, bool _public)
         {
             return session.JsonRpcClient.sr_create_new_blob(session.opaque_ref, _sr, _name, _mime_type, _public);
@@ -1152,6 +1322,9 @@ namespace XenAPI
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
         /// <param name="_public">True if the blob should be publicly available First published in XenServer 6.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create_new_blob(Session session, string _sr, string _name, string _mime_type, bool _public)
         {
           return session.JsonRpcClient.async_sr_create_new_blob(session.opaque_ref, _sr, _name, _mime_type, _public);
@@ -1164,6 +1337,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_value">The new value of the SR's physical_size</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_physical_size(Session session, string _sr, long _value)
         {
             session.JsonRpcClient.sr_set_physical_size(session.opaque_ref, _sr, _value);
@@ -1175,6 +1351,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void assert_can_host_ha_statefile(Session session, string _sr)
         {
             session.JsonRpcClient.sr_assert_can_host_ha_statefile(session.opaque_ref, _sr);
@@ -1186,6 +1365,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_assert_can_host_ha_statefile(Session session, string _sr)
         {
           return session.JsonRpcClient.async_sr_assert_can_host_ha_statefile(session.opaque_ref, _sr);
@@ -1197,6 +1379,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void assert_supports_database_replication(Session session, string _sr)
         {
             session.JsonRpcClient.sr_assert_supports_database_replication(session.opaque_ref, _sr);
@@ -1208,6 +1393,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_assert_supports_database_replication(Session session, string _sr)
         {
           return session.JsonRpcClient.async_sr_assert_supports_database_replication(session.opaque_ref, _sr);
@@ -1219,6 +1407,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void enable_database_replication(Session session, string _sr)
         {
             session.JsonRpcClient.sr_enable_database_replication(session.opaque_ref, _sr);
@@ -1230,6 +1421,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_enable_database_replication(Session session, string _sr)
         {
           return session.JsonRpcClient.async_sr_enable_database_replication(session.opaque_ref, _sr);
@@ -1241,6 +1435,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void disable_database_replication(Session session, string _sr)
         {
             session.JsonRpcClient.sr_disable_database_replication(session.opaque_ref, _sr);
@@ -1252,6 +1449,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_disable_database_replication(Session session, string _sr)
         {
           return session.JsonRpcClient.async_sr_disable_database_replication(session.opaque_ref, _sr);
@@ -1263,6 +1463,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<Data_source> get_data_sources(Session session, string _sr)
         {
             return session.JsonRpcClient.sr_get_data_sources(session.opaque_ref, _sr);
@@ -1275,6 +1478,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_data_source">The data source to record</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void record_data_source(Session session, string _sr, string _data_source)
         {
             session.JsonRpcClient.sr_record_data_source(session.opaque_ref, _sr, _data_source);
@@ -1287,6 +1493,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_data_source">The data source to query</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static double query_data_source(Session session, string _sr, string _data_source)
         {
             return session.JsonRpcClient.sr_query_data_source(session.opaque_ref, _sr, _data_source);
@@ -1299,6 +1508,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sr">The opaque_ref of the given sr</param>
         /// <param name="_data_source">The data source whose archives are to be forgotten</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void forget_data_source_archives(Session session, string _sr, string _data_source)
         {
             session.JsonRpcClient.sr_forget_data_source_archives(session.opaque_ref, _sr, _data_source);
@@ -1309,16 +1521,22 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<SR>> get_all(Session session)
         {
             return session.JsonRpcClient.sr_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the SR Records at once, in a single XML RPC call
+        /// Return a map of SR references to SR records for all SRs known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<SR>, SR> get_all_records(Session session)
         {
             return session.JsonRpcClient.sr_get_all_records(session.opaque_ref);
@@ -1514,7 +1732,7 @@ namespace XenAPI
         private string _type = "";
 
         /// <summary>
-        /// the type of the SR's content, if required (e.g. ISOs)
+        /// the type of the SR's content, if required (for example, ISOs)
         /// </summary>
         public virtual string content_type
         {

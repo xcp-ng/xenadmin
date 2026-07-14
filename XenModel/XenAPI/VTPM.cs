@@ -145,18 +145,6 @@ namespace XenAPI
                 Helper.AreEqual2(_is_protected, other._is_protected);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VTPM server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VTPM.
@@ -164,6 +152,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vtpm">The opaque_ref of the given vtpm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VTPM get_record(Session session, string _vtpm)
         {
             return session.JsonRpcClient.vtpm_get_record(session.opaque_ref, _vtpm);
@@ -175,6 +166,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VTPM> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vtpm_get_by_uuid(session.opaque_ref, _uuid);
@@ -186,6 +180,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vtpm">The opaque_ref of the given vtpm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vtpm)
         {
             return session.JsonRpcClient.vtpm_get_uuid(session.opaque_ref, _vtpm);
@@ -197,6 +194,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vtpm">The opaque_ref of the given vtpm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<vtpm_operations> get_allowed_operations(Session session, string _vtpm)
         {
             return session.JsonRpcClient.vtpm_get_allowed_operations(session.opaque_ref, _vtpm);
@@ -208,6 +208,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vtpm">The opaque_ref of the given vtpm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, vtpm_operations> get_current_operations(Session session, string _vtpm)
         {
             return session.JsonRpcClient.vtpm_get_current_operations(session.opaque_ref, _vtpm);
@@ -219,6 +222,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vtpm">The opaque_ref of the given vtpm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM> get_VM(Session session, string _vtpm)
         {
             return session.JsonRpcClient.vtpm_get_vm(session.opaque_ref, _vtpm);
@@ -230,6 +236,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vtpm">The opaque_ref of the given vtpm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM> get_backend(Session session, string _vtpm)
         {
             return session.JsonRpcClient.vtpm_get_backend(session.opaque_ref, _vtpm);
@@ -241,6 +250,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vtpm">The opaque_ref of the given vtpm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static persistence_backend get_persistence_backend(Session session, string _vtpm)
         {
             return session.JsonRpcClient.vtpm_get_persistence_backend(session.opaque_ref, _vtpm);
@@ -252,6 +264,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vtpm">The opaque_ref of the given vtpm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_unique(Session session, string _vtpm)
         {
             return session.JsonRpcClient.vtpm_get_is_unique(session.opaque_ref, _vtpm);
@@ -263,6 +278,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vtpm">The opaque_ref of the given vtpm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_protected(Session session, string _vtpm)
         {
             return session.JsonRpcClient.vtpm_get_is_protected(session.opaque_ref, _vtpm);
@@ -275,6 +293,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The VM reference the VTPM will be attached to</param>
         /// <param name="_is_unique">Whether the VTPM must be unique</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VTPM> create(Session session, string _vm, bool _is_unique)
         {
             return session.JsonRpcClient.vtpm_create(session.opaque_ref, _vm, _is_unique);
@@ -287,6 +308,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The VM reference the VTPM will be attached to</param>
         /// <param name="_is_unique">Whether the VTPM must be unique</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _vm, bool _is_unique)
         {
           return session.JsonRpcClient.async_vtpm_create(session.opaque_ref, _vm, _is_unique);
@@ -298,6 +322,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vtpm">The opaque_ref of the given vtpm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void destroy(Session session, string _vtpm)
         {
             session.JsonRpcClient.vtpm_destroy(session.opaque_ref, _vtpm);
@@ -309,6 +336,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vtpm">The opaque_ref of the given vtpm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _vtpm)
         {
           return session.JsonRpcClient.async_vtpm_destroy(session.opaque_ref, _vtpm);
@@ -319,16 +349,22 @@ namespace XenAPI
         /// Experimental. First published in 22.26.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VTPM>> get_all(Session session)
         {
             return session.JsonRpcClient.vtpm_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VTPM Records at once, in a single XML RPC call
-        /// First published in .
+        /// Return a map of VTPM references to VTPM records for all VTPMs known to the system.
+        /// Experimental. First published in 22.26.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VTPM>, VTPM> get_all_records(Session session)
         {
             return session.JsonRpcClient.vtpm_get_all_records(session.opaque_ref);

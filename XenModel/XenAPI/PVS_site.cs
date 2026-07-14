@@ -137,31 +137,6 @@ namespace XenAPI
                 Helper.AreEqual2(_proxies, other._proxies);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, PVS_site server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_name_label, server._name_label))
-                {
-                    PVS_site.set_name_label(session, opaqueRef, _name_label);
-                }
-                if (!Helper.AreEqual2(_name_description, server._name_description))
-                {
-                    PVS_site.set_name_description(session, opaqueRef, _name_description);
-                }
-                if (!Helper.AreEqual2(_PVS_uuid, server._PVS_uuid))
-                {
-                    PVS_site.set_PVS_uuid(session, opaqueRef, _PVS_uuid);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given PVS_site.
@@ -169,6 +144,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_site">The opaque_ref of the given pvs_site</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static PVS_site get_record(Session session, string _pvs_site)
         {
             return session.JsonRpcClient.pvs_site_get_record(session.opaque_ref, _pvs_site);
@@ -180,6 +158,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PVS_site> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.pvs_site_get_by_uuid(session.opaque_ref, _uuid);
@@ -191,6 +172,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PVS_site>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.pvs_site_get_by_name_label(session.opaque_ref, _label);
@@ -202,6 +186,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_site">The opaque_ref of the given pvs_site</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _pvs_site)
         {
             return session.JsonRpcClient.pvs_site_get_uuid(session.opaque_ref, _pvs_site);
@@ -213,6 +200,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_site">The opaque_ref of the given pvs_site</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _pvs_site)
         {
             return session.JsonRpcClient.pvs_site_get_name_label(session.opaque_ref, _pvs_site);
@@ -224,6 +214,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_site">The opaque_ref of the given pvs_site</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _pvs_site)
         {
             return session.JsonRpcClient.pvs_site_get_name_description(session.opaque_ref, _pvs_site);
@@ -235,6 +228,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_site">The opaque_ref of the given pvs_site</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_PVS_uuid(Session session, string _pvs_site)
         {
             return session.JsonRpcClient.pvs_site_get_pvs_uuid(session.opaque_ref, _pvs_site);
@@ -246,6 +242,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_site">The opaque_ref of the given pvs_site</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PVS_cache_storage>> get_cache_storage(Session session, string _pvs_site)
         {
             return session.JsonRpcClient.pvs_site_get_cache_storage(session.opaque_ref, _pvs_site);
@@ -257,6 +256,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_site">The opaque_ref of the given pvs_site</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PVS_server>> get_servers(Session session, string _pvs_site)
         {
             return session.JsonRpcClient.pvs_site_get_servers(session.opaque_ref, _pvs_site);
@@ -268,6 +270,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_site">The opaque_ref of the given pvs_site</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PVS_proxy>> get_proxies(Session session, string _pvs_site)
         {
             return session.JsonRpcClient.pvs_site_get_proxies(session.opaque_ref, _pvs_site);
@@ -280,6 +285,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pvs_site">The opaque_ref of the given pvs_site</param>
         /// <param name="_label">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_label(Session session, string _pvs_site, string _label)
         {
             session.JsonRpcClient.pvs_site_set_name_label(session.opaque_ref, _pvs_site, _label);
@@ -292,6 +300,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pvs_site">The opaque_ref of the given pvs_site</param>
         /// <param name="_description">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_description(Session session, string _pvs_site, string _description)
         {
             session.JsonRpcClient.pvs_site_set_name_description(session.opaque_ref, _pvs_site, _description);
@@ -305,6 +316,9 @@ namespace XenAPI
         /// <param name="_name_label">name of the PVS site</param>
         /// <param name="_name_description">description of the PVS site</param>
         /// <param name="_pvs_uuid">unique identifier of the PVS site</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<PVS_site> introduce(Session session, string _name_label, string _name_description, string _pvs_uuid)
         {
             return session.JsonRpcClient.pvs_site_introduce(session.opaque_ref, _name_label, _name_description, _pvs_uuid);
@@ -318,6 +332,9 @@ namespace XenAPI
         /// <param name="_name_label">name of the PVS site</param>
         /// <param name="_name_description">description of the PVS site</param>
         /// <param name="_pvs_uuid">unique identifier of the PVS site</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_introduce(Session session, string _name_label, string _name_description, string _pvs_uuid)
         {
           return session.JsonRpcClient.async_pvs_site_introduce(session.opaque_ref, _name_label, _name_description, _pvs_uuid);
@@ -329,6 +346,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_site">The opaque_ref of the given pvs_site</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void forget(Session session, string _pvs_site)
         {
             session.JsonRpcClient.pvs_site_forget(session.opaque_ref, _pvs_site);
@@ -340,6 +360,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_site">The opaque_ref of the given pvs_site</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_forget(Session session, string _pvs_site)
         {
           return session.JsonRpcClient.async_pvs_site_forget(session.opaque_ref, _pvs_site);
@@ -352,6 +375,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pvs_site">The opaque_ref of the given pvs_site</param>
         /// <param name="_value">PVS UUID to be used</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_PVS_uuid(Session session, string _pvs_site, string _value)
         {
             session.JsonRpcClient.pvs_site_set_pvs_uuid(session.opaque_ref, _pvs_site, _value);
@@ -364,6 +390,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pvs_site">The opaque_ref of the given pvs_site</param>
         /// <param name="_value">PVS UUID to be used</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_PVS_uuid(Session session, string _pvs_site, string _value)
         {
           return session.JsonRpcClient.async_pvs_site_set_pvs_uuid(session.opaque_ref, _pvs_site, _value);
@@ -374,16 +403,22 @@ namespace XenAPI
         /// First published in XenServer 7.1.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PVS_site>> get_all(Session session)
         {
             return session.JsonRpcClient.pvs_site_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the PVS_site Records at once, in a single XML RPC call
+        /// Return a map of PVS_site references to PVS_site records for all PVS_sites known to the system.
         /// First published in XenServer 7.1.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<PVS_site>, PVS_site> get_all_records(Session session)
         {
             return session.JsonRpcClient.pvs_site_get_all_records(session.opaque_ref);

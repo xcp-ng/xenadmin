@@ -157,10 +157,16 @@
     <value>The server was unable to contact your domain server to enable external authentication. Check that your settings are correct and a route to the server exists.</value>
   </data>
   <data name="AUTH_ENABLE_FAILED_INVALID_ACCOUNT" xml:space="preserve">
-    <value>The host failed to enable external authentication.</value>
+    <value>The host failed to enable external authentication, invalid account.</value>
   </data>
   <data name="AUTH_ENABLE_FAILED_INVALID_OU" xml:space="preserve">
-    <value>The host failed to enable external authentication.</value>
+    <value>The host failed to enable external authentication, invalid OU.</value>
+  </data>
+  <data name="AUTH_ENABLE_FAILED_INVALID_TRUSTED_CERTS" xml:space="preserve">
+    <value>The host failed to enable external authentication, invalid trusted certificates.</value>
+  </data>
+  <data name="AUTH_ENABLE_FAILED_NO_TRUSTED_CERTS" xml:space="preserve">
+    <value>The host failed to enable external authentication, no trusted certificates</value>
   </data>
   <data name="AUTH_ENABLE_FAILED_PERMISSION_DENIED" xml:space="preserve">
     <value>Failed to enable external authentication, permission on the AD server was denied.</value>
@@ -171,11 +177,23 @@
   <data name="AUTH_ENABLE_FAILED_WRONG_CREDENTIALS" xml:space="preserve">
     <value>Failed to enable external authentication, the supplied credentials were invalid.</value>
   </data>
+  <data name="AUTH_INVALID_TRUSTED_CERTS" xml:space="preserve">
+    <value>The trusted certificates are invalid to setup a TLS connection to Active Directory.</value>
+  </data>
   <data name="AUTH_IS_DISABLED" xml:space="preserve">
-    <value>External authentication is disabled, unable to resolve subject name.</value>
+    <value>External authentication is disabled</value>
+  </data>
+  <data name="AUTH_NO_TRUSTED_CERTS" xml:space="preserve">
+    <value>No trusted CA certificates found to setup a TLS connection to Active Directory</value>
   </data>
   <data name="AUTH_SERVICE_ERROR" xml:space="preserve">
     <value>Error querying the external directory service.</value>
+  </data>
+  <data name="AUTH_SETUP_TLS_CONNECTION" xml:space="preserve">
+    <value>Failed to set up TLS connection for external authentication.</value>
+  </data>
+  <data name="AUTH_SET_LDAPS_FAILED" xml:space="preserve">
+    <value>The pool failed to set LDAPS configuration.</value>
   </data>
   <data name="AUTH_UNKNOWN_TYPE" xml:space="preserve">
     <value>Unknown type of external authentication.</value>
@@ -186,14 +204,32 @@
   <data name="BALLOONING_TIMEOUT_BEFORE_MIGRATION" xml:space="preserve">
     <value>Timeout trying to balloon down memory before VM migration. If the error occurs repeatedly, consider increasing the memory-dynamic-min value.</value>
   </data>
+  <data name="BLOCKED_REPO_URL" xml:space="preserve">
+    <value>Cannot create the repository as the url is blocked, please check your settings.</value>
+  </data>
   <data name="BOOTLOADER_FAILED" xml:space="preserve">
     <value>The bootloader for this VM returned an error -- did the VM installation succeed?  {1}</value>
+  </data>
+  <data name="BOOT_DEVICE_PASSTHROUGH_DISALLOWED" xml:space="preserve">
+    <value>Passing through a PCI device backing a boot disk is disallowed</value>
   </data>
   <data name="BRIDGE_NAME_EXISTS" xml:space="preserve">
     <value>The specified bridge already exists.</value>
   </data>
   <data name="BRIDGE_NOT_AVAILABLE" xml:space="preserve">
     <value>Could not find bridge required by VM.</value>
+  </data>
+  <data name="BUNDLE_REPOSITORY_ALREADY_EXISTS" xml:space="preserve">
+    <value>The bundle repository already exists.</value>
+  </data>
+  <data name="BUNDLE_REPO_NOT_ENABLED" xml:space="preserve">
+    <value>Cannot sync bundle as the bundle repository is not enabled.</value>
+  </data>
+  <data name="BUNDLE_SYNC_FAILED" xml:space="preserve">
+    <value>Syncing with bundle repository failed.</value>
+  </data>
+  <data name="BUNDLE_UNPACK_FAILED" xml:space="preserve">
+    <value>Failed to unpack bundle file.</value>
   </data>
   <data name="CANNOT_ADD_TUNNEL_TO_BOND_SLAVE" xml:space="preserve">
     <value>This PIF is a bond member and cannot have a tunnel on it.</value>
@@ -241,7 +277,7 @@
     <value>The restore could not be performed because the state partition could not be found</value>
   </data>
   <data name="CANNOT_FIND_UPDATE" xml:space="preserve">
-    <value>The requested update could not be found. Please upload the update again. This can occur when you run xe update-pool-clean before xe update-apply. </value>
+    <value>The requested update could not be found. Please upload the update again. This can occur when you run xe update-pool-clean before xe update-apply.</value>
   </data>
   <data name="CANNOT_FORGET_SRIOV_LOGICAL" xml:space="preserve">
     <value>This is a network SR-IOV logical PIF and cannot do forget on it</value>
@@ -258,6 +294,12 @@
   <data name="CANNOT_RESTART_DEVICE_MODEL" xml:space="preserve">
     <value>Cannot restart device models of paused VMs residing on the host.</value>
   </data>
+  <data name="CAN_NOT_PERIODIC_SYNC_UPDATES" xml:space="preserve">
+    <value>The currently enabled repositories do not support periodic automatic updates.</value>
+  </data>
+  <data name="CAN_NOT_SYNC_UPDATES" xml:space="preserve">
+    <value>The currently enabled repositories do not support synchronization of updates.</value>
+  </data>
   <data name="CERTIFICATE_ALREADY_EXISTS" xml:space="preserve">
     <value>A certificate already exists with the specified name.</value>
   </data>
@@ -266,6 +308,9 @@
   </data>
   <data name="CERTIFICATE_DOES_NOT_EXIST" xml:space="preserve">
     <value>The specified certificate does not exist.</value>
+  </data>
+  <data name="CERTIFICATE_LACKS_PURPOSE" xml:space="preserve">
+    <value>No purpose is specified for the provided certificate.</value>
   </data>
   <data name="CERTIFICATE_LIBRARY_CORRUPT" xml:space="preserve">
     <value>The certificate library is corrupt or unreadable.</value>
@@ -346,7 +391,7 @@
     <value>The device {0} is not currently attached</value>
   </data>
   <data name="DEVICE_ALREADY_EXISTS" xml:space="preserve">
-    <value>There is already a disk at position {0} on the selected VM</value>
+    <value>There is already a device at position {0} on the selected VM</value>
   </data>
   <data name="DEVICE_ATTACH_TIMEOUT" xml:space="preserve">
     <value>A timeout happened while attempting to attach a device {1} of type {0} to a VM</value>
@@ -359,6 +404,12 @@
   </data>
   <data name="DEVICE_NOT_ATTACHED" xml:space="preserve">
     <value>The operation could not be performed because the VBD was not connected to the VM.</value>
+  </data>
+  <data name="DISABLE_SSH_FAILED" xml:space="preserve">
+    <value>Failed to disable SSH access.</value>
+  </data>
+  <data name="DISABLE_SSH_PARTIALLY_FAILED" xml:space="preserve">
+    <value>Some of hosts failed to disable SSH access.</value>
   </data>
   <data name="DISK_VBD_MUST_BE_READWRITE_FOR_HVM" xml:space="preserve">
     <value>All VBDs of type &apos;disk&apos; must be read/write for HVM guests</value>
@@ -380,6 +431,12 @@
   </data>
   <data name="DYNAMIC_MEMORY_CONTROL_UNAVAILABLE" xml:space="preserve">
     <value>The VM requires Dynamic Memory Control (DMC), which is unavailable</value>
+  </data>
+  <data name="ENABLE_SSH_FAILED" xml:space="preserve">
+    <value>Failed to enable SSH access.</value>
+  </data>
+  <data name="ENABLE_SSH_PARTIALLY_FAILED" xml:space="preserve">
+    <value>Some of hosts failed to enable SSH access.</value>
   </data>
   <data name="EVACUATE_NO_OTHER_HOSTS_FOR_MASTER" xml:space="preserve">
     <value>No other server available to nominate as coordinator.  Please add or enable some other servers.</value>
@@ -411,9 +468,6 @@
   <data name="GET_UPDATES_FAILED" xml:space="preserve">
     <value>Failed to get available updates from the pool.</value>
   </data>
-  <data name="GET_UPDATES_IN_PROGRESS" xml:space="preserve">
-    <value>The operation could not be performed because getting updates is in progress.</value>
-  </data>
   <data name="GPU_GROUP_CONTAINS_NO_PGPUS" xml:space="preserve">
     <value>The GPU group does not contain any GPUs.</value>
   </data>
@@ -424,7 +478,7 @@
     <value>The GPU group contains active virtual GPUs and cannot be deleted.</value>
   </data>
   <data name="HANDLE_INVALID" xml:space="preserve">
-    <value>Object has been deleted.{0}:{1}</value>
+    <value>Could not find the specified object. If it existed before, it may have recently been deleted. {0} {1}</value>
   </data>
   <data name="HA_ABORT_NEW_MASTER" xml:space="preserve">
     <value>This server cannot accept the proposed new coordinator setting at this time.</value>
@@ -498,9 +552,6 @@
   <data name="HOST_CANNOT_ATTACH_NETWORK" xml:space="preserve">
     <value>Server cannot attach network (in the case of NIC bonding, this may be because attaching the network on this server would require other networks [that are currently active] to be taken down).</value>
   </data>
-  <data name="HOST_CANNOT_ATTACH_NETWORK-SHORT" xml:space="preserve">
-    <value>Cannot attach network</value>
-  </data>
   <data name="HOST_CANNOT_DESTROY_SELF" xml:space="preserve">
     <value>This server cannot destroy itself.</value>
   </data>
@@ -513,14 +564,23 @@
   <data name="HOST_DISABLED" xml:space="preserve">
     <value>The specified server is disabled.</value>
   </data>
-  <data name="HOST_DISABLED-SHORT" xml:space="preserve">
-    <value>Disabled</value>
+  <data name="HOST_DISABLED_INDEFINITELY" xml:space="preserve">
+    <value>The specified server is disabled and can only be re-enabled manually with Host.enable.</value>
   </data>
   <data name="HOST_DISABLED_UNTIL_REBOOT" xml:space="preserve">
     <value>The specified server is disabled and cannot be re-enabled until after it has rebooted.</value>
   </data>
+  <data name="HOST_DRIVER_NO_HARDWARE" xml:space="preserve">
+    <value>No hardware present for this host driver variant</value>
+  </data>
   <data name="HOST_EVACUATE_IN_PROGRESS" xml:space="preserve">
     <value>This host is being evacuated.</value>
+  </data>
+  <data name="HOST_EVACUATE_VM_NOT_HA_PROTECTED" xml:space="preserve">
+    <value>The host cannot be evacuated because HA is enabled on the pool and a VM running on it is not HA-protected (its ha_restart_priority is not set to &apos;restart&apos;). Set the VM&apos;s ha_restart_priority to &apos;restart&apos;, shut down or suspend the VM, or disable HA on the pool before evacuating the host.</value>
+  </data>
+  <data name="HOST_EVACUATION_IS_REQUIRED" xml:space="preserve">
+    <value>Host evacuation is required before applying updates.</value>
   </data>
   <data name="HOST_HAS_NO_MANAGEMENT_IP" xml:space="preserve">
     <value>The server failed to acquire an IP address on its management interface and therefore cannot contact the coordinator.</value>
@@ -558,9 +618,6 @@
   <data name="HOST_NOT_ENOUGH_FREE_MEMORY" xml:space="preserve">
     <value>Not enough server memory is available to perform this operation</value>
   </data>
-  <data name="HOST_NOT_ENOUGH_FREE_MEMORY-SHORT" xml:space="preserve">
-    <value>Not enough free memory</value>
-  </data>
   <data name="HOST_NOT_ENOUGH_PCPUS" xml:space="preserve">
     <value>The host does not have enough pCPUs to run the VM. It needs at least as many as the VM has vCPUs.</value>
   </data>
@@ -570,11 +627,11 @@
   <data name="HOST_NOT_LIVE" xml:space="preserve">
     <value>This operation cannot be completed as the server is not live.</value>
   </data>
-  <data name="HOST_NOT_LIVE-SHORT" xml:space="preserve">
-    <value>Unreachable</value>
-  </data>
   <data name="HOST_OFFLINE" xml:space="preserve">
     <value>Server could not be contacted</value>
+  </data>
+  <data name="HOST_PENDING_MANDATORY_GUIDANCE_NOT_EMPTY" xml:space="preserve">
+    <value>Operation could not be performed on the host because there is pending mandatory update guidance on it.</value>
   </data>
   <data name="HOST_POWER_ON_MODE_DISABLED" xml:space="preserve">
     <value>This operation cannot be completed because the server power on mode is disabled.</value>
@@ -584,6 +641,9 @@
   </data>
   <data name="HOST_UNKNOWN_TO_MASTER" xml:space="preserve">
     <value>The coordinator says the server is not known to it. Is the server in the coordinator&apos;s database and pointing to the correct coordinator? Are all servers using the same pool secret?</value>
+  </data>
+  <data name="HOST_XAPI_VERSION_HIGHER_THAN_COORDINATOR" xml:space="preserve">
+    <value>The host xapi version is higher than the one in the coordinator</value>
   </data>
   <data name="ILLEGAL_VBD_DEVICE" xml:space="preserve">
     <value>The specified VBD device is not recognized: please use a non-negative integer</value>
@@ -651,6 +711,9 @@
   <data name="INVALID_IP_ADDRESS_SPECIFIED" xml:space="preserve">
     <value>A required parameter contained an invalid IP address</value>
   </data>
+  <data name="INVALID_NTP_CONFIG" xml:space="preserve">
+    <value>The NTP configuration is invalid.</value>
+  </data>
   <data name="INVALID_PATCH" xml:space="preserve">
     <value>The uploaded update file is invalid</value>
   </data>
@@ -659,6 +722,9 @@
   </data>
   <data name="INVALID_REPOMD_XML" xml:space="preserve">
     <value>The repomd.xml is invalid.</value>
+  </data>
+  <data name="INVALID_REPOSITORY_DOMAIN_ALLOWLIST" xml:space="preserve">
+    <value>The repository domain allowlist has some invalid domains.</value>
   </data>
   <data name="INVALID_REPOSITORY_PROXY_CREDENTIAL" xml:space="preserve">
     <value>The repository proxy username/password is invalid.</value>
@@ -834,6 +900,9 @@
   <data name="NOT_ALLOWED_ON_OEM_EDITION" xml:space="preserve">
     <value>This command is not allowed on the OEM edition.</value>
   </data>
+  <data name="NOT_ALLOWED_WHEN_NTP_IS_ENABLED" xml:space="preserve">
+    <value>The operation is not allowed on the host when the NTP is enabled.</value>
+  </data>
   <data name="NOT_IMPLEMENTED" xml:space="preserve">
     <value>The function {0} is not implemented</value>
   </data>
@@ -846,6 +915,9 @@
   <data name="NOT_SYSTEM_DOMAIN" xml:space="preserve">
     <value>The given VM is not registered as a system domain. This operation can only be performed on a registered system domain.</value>
   </data>
+  <data name="NOT_TRUSTED_CERTIFICATE" xml:space="preserve">
+    <value>The provided certificate is not a trusted certificate.</value>
+  </data>
   <data name="NO_CLUSTER_HOSTS_REACHABLE" xml:space="preserve">
     <value>No other cluster host was reachable when joining</value>
   </data>
@@ -857,6 +929,9 @@
   </data>
   <data name="NO_MORE_REDO_LOGS_ALLOWED" xml:space="preserve">
     <value>The upper limit of active redo log instances was reached.</value>
+  </data>
+  <data name="NO_REPOSITORIES_CONFIGURED" xml:space="preserve">
+    <value>No update repositories have been configured.</value>
   </data>
   <data name="NO_REPOSITORY_ENABLED" xml:space="preserve">
     <value>There is no repository being enabled.</value>
@@ -1045,10 +1120,22 @@
     <value>Failed to enable external authentication, the supplied account was invalid.</value>
   </data>
   <data name="POOL_AUTH_ENABLE_FAILED_INVALID_OU" xml:space="preserve">
-    <value>The pool failed to enable external authentication.</value>
+    <value>The pool failed to enable external authentication, invalid OU</value>
+  </data>
+  <data name="POOL_AUTH_ENABLE_FAILED_INVALID_TRUSTED_CERTS" xml:space="preserve">
+    <value>Failed to enable external authentication, none of the found certificates can be used to connect to domain controller.</value>
+  </data>
+  <data name="POOL_AUTH_ENABLE_FAILED_NO_SUPPORT_ENCRYPT_TYPE" xml:space="preserve">
+    <value>The pool failed to enable external authentication: domain does not support encryption type, make sure AES based encryption type is enabled in kerberos authentication in AD and Administrator is not in use</value>
+  </data>
+  <data name="POOL_AUTH_ENABLE_FAILED_NO_TRUSTED_CERTS" xml:space="preserve">
+    <value>Failed to enable external authentication, no certificates are available for LDAPS communication.</value>
   </data>
   <data name="POOL_AUTH_ENABLE_FAILED_PERMISSION_DENIED" xml:space="preserve">
     <value>Failed to enable external authentication, permission on the AD server was denied.</value>
+  </data>
+  <data name="POOL_AUTH_ENABLE_FAILED_SETUP_TLS_CONNECTION" xml:space="preserve">
+    <value>The pool failed to enable external authentication, failed to set up TLS connection.</value>
   </data>
   <data name="POOL_AUTH_ENABLE_FAILED_UNAVAILABLE" xml:space="preserve">
     <value>Failed to enable external authentication, the AD server was unavailable.</value>
@@ -1077,6 +1164,9 @@
   <data name="POOL_JOINING_HOST_MANAGEMENT_VLAN_DOES_NOT_MATCH" xml:space="preserve">
     <value>The host joining the pool must have the same management vlan.</value>
   </data>
+  <data name="POOL_JOINING_HOST_MUST_HAVE_ONLY_ONE_IP_ON_CLUSTERING_NETWORK" xml:space="preserve">
+    <value>The host joining the pool must have one and only one IP on the clustering network</value>
+  </data>
   <data name="POOL_JOINING_HOST_MUST_HAVE_PHYSICAL_MANAGEMENT_NIC" xml:space="preserve">
     <value>The server joining the pool must have a physical management NIC (i.e. the management NIC must not be on a VLAN or bonded PIF).</value>
   </data>
@@ -1091,6 +1181,24 @@
   </data>
   <data name="POOL_JOINING_HOST_MUST_ONLY_HAVE_PHYSICAL_PIFS" xml:space="preserve">
     <value>The host joining the pool must not have any bonds, VLANs or tunnels.</value>
+  </data>
+  <data name="POOL_JOINING_HOST_TLS_VERIFICATION_MISMATCH" xml:space="preserve">
+    <value>The TLS verification check failed when the joining host attempted to open a verified connection to the pool coordinator using the imported pool certificate bundle.</value>
+  </data>
+  <data name="POOL_JOINING_HOST_TRUSTED_CERTIFICATES_CONFLICT" xml:space="preserve">
+    <value>The joining host has a trusted certificate identical to one on the pool coordinator but with different purpose. Uninstall it then install it on the host again with the pool-compatible purpose, and try again.</value>
+  </data>
+  <data name="POOL_JOINING_MASTER_CERTIFICATE_NOT_IN_POOL_BUNDLE" xml:space="preserve">
+    <value>The pool coordinator&apos;s own certificate is absent from the pool certificate bundle sent to the joining host. Run &apos;xe pool-certificate-sync&apos; on the coordinator and retry.</value>
+  </data>
+  <data name="POOL_JOINING_POOL_BUNDLE_EMPTY_AFTER_IMPORT" xml:space="preserve">
+    <value>The pool certificate bundle is empty or missing after import on the joining host. The bundle generation script (update-ca-bundle.sh) likely failed silently.</value>
+  </data>
+  <data name="POOL_JOINING_POOL_CANNOT_ENABLE_CLUSTERING_ON_VLAN_NETWORK" xml:space="preserve">
+    <value>The host attempted to join a pool with clustering enabled on a non-management VLAN network, which is not supported.</value>
+  </data>
+  <data name="POOL_JOINING_SM_FEATURES_INCOMPATIBLE" xml:space="preserve">
+    <value>The host joining the pool has an incompatible set of sm features from the pool coordinator. Make sure the sm are of the same versions and try again.</value>
   </data>
   <data name="PROVISION_FAILED_OUT_OF_SPACE" xml:space="preserve">
     <value>The provision call failed because it ran out of space.</value>
@@ -1110,6 +1218,9 @@
   <data name="PVS_PROXY_ALREADY_PRESENT" xml:space="preserve">
     <value>The VIF is already associated with a PVS proxy</value>
   </data>
+  <data name="PVS_PROXY_PRESENT_ON_HIGHER_VIF_DEVICE" xml:space="preserve">
+    <value>The VM has a VIF, with a higher device number than the new VIF, that uses a PVS proxy. The VIF used by PVS proxy must be the one with the lowest device number.</value>
+  </data>
   <data name="PVS_SERVER_ADDRESS_IN_USE" xml:space="preserve">
     <value>The address specified is already in use by an existing PVS_server object</value>
   </data>
@@ -1119,19 +1230,12 @@
   <data name="PVS_SITE_CONTAINS_SERVERS" xml:space="preserve">
     <value>The PVS site contains servers and cannot be forgotten.</value>
   </data>
+  <data name="PVS_VIF_MUST_BE_FIRST_DEVICE" xml:space="preserve">
+    <value>The VIF used by PVS proxy must be the one with the lowest device number</value>
+  </data>
   <data name="RBAC_PERMISSION_DENIED" xml:space="preserve">
     <value>Your current role is not authorized to perform this action.
 Action: {0}</value>
-  </data>
-  <data name="RBAC_PERMISSION_DENIED_FRIENDLY" xml:space="preserve">
-    <value>Your current role is not authorized to perform this action.
-Current Role: {0}
-Authorized Roles: {1}</value>
-  </data>
-  <data name="RBAC_PERMISSION_DENIED_FRIENDLY_CONNECTION" xml:space="preserve">
-    <value>Your current role is not authorized to perform this action on {2}.
-Current Role: {0}
-Authorized Roles: {1}</value>
   </data>
   <data name="REDO_LOG_IS_ENABLED" xml:space="preserve">
     <value>The operation could not be performed because a redo log is enabled on the Pool.</value>
@@ -1147,6 +1251,9 @@ Authorized Roles: {1}</value>
   </data>
   <data name="REPOSYNC_FAILED" xml:space="preserve">
     <value>Syncing with remote YUM repository failed.</value>
+  </data>
+  <data name="REPO_SHOULD_BE_SINGLE_ONE_ENABLED" xml:space="preserve">
+    <value>If the bundle repository or remote_pool repository is enabled, it should be the only enabled repository of the pool.</value>
   </data>
   <data name="REQUIRED_PIF_IS_UNPLUGGED" xml:space="preserve">
     <value>The operation you requested cannot be performed because the specified PIF is currently unplugged.</value>
@@ -1170,13 +1277,13 @@ Authorized Roles: {1}</value>
     <value>Role cannot be found.</value>
   </data>
   <data name="SERVER_CERTIFICATE_CHAIN_INVALID" xml:space="preserve">
-    <value>The provided intermediate certificates are not in a PEM-encoded X509.</value>
+    <value>The provided intermediate certificates are not in a PEM-encoded X509 format.</value>
   </data>
   <data name="SERVER_CERTIFICATE_EXPIRED" xml:space="preserve">
     <value>The provided certificate expired on {0}.</value>
   </data>
   <data name="SERVER_CERTIFICATE_INVALID" xml:space="preserve">
-    <value>The provided certificate is not in a PEM-encoded X509.</value>
+    <value>The provided certificate is not in a PEM-encoded X509 format.</value>
   </data>
   <data name="SERVER_CERTIFICATE_KEY_ALGORITHM_NOT_SUPPORTED" xml:space="preserve">
     <value>The provided key uses an unsupported algorithm.</value>
@@ -1197,7 +1304,7 @@ Authorized Roles: {1}</value>
     <value>The provided certificate is not valid before {0}.</value>
   </data>
   <data name="SERVER_CERTIFICATE_SIGNATURE_NOT_SUPPORTED" xml:space="preserve">
-    <value>The provided certificate is not using the SHA256 (SHA2) signature algorithm.</value>
+    <value>The provided certificate is not using one of the following SHA2 signature algorithms:  SHA256, SHA512.</value>
   </data>
   <data name="SESSION_AUTHENTICATION_FAILED" xml:space="preserve">
     <value>Could not authenticate session. Check your access credentials and try again.</value>
@@ -1210,6 +1317,15 @@ Authorized Roles: {1}</value>
   </data>
   <data name="SESSION_NOT_REGISTERED" xml:space="preserve">
     <value>This session {0} is not registered to receive events.  You must call event.register before event.next.  The session handle you are using is echoed.</value>
+  </data>
+  <data name="SET_CONSOLE_TIMEOUT_PARTIALLY_FAILED" xml:space="preserve">
+    <value>Some hosts failed to set console timeout.</value>
+  </data>
+  <data name="SET_SSH_AUTO_MODE_PARTIALLY_FAILED" xml:space="preserve">
+    <value>Some hosts failed to set SSH auto mode.</value>
+  </data>
+  <data name="SET_SSH_TIMEOUT_PARTIALLY_FAILED" xml:space="preserve">
+    <value>Some hosts failed to set SSH timeout.</value>
   </data>
   <data name="SLAVE_REQUIRES_MANAGEMENT_INTERFACE" xml:space="preserve">
     <value>The management interface on a supporter cannot be disabled because the supporter would enter emergency mode.</value>
@@ -1276,6 +1392,15 @@ Authorized Roles: {1}</value>
   </data>
   <data name="SR_BACKEND_FAILURE_116" xml:space="preserve">
     <value>Failed to create SMB SR.</value>
+  </data>
+  <data name="SR_BACKEND_FAILURE_117" xml:space="preserve">
+    <value>Logical Volume read error</value>
+  </data>
+  <data name="SR_BACKEND_FAILURE_118" xml:space="preserve">
+    <value>Root system device not found</value>
+  </data>
+  <data name="SR_BACKEND_FAILURE_119" xml:space="preserve">
+    <value>PVs found with multiple SCSI IDs</value>
   </data>
   <data name="SR_BACKEND_FAILURE_120" xml:space="preserve">
     <value>Netapp Target parameter missing in Dconf string</value>
@@ -1354,6 +1479,9 @@ Authorized Roles: {1}</value>
   </data>
   <data name="SR_BACKEND_FAILURE_153" xml:space="preserve">
     <value>A Failure occurred accessing an API object</value>
+  </data>
+  <data name="SR_BACKEND_FAILURE_154" xml:space="preserve">
+    <value>A protocol error was received when accessing the API</value>
   </data>
   <data name="SR_BACKEND_FAILURE_16" xml:space="preserve">
     <value>The specified storage repository is currently in use</value>
@@ -1441,6 +1569,9 @@ Authorized Roles: {1}</value>
   </data>
   <data name="SR_BACKEND_FAILURE_204" xml:space="preserve">
     <value>Gave up on leaf coalesce after leaf grew bigger than before snapshot taken</value>
+  </data>
+  <data name="SR_BACKEND_FAILURE_205" xml:space="preserve">
+    <value>LVHDRT: found a non-stable VBD</value>
   </data>
   <data name="SR_BACKEND_FAILURE_220" xml:space="preserve">
     <value>The device configuration request is missing the Location parameter</value>
@@ -1658,6 +1789,9 @@ Authorized Roles: {1}</value>
   <data name="SR_BACKEND_FAILURE_460" xml:space="preserve">
     <value>Failed to calculate changed blocks for given VDIs.</value>
   </data>
+  <data name="SR_BACKEND_FAILURE_461" xml:space="preserve">
+    <value>The file system for SR cannot be written to.</value>
+  </data>
   <data name="SR_BACKEND_FAILURE_47" xml:space="preserve">
     <value>The storage repository is not available</value>
   </data>
@@ -1859,6 +1993,12 @@ Authorized Roles: {1}</value>
   <data name="SR_SOURCE_SPACE_INSUFFICIENT" xml:space="preserve">
     <value>The source SR does not have sufficient temporary space available to proceed the operation.</value>
   </data>
+  <data name="SR_SUSPEND_SPACE_INSUFFICIENT" xml:space="preserve">
+    <value>The suspend SR does not have sufficient free space to store the VM suspend image.</value>
+  </data>
+  <data name="SR_UNHEALTHY" xml:space="preserve">
+    <value>The SR is currently unhealthy. See the suggestion on how to fix it.</value>
+  </data>
   <data name="SR_UNKNOWN_DRIVER" xml:space="preserve">
     <value>The SR could not be connected because the driver {0} was not recognized.</value>
   </data>
@@ -1880,8 +2020,14 @@ Authorized Roles: {1}</value>
   <data name="SUSPEND_IMAGE_NOT_ACCESSIBLE" xml:space="preserve">
     <value>The suspend image of a checkpoint is not accessible from the host on which the VM is running</value>
   </data>
+  <data name="SYNC_BUNDLE_IN_PROGRESS" xml:space="preserve">
+    <value>The operation could not be performed because syncing bundle is in progress.</value>
+  </data>
   <data name="SYNC_UPDATES_IN_PROGRESS" xml:space="preserve">
     <value>The operation could not be performed because syncing updates is in progress.</value>
+  </data>
+  <data name="SYSPREP" xml:space="preserve">
+    <value>VM.sysprep error with details in the message</value>
   </data>
   <data name="SYSTEM_STATUS_MUST_USE_TAR_ON_OEM" xml:space="preserve">
     <value>You must use tar output to retrieve system status from an OEM server.</value>
@@ -1898,8 +2044,14 @@ Authorized Roles: {1}</value>
   <data name="TLS_CONNECTION_FAILED" xml:space="preserve">
     <value>Cannot contact the other host using TLS on the specified address and port</value>
   </data>
+  <data name="TLS_VERIFICATION_NOT_ENABLED_IN_POOL" xml:space="preserve">
+    <value>TLS verification has not been enabled in the pool successfully, please enable it in XC or run xe pool-enable-tls-verification instead.</value>
+  </data>
   <data name="TOO_BUSY" xml:space="preserve">
     <value>The request was rejected because the server is too busy.</value>
+  </data>
+  <data name="TOO_MANY_GROUPS" xml:space="preserve">
+    <value>VM can only belong to one group.</value>
   </data>
   <data name="TOO_MANY_PENDING_TASKS" xml:space="preserve">
     <value>The request was rejected because there are too many pending tasks on the server.</value>
@@ -1913,6 +2065,18 @@ Authorized Roles: {1}</value>
   <data name="TRANSPORT_PIF_NOT_CONFIGURED" xml:space="preserve">
     <value>The tunnel transport PIF has no IP configuration set.</value>
   </data>
+  <data name="TRUSTED_CERTIFICATE_ALREADY_EXISTS" xml:space="preserve">
+    <value>A trusted certificate already exists with the same purpose.</value>
+  </data>
+  <data name="TRUSTED_CERTIFICATE_EXPIRED" xml:space="preserve">
+    <value>The provided certificate has expired.</value>
+  </data>
+  <data name="TRUSTED_CERTIFICATE_INVALID" xml:space="preserve">
+    <value>The provided certificate is not in a PEM-encoded X509 format.</value>
+  </data>
+  <data name="TRUSTED_CERTIFICATE_NOT_VALID_YET" xml:space="preserve">
+    <value>The provided certificate is not valid yet.</value>
+  </data>
   <data name="UNIMPLEMENTED_IN_SM_BACKEND" xml:space="preserve">
     <value>You have attempted a function which is not implemented</value>
   </data>
@@ -1921,9 +2085,6 @@ Authorized Roles: {1}</value>
   </data>
   <data name="UPDATEINFO_HASH_MISMATCH" xml:space="preserve">
     <value>The hash of updateinfo doesn&apos;t match with current one. There may be newer available updates.</value>
-  </data>
-  <data name="UPDATES_REQUIRE_RECOMMENDED_GUIDANCE" xml:space="preserve">
-    <value>Requires recommended guidance after applying updates.</value>
   </data>
   <data name="UPDATE_ALREADY_APPLIED" xml:space="preserve">
     <value>This update has already been applied.</value>
@@ -1936,9 +2097,6 @@ Authorized Roles: {1}</value>
   </data>
   <data name="UPDATE_APPLY_FAILED" xml:space="preserve">
     <value>The update failed to apply. View logs for more details.</value>
-  </data>
-  <data name="UPDATE_GUIDANCE_CHANGED" xml:space="preserve">
-    <value>Guidance for the update has changed</value>
   </data>
   <data name="UPDATE_IS_APPLIED" xml:space="preserve">
     <value>The specified update has been applied and cannot be destroyed.</value>
@@ -1963,6 +2121,12 @@ Authorized Roles: {1}</value>
   </data>
   <data name="UPDATE_PRECHECK_FAILED_WRONG_SERVER_VERSION" xml:space="preserve">
     <value>The update pre-check stage failed: the server is of an incorrect version.</value>
+  </data>
+  <data name="UPDATE_SYNCING_REMOTE_POOL_COORDINATOR_CONNECTION_FAILED" xml:space="preserve">
+    <value>There was an error connecting to the remote pool coordinator while syncing updates from it.</value>
+  </data>
+  <data name="UPDATE_SYNCING_REMOTE_POOL_COORDINATOR_SERVICE_FAILED" xml:space="preserve">
+    <value>There was an error connecting to the server while syncing updates from it. The service contacted didn&apos;t reply properly.</value>
   </data>
   <data name="USB_ALREADY_ATTACHED" xml:space="preserve">
     <value>The USB device is currently attached to a VM.</value>
@@ -2216,9 +2380,6 @@ Authorized Roles: {1}</value>
   <data name="VM_HVM_REQUIRED" xml:space="preserve">
     <value>HVM is required for this operation</value>
   </data>
-  <data name="VM_HVM_REQUIRED-SHORT" xml:space="preserve">
-    <value>HVM not supported</value>
-  </data>
   <data name="VM_INCOMPATIBLE_WITH_THIS_HOST" xml:space="preserve">
     <value>The host does not have some of the CPU features that the VM is currently using</value>
   </data>
@@ -2240,18 +2401,6 @@ Authorized Roles: {1}</value>
   <data name="VM_LACKS_FEATURE" xml:space="preserve">
     <value>You attempted an operation on a VM which lacks the feature.</value>
   </data>
-  <data name="VM_LACKS_FEATURE_SHUTDOWN" xml:space="preserve">
-    <value>You attempted an operation which needs the cooperative shutdown feature on a VM which lacks it.</value>
-  </data>
-  <data name="VM_LACKS_FEATURE_STATIC_IP_SETTING" xml:space="preserve">
-    <value>You attempted an operation which needs the VM static-ip-setting feature on a VM which lacks it.</value>
-  </data>
-  <data name="VM_LACKS_FEATURE_SUSPEND" xml:space="preserve">
-    <value>You attempted an operation which needs the VM cooperative suspend feature on a VM which lacks it.</value>
-  </data>
-  <data name="VM_LACKS_FEATURE_VCPU_HOTPLUG" xml:space="preserve">
-    <value>You attempted an operation which needs the VM hotplug-vcpu feature on a VM which lacks it.</value>
-  </data>
   <data name="VM_MEMORY_SIZE_TOO_LOW" xml:space="preserve">
     <value>The specified VM has too little memory to be started.</value>
   </data>
@@ -2263,6 +2412,9 @@ Authorized Roles: {1}</value>
   </data>
   <data name="VM_MISSING_PV_DRIVERS" xml:space="preserve">
     <value>You attempted an operation on a VM which requires PV drivers to be installed but the drivers were not detected.</value>
+  </data>
+  <data name="VM_NON_SUSPENDABLE" xml:space="preserve">
+    <value>You attempted an operation on a VM which is not suspendable.</value>
   </data>
   <data name="VM_NOT_RESIDENT_HERE" xml:space="preserve">
     <value>The specified VM is not currently resident on the specified server.</value>
@@ -2294,23 +2446,14 @@ Authorized Roles: {1}</value>
   <data name="VM_REQUIRES_GPU" xml:space="preserve">
     <value>You attempted to run a VM on a host which does not have a GPU available in the GPU group needed by the VM.</value>
   </data>
-  <data name="VM_REQUIRES_GPU-SHORT" xml:space="preserve">
-    <value>GPU not available</value>
-  </data>
   <data name="VM_REQUIRES_IOMMU" xml:space="preserve">
     <value>You attempted to run a VM on a host which doesn&apos;t have I/O virtualization (IOMMU/VT-d) enabled, which is needed by the VM.</value>
   </data>
   <data name="VM_REQUIRES_NETWORK" xml:space="preserve">
     <value>This VM needs a network that cannot be seen from that server</value>
   </data>
-  <data name="VM_REQUIRES_NETWORK-SHORT" xml:space="preserve">
-    <value>Cannot see required network</value>
-  </data>
   <data name="VM_REQUIRES_SR" xml:space="preserve">
     <value>This VM needs storage that cannot be seen from that server</value>
-  </data>
-  <data name="VM_REQUIRES_SR-SHORT" xml:space="preserve">
-    <value>Cannot see required storage</value>
   </data>
   <data name="VM_REQUIRES_VDI" xml:space="preserve">
     <value>VM cannot be started because it requires a VDI which cannot be attached</value>
@@ -2355,7 +2498,7 @@ Authorized Roles: {1}</value>
     <value>The VM cannot be associated with more VTPMs.</value>
   </data>
   <data name="WLB_AUTHENTICATION_FAILED" xml:space="preserve">
-    <value>WLB rejected our configured authentication details.</value>
+    <value>Failed to authenticate with the WLB server, the provided credentials are invalid.</value>
   </data>
   <data name="WLB_CONNECTION_REFUSED" xml:space="preserve">
     <value>WLB refused a connection to the server.</value>
@@ -2444,4 +2587,4 @@ Authorized Roles: {1}</value>
   <data name="XMLRPC_UNMARSHAL_FAILURE" xml:space="preserve">
     <value>The server failed to unmarshal the XMLRPC message; it was expecting one element and received something else.</value>
   </data>
-</root>
+</root>

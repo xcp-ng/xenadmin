@@ -71,6 +71,10 @@ namespace XenAPI
         /// Indicates this host is being updated
         /// </summary>
         apply_updates,
+        /// <summary>
+        /// Indicates this host is in the process of enabling
+        /// </summary>
+        enable,
         unknown
     }
 
@@ -106,6 +110,8 @@ namespace XenAPI
                     return "vm_migrate";
                 case host_allowed_operations.apply_updates:
                     return "apply_updates";
+                case host_allowed_operations.enable:
+                    return "enable";
                 default:
                     return "unknown";
             }

@@ -40,9 +40,17 @@ namespace XenAPI
         /// </summary>
         healthy,
         /// <summary>
-        /// Storage is busy recovering, e.g. rebuilding mirrors.
+        /// Storage is busy recovering, for example, rebuilding mirrors.
         /// </summary>
         recovering,
+        /// <summary>
+        /// Storage is unreachable but may be recoverable with admin intervention
+        /// </summary>
+        unreachable,
+        /// <summary>
+        /// Storage is unavailable, a host reboot will be required
+        /// </summary>
+        unavailable,
         unknown
     }
 
@@ -64,6 +72,10 @@ namespace XenAPI
                     return "healthy";
                 case sr_health.recovering:
                     return "recovering";
+                case sr_health.unreachable:
+                    return "unreachable";
+                case sr_health.unavailable:
+                    return "unavailable";
                 default:
                     return "unknown";
             }

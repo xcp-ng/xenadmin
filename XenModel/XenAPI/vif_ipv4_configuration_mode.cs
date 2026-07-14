@@ -43,6 +43,10 @@ namespace XenAPI
         /// Static IPv4 address configuration
         /// </summary>
         Static,
+        /// <summary>
+        /// Acquire an IP address by DHCP
+        /// </summary>
+        DHCP,
         unknown
     }
 
@@ -64,6 +68,8 @@ namespace XenAPI
                     return "None";
                 case vif_ipv4_configuration_mode.Static:
                     return "Static";
+                case vif_ipv4_configuration_mode.DHCP:
+                    return "DHCP";
                 default:
                     return "unknown";
             }

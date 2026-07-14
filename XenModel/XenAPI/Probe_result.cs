@@ -119,18 +119,6 @@ namespace XenAPI
                 Helper.AreEqual2(_extra_info, other._extra_info);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Probe_result server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// Plugin-specific configuration which describes where and how to locate the storage repository. This may include the physical block device name, a remote NFS server and path or an RBD storage pool.
@@ -185,7 +173,7 @@ namespace XenAPI
         private Sr_stat _sr;
 
         /// <summary>
-        /// Additional plugin-specific information about this configuration, that might be of use for an API user. This can for example include the LUN or the WWPN.
+        /// Additional plugin-specific information about this configuration, that might be of use for an API user. This can, for example, include the LUN or the WWPN.
         /// </summary>
         [JsonConverter(typeof(StringStringMapConverter))]
         public virtual Dictionary<string, string> extra_info

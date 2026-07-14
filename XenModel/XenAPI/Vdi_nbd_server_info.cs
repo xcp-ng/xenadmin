@@ -125,18 +125,6 @@ namespace XenAPI
                 Helper.AreEqual2(_subject, other._subject);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Vdi_nbd_server_info server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// The exportname to request over NBD. This holds details including an authentication token, so it must be protected appropriately. Clients should regard the exportname as an opaque string or token.

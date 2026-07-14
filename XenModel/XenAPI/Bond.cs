@@ -40,7 +40,7 @@ using Newtonsoft.Json;
 namespace XenAPI
 {
     /// <summary>
-    /// 
+    /// A Network bond that combines physical network interfaces, also known as link aggregation
     /// First published in XenServer 4.1.
     /// </summary>
     public partial class Bond : XenObject<Bond>
@@ -149,23 +149,6 @@ namespace XenAPI
                 Helper.AreEqual2(_auto_update_mac, other._auto_update_mac);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Bond server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    Bond.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given Bond.
@@ -173,6 +156,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Bond get_record(Session session, string _bond)
         {
             return session.JsonRpcClient.bond_get_record(session.opaque_ref, _bond);
@@ -184,6 +170,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Bond> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.bond_get_by_uuid(session.opaque_ref, _uuid);
@@ -195,6 +184,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _bond)
         {
             return session.JsonRpcClient.bond_get_uuid(session.opaque_ref, _bond);
@@ -206,6 +198,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PIF> get_master(Session session, string _bond)
         {
             return session.JsonRpcClient.bond_get_master(session.opaque_ref, _bond);
@@ -217,6 +212,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PIF>> get_slaves(Session session, string _bond)
         {
             return session.JsonRpcClient.bond_get_slaves(session.opaque_ref, _bond);
@@ -228,6 +226,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _bond)
         {
             return session.JsonRpcClient.bond_get_other_config(session.opaque_ref, _bond);
@@ -239,6 +240,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PIF> get_primary_slave(Session session, string _bond)
         {
             return session.JsonRpcClient.bond_get_primary_slave(session.opaque_ref, _bond);
@@ -250,6 +254,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bond_mode get_mode(Session session, string _bond)
         {
             return session.JsonRpcClient.bond_get_mode(session.opaque_ref, _bond);
@@ -261,6 +268,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_properties(Session session, string _bond)
         {
             return session.JsonRpcClient.bond_get_properties(session.opaque_ref, _bond);
@@ -272,6 +282,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_links_up(Session session, string _bond)
         {
             return session.JsonRpcClient.bond_get_links_up(session.opaque_ref, _bond);
@@ -283,6 +296,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_auto_update_mac(Session session, string _bond)
         {
             return session.JsonRpcClient.bond_get_auto_update_mac(session.opaque_ref, _bond);
@@ -295,6 +311,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _bond, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.bond_set_other_config(session.opaque_ref, _bond, _other_config);
@@ -308,6 +327,9 @@ namespace XenAPI
         /// <param name="_bond">The opaque_ref of the given bond</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _bond, string _key, string _value)
         {
             session.JsonRpcClient.bond_add_to_other_config(session.opaque_ref, _bond, _key, _value);
@@ -320,6 +342,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _bond, string _key)
         {
             session.JsonRpcClient.bond_remove_from_other_config(session.opaque_ref, _bond, _key);
@@ -333,6 +358,9 @@ namespace XenAPI
         /// <param name="_network">Network to add the bonded PIF to</param>
         /// <param name="_members">PIFs to add to this bond</param>
         /// <param name="_mac">The MAC address to use on the bond itself. If this parameter is the empty string then the bond will inherit its MAC address from the primary slave.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Bond> create(Session session, string _network, List<XenRef<PIF>> _members, string _mac)
         {
             return session.JsonRpcClient.bond_create(session.opaque_ref, _network, _members, _mac);
@@ -346,6 +374,9 @@ namespace XenAPI
         /// <param name="_network">Network to add the bonded PIF to</param>
         /// <param name="_members">PIFs to add to this bond</param>
         /// <param name="_mac">The MAC address to use on the bond itself. If this parameter is the empty string then the bond will inherit its MAC address from the primary slave.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _network, List<XenRef<PIF>> _members, string _mac)
         {
           return session.JsonRpcClient.async_bond_create(session.opaque_ref, _network, _members, _mac);
@@ -360,6 +391,9 @@ namespace XenAPI
         /// <param name="_members">PIFs to add to this bond</param>
         /// <param name="_mac">The MAC address to use on the bond itself. If this parameter is the empty string then the bond will inherit its MAC address from the primary slave.</param>
         /// <param name="_mode">Bonding mode to use for the new bond First published in XenServer 6.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Bond> create(Session session, string _network, List<XenRef<PIF>> _members, string _mac, bond_mode _mode)
         {
             return session.JsonRpcClient.bond_create(session.opaque_ref, _network, _members, _mac, _mode);
@@ -374,6 +408,9 @@ namespace XenAPI
         /// <param name="_members">PIFs to add to this bond</param>
         /// <param name="_mac">The MAC address to use on the bond itself. If this parameter is the empty string then the bond will inherit its MAC address from the primary slave.</param>
         /// <param name="_mode">Bonding mode to use for the new bond First published in XenServer 6.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _network, List<XenRef<PIF>> _members, string _mac, bond_mode _mode)
         {
           return session.JsonRpcClient.async_bond_create(session.opaque_ref, _network, _members, _mac, _mode);
@@ -389,6 +426,9 @@ namespace XenAPI
         /// <param name="_mac">The MAC address to use on the bond itself. If this parameter is the empty string then the bond will inherit its MAC address from the primary slave.</param>
         /// <param name="_mode">Bonding mode to use for the new bond First published in XenServer 6.0.</param>
         /// <param name="_properties">Additional configuration parameters specific to the bond mode First published in XenServer 6.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Bond> create(Session session, string _network, List<XenRef<PIF>> _members, string _mac, bond_mode _mode, Dictionary<string, string> _properties)
         {
             return session.JsonRpcClient.bond_create(session.opaque_ref, _network, _members, _mac, _mode, _properties);
@@ -404,6 +444,9 @@ namespace XenAPI
         /// <param name="_mac">The MAC address to use on the bond itself. If this parameter is the empty string then the bond will inherit its MAC address from the primary slave.</param>
         /// <param name="_mode">Bonding mode to use for the new bond First published in XenServer 6.0.</param>
         /// <param name="_properties">Additional configuration parameters specific to the bond mode First published in XenServer 6.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _network, List<XenRef<PIF>> _members, string _mac, bond_mode _mode, Dictionary<string, string> _properties)
         {
           return session.JsonRpcClient.async_bond_create(session.opaque_ref, _network, _members, _mac, _mode, _properties);
@@ -415,6 +458,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _bond)
         {
             session.JsonRpcClient.bond_destroy(session.opaque_ref, _bond);
@@ -426,6 +472,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _bond)
         {
           return session.JsonRpcClient.async_bond_destroy(session.opaque_ref, _bond);
@@ -438,6 +487,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
         /// <param name="_value">The new bond mode</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_mode(Session session, string _bond, bond_mode _value)
         {
             session.JsonRpcClient.bond_set_mode(session.opaque_ref, _bond, _value);
@@ -450,6 +502,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_bond">The opaque_ref of the given bond</param>
         /// <param name="_value">The new bond mode</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_mode(Session session, string _bond, bond_mode _value)
         {
           return session.JsonRpcClient.async_bond_set_mode(session.opaque_ref, _bond, _value);
@@ -463,6 +518,9 @@ namespace XenAPI
         /// <param name="_bond">The opaque_ref of the given bond</param>
         /// <param name="_name">The property name</param>
         /// <param name="_value">The property value</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_property(Session session, string _bond, string _name, string _value)
         {
             session.JsonRpcClient.bond_set_property(session.opaque_ref, _bond, _name, _value);
@@ -476,6 +534,9 @@ namespace XenAPI
         /// <param name="_bond">The opaque_ref of the given bond</param>
         /// <param name="_name">The property name</param>
         /// <param name="_value">The property value</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_property(Session session, string _bond, string _name, string _value)
         {
           return session.JsonRpcClient.async_bond_set_property(session.opaque_ref, _bond, _name, _value);
@@ -486,16 +547,22 @@ namespace XenAPI
         /// First published in XenServer 4.1.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Bond>> get_all(Session session)
         {
             return session.JsonRpcClient.bond_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the Bond Records at once, in a single XML RPC call
+        /// Return a map of Bond references to Bond records for all Bonds known to the system.
         /// First published in XenServer 4.1.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Bond>, Bond> get_all_records(Session session)
         {
             return session.JsonRpcClient.bond_get_all_records(session.opaque_ref);

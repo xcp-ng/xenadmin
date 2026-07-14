@@ -191,18 +191,6 @@ namespace XenAPI
                 Helper.AreEqual2(_compatible_types_in_vm, other._compatible_types_in_vm);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VGPU_type server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VGPU_type.
@@ -210,6 +198,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VGPU_type get_record(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_record(session.opaque_ref, _vgpu_type);
@@ -221,6 +212,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VGPU_type> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vgpu_type_get_by_uuid(session.opaque_ref, _uuid);
@@ -232,6 +226,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_uuid(session.opaque_ref, _vgpu_type);
@@ -243,6 +240,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_vendor_name(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_vendor_name(session.opaque_ref, _vgpu_type);
@@ -254,6 +254,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_model_name(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_model_name(session.opaque_ref, _vgpu_type);
@@ -265,6 +268,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_framebuffer_size(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_framebuffer_size(session.opaque_ref, _vgpu_type);
@@ -276,6 +282,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_max_heads(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_max_heads(session.opaque_ref, _vgpu_type);
@@ -287,6 +296,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_max_resolution_x(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_max_resolution_x(session.opaque_ref, _vgpu_type);
@@ -298,6 +310,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_max_resolution_y(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_max_resolution_y(session.opaque_ref, _vgpu_type);
@@ -309,6 +324,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PGPU>> get_supported_on_PGPUs(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_supported_on_pgpus(session.opaque_ref, _vgpu_type);
@@ -320,6 +338,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PGPU>> get_enabled_on_PGPUs(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_enabled_on_pgpus(session.opaque_ref, _vgpu_type);
@@ -331,6 +352,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VGPU>> get_VGPUs(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_vgpus(session.opaque_ref, _vgpu_type);
@@ -342,6 +366,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<GPU_group>> get_supported_on_GPU_groups(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_supported_on_gpu_groups(session.opaque_ref, _vgpu_type);
@@ -353,6 +380,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<GPU_group>> get_enabled_on_GPU_groups(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_enabled_on_gpu_groups(session.opaque_ref, _vgpu_type);
@@ -364,6 +394,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static vgpu_type_implementation get_implementation(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_implementation(session.opaque_ref, _vgpu_type);
@@ -375,6 +408,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_identifier(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_identifier(session.opaque_ref, _vgpu_type);
@@ -386,6 +422,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_experimental(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_experimental(session.opaque_ref, _vgpu_type);
@@ -397,6 +436,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu_type">The opaque_ref of the given vgpu_type</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VGPU_type>> get_compatible_types_in_vm(Session session, string _vgpu_type)
         {
             return session.JsonRpcClient.vgpu_type_get_compatible_types_in_vm(session.opaque_ref, _vgpu_type);
@@ -407,16 +449,22 @@ namespace XenAPI
         /// First published in XenServer 6.2 SP1 Tech-Preview.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VGPU_type>> get_all(Session session)
         {
             return session.JsonRpcClient.vgpu_type_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VGPU_type Records at once, in a single XML RPC call
+        /// Return a map of VGPU_type references to VGPU_type records for all VGPU_types known to the system.
         /// First published in XenServer 6.2 SP1 Tech-Preview.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VGPU_type>, VGPU_type> get_all_records(Session session)
         {
             return session.JsonRpcClient.vgpu_type_get_all_records(session.opaque_ref);

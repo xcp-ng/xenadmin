@@ -53,6 +53,7 @@ namespace XenAPI
 
         public VM_guest_metrics(string uuid,
             Dictionary<string, string> os_version,
+            Dictionary<string, string> netbios_name,
             Dictionary<string, string> PV_drivers_version,
             bool PV_drivers_up_to_date,
             Dictionary<string, string> memory,
@@ -64,10 +65,12 @@ namespace XenAPI
             bool live,
             tristate_type can_use_hotplug_vbd,
             tristate_type can_use_hotplug_vif,
-            bool PV_drivers_detected)
+            bool PV_drivers_detected,
+            Dictionary<string, string> services)
         {
             this.uuid = uuid;
             this.os_version = os_version;
+            this.netbios_name = netbios_name;
             this.PV_drivers_version = PV_drivers_version;
             this.PV_drivers_up_to_date = PV_drivers_up_to_date;
             this.memory = memory;
@@ -80,6 +83,7 @@ namespace XenAPI
             this.can_use_hotplug_vbd = can_use_hotplug_vbd;
             this.can_use_hotplug_vif = can_use_hotplug_vif;
             this.PV_drivers_detected = PV_drivers_detected;
+            this.services = services;
         }
 
         /// <summary>
@@ -104,6 +108,7 @@ namespace XenAPI
         {
             uuid = record.uuid;
             os_version = record.os_version;
+            netbios_name = record.netbios_name;
             PV_drivers_version = record.PV_drivers_version;
             PV_drivers_up_to_date = record.PV_drivers_up_to_date;
             memory = record.memory;
@@ -116,6 +121,7 @@ namespace XenAPI
             can_use_hotplug_vbd = record.can_use_hotplug_vbd;
             can_use_hotplug_vif = record.can_use_hotplug_vif;
             PV_drivers_detected = record.PV_drivers_detected;
+            services = record.services;
         }
 
         /// <summary>
@@ -130,6 +136,8 @@ namespace XenAPI
                 uuid = Marshalling.ParseString(table, "uuid");
             if (table.ContainsKey("os_version"))
                 os_version = Maps.ToDictionary_string_string(Marshalling.ParseHashTable(table, "os_version"));
+            if (table.ContainsKey("netbios_name"))
+                netbios_name = Maps.ToDictionary_string_string(Marshalling.ParseHashTable(table, "netbios_name"));
             if (table.ContainsKey("PV_drivers_version"))
                 PV_drivers_version = Maps.ToDictionary_string_string(Marshalling.ParseHashTable(table, "PV_drivers_version"));
             if (table.ContainsKey("PV_drivers_up_to_date"))
@@ -154,6 +162,8 @@ namespace XenAPI
                 can_use_hotplug_vif = (tristate_type)Helper.EnumParseDefault(typeof(tristate_type), Marshalling.ParseString(table, "can_use_hotplug_vif"));
             if (table.ContainsKey("PV_drivers_detected"))
                 PV_drivers_detected = Marshalling.ParseBool(table, "PV_drivers_detected");
+            if (table.ContainsKey("services"))
+                services = Maps.ToDictionary_string_string(Marshalling.ParseHashTable(table, "services"));
         }
 
         public bool DeepEquals(VM_guest_metrics other)
@@ -165,6 +175,7 @@ namespace XenAPI
 
             return Helper.AreEqual2(_uuid, other._uuid) &&
                 Helper.AreEqual2(_os_version, other._os_version) &&
+                Helper.AreEqual2(_netbios_name, other._netbios_name) &&
                 Helper.AreEqual2(_PV_drivers_version, other._PV_drivers_version) &&
                 Helper.AreEqual2(_PV_drivers_up_to_date, other._PV_drivers_up_to_date) &&
                 Helper.AreEqual2(_memory, other._memory) &&
@@ -176,26 +187,10 @@ namespace XenAPI
                 Helper.AreEqual2(_live, other._live) &&
                 Helper.AreEqual2(_can_use_hotplug_vbd, other._can_use_hotplug_vbd) &&
                 Helper.AreEqual2(_can_use_hotplug_vif, other._can_use_hotplug_vif) &&
-                Helper.AreEqual2(_PV_drivers_detected, other._PV_drivers_detected);
+                Helper.AreEqual2(_PV_drivers_detected, other._PV_drivers_detected) &&
+                Helper.AreEqual2(_services, other._services);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VM_guest_metrics server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    VM_guest_metrics.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VM_guest_metrics.
@@ -203,6 +198,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VM_guest_metrics get_record(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_record(session.opaque_ref, _vm_guest_metrics);
@@ -214,6 +212,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM_guest_metrics> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_by_uuid(session.opaque_ref, _uuid);
@@ -225,6 +226,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_uuid(session.opaque_ref, _vm_guest_metrics);
@@ -236,9 +240,26 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_os_version(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_os_version(session.opaque_ref, _vm_guest_metrics);
+        }
+
+        /// <summary>
+        /// Get the netbios_name field of the given VM_guest_metrics.
+        /// Experimental. First published in 24.28.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static Dictionary<string, string> get_netbios_name(Session session, string _vm_guest_metrics)
+        {
+            return session.JsonRpcClient.vm_guest_metrics_get_netbios_name(session.opaque_ref, _vm_guest_metrics);
         }
 
         /// <summary>
@@ -247,6 +268,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_PV_drivers_version(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_pv_drivers_version(session.opaque_ref, _vm_guest_metrics);
@@ -260,6 +284,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
         [Deprecated("XenServer 7.0")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_PV_drivers_up_to_date(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_pv_drivers_up_to_date(session.opaque_ref, _vm_guest_metrics);
@@ -273,6 +300,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
         [Deprecated("XenServer 5.5")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_memory(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_memory(session.opaque_ref, _vm_guest_metrics);
@@ -286,6 +316,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
         [Deprecated("XenServer 5.0")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_disks(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_disks(session.opaque_ref, _vm_guest_metrics);
@@ -297,6 +330,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_networks(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_networks(session.opaque_ref, _vm_guest_metrics);
@@ -308,6 +344,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_other(session.opaque_ref, _vm_guest_metrics);
@@ -319,6 +358,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_last_updated(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_last_updated(session.opaque_ref, _vm_guest_metrics);
@@ -330,6 +372,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_other_config(session.opaque_ref, _vm_guest_metrics);
@@ -341,6 +386,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_live(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_live(session.opaque_ref, _vm_guest_metrics);
@@ -352,6 +400,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static tristate_type get_can_use_hotplug_vbd(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_can_use_hotplug_vbd(session.opaque_ref, _vm_guest_metrics);
@@ -363,6 +414,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static tristate_type get_can_use_hotplug_vif(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_can_use_hotplug_vif(session.opaque_ref, _vm_guest_metrics);
@@ -374,9 +428,26 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_PV_drivers_detected(Session session, string _vm_guest_metrics)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_pv_drivers_detected(session.opaque_ref, _vm_guest_metrics);
+        }
+
+        /// <summary>
+        /// Get the services field of the given VM_guest_metrics.
+        /// Experimental. First published in 25.15.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static Dictionary<string, string> get_services(Session session, string _vm_guest_metrics)
+        {
+            return session.JsonRpcClient.vm_guest_metrics_get_services(session.opaque_ref, _vm_guest_metrics);
         }
 
         /// <summary>
@@ -386,6 +457,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_other_config(Session session, string _vm_guest_metrics, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.vm_guest_metrics_set_other_config(session.opaque_ref, _vm_guest_metrics, _other_config);
@@ -399,6 +473,9 @@ namespace XenAPI
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_other_config(Session session, string _vm_guest_metrics, string _key, string _value)
         {
             session.JsonRpcClient.vm_guest_metrics_add_to_other_config(session.opaque_ref, _vm_guest_metrics, _key, _value);
@@ -411,6 +488,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_guest_metrics">The opaque_ref of the given vm_guest_metrics</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _vm_guest_metrics, string _key)
         {
             session.JsonRpcClient.vm_guest_metrics_remove_from_other_config(session.opaque_ref, _vm_guest_metrics, _key);
@@ -421,16 +501,22 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VM_guest_metrics>> get_all(Session session)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VM_guest_metrics Records at once, in a single XML RPC call
+        /// Return a map of VM_guest_metrics references to VM_guest_metrics records for all VM_guest_metrics instances known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VM_guest_metrics>, VM_guest_metrics> get_all_records(Session session)
         {
             return session.JsonRpcClient.vm_guest_metrics_get_all_records(session.opaque_ref);
@@ -470,6 +556,25 @@ namespace XenAPI
             }
         }
         private Dictionary<string, string> _os_version = new Dictionary<string, string>() {};
+
+        /// <summary>
+        /// The NETBIOS name of the machine
+        /// Experimental. First published in 24.28.0.
+        /// </summary>
+        [JsonConverter(typeof(StringStringMapConverter))]
+        public virtual Dictionary<string, string> netbios_name
+        {
+            get { return _netbios_name; }
+            set
+            {
+                if (!Helper.AreEqual(value, _netbios_name))
+                {
+                    _netbios_name = value;
+                    NotifyPropertyChanged("netbios_name");
+                }
+            }
+        }
+        private Dictionary<string, string> _netbios_name = new Dictionary<string, string>() {};
 
         /// <summary>
         /// version of the PV drivers
@@ -688,5 +793,24 @@ namespace XenAPI
             }
         }
         private bool _PV_drivers_detected = false;
+
+        /// <summary>
+        /// The guest's services data.
+        /// Experimental. First published in 25.15.0.
+        /// </summary>
+        [JsonConverter(typeof(StringStringMapConverter))]
+        public virtual Dictionary<string, string> services
+        {
+            get { return _services; }
+            set
+            {
+                if (!Helper.AreEqual(value, _services))
+                {
+                    _services = value;
+                    NotifyPropertyChanged("services");
+                }
+            }
+        }
+        private Dictionary<string, string> _services = new Dictionary<string, string>() {};
     }
 }

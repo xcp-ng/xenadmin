@@ -119,18 +119,6 @@ namespace XenAPI
                 Helper.AreEqual2(_roles, other._roles);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Subject server)
-        {
-            if (opaqueRef == null)
-            {
-                var reference = create(session, this);
-                return reference == null ? null : reference.opaque_ref;
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given subject.
@@ -138,6 +126,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_subject">The opaque_ref of the given subject</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Subject get_record(Session session, string _subject)
         {
             return session.JsonRpcClient.subject_get_record(session.opaque_ref, _subject);
@@ -149,6 +140,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Subject> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.subject_get_by_uuid(session.opaque_ref, _uuid);
@@ -160,6 +154,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Subject> create(Session session, Subject _record)
         {
             return session.JsonRpcClient.subject_create(session.opaque_ref, _record);
@@ -171,6 +168,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, Subject _record)
         {
           return session.JsonRpcClient.async_subject_create(session.opaque_ref, _record);
@@ -182,6 +182,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_subject">The opaque_ref of the given subject</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void destroy(Session session, string _subject)
         {
             session.JsonRpcClient.subject_destroy(session.opaque_ref, _subject);
@@ -193,6 +196,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_subject">The opaque_ref of the given subject</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _subject)
         {
           return session.JsonRpcClient.async_subject_destroy(session.opaque_ref, _subject);
@@ -204,6 +210,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_subject">The opaque_ref of the given subject</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _subject)
         {
             return session.JsonRpcClient.subject_get_uuid(session.opaque_ref, _subject);
@@ -215,6 +224,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_subject">The opaque_ref of the given subject</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_subject_identifier(Session session, string _subject)
         {
             return session.JsonRpcClient.subject_get_subject_identifier(session.opaque_ref, _subject);
@@ -226,6 +238,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_subject">The opaque_ref of the given subject</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _subject)
         {
             return session.JsonRpcClient.subject_get_other_config(session.opaque_ref, _subject);
@@ -237,6 +252,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_subject">The opaque_ref of the given subject</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Role>> get_roles(Session session, string _subject)
         {
             return session.JsonRpcClient.subject_get_roles(session.opaque_ref, _subject);
@@ -249,6 +267,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_subject">The opaque_ref of the given subject</param>
         /// <param name="_role">The unique role reference</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void add_to_roles(Session session, string _subject, string _role)
         {
             session.JsonRpcClient.subject_add_to_roles(session.opaque_ref, _subject, _role);
@@ -261,6 +282,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_subject">The opaque_ref of the given subject</param>
         /// <param name="_role">The unique role reference in the subject's roles field</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void remove_from_roles(Session session, string _subject, string _role)
         {
             session.JsonRpcClient.subject_remove_from_roles(session.opaque_ref, _subject, _role);
@@ -272,6 +296,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_subject">The opaque_ref of the given subject</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_permissions_name_label(Session session, string _subject)
         {
             return session.JsonRpcClient.subject_get_permissions_name_label(session.opaque_ref, _subject);
@@ -282,16 +309,22 @@ namespace XenAPI
         /// First published in XenServer 5.5.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Subject>> get_all(Session session)
         {
             return session.JsonRpcClient.subject_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the subject Records at once, in a single XML RPC call
+        /// Return a map of subject references to subject records for all subjects known to the system.
         /// First published in XenServer 5.5.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Subject>, Subject> get_all_records(Session session)
         {
             return session.JsonRpcClient.subject_get_all_records(session.opaque_ref);

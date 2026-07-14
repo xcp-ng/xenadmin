@@ -137,18 +137,6 @@ namespace XenAPI
                 Helper.AreEqual2(_host, other._host);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Feature server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given Feature.
@@ -156,6 +144,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_feature">The opaque_ref of the given feature</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Feature get_record(Session session, string _feature)
         {
             return session.JsonRpcClient.feature_get_record(session.opaque_ref, _feature);
@@ -167,6 +158,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Feature> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.feature_get_by_uuid(session.opaque_ref, _uuid);
@@ -178,6 +172,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Feature>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.feature_get_by_name_label(session.opaque_ref, _label);
@@ -189,6 +186,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_feature">The opaque_ref of the given feature</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _feature)
         {
             return session.JsonRpcClient.feature_get_uuid(session.opaque_ref, _feature);
@@ -200,6 +200,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_feature">The opaque_ref of the given feature</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _feature)
         {
             return session.JsonRpcClient.feature_get_name_label(session.opaque_ref, _feature);
@@ -211,6 +214,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_feature">The opaque_ref of the given feature</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _feature)
         {
             return session.JsonRpcClient.feature_get_name_description(session.opaque_ref, _feature);
@@ -222,6 +228,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_feature">The opaque_ref of the given feature</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_enabled(Session session, string _feature)
         {
             return session.JsonRpcClient.feature_get_enabled(session.opaque_ref, _feature);
@@ -233,6 +242,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_feature">The opaque_ref of the given feature</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_experimental(Session session, string _feature)
         {
             return session.JsonRpcClient.feature_get_experimental(session.opaque_ref, _feature);
@@ -244,6 +256,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_feature">The opaque_ref of the given feature</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_version(Session session, string _feature)
         {
             return session.JsonRpcClient.feature_get_version(session.opaque_ref, _feature);
@@ -255,6 +270,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_feature">The opaque_ref of the given feature</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host> get_host(Session session, string _feature)
         {
             return session.JsonRpcClient.feature_get_host(session.opaque_ref, _feature);
@@ -265,16 +283,22 @@ namespace XenAPI
         /// First published in XenServer 7.2.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Feature>> get_all(Session session)
         {
             return session.JsonRpcClient.feature_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the Feature Records at once, in a single XML RPC call
+        /// Return a map of Feature references to Feature records for all Features known to the system.
         /// First published in XenServer 7.2.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Feature>, Feature> get_all_records(Session session)
         {
             return session.JsonRpcClient.feature_get_all_records(session.opaque_ref);

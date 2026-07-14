@@ -143,18 +143,6 @@ namespace XenAPI
                 Helper.AreEqual2(_value, other._value);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Data_source server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// a human-readable name

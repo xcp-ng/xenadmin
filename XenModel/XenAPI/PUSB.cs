@@ -179,23 +179,6 @@ namespace XenAPI
                 Helper.AreEqual2(_speed, other._speed);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, PUSB server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    PUSB.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given PUSB.
@@ -203,6 +186,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static PUSB get_record(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_record(session.opaque_ref, _pusb);
@@ -214,6 +200,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PUSB> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.pusb_get_by_uuid(session.opaque_ref, _uuid);
@@ -225,6 +214,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_uuid(session.opaque_ref, _pusb);
@@ -236,6 +228,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<USB_group> get_USB_group(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_usb_group(session.opaque_ref, _pusb);
@@ -247,6 +242,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host> get_host(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_host(session.opaque_ref, _pusb);
@@ -258,6 +256,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_path(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_path(session.opaque_ref, _pusb);
@@ -269,6 +270,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_vendor_id(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_vendor_id(session.opaque_ref, _pusb);
@@ -280,6 +284,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_vendor_desc(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_vendor_desc(session.opaque_ref, _pusb);
@@ -291,6 +298,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_product_id(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_product_id(session.opaque_ref, _pusb);
@@ -302,6 +312,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_product_desc(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_product_desc(session.opaque_ref, _pusb);
@@ -313,6 +326,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_serial(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_serial(session.opaque_ref, _pusb);
@@ -324,6 +340,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_version(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_version(session.opaque_ref, _pusb);
@@ -335,6 +354,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_description(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_description(session.opaque_ref, _pusb);
@@ -346,6 +368,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_passthrough_enabled(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_passthrough_enabled(session.opaque_ref, _pusb);
@@ -357,6 +382,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_other_config(session.opaque_ref, _pusb);
@@ -368,6 +396,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static double get_speed(Session session, string _pusb)
         {
             return session.JsonRpcClient.pusb_get_speed(session.opaque_ref, _pusb);
@@ -380,6 +411,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_other_config(Session session, string _pusb, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.pusb_set_other_config(session.opaque_ref, _pusb, _other_config);
@@ -393,6 +427,9 @@ namespace XenAPI
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void add_to_other_config(Session session, string _pusb, string _key, string _value)
         {
             session.JsonRpcClient.pusb_add_to_other_config(session.opaque_ref, _pusb, _key, _value);
@@ -405,6 +442,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _pusb, string _key)
         {
             session.JsonRpcClient.pusb_remove_from_other_config(session.opaque_ref, _pusb, _key);
@@ -416,6 +456,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void scan(Session session, string _host)
         {
             session.JsonRpcClient.pusb_scan(session.opaque_ref, _host);
@@ -427,6 +470,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_scan(Session session, string _host)
         {
           return session.JsonRpcClient.async_pusb_scan(session.opaque_ref, _host);
@@ -439,6 +485,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
         /// <param name="_value">passthrough is enabled when true and disabled with false</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_passthrough_enabled(Session session, string _pusb, bool _value)
         {
             session.JsonRpcClient.pusb_set_passthrough_enabled(session.opaque_ref, _pusb, _value);
@@ -451,6 +500,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pusb">The opaque_ref of the given pusb</param>
         /// <param name="_value">passthrough is enabled when true and disabled with false</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_set_passthrough_enabled(Session session, string _pusb, bool _value)
         {
           return session.JsonRpcClient.async_pusb_set_passthrough_enabled(session.opaque_ref, _pusb, _value);
@@ -461,16 +513,22 @@ namespace XenAPI
         /// First published in XenServer 7.3.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PUSB>> get_all(Session session)
         {
             return session.JsonRpcClient.pusb_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the PUSB Records at once, in a single XML RPC call
+        /// Return a map of PUSB references to PUSB records for all PUSBs known to the system.
         /// First published in XenServer 7.3.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<PUSB>, PUSB> get_all_records(Session session)
         {
             return session.JsonRpcClient.pusb_get_all_records(session.opaque_ref);

@@ -125,23 +125,6 @@ namespace XenAPI
                 Helper.AreEqual2(_other_config, other._other_config);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VBD_metrics server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    VBD_metrics.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VBD_metrics.
@@ -151,6 +134,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd_metrics">The opaque_ref of the given vbd_metrics</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VBD_metrics get_record(Session session, string _vbd_metrics)
         {
             return session.JsonRpcClient.vbd_metrics_get_record(session.opaque_ref, _vbd_metrics);
@@ -164,6 +150,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VBD_metrics> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vbd_metrics_get_by_uuid(session.opaque_ref, _uuid);
@@ -175,6 +164,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd_metrics">The opaque_ref of the given vbd_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vbd_metrics)
         {
             return session.JsonRpcClient.vbd_metrics_get_uuid(session.opaque_ref, _vbd_metrics);
@@ -188,6 +180,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd_metrics">The opaque_ref of the given vbd_metrics</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static double get_io_read_kbs(Session session, string _vbd_metrics)
         {
             return session.JsonRpcClient.vbd_metrics_get_io_read_kbs(session.opaque_ref, _vbd_metrics);
@@ -201,6 +196,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd_metrics">The opaque_ref of the given vbd_metrics</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static double get_io_write_kbs(Session session, string _vbd_metrics)
         {
             return session.JsonRpcClient.vbd_metrics_get_io_write_kbs(session.opaque_ref, _vbd_metrics);
@@ -214,6 +212,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd_metrics">The opaque_ref of the given vbd_metrics</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_last_updated(Session session, string _vbd_metrics)
         {
             return session.JsonRpcClient.vbd_metrics_get_last_updated(session.opaque_ref, _vbd_metrics);
@@ -227,6 +228,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd_metrics">The opaque_ref of the given vbd_metrics</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _vbd_metrics)
         {
             return session.JsonRpcClient.vbd_metrics_get_other_config(session.opaque_ref, _vbd_metrics);
@@ -241,6 +245,9 @@ namespace XenAPI
         /// <param name="_vbd_metrics">The opaque_ref of the given vbd_metrics</param>
         /// <param name="_other_config">New value to set</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_other_config(Session session, string _vbd_metrics, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.vbd_metrics_set_other_config(session.opaque_ref, _vbd_metrics, _other_config);
@@ -256,6 +263,9 @@ namespace XenAPI
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_other_config(Session session, string _vbd_metrics, string _key, string _value)
         {
             session.JsonRpcClient.vbd_metrics_add_to_other_config(session.opaque_ref, _vbd_metrics, _key, _value);
@@ -270,6 +280,9 @@ namespace XenAPI
         /// <param name="_vbd_metrics">The opaque_ref of the given vbd_metrics</param>
         /// <param name="_key">Key to remove</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _vbd_metrics, string _key)
         {
             session.JsonRpcClient.vbd_metrics_remove_from_other_config(session.opaque_ref, _vbd_metrics, _key);
@@ -282,16 +295,22 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VBD_metrics>> get_all(Session session)
         {
             return session.JsonRpcClient.vbd_metrics_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VBD_metrics Records at once, in a single XML RPC call
+        /// Return a map of VBD_metrics references to VBD_metrics records for all VBD_metrics instances known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VBD_metrics>, VBD_metrics> get_all_records(Session session)
         {
             return session.JsonRpcClient.vbd_metrics_get_all_records(session.opaque_ref);

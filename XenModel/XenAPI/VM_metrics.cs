@@ -66,7 +66,10 @@ namespace XenAPI
             bool hvm,
             bool nested_virt,
             bool nomigrate,
-            domain_type current_domain_type)
+            domain_type current_domain_type,
+            bool numa_optimised,
+            long numa_nodes,
+            Dictionary<long, long> numa_node_memory)
         {
             this.uuid = uuid;
             this.memory_actual = memory_actual;
@@ -84,6 +87,9 @@ namespace XenAPI
             this.nested_virt = nested_virt;
             this.nomigrate = nomigrate;
             this.current_domain_type = current_domain_type;
+            this.numa_optimised = numa_optimised;
+            this.numa_nodes = numa_nodes;
+            this.numa_node_memory = numa_node_memory;
         }
 
         /// <summary>
@@ -122,6 +128,9 @@ namespace XenAPI
             nested_virt = record.nested_virt;
             nomigrate = record.nomigrate;
             current_domain_type = record.current_domain_type;
+            numa_optimised = record.numa_optimised;
+            numa_nodes = record.numa_nodes;
+            numa_node_memory = record.numa_node_memory;
         }
 
         /// <summary>
@@ -164,6 +173,12 @@ namespace XenAPI
                 nomigrate = Marshalling.ParseBool(table, "nomigrate");
             if (table.ContainsKey("current_domain_type"))
                 current_domain_type = (domain_type)Helper.EnumParseDefault(typeof(domain_type), Marshalling.ParseString(table, "current_domain_type"));
+            if (table.ContainsKey("numa_optimised"))
+                numa_optimised = Marshalling.ParseBool(table, "numa_optimised");
+            if (table.ContainsKey("numa_nodes"))
+                numa_nodes = Marshalling.ParseLong(table, "numa_nodes");
+            if (table.ContainsKey("numa_node_memory"))
+                numa_node_memory = Maps.ToDictionary_long_long(Marshalling.ParseHashTable(table, "numa_node_memory"));
         }
 
         public bool DeepEquals(VM_metrics other)
@@ -188,26 +203,12 @@ namespace XenAPI
                 Helper.AreEqual2(_hvm, other._hvm) &&
                 Helper.AreEqual2(_nested_virt, other._nested_virt) &&
                 Helper.AreEqual2(_nomigrate, other._nomigrate) &&
-                Helper.AreEqual2(_current_domain_type, other._current_domain_type);
+                Helper.AreEqual2(_current_domain_type, other._current_domain_type) &&
+                Helper.AreEqual2(_numa_optimised, other._numa_optimised) &&
+                Helper.AreEqual2(_numa_nodes, other._numa_nodes) &&
+                Helper.AreEqual2(_numa_node_memory, other._numa_node_memory);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VM_metrics server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    VM_metrics.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VM_metrics.
@@ -215,6 +216,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VM_metrics get_record(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_record(session.opaque_ref, _vm_metrics);
@@ -226,6 +230,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM_metrics> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vm_metrics_get_by_uuid(session.opaque_ref, _uuid);
@@ -237,6 +244,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_uuid(session.opaque_ref, _vm_metrics);
@@ -248,6 +258,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_memory_actual(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_memory_actual(session.opaque_ref, _vm_metrics);
@@ -259,6 +272,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_VCPUs_number(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_vcpus_number(session.opaque_ref, _vm_metrics);
@@ -272,6 +288,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<long, double> get_VCPUs_utilisation(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_vcpus_utilisation(session.opaque_ref, _vm_metrics);
@@ -283,6 +302,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<long, long> get_VCPUs_CPU(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_vcpus_cpu(session.opaque_ref, _vm_metrics);
@@ -294,6 +316,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_VCPUs_params(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_vcpus_params(session.opaque_ref, _vm_metrics);
@@ -305,6 +330,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<long, string[]> get_VCPUs_flags(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_vcpus_flags(session.opaque_ref, _vm_metrics);
@@ -316,6 +344,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_state(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_state(session.opaque_ref, _vm_metrics);
@@ -327,6 +358,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_start_time(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_start_time(session.opaque_ref, _vm_metrics);
@@ -338,6 +372,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_install_time(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_install_time(session.opaque_ref, _vm_metrics);
@@ -349,6 +386,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_last_updated(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_last_updated(session.opaque_ref, _vm_metrics);
@@ -360,6 +400,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_other_config(session.opaque_ref, _vm_metrics);
@@ -371,6 +414,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_hvm(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_hvm(session.opaque_ref, _vm_metrics);
@@ -382,6 +428,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_nested_virt(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_nested_virt(session.opaque_ref, _vm_metrics);
@@ -393,6 +442,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_nomigrate(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_nomigrate(session.opaque_ref, _vm_metrics);
@@ -404,9 +456,54 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static domain_type get_current_domain_type(Session session, string _vm_metrics)
         {
             return session.JsonRpcClient.vm_metrics_get_current_domain_type(session.opaque_ref, _vm_metrics);
+        }
+
+        /// <summary>
+        /// Get the numa_optimised field of the given VM_metrics.
+        /// Experimental. First published in 26.2.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static bool get_numa_optimised(Session session, string _vm_metrics)
+        {
+            return session.JsonRpcClient.vm_metrics_get_numa_optimised(session.opaque_ref, _vm_metrics);
+        }
+
+        /// <summary>
+        /// Get the numa_nodes field of the given VM_metrics.
+        /// Experimental. First published in 26.2.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static long get_numa_nodes(Session session, string _vm_metrics)
+        {
+            return session.JsonRpcClient.vm_metrics_get_numa_nodes(session.opaque_ref, _vm_metrics);
+        }
+
+        /// <summary>
+        /// Get the numa_node_memory field of the given VM_metrics.
+        /// Experimental. First published in 26.2.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static Dictionary<long, long> get_numa_node_memory(Session session, string _vm_metrics)
+        {
+            return session.JsonRpcClient.vm_metrics_get_numa_node_memory(session.opaque_ref, _vm_metrics);
         }
 
         /// <summary>
@@ -416,6 +513,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_other_config(Session session, string _vm_metrics, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.vm_metrics_set_other_config(session.opaque_ref, _vm_metrics, _other_config);
@@ -429,6 +529,9 @@ namespace XenAPI
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_other_config(Session session, string _vm_metrics, string _key, string _value)
         {
             session.JsonRpcClient.vm_metrics_add_to_other_config(session.opaque_ref, _vm_metrics, _key, _value);
@@ -441,6 +544,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm_metrics">The opaque_ref of the given vm_metrics</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _vm_metrics, string _key)
         {
             session.JsonRpcClient.vm_metrics_remove_from_other_config(session.opaque_ref, _vm_metrics, _key);
@@ -451,16 +557,22 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VM_metrics>> get_all(Session session)
         {
             return session.JsonRpcClient.vm_metrics_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VM_metrics Records at once, in a single XML RPC call
+        /// Return a map of VM_metrics references to VM_metrics records for all VM_metrics instances known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VM_metrics>, VM_metrics> get_all_records(Session session)
         {
             return session.JsonRpcClient.vm_metrics_get_all_records(session.opaque_ref);
@@ -748,5 +860,59 @@ namespace XenAPI
             }
         }
         private domain_type _current_domain_type = domain_type.unspecified;
+
+        /// <summary>
+        /// If the VM is optimised for NUMA
+        /// Experimental. First published in 26.2.0.
+        /// </summary>
+        public virtual bool numa_optimised
+        {
+            get { return _numa_optimised; }
+            set
+            {
+                if (!Helper.AreEqual(value, _numa_optimised))
+                {
+                    _numa_optimised = value;
+                    NotifyPropertyChanged("numa_optimised");
+                }
+            }
+        }
+        private bool _numa_optimised = false;
+
+        /// <summary>
+        /// number of NUMA nodes of the host the VM is using
+        /// Experimental. First published in 26.2.0.
+        /// </summary>
+        public virtual long numa_nodes
+        {
+            get { return _numa_nodes; }
+            set
+            {
+                if (!Helper.AreEqual(value, _numa_nodes))
+                {
+                    _numa_nodes = value;
+                    NotifyPropertyChanged("numa_nodes");
+                }
+            }
+        }
+        private long _numa_nodes = 0;
+
+        /// <summary>
+        /// mapping a NUMA node (int) to an amount of memory (bytes) in that node.
+        /// Experimental. First published in 26.2.0.
+        /// </summary>
+        public virtual Dictionary<long, long> numa_node_memory
+        {
+            get { return _numa_node_memory; }
+            set
+            {
+                if (!Helper.AreEqual(value, _numa_node_memory))
+                {
+                    _numa_node_memory = value;
+                    NotifyPropertyChanged("numa_node_memory");
+                }
+            }
+        }
+        private Dictionary<long, long> _numa_node_memory = new Dictionary<long, long>() {};
     }
 }

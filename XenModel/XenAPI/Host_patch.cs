@@ -155,23 +155,6 @@ namespace XenAPI
                 Helper.AreEqual2(_other_config, other._other_config);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Host_patch server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    Host_patch.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given host_patch.
@@ -181,6 +164,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
         [Deprecated("XenServer 7.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Host_patch get_record(Session session, string _host_patch)
         {
             return session.JsonRpcClient.host_patch_get_record(session.opaque_ref, _host_patch);
@@ -194,6 +180,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
         [Deprecated("XenServer 7.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host_patch> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.host_patch_get_by_uuid(session.opaque_ref, _uuid);
@@ -207,6 +196,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
         [Deprecated("XenServer 7.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Host_patch>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.host_patch_get_by_name_label(session.opaque_ref, _label);
@@ -218,6 +210,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _host_patch)
         {
             return session.JsonRpcClient.host_patch_get_uuid(session.opaque_ref, _host_patch);
@@ -229,6 +224,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _host_patch)
         {
             return session.JsonRpcClient.host_patch_get_name_label(session.opaque_ref, _host_patch);
@@ -240,6 +238,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _host_patch)
         {
             return session.JsonRpcClient.host_patch_get_name_description(session.opaque_ref, _host_patch);
@@ -251,6 +252,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_version(Session session, string _host_patch)
         {
             return session.JsonRpcClient.host_patch_get_version(session.opaque_ref, _host_patch);
@@ -262,6 +266,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host> get_host(Session session, string _host_patch)
         {
             return session.JsonRpcClient.host_patch_get_host(session.opaque_ref, _host_patch);
@@ -273,6 +280,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_applied(Session session, string _host_patch)
         {
             return session.JsonRpcClient.host_patch_get_applied(session.opaque_ref, _host_patch);
@@ -284,6 +294,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_timestamp_applied(Session session, string _host_patch)
         {
             return session.JsonRpcClient.host_patch_get_timestamp_applied(session.opaque_ref, _host_patch);
@@ -295,6 +308,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_size(Session session, string _host_patch)
         {
             return session.JsonRpcClient.host_patch_get_size(session.opaque_ref, _host_patch);
@@ -306,6 +322,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Pool_patch> get_pool_patch(Session session, string _host_patch)
         {
             return session.JsonRpcClient.host_patch_get_pool_patch(session.opaque_ref, _host_patch);
@@ -317,6 +336,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _host_patch)
         {
             return session.JsonRpcClient.host_patch_get_other_config(session.opaque_ref, _host_patch);
@@ -329,6 +351,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _host_patch, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.host_patch_set_other_config(session.opaque_ref, _host_patch, _other_config);
@@ -342,6 +367,9 @@ namespace XenAPI
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _host_patch, string _key, string _value)
         {
             session.JsonRpcClient.host_patch_add_to_other_config(session.opaque_ref, _host_patch, _key, _value);
@@ -354,6 +382,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _host_patch, string _key)
         {
             session.JsonRpcClient.host_patch_remove_from_other_config(session.opaque_ref, _host_patch, _key);
@@ -367,6 +398,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
         [Deprecated("XenServer 4.1")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _host_patch)
         {
             session.JsonRpcClient.host_patch_destroy(session.opaque_ref, _host_patch);
@@ -380,6 +414,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
         [Deprecated("XenServer 4.1")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _host_patch)
         {
           return session.JsonRpcClient.async_host_patch_destroy(session.opaque_ref, _host_patch);
@@ -393,6 +430,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
         [Deprecated("XenServer 4.1")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static string apply(Session session, string _host_patch)
         {
             return session.JsonRpcClient.host_patch_apply(session.opaque_ref, _host_patch);
@@ -406,6 +446,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host_patch">The opaque_ref of the given host_patch</param>
         [Deprecated("XenServer 4.1")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_apply(Session session, string _host_patch)
         {
           return session.JsonRpcClient.async_host_patch_apply(session.opaque_ref, _host_patch);
@@ -418,16 +461,22 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         [Deprecated("XenServer 7.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Host_patch>> get_all(Session session)
         {
             return session.JsonRpcClient.host_patch_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the host_patch Records at once, in a single XML RPC call
+        /// Return a map of host_patch references to host_patch records for all host_patchs known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Host_patch>, Host_patch> get_all_records(Session session)
         {
             return session.JsonRpcClient.host_patch_get_all_records(session.opaque_ref);

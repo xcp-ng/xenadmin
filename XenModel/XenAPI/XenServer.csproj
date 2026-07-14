@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Version>0.0.0</Version>
+    <TargetFrameworks>net80;netstandard2.0;net462</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <RootNamespace>XenAPI</RootNamespace>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>XenServer.NET</Title>
+    <Authors>Cloud Software Group, Inc.</Authors>
+    <PackageId>$(AssemblyName).NET</PackageId>
+    <Product>$(AssemblyName).NET</Product>
+    <Description>.NET wrapper for the XenServer API</Description>
+    <Copyright>Copyright (c) 2007-2026 Cloud Software Group, Inc. All Rights Reserved.</Copyright>
+    <PackageTags>citrix hypervisor virtualization sdk jsonrpc .net c# xen xenserver</PackageTags>
+    <PackageLicenseExpression>BSD-2-Clause</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/xapi-project/xen-api</RepositoryUrl>
+    <PackageIcon>packageIcon.png</PackageIcon>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README-NuGet.md</PackageReadmeFile>
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE" Pack="true" PackagePath="LICENSE" />
+    <None Include=".\packageIcon.png" Pack="true" PackagePath="\" />
+    <None Include=".\README-NuGet.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>8981</WarningsNotAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="FriendlyErrorNames.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FriendlyErrorNames.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="FriendlyErrorNames.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FriendlyErrorNames.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

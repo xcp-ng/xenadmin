@@ -28,9 +28,6 @@
  */
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-
 
 namespace XenAPI
 {
@@ -88,12 +85,12 @@ namespace XenAPI
         API_2_14 = 25,
         /// <summary>Citrix Hypervisor 8.2 (stockholm)</summary>
         API_2_15 = 26,
-        /// <summary>XCP-ng 8.2</summary>
-        API_2_16 = 27,
-        /// <summary>XCP-ng 8.3</summary>
-        API_2_20 = 28,
-        /// <summary>XCP-ng 8.3</summary>
-        API_2_21 = 29,
+        /// <summary>XenServer 8 Preview (nile-preview)</summary>
+        API_2_20 = 27,
+        /// <summary>XenServer 8 (nile)</summary>
+        API_2_21 = 28,
+        /// <summary>XenServer 9 (orinoco)</summary>
+        API_2_23 = 29,
         LATEST = 29,
         UNKNOWN = 99
     }
@@ -156,12 +153,12 @@ namespace XenAPI
                     return "2.14";
                 case API_Version.API_2_15:
                     return "2.15";
-                case API_Version.API_2_16:
-                    return "2.16";
                 case API_Version.API_2_20:
                     return "2.20";
                 case API_Version.API_2_21:
                     return "2.21";
+                case API_Version.API_2_23:
+                    return "2.23";
                 default:
                     return "Unknown";
             }
@@ -171,8 +168,7 @@ namespace XenAPI
         {
             try
             {
-                return (API_Version)Enum.Parse(typeof(API_Version),
-                    string.Format("API_{0}_{1}", major, minor));
+                return (API_Version)Enum.Parse(typeof(API_Version), $"API_{major}_{minor}");
             }
             catch (ArgumentException)
             {
@@ -190,30 +186,14 @@ namespace XenAPI
             {
                 string[] tokens = version.Split('.');
                 int major, minor;
-                if (tokens.Length == 2 && int.TryParse(tokens[0], out major) && int.TryParse(tokens[1], out minor))
+                if (tokens.Length == 2 &&
+                    int.TryParse(tokens[0], out major) &&
+                    int.TryParse(tokens[1], out minor))
                 {
                     return GetAPIVersion(major, minor);
                 }
             }
             return API_Version.UNKNOWN;
         }
-
-        /// <summary>
-        /// Return a positive number if the given session's API version is greater than the given
-        /// API_version, negative if it is less, and 0 if they are equal.
-        /// </summary>
-        internal static int APIVersionCompare(Session session, API_Version v)
-        {
-            return (int)session.APIVersion - (int)v;
-        }
-
-        /// <summary>
-        /// Return true if the given session's API version is greater than or equal to the given
-        /// API_version.
-        /// </summary>
-        internal static bool APIVersionMeets(Session session, API_Version v)
-        {
-            return APIVersionCompare(session, v) >= 0;
-        }
     }
-}
+}

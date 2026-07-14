@@ -38,13 +38,25 @@ namespace XenAPI
             UPDATES_FEATURE_EXPIRING_WARNING,
             UPDATES_FEATURE_EXPIRING_MAJOR,
             UPDATES_FEATURE_EXPIRING_CRITICAL,
+            GFS2_CAPACITY,
             LEAF_COALESCE_START_MESSAGE,
             LEAF_COALESCE_COMPLETED,
             LEAF_COALESCE_FAILED,
             POST_ATTACH_SCAN_FAILED,
+            WLB_HOST_POWER_OFF,
+            WLB_HOST_POWER_ON,
+            WLB_SERVER_TIME_DISCREPANCY,
+            WLB_VM_RELOCATION,
+            SM_GC_NO_SPACE,
+            ALL_RUNNING_VMS_IN_ANTI_AFFINITY_GRP_ON_SINGLE_HOST,
+            XAPI_STARTUP_BLOCKED_AS_VERSION_HIGHER_THAN_COORDINATOR,
             PERIODIC_UPDATE_SYNC_FAILED,
             TLS_VERIFICATION_EMERGENCY_DISABLED,
             FAILED_LOGIN_ATTEMPTS,
+            POOL_PINNED_CERTIFICATE_EXPIRING_07,
+            POOL_PINNED_CERTIFICATE_EXPIRING_14,
+            POOL_PINNED_CERTIFICATE_EXPIRING_30,
+            POOL_PINNED_CERTIFICATE_EXPIRED,
             HOST_INTERNAL_CERTIFICATE_EXPIRING_07,
             HOST_INTERNAL_CERTIFICATE_EXPIRING_14,
             HOST_INTERNAL_CERTIFICATE_EXPIRING_30,
@@ -57,8 +69,11 @@ namespace XenAPI
             POOL_CA_CERTIFICATE_EXPIRED,
             HOST_INTERNAL_CERTIFICATE_EXPIRED,
             HOST_SERVER_CERTIFICATE_EXPIRED,
+            CLUSTER_HOST_JOINING,
+            CLUSTER_HOST_LEAVING,
             CLUSTER_HOST_FENCING,
             CLUSTER_HOST_ENABLE_FAILED,
+            CLUSTER_QUORUM_APPROACHING_LOST,
             POOL_CPU_FEATURES_UP,
             POOL_CPU_FEATURES_DOWN,
             HOST_CPU_FEATURES_UP,
@@ -157,6 +172,8 @@ namespace XenAPI
                         return MessageType.UPDATES_FEATURE_EXPIRING_MAJOR;
                     case "UPDATES_FEATURE_EXPIRING_CRITICAL":
                         return MessageType.UPDATES_FEATURE_EXPIRING_CRITICAL;
+                    case "GFS2_CAPACITY":
+                        return MessageType.GFS2_CAPACITY;
                     case "LEAF_COALESCE_START_MESSAGE":
                         return MessageType.LEAF_COALESCE_START_MESSAGE;
                     case "LEAF_COALESCE_COMPLETED":
@@ -165,12 +182,34 @@ namespace XenAPI
                         return MessageType.LEAF_COALESCE_FAILED;
                     case "POST_ATTACH_SCAN_FAILED":
                         return MessageType.POST_ATTACH_SCAN_FAILED;
+                    case "WLB_HOST_POWER_OFF":
+                        return MessageType.WLB_HOST_POWER_OFF;
+                    case "WLB_HOST_POWER_ON":
+                        return MessageType.WLB_HOST_POWER_ON;
+                    case "WLB_SERVER_TIME_DISCREPANCY":
+                        return MessageType.WLB_SERVER_TIME_DISCREPANCY;
+                    case "WLB_VM_RELOCATION":
+                        return MessageType.WLB_VM_RELOCATION;
+                    case "SM_GC_NO_SPACE":
+                        return MessageType.SM_GC_NO_SPACE;
+                    case "ALL_RUNNING_VMS_IN_ANTI_AFFINITY_GRP_ON_SINGLE_HOST":
+                        return MessageType.ALL_RUNNING_VMS_IN_ANTI_AFFINITY_GRP_ON_SINGLE_HOST;
+                    case "XAPI_STARTUP_BLOCKED_AS_VERSION_HIGHER_THAN_COORDINATOR":
+                        return MessageType.XAPI_STARTUP_BLOCKED_AS_VERSION_HIGHER_THAN_COORDINATOR;
                     case "PERIODIC_UPDATE_SYNC_FAILED":
                         return MessageType.PERIODIC_UPDATE_SYNC_FAILED;
                     case "TLS_VERIFICATION_EMERGENCY_DISABLED":
                         return MessageType.TLS_VERIFICATION_EMERGENCY_DISABLED;
                     case "FAILED_LOGIN_ATTEMPTS":
                         return MessageType.FAILED_LOGIN_ATTEMPTS;
+                    case "POOL_PINNED_CERTIFICATE_EXPIRING_07":
+                        return MessageType.POOL_PINNED_CERTIFICATE_EXPIRING_07;
+                    case "POOL_PINNED_CERTIFICATE_EXPIRING_14":
+                        return MessageType.POOL_PINNED_CERTIFICATE_EXPIRING_14;
+                    case "POOL_PINNED_CERTIFICATE_EXPIRING_30":
+                        return MessageType.POOL_PINNED_CERTIFICATE_EXPIRING_30;
+                    case "POOL_PINNED_CERTIFICATE_EXPIRED":
+                        return MessageType.POOL_PINNED_CERTIFICATE_EXPIRED;
                     case "HOST_INTERNAL_CERTIFICATE_EXPIRING_07":
                         return MessageType.HOST_INTERNAL_CERTIFICATE_EXPIRING_07;
                     case "HOST_INTERNAL_CERTIFICATE_EXPIRING_14":
@@ -195,10 +234,16 @@ namespace XenAPI
                         return MessageType.HOST_INTERNAL_CERTIFICATE_EXPIRED;
                     case "HOST_SERVER_CERTIFICATE_EXPIRED":
                         return MessageType.HOST_SERVER_CERTIFICATE_EXPIRED;
+                    case "CLUSTER_HOST_JOINING":
+                        return MessageType.CLUSTER_HOST_JOINING;
+                    case "CLUSTER_HOST_LEAVING":
+                        return MessageType.CLUSTER_HOST_LEAVING;
                     case "CLUSTER_HOST_FENCING":
                         return MessageType.CLUSTER_HOST_FENCING;
                     case "CLUSTER_HOST_ENABLE_FAILED":
                         return MessageType.CLUSTER_HOST_ENABLE_FAILED;
+                    case "CLUSTER_QUORUM_APPROACHING_LOST":
+                        return MessageType.CLUSTER_QUORUM_APPROACHING_LOST;
                     case "POOL_CPU_FEATURES_UP":
                         return MessageType.POOL_CPU_FEATURES_UP;
                     case "POOL_CPU_FEATURES_DOWN":

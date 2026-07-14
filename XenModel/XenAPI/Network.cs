@@ -193,39 +193,6 @@ namespace XenAPI
                 Helper.AreEqual2(_purpose, other._purpose);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Network server)
-        {
-            if (opaqueRef == null)
-            {
-                var reference = create(session, this);
-                return reference == null ? null : reference.opaque_ref;
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_name_label, server._name_label))
-                {
-                    Network.set_name_label(session, opaqueRef, _name_label);
-                }
-                if (!Helper.AreEqual2(_name_description, server._name_description))
-                {
-                    Network.set_name_description(session, opaqueRef, _name_description);
-                }
-                if (!Helper.AreEqual2(_MTU, server._MTU))
-                {
-                    Network.set_MTU(session, opaqueRef, _MTU);
-                }
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    Network.set_other_config(session, opaqueRef, _other_config);
-                }
-                if (!Helper.AreEqual2(_tags, server._tags))
-                {
-                    Network.set_tags(session, opaqueRef, _tags);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given network.
@@ -233,6 +200,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Network get_record(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_record(session.opaque_ref, _network);
@@ -244,6 +214,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Network> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.network_get_by_uuid(session.opaque_ref, _uuid);
@@ -255,6 +228,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Network> create(Session session, Network _record)
         {
             return session.JsonRpcClient.network_create(session.opaque_ref, _record);
@@ -266,6 +242,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, Network _record)
         {
           return session.JsonRpcClient.async_network_create(session.opaque_ref, _record);
@@ -277,6 +256,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void destroy(Session session, string _network)
         {
             session.JsonRpcClient.network_destroy(session.opaque_ref, _network);
@@ -288,6 +270,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _network)
         {
           return session.JsonRpcClient.async_network_destroy(session.opaque_ref, _network);
@@ -299,6 +284,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Network>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.network_get_by_name_label(session.opaque_ref, _label);
@@ -310,6 +298,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_uuid(session.opaque_ref, _network);
@@ -321,6 +312,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_name_label(session.opaque_ref, _network);
@@ -332,6 +326,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_name_description(session.opaque_ref, _network);
@@ -343,6 +340,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<network_operations> get_allowed_operations(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_allowed_operations(session.opaque_ref, _network);
@@ -354,6 +354,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, network_operations> get_current_operations(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_current_operations(session.opaque_ref, _network);
@@ -365,6 +368,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VIF>> get_VIFs(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_vifs(session.opaque_ref, _network);
@@ -376,6 +382,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PIF>> get_PIFs(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_pifs(session.opaque_ref, _network);
@@ -387,6 +396,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_MTU(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_mtu(session.opaque_ref, _network);
@@ -398,6 +410,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_other_config(session.opaque_ref, _network);
@@ -409,6 +424,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_bridge(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_bridge(session.opaque_ref, _network);
@@ -420,6 +438,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_managed(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_managed(session.opaque_ref, _network);
@@ -431,6 +452,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, XenRef<Blob>> get_blobs(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_blobs(session.opaque_ref, _network);
@@ -442,6 +466,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_tags(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_tags(session.opaque_ref, _network);
@@ -453,6 +480,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static network_default_locking_mode get_default_locking_mode(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_default_locking_mode(session.opaque_ref, _network);
@@ -464,6 +494,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VIF>, string> get_assigned_ips(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_assigned_ips(session.opaque_ref, _network);
@@ -475,6 +508,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<network_purpose> get_purpose(Session session, string _network)
         {
             return session.JsonRpcClient.network_get_purpose(session.opaque_ref, _network);
@@ -487,6 +523,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_label">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_label(Session session, string _network, string _label)
         {
             session.JsonRpcClient.network_set_name_label(session.opaque_ref, _network, _label);
@@ -499,6 +538,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_description">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_description(Session session, string _network, string _description)
         {
             session.JsonRpcClient.network_set_name_description(session.opaque_ref, _network, _description);
@@ -511,6 +553,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_mtu">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_MTU(Session session, string _network, long _mtu)
         {
             session.JsonRpcClient.network_set_mtu(session.opaque_ref, _network, _mtu);
@@ -523,6 +568,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _network, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.network_set_other_config(session.opaque_ref, _network, _other_config);
@@ -536,6 +584,9 @@ namespace XenAPI
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _network, string _key, string _value)
         {
             session.JsonRpcClient.network_add_to_other_config(session.opaque_ref, _network, _key, _value);
@@ -548,6 +599,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _network, string _key)
         {
             session.JsonRpcClient.network_remove_from_other_config(session.opaque_ref, _network, _key);
@@ -560,6 +614,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_tags">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void set_tags(Session session, string _network, string[] _tags)
         {
             session.JsonRpcClient.network_set_tags(session.opaque_ref, _network, _tags);
@@ -572,6 +629,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_value">New value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void add_tags(Session session, string _network, string _value)
         {
             session.JsonRpcClient.network_add_tags(session.opaque_ref, _network, _value);
@@ -584,6 +644,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_value">Value to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void remove_tags(Session session, string _network, string _value)
         {
             session.JsonRpcClient.network_remove_tags(session.opaque_ref, _network, _value);
@@ -597,6 +660,9 @@ namespace XenAPI
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Blob> create_new_blob(Session session, string _network, string _name, string _mime_type)
         {
             return session.JsonRpcClient.network_create_new_blob(session.opaque_ref, _network, _name, _mime_type);
@@ -610,6 +676,9 @@ namespace XenAPI
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create_new_blob(Session session, string _network, string _name, string _mime_type)
         {
           return session.JsonRpcClient.async_network_create_new_blob(session.opaque_ref, _network, _name, _mime_type);
@@ -624,6 +693,9 @@ namespace XenAPI
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
         /// <param name="_public">True if the blob should be publicly available First published in XenServer 6.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Blob> create_new_blob(Session session, string _network, string _name, string _mime_type, bool _public)
         {
             return session.JsonRpcClient.network_create_new_blob(session.opaque_ref, _network, _name, _mime_type, _public);
@@ -638,6 +710,9 @@ namespace XenAPI
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
         /// <param name="_public">True if the blob should be publicly available First published in XenServer 6.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create_new_blob(Session session, string _network, string _name, string _mime_type, bool _public)
         {
           return session.JsonRpcClient.async_network_create_new_blob(session.opaque_ref, _network, _name, _mime_type, _public);
@@ -650,6 +725,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_value">The default locking mode for VIFs attached to this network.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_default_locking_mode(Session session, string _network, network_default_locking_mode _value)
         {
             session.JsonRpcClient.network_set_default_locking_mode(session.opaque_ref, _network, _value);
@@ -662,6 +740,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_value">The default locking mode for VIFs attached to this network.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_default_locking_mode(Session session, string _network, network_default_locking_mode _value)
         {
           return session.JsonRpcClient.async_network_set_default_locking_mode(session.opaque_ref, _network, _value);
@@ -674,6 +755,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_value">The purpose to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void add_purpose(Session session, string _network, network_purpose _value)
         {
             session.JsonRpcClient.network_add_purpose(session.opaque_ref, _network, _value);
@@ -686,6 +770,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_value">The purpose to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_add_purpose(Session session, string _network, network_purpose _value)
         {
           return session.JsonRpcClient.async_network_add_purpose(session.opaque_ref, _network, _value);
@@ -698,6 +785,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_value">The purpose to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void remove_purpose(Session session, string _network, network_purpose _value)
         {
             session.JsonRpcClient.network_remove_purpose(session.opaque_ref, _network, _value);
@@ -710,6 +800,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_network">The opaque_ref of the given network</param>
         /// <param name="_value">The purpose to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_remove_purpose(Session session, string _network, network_purpose _value)
         {
           return session.JsonRpcClient.async_network_remove_purpose(session.opaque_ref, _network, _value);
@@ -720,16 +813,22 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Network>> get_all(Session session)
         {
             return session.JsonRpcClient.network_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the network Records at once, in a single XML RPC call
+        /// Return a map of network references to network records for all networks known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Network>, Network> get_all_records(Session session)
         {
             return session.JsonRpcClient.network_get_all_records(session.opaque_ref);

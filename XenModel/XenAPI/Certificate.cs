@@ -40,7 +40,7 @@ using Newtonsoft.Json;
 namespace XenAPI
 {
     /// <summary>
-    /// Description
+    /// An X509 certificate used for TLS connections
     /// First published in Citrix Hypervisor 8.2.
     /// </summary>
     public partial class Certificate : XenObject<Certificate>
@@ -57,7 +57,10 @@ namespace XenAPI
             XenRef<Host> host,
             DateTime not_before,
             DateTime not_after,
-            string fingerprint)
+            string fingerprint,
+            string fingerprint_sha256,
+            string fingerprint_sha1,
+            List<certificate_purpose> purpose)
         {
             this.uuid = uuid;
             this.name = name;
@@ -66,6 +69,9 @@ namespace XenAPI
             this.not_before = not_before;
             this.not_after = not_after;
             this.fingerprint = fingerprint;
+            this.fingerprint_sha256 = fingerprint_sha256;
+            this.fingerprint_sha1 = fingerprint_sha1;
+            this.purpose = purpose;
         }
 
         /// <summary>
@@ -95,6 +101,9 @@ namespace XenAPI
             not_before = record.not_before;
             not_after = record.not_after;
             fingerprint = record.fingerprint;
+            fingerprint_sha256 = record.fingerprint_sha256;
+            fingerprint_sha1 = record.fingerprint_sha1;
+            purpose = record.purpose;
         }
 
         /// <summary>
@@ -119,6 +128,12 @@ namespace XenAPI
                 not_after = Marshalling.ParseDateTime(table, "not_after");
             if (table.ContainsKey("fingerprint"))
                 fingerprint = Marshalling.ParseString(table, "fingerprint");
+            if (table.ContainsKey("fingerprint_sha256"))
+                fingerprint_sha256 = Marshalling.ParseString(table, "fingerprint_sha256");
+            if (table.ContainsKey("fingerprint_sha1"))
+                fingerprint_sha1 = Marshalling.ParseString(table, "fingerprint_sha1");
+            if (table.ContainsKey("purpose"))
+                purpose = Helper.StringArrayToEnumList<certificate_purpose>(Marshalling.ParseStringArray(table, "purpose"));
         }
 
         public bool DeepEquals(Certificate other)
@@ -134,21 +149,12 @@ namespace XenAPI
                 Helper.AreEqual2(_host, other._host) &&
                 Helper.AreEqual2(_not_before, other._not_before) &&
                 Helper.AreEqual2(_not_after, other._not_after) &&
-                Helper.AreEqual2(_fingerprint, other._fingerprint);
+                Helper.AreEqual2(_fingerprint, other._fingerprint) &&
+                Helper.AreEqual2(_fingerprint_sha256, other._fingerprint_sha256) &&
+                Helper.AreEqual2(_fingerprint_sha1, other._fingerprint_sha1) &&
+                Helper.AreEqual2(_purpose, other._purpose);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Certificate server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given Certificate.
@@ -156,6 +162,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_certificate">The opaque_ref of the given certificate</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Certificate get_record(Session session, string _certificate)
         {
             return session.JsonRpcClient.certificate_get_record(session.opaque_ref, _certificate);
@@ -167,6 +176,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Certificate> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.certificate_get_by_uuid(session.opaque_ref, _uuid);
@@ -178,6 +190,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_certificate">The opaque_ref of the given certificate</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _certificate)
         {
             return session.JsonRpcClient.certificate_get_uuid(session.opaque_ref, _certificate);
@@ -189,6 +204,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_certificate">The opaque_ref of the given certificate</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name(Session session, string _certificate)
         {
             return session.JsonRpcClient.certificate_get_name(session.opaque_ref, _certificate);
@@ -200,6 +218,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_certificate">The opaque_ref of the given certificate</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static certificate_type get_type(Session session, string _certificate)
         {
             return session.JsonRpcClient.certificate_get_type(session.opaque_ref, _certificate);
@@ -211,6 +232,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_certificate">The opaque_ref of the given certificate</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host> get_host(Session session, string _certificate)
         {
             return session.JsonRpcClient.certificate_get_host(session.opaque_ref, _certificate);
@@ -222,6 +246,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_certificate">The opaque_ref of the given certificate</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_not_before(Session session, string _certificate)
         {
             return session.JsonRpcClient.certificate_get_not_before(session.opaque_ref, _certificate);
@@ -233,6 +260,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_certificate">The opaque_ref of the given certificate</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_not_after(Session session, string _certificate)
         {
             return session.JsonRpcClient.certificate_get_not_after(session.opaque_ref, _certificate);
@@ -241,12 +271,59 @@ namespace XenAPI
         /// <summary>
         /// Get the fingerprint field of the given Certificate.
         /// First published in Citrix Hypervisor 8.2.
+        /// Deprecated since 24.19.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_certificate">The opaque_ref of the given certificate</param>
+        [Deprecated("24.19.0")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_fingerprint(Session session, string _certificate)
         {
             return session.JsonRpcClient.certificate_get_fingerprint(session.opaque_ref, _certificate);
+        }
+
+        /// <summary>
+        /// Get the fingerprint_sha256 field of the given Certificate.
+        /// Experimental. First published in 24.20.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_certificate">The opaque_ref of the given certificate</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static string get_fingerprint_sha256(Session session, string _certificate)
+        {
+            return session.JsonRpcClient.certificate_get_fingerprint_sha256(session.opaque_ref, _certificate);
+        }
+
+        /// <summary>
+        /// Get the fingerprint_sha1 field of the given Certificate.
+        /// Experimental. First published in 24.20.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_certificate">The opaque_ref of the given certificate</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static string get_fingerprint_sha1(Session session, string _certificate)
+        {
+            return session.JsonRpcClient.certificate_get_fingerprint_sha1(session.opaque_ref, _certificate);
+        }
+
+        /// <summary>
+        /// Get the purpose field of the given Certificate.
+        /// Experimental. First published in 26.13.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_certificate">The opaque_ref of the given certificate</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static List<certificate_purpose> get_purpose(Session session, string _certificate)
+        {
+            return session.JsonRpcClient.certificate_get_purpose(session.opaque_ref, _certificate);
         }
 
         /// <summary>
@@ -254,16 +331,22 @@ namespace XenAPI
         /// First published in Citrix Hypervisor 8.2.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Certificate>> get_all(Session session)
         {
             return session.JsonRpcClient.certificate_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the Certificate Records at once, in a single XML RPC call
+        /// Return a map of Certificate references to Certificate records for all Certificates known to the system.
         /// First published in Citrix Hypervisor 8.2.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Certificate>, Certificate> get_all_records(Session session)
         {
             return session.JsonRpcClient.certificate_get_all_records(session.opaque_ref);
@@ -378,7 +461,7 @@ namespace XenAPI
         private DateTime _not_after = DateTime.ParseExact("19700101T00:00:00Z", "yyyyMMddTHH:mm:ssZ", CultureInfo.InvariantCulture);
 
         /// <summary>
-        /// The certificate's fingerprint / hash
+        /// Use fingerprint_sha256 instead
         /// </summary>
         public virtual string fingerprint
         {
@@ -393,5 +476,59 @@ namespace XenAPI
             }
         }
         private string _fingerprint = "";
+
+        /// <summary>
+        /// The certificate's SHA256 fingerprint / hash
+        /// Experimental. First published in 24.20.0.
+        /// </summary>
+        public virtual string fingerprint_sha256
+        {
+            get { return _fingerprint_sha256; }
+            set
+            {
+                if (!Helper.AreEqual(value, _fingerprint_sha256))
+                {
+                    _fingerprint_sha256 = value;
+                    NotifyPropertyChanged("fingerprint_sha256");
+                }
+            }
+        }
+        private string _fingerprint_sha256 = "";
+
+        /// <summary>
+        /// The certificate's SHA1 fingerprint / hash
+        /// Experimental. First published in 24.20.0.
+        /// </summary>
+        public virtual string fingerprint_sha1
+        {
+            get { return _fingerprint_sha1; }
+            set
+            {
+                if (!Helper.AreEqual(value, _fingerprint_sha1))
+                {
+                    _fingerprint_sha1 = value;
+                    NotifyPropertyChanged("fingerprint_sha1");
+                }
+            }
+        }
+        private string _fingerprint_sha1 = "";
+
+        /// <summary>
+        /// The purposes of the certificate
+        /// Experimental. First published in 26.13.0.
+        /// </summary>
+        public virtual List<certificate_purpose> purpose
+        {
+            get { return _purpose; }
+            set
+            {
+                if (!Helper.AreEqual(value, _purpose))
+                {
+                    _purpose = value;
+                    NotifyPropertyChanged("purpose");
+                }
+            }
+        }
+        private List<certificate_purpose> _purpose = new List<certificate_purpose>() {};
     }
 }

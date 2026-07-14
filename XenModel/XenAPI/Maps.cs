@@ -32,13 +32,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-     namespace XenAPI
+namespace XenAPI
 {
     internal class Maps
     {
         internal static Dictionary<string, string> ToDictionary_string_string(Hashtable table)
         {
-            Dictionary<string, string> result = new Dictionary<string, string>();
+            var result = new Dictionary<string, string>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -58,10 +58,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, long> ToDictionary_string_long(Hashtable table)
         {
-            Dictionary<string, long> result = new Dictionary<string, long>();
+            var result = new Dictionary<string, long>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -81,10 +80,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, cluster_host_operation> ToDictionary_string_cluster_host_operation(Hashtable table)
         {
-            Dictionary<string, cluster_host_operation> result = new Dictionary<string, cluster_host_operation>();
+            var result = new Dictionary<string, cluster_host_operation>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -104,10 +102,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, cluster_operation> ToDictionary_string_cluster_operation(Hashtable table)
         {
-            Dictionary<string, cluster_operation> result = new Dictionary<string, cluster_operation>();
+            var result = new Dictionary<string, cluster_operation>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -127,10 +124,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, host_allowed_operations> ToDictionary_string_host_allowed_operations(Hashtable table)
         {
-            Dictionary<string, host_allowed_operations> result = new Dictionary<string, host_allowed_operations>();
+            var result = new Dictionary<string, host_allowed_operations>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -150,10 +146,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, network_operations> ToDictionary_string_network_operations(Hashtable table)
         {
-            Dictionary<string, network_operations> result = new Dictionary<string, network_operations>();
+            var result = new Dictionary<string, network_operations>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -173,10 +168,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, pool_allowed_operations> ToDictionary_string_pool_allowed_operations(Hashtable table)
         {
-            Dictionary<string, pool_allowed_operations> result = new Dictionary<string, pool_allowed_operations>();
+            var result = new Dictionary<string, pool_allowed_operations>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -196,10 +190,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, storage_operations> ToDictionary_string_storage_operations(Hashtable table)
         {
-            Dictionary<string, storage_operations> result = new Dictionary<string, storage_operations>();
+            var result = new Dictionary<string, storage_operations>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -219,10 +212,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, task_allowed_operations> ToDictionary_string_task_allowed_operations(Hashtable table)
         {
-            Dictionary<string, task_allowed_operations> result = new Dictionary<string, task_allowed_operations>();
+            var result = new Dictionary<string, task_allowed_operations>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -242,10 +234,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, vbd_operations> ToDictionary_string_vbd_operations(Hashtable table)
         {
-            Dictionary<string, vbd_operations> result = new Dictionary<string, vbd_operations>();
+            var result = new Dictionary<string, vbd_operations>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -265,10 +256,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, vdi_operations> ToDictionary_string_vdi_operations(Hashtable table)
         {
-            Dictionary<string, vdi_operations> result = new Dictionary<string, vdi_operations>();
+            var result = new Dictionary<string, vdi_operations>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -288,10 +278,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, vif_operations> ToDictionary_string_vif_operations(Hashtable table)
         {
-            Dictionary<string, vif_operations> result = new Dictionary<string, vif_operations>();
+            var result = new Dictionary<string, vif_operations>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -311,10 +300,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, vm_appliance_operation> ToDictionary_string_vm_appliance_operation(Hashtable table)
         {
-            Dictionary<string, vm_appliance_operation> result = new Dictionary<string, vm_appliance_operation>();
+            var result = new Dictionary<string, vm_appliance_operation>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -334,10 +322,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, vm_operations> ToDictionary_string_vm_operations(Hashtable table)
         {
-            Dictionary<string, vm_operations> result = new Dictionary<string, vm_operations>();
+            var result = new Dictionary<string, vm_operations>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -357,10 +344,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, vtpm_operations> ToDictionary_string_vtpm_operations(Hashtable table)
         {
-            Dictionary<string, vtpm_operations> result = new Dictionary<string, vtpm_operations>();
+            var result = new Dictionary<string, vtpm_operations>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -380,10 +366,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, vusb_operations> ToDictionary_string_vusb_operations(Hashtable table)
         {
-            Dictionary<string, vusb_operations> result = new Dictionary<string, vusb_operations>();
+            var result = new Dictionary<string, vusb_operations>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -403,10 +388,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<string, XenRef<Blob>> ToDictionary_string_XenRefBlob(Hashtable table)
         {
-            Dictionary<string, XenRef<Blob>> result = new Dictionary<string, XenRef<Blob>>();
+            var result = new Dictionary<string, XenRef<Blob>>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -426,10 +410,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<long, long> ToDictionary_long_long(Hashtable table)
         {
-            Dictionary<long, long> result = new Dictionary<long, long>();
+            var result = new Dictionary<long, long>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -449,10 +432,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<long, double> ToDictionary_long_double(Hashtable table)
         {
-            Dictionary<long, double> result = new Dictionary<long, double>();
+            var result = new Dictionary<long, double>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -472,10 +454,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<long, string[]> ToDictionary_long_string_array(Hashtable table)
         {
-            Dictionary<long, string[]> result = new Dictionary<long, string[]>();
+            var result = new Dictionary<long, string[]>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -495,10 +476,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<vm_operations, string> ToDictionary_vm_operations_string(Hashtable table)
         {
-            Dictionary<vm_operations, string> result = new Dictionary<vm_operations, string>();
+            var result = new Dictionary<vm_operations, string>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -518,10 +498,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<XenRef<VGPU_type>, long> ToDictionary_XenRefVGPU_type_long(Hashtable table)
         {
-            Dictionary<XenRef<VGPU_type>, long> result = new Dictionary<XenRef<VGPU_type>, long>();
+            var result = new Dictionary<XenRef<VGPU_type>, long>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -541,10 +520,9 @@ using System.Collections.Generic;
             return result;
         }
 
-
         internal static Dictionary<XenRef<VIF>, string> ToDictionary_XenRefVIF_string(Hashtable table)
         {
-            Dictionary<XenRef<VIF>, string> result = new Dictionary<XenRef<VIF>, string>();
+            var result = new Dictionary<XenRef<VIF>, string>();
             if (table != null)
             {
                 foreach (string key in table.Keys)
@@ -564,6 +542,5 @@ using System.Collections.Generic;
             return result;
         }
 
-
     }
-}
+}

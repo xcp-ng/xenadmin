@@ -125,23 +125,6 @@ namespace XenAPI
                 Helper.AreEqual2(_other_config, other._other_config);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VLAN server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    VLAN.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VLAN.
@@ -149,6 +132,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vlan">The opaque_ref of the given vlan</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VLAN get_record(Session session, string _vlan)
         {
             return session.JsonRpcClient.vlan_get_record(session.opaque_ref, _vlan);
@@ -160,6 +146,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VLAN> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vlan_get_by_uuid(session.opaque_ref, _uuid);
@@ -171,6 +160,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vlan">The opaque_ref of the given vlan</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vlan)
         {
             return session.JsonRpcClient.vlan_get_uuid(session.opaque_ref, _vlan);
@@ -182,6 +174,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vlan">The opaque_ref of the given vlan</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PIF> get_tagged_PIF(Session session, string _vlan)
         {
             return session.JsonRpcClient.vlan_get_tagged_pif(session.opaque_ref, _vlan);
@@ -193,6 +188,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vlan">The opaque_ref of the given vlan</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PIF> get_untagged_PIF(Session session, string _vlan)
         {
             return session.JsonRpcClient.vlan_get_untagged_pif(session.opaque_ref, _vlan);
@@ -204,6 +202,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vlan">The opaque_ref of the given vlan</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_tag(Session session, string _vlan)
         {
             return session.JsonRpcClient.vlan_get_tag(session.opaque_ref, _vlan);
@@ -215,6 +216,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vlan">The opaque_ref of the given vlan</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _vlan)
         {
             return session.JsonRpcClient.vlan_get_other_config(session.opaque_ref, _vlan);
@@ -227,6 +231,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vlan">The opaque_ref of the given vlan</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _vlan, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.vlan_set_other_config(session.opaque_ref, _vlan, _other_config);
@@ -240,6 +247,9 @@ namespace XenAPI
         /// <param name="_vlan">The opaque_ref of the given vlan</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _vlan, string _key, string _value)
         {
             session.JsonRpcClient.vlan_add_to_other_config(session.opaque_ref, _vlan, _key, _value);
@@ -252,6 +262,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vlan">The opaque_ref of the given vlan</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _vlan, string _key)
         {
             session.JsonRpcClient.vlan_remove_from_other_config(session.opaque_ref, _vlan, _key);
@@ -265,6 +278,9 @@ namespace XenAPI
         /// <param name="_tagged_pif">PIF which receives the tagged traffic</param>
         /// <param name="_tag">VLAN tag to use</param>
         /// <param name="_network">Network to receive the untagged traffic</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<VLAN> create(Session session, string _tagged_pif, long _tag, string _network)
         {
             return session.JsonRpcClient.vlan_create(session.opaque_ref, _tagged_pif, _tag, _network);
@@ -278,6 +294,9 @@ namespace XenAPI
         /// <param name="_tagged_pif">PIF which receives the tagged traffic</param>
         /// <param name="_tag">VLAN tag to use</param>
         /// <param name="_network">Network to receive the untagged traffic</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _tagged_pif, long _tag, string _network)
         {
           return session.JsonRpcClient.async_vlan_create(session.opaque_ref, _tagged_pif, _tag, _network);
@@ -289,6 +308,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vlan">The opaque_ref of the given vlan</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _vlan)
         {
             session.JsonRpcClient.vlan_destroy(session.opaque_ref, _vlan);
@@ -300,6 +322,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vlan">The opaque_ref of the given vlan</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _vlan)
         {
           return session.JsonRpcClient.async_vlan_destroy(session.opaque_ref, _vlan);
@@ -310,16 +335,22 @@ namespace XenAPI
         /// First published in XenServer 4.1.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VLAN>> get_all(Session session)
         {
             return session.JsonRpcClient.vlan_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VLAN Records at once, in a single XML RPC call
+        /// Return a map of VLAN references to VLAN records for all VLANs known to the system.
         /// First published in XenServer 4.1.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VLAN>, VLAN> get_all_records(Session session)
         {
             return session.JsonRpcClient.vlan_get_all_records(session.opaque_ref);

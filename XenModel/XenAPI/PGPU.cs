@@ -60,7 +60,7 @@ namespace XenAPI
             List<XenRef<VGPU_type>> enabled_VGPU_types,
             List<XenRef<VGPU>> resident_VGPUs,
             Dictionary<XenRef<VGPU_type>, long> supported_VGPU_max_capacities,
-            pgpu_dom0_access dom0_access,
+            pci_dom0_access dom0_access,
             bool is_system_display_device,
             Dictionary<string, string> compatibility_metadata)
         {
@@ -139,7 +139,7 @@ namespace XenAPI
             if (table.ContainsKey("supported_VGPU_max_capacities"))
                 supported_VGPU_max_capacities = Maps.ToDictionary_XenRefVGPU_type_long(Marshalling.ParseHashTable(table, "supported_VGPU_max_capacities"));
             if (table.ContainsKey("dom0_access"))
-                dom0_access = (pgpu_dom0_access)Helper.EnumParseDefault(typeof(pgpu_dom0_access), Marshalling.ParseString(table, "dom0_access"));
+                dom0_access = (pci_dom0_access)Helper.EnumParseDefault(typeof(pci_dom0_access), Marshalling.ParseString(table, "dom0_access"));
             if (table.ContainsKey("is_system_display_device"))
                 is_system_display_device = Marshalling.ParseBool(table, "is_system_display_device");
             if (table.ContainsKey("compatibility_metadata"))
@@ -167,27 +167,6 @@ namespace XenAPI
                 Helper.AreEqual2(_compatibility_metadata, other._compatibility_metadata);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, PGPU server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    PGPU.set_other_config(session, opaqueRef, _other_config);
-                }
-                if (!Helper.AreEqual2(_GPU_group, server._GPU_group))
-                {
-                    PGPU.set_GPU_group(session, opaqueRef, _GPU_group);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given PGPU.
@@ -195,6 +174,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static PGPU get_record(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_get_record(session.opaque_ref, _pgpu);
@@ -206,6 +188,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PGPU> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.pgpu_get_by_uuid(session.opaque_ref, _uuid);
@@ -217,6 +202,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_get_uuid(session.opaque_ref, _pgpu);
@@ -228,6 +216,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PCI> get_PCI(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_get_pci(session.opaque_ref, _pgpu);
@@ -239,6 +230,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<GPU_group> get_GPU_group(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_get_gpu_group(session.opaque_ref, _pgpu);
@@ -250,6 +244,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host> get_host(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_get_host(session.opaque_ref, _pgpu);
@@ -261,6 +258,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_get_other_config(session.opaque_ref, _pgpu);
@@ -272,6 +272,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VGPU_type>> get_supported_VGPU_types(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_get_supported_vgpu_types(session.opaque_ref, _pgpu);
@@ -283,6 +286,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VGPU_type>> get_enabled_VGPU_types(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_get_enabled_vgpu_types(session.opaque_ref, _pgpu);
@@ -294,6 +300,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VGPU>> get_resident_VGPUs(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_get_resident_vgpus(session.opaque_ref, _pgpu);
@@ -305,6 +314,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VGPU_type>, long> get_supported_VGPU_max_capacities(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_get_supported_vgpu_max_capacities(session.opaque_ref, _pgpu);
@@ -313,10 +325,15 @@ namespace XenAPI
         /// <summary>
         /// Get the dom0_access field of the given PGPU.
         /// First published in XenServer 6.5 SP1.
+        /// Deprecated since 24.14.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
-        public static pgpu_dom0_access get_dom0_access(Session session, string _pgpu)
+        [Deprecated("24.14.0")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static pci_dom0_access get_dom0_access(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_get_dom0_access(session.opaque_ref, _pgpu);
         }
@@ -327,6 +344,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_system_display_device(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_get_is_system_display_device(session.opaque_ref, _pgpu);
@@ -338,6 +358,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_compatibility_metadata(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_get_compatibility_metadata(session.opaque_ref, _pgpu);
@@ -350,6 +373,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _pgpu, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.pgpu_set_other_config(session.opaque_ref, _pgpu, _other_config);
@@ -363,6 +389,9 @@ namespace XenAPI
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _pgpu, string _key, string _value)
         {
             session.JsonRpcClient.pgpu_add_to_other_config(session.opaque_ref, _pgpu, _key, _value);
@@ -375,6 +404,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _pgpu, string _key)
         {
             session.JsonRpcClient.pgpu_remove_from_other_config(session.opaque_ref, _pgpu, _key);
@@ -387,6 +419,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
         /// <param name="_value">The VGPU type to enable</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_enabled_VGPU_types(Session session, string _pgpu, string _value)
         {
             session.JsonRpcClient.pgpu_add_enabled_vgpu_types(session.opaque_ref, _pgpu, _value);
@@ -399,6 +434,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
         /// <param name="_value">The VGPU type to enable</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_add_enabled_VGPU_types(Session session, string _pgpu, string _value)
         {
           return session.JsonRpcClient.async_pgpu_add_enabled_vgpu_types(session.opaque_ref, _pgpu, _value);
@@ -411,6 +449,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
         /// <param name="_value">The VGPU type to disable</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_enabled_VGPU_types(Session session, string _pgpu, string _value)
         {
             session.JsonRpcClient.pgpu_remove_enabled_vgpu_types(session.opaque_ref, _pgpu, _value);
@@ -423,6 +464,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
         /// <param name="_value">The VGPU type to disable</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_remove_enabled_VGPU_types(Session session, string _pgpu, string _value)
         {
           return session.JsonRpcClient.async_pgpu_remove_enabled_vgpu_types(session.opaque_ref, _pgpu, _value);
@@ -435,6 +479,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
         /// <param name="_value">The VGPU types to enable</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_enabled_VGPU_types(Session session, string _pgpu, List<XenRef<VGPU_type>> _value)
         {
             session.JsonRpcClient.pgpu_set_enabled_vgpu_types(session.opaque_ref, _pgpu, _value);
@@ -447,6 +494,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
         /// <param name="_value">The VGPU types to enable</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_enabled_VGPU_types(Session session, string _pgpu, List<XenRef<VGPU_type>> _value)
         {
           return session.JsonRpcClient.async_pgpu_set_enabled_vgpu_types(session.opaque_ref, _pgpu, _value);
@@ -459,6 +509,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
         /// <param name="_value">The group to which the PGPU will be moved</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_GPU_group(Session session, string _pgpu, string _value)
         {
             session.JsonRpcClient.pgpu_set_gpu_group(session.opaque_ref, _pgpu, _value);
@@ -471,6 +524,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
         /// <param name="_value">The group to which the PGPU will be moved</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_GPU_group(Session session, string _pgpu, string _value)
         {
           return session.JsonRpcClient.async_pgpu_set_gpu_group(session.opaque_ref, _pgpu, _value);
@@ -483,6 +539,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
         /// <param name="_vgpu_type">The VGPU type for which we want to find the number of VGPUs which can still be started on this PGPU</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_remaining_capacity(Session session, string _pgpu, string _vgpu_type)
         {
             return session.JsonRpcClient.pgpu_get_remaining_capacity(session.opaque_ref, _pgpu, _vgpu_type);
@@ -495,6 +554,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
         /// <param name="_vgpu_type">The VGPU type for which we want to find the number of VGPUs which can still be started on this PGPU</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_get_remaining_capacity(Session session, string _pgpu, string _vgpu_type)
         {
           return session.JsonRpcClient.async_pgpu_get_remaining_capacity(session.opaque_ref, _pgpu, _vgpu_type);
@@ -503,10 +565,15 @@ namespace XenAPI
         /// <summary>
         /// 
         /// First published in XenServer 6.5 SP1.
+        /// Deprecated since 24.14.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
-        public static pgpu_dom0_access enable_dom0_access(Session session, string _pgpu)
+        [Deprecated("24.14.0")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static pci_dom0_access enable_dom0_access(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_enable_dom0_access(session.opaque_ref, _pgpu);
         }
@@ -514,9 +581,14 @@ namespace XenAPI
         /// <summary>
         /// 
         /// First published in XenServer 6.5 SP1.
+        /// Deprecated since 24.14.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
+        [Deprecated("24.14.0")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_enable_dom0_access(Session session, string _pgpu)
         {
           return session.JsonRpcClient.async_pgpu_enable_dom0_access(session.opaque_ref, _pgpu);
@@ -525,10 +597,15 @@ namespace XenAPI
         /// <summary>
         /// 
         /// First published in XenServer 6.5 SP1.
+        /// Deprecated since 24.14.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
-        public static pgpu_dom0_access disable_dom0_access(Session session, string _pgpu)
+        [Deprecated("24.14.0")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static pci_dom0_access disable_dom0_access(Session session, string _pgpu)
         {
             return session.JsonRpcClient.pgpu_disable_dom0_access(session.opaque_ref, _pgpu);
         }
@@ -536,9 +613,14 @@ namespace XenAPI
         /// <summary>
         /// 
         /// First published in XenServer 6.5 SP1.
+        /// Deprecated since 24.14.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pgpu">The opaque_ref of the given pgpu</param>
+        [Deprecated("24.14.0")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_disable_dom0_access(Session session, string _pgpu)
         {
           return session.JsonRpcClient.async_pgpu_disable_dom0_access(session.opaque_ref, _pgpu);
@@ -549,16 +631,22 @@ namespace XenAPI
         /// First published in XenServer 6.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PGPU>> get_all(Session session)
         {
             return session.JsonRpcClient.pgpu_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the PGPU Records at once, in a single XML RPC call
+        /// Return a map of PGPU references to PGPU records for all PGPUs known to the system.
         /// First published in XenServer 6.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<PGPU>, PGPU> get_all_records(Session session)
         {
             return session.JsonRpcClient.pgpu_get_all_records(session.opaque_ref);
@@ -733,8 +821,8 @@ namespace XenAPI
         /// The accessibility of this device from dom0
         /// First published in XenServer 6.5 SP1.
         /// </summary>
-        [JsonConverter(typeof(pgpu_dom0_accessConverter))]
-        public virtual pgpu_dom0_access dom0_access
+        [JsonConverter(typeof(pci_dom0_accessConverter))]
+        public virtual pci_dom0_access dom0_access
         {
             get { return _dom0_access; }
             set
@@ -746,7 +834,7 @@ namespace XenAPI
                 }
             }
         }
-        private pgpu_dom0_access _dom0_access = pgpu_dom0_access.enabled;
+        private pci_dom0_access _dom0_access = pci_dom0_access.enabled;
 
         /// <summary>
         /// Is this device the system display device

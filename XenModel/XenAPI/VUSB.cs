@@ -139,23 +139,6 @@ namespace XenAPI
                 Helper.AreEqual2(_currently_attached, other._currently_attached);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VUSB server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    VUSB.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VUSB.
@@ -163,6 +146,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VUSB get_record(Session session, string _vusb)
         {
             return session.JsonRpcClient.vusb_get_record(session.opaque_ref, _vusb);
@@ -174,6 +160,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VUSB> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vusb_get_by_uuid(session.opaque_ref, _uuid);
@@ -185,6 +174,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vusb)
         {
             return session.JsonRpcClient.vusb_get_uuid(session.opaque_ref, _vusb);
@@ -196,6 +188,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<vusb_operations> get_allowed_operations(Session session, string _vusb)
         {
             return session.JsonRpcClient.vusb_get_allowed_operations(session.opaque_ref, _vusb);
@@ -207,6 +202,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, vusb_operations> get_current_operations(Session session, string _vusb)
         {
             return session.JsonRpcClient.vusb_get_current_operations(session.opaque_ref, _vusb);
@@ -218,6 +216,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM> get_VM(Session session, string _vusb)
         {
             return session.JsonRpcClient.vusb_get_vm(session.opaque_ref, _vusb);
@@ -229,6 +230,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<USB_group> get_USB_group(Session session, string _vusb)
         {
             return session.JsonRpcClient.vusb_get_usb_group(session.opaque_ref, _vusb);
@@ -240,6 +244,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _vusb)
         {
             return session.JsonRpcClient.vusb_get_other_config(session.opaque_ref, _vusb);
@@ -251,6 +258,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_currently_attached(Session session, string _vusb)
         {
             return session.JsonRpcClient.vusb_get_currently_attached(session.opaque_ref, _vusb);
@@ -263,6 +273,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_other_config(Session session, string _vusb, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.vusb_set_other_config(session.opaque_ref, _vusb, _other_config);
@@ -276,6 +289,9 @@ namespace XenAPI
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void add_to_other_config(Session session, string _vusb, string _key, string _value)
         {
             session.JsonRpcClient.vusb_add_to_other_config(session.opaque_ref, _vusb, _key, _value);
@@ -288,6 +304,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _vusb, string _key)
         {
             session.JsonRpcClient.vusb_remove_from_other_config(session.opaque_ref, _vusb, _key);
@@ -301,6 +320,9 @@ namespace XenAPI
         /// <param name="_vm">The VM</param>
         /// <param name="_usb_group"></param>
         /// <param name="_other_config"></param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<VUSB> create(Session session, string _vm, string _usb_group, Dictionary<string, string> _other_config)
         {
             return session.JsonRpcClient.vusb_create(session.opaque_ref, _vm, _usb_group, _other_config);
@@ -314,6 +336,9 @@ namespace XenAPI
         /// <param name="_vm">The VM</param>
         /// <param name="_usb_group"></param>
         /// <param name="_other_config"></param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _vm, string _usb_group, Dictionary<string, string> _other_config)
         {
           return session.JsonRpcClient.async_vusb_create(session.opaque_ref, _vm, _usb_group, _other_config);
@@ -325,6 +350,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void unplug(Session session, string _vusb)
         {
             session.JsonRpcClient.vusb_unplug(session.opaque_ref, _vusb);
@@ -336,6 +364,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_unplug(Session session, string _vusb)
         {
           return session.JsonRpcClient.async_vusb_unplug(session.opaque_ref, _vusb);
@@ -347,6 +378,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void destroy(Session session, string _vusb)
         {
             session.JsonRpcClient.vusb_destroy(session.opaque_ref, _vusb);
@@ -358,6 +392,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vusb">The opaque_ref of the given vusb</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _vusb)
         {
           return session.JsonRpcClient.async_vusb_destroy(session.opaque_ref, _vusb);
@@ -368,16 +405,22 @@ namespace XenAPI
         /// First published in XenServer 7.3.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VUSB>> get_all(Session session)
         {
             return session.JsonRpcClient.vusb_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VUSB Records at once, in a single XML RPC call
+        /// Return a map of VUSB references to VUSB records for all VUSBs known to the system.
         /// First published in XenServer 7.3.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VUSB>, VUSB> get_all_records(Session session)
         {
             return session.JsonRpcClient.vusb_get_all_records(session.opaque_ref);

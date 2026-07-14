@@ -45,21 +45,6 @@ namespace XenAPI
             id = update.id;
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Event serverObject)
-        {
-            if (opaqueRef == null)
-            {
-                throw new InvalidOperationException("There is no constructor available for this type; you cannot directly create one on the server.");
-            }
-            
-            Event server = serverObject;
-
-            if (!_id.Equals(server._id))
-                set_id(session, opaqueRef, _id);
-
-            return null;
-        }
-
         public static Event get_record(Session session, string _event)
         {
             return session.JsonRpcClient.event_get_record(session.opaque_ref, _event);

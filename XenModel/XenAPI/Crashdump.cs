@@ -119,23 +119,6 @@ namespace XenAPI
                 Helper.AreEqual2(_other_config, other._other_config);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Crashdump server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    Crashdump.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given crashdump.
@@ -145,6 +128,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_crashdump">The opaque_ref of the given crashdump</param>
         [Deprecated("XenServer 7.3")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Crashdump get_record(Session session, string _crashdump)
         {
             return session.JsonRpcClient.crashdump_get_record(session.opaque_ref, _crashdump);
@@ -158,6 +144,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
         [Deprecated("XenServer 7.3")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Crashdump> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.crashdump_get_by_uuid(session.opaque_ref, _uuid);
@@ -169,6 +158,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_crashdump">The opaque_ref of the given crashdump</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _crashdump)
         {
             return session.JsonRpcClient.crashdump_get_uuid(session.opaque_ref, _crashdump);
@@ -180,6 +172,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_crashdump">The opaque_ref of the given crashdump</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM> get_VM(Session session, string _crashdump)
         {
             return session.JsonRpcClient.crashdump_get_vm(session.opaque_ref, _crashdump);
@@ -191,6 +186,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_crashdump">The opaque_ref of the given crashdump</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VDI> get_VDI(Session session, string _crashdump)
         {
             return session.JsonRpcClient.crashdump_get_vdi(session.opaque_ref, _crashdump);
@@ -202,6 +200,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_crashdump">The opaque_ref of the given crashdump</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _crashdump)
         {
             return session.JsonRpcClient.crashdump_get_other_config(session.opaque_ref, _crashdump);
@@ -214,6 +215,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_crashdump">The opaque_ref of the given crashdump</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _crashdump, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.crashdump_set_other_config(session.opaque_ref, _crashdump, _other_config);
@@ -227,6 +231,9 @@ namespace XenAPI
         /// <param name="_crashdump">The opaque_ref of the given crashdump</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _crashdump, string _key, string _value)
         {
             session.JsonRpcClient.crashdump_add_to_other_config(session.opaque_ref, _crashdump, _key, _value);
@@ -239,6 +246,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_crashdump">The opaque_ref of the given crashdump</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _crashdump, string _key)
         {
             session.JsonRpcClient.crashdump_remove_from_other_config(session.opaque_ref, _crashdump, _key);
@@ -250,6 +260,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_crashdump">The opaque_ref of the given crashdump</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _crashdump)
         {
             session.JsonRpcClient.crashdump_destroy(session.opaque_ref, _crashdump);
@@ -261,6 +274,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_crashdump">The opaque_ref of the given crashdump</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _crashdump)
         {
           return session.JsonRpcClient.async_crashdump_destroy(session.opaque_ref, _crashdump);
@@ -273,16 +289,22 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         [Deprecated("XenServer 7.3")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Crashdump>> get_all(Session session)
         {
             return session.JsonRpcClient.crashdump_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the crashdump Records at once, in a single XML RPC call
+        /// Return a map of crashdump references to crashdump records for all crashdumps known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Crashdump>, Crashdump> get_all_records(Session session)
         {
             return session.JsonRpcClient.crashdump_get_all_records(session.opaque_ref);

@@ -93,18 +93,6 @@ namespace XenAPI
             return false;
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Auth server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// This call queries the external directory service to obtain the subject_identifier as a string from the human-readable subject_name
@@ -112,17 +100,23 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_subject_name">The human-readable subject_name, such as a username or a groupname</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_subject_identifier(Session session, string _subject_name)
         {
             return session.JsonRpcClient.auth_get_subject_identifier(session.opaque_ref, _subject_name);
         }
 
         /// <summary>
-        /// This call queries the external directory service to obtain the user information (e.g. username, organization etc) from the specified subject_identifier
+        /// This call queries the external directory service to obtain the user information (for example, username, organization etc.) from the specified subject_identifier
         /// First published in XenServer 5.5.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_subject_identifier">A string containing the subject_identifier, unique in the external directory service</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_subject_information_from_identifier(Session session, string _subject_identifier)
         {
             return session.JsonRpcClient.auth_get_subject_information_from_identifier(session.opaque_ref, _subject_identifier);
@@ -134,6 +128,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_subject_identifier">A string containing the subject_identifier, unique in the external directory service</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_group_membership(Session session, string _subject_identifier)
         {
             return session.JsonRpcClient.auth_get_group_membership(session.opaque_ref, _subject_identifier);

@@ -131,18 +131,6 @@ namespace XenAPI
                 Helper.AreEqual2(_VDI, other._VDI);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, PVS_cache_storage server)
-        {
-            if (opaqueRef == null)
-            {
-                var reference = create(session, this);
-                return reference == null ? null : reference.opaque_ref;
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given PVS_cache_storage.
@@ -150,6 +138,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_cache_storage">The opaque_ref of the given pvs_cache_storage</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static PVS_cache_storage get_record(Session session, string _pvs_cache_storage)
         {
             return session.JsonRpcClient.pvs_cache_storage_get_record(session.opaque_ref, _pvs_cache_storage);
@@ -161,6 +152,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PVS_cache_storage> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.pvs_cache_storage_get_by_uuid(session.opaque_ref, _uuid);
@@ -172,6 +166,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<PVS_cache_storage> create(Session session, PVS_cache_storage _record)
         {
             return session.JsonRpcClient.pvs_cache_storage_create(session.opaque_ref, _record);
@@ -183,6 +180,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, PVS_cache_storage _record)
         {
           return session.JsonRpcClient.async_pvs_cache_storage_create(session.opaque_ref, _record);
@@ -194,6 +194,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_cache_storage">The opaque_ref of the given pvs_cache_storage</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _pvs_cache_storage)
         {
             session.JsonRpcClient.pvs_cache_storage_destroy(session.opaque_ref, _pvs_cache_storage);
@@ -205,6 +208,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_cache_storage">The opaque_ref of the given pvs_cache_storage</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _pvs_cache_storage)
         {
           return session.JsonRpcClient.async_pvs_cache_storage_destroy(session.opaque_ref, _pvs_cache_storage);
@@ -216,6 +222,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_cache_storage">The opaque_ref of the given pvs_cache_storage</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _pvs_cache_storage)
         {
             return session.JsonRpcClient.pvs_cache_storage_get_uuid(session.opaque_ref, _pvs_cache_storage);
@@ -227,6 +236,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_cache_storage">The opaque_ref of the given pvs_cache_storage</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host> get_host(Session session, string _pvs_cache_storage)
         {
             return session.JsonRpcClient.pvs_cache_storage_get_host(session.opaque_ref, _pvs_cache_storage);
@@ -238,6 +250,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_cache_storage">The opaque_ref of the given pvs_cache_storage</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<SR> get_SR(Session session, string _pvs_cache_storage)
         {
             return session.JsonRpcClient.pvs_cache_storage_get_sr(session.opaque_ref, _pvs_cache_storage);
@@ -249,6 +264,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_cache_storage">The opaque_ref of the given pvs_cache_storage</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PVS_site> get_site(Session session, string _pvs_cache_storage)
         {
             return session.JsonRpcClient.pvs_cache_storage_get_site(session.opaque_ref, _pvs_cache_storage);
@@ -260,6 +278,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_cache_storage">The opaque_ref of the given pvs_cache_storage</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_size(Session session, string _pvs_cache_storage)
         {
             return session.JsonRpcClient.pvs_cache_storage_get_size(session.opaque_ref, _pvs_cache_storage);
@@ -271,6 +292,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pvs_cache_storage">The opaque_ref of the given pvs_cache_storage</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VDI> get_VDI(Session session, string _pvs_cache_storage)
         {
             return session.JsonRpcClient.pvs_cache_storage_get_vdi(session.opaque_ref, _pvs_cache_storage);
@@ -281,16 +305,22 @@ namespace XenAPI
         /// First published in XenServer 7.1.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PVS_cache_storage>> get_all(Session session)
         {
             return session.JsonRpcClient.pvs_cache_storage_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the PVS_cache_storage Records at once, in a single XML RPC call
+        /// Return a map of PVS_cache_storage references to PVS_cache_storage records for all PVS_cache_storages known to the system.
         /// First published in XenServer 7.1.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<PVS_cache_storage>, PVS_cache_storage> get_all_records(Session session)
         {
             return session.JsonRpcClient.pvs_cache_storage_get_all_records(session.opaque_ref);

@@ -56,6 +56,11 @@ namespace XenAPI
             string[] pending_forget,
             string cluster_token,
             string cluster_stack,
+            long cluster_stack_version,
+            bool is_quorate,
+            long quorum,
+            long live_hosts,
+            long expected_hosts,
             List<cluster_operation> allowed_operations,
             Dictionary<string, cluster_operation> current_operations,
             bool pool_auto_join,
@@ -69,6 +74,11 @@ namespace XenAPI
             this.pending_forget = pending_forget;
             this.cluster_token = cluster_token;
             this.cluster_stack = cluster_stack;
+            this.cluster_stack_version = cluster_stack_version;
+            this.is_quorate = is_quorate;
+            this.quorum = quorum;
+            this.live_hosts = live_hosts;
+            this.expected_hosts = expected_hosts;
             this.allowed_operations = allowed_operations;
             this.current_operations = current_operations;
             this.pool_auto_join = pool_auto_join;
@@ -103,6 +113,11 @@ namespace XenAPI
             pending_forget = record.pending_forget;
             cluster_token = record.cluster_token;
             cluster_stack = record.cluster_stack;
+            cluster_stack_version = record.cluster_stack_version;
+            is_quorate = record.is_quorate;
+            quorum = record.quorum;
+            live_hosts = record.live_hosts;
+            expected_hosts = record.expected_hosts;
             allowed_operations = record.allowed_operations;
             current_operations = record.current_operations;
             pool_auto_join = record.pool_auto_join;
@@ -130,6 +145,16 @@ namespace XenAPI
                 cluster_token = Marshalling.ParseString(table, "cluster_token");
             if (table.ContainsKey("cluster_stack"))
                 cluster_stack = Marshalling.ParseString(table, "cluster_stack");
+            if (table.ContainsKey("cluster_stack_version"))
+                cluster_stack_version = Marshalling.ParseLong(table, "cluster_stack_version");
+            if (table.ContainsKey("is_quorate"))
+                is_quorate = Marshalling.ParseBool(table, "is_quorate");
+            if (table.ContainsKey("quorum"))
+                quorum = Marshalling.ParseLong(table, "quorum");
+            if (table.ContainsKey("live_hosts"))
+                live_hosts = Marshalling.ParseLong(table, "live_hosts");
+            if (table.ContainsKey("expected_hosts"))
+                expected_hosts = Marshalling.ParseLong(table, "expected_hosts");
             if (table.ContainsKey("allowed_operations"))
                 allowed_operations = Helper.StringArrayToEnumList<cluster_operation>(Marshalling.ParseStringArray(table, "allowed_operations"));
             if (table.ContainsKey("current_operations"))
@@ -161,6 +186,11 @@ namespace XenAPI
                 Helper.AreEqual2(_pending_forget, other._pending_forget) &&
                 Helper.AreEqual2(_cluster_token, other._cluster_token) &&
                 Helper.AreEqual2(_cluster_stack, other._cluster_stack) &&
+                Helper.AreEqual2(_cluster_stack_version, other._cluster_stack_version) &&
+                Helper.AreEqual2(_is_quorate, other._is_quorate) &&
+                Helper.AreEqual2(_quorum, other._quorum) &&
+                Helper.AreEqual2(_live_hosts, other._live_hosts) &&
+                Helper.AreEqual2(_expected_hosts, other._expected_hosts) &&
                 Helper.AreEqual2(_allowed_operations, other._allowed_operations) &&
                 Helper.AreEqual2(_pool_auto_join, other._pool_auto_join) &&
                 Helper.AreEqual2(_token_timeout, other._token_timeout) &&
@@ -169,23 +199,6 @@ namespace XenAPI
                 Helper.AreEqual2(_other_config, other._other_config);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Cluster server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    Cluster.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given Cluster.
@@ -193,6 +206,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Cluster get_record(Session session, string _cluster)
         {
             return session.JsonRpcClient.cluster_get_record(session.opaque_ref, _cluster);
@@ -204,6 +220,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Cluster> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.cluster_get_by_uuid(session.opaque_ref, _uuid);
@@ -215,6 +234,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _cluster)
         {
             return session.JsonRpcClient.cluster_get_uuid(session.opaque_ref, _cluster);
@@ -226,6 +248,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Cluster_host>> get_cluster_hosts(Session session, string _cluster)
         {
             return session.JsonRpcClient.cluster_get_cluster_hosts(session.opaque_ref, _cluster);
@@ -237,6 +262,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_pending_forget(Session session, string _cluster)
         {
             return session.JsonRpcClient.cluster_get_pending_forget(session.opaque_ref, _cluster);
@@ -248,6 +276,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_cluster_token(Session session, string _cluster)
         {
             return session.JsonRpcClient.cluster_get_cluster_token(session.opaque_ref, _cluster);
@@ -259,9 +290,82 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_cluster_stack(Session session, string _cluster)
         {
             return session.JsonRpcClient.cluster_get_cluster_stack(session.opaque_ref, _cluster);
+        }
+
+        /// <summary>
+        /// Get the cluster_stack_version field of the given Cluster.
+        /// Experimental. First published in 24.15.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static long get_cluster_stack_version(Session session, string _cluster)
+        {
+            return session.JsonRpcClient.cluster_get_cluster_stack_version(session.opaque_ref, _cluster);
+        }
+
+        /// <summary>
+        /// Get the is_quorate field of the given Cluster.
+        /// Experimental. First published in 24.3.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static bool get_is_quorate(Session session, string _cluster)
+        {
+            return session.JsonRpcClient.cluster_get_is_quorate(session.opaque_ref, _cluster);
+        }
+
+        /// <summary>
+        /// Get the quorum field of the given Cluster.
+        /// Experimental. First published in 24.3.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static long get_quorum(Session session, string _cluster)
+        {
+            return session.JsonRpcClient.cluster_get_quorum(session.opaque_ref, _cluster);
+        }
+
+        /// <summary>
+        /// Get the live_hosts field of the given Cluster.
+        /// Experimental. First published in 24.3.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static long get_live_hosts(Session session, string _cluster)
+        {
+            return session.JsonRpcClient.cluster_get_live_hosts(session.opaque_ref, _cluster);
+        }
+
+        /// <summary>
+        /// Get the expected_hosts field of the given Cluster.
+        /// Experimental. First published in 25.17.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static long get_expected_hosts(Session session, string _cluster)
+        {
+            return session.JsonRpcClient.cluster_get_expected_hosts(session.opaque_ref, _cluster);
         }
 
         /// <summary>
@@ -270,6 +374,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<cluster_operation> get_allowed_operations(Session session, string _cluster)
         {
             return session.JsonRpcClient.cluster_get_allowed_operations(session.opaque_ref, _cluster);
@@ -281,6 +388,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, cluster_operation> get_current_operations(Session session, string _cluster)
         {
             return session.JsonRpcClient.cluster_get_current_operations(session.opaque_ref, _cluster);
@@ -292,6 +402,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_pool_auto_join(Session session, string _cluster)
         {
             return session.JsonRpcClient.cluster_get_pool_auto_join(session.opaque_ref, _cluster);
@@ -303,6 +416,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static double get_token_timeout(Session session, string _cluster)
         {
             return session.JsonRpcClient.cluster_get_token_timeout(session.opaque_ref, _cluster);
@@ -314,6 +430,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static double get_token_timeout_coefficient(Session session, string _cluster)
         {
             return session.JsonRpcClient.cluster_get_token_timeout_coefficient(session.opaque_ref, _cluster);
@@ -325,6 +444,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_cluster_config(Session session, string _cluster)
         {
             return session.JsonRpcClient.cluster_get_cluster_config(session.opaque_ref, _cluster);
@@ -336,6 +458,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _cluster)
         {
             return session.JsonRpcClient.cluster_get_other_config(session.opaque_ref, _cluster);
@@ -348,6 +473,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _cluster, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.cluster_set_other_config(session.opaque_ref, _cluster, _other_config);
@@ -361,6 +489,9 @@ namespace XenAPI
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _cluster, string _key, string _value)
         {
             session.JsonRpcClient.cluster_add_to_other_config(session.opaque_ref, _cluster, _key, _value);
@@ -373,6 +504,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _cluster, string _key)
         {
             session.JsonRpcClient.cluster_remove_from_other_config(session.opaque_ref, _cluster, _key);
@@ -388,6 +522,9 @@ namespace XenAPI
         /// <param name="_pool_auto_join">true if xapi is automatically joining new pool members to the cluster</param>
         /// <param name="_token_timeout">Corosync token timeout in seconds</param>
         /// <param name="_token_timeout_coefficient">Corosync token timeout coefficient in seconds</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Cluster> create(Session session, string _pif, string _cluster_stack, bool _pool_auto_join, double _token_timeout, double _token_timeout_coefficient)
         {
             return session.JsonRpcClient.cluster_create(session.opaque_ref, _pif, _cluster_stack, _pool_auto_join, _token_timeout, _token_timeout_coefficient);
@@ -403,6 +540,9 @@ namespace XenAPI
         /// <param name="_pool_auto_join">true if xapi is automatically joining new pool members to the cluster</param>
         /// <param name="_token_timeout">Corosync token timeout in seconds</param>
         /// <param name="_token_timeout_coefficient">Corosync token timeout coefficient in seconds</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _pif, string _cluster_stack, bool _pool_auto_join, double _token_timeout, double _token_timeout_coefficient)
         {
           return session.JsonRpcClient.async_cluster_create(session.opaque_ref, _pif, _cluster_stack, _pool_auto_join, _token_timeout, _token_timeout_coefficient);
@@ -414,6 +554,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _cluster)
         {
             session.JsonRpcClient.cluster_destroy(session.opaque_ref, _cluster);
@@ -425,6 +568,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _cluster)
         {
           return session.JsonRpcClient.async_cluster_destroy(session.opaque_ref, _cluster);
@@ -436,6 +582,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Network> get_network(Session session, string _cluster)
         {
             return session.JsonRpcClient.cluster_get_network(session.opaque_ref, _cluster);
@@ -447,6 +596,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_get_network(Session session, string _cluster)
         {
           return session.JsonRpcClient.async_cluster_get_network(session.opaque_ref, _cluster);
@@ -461,6 +613,9 @@ namespace XenAPI
         /// <param name="_cluster_stack">simply the string 'corosync'. No other cluster stacks are currently supported</param>
         /// <param name="_token_timeout">Corosync token timeout in seconds</param>
         /// <param name="_token_timeout_coefficient">Corosync token timeout coefficient in seconds</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Cluster> pool_create(Session session, string _network, string _cluster_stack, double _token_timeout, double _token_timeout_coefficient)
         {
             return session.JsonRpcClient.cluster_pool_create(session.opaque_ref, _network, _cluster_stack, _token_timeout, _token_timeout_coefficient);
@@ -475,6 +630,9 @@ namespace XenAPI
         /// <param name="_cluster_stack">simply the string 'corosync'. No other cluster stacks are currently supported</param>
         /// <param name="_token_timeout">Corosync token timeout in seconds</param>
         /// <param name="_token_timeout_coefficient">Corosync token timeout coefficient in seconds</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_pool_create(Session session, string _network, string _cluster_stack, double _token_timeout, double _token_timeout_coefficient)
         {
           return session.JsonRpcClient.async_cluster_pool_create(session.opaque_ref, _network, _cluster_stack, _token_timeout, _token_timeout_coefficient);
@@ -486,6 +644,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void pool_force_destroy(Session session, string _cluster)
         {
             session.JsonRpcClient.cluster_pool_force_destroy(session.opaque_ref, _cluster);
@@ -497,6 +658,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_pool_force_destroy(Session session, string _cluster)
         {
           return session.JsonRpcClient.async_cluster_pool_force_destroy(session.opaque_ref, _cluster);
@@ -508,6 +672,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void pool_destroy(Session session, string _cluster)
         {
             session.JsonRpcClient.cluster_pool_destroy(session.opaque_ref, _cluster);
@@ -519,6 +686,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_pool_destroy(Session session, string _cluster)
         {
           return session.JsonRpcClient.async_cluster_pool_destroy(session.opaque_ref, _cluster);
@@ -530,6 +700,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void pool_resync(Session session, string _cluster)
         {
             session.JsonRpcClient.cluster_pool_resync(session.opaque_ref, _cluster);
@@ -541,6 +714,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_cluster">The opaque_ref of the given cluster</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_pool_resync(Session session, string _cluster)
         {
           return session.JsonRpcClient.async_cluster_pool_resync(session.opaque_ref, _cluster);
@@ -551,16 +727,22 @@ namespace XenAPI
         /// First published in XenServer 7.6.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Cluster>> get_all(Session session)
         {
             return session.JsonRpcClient.cluster_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the Cluster Records at once, in a single XML RPC call
+        /// Return a map of Cluster references to Cluster records for all Clusters known to the system.
         /// First published in XenServer 7.6.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Cluster>, Cluster> get_all_records(Session session)
         {
             return session.JsonRpcClient.cluster_get_all_records(session.opaque_ref);
@@ -651,6 +833,96 @@ namespace XenAPI
             }
         }
         private string _cluster_stack = "corosync";
+
+        /// <summary>
+        /// Version of cluster stack, not writable via the API. Defaulting to 2 for backwards compatibility when upgrading from a cluster without this field, which means it is necessarily running version 2 of corosync, the only cluster stack supported so far.
+        /// Experimental. First published in 24.15.0.
+        /// </summary>
+        public virtual long cluster_stack_version
+        {
+            get { return _cluster_stack_version; }
+            set
+            {
+                if (!Helper.AreEqual(value, _cluster_stack_version))
+                {
+                    _cluster_stack_version = value;
+                    NotifyPropertyChanged("cluster_stack_version");
+                }
+            }
+        }
+        private long _cluster_stack_version = 2;
+
+        /// <summary>
+        /// Whether the cluster stack thinks the cluster is quorate
+        /// Experimental. First published in 24.3.0.
+        /// </summary>
+        public virtual bool is_quorate
+        {
+            get { return _is_quorate; }
+            set
+            {
+                if (!Helper.AreEqual(value, _is_quorate))
+                {
+                    _is_quorate = value;
+                    NotifyPropertyChanged("is_quorate");
+                }
+            }
+        }
+        private bool _is_quorate = false;
+
+        /// <summary>
+        /// Number of live hosts in order to be quorate
+        /// Experimental. First published in 24.3.0.
+        /// </summary>
+        public virtual long quorum
+        {
+            get { return _quorum; }
+            set
+            {
+                if (!Helper.AreEqual(value, _quorum))
+                {
+                    _quorum = value;
+                    NotifyPropertyChanged("quorum");
+                }
+            }
+        }
+        private long _quorum = 0;
+
+        /// <summary>
+        /// Current number of live hosts, according to the cluster stack
+        /// Experimental. First published in 24.3.0.
+        /// </summary>
+        public virtual long live_hosts
+        {
+            get { return _live_hosts; }
+            set
+            {
+                if (!Helper.AreEqual(value, _live_hosts))
+                {
+                    _live_hosts = value;
+                    NotifyPropertyChanged("live_hosts");
+                }
+            }
+        }
+        private long _live_hosts = 0;
+
+        /// <summary>
+        /// Total number of hosts expected by the cluster stack
+        /// Experimental. First published in 25.17.0.
+        /// </summary>
+        public virtual long expected_hosts
+        {
+            get { return _expected_hosts; }
+            set
+            {
+                if (!Helper.AreEqual(value, _expected_hosts))
+                {
+                    _expected_hosts = value;
+                    NotifyPropertyChanged("expected_hosts");
+                }
+            }
+        }
+        private long _expected_hosts = 0;
 
         /// <summary>
         /// list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.

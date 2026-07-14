@@ -138,7 +138,11 @@ namespace XenAPI
             string reference_label,
             domain_type domain_type,
             Dictionary<string, string> NVRAM,
-            List<update_guidances> pending_guidances)
+            List<update_guidances> pending_guidances,
+            List<update_guidances> pending_guidances_recommended,
+            List<update_guidances> pending_guidances_full,
+            List<XenRef<VM_group>> groups,
+            vm_secureboot_certificates_state secureboot_certificates_state)
         {
             this.uuid = uuid;
             this.allowed_operations = allowed_operations;
@@ -228,6 +232,10 @@ namespace XenAPI
             this.domain_type = domain_type;
             this.NVRAM = NVRAM;
             this.pending_guidances = pending_guidances;
+            this.pending_guidances_recommended = pending_guidances_recommended;
+            this.pending_guidances_full = pending_guidances_full;
+            this.groups = groups;
+            this.secureboot_certificates_state = secureboot_certificates_state;
         }
 
         /// <summary>
@@ -338,6 +346,10 @@ namespace XenAPI
             domain_type = record.domain_type;
             NVRAM = record.NVRAM;
             pending_guidances = record.pending_guidances;
+            pending_guidances_recommended = record.pending_guidances_recommended;
+            pending_guidances_full = record.pending_guidances_full;
+            groups = record.groups;
+            secureboot_certificates_state = record.secureboot_certificates_state;
         }
 
         /// <summary>
@@ -524,6 +536,14 @@ namespace XenAPI
                 NVRAM = Maps.ToDictionary_string_string(Marshalling.ParseHashTable(table, "NVRAM"));
             if (table.ContainsKey("pending_guidances"))
                 pending_guidances = Helper.StringArrayToEnumList<update_guidances>(Marshalling.ParseStringArray(table, "pending_guidances"));
+            if (table.ContainsKey("pending_guidances_recommended"))
+                pending_guidances_recommended = Helper.StringArrayToEnumList<update_guidances>(Marshalling.ParseStringArray(table, "pending_guidances_recommended"));
+            if (table.ContainsKey("pending_guidances_full"))
+                pending_guidances_full = Helper.StringArrayToEnumList<update_guidances>(Marshalling.ParseStringArray(table, "pending_guidances_full"));
+            if (table.ContainsKey("groups"))
+                groups = Marshalling.ParseSetRef<VM_group>(table, "groups");
+            if (table.ContainsKey("secureboot_certificates_state"))
+                secureboot_certificates_state = (vm_secureboot_certificates_state)Helper.EnumParseDefault(typeof(vm_secureboot_certificates_state), Marshalling.ParseString(table, "secureboot_certificates_state"));
         }
 
         public bool DeepEquals(VM other, bool ignoreCurrentOperations)
@@ -622,206 +642,13 @@ namespace XenAPI
                 Helper.AreEqual2(_reference_label, other._reference_label) &&
                 Helper.AreEqual2(_domain_type, other._domain_type) &&
                 Helper.AreEqual2(_NVRAM, other._NVRAM) &&
-                Helper.AreEqual2(_pending_guidances, other._pending_guidances);
+                Helper.AreEqual2(_pending_guidances, other._pending_guidances) &&
+                Helper.AreEqual2(_pending_guidances_recommended, other._pending_guidances_recommended) &&
+                Helper.AreEqual2(_pending_guidances_full, other._pending_guidances_full) &&
+                Helper.AreEqual2(_groups, other._groups) &&
+                Helper.AreEqual2(_secureboot_certificates_state, other._secureboot_certificates_state);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VM server)
-        {
-            if (opaqueRef == null)
-            {
-                var reference = create(session, this);
-                return reference == null ? null : reference.opaque_ref;
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_name_label, server._name_label))
-                {
-                    VM.set_name_label(session, opaqueRef, _name_label);
-                }
-                if (!Helper.AreEqual2(_name_description, server._name_description))
-                {
-                    VM.set_name_description(session, opaqueRef, _name_description);
-                }
-                if (!Helper.AreEqual2(_user_version, server._user_version))
-                {
-                    VM.set_user_version(session, opaqueRef, _user_version);
-                }
-                if (!Helper.AreEqual2(_is_a_template, server._is_a_template))
-                {
-                    VM.set_is_a_template(session, opaqueRef, _is_a_template);
-                }
-                if (!Helper.AreEqual2(_affinity, server._affinity))
-                {
-                    VM.set_affinity(session, opaqueRef, _affinity);
-                }
-                if (!Helper.AreEqual2(_VCPUs_params, server._VCPUs_params))
-                {
-                    VM.set_VCPUs_params(session, opaqueRef, _VCPUs_params);
-                }
-                if (!Helper.AreEqual2(_actions_after_softreboot, server._actions_after_softreboot))
-                {
-                    VM.set_actions_after_softreboot(session, opaqueRef, _actions_after_softreboot);
-                }
-                if (!Helper.AreEqual2(_actions_after_shutdown, server._actions_after_shutdown))
-                {
-                    VM.set_actions_after_shutdown(session, opaqueRef, _actions_after_shutdown);
-                }
-                if (!Helper.AreEqual2(_actions_after_reboot, server._actions_after_reboot))
-                {
-                    VM.set_actions_after_reboot(session, opaqueRef, _actions_after_reboot);
-                }
-                if (!Helper.AreEqual2(_PV_bootloader, server._PV_bootloader))
-                {
-                    VM.set_PV_bootloader(session, opaqueRef, _PV_bootloader);
-                }
-                if (!Helper.AreEqual2(_PV_kernel, server._PV_kernel))
-                {
-                    VM.set_PV_kernel(session, opaqueRef, _PV_kernel);
-                }
-                if (!Helper.AreEqual2(_PV_ramdisk, server._PV_ramdisk))
-                {
-                    VM.set_PV_ramdisk(session, opaqueRef, _PV_ramdisk);
-                }
-                if (!Helper.AreEqual2(_PV_args, server._PV_args))
-                {
-                    VM.set_PV_args(session, opaqueRef, _PV_args);
-                }
-                if (!Helper.AreEqual2(_PV_bootloader_args, server._PV_bootloader_args))
-                {
-                    VM.set_PV_bootloader_args(session, opaqueRef, _PV_bootloader_args);
-                }
-                if (!Helper.AreEqual2(_PV_legacy_args, server._PV_legacy_args))
-                {
-                    VM.set_PV_legacy_args(session, opaqueRef, _PV_legacy_args);
-                }
-                if (!Helper.AreEqual2(_HVM_boot_params, server._HVM_boot_params))
-                {
-                    VM.set_HVM_boot_params(session, opaqueRef, _HVM_boot_params);
-                }
-                if (!Helper.AreEqual2(_platform, server._platform))
-                {
-                    VM.set_platform(session, opaqueRef, _platform);
-                }
-                if (!Helper.AreEqual2(_PCI_bus, server._PCI_bus))
-                {
-                    VM.set_PCI_bus(session, opaqueRef, _PCI_bus);
-                }
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    VM.set_other_config(session, opaqueRef, _other_config);
-                }
-                if (!Helper.AreEqual2(_recommendations, server._recommendations))
-                {
-                    VM.set_recommendations(session, opaqueRef, _recommendations);
-                }
-                if (!Helper.AreEqual2(_xenstore_data, server._xenstore_data))
-                {
-                    VM.set_xenstore_data(session, opaqueRef, _xenstore_data);
-                }
-                if (!Helper.AreEqual2(_tags, server._tags))
-                {
-                    VM.set_tags(session, opaqueRef, _tags);
-                }
-                if (!Helper.AreEqual2(_blocked_operations, server._blocked_operations))
-                {
-                    VM.set_blocked_operations(session, opaqueRef, _blocked_operations);
-                }
-                if (!Helper.AreEqual2(_suspend_SR, server._suspend_SR))
-                {
-                    VM.set_suspend_SR(session, opaqueRef, _suspend_SR);
-                }
-                if (!Helper.AreEqual2(_hardware_platform_version, server._hardware_platform_version))
-                {
-                    VM.set_hardware_platform_version(session, opaqueRef, _hardware_platform_version);
-                }
-                if (!Helper.AreEqual2(_suspend_VDI, server._suspend_VDI))
-                {
-                    VM.set_suspend_VDI(session, opaqueRef, _suspend_VDI);
-                }
-                if (!Helper.AreEqual2(_memory_static_max, server._memory_static_max))
-                {
-                    VM.set_memory_static_max(session, opaqueRef, _memory_static_max);
-                }
-                if (!Helper.AreEqual2(_memory_dynamic_max, server._memory_dynamic_max))
-                {
-                    VM.set_memory_dynamic_max(session, opaqueRef, _memory_dynamic_max);
-                }
-                if (!Helper.AreEqual2(_memory_dynamic_min, server._memory_dynamic_min))
-                {
-                    VM.set_memory_dynamic_min(session, opaqueRef, _memory_dynamic_min);
-                }
-                if (!Helper.AreEqual2(_memory_static_min, server._memory_static_min))
-                {
-                    VM.set_memory_static_min(session, opaqueRef, _memory_static_min);
-                }
-                if (!Helper.AreEqual2(_VCPUs_max, server._VCPUs_max))
-                {
-                    VM.set_VCPUs_max(session, opaqueRef, _VCPUs_max);
-                }
-                if (!Helper.AreEqual2(_VCPUs_at_startup, server._VCPUs_at_startup))
-                {
-                    VM.set_VCPUs_at_startup(session, opaqueRef, _VCPUs_at_startup);
-                }
-                if (!Helper.AreEqual2(_actions_after_crash, server._actions_after_crash))
-                {
-                    VM.set_actions_after_crash(session, opaqueRef, _actions_after_crash);
-                }
-                if (!Helper.AreEqual2(_HVM_boot_policy, server._HVM_boot_policy))
-                {
-                    VM.set_HVM_boot_policy(session, opaqueRef, _HVM_boot_policy);
-                }
-                if (!Helper.AreEqual2(_HVM_shadow_multiplier, server._HVM_shadow_multiplier))
-                {
-                    VM.set_HVM_shadow_multiplier(session, opaqueRef, _HVM_shadow_multiplier);
-                }
-                if (!Helper.AreEqual2(_ha_always_run, server._ha_always_run))
-                {
-                    VM.set_ha_always_run(session, opaqueRef, _ha_always_run);
-                }
-                if (!Helper.AreEqual2(_ha_restart_priority, server._ha_restart_priority))
-                {
-                    VM.set_ha_restart_priority(session, opaqueRef, _ha_restart_priority);
-                }
-                if (!Helper.AreEqual2(_protection_policy, server._protection_policy))
-                {
-                    VM.set_protection_policy(session, opaqueRef, _protection_policy);
-                }
-                if (!Helper.AreEqual2(_snapshot_schedule, server._snapshot_schedule))
-                {
-                    VM.set_snapshot_schedule(session, opaqueRef, _snapshot_schedule);
-                }
-                if (!Helper.AreEqual2(_appliance, server._appliance))
-                {
-                    VM.set_appliance(session, opaqueRef, _appliance);
-                }
-                if (!Helper.AreEqual2(_start_delay, server._start_delay))
-                {
-                    VM.set_start_delay(session, opaqueRef, _start_delay);
-                }
-                if (!Helper.AreEqual2(_shutdown_delay, server._shutdown_delay))
-                {
-                    VM.set_shutdown_delay(session, opaqueRef, _shutdown_delay);
-                }
-                if (!Helper.AreEqual2(_order, server._order))
-                {
-                    VM.set_order(session, opaqueRef, _order);
-                }
-                if (!Helper.AreEqual2(_has_vendor_device, server._has_vendor_device))
-                {
-                    VM.set_has_vendor_device(session, opaqueRef, _has_vendor_device);
-                }
-                if (!Helper.AreEqual2(_domain_type, server._domain_type))
-                {
-                    VM.set_domain_type(session, opaqueRef, _domain_type);
-                }
-                if (!Helper.AreEqual2(_NVRAM, server._NVRAM))
-                {
-                    VM.set_NVRAM(session, opaqueRef, _NVRAM);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VM.
@@ -829,6 +656,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VM get_record(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_record(session.opaque_ref, _vm);
@@ -840,6 +670,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vm_get_by_uuid(session.opaque_ref, _uuid);
@@ -851,6 +684,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VM> create(Session session, VM _record)
         {
             return session.JsonRpcClient.vm_create(session.opaque_ref, _record);
@@ -862,6 +698,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, VM _record)
         {
           return session.JsonRpcClient.async_vm_create(session.opaque_ref, _record);
@@ -873,6 +712,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void destroy(Session session, string _vm)
         {
             session.JsonRpcClient.vm_destroy(session.opaque_ref, _vm);
@@ -884,6 +726,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_destroy(session.opaque_ref, _vm);
@@ -895,6 +740,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VM>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.vm_get_by_name_label(session.opaque_ref, _label);
@@ -906,6 +754,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_uuid(session.opaque_ref, _vm);
@@ -917,6 +768,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<vm_operations> get_allowed_operations(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_allowed_operations(session.opaque_ref, _vm);
@@ -928,6 +782,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, vm_operations> get_current_operations(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_current_operations(session.opaque_ref, _vm);
@@ -939,6 +796,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_name_label(session.opaque_ref, _vm);
@@ -950,6 +810,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_name_description(session.opaque_ref, _vm);
@@ -961,6 +824,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static vm_power_state get_power_state(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_power_state(session.opaque_ref, _vm);
@@ -972,6 +838,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_user_version(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_user_version(session.opaque_ref, _vm);
@@ -983,6 +852,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_a_template(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_is_a_template(session.opaque_ref, _vm);
@@ -994,6 +866,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_default_template(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_is_default_template(session.opaque_ref, _vm);
@@ -1005,6 +880,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VDI> get_suspend_VDI(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_suspend_vdi(session.opaque_ref, _vm);
@@ -1016,6 +894,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host> get_resident_on(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_resident_on(session.opaque_ref, _vm);
@@ -1027,6 +908,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host> get_scheduled_to_be_resident_on(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_scheduled_to_be_resident_on(session.opaque_ref, _vm);
@@ -1038,6 +922,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host> get_affinity(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_affinity(session.opaque_ref, _vm);
@@ -1049,6 +936,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_memory_overhead(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_memory_overhead(session.opaque_ref, _vm);
@@ -1062,6 +952,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         [Deprecated("XenServer 5.6")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_memory_target(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_memory_target(session.opaque_ref, _vm);
@@ -1073,6 +966,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_memory_static_max(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_memory_static_max(session.opaque_ref, _vm);
@@ -1084,6 +980,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_memory_dynamic_max(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_memory_dynamic_max(session.opaque_ref, _vm);
@@ -1095,6 +994,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_memory_dynamic_min(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_memory_dynamic_min(session.opaque_ref, _vm);
@@ -1106,6 +1008,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_memory_static_min(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_memory_static_min(session.opaque_ref, _vm);
@@ -1117,6 +1022,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_VCPUs_params(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_vcpus_params(session.opaque_ref, _vm);
@@ -1128,6 +1036,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_VCPUs_max(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_vcpus_max(session.opaque_ref, _vm);
@@ -1139,6 +1050,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_VCPUs_at_startup(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_vcpus_at_startup(session.opaque_ref, _vm);
@@ -1150,6 +1064,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static on_softreboot_behavior get_actions_after_softreboot(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_actions_after_softreboot(session.opaque_ref, _vm);
@@ -1161,6 +1078,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static on_normal_exit get_actions_after_shutdown(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_actions_after_shutdown(session.opaque_ref, _vm);
@@ -1172,6 +1092,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static on_normal_exit get_actions_after_reboot(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_actions_after_reboot(session.opaque_ref, _vm);
@@ -1183,6 +1106,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static on_crash_behaviour get_actions_after_crash(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_actions_after_crash(session.opaque_ref, _vm);
@@ -1194,6 +1120,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Console>> get_consoles(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_consoles(session.opaque_ref, _vm);
@@ -1205,6 +1134,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VIF>> get_VIFs(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_vifs(session.opaque_ref, _vm);
@@ -1216,6 +1148,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VBD>> get_VBDs(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_vbds(session.opaque_ref, _vm);
@@ -1227,6 +1162,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VUSB>> get_VUSBs(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_vusbs(session.opaque_ref, _vm);
@@ -1238,6 +1176,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Crashdump>> get_crash_dumps(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_crash_dumps(session.opaque_ref, _vm);
@@ -1249,6 +1190,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VTPM>> get_VTPMs(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_vtpms(session.opaque_ref, _vm);
@@ -1260,6 +1204,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_PV_bootloader(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_pv_bootloader(session.opaque_ref, _vm);
@@ -1271,6 +1218,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_PV_kernel(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_pv_kernel(session.opaque_ref, _vm);
@@ -1282,6 +1232,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_PV_ramdisk(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_pv_ramdisk(session.opaque_ref, _vm);
@@ -1293,6 +1246,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_PV_args(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_pv_args(session.opaque_ref, _vm);
@@ -1304,6 +1260,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_PV_bootloader_args(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_pv_bootloader_args(session.opaque_ref, _vm);
@@ -1315,6 +1274,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_PV_legacy_args(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_pv_legacy_args(session.opaque_ref, _vm);
@@ -1328,6 +1290,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         [Deprecated("XenServer 7.5")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_HVM_boot_policy(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_hvm_boot_policy(session.opaque_ref, _vm);
@@ -1339,6 +1304,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_HVM_boot_params(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_hvm_boot_params(session.opaque_ref, _vm);
@@ -1350,6 +1318,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static double get_HVM_shadow_multiplier(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_hvm_shadow_multiplier(session.opaque_ref, _vm);
@@ -1361,6 +1332,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_platform(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_platform(session.opaque_ref, _vm);
@@ -1374,6 +1348,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         [Deprecated("XenServer 6.0")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_PCI_bus(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_pci_bus(session.opaque_ref, _vm);
@@ -1385,6 +1362,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_other_config(session.opaque_ref, _vm);
@@ -1396,6 +1376,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_domid(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_domid(session.opaque_ref, _vm);
@@ -1407,6 +1390,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_domarch(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_domarch(session.opaque_ref, _vm);
@@ -1418,6 +1404,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_last_boot_CPU_flags(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_last_boot_cpu_flags(session.opaque_ref, _vm);
@@ -1429,6 +1418,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_control_domain(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_is_control_domain(session.opaque_ref, _vm);
@@ -1440,6 +1432,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM_metrics> get_metrics(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_metrics(session.opaque_ref, _vm);
@@ -1451,6 +1446,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM_guest_metrics> get_guest_metrics(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_guest_metrics(session.opaque_ref, _vm);
@@ -1462,6 +1460,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_last_booted_record(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_last_booted_record(session.opaque_ref, _vm);
@@ -1473,6 +1474,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_recommendations(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_recommendations(session.opaque_ref, _vm);
@@ -1484,6 +1488,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_xenstore_data(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_xenstore_data(session.opaque_ref, _vm);
@@ -1497,6 +1504,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         [Deprecated("XenServer 6.0")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_ha_always_run(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_ha_always_run(session.opaque_ref, _vm);
@@ -1508,6 +1518,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_ha_restart_priority(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_ha_restart_priority(session.opaque_ref, _vm);
@@ -1519,6 +1532,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_a_snapshot(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_is_a_snapshot(session.opaque_ref, _vm);
@@ -1530,6 +1546,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM> get_snapshot_of(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_snapshot_of(session.opaque_ref, _vm);
@@ -1541,6 +1560,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VM>> get_snapshots(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_snapshots(session.opaque_ref, _vm);
@@ -1552,6 +1574,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_snapshot_time(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_snapshot_time(session.opaque_ref, _vm);
@@ -1563,6 +1588,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_transportable_snapshot_id(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_transportable_snapshot_id(session.opaque_ref, _vm);
@@ -1574,6 +1602,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, XenRef<Blob>> get_blobs(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_blobs(session.opaque_ref, _vm);
@@ -1585,6 +1616,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_tags(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_tags(session.opaque_ref, _vm);
@@ -1596,6 +1630,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<vm_operations, string> get_blocked_operations(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_blocked_operations(session.opaque_ref, _vm);
@@ -1607,6 +1644,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_snapshot_info(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_snapshot_info(session.opaque_ref, _vm);
@@ -1618,6 +1658,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_snapshot_metadata(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_snapshot_metadata(session.opaque_ref, _vm);
@@ -1629,6 +1672,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM> get_parent(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_parent(session.opaque_ref, _vm);
@@ -1640,6 +1686,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VM>> get_children(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_children(session.opaque_ref, _vm);
@@ -1651,6 +1700,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_bios_strings(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_bios_strings(session.opaque_ref, _vm);
@@ -1664,6 +1716,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VMPP> get_protection_policy(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_protection_policy(session.opaque_ref, _vm);
@@ -1677,6 +1732,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_snapshot_from_vmpp(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_is_snapshot_from_vmpp(session.opaque_ref, _vm);
@@ -1688,6 +1746,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VMSS> get_snapshot_schedule(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_snapshot_schedule(session.opaque_ref, _vm);
@@ -1699,6 +1760,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_vmss_snapshot(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_is_vmss_snapshot(session.opaque_ref, _vm);
@@ -1710,6 +1774,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM_appliance> get_appliance(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_appliance(session.opaque_ref, _vm);
@@ -1721,6 +1788,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_start_delay(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_start_delay(session.opaque_ref, _vm);
@@ -1732,6 +1802,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_shutdown_delay(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_shutdown_delay(session.opaque_ref, _vm);
@@ -1743,6 +1816,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_order(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_order(session.opaque_ref, _vm);
@@ -1754,6 +1830,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VGPU>> get_VGPUs(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_vgpus(session.opaque_ref, _vm);
@@ -1765,6 +1844,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PCI>> get_attached_PCIs(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_attached_pcis(session.opaque_ref, _vm);
@@ -1776,6 +1858,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<SR> get_suspend_SR(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_suspend_sr(session.opaque_ref, _vm);
@@ -1787,6 +1872,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_version(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_version(session.opaque_ref, _vm);
@@ -1798,6 +1886,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_generation_id(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_generation_id(session.opaque_ref, _vm);
@@ -1809,6 +1900,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_hardware_platform_version(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_hardware_platform_version(session.opaque_ref, _vm);
@@ -1820,6 +1914,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_has_vendor_device(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_has_vendor_device(session.opaque_ref, _vm);
@@ -1831,6 +1928,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_requires_reboot(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_requires_reboot(session.opaque_ref, _vm);
@@ -1842,6 +1942,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_reference_label(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_reference_label(session.opaque_ref, _vm);
@@ -1853,6 +1956,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static domain_type get_domain_type(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_domain_type(session.opaque_ref, _vm);
@@ -1864,6 +1970,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_NVRAM(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_nvram(session.opaque_ref, _vm);
@@ -1875,9 +1984,68 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<update_guidances> get_pending_guidances(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_pending_guidances(session.opaque_ref, _vm);
+        }
+
+        /// <summary>
+        /// Get the pending_guidances_recommended field of the given VM.
+        /// Experimental. First published in 24.10.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static List<update_guidances> get_pending_guidances_recommended(Session session, string _vm)
+        {
+            return session.JsonRpcClient.vm_get_pending_guidances_recommended(session.opaque_ref, _vm);
+        }
+
+        /// <summary>
+        /// Get the pending_guidances_full field of the given VM.
+        /// Experimental. First published in 24.10.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static List<update_guidances> get_pending_guidances_full(Session session, string _vm)
+        {
+            return session.JsonRpcClient.vm_get_pending_guidances_full(session.opaque_ref, _vm);
+        }
+
+        /// <summary>
+        /// Get the groups field of the given VM.
+        /// Experimental. First published in 24.19.1.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static List<XenRef<VM_group>> get_groups(Session session, string _vm)
+        {
+            return session.JsonRpcClient.vm_get_groups(session.opaque_ref, _vm);
+        }
+
+        /// <summary>
+        /// Get the secureboot_certificates_state field of the given VM.
+        /// Experimental. First published in 26.14.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static vm_secureboot_certificates_state get_secureboot_certificates_state(Session session, string _vm)
+        {
+            return session.JsonRpcClient.vm_get_secureboot_certificates_state(session.opaque_ref, _vm);
         }
 
         /// <summary>
@@ -1887,6 +2055,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_label">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_name_label(Session session, string _vm, string _label)
         {
             session.JsonRpcClient.vm_set_name_label(session.opaque_ref, _vm, _label);
@@ -1899,6 +2070,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_description">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_name_description(Session session, string _vm, string _description)
         {
             session.JsonRpcClient.vm_set_name_description(session.opaque_ref, _vm, _description);
@@ -1911,6 +2085,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_user_version">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_user_version(Session session, string _vm, long _user_version)
         {
             session.JsonRpcClient.vm_set_user_version(session.opaque_ref, _vm, _user_version);
@@ -1923,6 +2100,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_is_a_template">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_is_a_template(Session session, string _vm, bool _is_a_template)
         {
             session.JsonRpcClient.vm_set_is_a_template(session.opaque_ref, _vm, _is_a_template);
@@ -1935,6 +2115,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_affinity">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void set_affinity(Session session, string _vm, string _affinity)
         {
             session.JsonRpcClient.vm_set_affinity(session.opaque_ref, _vm, _affinity);
@@ -1947,6 +2130,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_params">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_VCPUs_params(Session session, string _vm, Dictionary<string, string> _params)
         {
             session.JsonRpcClient.vm_set_vcpus_params(session.opaque_ref, _vm, _params);
@@ -1960,6 +2146,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_VCPUs_params(Session session, string _vm, string _key, string _value)
         {
             session.JsonRpcClient.vm_add_to_vcpus_params(session.opaque_ref, _vm, _key, _value);
@@ -1972,6 +2161,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_VCPUs_params(Session session, string _vm, string _key)
         {
             session.JsonRpcClient.vm_remove_from_vcpus_params(session.opaque_ref, _vm, _key);
@@ -1984,6 +2176,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_after_softreboot">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_actions_after_softreboot(Session session, string _vm, on_softreboot_behavior _after_softreboot)
         {
             session.JsonRpcClient.vm_set_actions_after_softreboot(session.opaque_ref, _vm, _after_softreboot);
@@ -1996,6 +2191,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_after_shutdown">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_actions_after_shutdown(Session session, string _vm, on_normal_exit _after_shutdown)
         {
             session.JsonRpcClient.vm_set_actions_after_shutdown(session.opaque_ref, _vm, _after_shutdown);
@@ -2008,6 +2206,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_after_reboot">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_actions_after_reboot(Session session, string _vm, on_normal_exit _after_reboot)
         {
             session.JsonRpcClient.vm_set_actions_after_reboot(session.opaque_ref, _vm, _after_reboot);
@@ -2020,6 +2221,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_bootloader">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_PV_bootloader(Session session, string _vm, string _bootloader)
         {
             session.JsonRpcClient.vm_set_pv_bootloader(session.opaque_ref, _vm, _bootloader);
@@ -2032,6 +2236,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_kernel">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_PV_kernel(Session session, string _vm, string _kernel)
         {
             session.JsonRpcClient.vm_set_pv_kernel(session.opaque_ref, _vm, _kernel);
@@ -2044,6 +2251,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_ramdisk">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_PV_ramdisk(Session session, string _vm, string _ramdisk)
         {
             session.JsonRpcClient.vm_set_pv_ramdisk(session.opaque_ref, _vm, _ramdisk);
@@ -2056,6 +2266,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_args">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_PV_args(Session session, string _vm, string _args)
         {
             session.JsonRpcClient.vm_set_pv_args(session.opaque_ref, _vm, _args);
@@ -2068,6 +2281,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_bootloader_args">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_PV_bootloader_args(Session session, string _vm, string _bootloader_args)
         {
             session.JsonRpcClient.vm_set_pv_bootloader_args(session.opaque_ref, _vm, _bootloader_args);
@@ -2080,6 +2296,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_legacy_args">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_PV_legacy_args(Session session, string _vm, string _legacy_args)
         {
             session.JsonRpcClient.vm_set_pv_legacy_args(session.opaque_ref, _vm, _legacy_args);
@@ -2092,6 +2311,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_boot_params">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_HVM_boot_params(Session session, string _vm, Dictionary<string, string> _boot_params)
         {
             session.JsonRpcClient.vm_set_hvm_boot_params(session.opaque_ref, _vm, _boot_params);
@@ -2105,6 +2327,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_HVM_boot_params(Session session, string _vm, string _key, string _value)
         {
             session.JsonRpcClient.vm_add_to_hvm_boot_params(session.opaque_ref, _vm, _key, _value);
@@ -2117,46 +2342,12 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_HVM_boot_params(Session session, string _vm, string _key)
         {
             session.JsonRpcClient.vm_remove_from_hvm_boot_params(session.opaque_ref, _vm, _key);
-        }
-
-        /// <summary>
-        /// Set the platform field of the given VM.
-        /// First published in XenServer 4.0.
-        /// </summary>
-        /// <param name="session">The session</param>
-        /// <param name="_vm">The opaque_ref of the given vm</param>
-        /// <param name="_platform">New value to set</param>
-        public static void set_platform(Session session, string _vm, Dictionary<string, string> _platform)
-        {
-            session.JsonRpcClient.vm_set_platform(session.opaque_ref, _vm, _platform);
-        }
-
-        /// <summary>
-        /// Add the given key-value pair to the platform field of the given VM.
-        /// First published in XenServer 4.0.
-        /// </summary>
-        /// <param name="session">The session</param>
-        /// <param name="_vm">The opaque_ref of the given vm</param>
-        /// <param name="_key">Key to add</param>
-        /// <param name="_value">Value to add</param>
-        public static void add_to_platform(Session session, string _vm, string _key, string _value)
-        {
-            session.JsonRpcClient.vm_add_to_platform(session.opaque_ref, _vm, _key, _value);
-        }
-
-        /// <summary>
-        /// Remove the given key and its corresponding value from the platform field of the given VM.  If the key is not in that Map, then do nothing.
-        /// First published in XenServer 4.0.
-        /// </summary>
-        /// <param name="session">The session</param>
-        /// <param name="_vm">The opaque_ref of the given vm</param>
-        /// <param name="_key">Key to remove</param>
-        public static void remove_from_platform(Session session, string _vm, string _key)
-        {
-            session.JsonRpcClient.vm_remove_from_platform(session.opaque_ref, _vm, _key);
         }
 
         /// <summary>
@@ -2168,46 +2359,12 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_pci_bus">New value to set</param>
         [Deprecated("XenServer 6.0")]
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_PCI_bus(Session session, string _vm, string _pci_bus)
         {
             session.JsonRpcClient.vm_set_pci_bus(session.opaque_ref, _vm, _pci_bus);
-        }
-
-        /// <summary>
-        /// Set the other_config field of the given VM.
-        /// First published in XenServer 4.0.
-        /// </summary>
-        /// <param name="session">The session</param>
-        /// <param name="_vm">The opaque_ref of the given vm</param>
-        /// <param name="_other_config">New value to set</param>
-        public static void set_other_config(Session session, string _vm, Dictionary<string, string> _other_config)
-        {
-            session.JsonRpcClient.vm_set_other_config(session.opaque_ref, _vm, _other_config);
-        }
-
-        /// <summary>
-        /// Add the given key-value pair to the other_config field of the given VM.
-        /// First published in XenServer 4.0.
-        /// </summary>
-        /// <param name="session">The session</param>
-        /// <param name="_vm">The opaque_ref of the given vm</param>
-        /// <param name="_key">Key to add</param>
-        /// <param name="_value">Value to add</param>
-        public static void add_to_other_config(Session session, string _vm, string _key, string _value)
-        {
-            session.JsonRpcClient.vm_add_to_other_config(session.opaque_ref, _vm, _key, _value);
-        }
-
-        /// <summary>
-        /// Remove the given key and its corresponding value from the other_config field of the given VM.  If the key is not in that Map, then do nothing.
-        /// First published in XenServer 4.0.
-        /// </summary>
-        /// <param name="session">The session</param>
-        /// <param name="_vm">The opaque_ref of the given vm</param>
-        /// <param name="_key">Key to remove</param>
-        public static void remove_from_other_config(Session session, string _vm, string _key)
-        {
-            session.JsonRpcClient.vm_remove_from_other_config(session.opaque_ref, _vm, _key);
         }
 
         /// <summary>
@@ -2217,6 +2374,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_recommendations">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_recommendations(Session session, string _vm, string _recommendations)
         {
             session.JsonRpcClient.vm_set_recommendations(session.opaque_ref, _vm, _recommendations);
@@ -2229,6 +2389,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_xenstore_data">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_xenstore_data(Session session, string _vm, Dictionary<string, string> _xenstore_data)
         {
             session.JsonRpcClient.vm_set_xenstore_data(session.opaque_ref, _vm, _xenstore_data);
@@ -2242,6 +2405,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_xenstore_data(Session session, string _vm, string _key, string _value)
         {
             session.JsonRpcClient.vm_add_to_xenstore_data(session.opaque_ref, _vm, _key, _value);
@@ -2254,6 +2420,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_xenstore_data(Session session, string _vm, string _key)
         {
             session.JsonRpcClient.vm_remove_from_xenstore_data(session.opaque_ref, _vm, _key);
@@ -2266,6 +2435,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_tags">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void set_tags(Session session, string _vm, string[] _tags)
         {
             session.JsonRpcClient.vm_set_tags(session.opaque_ref, _vm, _tags);
@@ -2278,6 +2450,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">New value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void add_tags(Session session, string _vm, string _value)
         {
             session.JsonRpcClient.vm_add_tags(session.opaque_ref, _vm, _value);
@@ -2290,46 +2465,12 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">Value to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void remove_tags(Session session, string _vm, string _value)
         {
             session.JsonRpcClient.vm_remove_tags(session.opaque_ref, _vm, _value);
-        }
-
-        /// <summary>
-        /// Set the blocked_operations field of the given VM.
-        /// First published in XenServer 5.0.
-        /// </summary>
-        /// <param name="session">The session</param>
-        /// <param name="_vm">The opaque_ref of the given vm</param>
-        /// <param name="_blocked_operations">New value to set</param>
-        public static void set_blocked_operations(Session session, string _vm, Dictionary<vm_operations, string> _blocked_operations)
-        {
-            session.JsonRpcClient.vm_set_blocked_operations(session.opaque_ref, _vm, _blocked_operations);
-        }
-
-        /// <summary>
-        /// Add the given key-value pair to the blocked_operations field of the given VM.
-        /// First published in XenServer 5.0.
-        /// </summary>
-        /// <param name="session">The session</param>
-        /// <param name="_vm">The opaque_ref of the given vm</param>
-        /// <param name="_key">Key to add</param>
-        /// <param name="_value">Value to add</param>
-        public static void add_to_blocked_operations(Session session, string _vm, vm_operations _key, string _value)
-        {
-            session.JsonRpcClient.vm_add_to_blocked_operations(session.opaque_ref, _vm, _key, _value);
-        }
-
-        /// <summary>
-        /// Remove the given key and its corresponding value from the blocked_operations field of the given VM.  If the key is not in that Map, then do nothing.
-        /// First published in XenServer 5.0.
-        /// </summary>
-        /// <param name="session">The session</param>
-        /// <param name="_vm">The opaque_ref of the given vm</param>
-        /// <param name="_key">Key to remove</param>
-        public static void remove_from_blocked_operations(Session session, string _vm, vm_operations _key)
-        {
-            session.JsonRpcClient.vm_remove_from_blocked_operations(session.opaque_ref, _vm, _key);
         }
 
         /// <summary>
@@ -2339,6 +2480,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_suspend_sr">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_suspend_SR(Session session, string _vm, string _suspend_sr)
         {
             session.JsonRpcClient.vm_set_suspend_sr(session.opaque_ref, _vm, _suspend_sr);
@@ -2351,63 +2495,78 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_hardware_platform_version">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_hardware_platform_version(Session session, string _vm, long _hardware_platform_version)
         {
             session.JsonRpcClient.vm_set_hardware_platform_version(session.opaque_ref, _vm, _hardware_platform_version);
         }
 
         /// <summary>
-        /// Snapshots the specified VM, making a new VM. Snapshot automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (e.g. Copy on Write).
+        /// Snapshots the specified VM, making a new VM. Snapshot automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (for example, Copy on Write).
         /// First published in XenServer 5.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_new_name">The name of the snapshotted VM</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<VM> snapshot(Session session, string _vm, string _new_name)
         {
             return session.JsonRpcClient.vm_snapshot(session.opaque_ref, _vm, _new_name);
         }
 
         /// <summary>
-        /// Snapshots the specified VM, making a new VM. Snapshot automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (e.g. Copy on Write).
+        /// Snapshots the specified VM, making a new VM. Snapshot automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (for example, Copy on Write).
         /// First published in XenServer 5.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_new_name">The name of the snapshotted VM</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_snapshot(Session session, string _vm, string _new_name)
         {
           return session.JsonRpcClient.async_vm_snapshot(session.opaque_ref, _vm, _new_name);
         }
 
         /// <summary>
-        /// Snapshots the specified VM, making a new VM. Snapshot automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (e.g. Copy on Write).
+        /// Snapshots the specified VM, making a new VM. Snapshot automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (for example, Copy on Write).
         /// First published in XenServer 5.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_new_name">The name of the snapshotted VM</param>
-        /// <param name="_ignore_vdis">A list of VDIs to ignore for the snapshot First published in Unreleased.</param>
+        /// <param name="_ignore_vdis">A list of VDIs to ignore for the snapshot First published in 21.4.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<VM> snapshot(Session session, string _vm, string _new_name, List<XenRef<VDI>> _ignore_vdis)
         {
             return session.JsonRpcClient.vm_snapshot(session.opaque_ref, _vm, _new_name, _ignore_vdis);
         }
 
         /// <summary>
-        /// Snapshots the specified VM, making a new VM. Snapshot automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (e.g. Copy on Write).
+        /// Snapshots the specified VM, making a new VM. Snapshot automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (for example, Copy on Write).
         /// First published in XenServer 5.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_new_name">The name of the snapshotted VM</param>
-        /// <param name="_ignore_vdis">A list of VDIs to ignore for the snapshot First published in Unreleased.</param>
+        /// <param name="_ignore_vdis">A list of VDIs to ignore for the snapshot First published in 21.4.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_snapshot(Session session, string _vm, string _new_name, List<XenRef<VDI>> _ignore_vdis)
         {
           return session.JsonRpcClient.async_vm_snapshot(session.opaque_ref, _vm, _new_name, _ignore_vdis);
         }
 
         /// <summary>
-        /// Snapshots the specified VM with quiesce, making a new VM. Snapshot automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (e.g. Copy on Write).
+        /// Snapshots the specified VM with quiesce, making a new VM. Snapshot automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (for example, Copy on Write).
         /// First published in XenServer 5.0.
         /// Deprecated since Citrix Hypervisor 8.1.
         /// </summary>
@@ -2415,13 +2574,16 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_new_name">The name of the snapshotted VM</param>
         [Deprecated("Citrix Hypervisor 8.1")]
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<VM> snapshot_with_quiesce(Session session, string _vm, string _new_name)
         {
             return session.JsonRpcClient.vm_snapshot_with_quiesce(session.opaque_ref, _vm, _new_name);
         }
 
         /// <summary>
-        /// Snapshots the specified VM with quiesce, making a new VM. Snapshot automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (e.g. Copy on Write).
+        /// Snapshots the specified VM with quiesce, making a new VM. Snapshot automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (for example, Copy on Write).
         /// First published in XenServer 5.0.
         /// Deprecated since Citrix Hypervisor 8.1.
         /// </summary>
@@ -2429,30 +2591,39 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_new_name">The name of the snapshotted VM</param>
         [Deprecated("Citrix Hypervisor 8.1")]
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_snapshot_with_quiesce(Session session, string _vm, string _new_name)
         {
           return session.JsonRpcClient.async_vm_snapshot_with_quiesce(session.opaque_ref, _vm, _new_name);
         }
 
         /// <summary>
-        /// Clones the specified VM, making a new VM. Clone automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (e.g. Copy on Write).   This function can only be called when the VM is in the Halted State.
+        /// Clones the specified VM, making a new VM. Clone automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (for example, Copy on Write). This function can only be called when the VM is in the Halted State.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_new_name">The name of the cloned VM</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VM> clone(Session session, string _vm, string _new_name)
         {
             return session.JsonRpcClient.vm_clone(session.opaque_ref, _vm, _new_name);
         }
 
         /// <summary>
-        /// Clones the specified VM, making a new VM. Clone automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (e.g. Copy on Write).   This function can only be called when the VM is in the Halted State.
+        /// Clones the specified VM, making a new VM. Clone automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (for example, Copy on Write). This function can only be called when the VM is in the Halted State.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_new_name">The name of the cloned VM</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_clone(Session session, string _vm, string _new_name)
         {
           return session.JsonRpcClient.async_vm_clone(session.opaque_ref, _vm, _new_name);
@@ -2466,6 +2637,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_new_name">The name of the copied VM</param>
         /// <param name="_sr">An SR to copy all the VM's disks into (if an invalid reference then it uses the existing SRs)</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VM> copy(Session session, string _vm, string _new_name, string _sr)
         {
             return session.JsonRpcClient.vm_copy(session.opaque_ref, _vm, _new_name, _sr);
@@ -2479,6 +2653,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_new_name">The name of the copied VM</param>
         /// <param name="_sr">An SR to copy all the VM's disks into (if an invalid reference then it uses the existing SRs)</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_copy(Session session, string _vm, string _new_name, string _sr)
         {
           return session.JsonRpcClient.async_vm_copy(session.opaque_ref, _vm, _new_name, _sr);
@@ -2490,6 +2667,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given snapshotted state</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void revert(Session session, string _vm)
         {
             session.JsonRpcClient.vm_revert(session.opaque_ref, _vm);
@@ -2501,30 +2681,39 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given snapshotted state</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_revert(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_revert(session.opaque_ref, _vm);
         }
 
         /// <summary>
-        /// Checkpoints the specified VM, making a new VM. Checkpoint automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (e.g. Copy on Write) and saves the memory image as well.
+        /// Checkpoints the specified VM, making a new VM. Checkpoint automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (for example, Copy on Write) and saves the memory image as well.
         /// First published in XenServer 5.6.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_new_name">The name of the checkpointed VM</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<VM> checkpoint(Session session, string _vm, string _new_name)
         {
             return session.JsonRpcClient.vm_checkpoint(session.opaque_ref, _vm, _new_name);
         }
 
         /// <summary>
-        /// Checkpoints the specified VM, making a new VM. Checkpoint automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (e.g. Copy on Write) and saves the memory image as well.
+        /// Checkpoints the specified VM, making a new VM. Checkpoint automatically exploits the capabilities of the underlying storage repository in which the VM's disk images are stored (for example, Copy on Write) and saves the memory image as well.
         /// First published in XenServer 5.6.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_new_name">The name of the checkpointed VM</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_checkpoint(Session session, string _vm, string _new_name)
         {
           return session.JsonRpcClient.async_vm_checkpoint(session.opaque_ref, _vm, _new_name);
@@ -2536,6 +2725,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void provision(Session session, string _vm)
         {
             session.JsonRpcClient.vm_provision(session.opaque_ref, _vm);
@@ -2547,6 +2739,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_provision(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_provision(session.opaque_ref, _vm);
@@ -2559,7 +2754,10 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_start_paused">Instantiate VM in paused state if set to true.</param>
-        /// <param name="_force">Attempt to force the VM to start. If this flag is false then the VM may fail pre-boot safety checks (e.g. if the CPU the VM last booted on looks substantially different to the current one)</param>
+        /// <param name="_force">Attempt to force the VM to start. If this flag is false then the VM may fail pre-boot safety checks (for example, if the CPU the VM last booted on looks substantially different to the current one)</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void start(Session session, string _vm, bool _start_paused, bool _force)
         {
             session.JsonRpcClient.vm_start(session.opaque_ref, _vm, _start_paused, _force);
@@ -2572,7 +2770,10 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_start_paused">Instantiate VM in paused state if set to true.</param>
-        /// <param name="_force">Attempt to force the VM to start. If this flag is false then the VM may fail pre-boot safety checks (e.g. if the CPU the VM last booted on looks substantially different to the current one)</param>
+        /// <param name="_force">Attempt to force the VM to start. If this flag is false then the VM may fail pre-boot safety checks (for example, if the CPU the VM last booted on looks substantially different to the current one)</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_start(Session session, string _vm, bool _start_paused, bool _force)
         {
           return session.JsonRpcClient.async_vm_start(session.opaque_ref, _vm, _start_paused, _force);
@@ -2586,7 +2787,10 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_host">The Host on which to start the VM</param>
         /// <param name="_start_paused">Instantiate VM in paused state if set to true.</param>
-        /// <param name="_force">Attempt to force the VM to start. If this flag is false then the VM may fail pre-boot safety checks (e.g. if the CPU the VM last booted on looks substantially different to the current one)</param>
+        /// <param name="_force">Attempt to force the VM to start. If this flag is false then the VM may fail pre-boot safety checks (for example, if the CPU the VM last booted on looks substantially different to the current one)</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void start_on(Session session, string _vm, string _host, bool _start_paused, bool _force)
         {
             session.JsonRpcClient.vm_start_on(session.opaque_ref, _vm, _host, _start_paused, _force);
@@ -2600,7 +2804,10 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_host">The Host on which to start the VM</param>
         /// <param name="_start_paused">Instantiate VM in paused state if set to true.</param>
-        /// <param name="_force">Attempt to force the VM to start. If this flag is false then the VM may fail pre-boot safety checks (e.g. if the CPU the VM last booted on looks substantially different to the current one)</param>
+        /// <param name="_force">Attempt to force the VM to start. If this flag is false then the VM may fail pre-boot safety checks (for example, if the CPU the VM last booted on looks substantially different to the current one)</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_start_on(Session session, string _vm, string _host, bool _start_paused, bool _force)
         {
           return session.JsonRpcClient.async_vm_start_on(session.opaque_ref, _vm, _host, _start_paused, _force);
@@ -2612,6 +2819,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void pause(Session session, string _vm)
         {
             session.JsonRpcClient.vm_pause(session.opaque_ref, _vm);
@@ -2623,6 +2833,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_pause(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_pause(session.opaque_ref, _vm);
@@ -2634,6 +2847,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void unpause(Session session, string _vm)
         {
             session.JsonRpcClient.vm_unpause(session.opaque_ref, _vm);
@@ -2645,28 +2861,37 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_unpause(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_unpause(session.opaque_ref, _vm);
         }
 
         /// <summary>
-        /// Attempt to cleanly shutdown the specified VM. (Note: this may not be supported---e.g. if a guest agent is not installed). This can only be called when the specified VM is in the Running state.
+        /// Attempt to cleanly shutdown the specified VM. (Note: this may not be supported, for example, if a guest agent is not installed). This can only be called when the specified VM is in the Running state.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void clean_shutdown(Session session, string _vm)
         {
             session.JsonRpcClient.vm_clean_shutdown(session.opaque_ref, _vm);
         }
 
         /// <summary>
-        /// Attempt to cleanly shutdown the specified VM. (Note: this may not be supported---e.g. if a guest agent is not installed). This can only be called when the specified VM is in the Running state.
+        /// Attempt to cleanly shutdown the specified VM. (Note: this may not be supported, for example, if a guest agent is not installed). This can only be called when the specified VM is in the Running state.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_clean_shutdown(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_clean_shutdown(session.opaque_ref, _vm);
@@ -2678,6 +2903,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void shutdown(Session session, string _vm)
         {
             session.JsonRpcClient.vm_shutdown(session.opaque_ref, _vm);
@@ -2689,28 +2917,37 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_shutdown(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_shutdown(session.opaque_ref, _vm);
         }
 
         /// <summary>
-        /// Attempt to cleanly shutdown the specified VM (Note: this may not be supported---e.g. if a guest agent is not installed). This can only be called when the specified VM is in the Running state.
+        /// Attempt to cleanly shutdown the specified VM (Note: this may not be supported, for example, if a guest agent is not installed). This can only be called when the specified VM is in the Running state.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void clean_reboot(Session session, string _vm)
         {
             session.JsonRpcClient.vm_clean_reboot(session.opaque_ref, _vm);
         }
 
         /// <summary>
-        /// Attempt to cleanly shutdown the specified VM (Note: this may not be supported---e.g. if a guest agent is not installed). This can only be called when the specified VM is in the Running state.
+        /// Attempt to cleanly shutdown the specified VM (Note: this may not be supported, for example, if a guest agent is not installed). This can only be called when the specified VM is in the Running state.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_clean_reboot(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_clean_reboot(session.opaque_ref, _vm);
@@ -2722,6 +2959,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void hard_shutdown(Session session, string _vm)
         {
             session.JsonRpcClient.vm_hard_shutdown(session.opaque_ref, _vm);
@@ -2733,6 +2973,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_hard_shutdown(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_hard_shutdown(session.opaque_ref, _vm);
@@ -2744,6 +2987,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void power_state_reset(Session session, string _vm)
         {
             session.JsonRpcClient.vm_power_state_reset(session.opaque_ref, _vm);
@@ -2755,6 +3001,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_power_state_reset(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_power_state_reset(session.opaque_ref, _vm);
@@ -2766,6 +3015,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void hard_reboot(Session session, string _vm)
         {
             session.JsonRpcClient.vm_hard_reboot(session.opaque_ref, _vm);
@@ -2777,6 +3029,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_hard_reboot(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_hard_reboot(session.opaque_ref, _vm);
@@ -2788,6 +3043,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void suspend(Session session, string _vm)
         {
             session.JsonRpcClient.vm_suspend(session.opaque_ref, _vm);
@@ -2799,6 +3057,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_suspend(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_suspend(session.opaque_ref, _vm);
@@ -2811,7 +3072,10 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_start_paused">Resume VM in paused state if set to true.</param>
-        /// <param name="_force">Attempt to force the VM to resume. If this flag is false then the VM may fail pre-resume safety checks (e.g. if the CPU the VM was running on looks substantially different to the current one)</param>
+        /// <param name="_force">Attempt to force the VM to resume. If this flag is false then the VM may fail pre-resume safety checks (for example, if the CPU the VM was running on looks substantially different to the current one)</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void resume(Session session, string _vm, bool _start_paused, bool _force)
         {
             session.JsonRpcClient.vm_resume(session.opaque_ref, _vm, _start_paused, _force);
@@ -2824,7 +3088,10 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_start_paused">Resume VM in paused state if set to true.</param>
-        /// <param name="_force">Attempt to force the VM to resume. If this flag is false then the VM may fail pre-resume safety checks (e.g. if the CPU the VM was running on looks substantially different to the current one)</param>
+        /// <param name="_force">Attempt to force the VM to resume. If this flag is false then the VM may fail pre-resume safety checks (for example, if the CPU the VM was running on looks substantially different to the current one)</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_resume(Session session, string _vm, bool _start_paused, bool _force)
         {
           return session.JsonRpcClient.async_vm_resume(session.opaque_ref, _vm, _start_paused, _force);
@@ -2838,7 +3105,10 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_host">The Host on which to resume the VM</param>
         /// <param name="_start_paused">Resume VM in paused state if set to true.</param>
-        /// <param name="_force">Attempt to force the VM to resume. If this flag is false then the VM may fail pre-resume safety checks (e.g. if the CPU the VM was running on looks substantially different to the current one)</param>
+        /// <param name="_force">Attempt to force the VM to resume. If this flag is false then the VM may fail pre-resume safety checks (for example, if the CPU the VM was running on looks substantially different to the current one)</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void resume_on(Session session, string _vm, string _host, bool _start_paused, bool _force)
         {
             session.JsonRpcClient.vm_resume_on(session.opaque_ref, _vm, _host, _start_paused, _force);
@@ -2852,7 +3122,10 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_host">The Host on which to resume the VM</param>
         /// <param name="_start_paused">Resume VM in paused state if set to true.</param>
-        /// <param name="_force">Attempt to force the VM to resume. If this flag is false then the VM may fail pre-resume safety checks (e.g. if the CPU the VM was running on looks substantially different to the current one)</param>
+        /// <param name="_force">Attempt to force the VM to resume. If this flag is false then the VM may fail pre-resume safety checks (for example, if the CPU the VM was running on looks substantially different to the current one)</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_resume_on(Session session, string _vm, string _host, bool _start_paused, bool _force)
         {
           return session.JsonRpcClient.async_vm_resume_on(session.opaque_ref, _vm, _host, _start_paused, _force);
@@ -2866,6 +3139,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_host">The target host</param>
         /// <param name="_options">Extra configuration operations: force, live, copy, compress. Each is a boolean option, taking 'true' or 'false' as a value. Option 'compress' controls the use of stream compression during migration.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void pool_migrate(Session session, string _vm, string _host, Dictionary<string, string> _options)
         {
             session.JsonRpcClient.vm_pool_migrate(session.opaque_ref, _vm, _host, _options);
@@ -2879,6 +3155,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_host">The target host</param>
         /// <param name="_options">Extra configuration operations: force, live, copy, compress. Each is a boolean option, taking 'true' or 'false' as a value. Option 'compress' controls the use of stream compression during migration.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_pool_migrate(Session session, string _vm, string _host, Dictionary<string, string> _options)
         {
           return session.JsonRpcClient.async_vm_pool_migrate(session.opaque_ref, _vm, _host, _options);
@@ -2891,6 +3170,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_nvcpu">The number of VCPUs</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_VCPUs_number_live(Session session, string _vm, long _nvcpu)
         {
             session.JsonRpcClient.vm_set_vcpus_number_live(session.opaque_ref, _vm, _nvcpu);
@@ -2903,6 +3185,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_nvcpu">The number of VCPUs</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_set_VCPUs_number_live(Session session, string _vm, long _nvcpu)
         {
           return session.JsonRpcClient.async_vm_set_vcpus_number_live(session.opaque_ref, _vm, _nvcpu);
@@ -2916,6 +3201,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_key">The key</param>
         /// <param name="_value">The value</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_VCPUs_params_live(Session session, string _vm, string _key, string _value)
         {
             session.JsonRpcClient.vm_add_to_vcpus_params_live(session.opaque_ref, _vm, _key, _value);
@@ -2929,6 +3217,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_key">The key</param>
         /// <param name="_value">The value</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_add_to_VCPUs_params_live(Session session, string _vm, string _key, string _value)
         {
           return session.JsonRpcClient.async_vm_add_to_vcpus_params_live(session.opaque_ref, _vm, _key, _value);
@@ -2941,6 +3232,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The value</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_NVRAM(Session session, string _vm, Dictionary<string, string> _value)
         {
             session.JsonRpcClient.vm_set_nvram(session.opaque_ref, _vm, _value);
@@ -2954,6 +3248,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_key">The key</param>
         /// <param name="_value">The value</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_NVRAM(Session session, string _vm, string _key, string _value)
         {
             session.JsonRpcClient.vm_add_to_nvram(session.opaque_ref, _vm, _key, _value);
@@ -2966,6 +3263,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_key">The key</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_NVRAM(Session session, string _vm, string _key)
         {
             session.JsonRpcClient.vm_remove_from_nvram(session.opaque_ref, _vm, _key);
@@ -2978,6 +3278,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The value</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_ha_restart_priority(Session session, string _vm, string _value)
         {
             session.JsonRpcClient.vm_set_ha_restart_priority(session.opaque_ref, _vm, _value);
@@ -2992,6 +3295,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The value</param>
         [Deprecated("XenServer 6.0")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_ha_always_run(Session session, string _vm, bool _value)
         {
             session.JsonRpcClient.vm_set_ha_always_run(session.opaque_ref, _vm, _value);
@@ -3003,6 +3309,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long compute_memory_overhead(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_compute_memory_overhead(session.opaque_ref, _vm);
@@ -3014,6 +3323,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_compute_memory_overhead(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_compute_memory_overhead(session.opaque_ref, _vm);
@@ -3026,6 +3338,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The new value of memory_dynamic_max</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void set_memory_dynamic_max(Session session, string _vm, long _value)
         {
             session.JsonRpcClient.vm_set_memory_dynamic_max(session.opaque_ref, _vm, _value);
@@ -3038,6 +3353,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The new value of memory_dynamic_min</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void set_memory_dynamic_min(Session session, string _vm, long _value)
         {
             session.JsonRpcClient.vm_set_memory_dynamic_min(session.opaque_ref, _vm, _value);
@@ -3051,6 +3369,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_min">The new minimum value</param>
         /// <param name="_max">The new maximum value</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void set_memory_dynamic_range(Session session, string _vm, long _min, long _max)
         {
             session.JsonRpcClient.vm_set_memory_dynamic_range(session.opaque_ref, _vm, _min, _max);
@@ -3064,6 +3385,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_min">The new minimum value</param>
         /// <param name="_max">The new maximum value</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_set_memory_dynamic_range(Session session, string _vm, long _min, long _max)
         {
           return session.JsonRpcClient.async_vm_set_memory_dynamic_range(session.opaque_ref, _vm, _min, _max);
@@ -3076,6 +3400,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The new value of memory_static_max</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void set_memory_static_max(Session session, string _vm, long _value)
         {
             session.JsonRpcClient.vm_set_memory_static_max(session.opaque_ref, _vm, _value);
@@ -3088,6 +3415,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The new value of memory_static_min</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void set_memory_static_min(Session session, string _vm, long _value)
         {
             session.JsonRpcClient.vm_set_memory_static_min(session.opaque_ref, _vm, _value);
@@ -3101,6 +3431,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_min">The new minimum value</param>
         /// <param name="_max">The new maximum value</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void set_memory_static_range(Session session, string _vm, long _min, long _max)
         {
             session.JsonRpcClient.vm_set_memory_static_range(session.opaque_ref, _vm, _min, _max);
@@ -3114,6 +3447,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_min">The new minimum value</param>
         /// <param name="_max">The new maximum value</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_set_memory_static_range(Session session, string _vm, long _min, long _max)
         {
           return session.JsonRpcClient.async_vm_set_memory_static_range(session.opaque_ref, _vm, _min, _max);
@@ -3129,6 +3465,9 @@ namespace XenAPI
         /// <param name="_static_max">The new value of memory_static_max.</param>
         /// <param name="_dynamic_min">The new value of memory_dynamic_min.</param>
         /// <param name="_dynamic_max">The new value of memory_dynamic_max.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void set_memory_limits(Session session, string _vm, long _static_min, long _static_max, long _dynamic_min, long _dynamic_max)
         {
             session.JsonRpcClient.vm_set_memory_limits(session.opaque_ref, _vm, _static_min, _static_max, _dynamic_min, _dynamic_max);
@@ -3144,6 +3483,9 @@ namespace XenAPI
         /// <param name="_static_max">The new value of memory_static_max.</param>
         /// <param name="_dynamic_min">The new value of memory_dynamic_min.</param>
         /// <param name="_dynamic_max">The new value of memory_dynamic_max.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_set_memory_limits(Session session, string _vm, long _static_min, long _static_max, long _dynamic_min, long _dynamic_max)
         {
           return session.JsonRpcClient.async_vm_set_memory_limits(session.opaque_ref, _vm, _static_min, _static_max, _dynamic_min, _dynamic_max);
@@ -3156,6 +3498,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The new memory allocation (bytes).</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void set_memory(Session session, string _vm, long _value)
         {
             session.JsonRpcClient.vm_set_memory(session.opaque_ref, _vm, _value);
@@ -3168,6 +3513,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The new memory allocation (bytes).</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_set_memory(Session session, string _vm, long _value)
         {
           return session.JsonRpcClient.async_vm_set_memory(session.opaque_ref, _vm, _value);
@@ -3182,6 +3530,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_target">The target in bytes</param>
         [Deprecated("XenServer 5.6")]
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void set_memory_target_live(Session session, string _vm, long _target)
         {
             session.JsonRpcClient.vm_set_memory_target_live(session.opaque_ref, _vm, _target);
@@ -3196,6 +3547,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_target">The target in bytes</param>
         [Deprecated("XenServer 5.6")]
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_set_memory_target_live(Session session, string _vm, long _target)
         {
           return session.JsonRpcClient.async_vm_set_memory_target_live(session.opaque_ref, _vm, _target);
@@ -3209,6 +3563,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         [Deprecated("XenServer 5.6")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static void wait_memory_target_live(Session session, string _vm)
         {
             session.JsonRpcClient.vm_wait_memory_target_live(session.opaque_ref, _vm);
@@ -3222,6 +3579,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         [Deprecated("XenServer 5.6")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_wait_memory_target_live(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_wait_memory_target_live(session.opaque_ref, _vm);
@@ -3235,6 +3595,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_cooperative(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_cooperative(session.opaque_ref, _vm);
@@ -3248,6 +3611,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_get_cooperative(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_get_cooperative(session.opaque_ref, _vm);
@@ -3260,6 +3626,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The new shadow memory multiplier to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void set_HVM_shadow_multiplier(Session session, string _vm, double _value)
         {
             session.JsonRpcClient.vm_set_hvm_shadow_multiplier(session.opaque_ref, _vm, _value);
@@ -3272,6 +3641,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_multiplier">The new shadow memory multiplier to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void set_shadow_multiplier_live(Session session, string _vm, double _multiplier)
         {
             session.JsonRpcClient.vm_set_shadow_multiplier_live(session.opaque_ref, _vm, _multiplier);
@@ -3284,6 +3656,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_multiplier">The new shadow memory multiplier to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_set_shadow_multiplier_live(Session session, string _vm, double _multiplier)
         {
           return session.JsonRpcClient.async_vm_set_shadow_multiplier_live(session.opaque_ref, _vm, _multiplier);
@@ -3296,6 +3671,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The new maximum number of VCPUs</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_VCPUs_max(Session session, string _vm, long _value)
         {
             session.JsonRpcClient.vm_set_vcpus_max(session.opaque_ref, _vm, _value);
@@ -3308,6 +3686,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The new maximum number of VCPUs</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_VCPUs_at_startup(Session session, string _vm, long _value)
         {
             session.JsonRpcClient.vm_set_vcpus_at_startup(session.opaque_ref, _vm, _value);
@@ -3320,6 +3701,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_key">The key to send</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void send_sysrq(Session session, string _vm, string _key)
         {
             session.JsonRpcClient.vm_send_sysrq(session.opaque_ref, _vm, _key);
@@ -3332,6 +3716,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_key">The key to send</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_send_sysrq(Session session, string _vm, string _key)
         {
           return session.JsonRpcClient.async_vm_send_sysrq(session.opaque_ref, _vm, _key);
@@ -3344,6 +3731,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_trigger">The trigger to send</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void send_trigger(Session session, string _vm, string _trigger)
         {
             session.JsonRpcClient.vm_send_trigger(session.opaque_ref, _vm, _trigger);
@@ -3356,6 +3746,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_trigger">The trigger to send</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_send_trigger(Session session, string _vm, string _trigger)
         {
           return session.JsonRpcClient.async_vm_send_trigger(session.opaque_ref, _vm, _trigger);
@@ -3369,6 +3762,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_total">Total amount of physical RAM to fit within</param>
         /// <param name="_approximate">If false the limit is calculated with the guest's current exact configuration. Otherwise a more approximate calculation is performed</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long maximise_memory(Session session, string _vm, long _total, bool _approximate)
         {
             return session.JsonRpcClient.vm_maximise_memory(session.opaque_ref, _vm, _total, _approximate);
@@ -3382,6 +3778,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_total">Total amount of physical RAM to fit within</param>
         /// <param name="_approximate">If false the limit is calculated with the guest's current exact configuration. Otherwise a more approximate calculation is performed</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_maximise_memory(Session session, string _vm, long _total, bool _approximate)
         {
           return session.JsonRpcClient.async_vm_maximise_memory(session.opaque_ref, _vm, _total, _approximate);
@@ -3398,6 +3797,9 @@ namespace XenAPI
         /// <param name="_vdi_map">Map of source VDI to destination SR</param>
         /// <param name="_vif_map">Map of source VIF to destination network</param>
         /// <param name="_options">Other parameters</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<VM> migrate_send(Session session, string _vm, Dictionary<string, string> _dest, bool _live, Dictionary<XenRef<VDI>, XenRef<SR>> _vdi_map, Dictionary<XenRef<VIF>, XenRef<Network>> _vif_map, Dictionary<string, string> _options)
         {
             return session.JsonRpcClient.vm_migrate_send(session.opaque_ref, _vm, _dest, _live, _vdi_map, _vif_map, _options);
@@ -3414,6 +3816,9 @@ namespace XenAPI
         /// <param name="_vdi_map">Map of source VDI to destination SR</param>
         /// <param name="_vif_map">Map of source VIF to destination network</param>
         /// <param name="_options">Other parameters</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_migrate_send(Session session, string _vm, Dictionary<string, string> _dest, bool _live, Dictionary<XenRef<VDI>, XenRef<SR>> _vdi_map, Dictionary<XenRef<VIF>, XenRef<Network>> _vif_map, Dictionary<string, string> _options)
         {
           return session.JsonRpcClient.async_vm_migrate_send(session.opaque_ref, _vm, _dest, _live, _vdi_map, _vif_map, _options);
@@ -3431,6 +3836,9 @@ namespace XenAPI
         /// <param name="_vif_map">Map of source VIF to destination network</param>
         /// <param name="_options">Other parameters</param>
         /// <param name="_vgpu_map">Map of source vGPU to destination GPU group First published in XenServer 7.3.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<VM> migrate_send(Session session, string _vm, Dictionary<string, string> _dest, bool _live, Dictionary<XenRef<VDI>, XenRef<SR>> _vdi_map, Dictionary<XenRef<VIF>, XenRef<Network>> _vif_map, Dictionary<string, string> _options, Dictionary<XenRef<VGPU>, XenRef<GPU_group>> _vgpu_map)
         {
             return session.JsonRpcClient.vm_migrate_send(session.opaque_ref, _vm, _dest, _live, _vdi_map, _vif_map, _options, _vgpu_map);
@@ -3448,9 +3856,54 @@ namespace XenAPI
         /// <param name="_vif_map">Map of source VIF to destination network</param>
         /// <param name="_options">Other parameters</param>
         /// <param name="_vgpu_map">Map of source vGPU to destination GPU group First published in XenServer 7.3.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_migrate_send(Session session, string _vm, Dictionary<string, string> _dest, bool _live, Dictionary<XenRef<VDI>, XenRef<SR>> _vdi_map, Dictionary<XenRef<VIF>, XenRef<Network>> _vif_map, Dictionary<string, string> _options, Dictionary<XenRef<VGPU>, XenRef<GPU_group>> _vgpu_map)
         {
           return session.JsonRpcClient.async_vm_migrate_send(session.opaque_ref, _vm, _dest, _live, _vdi_map, _vif_map, _options, _vgpu_map);
+        }
+
+        /// <summary>
+        /// Migrate the VM to another host.  This can only be called when the specified VM is in the Running state.
+        /// First published in XenServer 6.1.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_dest">The result of a Host.migrate_receive call.</param>
+        /// <param name="_live">Live migration</param>
+        /// <param name="_vdi_map">Map of source VDI to destination SR</param>
+        /// <param name="_vif_map">Map of source VIF to destination network</param>
+        /// <param name="_options">Other parameters</param>
+        /// <param name="_vgpu_map">Map of source vGPU to destination GPU group First published in XenServer 7.3.</param>
+        /// <param name="_vdi_format_map">Map of source VDI to it's expected type on destination First published in 26.14.0-next.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
+        public static XenRef<VM> migrate_send(Session session, string _vm, Dictionary<string, string> _dest, bool _live, Dictionary<XenRef<VDI>, XenRef<SR>> _vdi_map, Dictionary<XenRef<VIF>, XenRef<Network>> _vif_map, Dictionary<string, string> _options, Dictionary<XenRef<VGPU>, XenRef<GPU_group>> _vgpu_map, Dictionary<XenRef<VDI>, string> _vdi_format_map)
+        {
+            return session.JsonRpcClient.vm_migrate_send(session.opaque_ref, _vm, _dest, _live, _vdi_map, _vif_map, _options, _vgpu_map, _vdi_format_map);
+        }
+
+        /// <summary>
+        /// Migrate the VM to another host.  This can only be called when the specified VM is in the Running state.
+        /// First published in XenServer 6.1.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_dest">The result of a Host.migrate_receive call.</param>
+        /// <param name="_live">Live migration</param>
+        /// <param name="_vdi_map">Map of source VDI to destination SR</param>
+        /// <param name="_vif_map">Map of source VIF to destination network</param>
+        /// <param name="_options">Other parameters</param>
+        /// <param name="_vgpu_map">Map of source vGPU to destination GPU group First published in XenServer 7.3.</param>
+        /// <param name="_vdi_format_map">Map of source VDI to it's expected type on destination First published in 26.14.0-next.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
+        public static XenRef<Task> async_migrate_send(Session session, string _vm, Dictionary<string, string> _dest, bool _live, Dictionary<XenRef<VDI>, XenRef<SR>> _vdi_map, Dictionary<XenRef<VIF>, XenRef<Network>> _vif_map, Dictionary<string, string> _options, Dictionary<XenRef<VGPU>, XenRef<GPU_group>> _vgpu_map, Dictionary<XenRef<VDI>, string> _vdi_format_map)
+        {
+          return session.JsonRpcClient.async_vm_migrate_send(session.opaque_ref, _vm, _dest, _live, _vdi_map, _vif_map, _options, _vgpu_map, _vdi_format_map);
         }
 
         /// <summary>
@@ -3459,11 +3912,14 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
-        /// <param name="_dest">The result of a VM.migrate_receive call.</param>
+        /// <param name="_dest">The result of a Host.migrate_receive call.</param>
         /// <param name="_live">Live migration</param>
         /// <param name="_vdi_map">Map of source VDI to destination SR</param>
         /// <param name="_vif_map">Map of source VIF to destination network</param>
         /// <param name="_options">Other parameters</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void assert_can_migrate(Session session, string _vm, Dictionary<string, string> _dest, bool _live, Dictionary<XenRef<VDI>, XenRef<SR>> _vdi_map, Dictionary<XenRef<VIF>, XenRef<Network>> _vif_map, Dictionary<string, string> _options)
         {
             session.JsonRpcClient.vm_assert_can_migrate(session.opaque_ref, _vm, _dest, _live, _vdi_map, _vif_map, _options);
@@ -3475,11 +3931,14 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
-        /// <param name="_dest">The result of a VM.migrate_receive call.</param>
+        /// <param name="_dest">The result of a Host.migrate_receive call.</param>
         /// <param name="_live">Live migration</param>
         /// <param name="_vdi_map">Map of source VDI to destination SR</param>
         /// <param name="_vif_map">Map of source VIF to destination network</param>
         /// <param name="_options">Other parameters</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_assert_can_migrate(Session session, string _vm, Dictionary<string, string> _dest, bool _live, Dictionary<XenRef<VDI>, XenRef<SR>> _vdi_map, Dictionary<XenRef<VIF>, XenRef<Network>> _vif_map, Dictionary<string, string> _options)
         {
           return session.JsonRpcClient.async_vm_assert_can_migrate(session.opaque_ref, _vm, _dest, _live, _vdi_map, _vif_map, _options);
@@ -3491,12 +3950,15 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
-        /// <param name="_dest">The result of a VM.migrate_receive call.</param>
+        /// <param name="_dest">The result of a Host.migrate_receive call.</param>
         /// <param name="_live">Live migration</param>
         /// <param name="_vdi_map">Map of source VDI to destination SR</param>
         /// <param name="_vif_map">Map of source VIF to destination network</param>
         /// <param name="_options">Other parameters</param>
         /// <param name="_vgpu_map">Map of source vGPU to destination GPU group First published in XenServer 7.3.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static void assert_can_migrate(Session session, string _vm, Dictionary<string, string> _dest, bool _live, Dictionary<XenRef<VDI>, XenRef<SR>> _vdi_map, Dictionary<XenRef<VIF>, XenRef<Network>> _vif_map, Dictionary<string, string> _options, Dictionary<XenRef<VGPU>, XenRef<GPU_group>> _vgpu_map)
         {
             session.JsonRpcClient.vm_assert_can_migrate(session.opaque_ref, _vm, _dest, _live, _vdi_map, _vif_map, _options, _vgpu_map);
@@ -3508,25 +3970,31 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
-        /// <param name="_dest">The result of a VM.migrate_receive call.</param>
+        /// <param name="_dest">The result of a Host.migrate_receive call.</param>
         /// <param name="_live">Live migration</param>
         /// <param name="_vdi_map">Map of source VDI to destination SR</param>
         /// <param name="_vif_map">Map of source VIF to destination network</param>
         /// <param name="_options">Other parameters</param>
         /// <param name="_vgpu_map">Map of source vGPU to destination GPU group First published in XenServer 7.3.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_assert_can_migrate(Session session, string _vm, Dictionary<string, string> _dest, bool _live, Dictionary<XenRef<VDI>, XenRef<SR>> _vdi_map, Dictionary<XenRef<VIF>, XenRef<Network>> _vif_map, Dictionary<string, string> _options, Dictionary<XenRef<VGPU>, XenRef<GPU_group>> _vgpu_map)
         {
           return session.JsonRpcClient.async_vm_assert_can_migrate(session.opaque_ref, _vm, _dest, _live, _vdi_map, _vif_map, _options, _vgpu_map);
         }
 
         /// <summary>
-        /// Returns a record describing the VM's dynamic state, initialised when the VM boots and updated to reflect runtime configuration changes e.g. CPU hotplug
+        /// Returns a record describing the VM's dynamic state, initialised when the VM boots and updated to reflect runtime configuration changes, for example CPU hotplug
         /// First published in XenServer 4.0.
         /// Deprecated since XenServer 7.3.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         [Deprecated("XenServer 7.3")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VM get_boot_record(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_boot_record(session.opaque_ref, _vm);
@@ -3538,6 +4006,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<Data_source> get_data_sources(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_data_sources(session.opaque_ref, _vm);
@@ -3550,6 +4021,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_data_source">The data source to record</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void record_data_source(Session session, string _vm, string _data_source)
         {
             session.JsonRpcClient.vm_record_data_source(session.opaque_ref, _vm, _data_source);
@@ -3562,6 +4036,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_data_source">The data source to query</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static double query_data_source(Session session, string _vm, string _data_source)
         {
             return session.JsonRpcClient.vm_query_data_source(session.opaque_ref, _vm, _data_source);
@@ -3574,6 +4051,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_data_source">The data source whose archives are to be forgotten</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void forget_data_source_archives(Session session, string _vm, string _data_source)
         {
             session.JsonRpcClient.vm_forget_data_source_archives(session.opaque_ref, _vm, _data_source);
@@ -3586,6 +4066,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_op">proposed operation</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static void assert_operation_valid(Session session, string _vm, vm_operations _op)
         {
             session.JsonRpcClient.vm_assert_operation_valid(session.opaque_ref, _vm, _op);
@@ -3598,6 +4081,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_op">proposed operation</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_assert_operation_valid(Session session, string _vm, vm_operations _op)
         {
           return session.JsonRpcClient.async_vm_assert_operation_valid(session.opaque_ref, _vm, _op);
@@ -3609,6 +4095,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void update_allowed_operations(Session session, string _vm)
         {
             session.JsonRpcClient.vm_update_allowed_operations(session.opaque_ref, _vm);
@@ -3620,6 +4109,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_update_allowed_operations(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_update_allowed_operations(session.opaque_ref, _vm);
@@ -3631,6 +4123,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_allowed_VBD_devices(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_allowed_vbd_devices(session.opaque_ref, _vm);
@@ -3642,6 +4137,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_allowed_VIF_devices(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_allowed_vif_devices(session.opaque_ref, _vm);
@@ -3653,6 +4151,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Host>> get_possible_hosts(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_get_possible_hosts(session.opaque_ref, _vm);
@@ -3664,6 +4165,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_get_possible_hosts(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_get_possible_hosts(session.opaque_ref, _vm);
@@ -3676,6 +4180,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_host">The host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static void assert_can_boot_here(Session session, string _vm, string _host)
         {
             session.JsonRpcClient.vm_assert_can_boot_here(session.opaque_ref, _vm, _host);
@@ -3688,6 +4195,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_host">The host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_assert_can_boot_here(Session session, string _vm, string _host)
         {
           return session.JsonRpcClient.async_vm_assert_can_boot_here(session.opaque_ref, _vm, _host);
@@ -3701,6 +4211,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Blob> create_new_blob(Session session, string _vm, string _name, string _mime_type)
         {
             return session.JsonRpcClient.vm_create_new_blob(session.opaque_ref, _vm, _name, _mime_type);
@@ -3714,6 +4227,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_create_new_blob(Session session, string _vm, string _name, string _mime_type)
         {
           return session.JsonRpcClient.async_vm_create_new_blob(session.opaque_ref, _vm, _name, _mime_type);
@@ -3728,6 +4244,9 @@ namespace XenAPI
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
         /// <param name="_public">True if the blob should be publicly available First published in XenServer 6.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Blob> create_new_blob(Session session, string _vm, string _name, string _mime_type, bool _public)
         {
             return session.JsonRpcClient.vm_create_new_blob(session.opaque_ref, _vm, _name, _mime_type, _public);
@@ -3742,28 +4261,37 @@ namespace XenAPI
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
         /// <param name="_public">True if the blob should be publicly available First published in XenServer 6.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_create_new_blob(Session session, string _vm, string _name, string _mime_type, bool _public)
         {
           return session.JsonRpcClient.async_vm_create_new_blob(session.opaque_ref, _vm, _name, _mime_type, _public);
         }
 
         /// <summary>
-        /// Returns an error if the VM is not considered agile e.g. because it is tied to a resource local to a host
+        /// Returns an error if the VM is not considered agile, for example, because it is tied to a resource local to a host
         /// First published in XenServer 5.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static void assert_agile(Session session, string _vm)
         {
             session.JsonRpcClient.vm_assert_agile(session.opaque_ref, _vm);
         }
 
         /// <summary>
-        /// Returns an error if the VM is not considered agile e.g. because it is tied to a resource local to a host
+        /// Returns an error if the VM is not considered agile, for example, because it is tied to a resource local to a host
         /// First published in XenServer 5.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_assert_agile(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_assert_agile(session.opaque_ref, _vm);
@@ -3775,6 +4303,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Host>, string[]> retrieve_wlb_recommendations(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_retrieve_wlb_recommendations(session.opaque_ref, _vm);
@@ -3786,6 +4317,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_retrieve_wlb_recommendations(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_retrieve_wlb_recommendations(session.opaque_ref, _vm);
@@ -3798,6 +4332,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The custom BIOS strings as a list of key-value pairs</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_bios_strings(Session session, string _vm, Dictionary<string, string> _value)
         {
             session.JsonRpcClient.vm_set_bios_strings(session.opaque_ref, _vm, _value);
@@ -3810,6 +4347,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The custom BIOS strings as a list of key-value pairs</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_set_bios_strings(Session session, string _vm, Dictionary<string, string> _value)
         {
           return session.JsonRpcClient.async_vm_set_bios_strings(session.opaque_ref, _vm, _value);
@@ -3822,6 +4362,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_host">The host to copy the BIOS strings from</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void copy_bios_strings(Session session, string _vm, string _host)
         {
             session.JsonRpcClient.vm_copy_bios_strings(session.opaque_ref, _vm, _host);
@@ -3834,6 +4377,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_host">The host to copy the BIOS strings from</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_copy_bios_strings(Session session, string _vm, string _host)
         {
           return session.JsonRpcClient.async_vm_copy_bios_strings(session.opaque_ref, _vm, _host);
@@ -3848,6 +4394,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The value</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_protection_policy(Session session, string _vm, string _value)
         {
             session.JsonRpcClient.vm_set_protection_policy(session.opaque_ref, _vm, _value);
@@ -3860,6 +4409,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The value</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_snapshot_schedule(Session session, string _vm, string _value)
         {
             session.JsonRpcClient.vm_set_snapshot_schedule(session.opaque_ref, _vm, _value);
@@ -3872,6 +4424,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">This VM's start delay in seconds</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_start_delay(Session session, string _vm, long _value)
         {
             session.JsonRpcClient.vm_set_start_delay(session.opaque_ref, _vm, _value);
@@ -3884,6 +4439,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">This VM's start delay in seconds</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_start_delay(Session session, string _vm, long _value)
         {
           return session.JsonRpcClient.async_vm_set_start_delay(session.opaque_ref, _vm, _value);
@@ -3896,6 +4454,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">This VM's shutdown delay in seconds</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_shutdown_delay(Session session, string _vm, long _value)
         {
             session.JsonRpcClient.vm_set_shutdown_delay(session.opaque_ref, _vm, _value);
@@ -3908,6 +4469,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">This VM's shutdown delay in seconds</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_shutdown_delay(Session session, string _vm, long _value)
         {
           return session.JsonRpcClient.async_vm_set_shutdown_delay(session.opaque_ref, _vm, _value);
@@ -3920,6 +4484,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">This VM's boot order</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_order(Session session, string _vm, long _value)
         {
             session.JsonRpcClient.vm_set_order(session.opaque_ref, _vm, _value);
@@ -3932,6 +4499,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">This VM's boot order</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_order(Session session, string _vm, long _value)
         {
           return session.JsonRpcClient.async_vm_set_order(session.opaque_ref, _vm, _value);
@@ -3944,6 +4514,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The suspend VDI uuid</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_suspend_VDI(Session session, string _vm, string _value)
         {
             session.JsonRpcClient.vm_set_suspend_vdi(session.opaque_ref, _vm, _value);
@@ -3956,6 +4529,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The suspend VDI uuid</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_suspend_VDI(Session session, string _vm, string _value)
         {
           return session.JsonRpcClient.async_vm_set_suspend_vdi(session.opaque_ref, _vm, _value);
@@ -3968,6 +4544,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_session_to">The session to which the VM is to be recovered.</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static void assert_can_be_recovered(Session session, string _vm, string _session_to)
         {
             session.JsonRpcClient.vm_assert_can_be_recovered(session.opaque_ref, _vm, _session_to);
@@ -3980,6 +4559,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_session_to">The session to which the VM is to be recovered.</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_assert_can_be_recovered(Session session, string _vm, string _session_to)
         {
           return session.JsonRpcClient.async_vm_assert_can_be_recovered(session.opaque_ref, _vm, _session_to);
@@ -3992,6 +4574,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_session_to">The session to which the SRs of the VM have to be recovered.</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<SR>> get_SRs_required_for_recovery(Session session, string _vm, string _session_to)
         {
             return session.JsonRpcClient.vm_get_srs_required_for_recovery(session.opaque_ref, _vm, _session_to);
@@ -4004,6 +4589,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_session_to">The session to which the SRs of the VM have to be recovered.</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_get_SRs_required_for_recovery(Session session, string _vm, string _session_to)
         {
           return session.JsonRpcClient.async_vm_get_srs_required_for_recovery(session.opaque_ref, _vm, _session_to);
@@ -4017,6 +4605,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_session_to">The session to which the VM is to be recovered.</param>
         /// <param name="_force">Whether the VM should replace newer versions of itself.</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static void recover(Session session, string _vm, string _session_to, bool _force)
         {
             session.JsonRpcClient.vm_recover(session.opaque_ref, _vm, _session_to, _force);
@@ -4030,6 +4621,9 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_session_to">The session to which the VM is to be recovered.</param>
         /// <param name="_force">Whether the VM should replace newer versions of itself.</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_recover(Session session, string _vm, string _session_to, bool _force)
         {
           return session.JsonRpcClient.async_vm_recover(session.opaque_ref, _vm, _session_to, _force);
@@ -4045,6 +4639,9 @@ namespace XenAPI
         /// <param name="_password">Password on the host</param>
         /// <param name="_sr">The destination SR</param>
         /// <param name="_remote_config">Remote configuration options</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void import_convert(Session session, string _type, string _username, string _password, string _sr, Dictionary<string, string> _remote_config)
         {
             session.JsonRpcClient.vm_import_convert(session.opaque_ref, _type, _username, _password, _sr, _remote_config);
@@ -4060,6 +4657,9 @@ namespace XenAPI
         /// <param name="_password">Password on the host</param>
         /// <param name="_sr">The destination SR</param>
         /// <param name="_remote_config">Remote configuration options</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_import_convert(Session session, string _type, string _username, string _password, string _sr, Dictionary<string, string> _remote_config)
         {
           return session.JsonRpcClient.async_vm_import_convert(session.opaque_ref, _type, _username, _password, _sr, _remote_config);
@@ -4072,6 +4672,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The appliance to which this VM should be assigned.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_appliance(Session session, string _vm, string _value)
         {
             session.JsonRpcClient.vm_set_appliance(session.opaque_ref, _vm, _value);
@@ -4084,9 +4687,42 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The appliance to which this VM should be assigned.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_appliance(Session session, string _vm, string _value)
         {
           return session.JsonRpcClient.async_vm_set_appliance(session.opaque_ref, _vm, _value);
+        }
+
+        /// <summary>
+        /// Associate this VM with VM groups.
+        /// Experimental. First published in 24.19.1.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_value">The VM groups to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static void set_groups(Session session, string _vm, List<XenRef<VM_group>> _value)
+        {
+            session.JsonRpcClient.vm_set_groups(session.opaque_ref, _vm, _value);
+        }
+
+        /// <summary>
+        /// Associate this VM with VM groups.
+        /// Experimental. First published in 24.19.1.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_value">The VM groups to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static XenRef<Task> async_set_groups(Session session, string _vm, List<XenRef<VM_group>> _value)
+        {
+          return session.JsonRpcClient.async_vm_set_groups(session.opaque_ref, _vm, _value);
         }
 
         /// <summary>
@@ -4095,6 +4731,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static Dictionary<string, string> query_services(Session session, string _vm)
         {
             return session.JsonRpcClient.vm_query_services(session.opaque_ref, _vm);
@@ -4106,6 +4745,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_query_services(Session session, string _vm)
         {
           return session.JsonRpcClient.async_vm_query_services(session.opaque_ref, _vm);
@@ -4120,6 +4762,9 @@ namespace XenAPI
         /// <param name="_plugin">The name of the plugin</param>
         /// <param name="_fn">The name of the function within the plugin</param>
         /// <param name="_args">Arguments for the function</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static string call_plugin(Session session, string _vm, string _plugin, string _fn, Dictionary<string, string> _args)
         {
             return session.JsonRpcClient.vm_call_plugin(session.opaque_ref, _vm, _plugin, _fn, _args);
@@ -4134,9 +4779,46 @@ namespace XenAPI
         /// <param name="_plugin">The name of the plugin</param>
         /// <param name="_fn">The name of the function within the plugin</param>
         /// <param name="_args">Arguments for the function</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_call_plugin(Session session, string _vm, string _plugin, string _fn, Dictionary<string, string> _args)
         {
           return session.JsonRpcClient.async_vm_call_plugin(session.opaque_ref, _vm, _plugin, _fn, _args);
+        }
+
+        /// <summary>
+        /// Call an API plugin on the host where this vm resides
+        /// Experimental. First published in 25.22.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_plugin">The name of the plugin</param>
+        /// <param name="_fn">The name of the function within the plugin</param>
+        /// <param name="_args">Arguments for the function</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
+        public static string call_host_plugin(Session session, string _vm, string _plugin, string _fn, Dictionary<string, string> _args)
+        {
+            return session.JsonRpcClient.vm_call_host_plugin(session.opaque_ref, _vm, _plugin, _fn, _args);
+        }
+
+        /// <summary>
+        /// Call an API plugin on the host where this vm resides
+        /// Experimental. First published in 25.22.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_plugin">The name of the plugin</param>
+        /// <param name="_fn">The name of the function within the plugin</param>
+        /// <param name="_args">Arguments for the function</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
+        public static XenRef<Task> async_call_host_plugin(Session session, string _vm, string _plugin, string _fn, Dictionary<string, string> _args)
+        {
+          return session.JsonRpcClient.async_vm_call_host_plugin(session.opaque_ref, _vm, _plugin, _fn, _args);
         }
 
         /// <summary>
@@ -4146,6 +4828,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">True to provide the vendor PCI device.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_has_vendor_device(Session session, string _vm, bool _value)
         {
             session.JsonRpcClient.vm_set_has_vendor_device(session.opaque_ref, _vm, _value);
@@ -4158,6 +4843,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">True to provide the vendor PCI device.</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_set_has_vendor_device(Session session, string _vm, bool _value)
         {
           return session.JsonRpcClient.async_vm_set_has_vendor_device(session.opaque_ref, _vm, _value);
@@ -4172,6 +4860,9 @@ namespace XenAPI
         /// <param name="_sr">The destination SR for the disks</param>
         /// <param name="_full_restore">Perform a full restore</param>
         /// <param name="_force">Force the import</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static List<XenRef<VM>> import(Session session, string _url, string _sr, bool _full_restore, bool _force)
         {
             return session.JsonRpcClient.vm_import(session.opaque_ref, _url, _sr, _full_restore, _force);
@@ -4186,6 +4877,9 @@ namespace XenAPI
         /// <param name="_sr">The destination SR for the disks</param>
         /// <param name="_full_restore">Perform a full restore</param>
         /// <param name="_force">Force the import</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_import(Session session, string _url, string _sr, bool _full_restore, bool _force)
         {
           return session.JsonRpcClient.async_vm_import(session.opaque_ref, _url, _sr, _full_restore, _force);
@@ -4198,6 +4892,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The new value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_actions_after_crash(Session session, string _vm, on_crash_behaviour _value)
         {
             session.JsonRpcClient.vm_set_actions_after_crash(session.opaque_ref, _vm, _value);
@@ -4210,6 +4907,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The new value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_set_actions_after_crash(Session session, string _vm, on_crash_behaviour _value)
         {
           return session.JsonRpcClient.async_vm_set_actions_after_crash(session.opaque_ref, _vm, _value);
@@ -4222,6 +4922,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The new domain type</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_domain_type(Session session, string _vm, domain_type _value)
         {
             session.JsonRpcClient.vm_set_domain_type(session.opaque_ref, _vm, _value);
@@ -4236,9 +4939,344 @@ namespace XenAPI
         /// <param name="_vm">The opaque_ref of the given vm</param>
         /// <param name="_value">The new HVM boot policy</param>
         [Deprecated("XenServer 7.5")]
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_HVM_boot_policy(Session session, string _vm, string _value)
         {
             session.JsonRpcClient.vm_set_hvm_boot_policy(session.opaque_ref, _vm, _value);
+        }
+
+        /// <summary>
+        /// Restart device models of the VM
+        /// Experimental. First published in 23.30.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
+        public static void restart_device_models(Session session, string _vm)
+        {
+            session.JsonRpcClient.vm_restart_device_models(session.opaque_ref, _vm);
+        }
+
+        /// <summary>
+        /// Restart device models of the VM
+        /// Experimental. First published in 23.30.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
+        public static XenRef<Task> async_restart_device_models(Session session, string _vm)
+        {
+          return session.JsonRpcClient.async_vm_restart_device_models(session.opaque_ref, _vm);
+        }
+
+        /// <summary>
+        /// Set the UEFI mode of a VM
+        /// Experimental. First published in 24.17.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_mode">The UEFI mode to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static string set_uefi_mode(Session session, string _vm, vm_uefi_mode _mode)
+        {
+            return session.JsonRpcClient.vm_set_uefi_mode(session.opaque_ref, _vm, _mode);
+        }
+
+        /// <summary>
+        /// Set the UEFI mode of a VM
+        /// Experimental. First published in 24.17.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_mode">The UEFI mode to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static XenRef<Task> async_set_uefi_mode(Session session, string _vm, vm_uefi_mode _mode)
+        {
+          return session.JsonRpcClient.async_vm_set_uefi_mode(session.opaque_ref, _vm, _mode);
+        }
+
+        /// <summary>
+        /// Return the secureboot readiness of the VM
+        /// Experimental. First published in 24.17.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static vm_secureboot_readiness get_secureboot_readiness(Session session, string _vm)
+        {
+            return session.JsonRpcClient.vm_get_secureboot_readiness(session.opaque_ref, _vm);
+        }
+
+        /// <summary>
+        /// Return the secureboot readiness of the VM
+        /// Experimental. First published in 24.17.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static XenRef<Task> async_get_secureboot_readiness(Session session, string _vm)
+        {
+          return session.JsonRpcClient.async_vm_get_secureboot_readiness(session.opaque_ref, _vm);
+        }
+
+        /// <summary>
+        /// Mark or unmark secure boot certificate update on VM boot
+        /// Experimental. First published in 26.14.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_mark">If true: mark certificates for update on next boot. If false: remove the mark</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static void update_secureboot_certificates_on_boot(Session session, string _vm, bool _mark)
+        {
+            session.JsonRpcClient.vm_update_secureboot_certificates_on_boot(session.opaque_ref, _vm, _mark);
+        }
+
+        /// <summary>
+        /// Mark or unmark secure boot certificate update on VM boot
+        /// Experimental. First published in 26.14.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_mark">If true: mark certificates for update on next boot. If false: remove the mark</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static XenRef<Task> async_update_secureboot_certificates_on_boot(Session session, string _vm, bool _mark)
+        {
+          return session.JsonRpcClient.async_vm_update_secureboot_certificates_on_boot(session.opaque_ref, _vm, _mark);
+        }
+
+        /// <summary>
+        /// Update list of operations which have been explicitly blocked and an error code
+        /// First published in XenServer 5.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_value">Blocked operations</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static void set_blocked_operations(Session session, string _vm, Dictionary<vm_operations, string> _value)
+        {
+            session.JsonRpcClient.vm_set_blocked_operations(session.opaque_ref, _vm, _value);
+        }
+
+        /// <summary>
+        /// Update list of operations which have been explicitly blocked and an error code
+        /// First published in XenServer 5.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_value">Blocked operations</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static XenRef<Task> async_set_blocked_operations(Session session, string _vm, Dictionary<vm_operations, string> _value)
+        {
+          return session.JsonRpcClient.async_vm_set_blocked_operations(session.opaque_ref, _vm, _value);
+        }
+
+        /// <summary>
+        /// Update list of operations which have been explicitly blocked and an error code
+        /// First published in XenServer 5.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_key">Blocked operation</param>
+        /// <param name="_value">Error code</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static void add_to_blocked_operations(Session session, string _vm, vm_operations _key, string _value)
+        {
+            session.JsonRpcClient.vm_add_to_blocked_operations(session.opaque_ref, _vm, _key, _value);
+        }
+
+        /// <summary>
+        /// Update list of operations which have been explicitly blocked and an error code
+        /// First published in XenServer 5.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_key">Blocked operation</param>
+        /// <param name="_value">Error code</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static XenRef<Task> async_add_to_blocked_operations(Session session, string _vm, vm_operations _key, string _value)
+        {
+          return session.JsonRpcClient.async_vm_add_to_blocked_operations(session.opaque_ref, _vm, _key, _value);
+        }
+
+        /// <summary>
+        /// Update list of operations which have been explicitly blocked and an error code
+        /// First published in XenServer 5.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_key">Blocked operation</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static void remove_from_blocked_operations(Session session, string _vm, vm_operations _key)
+        {
+            session.JsonRpcClient.vm_remove_from_blocked_operations(session.opaque_ref, _vm, _key);
+        }
+
+        /// <summary>
+        /// Update list of operations which have been explicitly blocked and an error code
+        /// First published in XenServer 5.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_key">Blocked operation</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static XenRef<Task> async_remove_from_blocked_operations(Session session, string _vm, vm_operations _key)
+        {
+          return session.JsonRpcClient.async_vm_remove_from_blocked_operations(session.opaque_ref, _vm, _key);
+        }
+
+        /// <summary>
+        /// Pass unattend.xml to Windows sysprep and wait for the VM to shut down as part of a reboot.
+        /// Experimental. First published in 25.24.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_unattend">XML content passed to sysprep</param>
+        /// <param name="_timeout">timeout in seconds for expected reboot</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static void sysprep(Session session, string _vm, string _unattend, double _timeout)
+        {
+            session.JsonRpcClient.vm_sysprep(session.opaque_ref, _vm, _unattend, _timeout);
+        }
+
+        /// <summary>
+        /// Pass unattend.xml to Windows sysprep and wait for the VM to shut down as part of a reboot.
+        /// Experimental. First published in 25.24.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_unattend">XML content passed to sysprep</param>
+        /// <param name="_timeout">timeout in seconds for expected reboot</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static XenRef<Task> async_sysprep(Session session, string _vm, string _unattend, double _timeout)
+        {
+          return session.JsonRpcClient.async_vm_sysprep(session.opaque_ref, _vm, _unattend, _timeout);
+        }
+
+        /// <summary>
+        /// Add the given key-value pair to the other_config field of the given VM.
+        /// First published in XenServer 4.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_key">Key to add</param>
+        /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static void add_to_other_config(Session session, string _vm, string _key, string _value)
+        {
+            session.JsonRpcClient.vm_add_to_other_config(session.opaque_ref, _vm, _key, _value);
+        }
+
+        /// <summary>
+        /// Remove the given key and its corresponding value from the other_config field of the given VM. If the key is not in that Map, then do nothing.
+        /// First published in XenServer 4.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_key">Key of entry to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static void remove_from_other_config(Session session, string _vm, string _key)
+        {
+            session.JsonRpcClient.vm_remove_from_other_config(session.opaque_ref, _vm, _key);
+        }
+
+        /// <summary>
+        /// Set the other_config field of the given VM.
+        /// First published in XenServer 4.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_value">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static void set_other_config(Session session, string _vm, Dictionary<string, string> _value)
+        {
+            session.JsonRpcClient.vm_set_other_config(session.opaque_ref, _vm, _value);
+        }
+
+        /// <summary>
+        /// Add the given key-value pair to the platform field of the given VM.
+        /// First published in XenServer 4.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_key">Key to add</param>
+        /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static void add_to_platform(Session session, string _vm, string _key, string _value)
+        {
+            session.JsonRpcClient.vm_add_to_platform(session.opaque_ref, _vm, _key, _value);
+        }
+
+        /// <summary>
+        /// Remove the given key and its corresponding value from the platform field of the given VM. If the key is not in that Map, then do nothing.
+        /// First published in XenServer 4.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_key">Key of entry to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static void remove_from_platform(Session session, string _vm, string _key)
+        {
+            session.JsonRpcClient.vm_remove_from_platform(session.opaque_ref, _vm, _key);
+        }
+
+        /// <summary>
+        /// Set the platform field of the given VM.
+        /// First published in XenServer 4.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_vm">The opaque_ref of the given vm</param>
+        /// <param name="_value">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
+        public static void set_platform(Session session, string _vm, Dictionary<string, string> _value)
+        {
+            session.JsonRpcClient.vm_set_platform(session.opaque_ref, _vm, _value);
         }
 
         /// <summary>
@@ -4246,16 +5284,22 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VM>> get_all(Session session)
         {
             return session.JsonRpcClient.vm_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VM Records at once, in a single XML RPC call
+        /// Return a map of VM references to VM records for all VMs known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VM>, VM> get_all_records(Session session)
         {
             return session.JsonRpcClient.vm_get_all_records(session.opaque_ref);
@@ -4770,7 +5814,7 @@ namespace XenAPI
         private List<XenRef<VBD>> _VBDs = new List<XenRef<VBD>>() {};
 
         /// <summary>
-        /// vitual usb devices
+        /// virtual usb devices
         /// </summary>
         [JsonConverter(typeof(XenRefListConverter<VUSB>))]
         public virtual List<XenRef<VUSB>> VUSBs
@@ -5741,10 +6785,10 @@ namespace XenAPI
                 }
             }
         }
-        private bool _has_vendor_device = false;
+        private bool _has_vendor_device = true;
 
         /// <summary>
-        /// Indicates whether a VM requires a reboot in order to update its configuration, e.g. its memory allocation.
+        /// Indicates whether a VM requires a reboot in order to update its configuration, for example, its memory allocation.
         /// First published in XenServer 7.1.
         /// </summary>
         public virtual bool requires_reboot
@@ -5818,7 +6862,7 @@ namespace XenAPI
         private Dictionary<string, string> _NVRAM = new Dictionary<string, string>() {};
 
         /// <summary>
-        /// The set of pending guidances after applying updates
+        /// The set of pending mandatory guidances after applying updates, which must be applied, otherwise there may be, for example, VM failures
         /// First published in 1.303.0.
         /// </summary>
         public virtual List<update_guidances> pending_guidances
@@ -5834,5 +6878,79 @@ namespace XenAPI
             }
         }
         private List<update_guidances> _pending_guidances = new List<update_guidances>() {};
+
+        /// <summary>
+        /// The set of pending recommended guidances after applying updates, which most users should follow to make the updates effective, but if not followed, will not cause a failure
+        /// Experimental. First published in 24.10.0.
+        /// </summary>
+        public virtual List<update_guidances> pending_guidances_recommended
+        {
+            get { return _pending_guidances_recommended; }
+            set
+            {
+                if (!Helper.AreEqual(value, _pending_guidances_recommended))
+                {
+                    _pending_guidances_recommended = value;
+                    NotifyPropertyChanged("pending_guidances_recommended");
+                }
+            }
+        }
+        private List<update_guidances> _pending_guidances_recommended = new List<update_guidances>() {};
+
+        /// <summary>
+        /// The set of pending full guidances after applying updates, which a user should follow to make some updates, for example, specific hardware drivers or CPU features, fully effective, but the 'average user' doesn't need to
+        /// Experimental. First published in 24.10.0.
+        /// </summary>
+        public virtual List<update_guidances> pending_guidances_full
+        {
+            get { return _pending_guidances_full; }
+            set
+            {
+                if (!Helper.AreEqual(value, _pending_guidances_full))
+                {
+                    _pending_guidances_full = value;
+                    NotifyPropertyChanged("pending_guidances_full");
+                }
+            }
+        }
+        private List<update_guidances> _pending_guidances_full = new List<update_guidances>() {};
+
+        /// <summary>
+        /// VM groups associated with the VM
+        /// Experimental. First published in 24.19.1.
+        /// </summary>
+        [JsonConverter(typeof(XenRefListConverter<VM_group>))]
+        public virtual List<XenRef<VM_group>> groups
+        {
+            get { return _groups; }
+            set
+            {
+                if (!Helper.AreEqual(value, _groups))
+                {
+                    _groups = value;
+                    NotifyPropertyChanged("groups");
+                }
+            }
+        }
+        private List<XenRef<VM_group>> _groups = new List<XenRef<VM_group>>() {};
+
+        /// <summary>
+        /// The state of the Secure Boot certificates, showing whether an update is available, already scheduled, or not needed.
+        /// Experimental. First published in 26.14.0.
+        /// </summary>
+        [JsonConverter(typeof(vm_secureboot_certificates_stateConverter))]
+        public virtual vm_secureboot_certificates_state secureboot_certificates_state
+        {
+            get { return _secureboot_certificates_state; }
+            set
+            {
+                if (!Helper.AreEqual(value, _secureboot_certificates_state))
+                {
+                    _secureboot_certificates_state = value;
+                    NotifyPropertyChanged("secureboot_certificates_state");
+                }
+            }
+        }
+        private vm_secureboot_certificates_state _secureboot_certificates_state = vm_secureboot_certificates_state.ok;
     }
 }

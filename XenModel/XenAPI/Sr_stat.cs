@@ -137,18 +137,6 @@ namespace XenAPI
                 Helper.AreEqual2(_health, other._health);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Sr_stat server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// Uuid that uniquely identifies this SR, if one is available.

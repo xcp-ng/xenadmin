@@ -167,27 +167,6 @@ namespace XenAPI
                 Helper.AreEqual2(_PCI, other._PCI);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VGPU server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    VGPU.set_other_config(session, opaqueRef, _other_config);
-                }
-                if (!Helper.AreEqual2(_extra_args, server._extra_args))
-                {
-                    VGPU.set_extra_args(session, opaqueRef, _extra_args);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VGPU.
@@ -195,6 +174,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VGPU get_record(Session session, string _vgpu)
         {
             return session.JsonRpcClient.vgpu_get_record(session.opaque_ref, _vgpu);
@@ -206,6 +188,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VGPU> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vgpu_get_by_uuid(session.opaque_ref, _uuid);
@@ -217,6 +202,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vgpu)
         {
             return session.JsonRpcClient.vgpu_get_uuid(session.opaque_ref, _vgpu);
@@ -228,6 +216,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM> get_VM(Session session, string _vgpu)
         {
             return session.JsonRpcClient.vgpu_get_vm(session.opaque_ref, _vgpu);
@@ -239,6 +230,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<GPU_group> get_GPU_group(Session session, string _vgpu)
         {
             return session.JsonRpcClient.vgpu_get_gpu_group(session.opaque_ref, _vgpu);
@@ -250,6 +244,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_device(Session session, string _vgpu)
         {
             return session.JsonRpcClient.vgpu_get_device(session.opaque_ref, _vgpu);
@@ -261,6 +258,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_currently_attached(Session session, string _vgpu)
         {
             return session.JsonRpcClient.vgpu_get_currently_attached(session.opaque_ref, _vgpu);
@@ -272,6 +272,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _vgpu)
         {
             return session.JsonRpcClient.vgpu_get_other_config(session.opaque_ref, _vgpu);
@@ -283,6 +286,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VGPU_type> get_type(Session session, string _vgpu)
         {
             return session.JsonRpcClient.vgpu_get_type(session.opaque_ref, _vgpu);
@@ -294,6 +300,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PGPU> get_resident_on(Session session, string _vgpu)
         {
             return session.JsonRpcClient.vgpu_get_resident_on(session.opaque_ref, _vgpu);
@@ -305,6 +314,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PGPU> get_scheduled_to_be_resident_on(Session session, string _vgpu)
         {
             return session.JsonRpcClient.vgpu_get_scheduled_to_be_resident_on(session.opaque_ref, _vgpu);
@@ -316,6 +328,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_compatibility_metadata(Session session, string _vgpu)
         {
             return session.JsonRpcClient.vgpu_get_compatibility_metadata(session.opaque_ref, _vgpu);
@@ -327,6 +342,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_extra_args(Session session, string _vgpu)
         {
             return session.JsonRpcClient.vgpu_get_extra_args(session.opaque_ref, _vgpu);
@@ -338,6 +356,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PCI> get_PCI(Session session, string _vgpu)
         {
             return session.JsonRpcClient.vgpu_get_pci(session.opaque_ref, _vgpu);
@@ -350,6 +371,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _vgpu, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.vgpu_set_other_config(session.opaque_ref, _vgpu, _other_config);
@@ -363,6 +387,9 @@ namespace XenAPI
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _vgpu, string _key, string _value)
         {
             session.JsonRpcClient.vgpu_add_to_other_config(session.opaque_ref, _vgpu, _key, _value);
@@ -375,6 +402,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _vgpu, string _key)
         {
             session.JsonRpcClient.vgpu_remove_from_other_config(session.opaque_ref, _vgpu, _key);
@@ -387,6 +417,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
         /// <param name="_extra_args">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_extra_args(Session session, string _vgpu, string _extra_args)
         {
             session.JsonRpcClient.vgpu_set_extra_args(session.opaque_ref, _vgpu, _extra_args);
@@ -401,6 +434,9 @@ namespace XenAPI
         /// <param name="_gpu_group"></param>
         /// <param name="_device"></param>
         /// <param name="_other_config"></param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<VGPU> create(Session session, string _vm, string _gpu_group, string _device, Dictionary<string, string> _other_config)
         {
             return session.JsonRpcClient.vgpu_create(session.opaque_ref, _vm, _gpu_group, _device, _other_config);
@@ -415,6 +451,9 @@ namespace XenAPI
         /// <param name="_gpu_group"></param>
         /// <param name="_device"></param>
         /// <param name="_other_config"></param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _vm, string _gpu_group, string _device, Dictionary<string, string> _other_config)
         {
           return session.JsonRpcClient.async_vgpu_create(session.opaque_ref, _vm, _gpu_group, _device, _other_config);
@@ -430,6 +469,9 @@ namespace XenAPI
         /// <param name="_device"></param>
         /// <param name="_other_config"></param>
         /// <param name="_type"> First published in XenServer 6.2 SP1 Tech-Preview.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<VGPU> create(Session session, string _vm, string _gpu_group, string _device, Dictionary<string, string> _other_config, string _type)
         {
             return session.JsonRpcClient.vgpu_create(session.opaque_ref, _vm, _gpu_group, _device, _other_config, _type);
@@ -445,6 +487,9 @@ namespace XenAPI
         /// <param name="_device"></param>
         /// <param name="_other_config"></param>
         /// <param name="_type"> First published in XenServer 6.2 SP1 Tech-Preview.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _vm, string _gpu_group, string _device, Dictionary<string, string> _other_config, string _type)
         {
           return session.JsonRpcClient.async_vgpu_create(session.opaque_ref, _vm, _gpu_group, _device, _other_config, _type);
@@ -456,6 +501,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _vgpu)
         {
             session.JsonRpcClient.vgpu_destroy(session.opaque_ref, _vgpu);
@@ -467,6 +515,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vgpu">The opaque_ref of the given vgpu</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _vgpu)
         {
           return session.JsonRpcClient.async_vgpu_destroy(session.opaque_ref, _vgpu);
@@ -477,16 +528,22 @@ namespace XenAPI
         /// First published in XenServer 6.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VGPU>> get_all(Session session)
         {
             return session.JsonRpcClient.vgpu_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VGPU Records at once, in a single XML RPC call
+        /// Return a map of VGPU references to VGPU records for all VGPUs known to the system.
         /// First published in XenServer 6.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VGPU>, VGPU> get_all_records(Session session)
         {
             return session.JsonRpcClient.vgpu_get_all_records(session.opaque_ref);

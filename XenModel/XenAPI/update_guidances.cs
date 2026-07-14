@@ -44,6 +44,14 @@ namespace XenAPI
         /// </summary>
         reboot_host_on_livepatch_failure,
         /// <summary>
+        /// Indicates the updated host should reboot as soon as possible since one or more kernel livepatch(es) failed to be applied.
+        /// </summary>
+        reboot_host_on_kernel_livepatch_failure,
+        /// <summary>
+        /// Indicates the updated host should reboot as soon as possible since one or more xen livepatch(es) failed to be applied.
+        /// </summary>
+        reboot_host_on_xen_livepatch_failure,
+        /// <summary>
         /// Indicates the Toolstack running on the updated host should restart as soon as possible
         /// </summary>
         restart_toolstack,
@@ -51,6 +59,10 @@ namespace XenAPI
         /// Indicates the device model of a running VM should restart as soon as possible
         /// </summary>
         restart_device_model,
+        /// <summary>
+        /// Indicates the VM should restart as soon as possible
+        /// </summary>
+        restart_vm,
         unknown
     }
 
@@ -72,10 +84,16 @@ namespace XenAPI
                     return "reboot_host";
                 case update_guidances.reboot_host_on_livepatch_failure:
                     return "reboot_host_on_livepatch_failure";
+                case update_guidances.reboot_host_on_kernel_livepatch_failure:
+                    return "reboot_host_on_kernel_livepatch_failure";
+                case update_guidances.reboot_host_on_xen_livepatch_failure:
+                    return "reboot_host_on_xen_livepatch_failure";
                 case update_guidances.restart_toolstack:
                     return "restart_toolstack";
                 case update_guidances.restart_device_model:
                     return "restart_device_model";
+                case update_guidances.restart_vm:
+                    return "restart_vm";
                 default:
                     return "unknown";
             }

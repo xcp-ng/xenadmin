@@ -229,51 +229,6 @@ namespace XenAPI
                 Helper.AreEqual2(_metrics, other._metrics);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VBD server)
-        {
-            if (opaqueRef == null)
-            {
-                var reference = create(session, this);
-                return reference == null ? null : reference.opaque_ref;
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_userdevice, server._userdevice))
-                {
-                    VBD.set_userdevice(session, opaqueRef, _userdevice);
-                }
-                if (!Helper.AreEqual2(_bootable, server._bootable))
-                {
-                    VBD.set_bootable(session, opaqueRef, _bootable);
-                }
-                if (!Helper.AreEqual2(_type, server._type))
-                {
-                    VBD.set_type(session, opaqueRef, _type);
-                }
-                if (!Helper.AreEqual2(_unpluggable, server._unpluggable))
-                {
-                    VBD.set_unpluggable(session, opaqueRef, _unpluggable);
-                }
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    VBD.set_other_config(session, opaqueRef, _other_config);
-                }
-                if (!Helper.AreEqual2(_qos_algorithm_type, server._qos_algorithm_type))
-                {
-                    VBD.set_qos_algorithm_type(session, opaqueRef, _qos_algorithm_type);
-                }
-                if (!Helper.AreEqual2(_qos_algorithm_params, server._qos_algorithm_params))
-                {
-                    VBD.set_qos_algorithm_params(session, opaqueRef, _qos_algorithm_params);
-                }
-                if (!Helper.AreEqual2(_mode, server._mode))
-                {
-                    VBD.set_mode(session, opaqueRef, _mode);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VBD.
@@ -281,6 +236,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VBD get_record(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_record(session.opaque_ref, _vbd);
@@ -292,6 +250,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VBD> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vbd_get_by_uuid(session.opaque_ref, _uuid);
@@ -303,6 +264,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VBD> create(Session session, VBD _record)
         {
             return session.JsonRpcClient.vbd_create(session.opaque_ref, _record);
@@ -314,6 +278,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, VBD _record)
         {
           return session.JsonRpcClient.async_vbd_create(session.opaque_ref, _record);
@@ -325,6 +292,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void destroy(Session session, string _vbd)
         {
             session.JsonRpcClient.vbd_destroy(session.opaque_ref, _vbd);
@@ -336,6 +306,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _vbd)
         {
           return session.JsonRpcClient.async_vbd_destroy(session.opaque_ref, _vbd);
@@ -347,6 +320,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_uuid(session.opaque_ref, _vbd);
@@ -358,6 +334,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<vbd_operations> get_allowed_operations(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_allowed_operations(session.opaque_ref, _vbd);
@@ -369,6 +348,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, vbd_operations> get_current_operations(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_current_operations(session.opaque_ref, _vbd);
@@ -380,6 +362,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM> get_VM(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_vm(session.opaque_ref, _vbd);
@@ -391,6 +376,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VDI> get_VDI(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_vdi(session.opaque_ref, _vbd);
@@ -402,6 +390,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_device(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_device(session.opaque_ref, _vbd);
@@ -413,6 +404,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_userdevice(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_userdevice(session.opaque_ref, _vbd);
@@ -424,6 +418,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_bootable(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_bootable(session.opaque_ref, _vbd);
@@ -435,6 +432,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static vbd_mode get_mode(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_mode(session.opaque_ref, _vbd);
@@ -446,6 +446,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static vbd_type get_type(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_type(session.opaque_ref, _vbd);
@@ -457,6 +460,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_unpluggable(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_unpluggable(session.opaque_ref, _vbd);
@@ -468,6 +474,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_storage_lock(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_storage_lock(session.opaque_ref, _vbd);
@@ -479,6 +488,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_empty(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_empty(session.opaque_ref, _vbd);
@@ -490,6 +502,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_other_config(session.opaque_ref, _vbd);
@@ -501,6 +516,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_currently_attached(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_currently_attached(session.opaque_ref, _vbd);
@@ -512,6 +530,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_status_code(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_status_code(session.opaque_ref, _vbd);
@@ -523,6 +544,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_status_detail(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_status_detail(session.opaque_ref, _vbd);
@@ -534,6 +558,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_runtime_properties(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_runtime_properties(session.opaque_ref, _vbd);
@@ -545,6 +572,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_qos_algorithm_type(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_qos_algorithm_type(session.opaque_ref, _vbd);
@@ -556,6 +586,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_qos_algorithm_params(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_qos_algorithm_params(session.opaque_ref, _vbd);
@@ -567,6 +600,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_qos_supported_algorithms(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_qos_supported_algorithms(session.opaque_ref, _vbd);
@@ -580,6 +616,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VBD_metrics> get_metrics(Session session, string _vbd)
         {
             return session.JsonRpcClient.vbd_get_metrics(session.opaque_ref, _vbd);
@@ -592,6 +631,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_userdevice">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_userdevice(Session session, string _vbd, string _userdevice)
         {
             session.JsonRpcClient.vbd_set_userdevice(session.opaque_ref, _vbd, _userdevice);
@@ -604,6 +646,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_bootable">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_bootable(Session session, string _vbd, bool _bootable)
         {
             session.JsonRpcClient.vbd_set_bootable(session.opaque_ref, _vbd, _bootable);
@@ -616,6 +661,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_type">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_type(Session session, string _vbd, vbd_type _type)
         {
             session.JsonRpcClient.vbd_set_type(session.opaque_ref, _vbd, _type);
@@ -628,6 +676,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_unpluggable">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_unpluggable(Session session, string _vbd, bool _unpluggable)
         {
             session.JsonRpcClient.vbd_set_unpluggable(session.opaque_ref, _vbd, _unpluggable);
@@ -640,6 +691,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_other_config(Session session, string _vbd, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.vbd_set_other_config(session.opaque_ref, _vbd, _other_config);
@@ -653,6 +707,9 @@ namespace XenAPI
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_other_config(Session session, string _vbd, string _key, string _value)
         {
             session.JsonRpcClient.vbd_add_to_other_config(session.opaque_ref, _vbd, _key, _value);
@@ -665,6 +722,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _vbd, string _key)
         {
             session.JsonRpcClient.vbd_remove_from_other_config(session.opaque_ref, _vbd, _key);
@@ -677,6 +737,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_algorithm_type">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_qos_algorithm_type(Session session, string _vbd, string _algorithm_type)
         {
             session.JsonRpcClient.vbd_set_qos_algorithm_type(session.opaque_ref, _vbd, _algorithm_type);
@@ -689,6 +752,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_algorithm_params">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_qos_algorithm_params(Session session, string _vbd, Dictionary<string, string> _algorithm_params)
         {
             session.JsonRpcClient.vbd_set_qos_algorithm_params(session.opaque_ref, _vbd, _algorithm_params);
@@ -702,6 +768,9 @@ namespace XenAPI
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_qos_algorithm_params(Session session, string _vbd, string _key, string _value)
         {
             session.JsonRpcClient.vbd_add_to_qos_algorithm_params(session.opaque_ref, _vbd, _key, _value);
@@ -714,6 +783,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_qos_algorithm_params(Session session, string _vbd, string _key)
         {
             session.JsonRpcClient.vbd_remove_from_qos_algorithm_params(session.opaque_ref, _vbd, _key);
@@ -725,6 +797,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void eject(Session session, string _vbd)
         {
             session.JsonRpcClient.vbd_eject(session.opaque_ref, _vbd);
@@ -736,6 +811,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_eject(Session session, string _vbd)
         {
           return session.JsonRpcClient.async_vbd_eject(session.opaque_ref, _vbd);
@@ -748,6 +826,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_vdi">The new VDI to 'insert'</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void insert(Session session, string _vbd, string _vdi)
         {
             session.JsonRpcClient.vbd_insert(session.opaque_ref, _vbd, _vdi);
@@ -760,6 +841,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_vdi">The new VDI to 'insert'</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_insert(Session session, string _vbd, string _vdi)
         {
           return session.JsonRpcClient.async_vbd_insert(session.opaque_ref, _vbd, _vdi);
@@ -771,6 +855,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void plug(Session session, string _vbd)
         {
             session.JsonRpcClient.vbd_plug(session.opaque_ref, _vbd);
@@ -782,6 +869,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_plug(Session session, string _vbd)
         {
           return session.JsonRpcClient.async_vbd_plug(session.opaque_ref, _vbd);
@@ -793,6 +883,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void unplug(Session session, string _vbd)
         {
             session.JsonRpcClient.vbd_unplug(session.opaque_ref, _vbd);
@@ -804,6 +897,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_unplug(Session session, string _vbd)
         {
           return session.JsonRpcClient.async_vbd_unplug(session.opaque_ref, _vbd);
@@ -815,6 +911,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void unplug_force(Session session, string _vbd)
         {
             session.JsonRpcClient.vbd_unplug_force(session.opaque_ref, _vbd);
@@ -826,6 +925,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_unplug_force(Session session, string _vbd)
         {
           return session.JsonRpcClient.async_vbd_unplug_force(session.opaque_ref, _vbd);
@@ -837,6 +939,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void assert_attachable(Session session, string _vbd)
         {
             session.JsonRpcClient.vbd_assert_attachable(session.opaque_ref, _vbd);
@@ -848,6 +953,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_assert_attachable(Session session, string _vbd)
         {
           return session.JsonRpcClient.async_vbd_assert_attachable(session.opaque_ref, _vbd);
@@ -860,6 +968,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_value">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_mode(Session session, string _vbd, vbd_mode _value)
         {
             session.JsonRpcClient.vbd_set_mode(session.opaque_ref, _vbd, _value);
@@ -872,6 +983,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vbd">The opaque_ref of the given vbd</param>
         /// <param name="_value">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_set_mode(Session session, string _vbd, vbd_mode _value)
         {
           return session.JsonRpcClient.async_vbd_set_mode(session.opaque_ref, _vbd, _value);
@@ -882,16 +996,22 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VBD>> get_all(Session session)
         {
             return session.JsonRpcClient.vbd_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VBD Records at once, in a single XML RPC call
+        /// Return a map of VBD references to VBD records for all VBDs known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VBD>, VBD> get_all_records(Session session)
         {
             return session.JsonRpcClient.vbd_get_all_records(session.opaque_ref);
@@ -985,7 +1105,7 @@ namespace XenAPI
         private XenRef<VDI> _VDI = new XenRef<VDI>(Helper.NullOpaqueRef);
 
         /// <summary>
-        /// device seen by the guest e.g. hda1
+        /// device seen by the guest, for example, hda1
         /// </summary>
         public virtual string device
         {
@@ -1002,7 +1122,7 @@ namespace XenAPI
         private string _device = "";
 
         /// <summary>
-        /// user-friendly device name e.g. 0,1,2,etc.
+        /// user-friendly device name, for example, 0, 1, 2, etc.
         /// </summary>
         public virtual string userdevice
         {
@@ -1054,7 +1174,7 @@ namespace XenAPI
         private vbd_mode _mode;
 
         /// <summary>
-        /// how the VBD will appear to the guest (e.g. disk or CD)
+        /// how the VBD will appear to the guest (for example, disk or CD)
         /// </summary>
         [JsonConverter(typeof(vbd_typeConverter))]
         public virtual vbd_type type

@@ -231,6 +231,10 @@ namespace XenAPI
         /// Creating and adding a VTPM to this VM
         /// </summary>
         create_vtpm,
+        /// <summary>
+        /// Performing a Windows sysprep on this VM
+        /// </summary>
+        sysprep,
         unknown
     }
 
@@ -346,6 +350,8 @@ namespace XenAPI
                     return "destroy";
                 case vm_operations.create_vtpm:
                     return "create_vtpm";
+                case vm_operations.sysprep:
+                    return "sysprep";
                 default:
                     return "unknown";
             }

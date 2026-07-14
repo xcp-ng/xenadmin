@@ -64,7 +64,8 @@ namespace XenAPI
             Dictionary<string, long> features,
             Dictionary<string, string> other_config,
             string driver_filename,
-            string[] required_cluster_stack)
+            string[] required_cluster_stack,
+            List<image_format_type> supported_image_formats)
         {
             this.uuid = uuid;
             this.name_label = name_label;
@@ -80,6 +81,7 @@ namespace XenAPI
             this.other_config = other_config;
             this.driver_filename = driver_filename;
             this.required_cluster_stack = required_cluster_stack;
+            this.supported_image_formats = supported_image_formats;
         }
 
         /// <summary>
@@ -116,6 +118,7 @@ namespace XenAPI
             other_config = record.other_config;
             driver_filename = record.driver_filename;
             required_cluster_stack = record.required_cluster_stack;
+            supported_image_formats = record.supported_image_formats;
         }
 
         /// <summary>
@@ -154,6 +157,8 @@ namespace XenAPI
                 driver_filename = Marshalling.ParseString(table, "driver_filename");
             if (table.ContainsKey("required_cluster_stack"))
                 required_cluster_stack = Marshalling.ParseStringArray(table, "required_cluster_stack");
+            if (table.ContainsKey("supported_image_formats"))
+                supported_image_formats = Helper.StringArrayToEnumList<image_format_type>(Marshalling.ParseStringArray(table, "supported_image_formats"));
         }
 
         public bool DeepEquals(SM other)
@@ -176,26 +181,10 @@ namespace XenAPI
                 Helper.AreEqual2(_features, other._features) &&
                 Helper.AreEqual2(_other_config, other._other_config) &&
                 Helper.AreEqual2(_driver_filename, other._driver_filename) &&
-                Helper.AreEqual2(_required_cluster_stack, other._required_cluster_stack);
+                Helper.AreEqual2(_required_cluster_stack, other._required_cluster_stack) &&
+                Helper.AreEqual2(_supported_image_formats, other._supported_image_formats);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, SM server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    SM.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given SM.
@@ -203,6 +192,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static SM get_record(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_record(session.opaque_ref, _sm);
@@ -214,6 +206,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<SM> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.sm_get_by_uuid(session.opaque_ref, _uuid);
@@ -225,6 +220,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<SM>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.sm_get_by_name_label(session.opaque_ref, _label);
@@ -236,6 +234,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_uuid(session.opaque_ref, _sm);
@@ -247,6 +248,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_name_label(session.opaque_ref, _sm);
@@ -258,6 +262,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_name_description(session.opaque_ref, _sm);
@@ -269,6 +276,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_type(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_type(session.opaque_ref, _sm);
@@ -280,6 +290,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_vendor(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_vendor(session.opaque_ref, _sm);
@@ -291,6 +304,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_copyright(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_copyright(session.opaque_ref, _sm);
@@ -302,6 +318,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_version(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_version(session.opaque_ref, _sm);
@@ -313,6 +332,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_required_api_version(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_required_api_version(session.opaque_ref, _sm);
@@ -324,6 +346,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_configuration(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_configuration(session.opaque_ref, _sm);
@@ -337,6 +362,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_capabilities(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_capabilities(session.opaque_ref, _sm);
@@ -348,6 +376,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, long> get_features(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_features(session.opaque_ref, _sm);
@@ -359,6 +390,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_other_config(session.opaque_ref, _sm);
@@ -370,6 +404,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_driver_filename(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_driver_filename(session.opaque_ref, _sm);
@@ -381,9 +418,26 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_required_cluster_stack(Session session, string _sm)
         {
             return session.JsonRpcClient.sm_get_required_cluster_stack(session.opaque_ref, _sm);
+        }
+
+        /// <summary>
+        /// Get the supported_image_formats field of the given SM.
+        /// Experimental. First published in 26.15.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_sm">The opaque_ref of the given sm</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static List<image_format_type> get_supported_image_formats(Session session, string _sm)
+        {
+            return session.JsonRpcClient.sm_get_supported_image_formats(session.opaque_ref, _sm);
         }
 
         /// <summary>
@@ -393,6 +447,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _sm, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.sm_set_other_config(session.opaque_ref, _sm, _other_config);
@@ -406,6 +463,9 @@ namespace XenAPI
         /// <param name="_sm">The opaque_ref of the given sm</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _sm, string _key, string _value)
         {
             session.JsonRpcClient.sm_add_to_other_config(session.opaque_ref, _sm, _key, _value);
@@ -418,6 +478,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_sm">The opaque_ref of the given sm</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _sm, string _key)
         {
             session.JsonRpcClient.sm_remove_from_other_config(session.opaque_ref, _sm, _key);
@@ -428,16 +491,22 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<SM>> get_all(Session session)
         {
             return session.JsonRpcClient.sm_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the SM Records at once, in a single XML RPC call
+        /// Return a map of SM references to SM records for all SMs known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<SM>, SM> get_all_records(Session session)
         {
             return session.JsonRpcClient.sm_get_all_records(session.opaque_ref);
@@ -687,5 +756,23 @@ namespace XenAPI
             }
         }
         private string[] _required_cluster_stack = {};
+
+        /// <summary>
+        /// Image formats supported by the SR: raw, vhd, qcow2
+        /// Experimental. First published in 26.15.0.
+        /// </summary>
+        public virtual List<image_format_type> supported_image_formats
+        {
+            get { return _supported_image_formats; }
+            set
+            {
+                if (!Helper.AreEqual(value, _supported_image_formats))
+                {
+                    _supported_image_formats = value;
+                    NotifyPropertyChanged("supported_image_formats");
+                }
+            }
+        }
+        private List<image_format_type> _supported_image_formats = new List<image_format_type>() {};
     }
 }

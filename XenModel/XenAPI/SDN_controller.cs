@@ -119,18 +119,6 @@ namespace XenAPI
                 Helper.AreEqual2(_port, other._port);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, SDN_controller server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given SDN_controller.
@@ -138,6 +126,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sdn_controller">The opaque_ref of the given sdn_controller</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static SDN_controller get_record(Session session, string _sdn_controller)
         {
             return session.JsonRpcClient.sdn_controller_get_record(session.opaque_ref, _sdn_controller);
@@ -149,6 +140,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<SDN_controller> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.sdn_controller_get_by_uuid(session.opaque_ref, _uuid);
@@ -160,6 +154,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sdn_controller">The opaque_ref of the given sdn_controller</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _sdn_controller)
         {
             return session.JsonRpcClient.sdn_controller_get_uuid(session.opaque_ref, _sdn_controller);
@@ -171,6 +168,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sdn_controller">The opaque_ref of the given sdn_controller</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static sdn_controller_protocol get_protocol(Session session, string _sdn_controller)
         {
             return session.JsonRpcClient.sdn_controller_get_protocol(session.opaque_ref, _sdn_controller);
@@ -182,6 +182,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sdn_controller">The opaque_ref of the given sdn_controller</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_address(Session session, string _sdn_controller)
         {
             return session.JsonRpcClient.sdn_controller_get_address(session.opaque_ref, _sdn_controller);
@@ -193,6 +196,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sdn_controller">The opaque_ref of the given sdn_controller</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_port(Session session, string _sdn_controller)
         {
             return session.JsonRpcClient.sdn_controller_get_port(session.opaque_ref, _sdn_controller);
@@ -206,6 +212,9 @@ namespace XenAPI
         /// <param name="_protocol">Protocol to connect with the controller.</param>
         /// <param name="_address">IP address of the controller.</param>
         /// <param name="_port">TCP port of the controller.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<SDN_controller> introduce(Session session, sdn_controller_protocol _protocol, string _address, long _port)
         {
             return session.JsonRpcClient.sdn_controller_introduce(session.opaque_ref, _protocol, _address, _port);
@@ -219,6 +228,9 @@ namespace XenAPI
         /// <param name="_protocol">Protocol to connect with the controller.</param>
         /// <param name="_address">IP address of the controller.</param>
         /// <param name="_port">TCP port of the controller.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_introduce(Session session, sdn_controller_protocol _protocol, string _address, long _port)
         {
           return session.JsonRpcClient.async_sdn_controller_introduce(session.opaque_ref, _protocol, _address, _port);
@@ -230,6 +242,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sdn_controller">The opaque_ref of the given sdn_controller</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void forget(Session session, string _sdn_controller)
         {
             session.JsonRpcClient.sdn_controller_forget(session.opaque_ref, _sdn_controller);
@@ -241,6 +256,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_sdn_controller">The opaque_ref of the given sdn_controller</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_forget(Session session, string _sdn_controller)
         {
           return session.JsonRpcClient.async_sdn_controller_forget(session.opaque_ref, _sdn_controller);
@@ -251,16 +269,22 @@ namespace XenAPI
         /// First published in XenServer 7.2.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<SDN_controller>> get_all(Session session)
         {
             return session.JsonRpcClient.sdn_controller_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the SDN_controller Records at once, in a single XML RPC call
+        /// Return a map of SDN_controller references to SDN_controller records for all SDN_controllers known to the system.
         /// First published in XenServer 7.2.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<SDN_controller>, SDN_controller> get_all_records(Session session)
         {
             return session.JsonRpcClient.sdn_controller_get_all_records(session.opaque_ref);

@@ -107,18 +107,6 @@ namespace XenAPI
                 Helper.AreEqual2(_introduced_SRs, other._introduced_SRs);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, DR_task server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given DR_task.
@@ -126,6 +114,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_dr_task">The opaque_ref of the given dr_task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DR_task get_record(Session session, string _dr_task)
         {
             return session.JsonRpcClient.dr_task_get_record(session.opaque_ref, _dr_task);
@@ -137,6 +128,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<DR_task> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.dr_task_get_by_uuid(session.opaque_ref, _uuid);
@@ -148,6 +142,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_dr_task">The opaque_ref of the given dr_task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _dr_task)
         {
             return session.JsonRpcClient.dr_task_get_uuid(session.opaque_ref, _dr_task);
@@ -159,6 +156,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_dr_task">The opaque_ref of the given dr_task</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<SR>> get_introduced_SRs(Session session, string _dr_task)
         {
             return session.JsonRpcClient.dr_task_get_introduced_srs(session.opaque_ref, _dr_task);
@@ -172,6 +172,9 @@ namespace XenAPI
         /// <param name="_type">The SR driver type of the SRs to introduce</param>
         /// <param name="_device_config">The device configuration of the SRs to introduce</param>
         /// <param name="_whitelist">The devices to use for disaster recovery</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<DR_task> create(Session session, string _type, Dictionary<string, string> _device_config, string[] _whitelist)
         {
             return session.JsonRpcClient.dr_task_create(session.opaque_ref, _type, _device_config, _whitelist);
@@ -185,6 +188,9 @@ namespace XenAPI
         /// <param name="_type">The SR driver type of the SRs to introduce</param>
         /// <param name="_device_config">The device configuration of the SRs to introduce</param>
         /// <param name="_whitelist">The devices to use for disaster recovery</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _type, Dictionary<string, string> _device_config, string[] _whitelist)
         {
           return session.JsonRpcClient.async_dr_task_create(session.opaque_ref, _type, _device_config, _whitelist);
@@ -196,6 +202,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_dr_task">The opaque_ref of the given dr_task</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _dr_task)
         {
             session.JsonRpcClient.dr_task_destroy(session.opaque_ref, _dr_task);
@@ -207,6 +216,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_dr_task">The opaque_ref of the given dr_task</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _dr_task)
         {
           return session.JsonRpcClient.async_dr_task_destroy(session.opaque_ref, _dr_task);
@@ -217,16 +229,22 @@ namespace XenAPI
         /// First published in XenServer 6.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<DR_task>> get_all(Session session)
         {
             return session.JsonRpcClient.dr_task_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the DR_task Records at once, in a single XML RPC call
+        /// Return a map of DR_task references to DR_task records for all DR_tasks known to the system.
         /// First published in XenServer 6.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<DR_task>, DR_task> get_all_records(Session session)
         {
             return session.JsonRpcClient.dr_task_get_all_records(session.opaque_ref);

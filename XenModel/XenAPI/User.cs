@@ -119,27 +119,6 @@ namespace XenAPI
                 Helper.AreEqual2(_other_config, other._other_config);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, User server)
-        {
-            if (opaqueRef == null)
-            {
-                var reference = create(session, this);
-                return reference == null ? null : reference.opaque_ref;
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_fullname, server._fullname))
-                {
-                    User.set_fullname(session, opaqueRef, _fullname);
-                }
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    User.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given user.
@@ -149,6 +128,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_user">The opaque_ref of the given user</param>
         [Deprecated("XenServer 5.5")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static User get_record(Session session, string _user)
         {
             return session.JsonRpcClient.user_get_record(session.opaque_ref, _user);
@@ -162,6 +144,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
         [Deprecated("XenServer 5.5")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<User> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.user_get_by_uuid(session.opaque_ref, _uuid);
@@ -175,6 +160,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
         [Deprecated("XenServer 5.5")]
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<User> create(Session session, User _record)
         {
             return session.JsonRpcClient.user_create(session.opaque_ref, _record);
@@ -188,6 +176,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
         [Deprecated("XenServer 5.5")]
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, User _record)
         {
           return session.JsonRpcClient.async_user_create(session.opaque_ref, _record);
@@ -201,6 +192,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_user">The opaque_ref of the given user</param>
         [Deprecated("XenServer 5.5")]
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void destroy(Session session, string _user)
         {
             session.JsonRpcClient.user_destroy(session.opaque_ref, _user);
@@ -214,6 +208,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_user">The opaque_ref of the given user</param>
         [Deprecated("XenServer 5.5")]
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _user)
         {
           return session.JsonRpcClient.async_user_destroy(session.opaque_ref, _user);
@@ -225,6 +222,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_user">The opaque_ref of the given user</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _user)
         {
             return session.JsonRpcClient.user_get_uuid(session.opaque_ref, _user);
@@ -236,6 +236,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_user">The opaque_ref of the given user</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_short_name(Session session, string _user)
         {
             return session.JsonRpcClient.user_get_short_name(session.opaque_ref, _user);
@@ -247,6 +250,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_user">The opaque_ref of the given user</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_fullname(Session session, string _user)
         {
             return session.JsonRpcClient.user_get_fullname(session.opaque_ref, _user);
@@ -258,6 +264,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_user">The opaque_ref of the given user</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _user)
         {
             return session.JsonRpcClient.user_get_other_config(session.opaque_ref, _user);
@@ -270,6 +279,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_user">The opaque_ref of the given user</param>
         /// <param name="_fullname">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_fullname(Session session, string _user, string _fullname)
         {
             session.JsonRpcClient.user_set_fullname(session.opaque_ref, _user, _fullname);
@@ -282,6 +294,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_user">The opaque_ref of the given user</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_other_config(Session session, string _user, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.user_set_other_config(session.opaque_ref, _user, _other_config);
@@ -295,6 +310,9 @@ namespace XenAPI
         /// <param name="_user">The opaque_ref of the given user</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void add_to_other_config(Session session, string _user, string _key, string _value)
         {
             session.JsonRpcClient.user_add_to_other_config(session.opaque_ref, _user, _key, _value);
@@ -307,6 +325,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_user">The opaque_ref of the given user</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _user, string _key)
         {
             session.JsonRpcClient.user_remove_from_other_config(session.opaque_ref, _user, _key);
@@ -330,7 +351,7 @@ namespace XenAPI
         private string _uuid = "";
 
         /// <summary>
-        /// short name (e.g. userid)
+        /// short name (for example, userid)
         /// </summary>
         public virtual string short_name
         {

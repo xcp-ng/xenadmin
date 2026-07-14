@@ -43,7 +43,7 @@ namespace XenAPI
         /// <param name="opaqueRef">May not be null.</param>
         public XenRef(string opaqueRef)
         {
-            System.Diagnostics.Trace.Assert(opaqueRef != null, "'opaqueRef' parameter must not be null");
+            System.Diagnostics.Debug.Assert(opaqueRef != null, "'opaqueRef' parameter must not be null");
             this.opaqueRef = opaqueRef;
         }
 

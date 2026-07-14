@@ -125,18 +125,6 @@ namespace XenAPI
                 Helper.AreEqual2(_configuration_mode, other._configuration_mode);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Network_sriov server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given network_sriov.
@@ -144,6 +132,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Network_sriov get_record(Session session, string _network_sriov)
         {
             return session.JsonRpcClient.network_sriov_get_record(session.opaque_ref, _network_sriov);
@@ -155,6 +146,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Network_sriov> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.network_sriov_get_by_uuid(session.opaque_ref, _uuid);
@@ -166,6 +160,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _network_sriov)
         {
             return session.JsonRpcClient.network_sriov_get_uuid(session.opaque_ref, _network_sriov);
@@ -177,6 +174,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PIF> get_physical_PIF(Session session, string _network_sriov)
         {
             return session.JsonRpcClient.network_sriov_get_physical_pif(session.opaque_ref, _network_sriov);
@@ -188,6 +188,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PIF> get_logical_PIF(Session session, string _network_sriov)
         {
             return session.JsonRpcClient.network_sriov_get_logical_pif(session.opaque_ref, _network_sriov);
@@ -199,6 +202,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_requires_reboot(Session session, string _network_sriov)
         {
             return session.JsonRpcClient.network_sriov_get_requires_reboot(session.opaque_ref, _network_sriov);
@@ -210,6 +216,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static sriov_configuration_mode get_configuration_mode(Session session, string _network_sriov)
         {
             return session.JsonRpcClient.network_sriov_get_configuration_mode(session.opaque_ref, _network_sriov);
@@ -222,6 +231,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pif">PIF on which to enable SR-IOV</param>
         /// <param name="_network">Network to connect SR-IOV virtual functions with VM VIFs</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Network_sriov> create(Session session, string _pif, string _network)
         {
             return session.JsonRpcClient.network_sriov_create(session.opaque_ref, _pif, _network);
@@ -234,6 +246,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pif">PIF on which to enable SR-IOV</param>
         /// <param name="_network">Network to connect SR-IOV virtual functions with VM VIFs</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _pif, string _network)
         {
           return session.JsonRpcClient.async_network_sriov_create(session.opaque_ref, _pif, _network);
@@ -245,6 +260,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _network_sriov)
         {
             session.JsonRpcClient.network_sriov_destroy(session.opaque_ref, _network_sriov);
@@ -256,6 +274,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _network_sriov)
         {
           return session.JsonRpcClient.async_network_sriov_destroy(session.opaque_ref, _network_sriov);
@@ -267,6 +288,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_remaining_capacity(Session session, string _network_sriov)
         {
             return session.JsonRpcClient.network_sriov_get_remaining_capacity(session.opaque_ref, _network_sriov);
@@ -278,6 +302,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_network_sriov">The opaque_ref of the given network_sriov</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_get_remaining_capacity(Session session, string _network_sriov)
         {
           return session.JsonRpcClient.async_network_sriov_get_remaining_capacity(session.opaque_ref, _network_sriov);
@@ -288,16 +315,22 @@ namespace XenAPI
         /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Network_sriov>> get_all(Session session)
         {
             return session.JsonRpcClient.network_sriov_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the network_sriov Records at once, in a single XML RPC call
+        /// Return a map of network_sriov references to network_sriov records for all network_sriovs known to the system.
         /// First published in XenServer 7.5.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Network_sriov>, Network_sriov> get_all_records(Session session)
         {
             return session.JsonRpcClient.network_sriov_get_all_records(session.opaque_ref);

@@ -40,7 +40,7 @@ using Newtonsoft.Json;
 namespace XenAPI
 {
     /// <summary>
-    /// Describes a observer which will control observability activity in the Toolstack
+    /// Describes an observer which will control observability activity in the Toolstack
     /// First published in .
     /// </summary>
     public partial class Observer : XenObject<Observer>
@@ -143,47 +143,6 @@ namespace XenAPI
                 Helper.AreEqual2(_enabled, other._enabled);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Observer server)
-        {
-            if (opaqueRef == null)
-            {
-                var reference = create(session, this);
-                return reference == null ? null : reference.opaque_ref;
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_name_label, server._name_label))
-                {
-                    Observer.set_name_label(session, opaqueRef, _name_label);
-                }
-                if (!Helper.AreEqual2(_name_description, server._name_description))
-                {
-                    Observer.set_name_description(session, opaqueRef, _name_description);
-                }
-                if (!Helper.AreEqual2(_hosts, server._hosts))
-                {
-                    Observer.set_hosts(session, opaqueRef, _hosts);
-                }
-                if (!Helper.AreEqual2(_attributes, server._attributes))
-                {
-                    Observer.set_attributes(session, opaqueRef, _attributes);
-                }
-                if (!Helper.AreEqual2(_endpoints, server._endpoints))
-                {
-                    Observer.set_endpoints(session, opaqueRef, _endpoints);
-                }
-                if (!Helper.AreEqual2(_components, server._components))
-                {
-                    Observer.set_components(session, opaqueRef, _components);
-                }
-                if (!Helper.AreEqual2(_enabled, server._enabled))
-                {
-                    Observer.set_enabled(session, opaqueRef, _enabled);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given Observer.
@@ -191,6 +150,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Observer get_record(Session session, string _observer)
         {
             return session.JsonRpcClient.observer_get_record(session.opaque_ref, _observer);
@@ -202,6 +164,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Observer> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.observer_get_by_uuid(session.opaque_ref, _uuid);
@@ -213,6 +178,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Observer> create(Session session, Observer _record)
         {
             return session.JsonRpcClient.observer_create(session.opaque_ref, _record);
@@ -224,6 +192,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, Observer _record)
         {
           return session.JsonRpcClient.async_observer_create(session.opaque_ref, _record);
@@ -235,6 +206,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void destroy(Session session, string _observer)
         {
             session.JsonRpcClient.observer_destroy(session.opaque_ref, _observer);
@@ -246,6 +220,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _observer)
         {
           return session.JsonRpcClient.async_observer_destroy(session.opaque_ref, _observer);
@@ -257,6 +234,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Observer>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.observer_get_by_name_label(session.opaque_ref, _label);
@@ -268,6 +248,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _observer)
         {
             return session.JsonRpcClient.observer_get_uuid(session.opaque_ref, _observer);
@@ -279,6 +262,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _observer)
         {
             return session.JsonRpcClient.observer_get_name_label(session.opaque_ref, _observer);
@@ -290,6 +276,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _observer)
         {
             return session.JsonRpcClient.observer_get_name_description(session.opaque_ref, _observer);
@@ -301,6 +290,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Host>> get_hosts(Session session, string _observer)
         {
             return session.JsonRpcClient.observer_get_hosts(session.opaque_ref, _observer);
@@ -312,6 +304,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_attributes(Session session, string _observer)
         {
             return session.JsonRpcClient.observer_get_attributes(session.opaque_ref, _observer);
@@ -323,6 +318,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_endpoints(Session session, string _observer)
         {
             return session.JsonRpcClient.observer_get_endpoints(session.opaque_ref, _observer);
@@ -334,6 +332,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_components(Session session, string _observer)
         {
             return session.JsonRpcClient.observer_get_components(session.opaque_ref, _observer);
@@ -345,6 +346,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_enabled(Session session, string _observer)
         {
             return session.JsonRpcClient.observer_get_enabled(session.opaque_ref, _observer);
@@ -357,6 +361,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
         /// <param name="_label">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_name_label(Session session, string _observer, string _label)
         {
             session.JsonRpcClient.observer_set_name_label(session.opaque_ref, _observer, _label);
@@ -369,6 +376,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
         /// <param name="_description">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_name_description(Session session, string _observer, string _description)
         {
             session.JsonRpcClient.observer_set_name_description(session.opaque_ref, _observer, _description);
@@ -381,6 +391,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
         /// <param name="_value">Hosts the observer is registered on</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_hosts(Session session, string _observer, List<XenRef<Host>> _value)
         {
             session.JsonRpcClient.observer_set_hosts(session.opaque_ref, _observer, _value);
@@ -393,6 +406,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
         /// <param name="_value">Hosts the observer is registered on</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_set_hosts(Session session, string _observer, List<XenRef<Host>> _value)
         {
           return session.JsonRpcClient.async_observer_set_hosts(session.opaque_ref, _observer, _value);
@@ -405,6 +421,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
         /// <param name="_value">If the observer is to be enabled (true) or disabled (false)</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_enabled(Session session, string _observer, bool _value)
         {
             session.JsonRpcClient.observer_set_enabled(session.opaque_ref, _observer, _value);
@@ -417,6 +436,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
         /// <param name="_value">If the observer is to be enabled (true) or disabled (false)</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_set_enabled(Session session, string _observer, bool _value)
         {
           return session.JsonRpcClient.async_observer_set_enabled(session.opaque_ref, _observer, _value);
@@ -429,6 +451,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
         /// <param name="_value">The attributes that the observer emits as part of the data</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_attributes(Session session, string _observer, Dictionary<string, string> _value)
         {
             session.JsonRpcClient.observer_set_attributes(session.opaque_ref, _observer, _value);
@@ -441,6 +466,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
         /// <param name="_value">The attributes that the observer emits as part of the data</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_set_attributes(Session session, string _observer, Dictionary<string, string> _value)
         {
           return session.JsonRpcClient.async_observer_set_attributes(session.opaque_ref, _observer, _value);
@@ -453,6 +481,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
         /// <param name="_value">The endpoints that the observer will export data to. A URL or the string 'bugtool'. This can refer to an enpoint to the local file system</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_endpoints(Session session, string _observer, string[] _value)
         {
             session.JsonRpcClient.observer_set_endpoints(session.opaque_ref, _observer, _value);
@@ -465,30 +496,39 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
         /// <param name="_value">The endpoints that the observer will export data to. A URL or the string 'bugtool'. This can refer to an enpoint to the local file system</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_set_endpoints(Session session, string _observer, string[] _value)
         {
           return session.JsonRpcClient.async_observer_set_endpoints(session.opaque_ref, _observer, _value);
         }
 
         /// <summary>
-        /// Set the components on which the observer will broadcast to. i.e. xapi, xenopsd, networkd, etc
+        /// Set the components on which the observer will broadcast to. i.e. xapi, xenopsd, networkd, etc.
         /// Experimental. First published in 23.14.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
         /// <param name="_value">The components the observer will broadcast to</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_components(Session session, string _observer, string[] _value)
         {
             session.JsonRpcClient.observer_set_components(session.opaque_ref, _observer, _value);
         }
 
         /// <summary>
-        /// Set the components on which the observer will broadcast to. i.e. xapi, xenopsd, networkd, etc
+        /// Set the components on which the observer will broadcast to. i.e. xapi, xenopsd, networkd, etc.
         /// Experimental. First published in 23.14.0.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_observer">The opaque_ref of the given observer</param>
         /// <param name="_value">The components the observer will broadcast to</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_set_components(Session session, string _observer, string[] _value)
         {
           return session.JsonRpcClient.async_observer_set_components(session.opaque_ref, _observer, _value);
@@ -499,16 +539,22 @@ namespace XenAPI
         /// Experimental. First published in 23.14.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Observer>> get_all(Session session)
         {
             return session.JsonRpcClient.observer_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the Observer Records at once, in a single XML RPC call
-        /// First published in .
+        /// Return a map of Observer references to Observer records for all Observers known to the system.
+        /// Experimental. First published in 23.14.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Observer>, Observer> get_all_records(Session session)
         {
             return session.JsonRpcClient.observer_get_all_records(session.opaque_ref);

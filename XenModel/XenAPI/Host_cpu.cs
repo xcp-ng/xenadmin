@@ -173,23 +173,6 @@ namespace XenAPI
                 Helper.AreEqual2(_other_config, other._other_config);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Host_cpu server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    Host_cpu.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given host_cpu.
@@ -199,6 +182,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
         [Deprecated("XenServer 5.6")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Host_cpu get_record(Session session, string _host_cpu)
         {
             return session.JsonRpcClient.host_cpu_get_record(session.opaque_ref, _host_cpu);
@@ -212,6 +198,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
         [Deprecated("XenServer 5.6")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host_cpu> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.host_cpu_get_by_uuid(session.opaque_ref, _uuid);
@@ -223,6 +212,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _host_cpu)
         {
             return session.JsonRpcClient.host_cpu_get_uuid(session.opaque_ref, _host_cpu);
@@ -234,6 +226,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host> get_host(Session session, string _host_cpu)
         {
             return session.JsonRpcClient.host_cpu_get_host(session.opaque_ref, _host_cpu);
@@ -245,6 +240,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_number(Session session, string _host_cpu)
         {
             return session.JsonRpcClient.host_cpu_get_number(session.opaque_ref, _host_cpu);
@@ -256,6 +254,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_vendor(Session session, string _host_cpu)
         {
             return session.JsonRpcClient.host_cpu_get_vendor(session.opaque_ref, _host_cpu);
@@ -267,6 +268,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_speed(Session session, string _host_cpu)
         {
             return session.JsonRpcClient.host_cpu_get_speed(session.opaque_ref, _host_cpu);
@@ -278,6 +282,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_modelname(Session session, string _host_cpu)
         {
             return session.JsonRpcClient.host_cpu_get_modelname(session.opaque_ref, _host_cpu);
@@ -289,6 +296,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_family(Session session, string _host_cpu)
         {
             return session.JsonRpcClient.host_cpu_get_family(session.opaque_ref, _host_cpu);
@@ -300,6 +310,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_model(Session session, string _host_cpu)
         {
             return session.JsonRpcClient.host_cpu_get_model(session.opaque_ref, _host_cpu);
@@ -311,6 +324,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_stepping(Session session, string _host_cpu)
         {
             return session.JsonRpcClient.host_cpu_get_stepping(session.opaque_ref, _host_cpu);
@@ -322,6 +338,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_flags(Session session, string _host_cpu)
         {
             return session.JsonRpcClient.host_cpu_get_flags(session.opaque_ref, _host_cpu);
@@ -333,6 +352,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_features(Session session, string _host_cpu)
         {
             return session.JsonRpcClient.host_cpu_get_features(session.opaque_ref, _host_cpu);
@@ -344,6 +366,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static double get_utilisation(Session session, string _host_cpu)
         {
             return session.JsonRpcClient.host_cpu_get_utilisation(session.opaque_ref, _host_cpu);
@@ -355,6 +380,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _host_cpu)
         {
             return session.JsonRpcClient.host_cpu_get_other_config(session.opaque_ref, _host_cpu);
@@ -367,6 +395,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _host_cpu, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.host_cpu_set_other_config(session.opaque_ref, _host_cpu, _other_config);
@@ -380,6 +411,9 @@ namespace XenAPI
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _host_cpu, string _key, string _value)
         {
             session.JsonRpcClient.host_cpu_add_to_other_config(session.opaque_ref, _host_cpu, _key, _value);
@@ -392,6 +426,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host_cpu">The opaque_ref of the given host_cpu</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _host_cpu, string _key)
         {
             session.JsonRpcClient.host_cpu_remove_from_other_config(session.opaque_ref, _host_cpu, _key);
@@ -404,16 +441,22 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         [Deprecated("XenServer 5.6")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Host_cpu>> get_all(Session session)
         {
             return session.JsonRpcClient.host_cpu_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the host_cpu Records at once, in a single XML RPC call
+        /// Return a map of host_cpu references to host_cpu records for all host_cpus known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Host_cpu>, Host_cpu> get_all_records(Session session)
         {
             return session.JsonRpcClient.host_cpu_get_all_records(session.opaque_ref);

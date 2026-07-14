@@ -108,6 +108,38 @@ namespace XenAPI
         /// </summary>
         vdi_set_on_boot,
         /// <summary>
+        /// Blocking other operations for a VDI
+        /// </summary>
+        vdi_blocked,
+        /// <summary>
+        /// Copying the VDI
+        /// </summary>
+        vdi_copy,
+        /// <summary>
+        /// Forcefully unlocking the VDI
+        /// </summary>
+        vdi_force_unlock,
+        /// <summary>
+        /// Forgetting about the VDI
+        /// </summary>
+        vdi_forget,
+        /// <summary>
+        /// Generating the configuration of the VDI
+        /// </summary>
+        vdi_generate_config,
+        /// <summary>
+        /// Resizing the VDI online
+        /// </summary>
+        vdi_resize_online,
+        /// <summary>
+        /// Refreshing the fields on the VDI
+        /// </summary>
+        vdi_update,
+        /// <summary>
+        /// Reverting a VDI to the snapshot
+        /// </summary>
+        vdi_revert,
+        /// <summary>
         /// Creating a PBD for this SR
         /// </summary>
         pbd_create,
@@ -168,6 +200,22 @@ namespace XenAPI
                     return "vdi_list_changed_blocks";
                 case storage_operations.vdi_set_on_boot:
                     return "vdi_set_on_boot";
+                case storage_operations.vdi_blocked:
+                    return "vdi_blocked";
+                case storage_operations.vdi_copy:
+                    return "vdi_copy";
+                case storage_operations.vdi_force_unlock:
+                    return "vdi_force_unlock";
+                case storage_operations.vdi_forget:
+                    return "vdi_forget";
+                case storage_operations.vdi_generate_config:
+                    return "vdi_generate_config";
+                case storage_operations.vdi_resize_online:
+                    return "vdi_resize_online";
+                case storage_operations.vdi_update:
+                    return "vdi_update";
+                case storage_operations.vdi_revert:
+                    return "vdi_revert";
                 case storage_operations.pbd_create:
                     return "pbd_create";
                 case storage_operations.pbd_destroy:

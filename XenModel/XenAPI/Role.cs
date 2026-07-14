@@ -125,18 +125,6 @@ namespace XenAPI
                 Helper.AreEqual2(_is_internal, other._is_internal);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Role server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given role.
@@ -144,6 +132,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_role">The opaque_ref of the given role</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Role get_record(Session session, string _role)
         {
             return session.JsonRpcClient.role_get_record(session.opaque_ref, _role);
@@ -155,6 +146,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Role> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.role_get_by_uuid(session.opaque_ref, _uuid);
@@ -166,6 +160,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Role>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.role_get_by_name_label(session.opaque_ref, _label);
@@ -177,6 +174,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_role">The opaque_ref of the given role</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _role)
         {
             return session.JsonRpcClient.role_get_uuid(session.opaque_ref, _role);
@@ -188,6 +188,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_role">The opaque_ref of the given role</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _role)
         {
             return session.JsonRpcClient.role_get_name_label(session.opaque_ref, _role);
@@ -199,6 +202,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_role">The opaque_ref of the given role</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _role)
         {
             return session.JsonRpcClient.role_get_name_description(session.opaque_ref, _role);
@@ -210,6 +216,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_role">The opaque_ref of the given role</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Role>> get_subroles(Session session, string _role)
         {
             return session.JsonRpcClient.role_get_subroles(session.opaque_ref, _role);
@@ -221,6 +230,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_role">The opaque_ref of the given role</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_internal(Session session, string _role)
         {
             return session.JsonRpcClient.role_get_is_internal(session.opaque_ref, _role);
@@ -232,6 +244,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_role">The opaque_ref of the given role</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Role>> get_permissions(Session session, string _role)
         {
             return session.JsonRpcClient.role_get_permissions(session.opaque_ref, _role);
@@ -243,6 +258,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_role">The opaque_ref of the given role</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_permissions_name_label(Session session, string _role)
         {
             return session.JsonRpcClient.role_get_permissions_name_label(session.opaque_ref, _role);
@@ -254,6 +272,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_role">The opaque_ref of the given permission</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Role>> get_by_permission(Session session, string _role)
         {
             return session.JsonRpcClient.role_get_by_permission(session.opaque_ref, _role);
@@ -265,6 +286,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">The short friendly name of the role</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Role>> get_by_permission_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.role_get_by_permission_name_label(session.opaque_ref, _label);
@@ -275,16 +299,22 @@ namespace XenAPI
         /// First published in XenServer 5.6.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Role>> get_all(Session session)
         {
             return session.JsonRpcClient.role_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the role Records at once, in a single XML RPC call
+        /// Return a map of role references to role records for all roles known to the system.
         /// First published in XenServer 5.6.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Role>, Role> get_all_records(Session session)
         {
             return session.JsonRpcClient.role_get_all_records(session.opaque_ref);

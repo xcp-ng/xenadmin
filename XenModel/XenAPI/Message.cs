@@ -137,18 +137,6 @@ namespace XenAPI
                 Helper.AreEqual2(_body, other._body);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Message server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// 
@@ -160,6 +148,9 @@ namespace XenAPI
         /// <param name="_cls">The class of object this message is associated with</param>
         /// <param name="_obj_uuid">The uuid of the object this message is associated with</param>
         /// <param name="_body">The body of the message</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Message> create(Session session, string _name, long _priority, cls _cls, string _obj_uuid, string _body)
         {
             return session.JsonRpcClient.message_create(session.opaque_ref, _name, _priority, _cls, _obj_uuid, _body);
@@ -171,6 +162,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_message">The opaque_ref of the given message</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _message)
         {
             session.JsonRpcClient.message_destroy(session.opaque_ref, _message);
@@ -182,6 +176,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_messages">Messages to destroy</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy_many(Session session, List<XenRef<Message>> _messages)
         {
             session.JsonRpcClient.message_destroy_many(session.opaque_ref, _messages);
@@ -193,9 +190,40 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_messages">Messages to destroy</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy_many(Session session, List<XenRef<Message>> _messages)
         {
           return session.JsonRpcClient.async_message_destroy_many(session.opaque_ref, _messages);
+        }
+
+        /// <summary>
+        /// 
+        /// Experimental. First published in 26.6.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_filters">Optional filters identifying messages to destroy: before (RFC3339 DateTime, destroy messages dated before this timestamp), after (RFC3339 DateTime, destroy messages dated after this timestamp), and priority (int, only destroy messages with this priority). All provided conditions must be met (logical AND). If no filters are provided, all messages are destroyed. If no timezone is specified in a timestamp, UTC is assumed.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static void destroy_all(Session session, Dictionary<string, string> _filters)
+        {
+            session.JsonRpcClient.message_destroy_all(session.opaque_ref, _filters);
+        }
+
+        /// <summary>
+        /// 
+        /// Experimental. First published in 26.6.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_filters">Optional filters identifying messages to destroy: before (RFC3339 DateTime, destroy messages dated before this timestamp), after (RFC3339 DateTime, destroy messages dated after this timestamp), and priority (int, only destroy messages with this priority). All provided conditions must be met (logical AND). If no filters are provided, all messages are destroyed. If no timezone is specified in a timestamp, UTC is assumed.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static XenRef<Task> async_destroy_all(Session session, Dictionary<string, string> _filters)
+        {
+          return session.JsonRpcClient.async_message_destroy_all(session.opaque_ref, _filters);
         }
 
         /// <summary>
@@ -205,7 +233,10 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_cls">The class of object</param>
         /// <param name="_obj_uuid">The uuid of the object</param>
-        /// <param name="_since">The cutoff time</param>
+        /// <param name="_since">The cutoff time. When the timezone is missing, UTC is assumed</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Message>, Message> get(Session session, cls _cls, string _obj_uuid, DateTime _since)
         {
             return session.JsonRpcClient.message_get(session.opaque_ref, _cls, _obj_uuid, _since);
@@ -216,6 +247,9 @@ namespace XenAPI
         /// First published in XenServer 5.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Message>> get_all(Session session)
         {
             return session.JsonRpcClient.message_get_all(session.opaque_ref);
@@ -226,7 +260,10 @@ namespace XenAPI
         /// First published in XenServer 5.0.
         /// </summary>
         /// <param name="session">The session</param>
-        /// <param name="_since">The cutoff time</param>
+        /// <param name="_since">The cutoff time. When the timezone is missing, UTC is assumed</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Message>, Message> get_since(Session session, DateTime _since)
         {
             return session.JsonRpcClient.message_get_since(session.opaque_ref, _since);
@@ -238,6 +275,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_message">The opaque_ref of the given message</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Message get_record(Session session, string _message)
         {
             return session.JsonRpcClient.message_get_record(session.opaque_ref, _message);
@@ -249,6 +289,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">The uuid of the message</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Message> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.message_get_by_uuid(session.opaque_ref, _uuid);
@@ -259,6 +302,9 @@ namespace XenAPI
         /// First published in XenServer 5.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Message>, Message> get_all_records(Session session)
         {
             return session.JsonRpcClient.message_get_all_records(session.opaque_ref);

@@ -89,6 +89,10 @@ namespace XenAPI
                 new Relation("host_patches", "host_patch", "pool_patch"),
             });
 
+            relations.Add(typeof(Host_driver), new Relation[] {
+                new Relation("variants", "Driver_variant", "driver"),
+            });
+
             relations.Add(typeof(VM_appliance), new Relation[] {
                 new Relation("VMs", "VM", "appliance"),
             });
@@ -139,6 +143,10 @@ namespace XenAPI
                 new Relation("snapshots", "VDI", "snapshot_of"),
             });
 
+            relations.Add(typeof(VM_group), new Relation[] {
+                new Relation("VMs", "VM", "groups"),
+            });
+
             relations.Add(typeof(VMPP), new Relation[] {
                 new Relation("VMs", "VM", "protection_policy"),
             });
@@ -177,8 +185,7 @@ namespace XenAPI
                 new Relation("VMs", "VM", "snapshot_schedule"),
             });
 
-
             return relations;
        }
     }
-}
+}

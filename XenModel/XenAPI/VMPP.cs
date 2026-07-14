@@ -215,71 +215,6 @@ namespace XenAPI
                 Helper.AreEqual2(_recent_alerts, other._recent_alerts);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VMPP server)
-        {
-            if (opaqueRef == null)
-            {
-                var reference = create(session, this);
-                return reference == null ? null : reference.opaque_ref;
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_name_label, server._name_label))
-                {
-                    VMPP.set_name_label(session, opaqueRef, _name_label);
-                }
-                if (!Helper.AreEqual2(_name_description, server._name_description))
-                {
-                    VMPP.set_name_description(session, opaqueRef, _name_description);
-                }
-                if (!Helper.AreEqual2(_is_policy_enabled, server._is_policy_enabled))
-                {
-                    VMPP.set_is_policy_enabled(session, opaqueRef, _is_policy_enabled);
-                }
-                if (!Helper.AreEqual2(_backup_type, server._backup_type))
-                {
-                    VMPP.set_backup_type(session, opaqueRef, _backup_type);
-                }
-                if (!Helper.AreEqual2(_backup_retention_value, server._backup_retention_value))
-                {
-                    VMPP.set_backup_retention_value(session, opaqueRef, _backup_retention_value);
-                }
-                if (!Helper.AreEqual2(_backup_frequency, server._backup_frequency))
-                {
-                    VMPP.set_backup_frequency(session, opaqueRef, _backup_frequency);
-                }
-                if (!Helper.AreEqual2(_backup_schedule, server._backup_schedule))
-                {
-                    VMPP.set_backup_schedule(session, opaqueRef, _backup_schedule);
-                }
-                if (!Helper.AreEqual2(_archive_target_type, server._archive_target_type))
-                {
-                    VMPP.set_archive_target_type(session, opaqueRef, _archive_target_type);
-                }
-                if (!Helper.AreEqual2(_archive_target_config, server._archive_target_config))
-                {
-                    VMPP.set_archive_target_config(session, opaqueRef, _archive_target_config);
-                }
-                if (!Helper.AreEqual2(_archive_frequency, server._archive_frequency))
-                {
-                    VMPP.set_archive_frequency(session, opaqueRef, _archive_frequency);
-                }
-                if (!Helper.AreEqual2(_archive_schedule, server._archive_schedule))
-                {
-                    VMPP.set_archive_schedule(session, opaqueRef, _archive_schedule);
-                }
-                if (!Helper.AreEqual2(_is_alarm_enabled, server._is_alarm_enabled))
-                {
-                    VMPP.set_is_alarm_enabled(session, opaqueRef, _is_alarm_enabled);
-                }
-                if (!Helper.AreEqual2(_alarm_config, server._alarm_config))
-                {
-                    VMPP.set_alarm_config(session, opaqueRef, _alarm_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VMPP.
@@ -289,6 +224,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VMPP get_record(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_record(session.opaque_ref, _vmpp);
@@ -302,6 +240,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VMPP> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vmpp_get_by_uuid(session.opaque_ref, _uuid);
@@ -315,6 +256,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<VMPP> create(Session session, VMPP _record)
         {
             return session.JsonRpcClient.vmpp_create(session.opaque_ref, _record);
@@ -328,6 +272,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, VMPP _record)
         {
           return session.JsonRpcClient.async_vmpp_create(session.opaque_ref, _record);
@@ -341,6 +288,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _vmpp)
         {
             session.JsonRpcClient.vmpp_destroy(session.opaque_ref, _vmpp);
@@ -354,6 +304,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _vmpp)
         {
           return session.JsonRpcClient.async_vmpp_destroy(session.opaque_ref, _vmpp);
@@ -367,6 +320,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VMPP>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.vmpp_get_by_name_label(session.opaque_ref, _label);
@@ -380,6 +336,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_uuid(session.opaque_ref, _vmpp);
@@ -388,9 +347,14 @@ namespace XenAPI
         /// <summary>
         /// Get the name/label field of the given VMPP.
         /// First published in XenServer 5.6 FP1.
+        /// Deprecated since XenServer 6.2.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
+        [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_name_label(session.opaque_ref, _vmpp);
@@ -399,9 +363,14 @@ namespace XenAPI
         /// <summary>
         /// Get the name/description field of the given VMPP.
         /// First published in XenServer 5.6 FP1.
+        /// Deprecated since XenServer 6.2.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
+        [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_name_description(session.opaque_ref, _vmpp);
@@ -415,6 +384,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_policy_enabled(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_is_policy_enabled(session.opaque_ref, _vmpp);
@@ -428,6 +400,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static vmpp_backup_type get_backup_type(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_backup_type(session.opaque_ref, _vmpp);
@@ -441,6 +416,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_backup_retention_value(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_backup_retention_value(session.opaque_ref, _vmpp);
@@ -454,6 +432,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static vmpp_backup_frequency get_backup_frequency(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_backup_frequency(session.opaque_ref, _vmpp);
@@ -467,6 +448,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_backup_schedule(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_backup_schedule(session.opaque_ref, _vmpp);
@@ -480,6 +464,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_backup_running(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_is_backup_running(session.opaque_ref, _vmpp);
@@ -493,6 +480,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_backup_last_run_time(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_backup_last_run_time(session.opaque_ref, _vmpp);
@@ -506,6 +496,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static vmpp_archive_target_type get_archive_target_type(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_archive_target_type(session.opaque_ref, _vmpp);
@@ -519,6 +512,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_archive_target_config(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_archive_target_config(session.opaque_ref, _vmpp);
@@ -532,6 +528,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static vmpp_archive_frequency get_archive_frequency(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_archive_frequency(session.opaque_ref, _vmpp);
@@ -545,6 +544,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_archive_schedule(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_archive_schedule(session.opaque_ref, _vmpp);
@@ -558,6 +560,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_archive_running(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_is_archive_running(session.opaque_ref, _vmpp);
@@ -571,6 +576,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_archive_last_run_time(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_archive_last_run_time(session.opaque_ref, _vmpp);
@@ -584,6 +592,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VM>> get_VMs(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_vms(session.opaque_ref, _vmpp);
@@ -597,6 +608,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_is_alarm_enabled(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_is_alarm_enabled(session.opaque_ref, _vmpp);
@@ -610,6 +624,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_alarm_config(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_alarm_config(session.opaque_ref, _vmpp);
@@ -623,6 +640,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_recent_alerts(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_get_recent_alerts(session.opaque_ref, _vmpp);
@@ -631,10 +651,15 @@ namespace XenAPI
         /// <summary>
         /// Set the name/label field of the given VMPP.
         /// First published in XenServer 5.6 FP1.
+        /// Deprecated since XenServer 6.2.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_label">New value to set</param>
+        [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_label(Session session, string _vmpp, string _label)
         {
             session.JsonRpcClient.vmpp_set_name_label(session.opaque_ref, _vmpp, _label);
@@ -643,10 +668,15 @@ namespace XenAPI
         /// <summary>
         /// Set the name/description field of the given VMPP.
         /// First published in XenServer 5.6 FP1.
+        /// Deprecated since XenServer 6.2.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_description">New value to set</param>
+        [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_description(Session session, string _vmpp, string _description)
         {
             session.JsonRpcClient.vmpp_set_name_description(session.opaque_ref, _vmpp, _description);
@@ -661,6 +691,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_is_policy_enabled">New value to set</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_is_policy_enabled(Session session, string _vmpp, bool _is_policy_enabled)
         {
             session.JsonRpcClient.vmpp_set_is_policy_enabled(session.opaque_ref, _vmpp, _is_policy_enabled);
@@ -675,6 +708,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_backup_type">New value to set</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_backup_type(Session session, string _vmpp, vmpp_backup_type _backup_type)
         {
             session.JsonRpcClient.vmpp_set_backup_type(session.opaque_ref, _vmpp, _backup_type);
@@ -688,6 +724,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static string protect_now(Session session, string _vmpp)
         {
             return session.JsonRpcClient.vmpp_protect_now(session.opaque_ref, _vmpp);
@@ -701,6 +740,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_snapshot">The snapshot to archive</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static string archive_now(Session session, string _snapshot)
         {
             return session.JsonRpcClient.vmpp_archive_now(session.opaque_ref, _snapshot);
@@ -715,6 +757,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_hours_from_now">how many hours in the past the oldest record to fetch is</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static string[] get_alerts(Session session, string _vmpp, long _hours_from_now)
         {
             return session.JsonRpcClient.vmpp_get_alerts(session.opaque_ref, _vmpp, _hours_from_now);
@@ -729,6 +774,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_value">the value to set</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_backup_retention_value(Session session, string _vmpp, long _value)
         {
             session.JsonRpcClient.vmpp_set_backup_retention_value(session.opaque_ref, _vmpp, _value);
@@ -743,6 +791,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_value">the backup frequency</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_backup_frequency(Session session, string _vmpp, vmpp_backup_frequency _value)
         {
             session.JsonRpcClient.vmpp_set_backup_frequency(session.opaque_ref, _vmpp, _value);
@@ -757,6 +808,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_value">the value to set</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_backup_schedule(Session session, string _vmpp, Dictionary<string, string> _value)
         {
             session.JsonRpcClient.vmpp_set_backup_schedule(session.opaque_ref, _vmpp, _value);
@@ -771,6 +825,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_value">the archive frequency</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_archive_frequency(Session session, string _vmpp, vmpp_archive_frequency _value)
         {
             session.JsonRpcClient.vmpp_set_archive_frequency(session.opaque_ref, _vmpp, _value);
@@ -785,6 +842,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_value">the value to set</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_archive_schedule(Session session, string _vmpp, Dictionary<string, string> _value)
         {
             session.JsonRpcClient.vmpp_set_archive_schedule(session.opaque_ref, _vmpp, _value);
@@ -799,6 +859,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_value">the archive target config type</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_archive_target_type(Session session, string _vmpp, vmpp_archive_target_type _value)
         {
             session.JsonRpcClient.vmpp_set_archive_target_type(session.opaque_ref, _vmpp, _value);
@@ -813,6 +876,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_value">the value to set</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_archive_target_config(Session session, string _vmpp, Dictionary<string, string> _value)
         {
             session.JsonRpcClient.vmpp_set_archive_target_config(session.opaque_ref, _vmpp, _value);
@@ -827,6 +893,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_value">true if alarm is enabled for this policy</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_is_alarm_enabled(Session session, string _vmpp, bool _value)
         {
             session.JsonRpcClient.vmpp_set_is_alarm_enabled(session.opaque_ref, _vmpp, _value);
@@ -841,6 +910,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_value">the value to set</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_alarm_config(Session session, string _vmpp, Dictionary<string, string> _value)
         {
             session.JsonRpcClient.vmpp_set_alarm_config(session.opaque_ref, _vmpp, _value);
@@ -856,6 +928,9 @@ namespace XenAPI
         /// <param name="_key">the key to add</param>
         /// <param name="_value">the value to add</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_backup_schedule(Session session, string _vmpp, string _key, string _value)
         {
             session.JsonRpcClient.vmpp_add_to_backup_schedule(session.opaque_ref, _vmpp, _key, _value);
@@ -871,6 +946,9 @@ namespace XenAPI
         /// <param name="_key">the key to add</param>
         /// <param name="_value">the value to add</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_archive_target_config(Session session, string _vmpp, string _key, string _value)
         {
             session.JsonRpcClient.vmpp_add_to_archive_target_config(session.opaque_ref, _vmpp, _key, _value);
@@ -886,6 +964,9 @@ namespace XenAPI
         /// <param name="_key">the key to add</param>
         /// <param name="_value">the value to add</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_archive_schedule(Session session, string _vmpp, string _key, string _value)
         {
             session.JsonRpcClient.vmpp_add_to_archive_schedule(session.opaque_ref, _vmpp, _key, _value);
@@ -901,6 +982,9 @@ namespace XenAPI
         /// <param name="_key">the key to add</param>
         /// <param name="_value">the value to add</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_alarm_config(Session session, string _vmpp, string _key, string _value)
         {
             session.JsonRpcClient.vmpp_add_to_alarm_config(session.opaque_ref, _vmpp, _key, _value);
@@ -915,6 +999,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_key">the key to remove</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_backup_schedule(Session session, string _vmpp, string _key)
         {
             session.JsonRpcClient.vmpp_remove_from_backup_schedule(session.opaque_ref, _vmpp, _key);
@@ -929,6 +1016,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_key">the key to remove</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_archive_target_config(Session session, string _vmpp, string _key)
         {
             session.JsonRpcClient.vmpp_remove_from_archive_target_config(session.opaque_ref, _vmpp, _key);
@@ -943,6 +1033,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_key">the key to remove</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_archive_schedule(Session session, string _vmpp, string _key)
         {
             session.JsonRpcClient.vmpp_remove_from_archive_schedule(session.opaque_ref, _vmpp, _key);
@@ -957,6 +1050,9 @@ namespace XenAPI
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
         /// <param name="_key">the key to remove</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_alarm_config(Session session, string _vmpp, string _key)
         {
             session.JsonRpcClient.vmpp_remove_from_alarm_config(session.opaque_ref, _vmpp, _key);
@@ -969,8 +1065,11 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
-        /// <param name="_value">the value to set</param>
+        /// <param name="_value">The time at which the last backup was done. When the timezone is missing, UTC is assumed</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: Not Applicable
+        /// </remarks>
         public static void set_backup_last_run_time(Session session, string _vmpp, DateTime _value)
         {
             session.JsonRpcClient.vmpp_set_backup_last_run_time(session.opaque_ref, _vmpp, _value);
@@ -983,8 +1082,11 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vmpp">The opaque_ref of the given vmpp</param>
-        /// <param name="_value">the value to set</param>
+        /// <param name="_value">The time at which the last archive was created. When the timezone is missing, UTC is assumed</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: Not Applicable
+        /// </remarks>
         public static void set_archive_last_run_time(Session session, string _vmpp, DateTime _value)
         {
             session.JsonRpcClient.vmpp_set_archive_last_run_time(session.opaque_ref, _vmpp, _value);
@@ -997,16 +1099,22 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VMPP>> get_all(Session session)
         {
             return session.JsonRpcClient.vmpp_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VMPP Records at once, in a single XML RPC call
+        /// Return a map of VMPP references to VMPP records for all VMPPs known to the system.
         /// First published in XenServer 5.6 FP1.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VMPP>, VMPP> get_all_records(Session session)
         {
             return session.JsonRpcClient.vmpp_get_all_records(session.opaque_ref);

@@ -116,7 +116,21 @@ namespace XenAPI
             bool tls_verification_enabled,
             DateTime last_software_update,
             bool https_only,
-            latest_synced_updates_applied_state latest_synced_updates_applied)
+            latest_synced_updates_applied_state latest_synced_updates_applied,
+            host_numa_affinity_policy numa_affinity_policy,
+            List<update_guidances> pending_guidances_recommended,
+            List<update_guidances> pending_guidances_full,
+            string last_update_hash,
+            bool ssh_enabled,
+            long ssh_enabled_timeout,
+            DateTime ssh_expiry,
+            long console_idle_timeout,
+            bool ssh_auto_mode,
+            string max_cstate,
+            bool secure_boot,
+            host_ntp_mode ntp_mode,
+            string[] ntp_custom_servers,
+            string timezone)
         {
             this.uuid = uuid;
             this.name_label = name_label;
@@ -184,6 +198,20 @@ namespace XenAPI
             this.last_software_update = last_software_update;
             this.https_only = https_only;
             this.latest_synced_updates_applied = latest_synced_updates_applied;
+            this.numa_affinity_policy = numa_affinity_policy;
+            this.pending_guidances_recommended = pending_guidances_recommended;
+            this.pending_guidances_full = pending_guidances_full;
+            this.last_update_hash = last_update_hash;
+            this.ssh_enabled = ssh_enabled;
+            this.ssh_enabled_timeout = ssh_enabled_timeout;
+            this.ssh_expiry = ssh_expiry;
+            this.console_idle_timeout = console_idle_timeout;
+            this.ssh_auto_mode = ssh_auto_mode;
+            this.max_cstate = max_cstate;
+            this.secure_boot = secure_boot;
+            this.ntp_mode = ntp_mode;
+            this.ntp_custom_servers = ntp_custom_servers;
+            this.timezone = timezone;
         }
 
         /// <summary>
@@ -272,6 +300,20 @@ namespace XenAPI
             last_software_update = record.last_software_update;
             https_only = record.https_only;
             latest_synced_updates_applied = record.latest_synced_updates_applied;
+            numa_affinity_policy = record.numa_affinity_policy;
+            pending_guidances_recommended = record.pending_guidances_recommended;
+            pending_guidances_full = record.pending_guidances_full;
+            last_update_hash = record.last_update_hash;
+            ssh_enabled = record.ssh_enabled;
+            ssh_enabled_timeout = record.ssh_enabled_timeout;
+            ssh_expiry = record.ssh_expiry;
+            console_idle_timeout = record.console_idle_timeout;
+            ssh_auto_mode = record.ssh_auto_mode;
+            max_cstate = record.max_cstate;
+            secure_boot = record.secure_boot;
+            ntp_mode = record.ntp_mode;
+            ntp_custom_servers = record.ntp_custom_servers;
+            timezone = record.timezone;
         }
 
         /// <summary>
@@ -414,6 +456,34 @@ namespace XenAPI
                 https_only = Marshalling.ParseBool(table, "https_only");
             if (table.ContainsKey("latest_synced_updates_applied"))
                 latest_synced_updates_applied = (latest_synced_updates_applied_state)Helper.EnumParseDefault(typeof(latest_synced_updates_applied_state), Marshalling.ParseString(table, "latest_synced_updates_applied"));
+            if (table.ContainsKey("numa_affinity_policy"))
+                numa_affinity_policy = (host_numa_affinity_policy)Helper.EnumParseDefault(typeof(host_numa_affinity_policy), Marshalling.ParseString(table, "numa_affinity_policy"));
+            if (table.ContainsKey("pending_guidances_recommended"))
+                pending_guidances_recommended = Helper.StringArrayToEnumList<update_guidances>(Marshalling.ParseStringArray(table, "pending_guidances_recommended"));
+            if (table.ContainsKey("pending_guidances_full"))
+                pending_guidances_full = Helper.StringArrayToEnumList<update_guidances>(Marshalling.ParseStringArray(table, "pending_guidances_full"));
+            if (table.ContainsKey("last_update_hash"))
+                last_update_hash = Marshalling.ParseString(table, "last_update_hash");
+            if (table.ContainsKey("ssh_enabled"))
+                ssh_enabled = Marshalling.ParseBool(table, "ssh_enabled");
+            if (table.ContainsKey("ssh_enabled_timeout"))
+                ssh_enabled_timeout = Marshalling.ParseLong(table, "ssh_enabled_timeout");
+            if (table.ContainsKey("ssh_expiry"))
+                ssh_expiry = Marshalling.ParseDateTime(table, "ssh_expiry");
+            if (table.ContainsKey("console_idle_timeout"))
+                console_idle_timeout = Marshalling.ParseLong(table, "console_idle_timeout");
+            if (table.ContainsKey("ssh_auto_mode"))
+                ssh_auto_mode = Marshalling.ParseBool(table, "ssh_auto_mode");
+            if (table.ContainsKey("max_cstate"))
+                max_cstate = Marshalling.ParseString(table, "max_cstate");
+            if (table.ContainsKey("secure_boot"))
+                secure_boot = Marshalling.ParseBool(table, "secure_boot");
+            if (table.ContainsKey("ntp_mode"))
+                ntp_mode = (host_ntp_mode)Helper.EnumParseDefault(typeof(host_ntp_mode), Marshalling.ParseString(table, "ntp_mode"));
+            if (table.ContainsKey("ntp_custom_servers"))
+                ntp_custom_servers = Marshalling.ParseStringArray(table, "ntp_custom_servers");
+            if (table.ContainsKey("timezone"))
+                timezone = Marshalling.ParseString(table, "timezone");
         }
 
         public bool DeepEquals(Host other, bool ignoreCurrentOperations)
@@ -490,86 +560,23 @@ namespace XenAPI
                 Helper.AreEqual2(_tls_verification_enabled, other._tls_verification_enabled) &&
                 Helper.AreEqual2(_last_software_update, other._last_software_update) &&
                 Helper.AreEqual2(_https_only, other._https_only) &&
-                Helper.AreEqual2(_latest_synced_updates_applied, other._latest_synced_updates_applied);
+                Helper.AreEqual2(_latest_synced_updates_applied, other._latest_synced_updates_applied) &&
+                Helper.AreEqual2(_numa_affinity_policy, other._numa_affinity_policy) &&
+                Helper.AreEqual2(_pending_guidances_recommended, other._pending_guidances_recommended) &&
+                Helper.AreEqual2(_pending_guidances_full, other._pending_guidances_full) &&
+                Helper.AreEqual2(_last_update_hash, other._last_update_hash) &&
+                Helper.AreEqual2(_ssh_enabled, other._ssh_enabled) &&
+                Helper.AreEqual2(_ssh_enabled_timeout, other._ssh_enabled_timeout) &&
+                Helper.AreEqual2(_ssh_expiry, other._ssh_expiry) &&
+                Helper.AreEqual2(_console_idle_timeout, other._console_idle_timeout) &&
+                Helper.AreEqual2(_ssh_auto_mode, other._ssh_auto_mode) &&
+                Helper.AreEqual2(_max_cstate, other._max_cstate) &&
+                Helper.AreEqual2(_secure_boot, other._secure_boot) &&
+                Helper.AreEqual2(_ntp_mode, other._ntp_mode) &&
+                Helper.AreEqual2(_ntp_custom_servers, other._ntp_custom_servers) &&
+                Helper.AreEqual2(_timezone, other._timezone);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Host server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_name_label, server._name_label))
-                {
-                    Host.set_name_label(session, opaqueRef, _name_label);
-                }
-                if (!Helper.AreEqual2(_name_description, server._name_description))
-                {
-                    Host.set_name_description(session, opaqueRef, _name_description);
-                }
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    Host.set_other_config(session, opaqueRef, _other_config);
-                }
-                if (!Helper.AreEqual2(_logging, server._logging))
-                {
-                    Host.set_logging(session, opaqueRef, _logging);
-                }
-                if (!Helper.AreEqual2(_suspend_image_sr, server._suspend_image_sr))
-                {
-                    Host.set_suspend_image_sr(session, opaqueRef, _suspend_image_sr);
-                }
-                if (!Helper.AreEqual2(_crash_dump_sr, server._crash_dump_sr))
-                {
-                    Host.set_crash_dump_sr(session, opaqueRef, _crash_dump_sr);
-                }
-                if (!Helper.AreEqual2(_hostname, server._hostname))
-                {
-                    Host.set_hostname(session, opaqueRef, _hostname);
-                }
-                if (!Helper.AreEqual2(_address, server._address))
-                {
-                    Host.set_address(session, opaqueRef, _address);
-                }
-                if (!Helper.AreEqual2(_tags, server._tags))
-                {
-                    Host.set_tags(session, opaqueRef, _tags);
-                }
-                if (!Helper.AreEqual2(_license_server, server._license_server))
-                {
-                    Host.set_license_server(session, opaqueRef, _license_server);
-                }
-                if (!Helper.AreEqual2(_guest_VCPUs_params, server._guest_VCPUs_params))
-                {
-                    Host.set_guest_VCPUs_params(session, opaqueRef, _guest_VCPUs_params);
-                }
-                if (!Helper.AreEqual2(_display, server._display))
-                {
-                    Host.set_display(session, opaqueRef, _display);
-                }
-                if (!Helper.AreEqual2(_ssl_legacy, server._ssl_legacy))
-                {
-                    Host.set_ssl_legacy(session, opaqueRef, _ssl_legacy);
-                }
-                if (!Helper.AreEqual2(_iscsi_iqn, server._iscsi_iqn))
-                {
-                    Host.set_iscsi_iqn(session, opaqueRef, _iscsi_iqn);
-                }
-                if (!Helper.AreEqual2(_multipathing, server._multipathing))
-                {
-                    Host.set_multipathing(session, opaqueRef, _multipathing);
-                }
-                if (!Helper.AreEqual2(_uefi_certificates, server._uefi_certificates))
-                {
-                    Host.set_uefi_certificates(session, opaqueRef, _uefi_certificates);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given host.
@@ -577,6 +584,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Host get_record(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_record(session.opaque_ref, _host);
@@ -588,6 +598,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.host_get_by_uuid(session.opaque_ref, _uuid);
@@ -599,6 +612,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Host>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.host_get_by_name_label(session.opaque_ref, _label);
@@ -610,6 +626,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_uuid(session.opaque_ref, _host);
@@ -621,6 +640,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_name_label(session.opaque_ref, _host);
@@ -632,6 +654,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_name_description(session.opaque_ref, _host);
@@ -643,6 +668,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_memory_overhead(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_memory_overhead(session.opaque_ref, _host);
@@ -654,6 +682,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<host_allowed_operations> get_allowed_operations(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_allowed_operations(session.opaque_ref, _host);
@@ -665,6 +696,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, host_allowed_operations> get_current_operations(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_current_operations(session.opaque_ref, _host);
@@ -676,6 +710,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_API_version_major(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_api_version_major(session.opaque_ref, _host);
@@ -687,6 +724,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_API_version_minor(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_api_version_minor(session.opaque_ref, _host);
@@ -698,6 +738,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_API_version_vendor(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_api_version_vendor(session.opaque_ref, _host);
@@ -709,6 +752,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_API_version_vendor_implementation(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_api_version_vendor_implementation(session.opaque_ref, _host);
@@ -720,6 +766,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_enabled(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_enabled(session.opaque_ref, _host);
@@ -731,6 +780,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_software_version(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_software_version(session.opaque_ref, _host);
@@ -742,6 +794,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_other_config(session.opaque_ref, _host);
@@ -753,6 +808,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_capabilities(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_capabilities(session.opaque_ref, _host);
@@ -764,6 +822,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_cpu_configuration(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_cpu_configuration(session.opaque_ref, _host);
@@ -775,6 +836,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_sched_policy(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_sched_policy(session.opaque_ref, _host);
@@ -786,6 +850,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_supported_bootloaders(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_supported_bootloaders(session.opaque_ref, _host);
@@ -797,6 +864,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VM>> get_resident_VMs(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_resident_vms(session.opaque_ref, _host);
@@ -808,6 +878,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_logging(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_logging(session.opaque_ref, _host);
@@ -819,6 +892,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PIF>> get_PIFs(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_pifs(session.opaque_ref, _host);
@@ -830,6 +906,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<SR> get_suspend_image_sr(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_suspend_image_sr(session.opaque_ref, _host);
@@ -841,6 +920,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<SR> get_crash_dump_sr(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_crash_dump_sr(session.opaque_ref, _host);
@@ -852,6 +934,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Host_crashdump>> get_crashdumps(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_crashdumps(session.opaque_ref, _host);
@@ -865,6 +950,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         [Deprecated("XenServer 7.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Host_patch>> get_patches(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_patches(session.opaque_ref, _host);
@@ -876,6 +964,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Pool_update>> get_updates(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_updates(session.opaque_ref, _host);
@@ -887,6 +978,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PBD>> get_PBDs(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_pbds(session.opaque_ref, _host);
@@ -898,6 +992,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Host_cpu>> get_host_CPUs(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_host_cpus(session.opaque_ref, _host);
@@ -909,6 +1006,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_cpu_info(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_cpu_info(session.opaque_ref, _host);
@@ -920,6 +1020,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_hostname(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_hostname(session.opaque_ref, _host);
@@ -931,6 +1034,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_address(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_address(session.opaque_ref, _host);
@@ -942,6 +1048,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host_metrics> get_metrics(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_metrics(session.opaque_ref, _host);
@@ -953,6 +1062,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_license_params(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_license_params(session.opaque_ref, _host);
@@ -964,6 +1076,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_ha_statefiles(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_ha_statefiles(session.opaque_ref, _host);
@@ -975,6 +1090,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_ha_network_peers(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_ha_network_peers(session.opaque_ref, _host);
@@ -986,6 +1104,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, XenRef<Blob>> get_blobs(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_blobs(session.opaque_ref, _host);
@@ -997,6 +1118,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_tags(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_tags(session.opaque_ref, _host);
@@ -1008,6 +1132,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_external_auth_type(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_external_auth_type(session.opaque_ref, _host);
@@ -1019,6 +1146,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_external_auth_service_name(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_external_auth_service_name(session.opaque_ref, _host);
@@ -1030,6 +1160,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_external_auth_configuration(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_external_auth_configuration(session.opaque_ref, _host);
@@ -1041,6 +1174,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_edition(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_edition(session.opaque_ref, _host);
@@ -1052,6 +1188,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_license_server(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_license_server(session.opaque_ref, _host);
@@ -1063,6 +1202,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_bios_strings(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_bios_strings(session.opaque_ref, _host);
@@ -1074,6 +1216,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_power_on_mode(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_power_on_mode(session.opaque_ref, _host);
@@ -1085,6 +1230,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_power_on_config(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_power_on_config(session.opaque_ref, _host);
@@ -1096,6 +1244,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<SR> get_local_cache_sr(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_local_cache_sr(session.opaque_ref, _host);
@@ -1107,6 +1258,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_chipset_info(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_chipset_info(session.opaque_ref, _host);
@@ -1118,6 +1272,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PCI>> get_PCIs(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_pcis(session.opaque_ref, _host);
@@ -1129,6 +1286,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PGPU>> get_PGPUs(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_pgpus(session.opaque_ref, _host);
@@ -1140,6 +1300,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PUSB>> get_PUSBs(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_pusbs(session.opaque_ref, _host);
@@ -1153,6 +1316,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         [Deprecated("Citrix Hypervisor 8.2")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_ssl_legacy(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_ssl_legacy(session.opaque_ref, _host);
@@ -1164,6 +1330,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_guest_VCPUs_params(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_guest_vcpus_params(session.opaque_ref, _host);
@@ -1175,6 +1344,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static host_display get_display(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_display(session.opaque_ref, _host);
@@ -1186,6 +1358,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long[] get_virtual_hardware_platform_versions(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_virtual_hardware_platform_versions(session.opaque_ref, _host);
@@ -1197,6 +1372,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM> get_control_domain(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_control_domain(session.opaque_ref, _host);
@@ -1208,6 +1386,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Pool_update>> get_updates_requiring_reboot(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_updates_requiring_reboot(session.opaque_ref, _host);
@@ -1219,6 +1400,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Feature>> get_features(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_features(session.opaque_ref, _host);
@@ -1230,6 +1414,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_iscsi_iqn(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_iscsi_iqn(session.opaque_ref, _host);
@@ -1241,6 +1428,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_multipathing(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_multipathing(session.opaque_ref, _host);
@@ -1254,6 +1444,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         [Deprecated("22.16.0")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uefi_certificates(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_uefi_certificates(session.opaque_ref, _host);
@@ -1265,6 +1458,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Certificate>> get_certificates(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_certificates(session.opaque_ref, _host);
@@ -1276,6 +1472,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_editions(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_editions(session.opaque_ref, _host);
@@ -1287,6 +1486,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<update_guidances> get_pending_guidances(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_pending_guidances(session.opaque_ref, _host);
@@ -1298,6 +1500,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_tls_verification_enabled(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_tls_verification_enabled(session.opaque_ref, _host);
@@ -1309,6 +1514,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_last_software_update(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_last_software_update(session.opaque_ref, _host);
@@ -1320,6 +1528,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_https_only(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_https_only(session.opaque_ref, _host);
@@ -1331,9 +1542,208 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static latest_synced_updates_applied_state get_latest_synced_updates_applied(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_latest_synced_updates_applied(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the numa_affinity_policy field of the given host.
+        /// Experimental. First published in 24.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static host_numa_affinity_policy get_numa_affinity_policy(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_numa_affinity_policy(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the pending_guidances_recommended field of the given host.
+        /// Experimental. First published in 24.10.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static List<update_guidances> get_pending_guidances_recommended(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_pending_guidances_recommended(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the pending_guidances_full field of the given host.
+        /// Experimental. First published in 24.10.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static List<update_guidances> get_pending_guidances_full(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_pending_guidances_full(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the last_update_hash field of the given host.
+        /// Experimental. First published in 24.10.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static string get_last_update_hash(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_last_update_hash(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the ssh_enabled field of the given host.
+        /// Experimental. First published in 25.21.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static bool get_ssh_enabled(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_ssh_enabled(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the ssh_enabled_timeout field of the given host.
+        /// Experimental. First published in 25.21.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static long get_ssh_enabled_timeout(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_ssh_enabled_timeout(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the ssh_expiry field of the given host.
+        /// Experimental. First published in 25.21.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static DateTime get_ssh_expiry(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_ssh_expiry(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the console_idle_timeout field of the given host.
+        /// Experimental. First published in 25.21.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static long get_console_idle_timeout(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_console_idle_timeout(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the ssh_auto_mode field of the given host.
+        /// Experimental. First published in 25.27.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static bool get_ssh_auto_mode(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_ssh_auto_mode(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the max_cstate field of the given host.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static string get_max_cstate(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_max_cstate(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the secure_boot field of the given host.
+        /// Experimental. First published in 25.31.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static bool get_secure_boot(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_secure_boot(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the ntp_mode field of the given host.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static host_ntp_mode get_ntp_mode(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_ntp_mode(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the ntp_custom_servers field of the given host.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static string[] get_ntp_custom_servers(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_ntp_custom_servers(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the timezone field of the given host.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static string get_timezone(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_timezone(session.opaque_ref, _host);
         }
 
         /// <summary>
@@ -1343,6 +1753,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_label">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_label(Session session, string _host, string _label)
         {
             session.JsonRpcClient.host_set_name_label(session.opaque_ref, _host, _label);
@@ -1355,6 +1768,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_description">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_description(Session session, string _host, string _description)
         {
             session.JsonRpcClient.host_set_name_description(session.opaque_ref, _host, _description);
@@ -1367,6 +1783,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _host, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.host_set_other_config(session.opaque_ref, _host, _other_config);
@@ -1380,6 +1799,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _host, string _key, string _value)
         {
             session.JsonRpcClient.host_add_to_other_config(session.opaque_ref, _host, _key, _value);
@@ -1392,6 +1814,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _host, string _key)
         {
             session.JsonRpcClient.host_remove_from_other_config(session.opaque_ref, _host, _key);
@@ -1404,6 +1829,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_logging">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_logging(Session session, string _host, Dictionary<string, string> _logging)
         {
             session.JsonRpcClient.host_set_logging(session.opaque_ref, _host, _logging);
@@ -1417,6 +1845,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_logging(Session session, string _host, string _key, string _value)
         {
             session.JsonRpcClient.host_add_to_logging(session.opaque_ref, _host, _key, _value);
@@ -1429,6 +1860,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_logging(Session session, string _host, string _key)
         {
             session.JsonRpcClient.host_remove_from_logging(session.opaque_ref, _host, _key);
@@ -1441,6 +1875,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_suspend_image_sr">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_suspend_image_sr(Session session, string _host, string _suspend_image_sr)
         {
             session.JsonRpcClient.host_set_suspend_image_sr(session.opaque_ref, _host, _suspend_image_sr);
@@ -1453,6 +1890,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_crash_dump_sr">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_crash_dump_sr(Session session, string _host, string _crash_dump_sr)
         {
             session.JsonRpcClient.host_set_crash_dump_sr(session.opaque_ref, _host, _crash_dump_sr);
@@ -1465,6 +1905,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_hostname">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_hostname(Session session, string _host, string _hostname)
         {
             session.JsonRpcClient.host_set_hostname(session.opaque_ref, _host, _hostname);
@@ -1477,6 +1920,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_address">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_address(Session session, string _host, string _address)
         {
             session.JsonRpcClient.host_set_address(session.opaque_ref, _host, _address);
@@ -1489,6 +1935,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_tags">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void set_tags(Session session, string _host, string[] _tags)
         {
             session.JsonRpcClient.host_set_tags(session.opaque_ref, _host, _tags);
@@ -1501,6 +1950,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_value">New value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void add_tags(Session session, string _host, string _value)
         {
             session.JsonRpcClient.host_add_tags(session.opaque_ref, _host, _value);
@@ -1513,6 +1965,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_value">Value to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void remove_tags(Session session, string _host, string _value)
         {
             session.JsonRpcClient.host_remove_tags(session.opaque_ref, _host, _value);
@@ -1525,6 +1980,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_license_server">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_license_server(Session session, string _host, Dictionary<string, string> _license_server)
         {
             session.JsonRpcClient.host_set_license_server(session.opaque_ref, _host, _license_server);
@@ -1538,6 +1996,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_license_server(Session session, string _host, string _key, string _value)
         {
             session.JsonRpcClient.host_add_to_license_server(session.opaque_ref, _host, _key, _value);
@@ -1550,6 +2011,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_license_server(Session session, string _host, string _key)
         {
             session.JsonRpcClient.host_remove_from_license_server(session.opaque_ref, _host, _key);
@@ -1562,6 +2026,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_guest_vcpus_params">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_guest_VCPUs_params(Session session, string _host, Dictionary<string, string> _guest_vcpus_params)
         {
             session.JsonRpcClient.host_set_guest_vcpus_params(session.opaque_ref, _host, _guest_vcpus_params);
@@ -1575,6 +2042,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_guest_VCPUs_params(Session session, string _host, string _key, string _value)
         {
             session.JsonRpcClient.host_add_to_guest_vcpus_params(session.opaque_ref, _host, _key, _value);
@@ -1587,6 +2057,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_guest_VCPUs_params(Session session, string _host, string _key)
         {
             session.JsonRpcClient.host_remove_from_guest_vcpus_params(session.opaque_ref, _host, _key);
@@ -1599,6 +2072,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_display">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_display(Session session, string _host, host_display _display)
         {
             session.JsonRpcClient.host_set_display(session.opaque_ref, _host, _display);
@@ -1610,6 +2086,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void disable(Session session, string _host)
         {
             session.JsonRpcClient.host_disable(session.opaque_ref, _host);
@@ -1621,9 +2100,42 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_disable(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_disable(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Puts the host into a state in which no new VMs can be started. Currently active VMs on the host continue to execute.
+        /// First published in XenServer 4.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_auto_enable">If true (default), the host will be re-enabled after a toolstack restart automatically. If false, the host will be disabled indefinitely, across toolstack restarts and host reboots, until re-enabled explicitly with Host.enable. First published in 25.31.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static void disable(Session session, string _host, bool _auto_enable)
+        {
+            session.JsonRpcClient.host_disable(session.opaque_ref, _host, _auto_enable);
+        }
+
+        /// <summary>
+        /// Puts the host into a state in which no new VMs can be started. Currently active VMs on the host continue to execute.
+        /// First published in XenServer 4.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_auto_enable">If true (default), the host will be re-enabled after a toolstack restart automatically. If false, the host will be disabled indefinitely, across toolstack restarts and host reboots, until re-enabled explicitly with Host.enable. First published in 25.31.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static XenRef<Task> async_disable(Session session, string _host, bool _auto_enable)
+        {
+          return session.JsonRpcClient.async_host_disable(session.opaque_ref, _host, _auto_enable);
         }
 
         /// <summary>
@@ -1632,6 +2144,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void enable(Session session, string _host)
         {
             session.JsonRpcClient.host_enable(session.opaque_ref, _host);
@@ -1643,6 +2158,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_enable(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_enable(session.opaque_ref, _host);
@@ -1654,6 +2172,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void shutdown(Session session, string _host)
         {
             session.JsonRpcClient.host_shutdown(session.opaque_ref, _host);
@@ -1665,6 +2186,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_shutdown(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_shutdown(session.opaque_ref, _host);
@@ -1676,6 +2200,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void reboot(Session session, string _host)
         {
             session.JsonRpcClient.host_reboot(session.opaque_ref, _host);
@@ -1687,6 +2214,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_reboot(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_reboot(session.opaque_ref, _host);
@@ -1698,6 +2228,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static string dmesg(Session session, string _host)
         {
             return session.JsonRpcClient.host_dmesg(session.opaque_ref, _host);
@@ -1709,6 +2242,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_dmesg(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_dmesg(session.opaque_ref, _host);
@@ -1720,6 +2256,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static string dmesg_clear(Session session, string _host)
         {
             return session.JsonRpcClient.host_dmesg_clear(session.opaque_ref, _host);
@@ -1731,6 +2270,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_dmesg_clear(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_dmesg_clear(session.opaque_ref, _host);
@@ -1742,6 +2284,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_log(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_log(session.opaque_ref, _host);
@@ -1753,6 +2298,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_get_log(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_get_log(session.opaque_ref, _host);
@@ -1765,6 +2313,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_keys">The keys to send</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void send_debug_keys(Session session, string _host, string _keys)
         {
             session.JsonRpcClient.host_send_debug_keys(session.opaque_ref, _host, _keys);
@@ -1777,6 +2328,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_keys">The keys to send</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_send_debug_keys(Session session, string _host, string _keys)
         {
           return session.JsonRpcClient.async_host_send_debug_keys(session.opaque_ref, _host, _keys);
@@ -1790,6 +2344,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_url">The URL to upload to</param>
         /// <param name="_options">Extra configuration operations</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void bugreport_upload(Session session, string _host, string _url, Dictionary<string, string> _options)
         {
             session.JsonRpcClient.host_bugreport_upload(session.opaque_ref, _host, _url, _options);
@@ -1803,6 +2360,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_url">The URL to upload to</param>
         /// <param name="_options">Extra configuration operations</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_bugreport_upload(Session session, string _host, string _url, Dictionary<string, string> _options)
         {
           return session.JsonRpcClient.async_host_bugreport_upload(session.opaque_ref, _host, _url, _options);
@@ -1813,6 +2373,9 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] list_methods(Session session)
         {
             return session.JsonRpcClient.host_list_methods(session.opaque_ref);
@@ -1827,6 +2390,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_contents">The contents of the license file, base64 encoded</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void license_apply(Session session, string _host, string _contents)
         {
             session.JsonRpcClient.host_license_apply(session.opaque_ref, _host, _contents);
@@ -1841,6 +2407,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_contents">The contents of the license file, base64 encoded</param>
         [Deprecated("XenServer 6.2")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_license_apply(Session session, string _host, string _contents)
         {
           return session.JsonRpcClient.async_host_license_apply(session.opaque_ref, _host, _contents);
@@ -1853,6 +2422,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_contents">The contents of the license file, base64 encoded</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void license_add(Session session, string _host, string _contents)
         {
             session.JsonRpcClient.host_license_add(session.opaque_ref, _host, _contents);
@@ -1865,6 +2437,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_contents">The contents of the license file, base64 encoded</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_license_add(Session session, string _host, string _contents)
         {
           return session.JsonRpcClient.async_host_license_add(session.opaque_ref, _host, _contents);
@@ -1876,6 +2451,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void license_remove(Session session, string _host)
         {
             session.JsonRpcClient.host_license_remove(session.opaque_ref, _host);
@@ -1887,6 +2465,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_license_remove(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_license_remove(session.opaque_ref, _host);
@@ -1898,6 +2479,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _host)
         {
             session.JsonRpcClient.host_destroy(session.opaque_ref, _host);
@@ -1909,6 +2493,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_destroy(session.opaque_ref, _host);
@@ -1920,6 +2507,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void power_on(Session session, string _host)
         {
             session.JsonRpcClient.host_power_on(session.opaque_ref, _host);
@@ -1931,6 +2521,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_power_on(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_power_on(session.opaque_ref, _host);
@@ -1942,6 +2535,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_soft">Disable HA temporarily, revert upon host reboot or further changes, idempotent First published in XenServer 7.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void emergency_ha_disable(Session session, bool _soft)
         {
             session.JsonRpcClient.host_emergency_ha_disable(session.opaque_ref, _soft);
@@ -1953,6 +2549,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<Data_source> get_data_sources(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_data_sources(session.opaque_ref, _host);
@@ -1965,6 +2564,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_data_source">The data source to record</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void record_data_source(Session session, string _host, string _data_source)
         {
             session.JsonRpcClient.host_record_data_source(session.opaque_ref, _host, _data_source);
@@ -1977,6 +2579,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_data_source">The data source to query</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static double query_data_source(Session session, string _host, string _data_source)
         {
             return session.JsonRpcClient.host_query_data_source(session.opaque_ref, _host, _data_source);
@@ -1989,6 +2594,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_data_source">The data source whose archives are to be forgotten</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void forget_data_source_archives(Session session, string _host, string _data_source)
         {
             session.JsonRpcClient.host_forget_data_source_archives(session.opaque_ref, _host, _data_source);
@@ -2000,6 +2608,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void assert_can_evacuate(Session session, string _host)
         {
             session.JsonRpcClient.host_assert_can_evacuate(session.opaque_ref, _host);
@@ -2011,6 +2622,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_assert_can_evacuate(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_assert_can_evacuate(session.opaque_ref, _host);
@@ -2022,6 +2636,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VM>, string[]> get_vms_which_prevent_evacuation(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_vms_which_prevent_evacuation(session.opaque_ref, _host);
@@ -2033,6 +2650,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_get_vms_which_prevent_evacuation(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_get_vms_which_prevent_evacuation(session.opaque_ref, _host);
@@ -2046,6 +2666,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VM>> get_uncooperative_resident_VMs(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_uncooperative_resident_vms(session.opaque_ref, _host);
@@ -2059,6 +2682,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_get_uncooperative_resident_VMs(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_get_uncooperative_resident_vms(session.opaque_ref, _host);
@@ -2070,6 +2696,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void evacuate(Session session, string _host)
         {
             session.JsonRpcClient.host_evacuate(session.opaque_ref, _host);
@@ -2081,6 +2710,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_evacuate(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_evacuate(session.opaque_ref, _host);
@@ -2092,7 +2724,10 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
-        /// <param name="_network">Optional preferred network for migration First published in Unreleased.</param>
+        /// <param name="_network">Optional preferred network for migration First published in 1.297.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void evacuate(Session session, string _host, string _network)
         {
             session.JsonRpcClient.host_evacuate(session.opaque_ref, _host, _network);
@@ -2104,10 +2739,45 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
-        /// <param name="_network">Optional preferred network for migration First published in Unreleased.</param>
+        /// <param name="_network">Optional preferred network for migration First published in 1.297.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_evacuate(Session session, string _host, string _network)
         {
           return session.JsonRpcClient.async_host_evacuate(session.opaque_ref, _host, _network);
+        }
+
+        /// <summary>
+        /// Migrate all VMs off of this host, where possible.
+        /// First published in XenServer 4.1.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_network">Optional preferred network for migration First published in 1.297.0.</param>
+        /// <param name="_evacuate_batch_size">The maximum number of VMs to be migrated per batch 0 will use the value `evacuation-batch-size` defined in xapi.conf First published in 23.27.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static void evacuate(Session session, string _host, string _network, long _evacuate_batch_size)
+        {
+            session.JsonRpcClient.host_evacuate(session.opaque_ref, _host, _network, _evacuate_batch_size);
+        }
+
+        /// <summary>
+        /// Migrate all VMs off of this host, where possible.
+        /// First published in XenServer 4.1.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_network">Optional preferred network for migration First published in 1.297.0.</param>
+        /// <param name="_evacuate_batch_size">The maximum number of VMs to be migrated per batch 0 will use the value `evacuation-batch-size` defined in xapi.conf First published in 23.27.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static XenRef<Task> async_evacuate(Session session, string _host, string _network, long _evacuate_batch_size)
+        {
+          return session.JsonRpcClient.async_host_evacuate(session.opaque_ref, _host, _network, _evacuate_batch_size);
         }
 
         /// <summary>
@@ -2116,6 +2786,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void syslog_reconfigure(Session session, string _host)
         {
             session.JsonRpcClient.host_syslog_reconfigure(session.opaque_ref, _host);
@@ -2127,6 +2800,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_syslog_reconfigure(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_syslog_reconfigure(session.opaque_ref, _host);
@@ -2138,6 +2814,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">reference to a PIF object corresponding to the management interface</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void management_reconfigure(Session session, string _pif)
         {
             session.JsonRpcClient.host_management_reconfigure(session.opaque_ref, _pif);
@@ -2149,6 +2828,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">reference to a PIF object corresponding to the management interface</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_management_reconfigure(Session session, string _pif)
         {
           return session.JsonRpcClient.async_host_management_reconfigure(session.opaque_ref, _pif);
@@ -2160,6 +2842,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_interface">name of the interface to use as a management interface</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void local_management_reconfigure(Session session, string _interface)
         {
             session.JsonRpcClient.host_local_management_reconfigure(session.opaque_ref, _interface);
@@ -2170,6 +2855,9 @@ namespace XenAPI
         /// First published in XenServer 4.1.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void management_disable(Session session)
         {
             session.JsonRpcClient.host_management_disable(session.opaque_ref);
@@ -2181,6 +2869,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<PIF> get_management_interface(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_management_interface(session.opaque_ref, _host);
@@ -2192,6 +2883,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_get_management_interface(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_get_management_interface(session.opaque_ref, _host);
@@ -2203,6 +2897,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_system_status_capabilities(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_system_status_capabilities(session.opaque_ref, _host);
@@ -2214,6 +2911,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void restart_agent(Session session, string _host)
         {
             session.JsonRpcClient.host_restart_agent(session.opaque_ref, _host);
@@ -2225,6 +2925,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_restart_agent(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_restart_agent(session.opaque_ref, _host);
@@ -2235,6 +2938,9 @@ namespace XenAPI
         /// First published in XenServer 5.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void shutdown_agent(Session session)
         {
             session.JsonRpcClient.host_shutdown_agent(session.opaque_ref);
@@ -2247,6 +2953,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_hostname">The new host name</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_hostname_live(Session session, string _host, string _hostname)
         {
             session.JsonRpcClient.host_set_hostname_live(session.opaque_ref, _host, _hostname);
@@ -2258,6 +2967,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long compute_free_memory(Session session, string _host)
         {
             return session.JsonRpcClient.host_compute_free_memory(session.opaque_ref, _host);
@@ -2269,6 +2981,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_compute_free_memory(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_compute_free_memory(session.opaque_ref, _host);
@@ -2280,6 +2995,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long compute_memory_overhead(Session session, string _host)
         {
             return session.JsonRpcClient.host_compute_memory_overhead(session.opaque_ref, _host);
@@ -2291,6 +3009,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_compute_memory_overhead(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_compute_memory_overhead(session.opaque_ref, _host);
@@ -2302,6 +3023,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void sync_data(Session session, string _host)
         {
             session.JsonRpcClient.host_sync_data(session.opaque_ref, _host);
@@ -2314,6 +3038,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_delay">Delay in seconds from when the call is received to perform the backup</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void backup_rrds(Session session, string _host, double _delay)
         {
             session.JsonRpcClient.host_backup_rrds(session.opaque_ref, _host, _delay);
@@ -2327,6 +3054,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Blob> create_new_blob(Session session, string _host, string _name, string _mime_type)
         {
             return session.JsonRpcClient.host_create_new_blob(session.opaque_ref, _host, _name, _mime_type);
@@ -2340,6 +3070,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create_new_blob(Session session, string _host, string _name, string _mime_type)
         {
           return session.JsonRpcClient.async_host_create_new_blob(session.opaque_ref, _host, _name, _mime_type);
@@ -2354,6 +3087,9 @@ namespace XenAPI
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
         /// <param name="_public">True if the blob should be publicly available First published in XenServer 6.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Blob> create_new_blob(Session session, string _host, string _name, string _mime_type, bool _public)
         {
             return session.JsonRpcClient.host_create_new_blob(session.opaque_ref, _host, _name, _mime_type, _public);
@@ -2368,6 +3104,9 @@ namespace XenAPI
         /// <param name="_name">The name associated with the blob</param>
         /// <param name="_mime_type">The mime type for the data. Empty string translates to application/octet-stream</param>
         /// <param name="_public">True if the blob should be publicly available First published in XenServer 6.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create_new_blob(Session session, string _host, string _name, string _mime_type, bool _public)
         {
           return session.JsonRpcClient.async_host_create_new_blob(session.opaque_ref, _host, _name, _mime_type, _public);
@@ -2382,6 +3121,9 @@ namespace XenAPI
         /// <param name="_plugin">The name of the plugin</param>
         /// <param name="_fn">The name of the function within the plugin</param>
         /// <param name="_args">Arguments for the function</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static string call_plugin(Session session, string _host, string _plugin, string _fn, Dictionary<string, string> _args)
         {
             return session.JsonRpcClient.host_call_plugin(session.opaque_ref, _host, _plugin, _fn, _args);
@@ -2396,6 +3138,9 @@ namespace XenAPI
         /// <param name="_plugin">The name of the plugin</param>
         /// <param name="_fn">The name of the function within the plugin</param>
         /// <param name="_args">Arguments for the function</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_call_plugin(Session session, string _host, string _plugin, string _fn, Dictionary<string, string> _args)
         {
           return session.JsonRpcClient.async_host_call_plugin(session.opaque_ref, _host, _plugin, _fn, _args);
@@ -2408,6 +3153,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_name">The name of the API call</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static bool has_extension(Session session, string _host, string _name)
         {
             return session.JsonRpcClient.host_has_extension(session.opaque_ref, _host, _name);
@@ -2420,6 +3168,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_name">The name of the API call</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_has_extension(Session session, string _host, string _name)
         {
           return session.JsonRpcClient.async_host_has_extension(session.opaque_ref, _host, _name);
@@ -2432,6 +3183,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_call">Rpc call for the extension</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static string call_extension(Session session, string _host, string _call)
         {
             return session.JsonRpcClient.host_call_extension(session.opaque_ref, _host, _call);
@@ -2443,6 +3197,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_servertime(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_servertime(session.opaque_ref, _host);
@@ -2454,6 +3211,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_server_localtime(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_server_localtime(session.opaque_ref, _host);
@@ -2467,7 +3227,10 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_config">A list of key-values containing the configuration data</param>
         /// <param name="_service_name">The name of the service</param>
-        /// <param name="_auth_type">The type of authentication (e.g. AD for Active Directory)</param>
+        /// <param name="_auth_type">The type of authentication (for example, AD for Active Directory)</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void enable_external_auth(Session session, string _host, Dictionary<string, string> _config, string _service_name, string _auth_type)
         {
             session.JsonRpcClient.host_enable_external_auth(session.opaque_ref, _host, _config, _service_name, _auth_type);
@@ -2480,9 +3243,44 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_config">Optional parameters as a list of key-values containing the configuration data</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void disable_external_auth(Session session, string _host, Dictionary<string, string> _config)
         {
             session.JsonRpcClient.host_disable_external_auth(session.opaque_ref, _host, _config);
+        }
+
+        /// <summary>
+        /// This call disables external authentication on the local host
+        /// First published in XenServer 5.5.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_config">Optional parameters as a list of key-values containing the configuration data</param>
+        /// <param name="_force">Disable external auth even when not enabled First published in 26.2.0-next.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static void disable_external_auth(Session session, string _host, Dictionary<string, string> _config, bool _force)
+        {
+            session.JsonRpcClient.host_disable_external_auth(session.opaque_ref, _host, _config, _force);
+        }
+
+        /// <summary>
+        /// This call enables or disables LDAPS for external authentication on the host
+        /// First published in 26.16.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_ldaps">Whether to enable or disable LDAPS</param>
+        /// <param name="_force">Force the operation even if already in the desired state</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static void external_auth_set_ldaps(Session session, string _host, bool _ldaps, bool _force)
+        {
+            session.JsonRpcClient.host_external_auth_set_ldaps(session.opaque_ref, _host, _ldaps, _force);
         }
 
         /// <summary>
@@ -2491,6 +3289,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VM>, string[]> retrieve_wlb_evacuate_recommendations(Session session, string _host)
         {
             return session.JsonRpcClient.host_retrieve_wlb_evacuate_recommendations(session.opaque_ref, _host);
@@ -2502,6 +3303,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_retrieve_wlb_evacuate_recommendations(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_retrieve_wlb_evacuate_recommendations(session.opaque_ref, _host);
@@ -2513,6 +3317,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_server_certificate(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_server_certificate(session.opaque_ref, _host);
@@ -2524,6 +3331,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Task> async_get_server_certificate(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_get_server_certificate(session.opaque_ref, _host);
@@ -2535,6 +3345,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void refresh_server_certificate(Session session, string _host)
         {
             session.JsonRpcClient.host_refresh_server_certificate(session.opaque_ref, _host);
@@ -2546,6 +3359,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_refresh_server_certificate(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_refresh_server_certificate(session.opaque_ref, _host);
@@ -2560,6 +3376,9 @@ namespace XenAPI
         /// <param name="_certificate">The server certificate, in PEM form</param>
         /// <param name="_private_key">The unencrypted private key used to sign the certificate, in PKCS#8 form</param>
         /// <param name="_certificate_chain">The certificate chain, in PEM form</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void install_server_certificate(Session session, string _host, string _certificate, string _private_key, string _certificate_chain)
         {
             session.JsonRpcClient.host_install_server_certificate(session.opaque_ref, _host, _certificate, _private_key, _certificate_chain);
@@ -2574,6 +3393,9 @@ namespace XenAPI
         /// <param name="_certificate">The server certificate, in PEM form</param>
         /// <param name="_private_key">The unencrypted private key used to sign the certificate, in PKCS#8 form</param>
         /// <param name="_certificate_chain">The certificate chain, in PEM form</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_install_server_certificate(Session session, string _host, string _certificate, string _private_key, string _certificate_chain)
         {
           return session.JsonRpcClient.async_host_install_server_certificate(session.opaque_ref, _host, _certificate, _private_key, _certificate_chain);
@@ -2584,6 +3406,9 @@ namespace XenAPI
         /// First published in Citrix Hypervisor 8.2.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: Not Applicable
+        /// </remarks>
         public static void emergency_reset_server_certificate(Session session)
         {
             session.JsonRpcClient.host_emergency_reset_server_certificate(session.opaque_ref);
@@ -2595,6 +3420,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void reset_server_certificate(Session session, string _host)
         {
             session.JsonRpcClient.host_reset_server_certificate(session.opaque_ref, _host);
@@ -2606,6 +3434,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_reset_server_certificate(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_reset_server_certificate(session.opaque_ref, _host);
@@ -2618,6 +3449,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_edition">The requested edition</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void apply_edition(Session session, string _host, string _edition)
         {
             session.JsonRpcClient.host_apply_edition(session.opaque_ref, _host, _edition);
@@ -2631,6 +3465,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_edition">The requested edition</param>
         /// <param name="_force">Update the license params even if the apply call fails First published in XenServer 6.2.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void apply_edition(Session session, string _host, string _edition, bool _force)
         {
             session.JsonRpcClient.host_apply_edition(session.opaque_ref, _host, _edition, _force);
@@ -2644,6 +3481,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         [Deprecated("XenServer 7.1")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void refresh_pack_info(Session session, string _host)
         {
             session.JsonRpcClient.host_refresh_pack_info(session.opaque_ref, _host);
@@ -2657,32 +3497,41 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         [Deprecated("XenServer 7.1")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_refresh_pack_info(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_refresh_pack_info(session.opaque_ref, _host);
         }
 
         /// <summary>
-        /// Set the power-on-mode, host, user and password 
+        /// Set the power-on-mode, host, user and password
         /// First published in XenServer 5.6 FP1.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
-        /// <param name="_power_on_mode">power-on-mode can be empty, wake-on-lan, DRAC or other</param>
+        /// <param name="_power_on_mode">power-on-mode can be empty, wake-on-lan, IPMI or other</param>
         /// <param name="_power_on_config">Power on config</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_power_on_mode(Session session, string _host, string _power_on_mode, Dictionary<string, string> _power_on_config)
         {
             session.JsonRpcClient.host_set_power_on_mode(session.opaque_ref, _host, _power_on_mode, _power_on_config);
         }
 
         /// <summary>
-        /// Set the power-on-mode, host, user and password 
+        /// Set the power-on-mode, host, user and password
         /// First published in XenServer 5.6 FP1.
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
-        /// <param name="_power_on_mode">power-on-mode can be empty, wake-on-lan, DRAC or other</param>
+        /// <param name="_power_on_mode">power-on-mode can be empty, wake-on-lan, IPMI or other</param>
         /// <param name="_power_on_config">Power on config</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_power_on_mode(Session session, string _host, string _power_on_mode, Dictionary<string, string> _power_on_config)
         {
           return session.JsonRpcClient.async_host_set_power_on_mode(session.opaque_ref, _host, _power_on_mode, _power_on_config);
@@ -2697,6 +3546,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_features">The features string (32 hexadecimal digits)</param>
         [Deprecated("XenServer 7.0")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_cpu_features(Session session, string _host, string _features)
         {
             session.JsonRpcClient.host_set_cpu_features(session.opaque_ref, _host, _features);
@@ -2710,6 +3562,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         [Deprecated("XenServer 7.0")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void reset_cpu_features(Session session, string _host)
         {
             session.JsonRpcClient.host_reset_cpu_features(session.opaque_ref, _host);
@@ -2722,6 +3577,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_sr">The SR to use as a local cache</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void enable_local_storage_caching(Session session, string _host, string _sr)
         {
             session.JsonRpcClient.host_enable_local_storage_caching(session.opaque_ref, _host, _sr);
@@ -2733,6 +3591,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void disable_local_storage_caching(Session session, string _host)
         {
             session.JsonRpcClient.host_disable_local_storage_caching(session.opaque_ref, _host);
@@ -2746,6 +3607,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_network">The network through which migration traffic should be received.</param>
         /// <param name="_options">Extra configuration operations</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static Dictionary<string, string> migrate_receive(Session session, string _host, string _network, Dictionary<string, string> _options)
         {
             return session.JsonRpcClient.host_migrate_receive(session.opaque_ref, _host, _network, _options);
@@ -2759,6 +3623,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_network">The network through which migration traffic should be received.</param>
         /// <param name="_options">Extra configuration operations</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-power-admin
+        /// </remarks>
         public static XenRef<Task> async_migrate_receive(Session session, string _host, string _network, Dictionary<string, string> _options)
         {
           return session.JsonRpcClient.async_host_migrate_receive(session.opaque_ref, _host, _network, _options);
@@ -2770,6 +3637,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void declare_dead(Session session, string _host)
         {
             session.JsonRpcClient.host_declare_dead(session.opaque_ref, _host);
@@ -2781,6 +3651,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_declare_dead(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_declare_dead(session.opaque_ref, _host);
@@ -2792,6 +3665,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static host_display enable_display(Session session, string _host)
         {
             return session.JsonRpcClient.host_enable_display(session.opaque_ref, _host);
@@ -2803,6 +3679,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_enable_display(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_enable_display(session.opaque_ref, _host);
@@ -2814,6 +3693,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static host_display disable_display(Session session, string _host)
         {
             return session.JsonRpcClient.host_disable_display(session.opaque_ref, _host);
@@ -2825,6 +3707,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_disable_display(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_disable_display(session.opaque_ref, _host);
@@ -2837,6 +3722,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_value">True to allow SSLv3 and ciphersuites as used in old XenServer versions</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_ssl_legacy(Session session, string _host, bool _value)
         {
             session.JsonRpcClient.host_set_ssl_legacy(session.opaque_ref, _host, _value);
@@ -2849,6 +3737,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_value">True to allow SSLv3 and ciphersuites as used in old XenServer versions</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_ssl_legacy(Session session, string _host, bool _value)
         {
           return session.JsonRpcClient.async_host_set_ssl_legacy(session.opaque_ref, _host, _value);
@@ -2861,6 +3752,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_value">The value to which the IQN should be set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_iscsi_iqn(Session session, string _host, string _value)
         {
             session.JsonRpcClient.host_set_iscsi_iqn(session.opaque_ref, _host, _value);
@@ -2873,6 +3767,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_value">The value to which the IQN should be set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_iscsi_iqn(Session session, string _host, string _value)
         {
           return session.JsonRpcClient.async_host_set_iscsi_iqn(session.opaque_ref, _host, _value);
@@ -2885,6 +3782,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_value">Whether multipathing should be enabled</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_multipathing(Session session, string _host, bool _value)
         {
             session.JsonRpcClient.host_set_multipathing(session.opaque_ref, _host, _value);
@@ -2897,6 +3797,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_value">Whether multipathing should be enabled</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_multipathing(Session session, string _host, bool _value)
         {
           return session.JsonRpcClient.async_host_set_multipathing(session.opaque_ref, _host, _value);
@@ -2911,6 +3814,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_value">The certificates to apply to a host</param>
         [Deprecated("22.16.0")]
+        /// <remarks>
+        /// Minimum allowed role: Not Applicable
+        /// </remarks>
         public static void set_uefi_certificates(Session session, string _host, string _value)
         {
             session.JsonRpcClient.host_set_uefi_certificates(session.opaque_ref, _host, _value);
@@ -2925,6 +3831,9 @@ namespace XenAPI
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_value">The certificates to apply to a host</param>
         [Deprecated("22.16.0")]
+        /// <remarks>
+        /// Minimum allowed role: Not Applicable
+        /// </remarks>
         public static XenRef<Task> async_set_uefi_certificates(Session session, string _host, string _value)
         {
           return session.JsonRpcClient.async_host_set_uefi_certificates(session.opaque_ref, _host, _value);
@@ -2937,6 +3846,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_value">The sched-gran to apply to a host</param>
+        /// <remarks>
+        /// Minimum allowed role: Not Applicable
+        /// </remarks>
         public static void set_sched_gran(Session session, string _host, host_sched_gran _value)
         {
             session.JsonRpcClient.host_set_sched_gran(session.opaque_ref, _host, _value);
@@ -2949,6 +3861,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_value">The sched-gran to apply to a host</param>
+        /// <remarks>
+        /// Minimum allowed role: Not Applicable
+        /// </remarks>
         public static XenRef<Task> async_set_sched_gran(Session session, string _host, host_sched_gran _value)
         {
           return session.JsonRpcClient.async_host_set_sched_gran(session.opaque_ref, _host, _value);
@@ -2960,6 +3875,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: Not Applicable
+        /// </remarks>
         public static host_sched_gran get_sched_gran(Session session, string _host)
         {
             return session.JsonRpcClient.host_get_sched_gran(session.opaque_ref, _host);
@@ -2971,9 +3889,42 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: Not Applicable
+        /// </remarks>
         public static XenRef<Task> async_get_sched_gran(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_get_sched_gran(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Set VM placement NUMA affinity policy
+        /// Experimental. First published in 24.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The NUMA affinity policy to apply to a host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static void set_numa_affinity_policy(Session session, string _host, host_numa_affinity_policy _value)
+        {
+            session.JsonRpcClient.host_set_numa_affinity_policy(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Set VM placement NUMA affinity policy
+        /// Experimental. First published in 24.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The NUMA affinity policy to apply to a host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static XenRef<Task> async_set_numa_affinity_policy(Session session, string _host, host_numa_affinity_policy _value)
+        {
+          return session.JsonRpcClient.async_host_set_numa_affinity_policy(session.opaque_ref, _host, _value);
         }
 
         /// <summary>
@@ -2981,16 +3932,22 @@ namespace XenAPI
         /// First published in 1.290.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: Not Applicable
+        /// </remarks>
         public static void emergency_disable_tls_verification(Session session)
         {
             session.JsonRpcClient.host_emergency_disable_tls_verification(session.opaque_ref);
         }
 
         /// <summary>
-        /// Reenable TLS verification for this host only
+        /// Reenable TLS verification for this host only, and only after it was emergency disabled
         /// First published in 1.298.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: Not Applicable
+        /// </remarks>
         public static void emergency_reenable_tls_verification(Session session)
         {
             session.JsonRpcClient.host_emergency_reenable_tls_verification(session.opaque_ref);
@@ -3003,6 +3960,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_hash">The hash of updateinfo to be applied which is returned by previous pool.sync_udpates</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static string[][] apply_updates(Session session, string _host, string _hash)
         {
             return session.JsonRpcClient.host_apply_updates(session.opaque_ref, _host, _hash);
@@ -3015,9 +3975,40 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_hash">The hash of updateinfo to be applied which is returned by previous pool.sync_udpates</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_apply_updates(Session session, string _host, string _hash)
         {
           return session.JsonRpcClient.async_host_apply_updates(session.opaque_ref, _host, _hash);
+        }
+
+        /// <summary>
+        /// Scan the host and update its driver information.
+        /// Experimental. First published in 25.2.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static void rescan_drivers(Session session, string _host)
+        {
+            session.JsonRpcClient.host_rescan_drivers(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Scan the host and update its driver information.
+        /// Experimental. First published in 25.2.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static XenRef<Task> async_rescan_drivers(Session session, string _host)
+        {
+          return session.JsonRpcClient.async_host_rescan_drivers(session.opaque_ref, _host);
         }
 
         /// <summary>
@@ -3027,6 +4018,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_value">true - http port 80 will be blocked, false - http port 80 will be open</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_https_only(Session session, string _host, bool _value)
         {
             session.JsonRpcClient.host_set_https_only(session.opaque_ref, _host, _value);
@@ -3039,6 +4033,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
         /// <param name="_value">true - http port 80 will be blocked, false - http port 80 will be open</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_https_only(Session session, string _host, bool _value)
         {
           return session.JsonRpcClient.async_host_set_https_only(session.opaque_ref, _host, _value);
@@ -3050,6 +4047,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void apply_recommended_guidances(Session session, string _host)
         {
             session.JsonRpcClient.host_apply_recommended_guidances(session.opaque_ref, _host);
@@ -3061,9 +4061,433 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_apply_recommended_guidances(Session session, string _host)
         {
           return session.JsonRpcClient.async_host_apply_recommended_guidances(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Clear the pending mandatory guidance on this host
+        /// Experimental. First published in 24.10.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: Not Applicable
+        /// </remarks>
+        public static void emergency_clear_mandatory_guidance(Session session)
+        {
+            session.JsonRpcClient.host_emergency_clear_mandatory_guidance(session.opaque_ref);
+        }
+
+        /// <summary>
+        /// Enable SSH access on the host. It will start the service sshd only if it is not running. It will also enable the service sshd only if it is not enabled. A newly joined host in the pool or an ejected host from the pool would keep the original status.
+        /// Experimental. First published in 25.13.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static void enable_ssh(Session session, string _host)
+        {
+            session.JsonRpcClient.host_enable_ssh(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Enable SSH access on the host. It will start the service sshd only if it is not running. It will also enable the service sshd only if it is not enabled. A newly joined host in the pool or an ejected host from the pool would keep the original status.
+        /// Experimental. First published in 25.13.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static XenRef<Task> async_enable_ssh(Session session, string _host)
+        {
+          return session.JsonRpcClient.async_host_enable_ssh(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Disable SSH access on the host. It will stop the service sshd only if it is running. It will also disable the service sshd only if it is enabled. A newly joined host in the pool or an ejected host from the pool would keep the original status.
+        /// Experimental. First published in 25.13.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static void disable_ssh(Session session, string _host)
+        {
+            session.JsonRpcClient.host_disable_ssh(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Disable SSH access on the host. It will stop the service sshd only if it is running. It will also disable the service sshd only if it is enabled. A newly joined host in the pool or an ejected host from the pool would keep the original status.
+        /// Experimental. First published in 25.13.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static XenRef<Task> async_disable_ssh(Session session, string _host)
+        {
+          return session.JsonRpcClient.async_host_disable_ssh(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Set the SSH service enabled timeout for the host
+        /// Experimental. First published in 25.21.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The SSH enabled timeout in seconds (0 means no timeout, max 2 days)</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static void set_ssh_enabled_timeout(Session session, string _host, long _value)
+        {
+            session.JsonRpcClient.host_set_ssh_enabled_timeout(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Set the SSH service enabled timeout for the host
+        /// Experimental. First published in 25.21.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The SSH enabled timeout in seconds (0 means no timeout, max 2 days)</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static XenRef<Task> async_set_ssh_enabled_timeout(Session session, string _host, long _value)
+        {
+          return session.JsonRpcClient.async_host_set_ssh_enabled_timeout(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Set the console idle timeout for the host
+        /// Experimental. First published in 25.21.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The console idle timeout in seconds</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static void set_console_idle_timeout(Session session, string _host, long _value)
+        {
+            session.JsonRpcClient.host_set_console_idle_timeout(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Set the console idle timeout for the host
+        /// Experimental. First published in 25.21.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The console idle timeout in seconds</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static XenRef<Task> async_set_console_idle_timeout(Session session, string _host, long _value)
+        {
+          return session.JsonRpcClient.async_host_set_console_idle_timeout(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Set the SSH auto mode for the host
+        /// Experimental. First published in 25.27.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The SSH auto mode for the host. When true, the SSH port is closed by default and it's open only in case the API is unavailable. When false, the SSH port is always open.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static void set_ssh_auto_mode(Session session, string _host, bool _value)
+        {
+            session.JsonRpcClient.host_set_ssh_auto_mode(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Set the SSH auto mode for the host
+        /// Experimental. First published in 25.27.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The SSH auto mode for the host. When true, the SSH port is closed by default and it's open only in case the API is unavailable. When false, the SSH port is always open.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
+        public static XenRef<Task> async_set_ssh_auto_mode(Session session, string _host, bool _value)
+        {
+          return session.JsonRpcClient.async_host_set_ssh_auto_mode(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Get the (name, version) list of tracked user agents on this host. If different versions of the same name are seen, keep the last-seen version. The oldest entry will be removed if reach the max num. Note that the list is cleared after host/XAPI restart
+        /// Experimental. First published in 25.34.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static Dictionary<string, string> get_tracked_user_agents(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_tracked_user_agents(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the (name, version) list of tracked user agents on this host. If different versions of the same name are seen, keep the last-seen version. The oldest entry will be removed if reach the max num. Note that the list is cleared after host/XAPI restart
+        /// Experimental. First published in 25.34.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static XenRef<Task> async_get_tracked_user_agents(Session session, string _host)
+        {
+          return session.JsonRpcClient.async_host_get_tracked_user_agents(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Sets xen's max-cstate on a host. See: https://xenbits.xen.org/docs/unstable/misc/xen-command-line.html#max_cstate-x86. "" means unlimited; "N" means limit to CN; "N,M" means limit to CN with max sub cstate M. Note: Only C0, C1, unlimited are supported currently.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The max_cstate to apply to a host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static void set_max_cstate(Session session, string _host, string _value)
+        {
+            session.JsonRpcClient.host_set_max_cstate(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Sets xen's max-cstate on a host. See: https://xenbits.xen.org/docs/unstable/misc/xen-command-line.html#max_cstate-x86. "" means unlimited; "N" means limit to CN; "N,M" means limit to CN with max sub cstate M. Note: Only C0, C1, unlimited are supported currently.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The max_cstate to apply to a host</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static XenRef<Task> async_set_max_cstate(Session session, string _host, string _value)
+        {
+          return session.JsonRpcClient.async_host_set_max_cstate(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Set the NTP mode for the host
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The NTP mode to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static void set_ntp_mode(Session session, string _host, host_ntp_mode _value)
+        {
+            session.JsonRpcClient.host_set_ntp_mode(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Set the NTP mode for the host
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The NTP mode to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static XenRef<Task> async_set_ntp_mode(Session session, string _host, host_ntp_mode _value)
+        {
+          return session.JsonRpcClient.async_host_set_ntp_mode(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Set the custom NTP servers for the host
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The set of custom NTP servers to configure</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static void set_ntp_custom_servers(Session session, string _host, string[] _value)
+        {
+            session.JsonRpcClient.host_set_ntp_custom_servers(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Set the custom NTP servers for the host
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The set of custom NTP servers to configure</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static XenRef<Task> async_set_ntp_custom_servers(Session session, string _host, string[] _value)
+        {
+          return session.JsonRpcClient.async_host_set_ntp_custom_servers(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Get the NTP servers status on the host
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static Dictionary<string, string> get_ntp_servers_status(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_ntp_servers_status(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Get the NTP servers status on the host
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static XenRef<Task> async_get_ntp_servers_status(Session session, string _host)
+        {
+          return session.JsonRpcClient.async_host_get_ntp_servers_status(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Set the host's timezone.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The time zone identifier as defined in the IANA Time Zone Database</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static void set_timezone(Session session, string _host, string _value)
+        {
+            session.JsonRpcClient.host_set_timezone(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Set the host's timezone.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">The time zone identifier as defined in the IANA Time Zone Database</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static XenRef<Task> async_set_timezone(Session session, string _host, string _value)
+        {
+          return session.JsonRpcClient.async_host_set_timezone(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// List all available timezones on the host.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static string[] list_timezones(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_list_timezones(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// List all available timezones on the host.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static XenRef<Task> async_list_timezones(Session session, string _host)
+        {
+          return session.JsonRpcClient.async_host_list_timezones(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Returns true if the system clock on the host is synchronized with the NTP servers.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static bool get_ntp_synchronized(Session session, string _host)
+        {
+            return session.JsonRpcClient.host_get_ntp_synchronized(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Returns true if the system clock on the host is synchronized with the NTP servers.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
+        public static XenRef<Task> async_get_ntp_synchronized(Session session, string _host)
+        {
+          return session.JsonRpcClient.async_host_get_ntp_synchronized(session.opaque_ref, _host);
+        }
+
+        /// <summary>
+        /// Set the host's system clock when NTP is disabled.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">A date/time to be set. When a timezone offset is missing, UTC is assumed.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static void set_servertime(Session session, string _host, DateTime _value)
+        {
+            session.JsonRpcClient.host_set_servertime(session.opaque_ref, _host, _value);
+        }
+
+        /// <summary>
+        /// Set the host's system clock when NTP is disabled.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        /// <param name="session">The session</param>
+        /// <param name="_host">The opaque_ref of the given host</param>
+        /// <param name="_value">A date/time to be set. When a timezone offset is missing, UTC is assumed.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
+        public static XenRef<Task> async_set_servertime(Session session, string _host, DateTime _value)
+        {
+          return session.JsonRpcClient.async_host_set_servertime(session.opaque_ref, _host, _value);
         }
 
         /// <summary>
@@ -3071,16 +4495,22 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Host>> get_all(Session session)
         {
             return session.JsonRpcClient.host_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the host Records at once, in a single XML RPC call
+        /// Return a map of host references to host records for all hosts known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Host>, Host> get_all_records(Session session)
         {
             return session.JsonRpcClient.host_get_all_records(session.opaque_ref);
@@ -4188,7 +5618,7 @@ namespace XenAPI
         private string[] _editions = {};
 
         /// <summary>
-        /// The set of pending guidances after applying updates
+        /// The set of pending mandatory guidances after applying updates, which must be applied, otherwise there may be, for example, VM failures
         /// First published in 1.303.0.
         /// </summary>
         public virtual List<update_guidances> pending_guidances
@@ -4278,5 +5708,260 @@ namespace XenAPI
             }
         }
         private latest_synced_updates_applied_state _latest_synced_updates_applied = latest_synced_updates_applied_state.unknown;
+
+        /// <summary>
+        /// NUMA-aware VM memory and vCPU placement policy
+        /// Experimental. First published in 24.0.0.
+        /// </summary>
+        [JsonConverter(typeof(host_numa_affinity_policyConverter))]
+        public virtual host_numa_affinity_policy numa_affinity_policy
+        {
+            get { return _numa_affinity_policy; }
+            set
+            {
+                if (!Helper.AreEqual(value, _numa_affinity_policy))
+                {
+                    _numa_affinity_policy = value;
+                    NotifyPropertyChanged("numa_affinity_policy");
+                }
+            }
+        }
+        private host_numa_affinity_policy _numa_affinity_policy = host_numa_affinity_policy.default_policy;
+
+        /// <summary>
+        /// The set of pending recommended guidances after applying updates, which most users should follow to make the updates effective, but if not followed, will not cause a failure
+        /// Experimental. First published in 24.10.0.
+        /// </summary>
+        public virtual List<update_guidances> pending_guidances_recommended
+        {
+            get { return _pending_guidances_recommended; }
+            set
+            {
+                if (!Helper.AreEqual(value, _pending_guidances_recommended))
+                {
+                    _pending_guidances_recommended = value;
+                    NotifyPropertyChanged("pending_guidances_recommended");
+                }
+            }
+        }
+        private List<update_guidances> _pending_guidances_recommended = new List<update_guidances>() {};
+
+        /// <summary>
+        /// The set of pending full guidances after applying updates, which a user should follow to make some updates, for example, specific hardware drivers or CPU features, fully effective, but the 'average user' doesn't need to
+        /// Experimental. First published in 24.10.0.
+        /// </summary>
+        public virtual List<update_guidances> pending_guidances_full
+        {
+            get { return _pending_guidances_full; }
+            set
+            {
+                if (!Helper.AreEqual(value, _pending_guidances_full))
+                {
+                    _pending_guidances_full = value;
+                    NotifyPropertyChanged("pending_guidances_full");
+                }
+            }
+        }
+        private List<update_guidances> _pending_guidances_full = new List<update_guidances>() {};
+
+        /// <summary>
+        /// The SHA256 checksum of updateinfo of the most recently applied update on the host
+        /// Experimental. First published in 24.10.0.
+        /// </summary>
+        public virtual string last_update_hash
+        {
+            get { return _last_update_hash; }
+            set
+            {
+                if (!Helper.AreEqual(value, _last_update_hash))
+                {
+                    _last_update_hash = value;
+                    NotifyPropertyChanged("last_update_hash");
+                }
+            }
+        }
+        private string _last_update_hash = "";
+
+        /// <summary>
+        /// True if SSH access is enabled for the host
+        /// Experimental. First published in 25.21.0.
+        /// </summary>
+        public virtual bool ssh_enabled
+        {
+            get { return _ssh_enabled; }
+            set
+            {
+                if (!Helper.AreEqual(value, _ssh_enabled))
+                {
+                    _ssh_enabled = value;
+                    NotifyPropertyChanged("ssh_enabled");
+                }
+            }
+        }
+        private bool _ssh_enabled = true;
+
+        /// <summary>
+        /// The timeout in seconds after which SSH access will be automatically disabled (0 means never), this setting will be applied every time the SSH is enabled by XAPI
+        /// Experimental. First published in 25.21.0.
+        /// </summary>
+        public virtual long ssh_enabled_timeout
+        {
+            get { return _ssh_enabled_timeout; }
+            set
+            {
+                if (!Helper.AreEqual(value, _ssh_enabled_timeout))
+                {
+                    _ssh_enabled_timeout = value;
+                    NotifyPropertyChanged("ssh_enabled_timeout");
+                }
+            }
+        }
+        private long _ssh_enabled_timeout = 0;
+
+        /// <summary>
+        /// The time in UTC after which the SSH access will be automatically disabled
+        /// Experimental. First published in 25.21.0.
+        /// </summary>
+        [JsonConverter(typeof(XenDateTimeConverter))]
+        public virtual DateTime ssh_expiry
+        {
+            get { return _ssh_expiry; }
+            set
+            {
+                if (!Helper.AreEqual(value, _ssh_expiry))
+                {
+                    _ssh_expiry = value;
+                    NotifyPropertyChanged("ssh_expiry");
+                }
+            }
+        }
+        private DateTime _ssh_expiry = DateTime.ParseExact("19700101T00:00:00Z", "yyyyMMddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+
+        /// <summary>
+        /// The timeout in seconds after which idle console will be automatically terminated (0 means never)
+        /// Experimental. First published in 25.21.0.
+        /// </summary>
+        public virtual long console_idle_timeout
+        {
+            get { return _console_idle_timeout; }
+            set
+            {
+                if (!Helper.AreEqual(value, _console_idle_timeout))
+                {
+                    _console_idle_timeout = value;
+                    NotifyPropertyChanged("console_idle_timeout");
+                }
+            }
+        }
+        private long _console_idle_timeout = 0;
+
+        /// <summary>
+        /// Reflects whether SSH auto mode is enabled for the host
+        /// Experimental. First published in 25.27.0.
+        /// </summary>
+        public virtual bool ssh_auto_mode
+        {
+            get { return _ssh_auto_mode; }
+            set
+            {
+                if (!Helper.AreEqual(value, _ssh_auto_mode))
+                {
+                    _ssh_auto_mode = value;
+                    NotifyPropertyChanged("ssh_auto_mode");
+                }
+            }
+        }
+        private bool _ssh_auto_mode = false;
+
+        /// <summary>
+        /// The maximum C-state that the host is allowed to enter, "" means unlimited; "N" means limit to CN; "N,M" means limit to CN with max sub cstate M.
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        public virtual string max_cstate
+        {
+            get { return _max_cstate; }
+            set
+            {
+                if (!Helper.AreEqual(value, _max_cstate))
+                {
+                    _max_cstate = value;
+                    NotifyPropertyChanged("max_cstate");
+                }
+            }
+        }
+        private string _max_cstate = "";
+
+        /// <summary>
+        /// Whether the host has booted in secure boot mode
+        /// Experimental. First published in 25.31.0.
+        /// </summary>
+        public virtual bool secure_boot
+        {
+            get { return _secure_boot; }
+            set
+            {
+                if (!Helper.AreEqual(value, _secure_boot))
+                {
+                    _secure_boot = value;
+                    NotifyPropertyChanged("secure_boot");
+                }
+            }
+        }
+        private bool _secure_boot = false;
+
+        /// <summary>
+        /// Indicates NTP servers are assigned by DHCP, or configured by user, or the factory servers, or NTP is disabled
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        [JsonConverter(typeof(host_ntp_modeConverter))]
+        public virtual host_ntp_mode ntp_mode
+        {
+            get { return _ntp_mode; }
+            set
+            {
+                if (!Helper.AreEqual(value, _ntp_mode))
+                {
+                    _ntp_mode = value;
+                    NotifyPropertyChanged("ntp_mode");
+                }
+            }
+        }
+        private host_ntp_mode _ntp_mode = host_ntp_mode.Factory;
+
+        /// <summary>
+        /// Custom NTP servers configured by users, used in Custom NTP mode
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        public virtual string[] ntp_custom_servers
+        {
+            get { return _ntp_custom_servers; }
+            set
+            {
+                if (!Helper.AreEqual(value, _ntp_custom_servers))
+                {
+                    _ntp_custom_servers = value;
+                    NotifyPropertyChanged("ntp_custom_servers");
+                }
+            }
+        }
+        private string[] _ntp_custom_servers = {};
+
+        /// <summary>
+        /// The time zone identifier as defined in the IANA Time Zone Database
+        /// Experimental. First published in 26.0.0.
+        /// </summary>
+        public virtual string timezone
+        {
+            get { return _timezone; }
+            set
+            {
+                if (!Helper.AreEqual(value, _timezone))
+                {
+                    _timezone = value;
+                    NotifyPropertyChanged("timezone");
+                }
+            }
+        }
+        private string _timezone = "UTC";
     }
 }

@@ -38,7 +38,9 @@ using System.Net.Security;
 using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+#if !(NET8_0_OR_GREATER)
 using System.Runtime.Serialization;
+#endif
 
 namespace XenAPI
 {
@@ -58,12 +60,13 @@ namespace XenAPI
                 this.uri = uri;
             }
 
-            public TooManyRedirectsException() : base() { }
+            public TooManyRedirectsException() { }
 
             public TooManyRedirectsException(string message) : base(message) { }
 
             public TooManyRedirectsException(string message, Exception exception) : base(message, exception) { }
 
+#if !(NET8_0_OR_GREATER)
             protected TooManyRedirectsException(SerializationInfo info, StreamingContext context)
                 : base(info, context)
             {
@@ -81,42 +84,58 @@ namespace XenAPI
 
                 base.GetObjectData(info, context);
             }
+#endif
         }
 
         [Serializable]
         public class BadServerResponseException : Exception
         {
-            public BadServerResponseException() : base() { }
+            public int StatusCode { get; }
+            public string InitialLine { get; }
+            public string Body { get; }
+
+            public BadServerResponseException() { }
 
             public BadServerResponseException(string message) : base(message) { }
 
+            public BadServerResponseException(string message, int statusCode, string initialLine, string body) : base(message)
+            {
+                StatusCode = statusCode;
+                InitialLine = initialLine;
+                Body = body;
+            }
+
             public BadServerResponseException(string message, Exception exception) : base(message, exception) { }
 
+#if !(NET8_0_OR_GREATER)
             protected BadServerResponseException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+#endif
         }
 
         [Serializable]
         public class CancelledException : Exception
         {
-            public CancelledException() : base() { }
+            public CancelledException() { }
 
             public CancelledException(string message) : base(message) { }
 
             public CancelledException(string message, Exception exception) : base(message, exception) { }
-
+#if !(NET8_0_OR_GREATER)
             protected CancelledException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+#endif
         }
 
         [Serializable]
         public class ProxyServerAuthenticationException : Exception
         {
-            public ProxyServerAuthenticationException() : base() { }
+            public ProxyServerAuthenticationException() { }
 
             public ProxyServerAuthenticationException(string message) : base(message) { }
 
             public ProxyServerAuthenticationException(string message, Exception exception) : base(message, exception) { }
-
+#if !(NET8_0_OR_GREATER)
             protected ProxyServerAuthenticationException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+#endif
         }
 
         #endregion
@@ -132,6 +151,9 @@ namespace XenAPI
 
         public const int DEFAULT_HTTPS_PORT = 443;
         private const int NONCE_LENGTH = 16;
+
+        private const int FILE_MOVE_MAX_RETRIES = 5;
+        private const int FILE_MOVE_SLEEP_BETWEEN_RETRIES = 100;
 
         public enum ProxyAuthenticationMethod
         {
@@ -149,7 +171,7 @@ namespace XenAPI
 
         private static void WriteLine(String txt, Stream stream)
         {
-            byte[] bytes = System.Text.Encoding.ASCII.GetBytes(String.Format("{0}\r\n", txt));
+            byte[] bytes = Encoding.ASCII.GetBytes($"{txt}\r\n");
             stream.Write(bytes, 0, bytes.Length);
         }
 
@@ -164,7 +186,7 @@ namespace XenAPI
         // done here.
         private static string ReadLine(Stream stream)
         {
-            System.Text.StringBuilder result = new StringBuilder();
+            StringBuilder result = new StringBuilder();
             while (true)
             {
                 int b = stream.ReadByte();
@@ -181,14 +203,19 @@ namespace XenAPI
         /// Read HTTP headers, doing any redirects as necessary
         /// </summary>
         /// <returns>True if a redirect has occurred - headers will need to be resent.</returns>
-        private static bool ReadHttpHeaders(ref Stream stream, IWebProxy proxy, bool nodelay, int timeout_ms, List<string> headers = null)
+        private static bool ReadHttpHeaders(ref Stream stream, IWebProxy proxy, RemoteCertificateValidationCallback callback, bool nodelay, int timeoutMs, List<string> headers = null)
         {
             // read headers/fields
-            string line = ReadLine(stream), initialLine = line, transferEncodingField = null;
+            string line = ReadLine(stream);
+            string initialLine = line;
+            string transferEncodingField = null;
+
             if (string.IsNullOrEmpty(initialLine)) // sanity check
                 return false;
+
             if (headers == null)
                 headers = new List<string>();
+
             while (!string.IsNullOrWhiteSpace(line)) // IsNullOrWhiteSpace also checks for empty string
             {
                 line = line.TrimEnd('\r', '\n');
@@ -200,6 +227,7 @@ namespace XenAPI
 
             // read chunks
             string entityBody = "";
+
             if (!string.IsNullOrEmpty(transferEncodingField))
             {
                 int lastChunkSize = -1;
@@ -208,9 +236,8 @@ namespace XenAPI
                     // read chunk size
                     string chunkSizeStr = ReadLine(stream);
                     chunkSizeStr = chunkSizeStr.TrimEnd('\r', '\n');
-                    int chunkSize = 0;
                     int.TryParse(chunkSizeStr, System.Globalization.NumberStyles.HexNumber,
-                        System.Globalization.CultureInfo.InvariantCulture, out chunkSize);
+                        System.Globalization.CultureInfo.InvariantCulture, out var chunkSize);
 
                     // read <chunkSize> number of bytes from the stream
                     int totalNumberOfBytesRead = 0;
@@ -222,8 +249,8 @@ namespace XenAPI
                         totalNumberOfBytesRead += numberOfBytesRead;
                     } while (numberOfBytesRead > 0 && totalNumberOfBytesRead < chunkSize);
 
-                    string str = System.Text.Encoding.ASCII.GetString(bytes);
-                    string[] split = str.Split(new string[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    string str = Encoding.ASCII.GetString(bytes);
+                    string[] split = str.Split(new [] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
                     headers.AddRange(split);
 
                     entityBody += str;
@@ -236,13 +263,9 @@ namespace XenAPI
                 entityBody = entityBody.TrimEnd('\r', '\n');
                 headers.Add(entityBody); // keep entityBody if it's needed for Digest authentication (when qop="auth-int")
             }
-            else
-            {
-                // todo: handle other transfer types, in case "Transfer-Encoding: Chunked" isn't used
-            }
 
             // handle server response
-            int code = getResultCode(initialLine);
+            int code = GetResultCode(initialLine);
             switch (code)
             {
                 case 407: // authentication error; caller must handle this case
@@ -254,35 +277,36 @@ namespace XenAPI
                     string url = header == null ? "" : header.Substring(9).Trim();
                     Uri redirect = new Uri(url);
                     stream.Close();
-                    stream = ConnectStream(redirect, proxy, nodelay, timeout_ms);
+                    stream = ConnectStream(redirect, proxy, callback, nodelay, timeoutMs);
                     return true; // headers need to be sent again
 
                 default:
+                    var contentLengthHeader = headers
+                        .FirstOrDefault(h => h.StartsWith("Content-Length:", StringComparison.InvariantCultureIgnoreCase));
+
+                    if (contentLengthHeader != null && int.TryParse(contentLengthHeader.Substring(15).Trim(), out var len))
+                    {
+                        byte[] bytes = new byte[len];
+                        int total = 0;
+                        int read;
+
+                        while (total < len && (read = stream.Read(bytes, total, len - total)) > 0)
+                            total += read;
+
+                        entityBody = Encoding.ASCII.GetString(bytes);
+                    }
+
                     stream.Close();
-                    throw new BadServerResponseException(string.Format("Received error code {0} from the server", initialLine));
+                    throw new BadServerResponseException(string.Format("Received error code {0} from the server", initialLine), code, initialLine, entityBody);
             }
 
             return false;
         }
 
-        private static int getResultCode(string line)
+        private static int GetResultCode(string line)
         {
-            string[] bits = line.Split(new char[] { ' ' });
-            return (bits.Length < 2 ? 0 : Int32.Parse(bits[1]));
-        }
-
-        public static bool UseSSL(Uri uri)
-        {
-            return uri.Scheme == "https" || uri.Port == DEFAULT_HTTPS_PORT;
-        }
-
-        private static bool ValidateServerCertificate(
-              object sender,
-              X509Certificate certificate,
-              X509Chain chain,
-              SslPolicyErrors sslPolicyErrors)
-        {
-            return true;
+            string[] bits = line.Split(' ');
+            return bits.Length < 2 ? 0 : Int32.Parse(bits[1]);
         }
 
         /// <summary>
@@ -292,7 +316,8 @@ namespace XenAPI
         /// <returns>The secure hash as a hex string.</returns>
         private static string _MD5Hash(string str)
         {
-            return ComputeHash(str, "MD5");
+            using (var hasher = MD5.Create())
+                return ComputeHash(hasher, str);
         }
 
         /// <summary>
@@ -302,32 +327,24 @@ namespace XenAPI
         /// <returns>The secure hash as a hex string.</returns>
         private static string Sha256Hash(string str)
         {
-            return ComputeHash(str, "SHA256");
+            using (var hasher = SHA256.Create())
+                return ComputeHash(hasher, str);
         }
 
-        private static string ComputeHash(string input, string method)
+        private static string ComputeHash(HashAlgorithm hasher, string input)
         {
-            if (input == null)
+            if (hasher == null || input == null)
                 return null;
 
             var enc = new UTF8Encoding();
             byte[] bytes = enc.GetBytes(input);
-
-            using (var hasher = HashAlgorithm.Create(method))
-            {
-                if (hasher != null)
-                {
-                    byte[] hash = hasher.ComputeHash(bytes);
-                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-                }
-            }
-
-            return null;
+            byte[] hash = hasher.ComputeHash(bytes);
+            return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
         }
 
         private static string GenerateNonce()
         {
-            using (var rngCsProvider = new RNGCryptoServiceProvider())
+            using (var rngCsProvider = RandomNumberGenerator.Create())
             {
                 var nonceBytes = new byte[NONCE_LENGTH];
                 rngCsProvider.GetBytes(nonceBytes);
@@ -417,7 +434,7 @@ namespace XenAPI
 
         private static string GetPartOrNull(string str, int partIndex)
         {
-            string[] parts = str.Split(new char[] { ' ' }, partIndex + 2, StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = str.Split(new [] { ' ' }, partIndex + 2, StringSplitOptions.RemoveEmptyEntries);
             return partIndex < parts.Length - 1 ? parts[partIndex] : null;
         }
 
@@ -444,47 +461,24 @@ namespace XenAPI
         /// </summary>
         /// <param name="uri"></param>
         /// <param name="proxy"></param>
+        /// <param name="callback"></param>
         /// <param name="nodelay"></param>
         /// <param name="timeoutMs">Timeout, in ms. 0 for no timeout.</param>
-        public static Stream ConnectStream(Uri uri, IWebProxy proxy, bool nodelay, int timeoutMs)
+        private static Stream ConnectStream(Uri uri, IWebProxy proxy, RemoteCertificateValidationCallback callback, bool nodelay, int timeoutMs)
         {
-            IMockWebProxy mockProxy = proxy as IMockWebProxy;
-            if (mockProxy != null)
+            if (proxy is IMockWebProxy mockProxy)
                 return mockProxy.GetStream(uri);
 
-            Stream stream;
-            bool useProxy = proxy != null && !proxy.IsBypassed(uri);
-
-            if (useProxy)
-            {
-                Uri proxyURI = proxy.GetProxy(uri);
-                stream = ConnectSocket(proxyURI, nodelay, timeoutMs);
-            }
-            else
-            {
-                stream = ConnectSocket(uri, nodelay, timeoutMs);
-            }
+            Stream stream = null;
 
             try
             {
-                if (useProxy)
+                stream = AuthenticateProxy(uri, proxy, callback, nodelay, timeoutMs);
+
+                if (uri.Scheme == "https" || uri.Port == DEFAULT_HTTPS_PORT)
                 {
-                    string line = string.Format("CONNECT {0}:{1} HTTP/1.0", uri.Host, uri.Port);
-                    WriteLine(line, stream);
-                    WriteLine(stream);
-
-                    List<string> initialResponse = new List<string>();
-                    ReadHttpHeaders(ref stream, proxy, nodelay, timeoutMs, initialResponse);
-
-                    AuthenticateProxy(ref stream, uri, proxy, nodelay, timeoutMs, initialResponse, line);
-                }
-
-                if (UseSSL(uri))
-                {
-                    SslStream sslStream = new SslStream(stream, false,
-                        new RemoteCertificateValidationCallback(ValidateServerCertificate), null);
-                    sslStream.AuthenticateAsClient("", null, SslProtocols.Tls | SslProtocols.Tls11 | SslProtocols.Tls12, true);
-
+                    SslStream sslStream = new SslStream(stream, false, callback, null);
+                    sslStream.AuthenticateAsClient("", null, SslProtocols.Tls12, true);
                     stream = sslStream;
                 }
 
@@ -492,29 +486,41 @@ namespace XenAPI
             }
             catch
             {
-                stream.Close();
+                stream?.Close();
                 throw;
             }
         }
 
-        private static void AuthenticateProxy(ref Stream stream, Uri uri, IWebProxy proxy, bool nodelay, int timeoutMs, List<string> initialResponse, string header)
+        private static Stream AuthenticateProxy(Uri uri, IWebProxy proxy, RemoteCertificateValidationCallback callback, bool nodelay, int timeoutMs)
         {
+            if (proxy == null || proxy.IsBypassed(uri))
+                return ConnectSocket(uri, nodelay, timeoutMs);
+
+            Uri proxyUri = proxy.GetProxy(uri);
+            Stream stream = ConnectSocket(proxyUri, nodelay, timeoutMs);
+
+            string header = $"CONNECT {uri.Host}:{uri.Port} HTTP/1.0";
+            WriteLine(header, stream);
+            WriteLine(stream);
+
+            var initialResponse = new List<string>();
+            ReadHttpHeaders(ref stream, proxy, callback, nodelay, timeoutMs, initialResponse);
+
             // perform authentication only if proxy requires it
             List<string> fields = initialResponse.FindAll(str => str.StartsWith("Proxy-Authenticate:", StringComparison.InvariantCultureIgnoreCase));
             if (fields.Count <= 0)
-                return;
+                return stream;
 
             // clean up (if initial server response specifies "Proxy-Connection: Close" then stream cannot be re-used)
             string field = initialResponse.Find(str => str.StartsWith("Proxy-Connection: Close", StringComparison.InvariantCultureIgnoreCase));
             if (!string.IsNullOrEmpty(field))
             {
                 stream.Close();
-                Uri proxyURI = proxy.GetProxy(uri);
-                stream = ConnectSocket(proxyURI, nodelay, timeoutMs);
+                stream = ConnectSocket(proxyUri, nodelay, timeoutMs);
             }
 
             if (proxy.Credentials == null)
-                throw new BadServerResponseException(string.Format("Received error code {0} from the server", initialResponse[0]));
+                throw new BadServerResponseException($"Received error code {initialResponse[0]} from the server");
 
             NetworkCredential credentials = proxy.Credentials.GetCredential(uri, null);
 
@@ -526,10 +532,9 @@ namespace XenAPI
                 if (string.IsNullOrEmpty(basicField))
                     throw new ProxyServerAuthenticationException("Basic authentication scheme is not supported/enabled by the proxy server.");
 
-                string authenticationFieldReply = string.Format("Proxy-Authorization: Basic {0}",
-                    Convert.ToBase64String(Encoding.UTF8.GetBytes(credentials.UserName + ":" + credentials.Password)));
+                var creds = Convert.ToBase64String(Encoding.UTF8.GetBytes(credentials.UserName + ":" + credentials.Password));
                 WriteLine(header, stream);
-                WriteLine(authenticationFieldReply, stream);
+                WriteLine($"Proxy-Authorization: Basic {creds}", stream);
                 WriteLine(stream);
             }
             else if (CurrentProxyAuthenticationMethod == ProxyAuthenticationMethod.Digest)
@@ -539,9 +544,7 @@ namespace XenAPI
                 if (string.IsNullOrEmpty(digestField))
                     throw new ProxyServerAuthenticationException("Digest authentication scheme is not supported/enabled by the proxy server.");
 
-                string authenticationFieldReply = string.Format(
-                    "Proxy-Authorization: Digest username=\"{0}\", uri=\"{1}:{2}\"",
-                    credentials.UserName, uri.Host, uri.Port);
+                string authenticationFieldReply = $"Proxy-Authorization: Digest username=\"{credentials.UserName}\", uri=\"{uri.Host}:{uri.Port}\"";
 
                 int len = "Proxy-Authorization: Digest".Length;
                 string directiveString = digestField.Substring(len, digestField.Length - len);
@@ -562,19 +565,19 @@ namespace XenAPI
                                 throw new ProxyServerAuthenticationException("Stale nonce in Digest authentication attempt.");
                             break;
                         case "realm=":
-                            authenticationFieldReply += string.Format(", realm=\"{0}\"", directives[++i]);
+                            authenticationFieldReply += $", realm=\"{directives[++i]}\"";
                             realm = directives[i];
                             break;
                         case "nonce=":
-                            authenticationFieldReply += string.Format(", nonce=\"{0}\"", directives[++i]);
+                            authenticationFieldReply += $", nonce=\"{directives[++i]}\"";
                             nonce = directives[i];
                             break;
                         case "opaque=":
-                            authenticationFieldReply += string.Format(", opaque=\"{0}\"", directives[++i]);
+                            authenticationFieldReply += $", opaque=\"{directives[++i]}\"";
                             opaque = directives[i];
                             break;
                         case "algorithm=":
-                            authenticationFieldReply += string.Format(", algorithm={0}", directives[++i]); //unquoted; see RFC7616-3.4
+                            authenticationFieldReply += $", algorithm={directives[++i]}"; //unquoted; see RFC7616-3.4
                             algorithm = directives[i];
                             break;
                         case "qop=":
@@ -584,9 +587,8 @@ namespace XenAPI
                                 qop = qops.FirstOrDefault(q => q.ToLowerInvariant() == "auth") ??
                                       qops.FirstOrDefault(q => q.ToLowerInvariant() == "auth-int");
                                 if (qop == null)
-                                      throw new ProxyServerAuthenticationException(
-                                          "Digest authentication's quality-of-protection directive is not supported.");
-                                authenticationFieldReply += string.Format(", qop={0}", qop); //unquoted; see RFC7616-3.4
+                                      throw new ProxyServerAuthenticationException("Digest authentication's quality-of-protection directive is not supported.");
+                                authenticationFieldReply += $", qop={qop}"; //unquoted; see RFC7616-3.4
                             }
                             break;
                     }
@@ -594,11 +596,11 @@ namespace XenAPI
 
                 string clientNonce = GenerateNonce();
                 if (qop != null)
-                    authenticationFieldReply += string.Format(", cnonce=\"{0}\"", clientNonce);
+                    authenticationFieldReply += $", cnonce=\"{clientNonce}\"";
 
                 string nonceCount = "00000001"; // todo: track nonces and their corresponding nonce counts
                 if (qop != null)
-                    authenticationFieldReply += string.Format(", nc={0}", nonceCount); //unquoted; see RFC7616-3.4
+                    authenticationFieldReply += $", nc={nonceCount}"; //unquoted; see RFC7616-3.4
 
                 Func<string, string> algFunc;
                 var scratch1 = string.Join(":", credentials.UserName, realm, credentials.Password);
@@ -636,7 +638,7 @@ namespace XenAPI
                     : new[] {HA1, nonce, nonceCount, clientNonce, qop, HA2};
                 var response = algFunc(string.Join(":", array3));
 
-                authenticationFieldReply += string.Format(", response=\"{0}\"", response);
+                authenticationFieldReply += $", response=\"{response}\"";
 
                 WriteLine(header, stream);
                 WriteLine(authenticationFieldReply, stream);
@@ -645,32 +647,32 @@ namespace XenAPI
             else
             {
                 string authType = GetPartOrNull(fields[0], 1);
-                throw new ProxyServerAuthenticationException(
-                    string.Format("Proxy server's {0} authentication method is not supported.", authType ?? "chosen"));
+                throw new ProxyServerAuthenticationException($"Proxy server's {authType ?? "chosen"} authentication method is not supported.");
             }
 
             // handle authentication attempt response
             List<string> authenticatedResponse = new List<string>();
-            ReadHttpHeaders(ref stream, proxy, nodelay, timeoutMs, authenticatedResponse);
+            ReadHttpHeaders(ref stream, proxy, callback, nodelay, timeoutMs, authenticatedResponse);
+
             if (authenticatedResponse.Count == 0)
                 throw new BadServerResponseException("No response from the proxy server after authentication attempt.");
 
-            switch (getResultCode(authenticatedResponse[0]))
+            switch (GetResultCode(authenticatedResponse[0]))
             {
                 case 200:
                     break;
                 case 407:
                     throw new ProxyServerAuthenticationException("Proxy server denied access due to wrong credentials.");
                 default:
-                    throw new BadServerResponseException(string.Format(
-                        "Received error code {0} from the server", authenticatedResponse[0]));
+                    throw new BadServerResponseException($"Received error code {authenticatedResponse[0]} from the server");
             }
+
+            return stream;
         }
 
-
-        private static Stream DoHttp(Uri uri, IWebProxy proxy, bool nodelay, int timeout_ms, params string[] headers)
+        private static Stream DoHttp(Uri uri, IWebProxy proxy, RemoteCertificateValidationCallback callback, bool noDelay, int timeoutMs, params string[] headers)
         {
-            Stream stream = ConnectStream(uri, proxy, nodelay, timeout_ms);
+            Stream stream = ConnectStream(uri, proxy, callback, noDelay, timeoutMs);
 
             int redirects = 0;
 
@@ -687,7 +689,7 @@ namespace XenAPI
 
                 stream.Flush();
             }
-            while (ReadHttpHeaders(ref stream, proxy, nodelay, timeout_ms));
+            while (ReadHttpHeaders(ref stream, proxy, callback, noDelay, timeoutMs));
 
             return stream;
         }
@@ -695,35 +697,64 @@ namespace XenAPI
         /// <summary>
         /// Adds HTTP CONNECT headers returning the stream ready for use
         /// </summary>
-        public static Stream HttpConnectStream(Uri uri, IWebProxy proxy, String session, int timeoutMs)
+        public static Stream HttpConnectStream(Uri uri, IWebProxy proxy, RemoteCertificateValidationCallback callback, string session, int timeoutMs, Dictionary<string, string> additionalHeaders = null)
         {
-            return DoHttp(uri, proxy, true, timeoutMs,
-                string.Format("CONNECT {0} HTTP/1.0", uri.PathAndQuery),
-                string.Format("Host: {0}", uri.Host),
-                string.Format("Cookie: session_id={0}", session));
+            var allHeaders = new List<string>
+            {
+                $"CONNECT {uri.PathAndQuery} HTTP/1.0",
+                $"Host: {uri.Host}",
+                $"Cookie: session_id={session}"
+            };
+
+            if (additionalHeaders != null)
+            {
+                foreach (var kvp in additionalHeaders)
+                    allHeaders.Add($"{kvp.Key}: {kvp.Value}");
+            }
+
+            return DoHttp(uri, proxy, callback, true, timeoutMs, allHeaders.ToArray());
         }
 
         /// <summary>
         /// Adds HTTP PUT headers returning the stream ready for use
         /// </summary>
-        public static Stream HttpPutStream(Uri uri, IWebProxy proxy, long contentLength, int timeoutMs)
+        public static Stream HttpPutStream(Uri uri, IWebProxy proxy, RemoteCertificateValidationCallback callback, long contentLength, int timeoutMs, Dictionary<string, string> additionalHeaders = null)
         {
-            return DoHttp(uri, proxy, false, timeoutMs,
-                string.Format("PUT {0} HTTP/1.0", uri.PathAndQuery),
-                string.Format("Host: {0}", uri.Host),
-                string.Format("Content-Length: {0}", contentLength));
+            var allHeaders = new List<string>
+            {
+                $"PUT {uri.PathAndQuery} HTTP/1.0",
+                $"Host: {uri.Host}",
+                $"Content-Length: {contentLength}"
+            };
+
+            if (additionalHeaders != null)
+            {
+                foreach (var kvp in additionalHeaders)
+                    allHeaders.Add($"{kvp.Key}: {kvp.Value}");
+            }
+
+            return DoHttp(uri, proxy, callback, false, timeoutMs, allHeaders.ToArray());
         }
 
         /// <summary>
         /// Adds HTTP GET headers returning the stream ready for use
         /// </summary>
-        public static Stream HttpGetStream(Uri uri, IWebProxy proxy, int timeoutMs)
+        public static Stream HttpGetStream(Uri uri, IWebProxy proxy, RemoteCertificateValidationCallback callback, int timeoutMs, Dictionary<string, string> additionalHeaders = null)
         {
-            return DoHttp(uri, proxy, false, timeoutMs,
-                string.Format("GET {0} HTTP/1.0", uri.PathAndQuery),
-                string.Format("Host: {0}", uri.Host));
-        }
+            var allHeaders = new List<string>
+            {
+                $"GET {uri.PathAndQuery} HTTP/1.0",
+                $"Host: {uri.Host}"
+            };
 
+            if (additionalHeaders != null)
+            {
+                foreach (var kvp in additionalHeaders)
+                    allHeaders.Add($"{kvp.Key}: {kvp.Value}");
+            }
+
+            return DoHttp(uri, proxy, callback, false, timeoutMs, allHeaders.ToArray());
+        }
 
         /// <summary>
         /// A general HTTP PUT method, with delegates for progress and cancelling. May throw various exceptions.
@@ -732,13 +763,14 @@ namespace XenAPI
         /// <param name="cancellingDelegate">Delegate called periodically to see if need to cancel</param>
         /// <param name="uri">URI to PUT to</param>
         /// <param name="proxy">A proxy to handle the HTTP connection</param>
+        /// <param name="callback"></param>
         /// <param name="path">Path to file to put</param>
         /// <param name="timeoutMs">Timeout for the connection in ms. 0 for no timeout.</param>
         public static void Put(UpdateProgressDelegate progressDelegate, FuncBool cancellingDelegate,
-            Uri uri, IWebProxy proxy, string path, int timeoutMs)
+            Uri uri, IWebProxy proxy, RemoteCertificateValidationCallback callback, string path, int timeoutMs)
         {
             using (Stream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read),
-                requestStream = HttpPutStream(uri, proxy, fileStream.Length, timeoutMs))
+                requestStream = HttpPutStream(uri, proxy, callback, fileStream.Length, timeoutMs))
             {
                 long len = fileStream.Length;
                 DataCopiedDelegate dataCopiedDelegate = delegate(long bytes)
@@ -758,34 +790,32 @@ namespace XenAPI
         /// <param name="cancellingDelegate">Delegate called periodically to see if need to cancel</param>
         /// <param name="uri">URI to GET from</param>
         /// <param name="proxy">A proxy to handle the HTTP connection</param>
+        /// <param name="callback"></param>
         /// <param name="path">Path to file to receive the data</param>
         /// <param name="timeoutMs">Timeout for the connection in ms. 0 for no timeout.</param>
         public static void Get(DataCopiedDelegate dataCopiedDelegate, FuncBool cancellingDelegate,
-            Uri uri, IWebProxy proxy, string path, int timeoutMs)
+            Uri uri, IWebProxy proxy, RemoteCertificateValidationCallback callback, string path, int timeoutMs)
         {
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentException(nameof(path));
 
-            var tmpFile = Path.GetTempFileName();
+            var dir = Path.GetDirectoryName(path);
+            if (dir == null) //path is root directory
+                throw new ArgumentException(nameof(path));
 
-            if (Path.GetPathRoot(path) != Path.GetPathRoot(tmpFile))
+            var filename = Path.GetFileNameWithoutExtension(path);
+            string tmpFile = Path.Combine(dir, $"{filename}.part");
+
+            while (File.Exists(tmpFile))
             {
-                //CA-365905: if the target path is under a root different from
-                //the temp file, use instead a temp file under the target root,
-                //otherwise there may not be enough space for the download
-
-                var dir = Path.GetDirectoryName(path);
-                if (dir == null) //path is root directory
-                    throw new ArgumentException(nameof(path));
-
-                tmpFile = Path.Combine(dir, Path.GetRandomFileName());
-                File.Delete(tmpFile);
+                var random = Path.GetExtension(Path.GetRandomFileName());
+                tmpFile = Path.Combine(dir, $"{filename}{random}");
             }
 
             try
             {
                 using (Stream fileStream = new FileStream(tmpFile, FileMode.Create, FileAccess.Write, FileShare.None),
-                       downloadStream = HttpGetStream(uri, proxy, timeoutMs))
+                       downloadStream = HttpGetStream(uri, proxy, callback, timeoutMs))
                 {
                     CopyStream(downloadStream, fileStream, dataCopiedDelegate, cancellingDelegate);
                     fileStream.Flush();
@@ -799,9 +829,6 @@ namespace XenAPI
                 File.Delete(tmpFile);
             }
         }
-
-        private const int FILE_MOVE_MAX_RETRIES = 5;
-        private const int FILE_MOVE_SLEEP_BETWEEN_RETRIES = 100;
 
         /// <summary>
         /// Move a file, retrying a few times with a short sleep between retries.

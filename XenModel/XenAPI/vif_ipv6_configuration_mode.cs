@@ -43,6 +43,10 @@ namespace XenAPI
         /// Static IPv6 address configuration
         /// </summary>
         Static,
+        /// <summary>
+        /// Acquire an IPv6 address automatically
+        /// </summary>
+        Autoconf,
         unknown
     }
 
@@ -64,6 +68,8 @@ namespace XenAPI
                     return "None";
                 case vif_ipv6_configuration_mode.Static:
                     return "Static";
+                case vif_ipv6_configuration_mode.Autoconf:
+                    return "Autoconf";
                 default:
                     return "unknown";
             }

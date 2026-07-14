@@ -259,43 +259,6 @@ namespace XenAPI
                 Helper.AreEqual2(_ipv6_gateway, other._ipv6_gateway);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VIF server)
-        {
-            if (opaqueRef == null)
-            {
-                var reference = create(session, this);
-                return reference == null ? null : reference.opaque_ref;
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    VIF.set_other_config(session, opaqueRef, _other_config);
-                }
-                if (!Helper.AreEqual2(_qos_algorithm_type, server._qos_algorithm_type))
-                {
-                    VIF.set_qos_algorithm_type(session, opaqueRef, _qos_algorithm_type);
-                }
-                if (!Helper.AreEqual2(_qos_algorithm_params, server._qos_algorithm_params))
-                {
-                    VIF.set_qos_algorithm_params(session, opaqueRef, _qos_algorithm_params);
-                }
-                if (!Helper.AreEqual2(_locking_mode, server._locking_mode))
-                {
-                    VIF.set_locking_mode(session, opaqueRef, _locking_mode);
-                }
-                if (!Helper.AreEqual2(_ipv4_allowed, server._ipv4_allowed))
-                {
-                    VIF.set_ipv4_allowed(session, opaqueRef, _ipv4_allowed);
-                }
-                if (!Helper.AreEqual2(_ipv6_allowed, server._ipv6_allowed))
-                {
-                    VIF.set_ipv6_allowed(session, opaqueRef, _ipv6_allowed);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VIF.
@@ -303,6 +266,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VIF get_record(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_record(session.opaque_ref, _vif);
@@ -314,6 +280,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VIF> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vif_get_by_uuid(session.opaque_ref, _uuid);
@@ -325,6 +294,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<VIF> create(Session session, VIF _record)
         {
             return session.JsonRpcClient.vif_create(session.opaque_ref, _record);
@@ -336,6 +308,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, VIF _record)
         {
           return session.JsonRpcClient.async_vif_create(session.opaque_ref, _record);
@@ -347,6 +322,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void destroy(Session session, string _vif)
         {
             session.JsonRpcClient.vif_destroy(session.opaque_ref, _vif);
@@ -358,6 +336,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _vif)
         {
           return session.JsonRpcClient.async_vif_destroy(session.opaque_ref, _vif);
@@ -369,6 +350,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_uuid(session.opaque_ref, _vif);
@@ -380,6 +364,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<vif_operations> get_allowed_operations(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_allowed_operations(session.opaque_ref, _vif);
@@ -391,6 +378,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, vif_operations> get_current_operations(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_current_operations(session.opaque_ref, _vif);
@@ -402,6 +392,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_device(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_device(session.opaque_ref, _vif);
@@ -413,6 +406,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Network> get_network(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_network(session.opaque_ref, _vif);
@@ -424,6 +420,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM> get_VM(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_vm(session.opaque_ref, _vif);
@@ -435,6 +434,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_MAC(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_mac(session.opaque_ref, _vif);
@@ -446,6 +448,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_MTU(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_mtu(session.opaque_ref, _vif);
@@ -457,6 +462,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_other_config(session.opaque_ref, _vif);
@@ -468,6 +476,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_currently_attached(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_currently_attached(session.opaque_ref, _vif);
@@ -479,6 +490,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_status_code(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_status_code(session.opaque_ref, _vif);
@@ -490,6 +504,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_status_detail(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_status_detail(session.opaque_ref, _vif);
@@ -501,6 +518,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_runtime_properties(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_runtime_properties(session.opaque_ref, _vif);
@@ -512,6 +532,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_qos_algorithm_type(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_qos_algorithm_type(session.opaque_ref, _vif);
@@ -523,6 +546,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_qos_algorithm_params(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_qos_algorithm_params(session.opaque_ref, _vif);
@@ -534,6 +560,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_qos_supported_algorithms(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_qos_supported_algorithms(session.opaque_ref, _vif);
@@ -547,6 +576,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VIF_metrics> get_metrics(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_metrics(session.opaque_ref, _vif);
@@ -558,6 +590,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_MAC_autogenerated(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_mac_autogenerated(session.opaque_ref, _vif);
@@ -569,6 +604,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static vif_locking_mode get_locking_mode(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_locking_mode(session.opaque_ref, _vif);
@@ -580,6 +618,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_ipv4_allowed(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_ipv4_allowed(session.opaque_ref, _vif);
@@ -591,6 +632,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_ipv6_allowed(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_ipv6_allowed(session.opaque_ref, _vif);
@@ -602,6 +646,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static vif_ipv4_configuration_mode get_ipv4_configuration_mode(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_ipv4_configuration_mode(session.opaque_ref, _vif);
@@ -613,6 +660,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_ipv4_addresses(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_ipv4_addresses(session.opaque_ref, _vif);
@@ -624,6 +674,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_ipv4_gateway(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_ipv4_gateway(session.opaque_ref, _vif);
@@ -635,6 +688,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static vif_ipv6_configuration_mode get_ipv6_configuration_mode(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_ipv6_configuration_mode(session.opaque_ref, _vif);
@@ -646,6 +702,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_ipv6_addresses(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_ipv6_addresses(session.opaque_ref, _vif);
@@ -657,6 +716,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_ipv6_gateway(Session session, string _vif)
         {
             return session.JsonRpcClient.vif_get_ipv6_gateway(session.opaque_ref, _vif);
@@ -669,6 +731,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_other_config(Session session, string _vif, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.vif_set_other_config(session.opaque_ref, _vif, _other_config);
@@ -682,6 +747,9 @@ namespace XenAPI
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_other_config(Session session, string _vif, string _key, string _value)
         {
             session.JsonRpcClient.vif_add_to_other_config(session.opaque_ref, _vif, _key, _value);
@@ -694,6 +762,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _vif, string _key)
         {
             session.JsonRpcClient.vif_remove_from_other_config(session.opaque_ref, _vif, _key);
@@ -706,6 +777,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_algorithm_type">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_qos_algorithm_type(Session session, string _vif, string _algorithm_type)
         {
             session.JsonRpcClient.vif_set_qos_algorithm_type(session.opaque_ref, _vif, _algorithm_type);
@@ -718,6 +792,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_algorithm_params">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_qos_algorithm_params(Session session, string _vif, Dictionary<string, string> _algorithm_params)
         {
             session.JsonRpcClient.vif_set_qos_algorithm_params(session.opaque_ref, _vif, _algorithm_params);
@@ -731,6 +808,9 @@ namespace XenAPI
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_qos_algorithm_params(Session session, string _vif, string _key, string _value)
         {
             session.JsonRpcClient.vif_add_to_qos_algorithm_params(session.opaque_ref, _vif, _key, _value);
@@ -743,6 +823,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_qos_algorithm_params(Session session, string _vif, string _key)
         {
             session.JsonRpcClient.vif_remove_from_qos_algorithm_params(session.opaque_ref, _vif, _key);
@@ -754,6 +837,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void plug(Session session, string _vif)
         {
             session.JsonRpcClient.vif_plug(session.opaque_ref, _vif);
@@ -765,6 +851,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_plug(Session session, string _vif)
         {
           return session.JsonRpcClient.async_vif_plug(session.opaque_ref, _vif);
@@ -776,6 +865,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void unplug(Session session, string _vif)
         {
             session.JsonRpcClient.vif_unplug(session.opaque_ref, _vif);
@@ -787,6 +879,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_unplug(Session session, string _vif)
         {
           return session.JsonRpcClient.async_vif_unplug(session.opaque_ref, _vif);
@@ -798,6 +893,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void unplug_force(Session session, string _vif)
         {
             session.JsonRpcClient.vif_unplug_force(session.opaque_ref, _vif);
@@ -809,6 +907,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_unplug_force(Session session, string _vif)
         {
           return session.JsonRpcClient.async_vif_unplug_force(session.opaque_ref, _vif);
@@ -821,6 +922,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_network">The network to move it to</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void move(Session session, string _vif, string _network)
         {
             session.JsonRpcClient.vif_move(session.opaque_ref, _vif, _network);
@@ -833,6 +937,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_network">The network to move it to</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_move(Session session, string _vif, string _network)
         {
           return session.JsonRpcClient.async_vif_move(session.opaque_ref, _vif, _network);
@@ -845,6 +952,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_value">The new locking mode for the VIF</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_locking_mode(Session session, string _vif, vif_locking_mode _value)
         {
             session.JsonRpcClient.vif_set_locking_mode(session.opaque_ref, _vif, _value);
@@ -857,6 +967,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_value">The new locking mode for the VIF</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_locking_mode(Session session, string _vif, vif_locking_mode _value)
         {
           return session.JsonRpcClient.async_vif_set_locking_mode(session.opaque_ref, _vif, _value);
@@ -869,6 +982,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_value">The IP addresses which will be associated with the VIF</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_ipv4_allowed(Session session, string _vif, string[] _value)
         {
             session.JsonRpcClient.vif_set_ipv4_allowed(session.opaque_ref, _vif, _value);
@@ -881,6 +997,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_value">The IP addresses which will be associated with the VIF</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_ipv4_allowed(Session session, string _vif, string[] _value)
         {
           return session.JsonRpcClient.async_vif_set_ipv4_allowed(session.opaque_ref, _vif, _value);
@@ -893,6 +1012,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_value">The IP address which will be associated with the VIF</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_ipv4_allowed(Session session, string _vif, string _value)
         {
             session.JsonRpcClient.vif_add_ipv4_allowed(session.opaque_ref, _vif, _value);
@@ -905,6 +1027,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_value">The IP address which will be associated with the VIF</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_add_ipv4_allowed(Session session, string _vif, string _value)
         {
           return session.JsonRpcClient.async_vif_add_ipv4_allowed(session.opaque_ref, _vif, _value);
@@ -917,6 +1042,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_value">The IP address which will be removed from the VIF</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_ipv4_allowed(Session session, string _vif, string _value)
         {
             session.JsonRpcClient.vif_remove_ipv4_allowed(session.opaque_ref, _vif, _value);
@@ -929,6 +1057,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_value">The IP address which will be removed from the VIF</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_remove_ipv4_allowed(Session session, string _vif, string _value)
         {
           return session.JsonRpcClient.async_vif_remove_ipv4_allowed(session.opaque_ref, _vif, _value);
@@ -941,6 +1072,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_value">The IP addresses which will be associated with the VIF</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_ipv6_allowed(Session session, string _vif, string[] _value)
         {
             session.JsonRpcClient.vif_set_ipv6_allowed(session.opaque_ref, _vif, _value);
@@ -953,6 +1087,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_value">The IP addresses which will be associated with the VIF</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_ipv6_allowed(Session session, string _vif, string[] _value)
         {
           return session.JsonRpcClient.async_vif_set_ipv6_allowed(session.opaque_ref, _vif, _value);
@@ -965,6 +1102,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_value">The IP address which will be associated with the VIF</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_ipv6_allowed(Session session, string _vif, string _value)
         {
             session.JsonRpcClient.vif_add_ipv6_allowed(session.opaque_ref, _vif, _value);
@@ -977,6 +1117,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_value">The IP address which will be associated with the VIF</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_add_ipv6_allowed(Session session, string _vif, string _value)
         {
           return session.JsonRpcClient.async_vif_add_ipv6_allowed(session.opaque_ref, _vif, _value);
@@ -989,6 +1132,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_value">The IP address which will be removed from the VIF</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_ipv6_allowed(Session session, string _vif, string _value)
         {
             session.JsonRpcClient.vif_remove_ipv6_allowed(session.opaque_ref, _vif, _value);
@@ -1001,6 +1147,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
         /// <param name="_value">The IP address which will be removed from the VIF</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_remove_ipv6_allowed(Session session, string _vif, string _value)
         {
           return session.JsonRpcClient.async_vif_remove_ipv6_allowed(session.opaque_ref, _vif, _value);
@@ -1012,9 +1161,12 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
-        /// <param name="_mode">Whether to use static or no IPv4 assignment</param>
+        /// <param name="_mode">Whether to use DHCP, static or no IPv4 assignment</param>
         /// <param name="_address">The IPv4 address in &lt;addr&gt;/&lt;prefix length&gt; format (for static mode only)</param>
         /// <param name="_gateway">The IPv4 gateway (for static mode only; leave empty to not set a gateway)</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void configure_ipv4(Session session, string _vif, vif_ipv4_configuration_mode _mode, string _address, string _gateway)
         {
             session.JsonRpcClient.vif_configure_ipv4(session.opaque_ref, _vif, _mode, _address, _gateway);
@@ -1026,9 +1178,12 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
-        /// <param name="_mode">Whether to use static or no IPv4 assignment</param>
+        /// <param name="_mode">Whether to use DHCP, static or no IPv4 assignment</param>
         /// <param name="_address">The IPv4 address in &lt;addr&gt;/&lt;prefix length&gt; format (for static mode only)</param>
         /// <param name="_gateway">The IPv4 gateway (for static mode only; leave empty to not set a gateway)</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_configure_ipv4(Session session, string _vif, vif_ipv4_configuration_mode _mode, string _address, string _gateway)
         {
           return session.JsonRpcClient.async_vif_configure_ipv4(session.opaque_ref, _vif, _mode, _address, _gateway);
@@ -1040,9 +1195,12 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
-        /// <param name="_mode">Whether to use static or no IPv6 assignment</param>
+        /// <param name="_mode">Whether to use autoconf, static or no IPv6 assignment</param>
         /// <param name="_address">The IPv6 address in &lt;addr&gt;/&lt;prefix length&gt; format (for static mode only)</param>
         /// <param name="_gateway">The IPv6 gateway (for static mode only; leave empty to not set a gateway)</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static void configure_ipv6(Session session, string _vif, vif_ipv6_configuration_mode _mode, string _address, string _gateway)
         {
             session.JsonRpcClient.vif_configure_ipv6(session.opaque_ref, _vif, _mode, _address, _gateway);
@@ -1054,9 +1212,12 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif">The opaque_ref of the given vif</param>
-        /// <param name="_mode">Whether to use static or no IPv6 assignment</param>
+        /// <param name="_mode">Whether to use autoconf, static or no IPv6 assignment</param>
         /// <param name="_address">The IPv6 address in &lt;addr&gt;/&lt;prefix length&gt; format (for static mode only)</param>
         /// <param name="_gateway">The IPv6 gateway (for static mode only; leave empty to not set a gateway)</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-operator
+        /// </remarks>
         public static XenRef<Task> async_configure_ipv6(Session session, string _vif, vif_ipv6_configuration_mode _mode, string _address, string _gateway)
         {
           return session.JsonRpcClient.async_vif_configure_ipv6(session.opaque_ref, _vif, _mode, _address, _gateway);
@@ -1067,16 +1228,22 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VIF>> get_all(Session session)
         {
             return session.JsonRpcClient.vif_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VIF Records at once, in a single XML RPC call
+        /// Return a map of VIF references to VIF records for all VIFs known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VIF>, VIF> get_all_records(Session session)
         {
             return session.JsonRpcClient.vif_get_all_records(session.opaque_ref);
@@ -1134,7 +1301,7 @@ namespace XenAPI
         private Dictionary<string, vif_operations> _current_operations = new Dictionary<string, vif_operations>() {};
 
         /// <summary>
-        /// order in which VIF backends are created by xapi
+        /// order in which VIF backends are created by xapi. Guaranteed to be an unsigned decimal integer.
         /// </summary>
         public virtual string device
         {

@@ -101,18 +101,6 @@ namespace XenAPI
             return Helper.AreEqual2(_uuid, other._uuid);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, LVHD server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-              throw new InvalidOperationException("This type has no read/write properties");
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given LVHD.
@@ -120,6 +108,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_lvhd">The opaque_ref of the given lvhd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static LVHD get_record(Session session, string _lvhd)
         {
             return session.JsonRpcClient.lvhd_get_record(session.opaque_ref, _lvhd);
@@ -131,6 +122,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<LVHD> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.lvhd_get_by_uuid(session.opaque_ref, _uuid);
@@ -142,6 +136,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_lvhd">The opaque_ref of the given lvhd</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _lvhd)
         {
             return session.JsonRpcClient.lvhd_get_uuid(session.opaque_ref, _lvhd);
@@ -156,6 +153,9 @@ namespace XenAPI
         /// <param name="_sr">The LVHD SR to upgrade to being thin-provisioned.</param>
         /// <param name="_initial_allocation">The initial amount of space to allocate to a newly-created VDI in bytes</param>
         /// <param name="_allocation_quantum">The amount of space to allocate to a VDI when it needs to be enlarged in bytes</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static string enable_thin_provisioning(Session session, string _host, string _sr, long _initial_allocation, long _allocation_quantum)
         {
             return session.JsonRpcClient.lvhd_enable_thin_provisioning(session.opaque_ref, _host, _sr, _initial_allocation, _allocation_quantum);
@@ -170,6 +170,9 @@ namespace XenAPI
         /// <param name="_sr">The LVHD SR to upgrade to being thin-provisioned.</param>
         /// <param name="_initial_allocation">The initial amount of space to allocate to a newly-created VDI in bytes</param>
         /// <param name="_allocation_quantum">The amount of space to allocate to a VDI when it needs to be enlarged in bytes</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_enable_thin_provisioning(Session session, string _host, string _sr, long _initial_allocation, long _allocation_quantum)
         {
           return session.JsonRpcClient.async_lvhd_enable_thin_provisioning(session.opaque_ref, _host, _sr, _initial_allocation, _allocation_quantum);

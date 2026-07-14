@@ -137,27 +137,6 @@ namespace XenAPI
                 Helper.AreEqual2(_mime_type, other._mime_type);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Blob server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_name_label, server._name_label))
-                {
-                    Blob.set_name_label(session, opaqueRef, _name_label);
-                }
-                if (!Helper.AreEqual2(_name_description, server._name_description))
-                {
-                    Blob.set_name_description(session, opaqueRef, _name_description);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given blob.
@@ -165,6 +144,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_blob">The opaque_ref of the given blob</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Blob get_record(Session session, string _blob)
         {
             return session.JsonRpcClient.blob_get_record(session.opaque_ref, _blob);
@@ -176,6 +158,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Blob> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.blob_get_by_uuid(session.opaque_ref, _uuid);
@@ -187,6 +172,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Blob>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.blob_get_by_name_label(session.opaque_ref, _label);
@@ -198,6 +186,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_blob">The opaque_ref of the given blob</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _blob)
         {
             return session.JsonRpcClient.blob_get_uuid(session.opaque_ref, _blob);
@@ -209,6 +200,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_blob">The opaque_ref of the given blob</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _blob)
         {
             return session.JsonRpcClient.blob_get_name_label(session.opaque_ref, _blob);
@@ -220,6 +214,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_blob">The opaque_ref of the given blob</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _blob)
         {
             return session.JsonRpcClient.blob_get_name_description(session.opaque_ref, _blob);
@@ -231,6 +228,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_blob">The opaque_ref of the given blob</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_size(Session session, string _blob)
         {
             return session.JsonRpcClient.blob_get_size(session.opaque_ref, _blob);
@@ -242,6 +242,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_blob">The opaque_ref of the given blob</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_public(Session session, string _blob)
         {
             return session.JsonRpcClient.blob_get_public(session.opaque_ref, _blob);
@@ -253,6 +256,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_blob">The opaque_ref of the given blob</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_last_updated(Session session, string _blob)
         {
             return session.JsonRpcClient.blob_get_last_updated(session.opaque_ref, _blob);
@@ -264,6 +270,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_blob">The opaque_ref of the given blob</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_mime_type(Session session, string _blob)
         {
             return session.JsonRpcClient.blob_get_mime_type(session.opaque_ref, _blob);
@@ -276,6 +285,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_blob">The opaque_ref of the given blob</param>
         /// <param name="_label">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_label(Session session, string _blob, string _label)
         {
             session.JsonRpcClient.blob_set_name_label(session.opaque_ref, _blob, _label);
@@ -288,6 +300,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_blob">The opaque_ref of the given blob</param>
         /// <param name="_description">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_name_description(Session session, string _blob, string _description)
         {
             session.JsonRpcClient.blob_set_name_description(session.opaque_ref, _blob, _description);
@@ -300,6 +315,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_blob">The opaque_ref of the given blob</param>
         /// <param name="_public">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_public(Session session, string _blob, bool _public)
         {
             session.JsonRpcClient.blob_set_public(session.opaque_ref, _blob, _public);
@@ -311,6 +329,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_mime_type">The mime-type of the blob. Defaults to 'application/octet-stream' if the empty string is supplied</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Blob> create(Session session, string _mime_type)
         {
             return session.JsonRpcClient.blob_create(session.opaque_ref, _mime_type);
@@ -323,6 +344,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_mime_type">The mime-type of the blob. Defaults to 'application/octet-stream' if the empty string is supplied</param>
         /// <param name="_public">True if the blob should be publicly available First published in XenServer 6.1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Blob> create(Session session, string _mime_type, bool _public)
         {
             return session.JsonRpcClient.blob_create(session.opaque_ref, _mime_type, _public);
@@ -334,6 +358,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_blob">The opaque_ref of the given blob</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _blob)
         {
             session.JsonRpcClient.blob_destroy(session.opaque_ref, _blob);
@@ -344,16 +371,22 @@ namespace XenAPI
         /// First published in XenServer 5.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Blob>> get_all(Session session)
         {
             return session.JsonRpcClient.blob_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the blob Records at once, in a single XML RPC call
+        /// Return a map of blob references to blob records for all blobs known to the system.
         /// First published in XenServer 5.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Blob>, Blob> get_all_records(Session session)
         {
             return session.JsonRpcClient.blob_get_all_records(session.opaque_ref);

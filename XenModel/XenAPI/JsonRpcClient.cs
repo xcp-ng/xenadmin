@@ -38,6 +38,13 @@ namespace XenAPI
 {
     public partial class JsonRpcClient
     {
+        public string[] system_list_methods()
+        {
+            var converters = new List<JsonConverter> { };
+            var serializer = CreateSerializer(converters);
+            return Rpc<string[]>("system.listMethods", new JArray(), serializer);
+        }
+
         public Event event_get_record(string session, string _event)
         {
             var converters = new List<JsonConverter> {};
@@ -325,13 +332,6 @@ namespace XenAPI
             return Rpc<XenRef<Task>>("Async.session.logout_subject_identifier", new JArray(session, _subject_identifier ?? ""), serializer);
         }
 
-        public Dictionary<XenRef<Session>, Session> session_get_all_records(string session)
-        {
-            var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<Session>()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<Dictionary<XenRef<Session>, Session>>("session.get_all_records", new JArray(session), serializer);
-        }
-
         public string auth_get_subject_identifier(string session, string _subject_name)
         {
             var converters = new List<JsonConverter> {};
@@ -351,13 +351,6 @@ namespace XenAPI
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             return Rpc<string[]>("auth.get_group_membership", new JArray(session, _subject_identifier ?? ""), serializer);
-        }
-
-        public Dictionary<XenRef<Auth>, Auth> auth_get_all_records(string session)
-        {
-            var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<Auth>()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<Dictionary<XenRef<Auth>, Auth>>("auth.get_all_records", new JArray(session), serializer);
         }
 
         public Subject subject_get_record(string session, string _subject)
@@ -703,27 +696,6 @@ namespace XenAPI
             return Rpc<string>("task.get_backtrace", new JArray(session, _task ?? ""), serializer);
         }
 
-        public void task_set_other_config(string session, string _task, Dictionary<string, string> _other_config)
-        {
-            var converters = new List<JsonConverter> {new StringStringMapConverter()};
-            var serializer = CreateSerializer(converters);
-            Rpc("task.set_other_config", new JArray(session, _task ?? "", _other_config == null ? new JObject() : JObject.FromObject(_other_config, serializer)), serializer);
-        }
-
-        public void task_add_to_other_config(string session, string _task, string _key, string _value)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("task.add_to_other_config", new JArray(session, _task ?? "", _key ?? "", _value ?? ""), serializer);
-        }
-
-        public void task_remove_from_other_config(string session, string _task, string _key)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("task.remove_from_other_config", new JArray(session, _task ?? "", _key ?? ""), serializer);
-        }
-
         public XenRef<Task> task_create(string session, string _label, string _description)
         {
             var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
@@ -778,6 +750,48 @@ namespace XenAPI
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             Rpc("task.set_error_info", new JArray(session, _task ?? "", _value == null ? new JArray() : JArray.FromObject(_value)), serializer);
+        }
+
+        public void task_add_to_other_config(string session, string _task, string _key, string _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("task.add_to_other_config", new JArray(session, _task ?? "", _key ?? "", _value ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_task_add_to_other_config(string session, string _task, string _key, string _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.task.add_to_other_config", new JArray(session, _task ?? "", _key ?? "", _value ?? ""), serializer);
+        }
+
+        public void task_remove_from_other_config(string session, string _task, string _key)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("task.remove_from_other_config", new JArray(session, _task ?? "", _key ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_task_remove_from_other_config(string session, string _task, string _key)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.task.remove_from_other_config", new JArray(session, _task ?? "", _key ?? ""), serializer);
+        }
+
+        public void task_set_other_config(string session, string _task, Dictionary<string, string> _value)
+        {
+            var converters = new List<JsonConverter> {new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            Rpc("task.set_other_config", new JArray(session, _task ?? "", _value == null ? new JObject() : JObject.FromObject(_value, serializer)), serializer);
+        }
+
+        public XenRef<Task> async_task_set_other_config(string session, string _task, Dictionary<string, string> _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.task.set_other_config", new JArray(session, _task ?? "", _value == null ? new JObject() : JObject.FromObject(_value, serializer)), serializer);
         }
 
         public List<XenRef<Task>> task_get_all(string session)
@@ -1067,6 +1081,13 @@ namespace XenAPI
             return Rpc<string>("pool.get_uefi_certificates", new JArray(session, _pool ?? ""), serializer);
         }
 
+        public string pool_get_custom_uefi_certificates(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("pool.get_custom_uefi_certificates", new JArray(session, _pool ?? ""), serializer);
+        }
+
         public bool pool_get_is_psr_pending(string session, string _pool)
         {
             var converters = new List<JsonConverter> {};
@@ -1137,6 +1158,41 @@ namespace XenAPI
             return Rpc<bool>("pool.get_coordinator_bias", new JArray(session, _pool ?? ""), serializer);
         }
 
+        public long pool_get_local_auth_max_threads(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<long>("pool.get_local_auth_max_threads", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public long pool_get_ext_auth_max_threads(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<long>("pool.get_ext_auth_max_threads", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public bool pool_get_ext_auth_cache_enabled(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<bool>("pool.get_ext_auth_cache_enabled", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public long pool_get_ext_auth_cache_size(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<long>("pool.get_ext_auth_cache_size", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public long pool_get_ext_auth_cache_expiry(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<long>("pool.get_ext_auth_cache_expiry", new JArray(session, _pool ?? ""), serializer);
+        }
+
         public XenRef<Secret> pool_get_telemetry_uuid(string session, string _pool)
         {
             var converters = new List<JsonConverter> {new XenRefConverter<Secret>()};
@@ -1184,6 +1240,48 @@ namespace XenAPI
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             return Rpc<bool>("pool.get_update_sync_enabled", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public Dictionary<string, string> pool_get_recommendations(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<Dictionary<string, string>>("pool.get_recommendations", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public Dictionary<string, string> pool_get_license_server(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<Dictionary<string, string>>("pool.get_license_server", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public bool pool_get_ha_reboot_vm_on_internal_shutdown(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<bool>("pool.get_ha_reboot_vm_on_internal_shutdown", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public bool pool_get_limit_console_sessions(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<bool>("pool.get_limit_console_sessions", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public long pool_get_vm_console_idle_timeout(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<long>("pool.get_vm_console_idle_timeout", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public bool pool_get_auto_update_vm_secureboot_certificates(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<bool>("pool.get_auto_update_vm_secureboot_certificates", new JArray(session, _pool ?? ""), serializer);
         }
 
         public void pool_set_name_label(string session, string _pool, string _name_label)
@@ -1359,6 +1457,55 @@ namespace XenAPI
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             Rpc("pool.set_coordinator_bias", new JArray(session, _pool ?? "", _coordinator_bias), serializer);
+        }
+
+        public void pool_set_license_server(string session, string _pool, Dictionary<string, string> _license_server)
+        {
+            var converters = new List<JsonConverter> {new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_license_server", new JArray(session, _pool ?? "", _license_server == null ? new JObject() : JObject.FromObject(_license_server, serializer)), serializer);
+        }
+
+        public void pool_add_to_license_server(string session, string _pool, string _key, string _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.add_to_license_server", new JArray(session, _pool ?? "", _key ?? "", _value ?? ""), serializer);
+        }
+
+        public void pool_remove_from_license_server(string session, string _pool, string _key)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.remove_from_license_server", new JArray(session, _pool ?? "", _key ?? ""), serializer);
+        }
+
+        public void pool_set_ha_reboot_vm_on_internal_shutdown(string session, string _pool, bool _ha_reboot_vm_on_internal_shutdown)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_ha_reboot_vm_on_internal_shutdown", new JArray(session, _pool ?? "", _ha_reboot_vm_on_internal_shutdown), serializer);
+        }
+
+        public void pool_set_limit_console_sessions(string session, string _pool, bool _limit_console_sessions)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_limit_console_sessions", new JArray(session, _pool ?? "", _limit_console_sessions), serializer);
+        }
+
+        public void pool_set_vm_console_idle_timeout(string session, string _pool, long _vm_console_idle_timeout)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_vm_console_idle_timeout", new JArray(session, _pool ?? "", _vm_console_idle_timeout), serializer);
+        }
+
+        public void pool_set_auto_update_vm_secureboot_certificates(string session, string _pool, bool _auto_update_vm_secureboot_certificates)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_auto_update_vm_secureboot_certificates", new JArray(session, _pool ?? "", _auto_update_vm_secureboot_certificates), serializer);
         }
 
         public void pool_join(string session, string _master_address, string _master_username, string _master_password)
@@ -1620,6 +1767,13 @@ namespace XenAPI
             Rpc("pool.disable_external_auth", new JArray(session, _pool ?? "", _config == null ? new JObject() : JObject.FromObject(_config, serializer)), serializer);
         }
 
+        public void pool_external_auth_set_ldaps(string session, string _pool, bool _ldaps, bool _force)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.external_auth_set_ldaps", new JArray(session, _pool ?? "", _ldaps, _force), serializer);
+        }
+
         public void pool_detect_nonhomogeneous_external_auth(string session, string _pool)
         {
             var converters = new List<JsonConverter> {};
@@ -1779,6 +1933,20 @@ namespace XenAPI
             var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
             var serializer = CreateSerializer(converters);
             return Rpc<XenRef<Task>>("Async.pool.uninstall_ca_certificate", new JArray(session, _name ?? ""), serializer);
+        }
+
+        public void pool_uninstall_ca_certificate(string session, string _name, bool _force)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.uninstall_ca_certificate", new JArray(session, _name ?? "", _force), serializer);
+        }
+
+        public XenRef<Task> async_pool_uninstall_ca_certificate(string session, string _name, bool _force)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.pool.uninstall_ca_certificate", new JArray(session, _name ?? "", _force), serializer);
         }
 
         public void pool_crl_install(string session, string _name, string _cert)
@@ -2103,6 +2271,20 @@ namespace XenAPI
             return Rpc<XenRef<Task>>("Async.pool.sync_updates", new JArray(session, _pool ?? "", _force, _token ?? "", _token_id ?? ""), serializer);
         }
 
+        public string pool_sync_updates(string session, string _pool, bool _force, string _token, string _token_id, string _username, string _password)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("pool.sync_updates", new JArray(session, _pool ?? "", _force, _token ?? "", _token_id ?? "", _username ?? "", _password ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_pool_sync_updates(string session, string _pool, bool _force, string _token, string _token_id, string _username, string _password)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.pool.sync_updates", new JArray(session, _pool ?? "", _force, _token ?? "", _token_id ?? "", _username ?? "", _password ?? ""), serializer);
+        }
+
         public string[][] pool_check_update_readiness(string session, string _pool, bool _requires_reboot)
         {
             var converters = new List<JsonConverter> {};
@@ -2187,6 +2369,20 @@ namespace XenAPI
             return Rpc<XenRef<Task>>("Async.pool.set_uefi_certificates", new JArray(session, _pool ?? "", _value ?? ""), serializer);
         }
 
+        public void pool_set_custom_uefi_certificates(string session, string _pool, string _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_custom_uefi_certificates", new JArray(session, _pool ?? "", _value ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_pool_set_custom_uefi_certificates(string session, string _pool, string _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.pool.set_custom_uefi_certificates", new JArray(session, _pool ?? "", _value ?? ""), serializer);
+        }
+
         public void pool_set_https_only(string session, string _pool, bool _value)
         {
             var converters = new List<JsonConverter> {};
@@ -2255,6 +2451,181 @@ namespace XenAPI
             var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
             var serializer = CreateSerializer(converters);
             return Rpc<XenRef<Task>>("Async.pool.set_update_sync_enabled", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public void pool_set_local_auth_max_threads(string session, string _pool, long _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_local_auth_max_threads", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public void pool_set_ext_auth_max_threads(string session, string _pool, long _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_ext_auth_max_threads", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public void pool_set_ext_auth_cache_enabled(string session, string _pool, bool _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_ext_auth_cache_enabled", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public XenRef<Task> async_pool_set_ext_auth_cache_enabled(string session, string _pool, bool _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.pool.set_ext_auth_cache_enabled", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public void pool_set_ext_auth_cache_size(string session, string _pool, long _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_ext_auth_cache_size", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public XenRef<Task> async_pool_set_ext_auth_cache_size(string session, string _pool, long _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.pool.set_ext_auth_cache_size", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public void pool_set_ext_auth_cache_expiry(string session, string _pool, long _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_ext_auth_cache_expiry", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public XenRef<Task> async_pool_set_ext_auth_cache_expiry(string session, string _pool, long _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.pool.set_ext_auth_cache_expiry", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public pool_guest_secureboot_readiness pool_get_guest_secureboot_readiness(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {new pool_guest_secureboot_readinessConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<pool_guest_secureboot_readiness>("pool.get_guest_secureboot_readiness", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public void pool_enable_ssh(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.enable_ssh", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_pool_enable_ssh(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.pool.enable_ssh", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public void pool_disable_ssh(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.disable_ssh", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_pool_disable_ssh(string session, string _pool)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.pool.disable_ssh", new JArray(session, _pool ?? ""), serializer);
+        }
+
+        public void pool_set_ssh_enabled_timeout(string session, string _pool, long _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_ssh_enabled_timeout", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public XenRef<Task> async_pool_set_ssh_enabled_timeout(string session, string _pool, long _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.pool.set_ssh_enabled_timeout", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public void pool_set_console_idle_timeout(string session, string _pool, long _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_console_idle_timeout", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public XenRef<Task> async_pool_set_console_idle_timeout(string session, string _pool, long _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.pool.set_console_idle_timeout", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public void pool_set_ssh_auto_mode(string session, string _pool, bool _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.set_ssh_auto_mode", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public XenRef<Task> async_pool_set_ssh_auto_mode(string session, string _pool, bool _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.pool.set_ssh_auto_mode", new JArray(session, _pool ?? "", _value), serializer);
+        }
+
+        public void pool_install_trusted_certificate(string session, string _pool, bool _ca, string _cert, List<certificate_purpose> _purpose)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.install_trusted_certificate", new JArray(session, _pool ?? "", _ca, _cert ?? "", _purpose == null ? new JArray() : JArray.FromObject(_purpose)), serializer);
+        }
+
+        public XenRef<Task> async_pool_install_trusted_certificate(string session, string _pool, bool _ca, string _cert, List<certificate_purpose> _purpose)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.pool.install_trusted_certificate", new JArray(session, _pool ?? "", _ca, _cert ?? "", _purpose == null ? new JArray() : JArray.FromObject(_purpose)), serializer);
+        }
+
+        public void pool_uninstall_trusted_certificate(string session, string _pool, string _certificate)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Certificate>()};
+            var serializer = CreateSerializer(converters);
+            Rpc("pool.uninstall_trusted_certificate", new JArray(session, _pool ?? "", _certificate ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_pool_uninstall_trusted_certificate(string session, string _pool, string _certificate)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefConverter<Certificate>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.pool.uninstall_trusted_certificate", new JArray(session, _pool ?? "", _certificate ?? ""), serializer);
+        }
+
+        public List<XenRef<Certificate>> pool_sync_trusted_certificates_from(string session, string _pool, string _remote_pool, string _remote_session, string _remote_certificate, bool _ca)
+        {
+            var converters = new List<JsonConverter> {new XenRefListConverter<Certificate>(), new XenRefConverter<Session>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<XenRef<Certificate>>>("pool.sync_trusted_certificates_from", new JArray(session, _pool ?? "", _remote_pool ?? "", _remote_session ?? "", _remote_certificate ?? "", _ca), serializer);
+        }
+
+        public XenRef<Task> async_pool_sync_trusted_certificates_from(string session, string _pool, string _remote_pool, string _remote_session, string _remote_certificate, bool _ca)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefConverter<Session>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.pool.sync_trusted_certificates_from", new JArray(session, _pool ?? "", _remote_pool ?? "", _remote_session ?? "", _remote_certificate ?? "", _ca), serializer);
         }
 
         public List<XenRef<Pool>> pool_get_all(string session)
@@ -3377,6 +3748,34 @@ namespace XenAPI
             return Rpc<List<update_guidances>>("VM.get_pending_guidances", new JArray(session, _vm ?? ""), serializer);
         }
 
+        public List<update_guidances> vm_get_pending_guidances_recommended(string session, string _vm)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<update_guidances>>("VM.get_pending_guidances_recommended", new JArray(session, _vm ?? ""), serializer);
+        }
+
+        public List<update_guidances> vm_get_pending_guidances_full(string session, string _vm)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<update_guidances>>("VM.get_pending_guidances_full", new JArray(session, _vm ?? ""), serializer);
+        }
+
+        public List<XenRef<VM_group>> vm_get_groups(string session, string _vm)
+        {
+            var converters = new List<JsonConverter> {new XenRefListConverter<VM_group>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<XenRef<VM_group>>>("VM.get_groups", new JArray(session, _vm ?? ""), serializer);
+        }
+
+        public vm_secureboot_certificates_state vm_get_secureboot_certificates_state(string session, string _vm)
+        {
+            var converters = new List<JsonConverter> {new vm_secureboot_certificates_stateConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<vm_secureboot_certificates_state>("VM.get_secureboot_certificates_state", new JArray(session, _vm ?? ""), serializer);
+        }
+
         public void vm_set_name_label(string session, string _vm, string _label)
         {
             var converters = new List<JsonConverter> {};
@@ -3517,53 +3916,11 @@ namespace XenAPI
             Rpc("VM.remove_from_HVM_boot_params", new JArray(session, _vm ?? "", _key ?? ""), serializer);
         }
 
-        public void vm_set_platform(string session, string _vm, Dictionary<string, string> _platform)
-        {
-            var converters = new List<JsonConverter> {new StringStringMapConverter()};
-            var serializer = CreateSerializer(converters);
-            Rpc("VM.set_platform", new JArray(session, _vm ?? "", _platform == null ? new JObject() : JObject.FromObject(_platform, serializer)), serializer);
-        }
-
-        public void vm_add_to_platform(string session, string _vm, string _key, string _value)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("VM.add_to_platform", new JArray(session, _vm ?? "", _key ?? "", _value ?? ""), serializer);
-        }
-
-        public void vm_remove_from_platform(string session, string _vm, string _key)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("VM.remove_from_platform", new JArray(session, _vm ?? "", _key ?? ""), serializer);
-        }
-
         public void vm_set_pci_bus(string session, string _vm, string _pci_bus)
         {
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             Rpc("VM.set_PCI_bus", new JArray(session, _vm ?? "", _pci_bus ?? ""), serializer);
-        }
-
-        public void vm_set_other_config(string session, string _vm, Dictionary<string, string> _other_config)
-        {
-            var converters = new List<JsonConverter> {new StringStringMapConverter()};
-            var serializer = CreateSerializer(converters);
-            Rpc("VM.set_other_config", new JArray(session, _vm ?? "", _other_config == null ? new JObject() : JObject.FromObject(_other_config, serializer)), serializer);
-        }
-
-        public void vm_add_to_other_config(string session, string _vm, string _key, string _value)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("VM.add_to_other_config", new JArray(session, _vm ?? "", _key ?? "", _value ?? ""), serializer);
-        }
-
-        public void vm_remove_from_other_config(string session, string _vm, string _key)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("VM.remove_from_other_config", new JArray(session, _vm ?? "", _key ?? ""), serializer);
         }
 
         public void vm_set_recommendations(string session, string _vm, string _recommendations)
@@ -3613,27 +3970,6 @@ namespace XenAPI
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             Rpc("VM.remove_tags", new JArray(session, _vm ?? "", _value ?? ""), serializer);
-        }
-
-        public void vm_set_blocked_operations(string session, string _vm, Dictionary<vm_operations, string> _blocked_operations)
-        {
-            var converters = new List<JsonConverter> {};
-            var serializer = CreateSerializer(converters);
-            Rpc("VM.set_blocked_operations", new JArray(session, _vm ?? "", _blocked_operations == null ? new JObject() : JObject.FromObject(_blocked_operations, serializer)), serializer);
-        }
-
-        public void vm_add_to_blocked_operations(string session, string _vm, vm_operations _key, string _value)
-        {
-            var converters = new List<JsonConverter> {new vm_operationsConverter()};
-            var serializer = CreateSerializer(converters);
-            Rpc("VM.add_to_blocked_operations", new JArray(session, _vm ?? "", _key.StringOf(), _value ?? ""), serializer);
-        }
-
-        public void vm_remove_from_blocked_operations(string session, string _vm, vm_operations _key)
-        {
-            var converters = new List<JsonConverter> {new vm_operationsConverter()};
-            var serializer = CreateSerializer(converters);
-            Rpc("VM.remove_from_blocked_operations", new JArray(session, _vm ?? "", _key.StringOf()), serializer);
         }
 
         public void vm_set_suspend_sr(string session, string _vm, string _suspend_sr)
@@ -4266,6 +4602,20 @@ namespace XenAPI
             return Rpc<XenRef<Task>>("Async.VM.migrate_send", new JArray(session, _vm ?? "", _dest == null ? new JObject() : JObject.FromObject(_dest, serializer), _live, _vdi_map == null ? new JObject() : JObject.FromObject(_vdi_map, serializer), _vif_map == null ? new JObject() : JObject.FromObject(_vif_map, serializer), _options == null ? new JObject() : JObject.FromObject(_options, serializer), _vgpu_map == null ? new JObject() : JObject.FromObject(_vgpu_map, serializer)), serializer);
         }
 
+        public XenRef<VM> vm_migrate_send(string session, string _vm, Dictionary<string, string> _dest, bool _live, Dictionary<XenRef<VDI>, XenRef<SR>> _vdi_map, Dictionary<XenRef<VIF>, XenRef<Network>> _vif_map, Dictionary<string, string> _options, Dictionary<XenRef<VGPU>, XenRef<GPU_group>> _vgpu_map, Dictionary<XenRef<VDI>, string> _vdi_format_map)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<VM>(), new StringStringMapConverter(), new XenRefXenRefMapConverter<VDI, SR>(), new XenRefXenRefMapConverter<VIF, Network>(), new StringStringMapConverter(), new XenRefXenRefMapConverter<VGPU, GPU_group>(), new XenRefStringMapConverter<VDI>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<VM>>("VM.migrate_send", new JArray(session, _vm ?? "", _dest == null ? new JObject() : JObject.FromObject(_dest, serializer), _live, _vdi_map == null ? new JObject() : JObject.FromObject(_vdi_map, serializer), _vif_map == null ? new JObject() : JObject.FromObject(_vif_map, serializer), _options == null ? new JObject() : JObject.FromObject(_options, serializer), _vgpu_map == null ? new JObject() : JObject.FromObject(_vgpu_map, serializer), _vdi_format_map == null ? new JObject() : JObject.FromObject(_vdi_format_map, serializer)), serializer);
+        }
+
+        public XenRef<Task> async_vm_migrate_send(string session, string _vm, Dictionary<string, string> _dest, bool _live, Dictionary<XenRef<VDI>, XenRef<SR>> _vdi_map, Dictionary<XenRef<VIF>, XenRef<Network>> _vif_map, Dictionary<string, string> _options, Dictionary<XenRef<VGPU>, XenRef<GPU_group>> _vgpu_map, Dictionary<XenRef<VDI>, string> _vdi_format_map)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new StringStringMapConverter(), new XenRefXenRefMapConverter<VDI, SR>(), new XenRefXenRefMapConverter<VIF, Network>(), new StringStringMapConverter(), new XenRefXenRefMapConverter<VGPU, GPU_group>(), new XenRefStringMapConverter<VDI>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.VM.migrate_send", new JArray(session, _vm ?? "", _dest == null ? new JObject() : JObject.FromObject(_dest, serializer), _live, _vdi_map == null ? new JObject() : JObject.FromObject(_vdi_map, serializer), _vif_map == null ? new JObject() : JObject.FromObject(_vif_map, serializer), _options == null ? new JObject() : JObject.FromObject(_options, serializer), _vgpu_map == null ? new JObject() : JObject.FromObject(_vgpu_map, serializer), _vdi_format_map == null ? new JObject() : JObject.FromObject(_vdi_format_map, serializer)), serializer);
+        }
+
         public void vm_assert_can_migrate(string session, string _vm, Dictionary<string, string> _dest, bool _live, Dictionary<XenRef<VDI>, XenRef<SR>> _vdi_map, Dictionary<XenRef<VIF>, XenRef<Network>> _vif_map, Dictionary<string, string> _options)
         {
             var converters = new List<JsonConverter> {new StringStringMapConverter(), new XenRefXenRefMapConverter<VDI, SR>(), new XenRefXenRefMapConverter<VIF, Network>(), new StringStringMapConverter()};
@@ -4623,6 +4973,20 @@ namespace XenAPI
             return Rpc<XenRef<Task>>("Async.VM.set_appliance", new JArray(session, _vm ?? "", _value ?? ""), serializer);
         }
 
+        public void vm_set_groups(string session, string _vm, List<XenRef<VM_group>> _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefListConverter<VM_group>()};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM.set_groups", new JArray(session, _vm ?? "", _value == null ? new JArray() : JArray.FromObject(_value, serializer)), serializer);
+        }
+
+        public XenRef<Task> async_vm_set_groups(string session, string _vm, List<XenRef<VM_group>> _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefListConverter<VM_group>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.VM.set_groups", new JArray(session, _vm ?? "", _value == null ? new JArray() : JArray.FromObject(_value, serializer)), serializer);
+        }
+
         public Dictionary<string, string> vm_query_services(string session, string _vm)
         {
             var converters = new List<JsonConverter> {new StringStringMapConverter()};
@@ -4649,6 +5013,20 @@ namespace XenAPI
             var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new StringStringMapConverter()};
             var serializer = CreateSerializer(converters);
             return Rpc<XenRef<Task>>("Async.VM.call_plugin", new JArray(session, _vm ?? "", _plugin ?? "", _fn ?? "", _args == null ? new JObject() : JObject.FromObject(_args, serializer)), serializer);
+        }
+
+        public string vm_call_host_plugin(string session, string _vm, string _plugin, string _fn, Dictionary<string, string> _args)
+        {
+            var converters = new List<JsonConverter> {new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("VM.call_host_plugin", new JArray(session, _vm ?? "", _plugin ?? "", _fn ?? "", _args == null ? new JObject() : JObject.FromObject(_args, serializer)), serializer);
+        }
+
+        public XenRef<Task> async_vm_call_host_plugin(string session, string _vm, string _plugin, string _fn, Dictionary<string, string> _args)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.VM.call_host_plugin", new JArray(session, _vm ?? "", _plugin ?? "", _fn ?? "", _args == null ? new JObject() : JObject.FromObject(_args, serializer)), serializer);
         }
 
         public void vm_set_has_vendor_device(string session, string _vm, bool _value)
@@ -4705,6 +5083,160 @@ namespace XenAPI
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             Rpc("VM.set_HVM_boot_policy", new JArray(session, _vm ?? "", _value ?? ""), serializer);
+        }
+
+        public void vm_restart_device_models(string session, string _vm)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM.restart_device_models", new JArray(session, _vm ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_vm_restart_device_models(string session, string _vm)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.VM.restart_device_models", new JArray(session, _vm ?? ""), serializer);
+        }
+
+        public string vm_set_uefi_mode(string session, string _vm, vm_uefi_mode _mode)
+        {
+            var converters = new List<JsonConverter> {new vm_uefi_modeConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("VM.set_uefi_mode", new JArray(session, _vm ?? "", _mode.StringOf()), serializer);
+        }
+
+        public XenRef<Task> async_vm_set_uefi_mode(string session, string _vm, vm_uefi_mode _mode)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new vm_uefi_modeConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.VM.set_uefi_mode", new JArray(session, _vm ?? "", _mode.StringOf()), serializer);
+        }
+
+        public vm_secureboot_readiness vm_get_secureboot_readiness(string session, string _vm)
+        {
+            var converters = new List<JsonConverter> {new vm_secureboot_readinessConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<vm_secureboot_readiness>("VM.get_secureboot_readiness", new JArray(session, _vm ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_vm_get_secureboot_readiness(string session, string _vm)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.VM.get_secureboot_readiness", new JArray(session, _vm ?? ""), serializer);
+        }
+
+        public void vm_update_secureboot_certificates_on_boot(string session, string _vm, bool _mark)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM.update_secureboot_certificates_on_boot", new JArray(session, _vm ?? "", _mark), serializer);
+        }
+
+        public XenRef<Task> async_vm_update_secureboot_certificates_on_boot(string session, string _vm, bool _mark)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.VM.update_secureboot_certificates_on_boot", new JArray(session, _vm ?? "", _mark), serializer);
+        }
+
+        public void vm_set_blocked_operations(string session, string _vm, Dictionary<vm_operations, string> _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM.set_blocked_operations", new JArray(session, _vm ?? "", _value == null ? new JObject() : JObject.FromObject(_value, serializer)), serializer);
+        }
+
+        public XenRef<Task> async_vm_set_blocked_operations(string session, string _vm, Dictionary<vm_operations, string> _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.VM.set_blocked_operations", new JArray(session, _vm ?? "", _value == null ? new JObject() : JObject.FromObject(_value, serializer)), serializer);
+        }
+
+        public void vm_add_to_blocked_operations(string session, string _vm, vm_operations _key, string _value)
+        {
+            var converters = new List<JsonConverter> {new vm_operationsConverter()};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM.add_to_blocked_operations", new JArray(session, _vm ?? "", _key.StringOf(), _value ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_vm_add_to_blocked_operations(string session, string _vm, vm_operations _key, string _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new vm_operationsConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.VM.add_to_blocked_operations", new JArray(session, _vm ?? "", _key.StringOf(), _value ?? ""), serializer);
+        }
+
+        public void vm_remove_from_blocked_operations(string session, string _vm, vm_operations _key)
+        {
+            var converters = new List<JsonConverter> {new vm_operationsConverter()};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM.remove_from_blocked_operations", new JArray(session, _vm ?? "", _key.StringOf()), serializer);
+        }
+
+        public XenRef<Task> async_vm_remove_from_blocked_operations(string session, string _vm, vm_operations _key)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new vm_operationsConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.VM.remove_from_blocked_operations", new JArray(session, _vm ?? "", _key.StringOf()), serializer);
+        }
+
+        public void vm_sysprep(string session, string _vm, string _unattend, double _timeout)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM.sysprep", new JArray(session, _vm ?? "", _unattend ?? "", _timeout), serializer);
+        }
+
+        public XenRef<Task> async_vm_sysprep(string session, string _vm, string _unattend, double _timeout)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.VM.sysprep", new JArray(session, _vm ?? "", _unattend ?? "", _timeout), serializer);
+        }
+
+        public void vm_add_to_other_config(string session, string _vm, string _key, string _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM.add_to_other_config", new JArray(session, _vm ?? "", _key ?? "", _value ?? ""), serializer);
+        }
+
+        public void vm_remove_from_other_config(string session, string _vm, string _key)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM.remove_from_other_config", new JArray(session, _vm ?? "", _key ?? ""), serializer);
+        }
+
+        public void vm_set_other_config(string session, string _vm, Dictionary<string, string> _value)
+        {
+            var converters = new List<JsonConverter> {new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM.set_other_config", new JArray(session, _vm ?? "", _value == null ? new JObject() : JObject.FromObject(_value, serializer)), serializer);
+        }
+
+        public void vm_add_to_platform(string session, string _vm, string _key, string _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM.add_to_platform", new JArray(session, _vm ?? "", _key ?? "", _value ?? ""), serializer);
+        }
+
+        public void vm_remove_from_platform(string session, string _vm, string _key)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM.remove_from_platform", new JArray(session, _vm ?? "", _key ?? ""), serializer);
+        }
+
+        public void vm_set_platform(string session, string _vm, Dictionary<string, string> _value)
+        {
+            var converters = new List<JsonConverter> {new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM.set_platform", new JArray(session, _vm ?? "", _value == null ? new JObject() : JObject.FromObject(_value, serializer)), serializer);
         }
 
         public List<XenRef<VM>> vm_get_all(string session)
@@ -4847,6 +5379,27 @@ namespace XenAPI
             return Rpc<domain_type>("VM_metrics.get_current_domain_type", new JArray(session, _vm_metrics ?? ""), serializer);
         }
 
+        public bool vm_metrics_get_numa_optimised(string session, string _vm_metrics)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<bool>("VM_metrics.get_numa_optimised", new JArray(session, _vm_metrics ?? ""), serializer);
+        }
+
+        public long vm_metrics_get_numa_nodes(string session, string _vm_metrics)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<long>("VM_metrics.get_numa_nodes", new JArray(session, _vm_metrics ?? ""), serializer);
+        }
+
+        public Dictionary<long, long> vm_metrics_get_numa_node_memory(string session, string _vm_metrics)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<Dictionary<long, long>>("VM_metrics.get_numa_node_memory", new JArray(session, _vm_metrics ?? ""), serializer);
+        }
+
         public void vm_metrics_set_other_config(string session, string _vm_metrics, Dictionary<string, string> _other_config)
         {
             var converters = new List<JsonConverter> {new StringStringMapConverter()};
@@ -4908,6 +5461,13 @@ namespace XenAPI
             var converters = new List<JsonConverter> {new StringStringMapConverter()};
             var serializer = CreateSerializer(converters);
             return Rpc<Dictionary<string, string>>("VM_guest_metrics.get_os_version", new JArray(session, _vm_guest_metrics ?? ""), serializer);
+        }
+
+        public Dictionary<string, string> vm_guest_metrics_get_netbios_name(string session, string _vm_guest_metrics)
+        {
+            var converters = new List<JsonConverter> {new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<Dictionary<string, string>>("VM_guest_metrics.get_netbios_name", new JArray(session, _vm_guest_metrics ?? ""), serializer);
         }
 
         public Dictionary<string, string> vm_guest_metrics_get_pv_drivers_version(string session, string _vm_guest_metrics)
@@ -4992,6 +5552,13 @@ namespace XenAPI
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             return Rpc<bool>("VM_guest_metrics.get_PV_drivers_detected", new JArray(session, _vm_guest_metrics ?? ""), serializer);
+        }
+
+        public Dictionary<string, string> vm_guest_metrics_get_services(string session, string _vm_guest_metrics)
+        {
+            var converters = new List<JsonConverter> {new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<Dictionary<string, string>>("VM_guest_metrics.get_services", new JArray(session, _vm_guest_metrics ?? ""), serializer);
         }
 
         public void vm_guest_metrics_set_other_config(string session, string _vm_guest_metrics, Dictionary<string, string> _other_config)
@@ -6394,6 +6961,104 @@ namespace XenAPI
             return Rpc<latest_synced_updates_applied_state>("host.get_latest_synced_updates_applied", new JArray(session, _host ?? ""), serializer);
         }
 
+        public host_numa_affinity_policy host_get_numa_affinity_policy(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {new host_numa_affinity_policyConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<host_numa_affinity_policy>("host.get_numa_affinity_policy", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public List<update_guidances> host_get_pending_guidances_recommended(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<update_guidances>>("host.get_pending_guidances_recommended", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public List<update_guidances> host_get_pending_guidances_full(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<update_guidances>>("host.get_pending_guidances_full", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public string host_get_last_update_hash(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("host.get_last_update_hash", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public bool host_get_ssh_enabled(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<bool>("host.get_ssh_enabled", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public long host_get_ssh_enabled_timeout(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<long>("host.get_ssh_enabled_timeout", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public DateTime host_get_ssh_expiry(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {new XenDateTimeConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<DateTime>("host.get_ssh_expiry", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public long host_get_console_idle_timeout(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<long>("host.get_console_idle_timeout", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public bool host_get_ssh_auto_mode(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<bool>("host.get_ssh_auto_mode", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public string host_get_max_cstate(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("host.get_max_cstate", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public bool host_get_secure_boot(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<bool>("host.get_secure_boot", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public host_ntp_mode host_get_ntp_mode(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {new host_ntp_modeConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<host_ntp_mode>("host.get_ntp_mode", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public string[] host_get_ntp_custom_servers(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string[]>("host.get_ntp_custom_servers", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public string host_get_timezone(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("host.get_timezone", new JArray(session, _host ?? ""), serializer);
+        }
+
         public void host_set_name_label(string session, string _host, string _label)
         {
             var converters = new List<JsonConverter> {};
@@ -6560,6 +7225,20 @@ namespace XenAPI
             var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
             var serializer = CreateSerializer(converters);
             return Rpc<XenRef<Task>>("Async.host.disable", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public void host_disable(string session, string _host, bool _auto_enable)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.disable", new JArray(session, _host ?? "", _auto_enable), serializer);
+        }
+
+        public XenRef<Task> async_host_disable(string session, string _host, bool _auto_enable)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.disable", new JArray(session, _host ?? "", _auto_enable), serializer);
         }
 
         public void host_enable(string session, string _host)
@@ -6856,6 +7535,20 @@ namespace XenAPI
             return Rpc<XenRef<Task>>("Async.host.evacuate", new JArray(session, _host ?? "", _network ?? ""), serializer);
         }
 
+        public void host_evacuate(string session, string _host, string _network, long _evacuate_batch_size)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Network>()};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.evacuate", new JArray(session, _host ?? "", _network ?? "", _evacuate_batch_size), serializer);
+        }
+
+        public XenRef<Task> async_host_evacuate(string session, string _host, string _network, long _evacuate_batch_size)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefConverter<Network>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.evacuate", new JArray(session, _host ?? "", _network ?? "", _evacuate_batch_size), serializer);
+        }
+
         public void host_syslog_reconfigure(string session, string _host)
         {
             var converters = new List<JsonConverter> {};
@@ -7078,6 +7771,20 @@ namespace XenAPI
             var converters = new List<JsonConverter> {new StringStringMapConverter()};
             var serializer = CreateSerializer(converters);
             Rpc("host.disable_external_auth", new JArray(session, _host ?? "", _config == null ? new JObject() : JObject.FromObject(_config, serializer)), serializer);
+        }
+
+        public void host_disable_external_auth(string session, string _host, Dictionary<string, string> _config, bool _force)
+        {
+            var converters = new List<JsonConverter> {new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.disable_external_auth", new JArray(session, _host ?? "", _config == null ? new JObject() : JObject.FromObject(_config, serializer), _force), serializer);
+        }
+
+        public void host_external_auth_set_ldaps(string session, string _host, bool _ldaps, bool _force)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.external_auth_set_ldaps", new JArray(session, _host ?? "", _ldaps, _force), serializer);
         }
 
         public Dictionary<XenRef<VM>, string[]> host_retrieve_wlb_evacuate_recommendations(string session, string _host)
@@ -7367,6 +8074,20 @@ namespace XenAPI
             return Rpc<XenRef<Task>>("Async.host.get_sched_gran", new JArray(session, _host ?? ""), serializer);
         }
 
+        public void host_set_numa_affinity_policy(string session, string _host, host_numa_affinity_policy _value)
+        {
+            var converters = new List<JsonConverter> {new host_numa_affinity_policyConverter()};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.set_numa_affinity_policy", new JArray(session, _host ?? "", _value.StringOf()), serializer);
+        }
+
+        public XenRef<Task> async_host_set_numa_affinity_policy(string session, string _host, host_numa_affinity_policy _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new host_numa_affinity_policyConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.set_numa_affinity_policy", new JArray(session, _host ?? "", _value.StringOf()), serializer);
+        }
+
         public void host_emergency_disable_tls_verification(string session)
         {
             var converters = new List<JsonConverter> {};
@@ -7395,6 +8116,20 @@ namespace XenAPI
             return Rpc<XenRef<Task>>("Async.host.apply_updates", new JArray(session, _host ?? "", _hash ?? ""), serializer);
         }
 
+        public void host_rescan_drivers(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.rescan_drivers", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_host_rescan_drivers(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.rescan_drivers", new JArray(session, _host ?? ""), serializer);
+        }
+
         public void host_set_https_only(string session, string _host, bool _value)
         {
             var converters = new List<JsonConverter> {};
@@ -7421,6 +8156,209 @@ namespace XenAPI
             var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
             var serializer = CreateSerializer(converters);
             return Rpc<XenRef<Task>>("Async.host.apply_recommended_guidances", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public void host_emergency_clear_mandatory_guidance(string session)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.emergency_clear_mandatory_guidance", new JArray(session), serializer);
+        }
+
+        public void host_enable_ssh(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.enable_ssh", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_host_enable_ssh(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.enable_ssh", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public void host_disable_ssh(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.disable_ssh", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_host_disable_ssh(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.disable_ssh", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public void host_set_ssh_enabled_timeout(string session, string _host, long _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.set_ssh_enabled_timeout", new JArray(session, _host ?? "", _value), serializer);
+        }
+
+        public XenRef<Task> async_host_set_ssh_enabled_timeout(string session, string _host, long _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.set_ssh_enabled_timeout", new JArray(session, _host ?? "", _value), serializer);
+        }
+
+        public void host_set_console_idle_timeout(string session, string _host, long _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.set_console_idle_timeout", new JArray(session, _host ?? "", _value), serializer);
+        }
+
+        public XenRef<Task> async_host_set_console_idle_timeout(string session, string _host, long _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.set_console_idle_timeout", new JArray(session, _host ?? "", _value), serializer);
+        }
+
+        public void host_set_ssh_auto_mode(string session, string _host, bool _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.set_ssh_auto_mode", new JArray(session, _host ?? "", _value), serializer);
+        }
+
+        public XenRef<Task> async_host_set_ssh_auto_mode(string session, string _host, bool _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.set_ssh_auto_mode", new JArray(session, _host ?? "", _value), serializer);
+        }
+
+        public Dictionary<string, string> host_get_tracked_user_agents(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<Dictionary<string, string>>("host.get_tracked_user_agents", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_host_get_tracked_user_agents(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.get_tracked_user_agents", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public void host_set_max_cstate(string session, string _host, string _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.set_max_cstate", new JArray(session, _host ?? "", _value ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_host_set_max_cstate(string session, string _host, string _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.set_max_cstate", new JArray(session, _host ?? "", _value ?? ""), serializer);
+        }
+
+        public void host_set_ntp_mode(string session, string _host, host_ntp_mode _value)
+        {
+            var converters = new List<JsonConverter> {new host_ntp_modeConverter()};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.set_ntp_mode", new JArray(session, _host ?? "", _value.StringOf()), serializer);
+        }
+
+        public XenRef<Task> async_host_set_ntp_mode(string session, string _host, host_ntp_mode _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new host_ntp_modeConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.set_ntp_mode", new JArray(session, _host ?? "", _value.StringOf()), serializer);
+        }
+
+        public void host_set_ntp_custom_servers(string session, string _host, string[] _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.set_ntp_custom_servers", new JArray(session, _host ?? "", _value == null ? new JArray() : JArray.FromObject(_value)), serializer);
+        }
+
+        public XenRef<Task> async_host_set_ntp_custom_servers(string session, string _host, string[] _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.set_ntp_custom_servers", new JArray(session, _host ?? "", _value == null ? new JArray() : JArray.FromObject(_value)), serializer);
+        }
+
+        public Dictionary<string, string> host_get_ntp_servers_status(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<Dictionary<string, string>>("host.get_ntp_servers_status", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_host_get_ntp_servers_status(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.get_ntp_servers_status", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public void host_set_timezone(string session, string _host, string _value)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.set_timezone", new JArray(session, _host ?? "", _value ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_host_set_timezone(string session, string _host, string _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.set_timezone", new JArray(session, _host ?? "", _value ?? ""), serializer);
+        }
+
+        public string[] host_list_timezones(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string[]>("host.list_timezones", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_host_list_timezones(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.list_timezones", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public bool host_get_ntp_synchronized(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<bool>("host.get_ntp_synchronized", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_host_get_ntp_synchronized(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.get_ntp_synchronized", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public void host_set_servertime(string session, string _host, DateTime _value)
+        {
+            var converters = new List<JsonConverter> {new XenDateTimeConverter()};
+            var serializer = CreateSerializer(converters);
+            Rpc("host.set_servertime", new JArray(session, _host ?? "", _value), serializer);
+        }
+
+        public XenRef<Task> async_host_set_servertime(string session, string _host, DateTime _value)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenDateTimeConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.host.set_servertime", new JArray(session, _host ?? "", _value), serializer);
         }
 
         public List<XenRef<Host>> host_get_all(string session)
@@ -9915,6 +10853,13 @@ namespace XenAPI
             return Rpc<string[]>("SM.get_required_cluster_stack", new JArray(session, _sm ?? ""), serializer);
         }
 
+        public List<image_format_type> sm_get_supported_image_formats(string session, string _sm)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<image_format_type>>("SM.get_supported_image_formats", new JArray(session, _sm ?? ""), serializer);
+        }
+
         public void sm_set_other_config(string session, string _sm, Dictionary<string, string> _other_config)
         {
             var converters = new List<JsonConverter> {new StringStringMapConverter()};
@@ -10545,20 +11490,6 @@ namespace XenAPI
             return Rpc<Dictionary<XenRef<SR>, SR>>("SR.get_all_records", new JArray(session), serializer);
         }
 
-        public Dictionary<XenRef<Sr_stat>, Sr_stat> sr_stat_get_all_records(string session)
-        {
-            var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<Sr_stat>()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<Dictionary<XenRef<Sr_stat>, Sr_stat>>("sr_stat.get_all_records", new JArray(session), serializer);
-        }
-
-        public Dictionary<XenRef<Probe_result>, Probe_result> probe_result_get_all_records(string session)
-        {
-            var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<Probe_result>()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<Dictionary<XenRef<Probe_result>, Probe_result>>("probe_result.get_all_records", new JArray(session), serializer);
-        }
-
         public LVHD lvhd_get_record(string session, string _lvhd)
         {
             var converters = new List<JsonConverter> {};
@@ -10592,13 +11523,6 @@ namespace XenAPI
             var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefConverter<Host>(), new XenRefConverter<SR>()};
             var serializer = CreateSerializer(converters);
             return Rpc<XenRef<Task>>("Async.LVHD.enable_thin_provisioning", new JArray(session, _host ?? "", _sr ?? "", _initial_allocation, _allocation_quantum), serializer);
-        }
-
-        public Dictionary<XenRef<LVHD>, LVHD> lvhd_get_all_records(string session)
-        {
-            var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<LVHD>()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<Dictionary<XenRef<LVHD>, LVHD>>("LVHD.get_all_records", new JArray(session), serializer);
         }
 
         public VDI vdi_get_record(string session, string _vdi)
@@ -11313,6 +12237,20 @@ namespace XenAPI
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             return Rpc<List<Vdi_nbd_server_info>>("VDI.get_nbd_info", new JArray(session, _vdi ?? ""), serializer);
+        }
+
+        public void vdi_revert(string session, string _vdi)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("VDI.revert", new JArray(session, _vdi ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_vdi_revert(string session, string _vdi)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.VDI.revert", new JArray(session, _vdi ?? ""), serializer);
         }
 
         public List<XenRef<VDI>> vdi_get_all(string session)
@@ -12372,20 +13310,6 @@ namespace XenAPI
             Rpc("user.remove_from_other_config", new JArray(session, _user ?? "", _key ?? ""), serializer);
         }
 
-        public Dictionary<XenRef<User>, User> user_get_all_records(string session)
-        {
-            var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<User>()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<Dictionary<XenRef<User>, User>>("user.get_all_records", new JArray(session), serializer);
-        }
-
-        public Dictionary<XenRef<Data_source>, Data_source> data_source_get_all_records(string session)
-        {
-            var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<Data_source>()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<Dictionary<XenRef<Data_source>, Data_source>>("data_source.get_all_records", new JArray(session), serializer);
-        }
-
         public Blob blob_get_record(string session, string _blob)
         {
             var converters = new List<JsonConverter> {};
@@ -12540,6 +13464,20 @@ namespace XenAPI
             return Rpc<XenRef<Task>>("Async.message.destroy_many", new JArray(session, _messages == null ? new JArray() : JArray.FromObject(_messages, serializer)), serializer);
         }
 
+        public void message_destroy_all(string session, Dictionary<string, string> _filters)
+        {
+            var converters = new List<JsonConverter> {new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            Rpc("message.destroy_all", new JArray(session, _filters == null ? new JObject() : JObject.FromObject(_filters, serializer)), serializer);
+        }
+
+        public XenRef<Task> async_message_destroy_all(string session, Dictionary<string, string> _filters)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new StringStringMapConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.message.destroy_all", new JArray(session, _filters == null ? new JObject() : JObject.FromObject(_filters, serializer)), serializer);
+        }
+
         public Dictionary<XenRef<Message>, Message> message_get(string session, cls _cls, string _obj_uuid, DateTime _since)
         {
             var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<Message>(), new clsConverter(), new XenDateTimeConverter()};
@@ -12588,7 +13526,6 @@ namespace XenAPI
             var serializer = CreateSerializer(converters);
             return Rpc<Dictionary<XenRef<Message>, Message>>("message.get_all_records_where", new JArray(session, _expr ?? ""), serializer);
         }
-
 
         public Secret secret_get_record(string session, string _secret)
         {
@@ -12982,6 +13919,13 @@ namespace XenAPI
             return Rpc<string>("PCI.get_uuid", new JArray(session, _pci ?? ""), serializer);
         }
 
+        public string pci_get_class_id(string session, string _pci)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("PCI.get_class_id", new JArray(session, _pci ?? ""), serializer);
+        }
+
         public string pci_get_class_name(string session, string _pci)
         {
             var converters = new List<JsonConverter> {};
@@ -12989,11 +13933,25 @@ namespace XenAPI
             return Rpc<string>("PCI.get_class_name", new JArray(session, _pci ?? ""), serializer);
         }
 
+        public string pci_get_vendor_id(string session, string _pci)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("PCI.get_vendor_id", new JArray(session, _pci ?? ""), serializer);
+        }
+
         public string pci_get_vendor_name(string session, string _pci)
         {
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             return Rpc<string>("PCI.get_vendor_name", new JArray(session, _pci ?? ""), serializer);
+        }
+
+        public string pci_get_device_id(string session, string _pci)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("PCI.get_device_id", new JArray(session, _pci ?? ""), serializer);
         }
 
         public string pci_get_device_name(string session, string _pci)
@@ -13031,11 +13989,25 @@ namespace XenAPI
             return Rpc<Dictionary<string, string>>("PCI.get_other_config", new JArray(session, _pci ?? ""), serializer);
         }
 
+        public string pci_get_subsystem_vendor_id(string session, string _pci)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("PCI.get_subsystem_vendor_id", new JArray(session, _pci ?? ""), serializer);
+        }
+
         public string pci_get_subsystem_vendor_name(string session, string _pci)
         {
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             return Rpc<string>("PCI.get_subsystem_vendor_name", new JArray(session, _pci ?? ""), serializer);
+        }
+
+        public string pci_get_subsystem_device_id(string session, string _pci)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("PCI.get_subsystem_device_id", new JArray(session, _pci ?? ""), serializer);
         }
 
         public string pci_get_subsystem_device_name(string session, string _pci)
@@ -13071,6 +14043,48 @@ namespace XenAPI
             var converters = new List<JsonConverter> {};
             var serializer = CreateSerializer(converters);
             Rpc("PCI.remove_from_other_config", new JArray(session, _pci ?? "", _key ?? ""), serializer);
+        }
+
+        public pci_dom0_access pci_disable_dom0_access(string session, string _pci)
+        {
+            var converters = new List<JsonConverter> {new pci_dom0_accessConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<pci_dom0_access>("PCI.disable_dom0_access", new JArray(session, _pci ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_pci_disable_dom0_access(string session, string _pci)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.PCI.disable_dom0_access", new JArray(session, _pci ?? ""), serializer);
+        }
+
+        public pci_dom0_access pci_enable_dom0_access(string session, string _pci)
+        {
+            var converters = new List<JsonConverter> {new pci_dom0_accessConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<pci_dom0_access>("PCI.enable_dom0_access", new JArray(session, _pci ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_pci_enable_dom0_access(string session, string _pci)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.PCI.enable_dom0_access", new JArray(session, _pci ?? ""), serializer);
+        }
+
+        public pci_dom0_access pci_get_dom0_access_status(string session, string _pci)
+        {
+            var converters = new List<JsonConverter> {new pci_dom0_accessConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<pci_dom0_access>("PCI.get_dom0_access_status", new JArray(session, _pci ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_pci_get_dom0_access_status(string session, string _pci)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.PCI.get_dom0_access_status", new JArray(session, _pci ?? ""), serializer);
         }
 
         public List<XenRef<PCI>> pci_get_all(string session)
@@ -13164,11 +14178,11 @@ namespace XenAPI
             return Rpc<Dictionary<XenRef<VGPU_type>, long>>("PGPU.get_supported_VGPU_max_capacities", new JArray(session, _pgpu ?? ""), serializer);
         }
 
-        public pgpu_dom0_access pgpu_get_dom0_access(string session, string _pgpu)
+        public pci_dom0_access pgpu_get_dom0_access(string session, string _pgpu)
         {
-            var converters = new List<JsonConverter> {new pgpu_dom0_accessConverter()};
+            var converters = new List<JsonConverter> {new pci_dom0_accessConverter()};
             var serializer = CreateSerializer(converters);
-            return Rpc<pgpu_dom0_access>("PGPU.get_dom0_access", new JArray(session, _pgpu ?? ""), serializer);
+            return Rpc<pci_dom0_access>("PGPU.get_dom0_access", new JArray(session, _pgpu ?? ""), serializer);
         }
 
         public bool pgpu_get_is_system_display_device(string session, string _pgpu)
@@ -13276,11 +14290,11 @@ namespace XenAPI
             return Rpc<XenRef<Task>>("Async.PGPU.get_remaining_capacity", new JArray(session, _pgpu ?? "", _vgpu_type ?? ""), serializer);
         }
 
-        public pgpu_dom0_access pgpu_enable_dom0_access(string session, string _pgpu)
+        public pci_dom0_access pgpu_enable_dom0_access(string session, string _pgpu)
         {
-            var converters = new List<JsonConverter> {new pgpu_dom0_accessConverter()};
+            var converters = new List<JsonConverter> {new pci_dom0_accessConverter()};
             var serializer = CreateSerializer(converters);
-            return Rpc<pgpu_dom0_access>("PGPU.enable_dom0_access", new JArray(session, _pgpu ?? ""), serializer);
+            return Rpc<pci_dom0_access>("PGPU.enable_dom0_access", new JArray(session, _pgpu ?? ""), serializer);
         }
 
         public XenRef<Task> async_pgpu_enable_dom0_access(string session, string _pgpu)
@@ -13290,11 +14304,11 @@ namespace XenAPI
             return Rpc<XenRef<Task>>("Async.PGPU.enable_dom0_access", new JArray(session, _pgpu ?? ""), serializer);
         }
 
-        public pgpu_dom0_access pgpu_disable_dom0_access(string session, string _pgpu)
+        public pci_dom0_access pgpu_disable_dom0_access(string session, string _pgpu)
         {
-            var converters = new List<JsonConverter> {new pgpu_dom0_accessConverter()};
+            var converters = new List<JsonConverter> {new pci_dom0_accessConverter()};
             var serializer = CreateSerializer(converters);
-            return Rpc<pgpu_dom0_access>("PGPU.disable_dom0_access", new JArray(session, _pgpu ?? ""), serializer);
+            return Rpc<pci_dom0_access>("PGPU.disable_dom0_access", new JArray(session, _pgpu ?? ""), serializer);
         }
 
         public XenRef<Task> async_pgpu_disable_dom0_access(string session, string _pgpu)
@@ -14417,13 +15431,6 @@ namespace XenAPI
             return Rpc<Dictionary<XenRef<SDN_controller>, SDN_controller>>("SDN_controller.get_all_records", new JArray(session), serializer);
         }
 
-        public Dictionary<XenRef<Vdi_nbd_server_info>, Vdi_nbd_server_info> vdi_nbd_server_info_get_all_records(string session)
-        {
-            var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<Vdi_nbd_server_info>()};
-            var serializer = CreateSerializer(converters);
-            return Rpc<Dictionary<XenRef<Vdi_nbd_server_info>, Vdi_nbd_server_info>>("vdi_nbd_server_info.get_all_records", new JArray(session), serializer);
-        }
-
         public PUSB pusb_get_record(string session, string _pusb)
         {
             var converters = new List<JsonConverter> {};
@@ -14928,6 +15935,41 @@ namespace XenAPI
             return Rpc<string>("Cluster.get_cluster_stack", new JArray(session, _cluster ?? ""), serializer);
         }
 
+        public long cluster_get_cluster_stack_version(string session, string _cluster)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<long>("Cluster.get_cluster_stack_version", new JArray(session, _cluster ?? ""), serializer);
+        }
+
+        public bool cluster_get_is_quorate(string session, string _cluster)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<bool>("Cluster.get_is_quorate", new JArray(session, _cluster ?? ""), serializer);
+        }
+
+        public long cluster_get_quorum(string session, string _cluster)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<long>("Cluster.get_quorum", new JArray(session, _cluster ?? ""), serializer);
+        }
+
+        public long cluster_get_live_hosts(string session, string _cluster)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<long>("Cluster.get_live_hosts", new JArray(session, _cluster ?? ""), serializer);
+        }
+
+        public long cluster_get_expected_hosts(string session, string _cluster)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<long>("Cluster.get_expected_hosts", new JArray(session, _cluster ?? ""), serializer);
+        }
+
         public List<cluster_operation> cluster_get_allowed_operations(string session, string _cluster)
         {
             var converters = new List<JsonConverter> {};
@@ -15166,6 +16208,20 @@ namespace XenAPI
             return Rpc<bool>("Cluster_host.get_joined", new JArray(session, _cluster_host ?? ""), serializer);
         }
 
+        public bool cluster_host_get_live(string session, string _cluster_host)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<bool>("Cluster_host.get_live", new JArray(session, _cluster_host ?? ""), serializer);
+        }
+
+        public DateTime cluster_host_get_last_update_live(string session, string _cluster_host)
+        {
+            var converters = new List<JsonConverter> {new XenDateTimeConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<DateTime>("Cluster_host.get_last_update_live", new JArray(session, _cluster_host ?? ""), serializer);
+        }
+
         public List<cluster_host_operation> cluster_host_get_allowed_operations(string session, string _cluster_host)
         {
             var converters = new List<JsonConverter> {};
@@ -15334,6 +16390,27 @@ namespace XenAPI
             return Rpc<string>("Certificate.get_fingerprint", new JArray(session, _certificate ?? ""), serializer);
         }
 
+        public string certificate_get_fingerprint_sha256(string session, string _certificate)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("Certificate.get_fingerprint_sha256", new JArray(session, _certificate ?? ""), serializer);
+        }
+
+        public string certificate_get_fingerprint_sha1(string session, string _certificate)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("Certificate.get_fingerprint_sha1", new JArray(session, _certificate ?? ""), serializer);
+        }
+
+        public List<certificate_purpose> certificate_get_purpose(string session, string _certificate)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<certificate_purpose>>("Certificate.get_purpose", new JArray(session, _certificate ?? ""), serializer);
+        }
+
         public List<XenRef<Certificate>> certificate_get_all(string session)
         {
             var converters = new List<JsonConverter> {new XenRefListConverter<Certificate>()};
@@ -15432,6 +16509,20 @@ namespace XenAPI
             return Rpc<string>("Repository.get_gpgkey_path", new JArray(session, _repository ?? ""), serializer);
         }
 
+        public origin repository_get_origin(string session, string _repository)
+        {
+            var converters = new List<JsonConverter> {new originConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<origin>("Repository.get_origin", new JArray(session, _repository ?? ""), serializer);
+        }
+
+        public string repository_get_certificate(string session, string _repository)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("Repository.get_certificate", new JArray(session, _repository ?? ""), serializer);
+        }
+
         public void repository_set_name_label(string session, string _repository, string _label)
         {
             var converters = new List<JsonConverter> {};
@@ -15458,6 +16549,34 @@ namespace XenAPI
             var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
             var serializer = CreateSerializer(converters);
             return Rpc<XenRef<Task>>("Async.Repository.introduce", new JArray(session, _name_label ?? "", _name_description ?? "", _binary_url ?? "", _source_url ?? "", _update, _gpgkey_path ?? ""), serializer);
+        }
+
+        public XenRef<Repository> repository_introduce_bundle(string session, string _name_label, string _name_description)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Repository>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Repository>>("Repository.introduce_bundle", new JArray(session, _name_label ?? "", _name_description ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_repository_introduce_bundle(string session, string _name_label, string _name_description)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.Repository.introduce_bundle", new JArray(session, _name_label ?? "", _name_description ?? ""), serializer);
+        }
+
+        public XenRef<Repository> repository_introduce_remote_pool(string session, string _name_label, string _name_description, string _binary_url, string _certificate)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Repository>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Repository>>("Repository.introduce_remote_pool", new JArray(session, _name_label ?? "", _name_description ?? "", _binary_url ?? "", _certificate ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_repository_introduce_remote_pool(string session, string _name_label, string _name_description, string _binary_url, string _certificate)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.Repository.introduce_remote_pool", new JArray(session, _name_label ?? "", _name_description ?? "", _binary_url ?? "", _certificate ?? ""), serializer);
         }
 
         public void repository_forget(string session, string _repository)
@@ -15703,6 +16822,349 @@ namespace XenAPI
             var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<Observer>()};
             var serializer = CreateSerializer(converters);
             return Rpc<Dictionary<XenRef<Observer>, Observer>>("Observer.get_all_records", new JArray(session), serializer);
+        }
+
+        public VM_group vm_group_get_record(string session, string _vm_group)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<VM_group>("VM_group.get_record", new JArray(session, _vm_group ?? ""), serializer);
+        }
+
+        public XenRef<VM_group> vm_group_get_by_uuid(string session, string _uuid)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<VM_group>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<VM_group>>("VM_group.get_by_uuid", new JArray(session, _uuid ?? ""), serializer);
+        }
+
+        public XenRef<VM_group> vm_group_create(string session, VM_group _record)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<VM_group>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<VM_group>>("VM_group.create", new JArray(session, _record.ToJObject()), serializer);
+        }
+
+        public XenRef<Task> async_vm_group_create(string session, VM_group _record)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.VM_group.create", new JArray(session, _record.ToJObject()), serializer);
+        }
+
+        public void vm_group_destroy(string session, string _vm_group)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM_group.destroy", new JArray(session, _vm_group ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_vm_group_destroy(string session, string _vm_group)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.VM_group.destroy", new JArray(session, _vm_group ?? ""), serializer);
+        }
+
+        public List<XenRef<VM_group>> vm_group_get_by_name_label(string session, string _label)
+        {
+            var converters = new List<JsonConverter> {new XenRefListConverter<VM_group>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<XenRef<VM_group>>>("VM_group.get_by_name_label", new JArray(session, _label ?? ""), serializer);
+        }
+
+        public string vm_group_get_uuid(string session, string _vm_group)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("VM_group.get_uuid", new JArray(session, _vm_group ?? ""), serializer);
+        }
+
+        public string vm_group_get_name_label(string session, string _vm_group)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("VM_group.get_name_label", new JArray(session, _vm_group ?? ""), serializer);
+        }
+
+        public string vm_group_get_name_description(string session, string _vm_group)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("VM_group.get_name_description", new JArray(session, _vm_group ?? ""), serializer);
+        }
+
+        public placement_policy vm_group_get_placement(string session, string _vm_group)
+        {
+            var converters = new List<JsonConverter> {new placement_policyConverter()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<placement_policy>("VM_group.get_placement", new JArray(session, _vm_group ?? ""), serializer);
+        }
+
+        public List<XenRef<VM>> vm_group_get_vms(string session, string _vm_group)
+        {
+            var converters = new List<JsonConverter> {new XenRefListConverter<VM>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<XenRef<VM>>>("VM_group.get_VMs", new JArray(session, _vm_group ?? ""), serializer);
+        }
+
+        public void vm_group_set_name_label(string session, string _vm_group, string _label)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM_group.set_name_label", new JArray(session, _vm_group ?? "", _label ?? ""), serializer);
+        }
+
+        public void vm_group_set_name_description(string session, string _vm_group, string _description)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("VM_group.set_name_description", new JArray(session, _vm_group ?? "", _description ?? ""), serializer);
+        }
+
+        public List<XenRef<VM_group>> vm_group_get_all(string session)
+        {
+            var converters = new List<JsonConverter> {new XenRefListConverter<VM_group>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<XenRef<VM_group>>>("VM_group.get_all", new JArray(session), serializer);
+        }
+
+        public Dictionary<XenRef<VM_group>, VM_group> vm_group_get_all_records(string session)
+        {
+            var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<VM_group>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<Dictionary<XenRef<VM_group>, VM_group>>("VM_group.get_all_records", new JArray(session), serializer);
+        }
+
+        public Host_driver host_driver_get_record(string session, string _host_driver)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<Host_driver>("Host_driver.get_record", new JArray(session, _host_driver ?? ""), serializer);
+        }
+
+        public XenRef<Host_driver> host_driver_get_by_uuid(string session, string _uuid)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Host_driver>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Host_driver>>("Host_driver.get_by_uuid", new JArray(session, _uuid ?? ""), serializer);
+        }
+
+        public string host_driver_get_uuid(string session, string _host_driver)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("Host_driver.get_uuid", new JArray(session, _host_driver ?? ""), serializer);
+        }
+
+        public XenRef<Host> host_driver_get_host(string session, string _host_driver)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Host>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Host>>("Host_driver.get_host", new JArray(session, _host_driver ?? ""), serializer);
+        }
+
+        public string host_driver_get_name(string session, string _host_driver)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("Host_driver.get_name", new JArray(session, _host_driver ?? ""), serializer);
+        }
+
+        public string host_driver_get_friendly_name(string session, string _host_driver)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("Host_driver.get_friendly_name", new JArray(session, _host_driver ?? ""), serializer);
+        }
+
+        public List<XenRef<Driver_variant>> host_driver_get_variants(string session, string _host_driver)
+        {
+            var converters = new List<JsonConverter> {new XenRefListConverter<Driver_variant>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<XenRef<Driver_variant>>>("Host_driver.get_variants", new JArray(session, _host_driver ?? ""), serializer);
+        }
+
+        public XenRef<Driver_variant> host_driver_get_active_variant(string session, string _host_driver)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Driver_variant>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Driver_variant>>("Host_driver.get_active_variant", new JArray(session, _host_driver ?? ""), serializer);
+        }
+
+        public XenRef<Driver_variant> host_driver_get_selected_variant(string session, string _host_driver)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Driver_variant>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Driver_variant>>("Host_driver.get_selected_variant", new JArray(session, _host_driver ?? ""), serializer);
+        }
+
+        public string host_driver_get_type(string session, string _host_driver)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("Host_driver.get_type", new JArray(session, _host_driver ?? ""), serializer);
+        }
+
+        public string host_driver_get_description(string session, string _host_driver)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("Host_driver.get_description", new JArray(session, _host_driver ?? ""), serializer);
+        }
+
+        public string host_driver_get_info(string session, string _host_driver)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("Host_driver.get_info", new JArray(session, _host_driver ?? ""), serializer);
+        }
+
+        public void host_driver_select(string session, string _host_driver, string _variant)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Driver_variant>()};
+            var serializer = CreateSerializer(converters);
+            Rpc("Host_driver.select", new JArray(session, _host_driver ?? "", _variant ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_host_driver_select(string session, string _host_driver, string _variant)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefConverter<Driver_variant>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.Host_driver.select", new JArray(session, _host_driver ?? "", _variant ?? ""), serializer);
+        }
+
+        public void host_driver_deselect(string session, string _host_driver)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("Host_driver.deselect", new JArray(session, _host_driver ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_host_driver_deselect(string session, string _host_driver)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.Host_driver.deselect", new JArray(session, _host_driver ?? ""), serializer);
+        }
+
+        public void host_driver_rescan(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Host>()};
+            var serializer = CreateSerializer(converters);
+            Rpc("Host_driver.rescan", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_host_driver_rescan(string session, string _host)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>(), new XenRefConverter<Host>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.Host_driver.rescan", new JArray(session, _host ?? ""), serializer);
+        }
+
+        public List<XenRef<Host_driver>> host_driver_get_all(string session)
+        {
+            var converters = new List<JsonConverter> {new XenRefListConverter<Host_driver>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<XenRef<Host_driver>>>("Host_driver.get_all", new JArray(session), serializer);
+        }
+
+        public Dictionary<XenRef<Host_driver>, Host_driver> host_driver_get_all_records(string session)
+        {
+            var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<Host_driver>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<Dictionary<XenRef<Host_driver>, Host_driver>>("Host_driver.get_all_records", new JArray(session), serializer);
+        }
+
+        public Driver_variant driver_variant_get_record(string session, string _driver_variant)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<Driver_variant>("Driver_variant.get_record", new JArray(session, _driver_variant ?? ""), serializer);
+        }
+
+        public XenRef<Driver_variant> driver_variant_get_by_uuid(string session, string _uuid)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Driver_variant>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Driver_variant>>("Driver_variant.get_by_uuid", new JArray(session, _uuid ?? ""), serializer);
+        }
+
+        public string driver_variant_get_uuid(string session, string _driver_variant)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("Driver_variant.get_uuid", new JArray(session, _driver_variant ?? ""), serializer);
+        }
+
+        public string driver_variant_get_name(string session, string _driver_variant)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("Driver_variant.get_name", new JArray(session, _driver_variant ?? ""), serializer);
+        }
+
+        public XenRef<Host_driver> driver_variant_get_driver(string session, string _driver_variant)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Host_driver>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Host_driver>>("Driver_variant.get_driver", new JArray(session, _driver_variant ?? ""), serializer);
+        }
+
+        public string driver_variant_get_version(string session, string _driver_variant)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("Driver_variant.get_version", new JArray(session, _driver_variant ?? ""), serializer);
+        }
+
+        public bool driver_variant_get_hardware_present(string session, string _driver_variant)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<bool>("Driver_variant.get_hardware_present", new JArray(session, _driver_variant ?? ""), serializer);
+        }
+
+        public double driver_variant_get_priority(string session, string _driver_variant)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<double>("Driver_variant.get_priority", new JArray(session, _driver_variant ?? ""), serializer);
+        }
+
+        public string driver_variant_get_status(string session, string _driver_variant)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            return Rpc<string>("Driver_variant.get_status", new JArray(session, _driver_variant ?? ""), serializer);
+        }
+
+        public void driver_variant_select(string session, string _driver_variant)
+        {
+            var converters = new List<JsonConverter> {};
+            var serializer = CreateSerializer(converters);
+            Rpc("Driver_variant.select", new JArray(session, _driver_variant ?? ""), serializer);
+        }
+
+        public XenRef<Task> async_driver_variant_select(string session, string _driver_variant)
+        {
+            var converters = new List<JsonConverter> {new XenRefConverter<Task>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<XenRef<Task>>("Async.Driver_variant.select", new JArray(session, _driver_variant ?? ""), serializer);
+        }
+
+        public List<XenRef<Driver_variant>> driver_variant_get_all(string session)
+        {
+            var converters = new List<JsonConverter> {new XenRefListConverter<Driver_variant>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<List<XenRef<Driver_variant>>>("Driver_variant.get_all", new JArray(session), serializer);
+        }
+
+        public Dictionary<XenRef<Driver_variant>, Driver_variant> driver_variant_get_all_records(string session)
+        {
+            var converters = new List<JsonConverter> {new XenRefXenObjectMapConverter<Driver_variant>()};
+            var serializer = CreateSerializer(converters);
+            return Rpc<Dictionary<XenRef<Driver_variant>, Driver_variant>>("Driver_variant.get_all_records", new JArray(session), serializer);
         }
     }
 }

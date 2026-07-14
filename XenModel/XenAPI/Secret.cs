@@ -113,27 +113,6 @@ namespace XenAPI
                 Helper.AreEqual2(_other_config, other._other_config);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Secret server)
-        {
-            if (opaqueRef == null)
-            {
-                var reference = create(session, this);
-                return reference == null ? null : reference.opaque_ref;
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_value, server._value))
-                {
-                    Secret.set_value(session, opaqueRef, _value);
-                }
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    Secret.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given secret.
@@ -141,6 +120,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_secret">The opaque_ref of the given secret</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static Secret get_record(Session session, string _secret)
         {
             return session.JsonRpcClient.secret_get_record(session.opaque_ref, _secret);
@@ -152,6 +134,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Secret> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.secret_get_by_uuid(session.opaque_ref, _uuid);
@@ -163,6 +148,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Secret> create(Session session, Secret _record)
         {
             return session.JsonRpcClient.secret_create(session.opaque_ref, _record);
@@ -174,6 +162,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, Secret _record)
         {
           return session.JsonRpcClient.async_secret_create(session.opaque_ref, _record);
@@ -185,6 +176,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_secret">The opaque_ref of the given secret</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _secret)
         {
             session.JsonRpcClient.secret_destroy(session.opaque_ref, _secret);
@@ -196,6 +190,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_secret">The opaque_ref of the given secret</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _secret)
         {
           return session.JsonRpcClient.async_secret_destroy(session.opaque_ref, _secret);
@@ -207,6 +204,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_secret">The opaque_ref of the given secret</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static string get_uuid(Session session, string _secret)
         {
             return session.JsonRpcClient.secret_get_uuid(session.opaque_ref, _secret);
@@ -218,6 +218,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_secret">The opaque_ref of the given secret</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static string get_value(Session session, string _secret)
         {
             return session.JsonRpcClient.secret_get_value(session.opaque_ref, _secret);
@@ -229,6 +232,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_secret">The opaque_ref of the given secret</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _secret)
         {
             return session.JsonRpcClient.secret_get_other_config(session.opaque_ref, _secret);
@@ -241,6 +247,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_secret">The opaque_ref of the given secret</param>
         /// <param name="_value">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_value(Session session, string _secret, string _value)
         {
             session.JsonRpcClient.secret_set_value(session.opaque_ref, _secret, _value);
@@ -253,6 +262,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_secret">The opaque_ref of the given secret</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _secret, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.secret_set_other_config(session.opaque_ref, _secret, _other_config);
@@ -266,6 +278,9 @@ namespace XenAPI
         /// <param name="_secret">The opaque_ref of the given secret</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _secret, string _key, string _value)
         {
             session.JsonRpcClient.secret_add_to_other_config(session.opaque_ref, _secret, _key, _value);
@@ -278,6 +293,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_secret">The opaque_ref of the given secret</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _secret, string _key)
         {
             session.JsonRpcClient.secret_remove_from_other_config(session.opaque_ref, _secret, _key);
@@ -288,16 +306,22 @@ namespace XenAPI
         /// First published in XenServer 5.6.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static List<XenRef<Secret>> get_all(Session session)
         {
             return session.JsonRpcClient.secret_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the secret Records at once, in a single XML RPC call
+        /// Return a map of secret references to secret records for all secrets known to the system.
         /// First published in XenServer 5.6.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static Dictionary<XenRef<Secret>, Secret> get_all_records(Session session)
         {
             return session.JsonRpcClient.secret_get_all_records(session.opaque_ref);

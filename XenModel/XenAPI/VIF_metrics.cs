@@ -125,23 +125,6 @@ namespace XenAPI
                 Helper.AreEqual2(_other_config, other._other_config);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, VIF_metrics server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    VIF_metrics.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given VIF_metrics.
@@ -151,6 +134,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif_metrics">The opaque_ref of the given vif_metrics</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static VIF_metrics get_record(Session session, string _vif_metrics)
         {
             return session.JsonRpcClient.vif_metrics_get_record(session.opaque_ref, _vif_metrics);
@@ -164,6 +150,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VIF_metrics> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.vif_metrics_get_by_uuid(session.opaque_ref, _uuid);
@@ -175,6 +164,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif_metrics">The opaque_ref of the given vif_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _vif_metrics)
         {
             return session.JsonRpcClient.vif_metrics_get_uuid(session.opaque_ref, _vif_metrics);
@@ -188,6 +180,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif_metrics">The opaque_ref of the given vif_metrics</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static double get_io_read_kbs(Session session, string _vif_metrics)
         {
             return session.JsonRpcClient.vif_metrics_get_io_read_kbs(session.opaque_ref, _vif_metrics);
@@ -201,6 +196,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif_metrics">The opaque_ref of the given vif_metrics</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static double get_io_write_kbs(Session session, string _vif_metrics)
         {
             return session.JsonRpcClient.vif_metrics_get_io_write_kbs(session.opaque_ref, _vif_metrics);
@@ -212,6 +210,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif_metrics">The opaque_ref of the given vif_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static DateTime get_last_updated(Session session, string _vif_metrics)
         {
             return session.JsonRpcClient.vif_metrics_get_last_updated(session.opaque_ref, _vif_metrics);
@@ -223,6 +224,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vif_metrics">The opaque_ref of the given vif_metrics</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _vif_metrics)
         {
             return session.JsonRpcClient.vif_metrics_get_other_config(session.opaque_ref, _vif_metrics);
@@ -235,6 +239,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif_metrics">The opaque_ref of the given vif_metrics</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_other_config(Session session, string _vif_metrics, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.vif_metrics_set_other_config(session.opaque_ref, _vif_metrics, _other_config);
@@ -248,6 +255,9 @@ namespace XenAPI
         /// <param name="_vif_metrics">The opaque_ref of the given vif_metrics</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_other_config(Session session, string _vif_metrics, string _key, string _value)
         {
             session.JsonRpcClient.vif_metrics_add_to_other_config(session.opaque_ref, _vif_metrics, _key, _value);
@@ -260,6 +270,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_vif_metrics">The opaque_ref of the given vif_metrics</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _vif_metrics, string _key)
         {
             session.JsonRpcClient.vif_metrics_remove_from_other_config(session.opaque_ref, _vif_metrics, _key);
@@ -272,16 +285,22 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         [Deprecated("XenServer 6.1")]
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VIF_metrics>> get_all(Session session)
         {
             return session.JsonRpcClient.vif_metrics_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the VIF_metrics Records at once, in a single XML RPC call
+        /// Return a map of VIF_metrics references to VIF_metrics records for all VIF_metrics instances known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<VIF_metrics>, VIF_metrics> get_all_records(Session session)
         {
             return session.JsonRpcClient.vif_metrics_get_all_records(session.opaque_ref);

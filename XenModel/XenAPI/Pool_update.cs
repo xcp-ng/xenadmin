@@ -161,23 +161,6 @@ namespace XenAPI
                 Helper.AreEqual2(_enforce_homogeneity, other._enforce_homogeneity);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Pool_update server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    Pool_update.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given pool_update.
@@ -185,6 +168,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Pool_update get_record(Session session, string _pool_update)
         {
             return session.JsonRpcClient.pool_update_get_record(session.opaque_ref, _pool_update);
@@ -196,6 +182,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Pool_update> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.pool_update_get_by_uuid(session.opaque_ref, _uuid);
@@ -207,6 +196,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Pool_update>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.pool_update_get_by_name_label(session.opaque_ref, _label);
@@ -218,6 +210,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _pool_update)
         {
             return session.JsonRpcClient.pool_update_get_uuid(session.opaque_ref, _pool_update);
@@ -229,6 +224,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _pool_update)
         {
             return session.JsonRpcClient.pool_update_get_name_label(session.opaque_ref, _pool_update);
@@ -240,6 +238,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _pool_update)
         {
             return session.JsonRpcClient.pool_update_get_name_description(session.opaque_ref, _pool_update);
@@ -251,6 +252,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_version(Session session, string _pool_update)
         {
             return session.JsonRpcClient.pool_update_get_version(session.opaque_ref, _pool_update);
@@ -262,6 +266,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_installation_size(Session session, string _pool_update)
         {
             return session.JsonRpcClient.pool_update_get_installation_size(session.opaque_ref, _pool_update);
@@ -273,6 +280,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_key(Session session, string _pool_update)
         {
             return session.JsonRpcClient.pool_update_get_key(session.opaque_ref, _pool_update);
@@ -284,6 +294,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<update_after_apply_guidance> get_after_apply_guidance(Session session, string _pool_update)
         {
             return session.JsonRpcClient.pool_update_get_after_apply_guidance(session.opaque_ref, _pool_update);
@@ -295,6 +308,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VDI> get_vdi(Session session, string _pool_update)
         {
             return session.JsonRpcClient.pool_update_get_vdi(session.opaque_ref, _pool_update);
@@ -306,6 +322,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Host>> get_hosts(Session session, string _pool_update)
         {
             return session.JsonRpcClient.pool_update_get_hosts(session.opaque_ref, _pool_update);
@@ -317,6 +336,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _pool_update)
         {
             return session.JsonRpcClient.pool_update_get_other_config(session.opaque_ref, _pool_update);
@@ -328,6 +350,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_enforce_homogeneity(Session session, string _pool_update)
         {
             return session.JsonRpcClient.pool_update_get_enforce_homogeneity(session.opaque_ref, _pool_update);
@@ -340,6 +365,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _pool_update, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.pool_update_set_other_config(session.opaque_ref, _pool_update, _other_config);
@@ -353,6 +381,9 @@ namespace XenAPI
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _pool_update, string _key, string _value)
         {
             session.JsonRpcClient.pool_update_add_to_other_config(session.opaque_ref, _pool_update, _key, _value);
@@ -365,6 +396,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _pool_update, string _key)
         {
             session.JsonRpcClient.pool_update_remove_from_other_config(session.opaque_ref, _pool_update, _key);
@@ -376,6 +410,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The VDI which contains a software update.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Pool_update> introduce(Session session, string _vdi)
         {
             return session.JsonRpcClient.pool_update_introduce(session.opaque_ref, _vdi);
@@ -387,6 +424,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_vdi">The VDI which contains a software update.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_introduce(Session session, string _vdi)
         {
           return session.JsonRpcClient.async_pool_update_introduce(session.opaque_ref, _vdi);
@@ -399,6 +439,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
         /// <param name="_host">The host to run the prechecks on.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static livepatch_status precheck(Session session, string _pool_update, string _host)
         {
             return session.JsonRpcClient.pool_update_precheck(session.opaque_ref, _pool_update, _host);
@@ -411,6 +454,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
         /// <param name="_host">The host to run the prechecks on.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_precheck(Session session, string _pool_update, string _host)
         {
           return session.JsonRpcClient.async_pool_update_precheck(session.opaque_ref, _pool_update, _host);
@@ -423,6 +469,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
         /// <param name="_host">The host to apply the update to.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void apply(Session session, string _pool_update, string _host)
         {
             session.JsonRpcClient.pool_update_apply(session.opaque_ref, _pool_update, _host);
@@ -435,6 +484,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
         /// <param name="_host">The host to apply the update to.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_apply(Session session, string _pool_update, string _host)
         {
           return session.JsonRpcClient.async_pool_update_apply(session.opaque_ref, _pool_update, _host);
@@ -446,6 +498,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void pool_apply(Session session, string _pool_update)
         {
             session.JsonRpcClient.pool_update_pool_apply(session.opaque_ref, _pool_update);
@@ -457,6 +512,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_pool_apply(Session session, string _pool_update)
         {
           return session.JsonRpcClient.async_pool_update_pool_apply(session.opaque_ref, _pool_update);
@@ -468,6 +526,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void pool_clean(Session session, string _pool_update)
         {
             session.JsonRpcClient.pool_update_pool_clean(session.opaque_ref, _pool_update);
@@ -479,6 +540,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_pool_clean(Session session, string _pool_update)
         {
           return session.JsonRpcClient.async_pool_update_pool_clean(session.opaque_ref, _pool_update);
@@ -490,6 +554,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _pool_update)
         {
             session.JsonRpcClient.pool_update_destroy(session.opaque_ref, _pool_update);
@@ -501,6 +568,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pool_update">The opaque_ref of the given pool_update</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _pool_update)
         {
           return session.JsonRpcClient.async_pool_update_destroy(session.opaque_ref, _pool_update);
@@ -511,16 +581,22 @@ namespace XenAPI
         /// First published in XenServer 7.1.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Pool_update>> get_all(Session session)
         {
             return session.JsonRpcClient.pool_update_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the pool_update Records at once, in a single XML RPC call
+        /// Return a map of pool_update references to pool_update records for all pool_updates known to the system.
         /// First published in XenServer 7.1.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Pool_update>, Pool_update> get_all_records(Session session)
         {
             return session.JsonRpcClient.pool_update_get_all_records(session.opaque_ref);

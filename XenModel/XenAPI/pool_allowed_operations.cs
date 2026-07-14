@@ -60,6 +60,10 @@ namespace XenAPI
         /// </summary>
         sync_updates,
         /// <summary>
+        /// Indicates this pool is in the process of syncing bundle
+        /// </summary>
+        sync_bundle,
+        /// <summary>
         /// Indicates this pool is in the process of getting updates
         /// </summary>
         get_updates,
@@ -87,6 +91,14 @@ namespace XenAPI
         /// Indicates the primary host is sending its certificates to another host
         /// </summary>
         copy_primary_host_certs,
+        /// <summary>
+        /// Ejection of a host from the pool is under way
+        /// </summary>
+        eject,
+        /// <summary>
+        /// Indicates this pool is exchanging CRLs with a new joiner
+        /// </summary>
+        exchange_crls_on_join,
         unknown
     }
 
@@ -116,6 +128,8 @@ namespace XenAPI
                     return "configure_repositories";
                 case pool_allowed_operations.sync_updates:
                     return "sync_updates";
+                case pool_allowed_operations.sync_bundle:
+                    return "sync_bundle";
                 case pool_allowed_operations.get_updates:
                     return "get_updates";
                 case pool_allowed_operations.apply_updates:
@@ -130,6 +144,10 @@ namespace XenAPI
                     return "exchange_ca_certificates_on_join";
                 case pool_allowed_operations.copy_primary_host_certs:
                     return "copy_primary_host_certs";
+                case pool_allowed_operations.eject:
+                    return "eject";
+                case pool_allowed_operations.exchange_crls_on_join:
+                    return "exchange_crls_on_join";
                 default:
                     return "unknown";
             }

@@ -125,23 +125,6 @@ namespace XenAPI
                 Helper.AreEqual2(_other_config, other._other_config);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Console server)
-        {
-            if (opaqueRef == null)
-            {
-                var reference = create(session, this);
-                return reference == null ? null : reference.opaque_ref;
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    Console.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given console.
@@ -149,6 +132,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_console">The opaque_ref of the given console</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Console get_record(Session session, string _console)
         {
             return session.JsonRpcClient.console_get_record(session.opaque_ref, _console);
@@ -160,6 +146,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Console> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.console_get_by_uuid(session.opaque_ref, _uuid);
@@ -171,6 +160,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Console> create(Session session, Console _record)
         {
             return session.JsonRpcClient.console_create(session.opaque_ref, _record);
@@ -182,6 +174,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_record">All constructor arguments</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, Console _record)
         {
           return session.JsonRpcClient.async_console_create(session.opaque_ref, _record);
@@ -193,6 +188,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_console">The opaque_ref of the given console</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void destroy(Session session, string _console)
         {
             session.JsonRpcClient.console_destroy(session.opaque_ref, _console);
@@ -204,6 +202,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_console">The opaque_ref of the given console</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _console)
         {
           return session.JsonRpcClient.async_console_destroy(session.opaque_ref, _console);
@@ -215,6 +216,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_console">The opaque_ref of the given console</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _console)
         {
             return session.JsonRpcClient.console_get_uuid(session.opaque_ref, _console);
@@ -226,6 +230,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_console">The opaque_ref of the given console</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static console_protocol get_protocol(Session session, string _console)
         {
             return session.JsonRpcClient.console_get_protocol(session.opaque_ref, _console);
@@ -237,6 +244,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_console">The opaque_ref of the given console</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_location(Session session, string _console)
         {
             return session.JsonRpcClient.console_get_location(session.opaque_ref, _console);
@@ -248,6 +258,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_console">The opaque_ref of the given console</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VM> get_VM(Session session, string _console)
         {
             return session.JsonRpcClient.console_get_vm(session.opaque_ref, _console);
@@ -259,6 +272,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_console">The opaque_ref of the given console</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _console)
         {
             return session.JsonRpcClient.console_get_other_config(session.opaque_ref, _console);
@@ -271,6 +287,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_console">The opaque_ref of the given console</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void set_other_config(Session session, string _console, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.console_set_other_config(session.opaque_ref, _console, _other_config);
@@ -284,6 +303,9 @@ namespace XenAPI
         /// <param name="_console">The opaque_ref of the given console</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void add_to_other_config(Session session, string _console, string _key, string _value)
         {
             session.JsonRpcClient.console_add_to_other_config(session.opaque_ref, _console, _key, _value);
@@ -296,6 +318,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_console">The opaque_ref of the given console</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: vm-admin
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _console, string _key)
         {
             session.JsonRpcClient.console_remove_from_other_config(session.opaque_ref, _console, _key);
@@ -306,16 +331,22 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Console>> get_all(Session session)
         {
             return session.JsonRpcClient.console_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the console Records at once, in a single XML RPC call
+        /// Return a map of console references to console records for all consoles known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Console>, Console> get_all_records(Session session)
         {
             return session.JsonRpcClient.console_get_all_records(session.opaque_ref);

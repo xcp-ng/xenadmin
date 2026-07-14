@@ -131,31 +131,6 @@ namespace XenAPI
                 Helper.AreEqual2(_other_config, other._other_config);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, USB_group server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_name_label, server._name_label))
-                {
-                    USB_group.set_name_label(session, opaqueRef, _name_label);
-                }
-                if (!Helper.AreEqual2(_name_description, server._name_description))
-                {
-                    USB_group.set_name_description(session, opaqueRef, _name_description);
-                }
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    USB_group.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given USB_group.
@@ -163,6 +138,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_usb_group">The opaque_ref of the given usb_group</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static USB_group get_record(Session session, string _usb_group)
         {
             return session.JsonRpcClient.usb_group_get_record(session.opaque_ref, _usb_group);
@@ -174,6 +152,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<USB_group> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.usb_group_get_by_uuid(session.opaque_ref, _uuid);
@@ -185,6 +166,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_label">label of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<USB_group>> get_by_name_label(Session session, string _label)
         {
             return session.JsonRpcClient.usb_group_get_by_name_label(session.opaque_ref, _label);
@@ -196,6 +180,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_usb_group">The opaque_ref of the given usb_group</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _usb_group)
         {
             return session.JsonRpcClient.usb_group_get_uuid(session.opaque_ref, _usb_group);
@@ -207,6 +194,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_usb_group">The opaque_ref of the given usb_group</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_label(Session session, string _usb_group)
         {
             return session.JsonRpcClient.usb_group_get_name_label(session.opaque_ref, _usb_group);
@@ -218,6 +208,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_usb_group">The opaque_ref of the given usb_group</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_name_description(Session session, string _usb_group)
         {
             return session.JsonRpcClient.usb_group_get_name_description(session.opaque_ref, _usb_group);
@@ -229,6 +222,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_usb_group">The opaque_ref of the given usb_group</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PUSB>> get_PUSBs(Session session, string _usb_group)
         {
             return session.JsonRpcClient.usb_group_get_pusbs(session.opaque_ref, _usb_group);
@@ -240,6 +236,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_usb_group">The opaque_ref of the given usb_group</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VUSB>> get_VUSBs(Session session, string _usb_group)
         {
             return session.JsonRpcClient.usb_group_get_vusbs(session.opaque_ref, _usb_group);
@@ -251,6 +250,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_usb_group">The opaque_ref of the given usb_group</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _usb_group)
         {
             return session.JsonRpcClient.usb_group_get_other_config(session.opaque_ref, _usb_group);
@@ -263,6 +265,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_usb_group">The opaque_ref of the given usb_group</param>
         /// <param name="_label">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_name_label(Session session, string _usb_group, string _label)
         {
             session.JsonRpcClient.usb_group_set_name_label(session.opaque_ref, _usb_group, _label);
@@ -275,6 +280,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_usb_group">The opaque_ref of the given usb_group</param>
         /// <param name="_description">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_name_description(Session session, string _usb_group, string _description)
         {
             session.JsonRpcClient.usb_group_set_name_description(session.opaque_ref, _usb_group, _description);
@@ -287,6 +295,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_usb_group">The opaque_ref of the given usb_group</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void set_other_config(Session session, string _usb_group, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.usb_group_set_other_config(session.opaque_ref, _usb_group, _other_config);
@@ -300,6 +311,9 @@ namespace XenAPI
         /// <param name="_usb_group">The opaque_ref of the given usb_group</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void add_to_other_config(Session session, string _usb_group, string _key, string _value)
         {
             session.JsonRpcClient.usb_group_add_to_other_config(session.opaque_ref, _usb_group, _key, _value);
@@ -312,6 +326,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_usb_group">The opaque_ref of the given usb_group</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _usb_group, string _key)
         {
             session.JsonRpcClient.usb_group_remove_from_other_config(session.opaque_ref, _usb_group, _key);
@@ -325,6 +342,9 @@ namespace XenAPI
         /// <param name="_name_label"></param>
         /// <param name="_name_description"></param>
         /// <param name="_other_config"></param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<USB_group> create(Session session, string _name_label, string _name_description, Dictionary<string, string> _other_config)
         {
             return session.JsonRpcClient.usb_group_create(session.opaque_ref, _name_label, _name_description, _other_config);
@@ -338,6 +358,9 @@ namespace XenAPI
         /// <param name="_name_label"></param>
         /// <param name="_name_description"></param>
         /// <param name="_other_config"></param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _name_label, string _name_description, Dictionary<string, string> _other_config)
         {
           return session.JsonRpcClient.async_usb_group_create(session.opaque_ref, _name_label, _name_description, _other_config);
@@ -349,6 +372,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_usb_group">The opaque_ref of the given usb_group</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static void destroy(Session session, string _usb_group)
         {
             session.JsonRpcClient.usb_group_destroy(session.opaque_ref, _usb_group);
@@ -360,6 +386,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_usb_group">The opaque_ref of the given usb_group</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-admin
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _usb_group)
         {
           return session.JsonRpcClient.async_usb_group_destroy(session.opaque_ref, _usb_group);
@@ -370,16 +399,22 @@ namespace XenAPI
         /// First published in XenServer 7.3.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<USB_group>> get_all(Session session)
         {
             return session.JsonRpcClient.usb_group_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the USB_group Records at once, in a single XML RPC call
+        /// Return a map of USB_group references to USB_group records for all USB_groups known to the system.
         /// First published in XenServer 7.3.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<USB_group>, USB_group> get_all_records(Session session)
         {
             return session.JsonRpcClient.usb_group_get_all_records(session.opaque_ref);

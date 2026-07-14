@@ -131,31 +131,6 @@ namespace XenAPI
                 Helper.AreEqual2(_protocol, other._protocol);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, Tunnel server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_status, server._status))
-                {
-                    Tunnel.set_status(session, opaqueRef, _status);
-                }
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    Tunnel.set_other_config(session, opaqueRef, _other_config);
-                }
-                if (!Helper.AreEqual2(_protocol, server._protocol))
-                {
-                    Tunnel.set_protocol(session, opaqueRef, _protocol);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given tunnel.
@@ -163,6 +138,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Tunnel get_record(Session session, string _tunnel)
         {
             return session.JsonRpcClient.tunnel_get_record(session.opaque_ref, _tunnel);
@@ -174,6 +152,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Tunnel> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.tunnel_get_by_uuid(session.opaque_ref, _uuid);
@@ -185,6 +166,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _tunnel)
         {
             return session.JsonRpcClient.tunnel_get_uuid(session.opaque_ref, _tunnel);
@@ -196,6 +180,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PIF> get_access_PIF(Session session, string _tunnel)
         {
             return session.JsonRpcClient.tunnel_get_access_pif(session.opaque_ref, _tunnel);
@@ -207,6 +194,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PIF> get_transport_PIF(Session session, string _tunnel)
         {
             return session.JsonRpcClient.tunnel_get_transport_pif(session.opaque_ref, _tunnel);
@@ -218,6 +208,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_status(Session session, string _tunnel)
         {
             return session.JsonRpcClient.tunnel_get_status(session.opaque_ref, _tunnel);
@@ -229,6 +222,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _tunnel)
         {
             return session.JsonRpcClient.tunnel_get_other_config(session.opaque_ref, _tunnel);
@@ -240,6 +236,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static tunnel_protocol get_protocol(Session session, string _tunnel)
         {
             return session.JsonRpcClient.tunnel_get_protocol(session.opaque_ref, _tunnel);
@@ -252,6 +251,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
         /// <param name="_status">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_status(Session session, string _tunnel, Dictionary<string, string> _status)
         {
             session.JsonRpcClient.tunnel_set_status(session.opaque_ref, _tunnel, _status);
@@ -265,6 +267,9 @@ namespace XenAPI
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_status(Session session, string _tunnel, string _key, string _value)
         {
             session.JsonRpcClient.tunnel_add_to_status(session.opaque_ref, _tunnel, _key, _value);
@@ -277,6 +282,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_status(Session session, string _tunnel, string _key)
         {
             session.JsonRpcClient.tunnel_remove_from_status(session.opaque_ref, _tunnel, _key);
@@ -289,6 +297,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _tunnel, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.tunnel_set_other_config(session.opaque_ref, _tunnel, _other_config);
@@ -302,6 +313,9 @@ namespace XenAPI
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _tunnel, string _key, string _value)
         {
             session.JsonRpcClient.tunnel_add_to_other_config(session.opaque_ref, _tunnel, _key, _value);
@@ -314,6 +328,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _tunnel, string _key)
         {
             session.JsonRpcClient.tunnel_remove_from_other_config(session.opaque_ref, _tunnel, _key);
@@ -326,6 +343,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
         /// <param name="_protocol">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_protocol(Session session, string _tunnel, tunnel_protocol _protocol)
         {
             session.JsonRpcClient.tunnel_set_protocol(session.opaque_ref, _tunnel, _protocol);
@@ -338,6 +358,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_transport_pif">PIF which receives the tagged traffic First published in XenServer 7.0.</param>
         /// <param name="_network">Network to receive the tunnelled traffic First published in XenServer 7.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Tunnel> create(Session session, string _transport_pif, string _network)
         {
             return session.JsonRpcClient.tunnel_create(session.opaque_ref, _transport_pif, _network);
@@ -350,6 +373,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_transport_pif">PIF which receives the tagged traffic First published in XenServer 7.0.</param>
         /// <param name="_network">Network to receive the tunnelled traffic First published in XenServer 7.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _transport_pif, string _network)
         {
           return session.JsonRpcClient.async_tunnel_create(session.opaque_ref, _transport_pif, _network);
@@ -362,7 +388,10 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_transport_pif">PIF which receives the tagged traffic First published in XenServer 7.0.</param>
         /// <param name="_network">Network to receive the tunnelled traffic First published in XenServer 7.0.</param>
-        /// <param name="_protocol">Protocol used for the tunnel (GRE or VxLAN) First published in Unreleased.</param>
+        /// <param name="_protocol">Protocol used for the tunnel (GRE or VxLAN) First published in 1.250.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Tunnel> create(Session session, string _transport_pif, string _network, tunnel_protocol _protocol)
         {
             return session.JsonRpcClient.tunnel_create(session.opaque_ref, _transport_pif, _network, _protocol);
@@ -375,7 +404,10 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_transport_pif">PIF which receives the tagged traffic First published in XenServer 7.0.</param>
         /// <param name="_network">Network to receive the tunnelled traffic First published in XenServer 7.0.</param>
-        /// <param name="_protocol">Protocol used for the tunnel (GRE or VxLAN) First published in Unreleased.</param>
+        /// <param name="_protocol">Protocol used for the tunnel (GRE or VxLAN) First published in 1.250.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create(Session session, string _transport_pif, string _network, tunnel_protocol _protocol)
         {
           return session.JsonRpcClient.async_tunnel_create(session.opaque_ref, _transport_pif, _network, _protocol);
@@ -387,6 +419,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _tunnel)
         {
             session.JsonRpcClient.tunnel_destroy(session.opaque_ref, _tunnel);
@@ -398,6 +433,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_tunnel">The opaque_ref of the given tunnel</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _tunnel)
         {
           return session.JsonRpcClient.async_tunnel_destroy(session.opaque_ref, _tunnel);
@@ -408,16 +446,22 @@ namespace XenAPI
         /// First published in XenServer 5.6 FP1.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Tunnel>> get_all(Session session)
         {
             return session.JsonRpcClient.tunnel_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the tunnel Records at once, in a single XML RPC call
+        /// Return a map of tunnel references to tunnel records for all tunnels known to the system.
         /// First published in XenServer 5.6 FP1.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<Tunnel>, Tunnel> get_all_records(Session session)
         {
             return session.JsonRpcClient.tunnel_get_all_records(session.opaque_ref);

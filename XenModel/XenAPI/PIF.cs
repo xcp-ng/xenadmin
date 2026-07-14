@@ -305,23 +305,6 @@ namespace XenAPI
                 Helper.AreEqual2(_PCI, other._PCI);
         }
 
-        public override string SaveChanges(Session session, string opaqueRef, PIF server)
-        {
-            if (opaqueRef == null)
-            {
-                System.Diagnostics.Debug.Assert(false, "Cannot create instances of this type on the server");
-                return "";
-            }
-            else
-            {
-                if (!Helper.AreEqual2(_other_config, server._other_config))
-                {
-                    PIF.set_other_config(session, opaqueRef, _other_config);
-                }
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Get a record containing the current state of the given PIF.
@@ -329,6 +312,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static PIF get_record(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_record(session.opaque_ref, _pif);
@@ -340,6 +326,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_uuid">UUID of object to return</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PIF> get_by_uuid(Session session, string _uuid)
         {
             return session.JsonRpcClient.pif_get_by_uuid(session.opaque_ref, _uuid);
@@ -351,6 +340,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_uuid(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_uuid(session.opaque_ref, _pif);
@@ -362,6 +354,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_device(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_device(session.opaque_ref, _pif);
@@ -373,6 +368,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Network> get_network(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_network(session.opaque_ref, _pif);
@@ -384,6 +382,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Host> get_host(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_host(session.opaque_ref, _pif);
@@ -395,6 +396,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_MAC(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_mac(session.opaque_ref, _pif);
@@ -406,6 +410,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_MTU(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_mtu(session.opaque_ref, _pif);
@@ -417,6 +424,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static long get_VLAN(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_vlan(session.opaque_ref, _pif);
@@ -428,6 +438,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PIF_metrics> get_metrics(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_metrics(session.opaque_ref, _pif);
@@ -439,6 +452,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_physical(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_physical(session.opaque_ref, _pif);
@@ -450,6 +466,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_currently_attached(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_currently_attached(session.opaque_ref, _pif);
@@ -461,6 +480,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static ip_configuration_mode get_ip_configuration_mode(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_ip_configuration_mode(session.opaque_ref, _pif);
@@ -472,6 +494,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_IP(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_ip(session.opaque_ref, _pif);
@@ -483,6 +508,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_netmask(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_netmask(session.opaque_ref, _pif);
@@ -494,6 +522,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_gateway(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_gateway(session.opaque_ref, _pif);
@@ -505,6 +536,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_DNS(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_dns(session.opaque_ref, _pif);
@@ -516,6 +550,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<Bond> get_bond_slave_of(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_bond_slave_of(session.opaque_ref, _pif);
@@ -527,6 +564,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Bond>> get_bond_master_of(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_bond_master_of(session.opaque_ref, _pif);
@@ -538,6 +578,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<VLAN> get_VLAN_master_of(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_vlan_master_of(session.opaque_ref, _pif);
@@ -549,6 +592,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<VLAN>> get_VLAN_slave_of(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_vlan_slave_of(session.opaque_ref, _pif);
@@ -560,6 +606,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_management(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_management(session.opaque_ref, _pif);
@@ -571,6 +620,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_other_config(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_other_config(session.opaque_ref, _pif);
@@ -582,6 +634,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_disallow_unplug(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_disallow_unplug(session.opaque_ref, _pif);
@@ -593,6 +648,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Tunnel>> get_tunnel_access_PIF_of(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_tunnel_access_pif_of(session.opaque_ref, _pif);
@@ -604,6 +662,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Tunnel>> get_tunnel_transport_PIF_of(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_tunnel_transport_pif_of(session.opaque_ref, _pif);
@@ -615,6 +676,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static ipv6_configuration_mode get_ipv6_configuration_mode(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_ipv6_configuration_mode(session.opaque_ref, _pif);
@@ -626,6 +690,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_IPv6(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_ipv6(session.opaque_ref, _pif);
@@ -637,6 +704,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string get_ipv6_gateway(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_ipv6_gateway(session.opaque_ref, _pif);
@@ -648,6 +718,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static primary_address_type get_primary_address_type(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_primary_address_type(session.opaque_ref, _pif);
@@ -659,6 +732,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static bool get_managed(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_managed(session.opaque_ref, _pif);
@@ -670,6 +746,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<string, string> get_properties(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_properties(session.opaque_ref, _pif);
@@ -681,6 +760,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static string[] get_capabilities(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_capabilities(session.opaque_ref, _pif);
@@ -692,6 +774,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static pif_igmp_status get_igmp_snooping_status(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_igmp_snooping_status(session.opaque_ref, _pif);
@@ -703,6 +788,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Network_sriov>> get_sriov_physical_PIF_of(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_sriov_physical_pif_of(session.opaque_ref, _pif);
@@ -714,6 +802,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<Network_sriov>> get_sriov_logical_PIF_of(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_sriov_logical_pif_of(session.opaque_ref, _pif);
@@ -725,6 +816,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static XenRef<PCI> get_PCI(Session session, string _pif)
         {
             return session.JsonRpcClient.pif_get_pci(session.opaque_ref, _pif);
@@ -737,6 +831,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
         /// <param name="_other_config">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_other_config(Session session, string _pif, Dictionary<string, string> _other_config)
         {
             session.JsonRpcClient.pif_set_other_config(session.opaque_ref, _pif, _other_config);
@@ -750,6 +847,9 @@ namespace XenAPI
         /// <param name="_pif">The opaque_ref of the given pif</param>
         /// <param name="_key">Key to add</param>
         /// <param name="_value">Value to add</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void add_to_other_config(Session session, string _pif, string _key, string _value)
         {
             session.JsonRpcClient.pif_add_to_other_config(session.opaque_ref, _pif, _key, _value);
@@ -762,6 +862,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
         /// <param name="_key">Key to remove</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void remove_from_other_config(Session session, string _pif, string _key)
         {
             session.JsonRpcClient.pif_remove_from_other_config(session.opaque_ref, _pif, _key);
@@ -778,6 +881,9 @@ namespace XenAPI
         /// <param name="_host">physical machine to which this PIF is connected</param>
         /// <param name="_vlan">VLAN tag for the new interface</param>
         [Deprecated("XenServer 4.1")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<PIF> create_VLAN(Session session, string _device, string _network, string _host, long _vlan)
         {
             return session.JsonRpcClient.pif_create_vlan(session.opaque_ref, _device, _network, _host, _vlan);
@@ -794,6 +900,9 @@ namespace XenAPI
         /// <param name="_host">physical machine to which this PIF is connected</param>
         /// <param name="_vlan">VLAN tag for the new interface</param>
         [Deprecated("XenServer 4.1")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_create_VLAN(Session session, string _device, string _network, string _host, long _vlan)
         {
           return session.JsonRpcClient.async_pif_create_vlan(session.opaque_ref, _device, _network, _host, _vlan);
@@ -807,6 +916,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
         [Deprecated("XenServer 4.1")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void destroy(Session session, string _pif)
         {
             session.JsonRpcClient.pif_destroy(session.opaque_ref, _pif);
@@ -820,6 +932,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
         [Deprecated("XenServer 4.1")]
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_destroy(Session session, string _pif)
         {
           return session.JsonRpcClient.async_pif_destroy(session.opaque_ref, _pif);
@@ -836,6 +951,9 @@ namespace XenAPI
         /// <param name="_netmask">the new netmask</param>
         /// <param name="_gateway">the new gateway</param>
         /// <param name="_dns">the new DNS settings</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void reconfigure_ip(Session session, string _pif, ip_configuration_mode _mode, string _ip, string _netmask, string _gateway, string _dns)
         {
             session.JsonRpcClient.pif_reconfigure_ip(session.opaque_ref, _pif, _mode, _ip, _netmask, _gateway, _dns);
@@ -852,6 +970,9 @@ namespace XenAPI
         /// <param name="_netmask">the new netmask</param>
         /// <param name="_gateway">the new gateway</param>
         /// <param name="_dns">the new DNS settings</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_reconfigure_ip(Session session, string _pif, ip_configuration_mode _mode, string _ip, string _netmask, string _gateway, string _dns)
         {
           return session.JsonRpcClient.async_pif_reconfigure_ip(session.opaque_ref, _pif, _mode, _ip, _netmask, _gateway, _dns);
@@ -867,6 +988,9 @@ namespace XenAPI
         /// <param name="_ipv6">the new IPv6 address (in &lt;addr&gt;/&lt;prefix length&gt; format)</param>
         /// <param name="_gateway">the new gateway</param>
         /// <param name="_dns">the new DNS settings</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void reconfigure_ipv6(Session session, string _pif, ipv6_configuration_mode _mode, string _ipv6, string _gateway, string _dns)
         {
             session.JsonRpcClient.pif_reconfigure_ipv6(session.opaque_ref, _pif, _mode, _ipv6, _gateway, _dns);
@@ -882,6 +1006,9 @@ namespace XenAPI
         /// <param name="_ipv6">the new IPv6 address (in &lt;addr&gt;/&lt;prefix length&gt; format)</param>
         /// <param name="_gateway">the new gateway</param>
         /// <param name="_dns">the new DNS settings</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_reconfigure_ipv6(Session session, string _pif, ipv6_configuration_mode _mode, string _ipv6, string _gateway, string _dns)
         {
           return session.JsonRpcClient.async_pif_reconfigure_ipv6(session.opaque_ref, _pif, _mode, _ipv6, _gateway, _dns);
@@ -894,6 +1021,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
         /// <param name="_primary_address_type">Whether to prefer IPv4 or IPv6 connections</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_primary_address_type(Session session, string _pif, primary_address_type _primary_address_type)
         {
             session.JsonRpcClient.pif_set_primary_address_type(session.opaque_ref, _pif, _primary_address_type);
@@ -906,6 +1036,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
         /// <param name="_primary_address_type">Whether to prefer IPv4 or IPv6 connections</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_primary_address_type(Session session, string _pif, primary_address_type _primary_address_type)
         {
           return session.JsonRpcClient.async_pif_set_primary_address_type(session.opaque_ref, _pif, _primary_address_type);
@@ -917,6 +1050,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The host on which to scan</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void scan(Session session, string _host)
         {
             session.JsonRpcClient.pif_scan(session.opaque_ref, _host);
@@ -928,6 +1064,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_host">The host on which to scan</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_scan(Session session, string _host)
         {
           return session.JsonRpcClient.async_pif_scan(session.opaque_ref, _host);
@@ -941,6 +1080,9 @@ namespace XenAPI
         /// <param name="_host">The host on which the interface exists</param>
         /// <param name="_mac">The MAC address of the interface</param>
         /// <param name="_device">The device name to use for the interface</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<PIF> introduce(Session session, string _host, string _mac, string _device)
         {
             return session.JsonRpcClient.pif_introduce(session.opaque_ref, _host, _mac, _device);
@@ -954,6 +1096,9 @@ namespace XenAPI
         /// <param name="_host">The host on which the interface exists</param>
         /// <param name="_mac">The MAC address of the interface</param>
         /// <param name="_device">The device name to use for the interface</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_introduce(Session session, string _host, string _mac, string _device)
         {
           return session.JsonRpcClient.async_pif_introduce(session.opaque_ref, _host, _mac, _device);
@@ -968,6 +1113,9 @@ namespace XenAPI
         /// <param name="_mac">The MAC address of the interface</param>
         /// <param name="_device">The device name to use for the interface</param>
         /// <param name="_managed">Indicates whether the interface is managed by xapi (defaults to "true") First published in XenServer 6.2 SP1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<PIF> introduce(Session session, string _host, string _mac, string _device, bool _managed)
         {
             return session.JsonRpcClient.pif_introduce(session.opaque_ref, _host, _mac, _device, _managed);
@@ -982,6 +1130,9 @@ namespace XenAPI
         /// <param name="_mac">The MAC address of the interface</param>
         /// <param name="_device">The device name to use for the interface</param>
         /// <param name="_managed">Indicates whether the interface is managed by xapi (defaults to "true") First published in XenServer 6.2 SP1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_introduce(Session session, string _host, string _mac, string _device, bool _managed)
         {
           return session.JsonRpcClient.async_pif_introduce(session.opaque_ref, _host, _mac, _device, _managed);
@@ -993,6 +1144,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void forget(Session session, string _pif)
         {
             session.JsonRpcClient.pif_forget(session.opaque_ref, _pif);
@@ -1004,6 +1158,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_forget(Session session, string _pif)
         {
           return session.JsonRpcClient.async_pif_forget(session.opaque_ref, _pif);
@@ -1015,6 +1172,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void unplug(Session session, string _pif)
         {
             session.JsonRpcClient.pif_unplug(session.opaque_ref, _pif);
@@ -1026,6 +1186,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_unplug(Session session, string _pif)
         {
           return session.JsonRpcClient.async_pif_unplug(session.opaque_ref, _pif);
@@ -1038,6 +1201,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
         /// <param name="_value">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_disallow_unplug(Session session, string _pif, bool _value)
         {
             session.JsonRpcClient.pif_set_disallow_unplug(session.opaque_ref, _pif, _value);
@@ -1050,6 +1216,9 @@ namespace XenAPI
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
         /// <param name="_value">New value to set</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_disallow_unplug(Session session, string _pif, bool _value)
         {
           return session.JsonRpcClient.async_pif_set_disallow_unplug(session.opaque_ref, _pif, _value);
@@ -1061,6 +1230,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void plug(Session session, string _pif)
         {
             session.JsonRpcClient.pif_plug(session.opaque_ref, _pif);
@@ -1072,6 +1244,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_plug(Session session, string _pif)
         {
           return session.JsonRpcClient.async_pif_plug(session.opaque_ref, _pif);
@@ -1099,6 +1274,9 @@ namespace XenAPI
         /// <param name="_management"></param>
         /// <param name="_other_config"></param>
         /// <param name="_disallow_unplug"></param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<PIF> db_introduce(Session session, string _device, string _network, string _host, string _mac, long _mtu, long _vlan, bool _physical, ip_configuration_mode _ip_configuration_mode, string _ip, string _netmask, string _gateway, string _dns, string _bond_slave_of, string _vlan_master_of, bool _management, Dictionary<string, string> _other_config, bool _disallow_unplug)
         {
             return session.JsonRpcClient.pif_db_introduce(session.opaque_ref, _device, _network, _host, _mac, _mtu, _vlan, _physical, _ip_configuration_mode, _ip, _netmask, _gateway, _dns, _bond_slave_of, _vlan_master_of, _management, _other_config, _disallow_unplug);
@@ -1126,6 +1304,9 @@ namespace XenAPI
         /// <param name="_management"></param>
         /// <param name="_other_config"></param>
         /// <param name="_disallow_unplug"></param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_db_introduce(Session session, string _device, string _network, string _host, string _mac, long _mtu, long _vlan, bool _physical, ip_configuration_mode _ip_configuration_mode, string _ip, string _netmask, string _gateway, string _dns, string _bond_slave_of, string _vlan_master_of, bool _management, Dictionary<string, string> _other_config, bool _disallow_unplug)
         {
           return session.JsonRpcClient.async_pif_db_introduce(session.opaque_ref, _device, _network, _host, _mac, _mtu, _vlan, _physical, _ip_configuration_mode, _ip, _netmask, _gateway, _dns, _bond_slave_of, _vlan_master_of, _management, _other_config, _disallow_unplug);
@@ -1157,6 +1338,9 @@ namespace XenAPI
         /// <param name="_ipv6"> First published in XenServer 6.0.</param>
         /// <param name="_ipv6_gateway"> First published in XenServer 6.0.</param>
         /// <param name="_primary_address_type"> First published in XenServer 6.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<PIF> db_introduce(Session session, string _device, string _network, string _host, string _mac, long _mtu, long _vlan, bool _physical, ip_configuration_mode _ip_configuration_mode, string _ip, string _netmask, string _gateway, string _dns, string _bond_slave_of, string _vlan_master_of, bool _management, Dictionary<string, string> _other_config, bool _disallow_unplug, ipv6_configuration_mode _ipv6_configuration_mode, string[] _ipv6, string _ipv6_gateway, primary_address_type _primary_address_type)
         {
             return session.JsonRpcClient.pif_db_introduce(session.opaque_ref, _device, _network, _host, _mac, _mtu, _vlan, _physical, _ip_configuration_mode, _ip, _netmask, _gateway, _dns, _bond_slave_of, _vlan_master_of, _management, _other_config, _disallow_unplug, _ipv6_configuration_mode, _ipv6, _ipv6_gateway, _primary_address_type);
@@ -1188,6 +1372,9 @@ namespace XenAPI
         /// <param name="_ipv6"> First published in XenServer 6.0.</param>
         /// <param name="_ipv6_gateway"> First published in XenServer 6.0.</param>
         /// <param name="_primary_address_type"> First published in XenServer 6.0.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_db_introduce(Session session, string _device, string _network, string _host, string _mac, long _mtu, long _vlan, bool _physical, ip_configuration_mode _ip_configuration_mode, string _ip, string _netmask, string _gateway, string _dns, string _bond_slave_of, string _vlan_master_of, bool _management, Dictionary<string, string> _other_config, bool _disallow_unplug, ipv6_configuration_mode _ipv6_configuration_mode, string[] _ipv6, string _ipv6_gateway, primary_address_type _primary_address_type)
         {
           return session.JsonRpcClient.async_pif_db_introduce(session.opaque_ref, _device, _network, _host, _mac, _mtu, _vlan, _physical, _ip_configuration_mode, _ip, _netmask, _gateway, _dns, _bond_slave_of, _vlan_master_of, _management, _other_config, _disallow_unplug, _ipv6_configuration_mode, _ipv6, _ipv6_gateway, _primary_address_type);
@@ -1220,6 +1407,9 @@ namespace XenAPI
         /// <param name="_ipv6_gateway"> First published in XenServer 6.0.</param>
         /// <param name="_primary_address_type"> First published in XenServer 6.0.</param>
         /// <param name="_managed"> First published in XenServer 6.2 SP1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<PIF> db_introduce(Session session, string _device, string _network, string _host, string _mac, long _mtu, long _vlan, bool _physical, ip_configuration_mode _ip_configuration_mode, string _ip, string _netmask, string _gateway, string _dns, string _bond_slave_of, string _vlan_master_of, bool _management, Dictionary<string, string> _other_config, bool _disallow_unplug, ipv6_configuration_mode _ipv6_configuration_mode, string[] _ipv6, string _ipv6_gateway, primary_address_type _primary_address_type, bool _managed)
         {
             return session.JsonRpcClient.pif_db_introduce(session.opaque_ref, _device, _network, _host, _mac, _mtu, _vlan, _physical, _ip_configuration_mode, _ip, _netmask, _gateway, _dns, _bond_slave_of, _vlan_master_of, _management, _other_config, _disallow_unplug, _ipv6_configuration_mode, _ipv6, _ipv6_gateway, _primary_address_type, _managed);
@@ -1252,6 +1442,9 @@ namespace XenAPI
         /// <param name="_ipv6_gateway"> First published in XenServer 6.0.</param>
         /// <param name="_primary_address_type"> First published in XenServer 6.0.</param>
         /// <param name="_managed"> First published in XenServer 6.2 SP1.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_db_introduce(Session session, string _device, string _network, string _host, string _mac, long _mtu, long _vlan, bool _physical, ip_configuration_mode _ip_configuration_mode, string _ip, string _netmask, string _gateway, string _dns, string _bond_slave_of, string _vlan_master_of, bool _management, Dictionary<string, string> _other_config, bool _disallow_unplug, ipv6_configuration_mode _ipv6_configuration_mode, string[] _ipv6, string _ipv6_gateway, primary_address_type _primary_address_type, bool _managed)
         {
           return session.JsonRpcClient.async_pif_db_introduce(session.opaque_ref, _device, _network, _host, _mac, _mtu, _vlan, _physical, _ip_configuration_mode, _ip, _netmask, _gateway, _dns, _bond_slave_of, _vlan_master_of, _management, _other_config, _disallow_unplug, _ipv6_configuration_mode, _ipv6, _ipv6_gateway, _primary_address_type, _managed);
@@ -1285,6 +1478,9 @@ namespace XenAPI
         /// <param name="_primary_address_type"> First published in XenServer 6.0.</param>
         /// <param name="_managed"> First published in XenServer 6.2 SP1.</param>
         /// <param name="_properties"> First published in XenServer 6.5.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<PIF> db_introduce(Session session, string _device, string _network, string _host, string _mac, long _mtu, long _vlan, bool _physical, ip_configuration_mode _ip_configuration_mode, string _ip, string _netmask, string _gateway, string _dns, string _bond_slave_of, string _vlan_master_of, bool _management, Dictionary<string, string> _other_config, bool _disallow_unplug, ipv6_configuration_mode _ipv6_configuration_mode, string[] _ipv6, string _ipv6_gateway, primary_address_type _primary_address_type, bool _managed, Dictionary<string, string> _properties)
         {
             return session.JsonRpcClient.pif_db_introduce(session.opaque_ref, _device, _network, _host, _mac, _mtu, _vlan, _physical, _ip_configuration_mode, _ip, _netmask, _gateway, _dns, _bond_slave_of, _vlan_master_of, _management, _other_config, _disallow_unplug, _ipv6_configuration_mode, _ipv6, _ipv6_gateway, _primary_address_type, _managed, _properties);
@@ -1318,6 +1514,9 @@ namespace XenAPI
         /// <param name="_primary_address_type"> First published in XenServer 6.0.</param>
         /// <param name="_managed"> First published in XenServer 6.2 SP1.</param>
         /// <param name="_properties"> First published in XenServer 6.5.</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_db_introduce(Session session, string _device, string _network, string _host, string _mac, long _mtu, long _vlan, bool _physical, ip_configuration_mode _ip_configuration_mode, string _ip, string _netmask, string _gateway, string _dns, string _bond_slave_of, string _vlan_master_of, bool _management, Dictionary<string, string> _other_config, bool _disallow_unplug, ipv6_configuration_mode _ipv6_configuration_mode, string[] _ipv6, string _ipv6_gateway, primary_address_type _primary_address_type, bool _managed, Dictionary<string, string> _properties)
         {
           return session.JsonRpcClient.async_pif_db_introduce(session.opaque_ref, _device, _network, _host, _mac, _mtu, _vlan, _physical, _ip_configuration_mode, _ip, _netmask, _gateway, _dns, _bond_slave_of, _vlan_master_of, _management, _other_config, _disallow_unplug, _ipv6_configuration_mode, _ipv6, _ipv6_gateway, _primary_address_type, _managed, _properties);
@@ -1329,6 +1528,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void db_forget(Session session, string _pif)
         {
             session.JsonRpcClient.pif_db_forget(session.opaque_ref, _pif);
@@ -1340,6 +1542,9 @@ namespace XenAPI
         /// </summary>
         /// <param name="session">The session</param>
         /// <param name="_pif">The opaque_ref of the given pif</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_db_forget(Session session, string _pif)
         {
           return session.JsonRpcClient.async_pif_db_forget(session.opaque_ref, _pif);
@@ -1353,6 +1558,9 @@ namespace XenAPI
         /// <param name="_pif">The opaque_ref of the given pif</param>
         /// <param name="_name">The property name</param>
         /// <param name="_value">The property value</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static void set_property(Session session, string _pif, string _name, string _value)
         {
             session.JsonRpcClient.pif_set_property(session.opaque_ref, _pif, _name, _value);
@@ -1366,6 +1574,9 @@ namespace XenAPI
         /// <param name="_pif">The opaque_ref of the given pif</param>
         /// <param name="_name">The property name</param>
         /// <param name="_value">The property value</param>
+        /// <remarks>
+        /// Minimum allowed role: pool-operator
+        /// </remarks>
         public static XenRef<Task> async_set_property(Session session, string _pif, string _name, string _value)
         {
           return session.JsonRpcClient.async_pif_set_property(session.opaque_ref, _pif, _name, _value);
@@ -1376,16 +1587,22 @@ namespace XenAPI
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static List<XenRef<PIF>> get_all(Session session)
         {
             return session.JsonRpcClient.pif_get_all(session.opaque_ref);
         }
 
         /// <summary>
-        /// Get all the PIF Records at once, in a single XML RPC call
+        /// Return a map of PIF references to PIF records for all PIFs known to the system.
         /// First published in XenServer 4.0.
         /// </summary>
         /// <param name="session">The session</param>
+        /// <remarks>
+        /// Minimum allowed role: read-only
+        /// </remarks>
         public static Dictionary<XenRef<PIF>, PIF> get_all_records(Session session)
         {
             return session.JsonRpcClient.pif_get_all_records(session.opaque_ref);
@@ -1409,7 +1626,7 @@ namespace XenAPI
         private string _uuid = "";
 
         /// <summary>
-        /// machine-readable name of the interface (e.g. eth0)
+        /// machine-readable name of the interface (for example, eth0)
         /// </summary>
         public virtual string device
         {
@@ -1771,7 +1988,7 @@ namespace XenAPI
         private Dictionary<string, string> _other_config = new Dictionary<string, string>() {};
 
         /// <summary>
-        /// Prevent this PIF from being unplugged; set this to notify the management tool-stack that the PIF has a special use and should not be unplugged under any circumstances (e.g. because you're running storage traffic over it)
+        /// Prevent this PIF from being unplugged; set this to notify the management tool-stack that the PIF has a special use and should not be unplugged under any circumstances (for example, because you're running storage traffic over it)
         /// First published in XenServer 5.0.
         /// </summary>
         public virtual bool disallow_unplug

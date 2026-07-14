@@ -103,6 +103,14 @@ namespace XenAPI
         /// Operations on this VDI are temporarily blocked
         /// </summary>
         blocked,
+        /// <summary>
+        /// Reverting a VDI to a clone of this snapshot
+        /// </summary>
+        revert_to,
+        /// <summary>
+        /// Reverting this VDI to a clone of a snapshot
+        /// </summary>
+        revert_from,
         unknown
     }
 
@@ -154,6 +162,10 @@ namespace XenAPI
                     return "set_on_boot";
                 case vdi_operations.blocked:
                     return "blocked";
+                case vdi_operations.revert_to:
+                    return "revert_to";
+                case vdi_operations.revert_from:
+                    return "revert_from";
                 default:
                     return "unknown";
             }
