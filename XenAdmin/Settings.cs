@@ -34,6 +34,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Windows.Forms;
 using XenAdmin.Core;
 using XenAdmin.Dialogs;
@@ -78,6 +79,10 @@ namespace XenAdmin
         /// </summary>
         private static Dictionary<string, string> VNCPasswords = new Dictionary<string, string>();
 
+        /// <summary>
+        /// Lock to control write access to the settings file
+        /// </summary>
+        private static ReaderWriterLock locker = new ReaderWriterLock();
 
         static Settings()
         {
@@ -467,6 +472,7 @@ namespace XenAdmin
         {
             try
             {
+                locker.AcquireWriterLock(1000);
                 Properties.Settings.Default.Save();
             }
             catch (Exception ex)
@@ -481,6 +487,10 @@ namespace XenAdmin
                 }
 
                 Application.Exit();
+            }
+            finally
+            {
+                locker.ReleaseWriterLock();
             }
         }
 
